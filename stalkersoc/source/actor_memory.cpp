@@ -1,0 +1,50 @@
+////////////////////////////////////////////////////////////////////////////
+//	Module 		: actor_memory.cpp
+//	Created 	: 15.09.2005
+//  Modified 	: 15.09.2005
+//	Author		: Dmitriy Iassenev
+//	Description : actor memory
+////////////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "actor_memory.h"
+#include "actor.h"
+#include "engine/camerabase.h"
+#include "gamepersistent.h"
+#include "engine/environmentSOC.h"
+CActorMemory::CActorMemory					(CActor *actor) :
+	inherited		(
+		actor,
+		100
+	),
+	m_actor			(actor)
+{
+	VERIFY			(m_actor);
+}
+
+bool CActorMemory::feel_vision_isRelevant	(CObject* O)
+{
+	CEntityAlive	*entity_alive = smart_cast<CEntityAlive*>(O);
+	if (!entity_alive)
+		return		(FALSE);
+
+	return			(TRUE);
+}
+
+void CActorMemory::camera					(
+		Fvector &position,
+		Fvector &direction,
+		Fvector &normal,
+		float &field_of_view,
+		float &aspect_ratio,
+		float &near_plane,
+		float &far_plane
+	)
+{
+	CCameraBase		&camera = *m_actor->cam_Active();
+	camera.Get		(position,direction,normal);
+	field_of_view	= deg2rad(camera.f_fov);
+	aspect_ratio	= camera.f_aspect;
+	near_plane		= .1f;
+	far_plane		= ENV_SOC.CurrentEnv.far_plane;
+}
