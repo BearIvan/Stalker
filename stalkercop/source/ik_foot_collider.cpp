@@ -1,16 +1,16 @@
 #include	"stdafx.h"
 #include	"ik_foot_collider.h"
 
-#include "../xrEngine/gamemtllib.h"
-#include "../xrEngine/cl_intersect.h"
-#include "../include/xrrender/Kinematics.h"
+#include "engine/gamemtllib.h"
+#include "engine/cl_intersect.h"
+#include "xrRender/Kinematics.h"
 
 #include "Level.h"
 #include "GameObject.h"
 #include "entity_alive.h"
 
 //#include "ode_include.h"
-#include "../xrphysics/MathUtils.h"
+#include "physics/MathUtils.h"
 
 #include "ik_collide_data.h"
 

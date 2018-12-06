@@ -5,17 +5,17 @@
 #include "game_cl_base.h"
 #include "xrmessages.h"
 #include "xrGameSpyServer.h"
-#include "../xrEngine/x_ray.h"
-#include "../xrEngine/device.h"
-#include "../xrEngine/IGame_Persistent.h"
-#include "../xrEngine/xr_ioconsole.h"
+#include "engine/x_ray.h"
+#include "engine/device.h"
+#include "engine/IGame_Persistent.h"
+#include "engine/xr_ioconsole.h"
 #include "MainMenu.h"
 #include "string_table.h"
 #include "UIGameCustom.h"
 #include "ui/UICDkey.h"
 
 int		g_cl_save_demo = 0;
-extern XRCORE_API bool g_allow_heap_min;
+extern tools_API bool g_allow_heap_min;
 
 shared_str CLevel::OpenDemoFile(const char* demo_file_name)
 {

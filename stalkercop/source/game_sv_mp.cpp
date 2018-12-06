@@ -7,8 +7,8 @@
 #include "level.h"
 #include "xrserver_objects_alife_monsters.h"
 #include "actor.h"
-#include "../xrEngine/XR_IOConsole.h"
-#include "../xrEngine/igame_persistent.h"
+#include "engine/XR_IOConsole.h"
+#include "engine/igame_persistent.h"
 #include "date_time.h"
 #include "game_cl_base.h"
 #include "Spectator.h"
@@ -684,7 +684,7 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	//-------------------------------------------
 };
 
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 
 bool	game_sv_mp::GetPosAngleFromActor				(ClientID id, Fvector& Pos, Fvector &Angle)
 {

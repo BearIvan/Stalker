@@ -2,7 +2,7 @@
 
 #include "WeaponCustomPistol.h"
 #include "script_export_space.h"
-#include "../xrEngine/xr_collide_form.h"
+#include "engine/xr_collide_form.h"
 
 class CWeaponKnife: public CWeapon {
 private:

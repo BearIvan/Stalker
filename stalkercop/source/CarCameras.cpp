@@ -3,7 +3,7 @@
 #ifdef DEBUG
 
 #include "PHDebug.h"
-#include "../xrphysics/iphworld.h"
+#include "physics/iphworld.h"
 #endif
 #include "alife_space.h"
 #include "hit.h"
@@ -13,7 +13,7 @@
 #include "cameralook.h"
 #include "camerafirsteye.h"
 #include "level.h"
-#include "../xrEngine/cameramanager.h"
+#include "engine/cameramanager.h"
 
 bool CCar::HUDView() const		
 {

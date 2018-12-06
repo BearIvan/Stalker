@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "actor.h"
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 
 #include "ActorEffector.h"
 #include "holder_custom.h"
@@ -13,7 +13,7 @@
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
 //#include "PHShellSplitter.h"
 
 #include "actor_anim_defs.h"

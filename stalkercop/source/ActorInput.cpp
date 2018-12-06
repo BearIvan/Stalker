@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Torch.h"
 #include "trade.h"
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 
 #ifdef DEBUG
 #	include "PHDebug.h"
@@ -27,7 +27,7 @@
 #include "CharacterPhysicsSupport.h"
 #include "InventoryBox.h"
 #include "player_hud.h"
-#include "../xrEngine/xr_input.h"
+#include "engine/xr_input.h"
 #include "flare.h"
 #include "CustomDetector.h"
 #include "clsid_game.h"

@@ -12,7 +12,7 @@
 #include "../inventory_item.h"
 #include "UICellItem.h"
 #include "../ai_space.h"
-#include "../../xrServerEntities/script_engine.h"
+#include "../script_engine.h"
 
 using namespace luabind;
 

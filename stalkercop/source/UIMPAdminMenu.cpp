@@ -4,13 +4,13 @@
 #include "UIMPServerAdm.h"
 #include "UIMPChangeMapAdm.h"
 #include "UIXmlInit.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "UITabControl.h"
 #include "UIStatic.h"
 #include "UI3tButton.h"
 #include "UIMessageBox.h"
 #include "UIMessageBoxEx.h"
-#include "../../xrEngine/xr_ioconsole.h"
+#include "engine/xr_ioconsole.h"
 #include <dinput.h>
 
 CUIMpAdminMenu::CUIMpAdminMenu()

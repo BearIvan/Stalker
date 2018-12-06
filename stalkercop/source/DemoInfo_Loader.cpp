@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "DemoInfo_Loader.h"
-#include "../xrCore/stream_reader.h"
+#include "tools/stream_reader.h"
 #include "Level.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 demo_info_loader::demo_info_loader()
 {

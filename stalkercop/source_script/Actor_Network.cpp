@@ -5,20 +5,20 @@
 #include "inventory.h"
 #include "xrserver_objects_alife_monsters.h"
 #include "xrServer.h"
-#include "../xrEngine/CustomHUD.h"
+#include "engine/CustomHUD.h"
 #include "CameraLook.h"
 #include "CameraFirstEye.h"
 
 #include "ActorEffector.h"
 
-#include "../xrphysics/iPHWorld.h"
-#include "../xrphysics/actorcameracollision.h"
+#include "physics/iPHWorld.h"
+#include "physics/actorcameracollision.h"
 #include "level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
 #include "infoportion.h"
 #include "alife_registry_wrappers.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
 #include "client_spawn_manager.h"
 #include "hit.h"
 #include "PHDestroyable.h"
@@ -45,10 +45,10 @@
 #include "actor_statistic_mgr.h"
 #include "characterphysicssupport.h"
 #include "game_cl_base_weapon_usage_statistic.h"
-#include "../xrengine/xr_collide_form.h"
+#include "engine/xr_collide_form.h"
 #ifdef DEBUG
 #	include "debug_renderer.h"
-#	include "../xrPhysics/phvalide.h"
+#	include "physics/phvalide.h"
 #endif
 
 int			g_cl_InterpolationType		= 0;

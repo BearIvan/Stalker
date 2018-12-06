@@ -18,7 +18,7 @@
 #include "game_level_cross_table.h"
 
 #include "UIGameSP.h"
-#include "../xrengine/xr_collide_form.h"
+#include "engine/xr_collide_form.h"
 
 xr_vector<CLevelChanger*>	g_lchangers;
 

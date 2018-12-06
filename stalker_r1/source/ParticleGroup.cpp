@@ -4,7 +4,8 @@
 #include "particles/psystem.h"
 
 #ifndef _EDITOR
-#include "serverentities_cop/smart_cast.h"
+//#include "smart_cast.h"
+#define smart_cast dynamic_cast
 #endif
 
 #include "ParticleGroup.h"

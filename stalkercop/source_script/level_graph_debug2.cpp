@@ -12,7 +12,7 @@
 #ifndef AI_COMPILER
 
 #include "level_graph.h"
-#include "../xrEngine/customhud.h"
+#include "engine/customhud.h"
 #include "ai_space.h"
 #include "ui_base.h"
 #include "game_graph.h"

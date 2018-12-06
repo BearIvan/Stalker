@@ -4,7 +4,7 @@
 #include "UIFixedScrollBar.h"
 #include "../ui_base.h"
 #include "../UICursor.h"
-#include "../../xrEngine/xr_input.h"	
+#include "engine/xr_input.h"	
 
 CUIScrollView::CUIScrollView()
 {

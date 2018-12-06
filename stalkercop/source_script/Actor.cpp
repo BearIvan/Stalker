@@ -21,14 +21,14 @@
 #include "CustomOutfit.h"
 #include "actorcondition.h"
 #include "UIGameCustom.h"
-#include "../xrphysics/matrix_utils.h"
+#include "physics/matrix_utils.h"
 #include "clsid_game.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "Grenade.h"
 #include "Torch.h"
 
 // breakpoints
-#include "../xrEngine/xr_input.h"
+#include "engine/xr_input.h"
 //
 #include "Actor.h"
 #include "ActorAnimation.h"
@@ -46,14 +46,14 @@
 #include "xrmessages.h"
 #include "string_table.h"
 #include "usablescriptobject.h"
-#include "../xrEngine/cl_intersect.h"
+#include "engine/cl_intersect.h"
 //#include "ExtendedGeom.h"
 #include "alife_registry_wrappers.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
 #include "artefact.h"
 #include "CharacterPhysicsSupport.h"
 #include "material_manager.h"
-#include "../xrphysics/IColisiondamageInfo.h"
+#include "physics/IColisiondamageInfo.h"
 #include "ui/UIMainIngameWnd.h"
 #include "map_manager.h"
 #include "GameTaskManager.h"
@@ -66,7 +66,7 @@
 #include "player_hud.h"
 #include "ai/monsters/basemonster/base_monster.h"
 
-#include "../Include/xrRender/UIRender.h"
+#include "xrRender/UIRender.h"
 
 #include "ai_object_location.h"
 #include "ui/uiMotionIcon.h"

@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "script_particles.h"
-#include "../xrEngine/objectanimator.h"
+#include "engine/objectanimator.h"
 
 CScriptParticlesCustom::CScriptParticlesCustom(CScriptParticles* owner, LPCSTR caParticlesName):CParticlesObject(caParticlesName,FALSE,true)
 {
@@ -18,7 +18,7 @@ CScriptParticlesCustom::CScriptParticlesCustom(CScriptParticles* owner, LPCSTR c
 	m_animator					= 0;
 }
 
-//XRCORE_API		fastdelegate::FastDelegate< void () >	g_verify_stalkers;
+//tools_API		fastdelegate::FastDelegate< void () >	g_verify_stalkers;
 
 CScriptParticlesCustom::~CScriptParticlesCustom()
 {

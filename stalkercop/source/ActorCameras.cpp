@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Actor.h"
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 #ifdef DEBUG
 #include "PHDebug.h"
 #endif
@@ -14,15 +14,15 @@
 #include "SleepEffector.h"
 #include "ActorEffector.h"
 #include "level.h"
-#include "../xrEngine/cl_intersect.h"
+#include "engine/cl_intersect.h"
 
 //#include "elevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"
 
 #include "PHMovementControl.h"
-#include "../xrphysics/ielevatorstate.h"
-#include "../xrphysics/actorcameracollision.h"
+#include "physics/ielevatorstate.h"
+#include "physics/actorcameracollision.h"
 #include "IKLimbsController.h"
 #include "GamePersistent.h"
 

@@ -7,13 +7,13 @@
 #include "actor.h"
 #include "actor_memory.h"
 #include "relation_registry.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 #include "game_base_space.h"
 #include "Level.h"
 #include "game_cl_base.h"
 #include "AI/Monsters/BaseMonster/base_monster.h"
-#include "../xrEngine/igame_persistent.h"
+#include "engine/igame_persistent.h"
 
 #define RECT_SIZE	11
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "configs_dumper.h"
 #include "configs_common.h"
-#include "../xrCore/ppmd_compressor.h"
-#include "../xrCore/xr_ini.h"
+#include "tools/ppmd_compressor.h"
+#include "tools/xr_ini.h"
 
 #include "GameObject.h"
 #include "level.h"

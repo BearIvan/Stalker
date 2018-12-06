@@ -8,8 +8,8 @@
 #include "xrserver.h"
 #include "ai_space.h"
 #include "game_sv_event_queue.h"
-#include "../xrEngine/XR_IOConsole.h"
-#include "../xrEngine/xr_ioc_cmd.h"
+#include "engine/XR_IOConsole.h"
+#include "engine/xr_ioc_cmd.h"
 #include "string_table.h"
 
 #include "debug_renderer.h"

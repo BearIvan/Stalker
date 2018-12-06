@@ -1,10 +1,10 @@
 #pragma once
 #include "PHObject.h"
 #include "PHInterpolation.h"
-#include "PHSynchronize.h"
+#include "physics/PHSynchronize.h"
 #include "PHDisabling.h"
 
-#include "../xrEngine/iphysicsshell.h"
+#include "engine/iphysicsshell.h"
 
 
 class CPhysicsShellHolder;

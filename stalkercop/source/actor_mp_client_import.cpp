@@ -4,9 +4,9 @@
 #include "level.h"
 #include "GamePersistent.h"
 #include "game_cl_base.h"
-#include "../xrEngine/camerabase.h"
+#include "engine/camerabase.h"
 //#include "Physics.h"
-#include "../xrphysics/phvalide.h"
+#include "physics/phvalide.h"
 
 void CActorMP::net_Import	( NET_Packet &P)
 {

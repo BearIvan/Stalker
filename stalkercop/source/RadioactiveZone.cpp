@@ -2,11 +2,11 @@
 #include "radioactivezone.h"
 #include "level.h"
 #include "xrmessages.h"
-#include "../xrEngine/bone.h"
+#include "engine/bone.h"
 #include "actor.h"
 #include "game_base_space.h"
 #include "Hit.h"
-#include "../xrengine/xr_collide_form.h"
+#include "engine/xr_collide_form.h"
 
 CRadioactiveZone::CRadioactiveZone(void) 
 {}

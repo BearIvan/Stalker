@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "UIInventoryUpgradeWnd.h"
 
 #include "xrUIXmlParser.h"
@@ -15,7 +15,7 @@
 #include "../string_table.h"
 
 #include "../actor.h"
-#include "../../xrServerEntities/script_process.h"
+#include "../script_process.h"
 #include "../inventory.h"
 
 #include "ai_space.h"

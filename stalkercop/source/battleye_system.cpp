@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "battleye_system.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "MainMenu.h"
 
 #ifdef BATTLEYE
@@ -327,7 +327,7 @@ bool BattlEyeSystem::InitDLL( LPCSTR dll_name, string_path& out_file )
 	ft = fopen( out_file, "r" );
 	if( ft == NULL )
 	{
-		HMODULE h_game = GetModuleHandle("xrCore.dll");
+		HMODULE h_game = GetModuleHandle("tools.dll");
 		R_ASSERT( h_game );
 		
 		string_path cur_dir, full_dir;

@@ -2,8 +2,8 @@
 #define PH_DEBUG_H
 #ifdef DEBUG
 struct dContact;
-#include "../xrEngine/StatGraph.h"
-#include "../xrphysics/debug_output.h"
+#include "engine/StatGraph.h"
+#include "physics/debug_output.h"
 #define DRAW_CONTACTS
 
 

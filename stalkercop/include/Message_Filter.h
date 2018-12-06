@@ -1,9 +1,9 @@
 #ifndef DEMO_MESSAGE_FILER
 #define DEMO_MESSAGE_FILER
 
-#include "../xrCore/fastdelegate.h"
-#include "../xrCore/net_utils.h"
-#include "associative_vector.h"
+#include "tools/fastdelegate.h"
+#include "tools/net_utils.h"
+#include "engine/associative_vector.h"
 
 #define FILTERS_COUNT 32
 

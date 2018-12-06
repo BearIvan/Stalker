@@ -7,20 +7,20 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "../../../xrphysics/physicsshell.h"
-#include "../../../xrphysics/phvalide.h"
+#include "../../physics/physicsshell.h"
+#include "../../physics/phvalide.h"
 #include "ai_crow.h"
 #include "../../level.h"
-#include "../../../Include/xrRender/RenderVisual.h"
-#include "../../../Include/xrRender/Kinematics.h"
-#include "../../../Include/xrRender/KinematicsAnimated.h"
+#include "../../xrRender/RenderVisual.h"
+#include "../../xrRender/Kinematics.h"
+#include "../../xrRender/KinematicsAnimated.h"
 #include "../../actor.h"
 #include "script_callback_ex.h"
 #include "game_object_space.h"
 #include "script_game_object.h"
 #include "hit.h"
 #ifdef	DEBUG
-//#include "../xrphysics/phvalide.h"
+//#include "physics/phvalide.h"
 #endif
 
 void CAI_Crow::SAnim::Load	(IKinematicsAnimated* visual, LPCSTR prefix)

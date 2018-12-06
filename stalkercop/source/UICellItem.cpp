@@ -4,9 +4,9 @@
 #include "../inventory_item.h"
 #include "UIDragDropListEx.h"
 #include "../xr_level_controller.h"
-#include "../../xrEngine/xr_input.h"
+#include "engine/xr_input.h"
 #include "../level.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "UIXmlInit.h"
 #include "UIProgressBar.h"
 

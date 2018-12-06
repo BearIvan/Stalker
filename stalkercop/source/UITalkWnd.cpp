@@ -7,7 +7,7 @@
 #include "../trade.h"
 #include "../UIGameSP.h"
 #include "../PDA.h"
-#include "../../xrServerEntities/character_info.h"
+#include "../character_info.h"
 #include "../level.h"
 
 #include "../PhraseDialog.h"
@@ -16,7 +16,7 @@
 #include "../game_cl_base.h"
 #include "../string_table.h"
 #include "../xr_level_controller.h"
-#include "../../xrEngine/cameraBase.h"
+#include "engine/cameraBase.h"
 #include "UIXmlInit.h"
 #include "UI3tButton.h"
 

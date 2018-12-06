@@ -4,7 +4,7 @@
 #include "MathUtils.h"
 #include "ElevatorState.h"
 #include "IColisiondamageInfo.h"
-#include "../xrEngine/gamemtllib.h"
+#include "engine/gamemtllib.h"
 namespace ALife {
 	enum EHitType;
 };

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../xrEngine/CameraManager.h"
-#include "../xrEngine/effector.h"
-#include "../xrEngine/effectorPP.h"
+#include "engine/CameraManager.h"
+#include "engine/effector.h"
+#include "engine/effectorPP.h"
 
 #define eStartEffectorID		50
 

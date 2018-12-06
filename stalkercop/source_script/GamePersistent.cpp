@@ -1,9 +1,9 @@
 #include "pch_script.h"
 #include "gamepersistent.h"
-#include "../xrEngine/fmesh.h"
-#include "../xrEngine/xr_ioconsole.h"
-#include "../xrEngine/gamemtllib.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "engine/fmesh.h"
+#include "engine/xr_ioconsole.h"
+#include "engine/gamemtllib.h"
+#include "xrRender/Kinematics.h"
 #include "profiler.h"
 #include "MainMenu.h"
 #include "UICursor.h"
@@ -20,14 +20,14 @@
 
 #include "UI/UItextureMaster.h"
 
-#include "../xrEngine/xrSASH.h"
+#include "engine/xrSASH.h"
 #include "ai_space.h"
-#include "../xrServerEntities/script_engine.h"
+#include "script_engine.h"
 
 #include "holder_custom.h"
 #include "game_cl_base.h"
 #include "xrserver_objects_alife_monsters.h"
-#include "../xrServerEntities/xrServer_Object_Base.h"
+#include "xrServer_Object_Base.h"
 #include "UI/UIGameTutorial.h"
 
 #ifndef MASTER_GOLD
@@ -807,7 +807,7 @@ void CGamePersistent::OnRenderPPUI_PP()
 	MainMenu()->OnRenderPPUI_PP();
 }
 #include "string_table.h"
-#include "../xrEngine/x_ray.h"
+#include "engine/x_ray.h"
 void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
 {
 	pApp->LoadStage();

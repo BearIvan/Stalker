@@ -2,8 +2,8 @@
 //#include "PHdynamicdata.h"
 //#include "Physics.h"
 #include "level.h"
-#include "../xrEngine/x_ray.h"
-#include "../xrEngine/igame_persistent.h"
+#include "engine/x_ray.h"
+#include "engine/igame_persistent.h"
 
 #include "ai_space.h"
 #include "game_cl_base.h"
@@ -11,7 +11,7 @@
 #include "file_transfer.h"
 #include "hudmanager.h"
 
-#include "../xrphysics/iphworld.h"
+#include "physics/iphworld.h"
 
 
 #include "phcommander.h"

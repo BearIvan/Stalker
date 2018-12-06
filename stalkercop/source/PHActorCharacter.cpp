@@ -6,7 +6,7 @@
 #include "PhysicsShellHolder.h"
 #include "ai/stalker/ai_stalker.h"
 #include "Actor.h"
-#include "../xrEngine/gamemtllib.h"
+#include "engine/gamemtllib.h"
 #include "level.h"
 
 //const float JUMP_HIGHT=0.5;

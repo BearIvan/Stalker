@@ -2,7 +2,7 @@
 #include "ServerList.h"
 #include "UIXmlInit.h"
 #include "../string_table.h"
-#include "../../xrEngine/xr_ioconsole.h"
+#include "engine/xr_ioconsole.h"
 #include "UIEditBox.h"
 #include "UIMessageBoxEx.h"
 #include "UIMessageBox.h"

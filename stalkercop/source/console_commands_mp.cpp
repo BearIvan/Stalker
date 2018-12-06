@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "../xrEngine/xr_ioconsole.h"
-#include "../xrEngine/xr_ioc_cmd.h"
+#include "engine/xr_ioconsole.h"
+#include "engine/xr_ioc_cmd.h"
 #include "level.h"
 #include "xrServer.h"
 #include "game_cl_base.h"
@@ -113,9 +113,9 @@ extern s32		lag_simmulator_max_ping;
 extern BOOL		g_sv_write_updates_bin;
 extern u32		g_sv_traffic_optimization_level;
 
-void XRNETSERVER_API DumpNetCompressorStats	(bool brief);
-BOOL XRNETSERVER_API g_net_compressor_enabled;
-BOOL XRNETSERVER_API g_net_compressor_gather_stats;
+void netserver_API DumpNetCompressorStats	(bool brief);
+BOOL netserver_API g_net_compressor_enabled;
+BOOL netserver_API g_net_compressor_gather_stats;
 
 class CCC_Restart : public IConsole_Command {
 public:

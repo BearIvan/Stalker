@@ -10,7 +10,7 @@
 #include "game_base.h"
 #include "level.h"
 
-#include "associative_vector.h"
+#include "engine/associative_vector.h"
 
 class UITeamPanels;
 class CUIFrameLineWnd;

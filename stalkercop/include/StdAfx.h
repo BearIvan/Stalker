@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma warning(disable:4995)
-#include "../xrEngine/stdafx.h"
+#include "engine/stdafx.h"
 #include "DPlay/dplay8.h"
 #pragma warning(default:4995)
 #pragma warning( 4 : 4018 )
@@ -17,9 +17,10 @@
 #	define	THROW2					VERIFY2
 #	define	THROW3					VERIFY3
 #endif
-
-#include "../xrEngine/gamefont.h"
-#include "../xrEngine/xr_object.h"
-#include "../xrEngine/igame_level.h"
-#include "../xrphysics/xrphysics.h"
+#define DEBUGFATALERROR1 VERIFY
+#define DEBUGFATALERROR12 VERIFY2
+#include "engine/gamefont.h"
+#include "engine/xr_object.h"
+#include "engine/igame_level.h"
+#include "physics/xrphysics.h"
 #include "smart_cast.h"

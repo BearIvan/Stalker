@@ -12,7 +12,7 @@
 #include "detail_path_manager.h"
 #include "level.h"
 #include "custommonster.h"
-#include "../xrphysics/IColisiondamageInfo.h"
+#include "physics/IColisiondamageInfo.h"
 
 #include "profiler.h"
 

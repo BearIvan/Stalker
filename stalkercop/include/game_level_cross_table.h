@@ -9,9 +9,7 @@
 #pragma once
 
 #ifdef AI_COMPILER
-#	include "../../xrEngine/xrLevel.h"
-#else // AI_COMPILER
-#	include "../xrEngine/xrLevel.h"
+#	include "xrLevel.h"
 #endif // AI_COMPILER
 
 #include "alife_space.h"

@@ -2,11 +2,11 @@
 
 #include	"moving_bones_snd_player.h"
 
-#include "../Include/xrRender/Kinematics.h"
-#include "../xrEngine/bone.h"
+#include "xrRender/Kinematics.h"
+#include "engine/bone.h"
 
 #include "gameobject.h"
-#include "../xrphysics/matrix_utils.h"
+#include "physics/matrix_utils.h"
 #ifdef DEBUG
 #include "phdebug.h"
 #endif

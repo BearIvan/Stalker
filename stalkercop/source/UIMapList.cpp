@@ -9,10 +9,10 @@
 #include "UIMapInfo.h"
 #include "UIComboBox.h"
 #include "UIListBoxItem.h"
-#include "../../xrEngine/xr_ioconsole.h"
+#include "engine/xr_ioconsole.h"
 #include "../string_table.h"
 
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "game_base.h"
 
 #include "ui/UICDkey.h"
@@ -77,7 +77,7 @@ void CUIMapList::StartDedicatedServer(){
 	ModuleName[0]		= 0;
 			
 	xr_strcpy			(g_sLaunchOnExit_app, g_sLaunchWorkingFolder);
-	xr_strcat			(g_sLaunchOnExit_app, "dedicated\\xrEngine.exe");
+	xr_strcat			(g_sLaunchOnExit_app, "dedicated\\engine.exe");
 
 	xr_strcpy			(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
 	xr_strcat			(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");

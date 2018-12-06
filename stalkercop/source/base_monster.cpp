@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "base_monster.h"
-#include "../../../../xrphysics/PhysicsShell.h"
+#include "../../../physics/PhysicsShell.h"
 #include "../../../hit.h"
 #include "../../../PHDestroyable.h"
 #include "../../../CharacterPhysicsSupport.h"
@@ -8,7 +8,7 @@
 #include "../../../game_graph.h"
 #include "../../../phmovementcontrol.h"
 #include "../ai_monster_squad_manager.h"
-#include "../../../../xrServerEntities/xrserver_objects_alife_monsters.h"
+#include "../../../xrserver_objects_alife_monsters.h"
 #include "../corpse_cover.h"
 #include "../../../cover_evaluators.h"
 #include "../../../seniority_hierarchy_holder.h"
@@ -16,7 +16,7 @@
 #include "../../../squad_hierarchy_holder.h"
 #include "../../../group_hierarchy_holder.h"
 #include "../../../phdestroyable.h"
-#include "../../../../Include/xrRender/KinematicsAnimated.h"
+#include "../../../xrRender/KinematicsAnimated.h"
 #include "../../../detail_path_manager.h"
 #include "../../../memory_manager.h"
 #include "../../../visual_memory_manager.h"
@@ -39,13 +39,13 @@
 #include "../../../actor.h"
 #include "../../../ai_object_location.h"
 #include "../../../ai_space.h"
-#include "../../../../xrServerEntities/script_engine.h"
+#include "../../../script_engine.h"
 
 #include "../anti_aim_ability.h"
 
 // Lain: added 
 #include "../../../level_debug.h"
-#include "../../../../xrEngine/xrLevel.h"
+#include "xrLevel.h"
 #include "../../../level_graph.h"
 #ifdef DEBUG
 #include "debug_text_tree.h"

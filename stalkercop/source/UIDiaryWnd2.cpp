@@ -7,7 +7,7 @@
 #include "UINewsWnd.h"
 #include "UIAnimatedStatic.h"
 #include "UIXmlInit.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "UITabControl.h"
 #include "UIScrollView.h"
 #include "UIListWnd.h"

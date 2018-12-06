@@ -20,7 +20,7 @@
 #include "map_hint.h"
 #include "uicursor.h"
 
-#include "../../xrEngine/xr_input.h"		//remove me !!!
+#include "engine/xr_input.h"		//remove me !!!
 
 CUIMapWnd* g_map_wnd = NULL; // quick temporary solution -(
 CUIMapWnd* GetMapWnd()

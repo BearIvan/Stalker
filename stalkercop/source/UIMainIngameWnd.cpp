@@ -12,13 +12,13 @@
 #include "../CustomOutfit.h"
 #include "../ActorHelmet.h"
 #include "../PDA.h"
-#include "../xrServerEntities/character_info.h"
+#include "character_info.h"
 #include "../inventory.h"
 #include "../UIGameSP.h"
 #include "../weaponmagazined.h"
 #include "../missile.h"
 #include "../Grenade.h"
-#include "../xrServerEntities/xrServer_objects_ALife.h"
+#include "xrServer_objects_ALife.h"
 #include "../alife_simulator.h"
 #include "../alife_object_registry.h"
 #include "../game_cl_base.h"
@@ -26,8 +26,8 @@
 #include "../seniority_hierarchy_holder.h"
 
 #include "../date_time.h"
-#include "../xrServerEntities/xrServer_Objects_ALife_Monsters.h"
-#include "../../xrEngine/LightAnimLibrary.h"
+#include "xrServer_Objects_ALife_Monsters.h"
+#include "engine/LightAnimLibrary.h"
 
 #include "UIInventoryUtilities.h"
 #include "UIHelper.h"
@@ -42,7 +42,7 @@
 
 #ifdef DEBUG
 #	include "../attachable_item.h"
-#	include "../../xrEngine/xr_input.h"
+#	include "engine/xr_input.h"
 #endif
 
 #include "UIScrollView.h"
@@ -57,7 +57,7 @@
 void test_draw	();
 void test_key	(int dik);
 
-#include "../Include/xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
 
 
 using namespace InventoryUtilities;

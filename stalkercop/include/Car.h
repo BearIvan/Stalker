@@ -3,9 +3,9 @@
 //#if 0
 
 #include "entity.h"
-//#include "../xrphysics/PHDynamicData.h"
-#include "../xrphysics/PhysicsShell.h"
-#include "../xrphysics/phupdateobject.h"
+//#include "physics/PHDynamicData.h"
+#include "physics/PhysicsShell.h"
+#include "physics/phupdateobject.h"
 #include "script_entity.h"
 #include "CarLights.h"
 //#include "phobject.h"
@@ -31,7 +31,7 @@ struct						dSurfaceParameters;
 // defs
 
 #ifdef DEBUG
-	#include "../xrEngine/StatGraph.h"
+	#include "engine/StatGraph.h"
 	#include "PHDebug.h"
 #endif
 

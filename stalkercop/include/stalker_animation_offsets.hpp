@@ -9,7 +9,7 @@
 #define STALKER_ANIMATION_OFFSETS_HPP_INCLUDED
 
 #include "debug_make_final.hpp"
-#include "associative_vector.h"
+#include "engine/associative_vector.h"
 #include "xrServer_Objects.h"
 
 struct SRotation;

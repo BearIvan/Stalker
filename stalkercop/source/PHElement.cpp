@@ -8,9 +8,9 @@
 #include "matrix_utils.h"
 #include "PhysicsShellHolder.h"
 #include "game_object_space.h"
-//#include "../Include/xrRender/Kinematics.h"
-#include "../Include/xrRender/Kinematics.h"
-#include "../Include/xrRender/KinematicsAnimated.h"
+//#include "xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
+#include "xrRender/KinematicsAnimated.h"
 #include "../3rd party/ode/ode/src/util.h"
 #ifdef DEBUG
 #	include "PHDebug.h"

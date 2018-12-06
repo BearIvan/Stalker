@@ -6,7 +6,7 @@
 #include "stdafx.h"
 
 #include "medkit.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "physics/PhysicsShell.h"
 
 CMedkit::CMedkit() 
 {

@@ -9,8 +9,8 @@
 #include "stdafx.h"
 #include "stalker_animation_data_storage.h"
 #include "stalker_animation_data.h"
-#include "object_broker.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "engine/object_broker.h"
+#include "xrRender/Kinematics.h"
 
 CStalkerAnimationDataStorage	*g_stalker_animation_data_storage = 0;
 

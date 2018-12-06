@@ -6,12 +6,12 @@
 #include "physicsshellholder.h"
 
 #include "ik_anim_state.h"
-#include "../xrphysics/mathutils.h"
-#include "../Include/xrRender/RenderVisual.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "physics/mathutils.h"
+#include "xrRender/RenderVisual.h"
+#include "xrRender/Kinematics.h"
 //#include "ode_include.h"
 #include "characterphysicssupport.h"
-#include "../xrEngine/motion.h"
+#include "engine/motion.h"
 #ifdef DEBUG
 #	include "PHDebug.h"
 #endif // DEBUG

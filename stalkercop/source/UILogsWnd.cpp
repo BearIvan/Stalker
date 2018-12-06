@@ -26,7 +26,7 @@
 #include "../alife_registry_wrappers.h"
 #include "../string_table.h"
 #include "UINewsItemWnd.h"
-#include "../../xrEngine/xr_input.h"
+#include "engine/xr_input.h"
 
 
 #define  PDA_LOGS_XML		"pda_logs.xml"

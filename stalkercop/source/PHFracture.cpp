@@ -3,9 +3,9 @@
 #include "Physics.h"
 #include "PHElement.h"
 #include "PHShell.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "xrRender/Kinematics.h"
 
-#include "../xrEngine/bone.h"
+#include "engine/bone.h"
 
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)

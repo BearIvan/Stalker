@@ -7,9 +7,9 @@
 #include "xrmessages.h"
 #include "level.h"
 #include "inventory.h"
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 #include "player_hud.h"
-#include "../xrEngine/SkeletonMotions.h"
+#include "engine/SkeletonMotions.h"
 
 CHudItem::CHudItem()
 {

@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "physicsskeletonobject.h"
 //#include "PhysicsShell.h"
-#include "../xrphysics/physicsshell.h"
-#include "phsynchronize.h"
+#include "physics/physicsshell.h"
+#include "physics/PHSynchronize.h"
 #include "xrserver_objects_alife.h"
-#include "../Include/xrRender/Kinematics.h"
-#include "../xrEngine/xr_collide_form.h"
+#include "xrRender/Kinematics.h"
+#include "engine/xr_collide_form.h"
 
 CPhysicsSkeletonObject::CPhysicsSkeletonObject()
 {

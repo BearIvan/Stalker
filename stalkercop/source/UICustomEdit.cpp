@@ -3,8 +3,8 @@
 #include "UICustomEdit.h"
 #include "UILines.h"
 
-#include "../../xrEngine/line_edit_control.h"
-#include "../../xrEngine/xr_input.h"
+#include "engine/line_edit_control.h"
+#include "engine/xr_input.h"
 
 CUICustomEdit::CUICustomEdit()
 {

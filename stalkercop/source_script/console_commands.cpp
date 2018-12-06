@@ -1,9 +1,9 @@
 #include "pch_script.h"
-#include "../xrEngine/xr_ioconsole.h"
-#include "../xrEngine/xr_ioc_cmd.h"
-#include "../xrEngine/customhud.h"
-#include "../xrEngine/fdemorecord.h"
-#include "../xrEngine/fdemoplay.h"
+#include "engine/xr_ioconsole.h"
+#include "engine/xr_ioc_cmd.h"
+#include "engine/customhud.h"
+#include "engine/fdemorecord.h"
+#include "engine/fdemoplay.h"
 #include "xrMessages.h"
 #include "xrserver.h"
 #include "level.h"
@@ -23,8 +23,8 @@
 #include "script_process.h"
 #include "xrServer_Objects.h"
 #include "ui/UIMainIngameWnd.h"
-//#include "../xrphysics/PhysicsGamePars.h"
-#include "../xrphysics/iphworld.h"
+//#include "physics/PhysicsGamePars.h"
+#include "physics/iphworld.h"
 #include "string_table.h"
 #include "autosave_manager.h"
 #include "ai_space.h"
@@ -40,8 +40,8 @@
 #include "MainMenu.h"
 #include "saved_game_wrapper.h"
 #include "level_graph.h"
-//#include "../xrEngine/resourcemanager.h"
-#include "../xrEngine/doug_lea_memory_allocator.h"
+//#include "engine/resourcemanager.h"
+#include "engine/doug_lea_memory_allocator.h"
 #include "cameralook.h"
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
@@ -50,7 +50,7 @@
 #include "GameSpy/GameSpy_Patching.h"
 
 #include "ai_debug_variables.h"
-#include "../xrphysics/console_vars.h"
+#include "physics/console_vars.h"
 #ifdef DEBUG
 #	include "PHDebug.h"
 #	include "ui/UIDebugFonts.h" 
@@ -150,7 +150,7 @@ CUIOptConCom g_OptConCom;
 #endif // SEVERAL_ALLOCATORS
 
 typedef void (*full_memory_stats_callback_type) ( );
-XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
+tools_API full_memory_stats_callback_type g_full_memory_stats_callback;
 
 static void full_memory_stats	( )
 {

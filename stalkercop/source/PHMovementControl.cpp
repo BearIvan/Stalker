@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "phmovementcontrol.h"
 
-#include "../xrEngine/cl_intersect.h"
-#include "../xrserverentities/alife_space.h"
+#include "engine/cl_intersect.h"
+#include "alife_space.h"
 
 //#include "entity.h"
 //#include "PHDynamicData.h"
@@ -11,19 +11,19 @@
 //#include "PHAICharacter.h"
 //#include "PHActorCharacter.h"
 
-#include "../xrphysics/phCharacter.h"
-#include "../xrphysics/IPHCapture.h"
-#include "../xrphysics/iphysicsshellholder.h"
-#include "../xrphysics/ElevatorState.h"
-#include "../xrphysics/CalculateTriangle.h"
-#include "../xrphysics/Icolisiondamageinfo.h"
-#include "../xrphysics/phvalide.h"
-#include "../xrphysics/physicsshell.h"
-#include "../xrphysics/iphworld.h"
-//#include "../xrserverentities/ai_space.h"
+#include "physics/phCharacter.h"
+#include "physics/IPHCapture.h"
+#include "physics/iphysicsshellholder.h"
+#include "physics/ElevatorState.h"
+#include "physics/CalculateTriangle.h"
+#include "physics/Icolisiondamageinfo.h"
+#include "physics/phvalide.h"
+#include "physics/physicsshell.h"
+#include "physics/iphworld.h"
+//#include "ai_space.h"
 #include "detail_path_manager.h"
-#include "../xrEngine/gamemtllib.h"
-#include "../xrEngine/xr_object.h"
+#include "engine/gamemtllib.h"
+#include "engine/xr_object.h"
 #include "CaptureBoneCallback.h"
 #include "Level.h"
 #include "physicsshellholder.h"
@@ -31,8 +31,8 @@
 #include "phdebug.h"
 #endif
 
-//#include	"../Include/xrRender/KinematicsAnimated.h"
-#include "../Include/xrRender/Kinematics.h"
+//#include	"xrRender/KinematicsAnimated.h"
+#include "xrRender/Kinematics.h"
 
 #define GROUND_FRICTION	10.0f
 #define AIR_FRICTION	0.01f
@@ -264,7 +264,7 @@ void CPHMovementControl::UpdateCollisionDamage( )
 
 #include <ai/monsters/basemonster/base_monster.h>
 #include <ai_object_location.h>
-#include "../xrCore/_vector3d_ext.h"
+#include "tools/_vector3d_ext.h"
 
 bool CPHMovementControl::MakeJumpPath(xr_vector<DetailPathManager::STravelPathPoint> &	out_path, 
 									  u32 &												travel_point,

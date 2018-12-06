@@ -7,7 +7,7 @@
 #include "Extendedgeom.h"
 #include "SpaceUtils.h"
 #include "MathUtils.h"
-#include "../xrEngine/gamemtllib.h"
+#include "engine/gamemtllib.h"
 #include "Level.h"
 #include "PHWorld.h"
 #include "../3rd party/ode/ode/src/util.h"
@@ -17,8 +17,8 @@
 #endif // DEBUG
 
 #include "PHDynamicData.h"
-#include "PHSynchronize.h"
-#include "phnetstate.h"
+#include "physics/PHSynchronize.h"
+#include "physics/phnetstate.h"
 static	float max_depth			=0.f;
 static	float friction_factor	=0.f;
 static	const float cfm				=1.e-10f;

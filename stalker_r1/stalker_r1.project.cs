@@ -13,7 +13,6 @@ public class stalker_r1 :Project
 		Projects.Private.Add("stalker");
 		Projects.Private.Add("stalkercpu_pipe");
 		Projects.Private.Add("stalkerparticles");
-		IncludeInProject.Private.Add("stalkerserverentities_cop");
 		Projects.Private.Add("openautomate");
 		Projects.Private.Add("nvapi");
 		Projects.Private.Add("loki");

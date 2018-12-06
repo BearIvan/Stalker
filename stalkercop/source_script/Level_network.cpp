@@ -18,9 +18,9 @@
 #include "file_transfer.h"
 #include "UI/UIGameTutorial.h"
 #include "ui/UIPdaWnd.h"
-#include "../xrNetServer/NET_AuthCheck.h"
+#include "netserver/NET_AuthCheck.h"
 
-#include "../xrphysics/physicscommon.h"
+#include "physics/physicscommon.h"
 ENGINE_API bool g_dedicated_server;
 
 const int max_objects_size			= 2*1024;

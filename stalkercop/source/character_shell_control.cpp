@@ -2,12 +2,12 @@
 
 #include "character_shell_control.h"
 
-#include "../Include/xrRender/Kinematics.h"
-#include "../xrEngine/bone.h"
+#include "xrRender/Kinematics.h"
+#include "engine/bone.h"
 
 //#include "Physics.h"
-#include "../xrphysics/ExtendedGeom.h"
-#include "../xrphysics/PhysicsShell.h"
+#include "physics/ExtendedGeom.h"
+#include "physics/PhysicsShell.h"
 //#include "hit.h"
 #include "level.h"
 #include "CustomZone.h"

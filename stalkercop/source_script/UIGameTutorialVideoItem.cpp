@@ -3,13 +3,13 @@
 #include "UIWindow.h"
 #include "UIStatic.h"
 #include "UIXmlInit.h"
-#include "object_broker.h"
-#include "../../xrEngine/xr_input.h"
+#include "engine/object_broker.h"
+#include "engine/xr_input.h"
 #include "../xr_level_controller.h"
 
-#include "../Include/xrRender/UISequenceVideoItem.h"
-#include "../Include/xrRender/UIShader.h"
-#include "../Include/xrRender/UIRender.h"
+#include "xrRender/UISequenceVideoItem.h"
+#include "xrRender/UIShader.h"
+#include "xrRender/UIRender.h"
 #include "uicursor.h"
 
 extern ENGINE_API BOOL bShowPauseString;

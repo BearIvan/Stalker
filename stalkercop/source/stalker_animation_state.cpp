@@ -8,8 +8,8 @@
 
 #include "stdafx.h"
 #include "stalker_animation_state.h"
-#include "object_broker.h"
-#include "../Include/xrRender/Kinematics.h"
+#include "engine/object_broker.h"
+#include "xrRender/Kinematics.h"
 
 CStalkerAnimationState::CStalkerAnimationState	()
 {

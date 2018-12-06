@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../xrEngine/CustomHUD.h"
+#include "engine/CustomHUD.h"
 #include "HitMarker.h"
 
 class CHUDTarget;

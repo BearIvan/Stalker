@@ -8,7 +8,7 @@
 
 #include "pch_script.h"
 #include "smart_cover_object.h"
-#include "../xrServerEntities/xrServer_Objects_ALife_Smartcovers.h"
+#include "xrServer_Objects_ALife_Smartcovers.h"
 #include "level.h"
 #include "debug_renderer.h"
 #include "ai_space.h"
@@ -17,7 +17,7 @@
 #include "smart_cover.h"
 #include "smart_cover_description.h"
 #include "smart_cover_loophole.h"
-#include "../xrengine/xr_collide_form.h"
+#include "engine/xr_collide_form.h"
 using smart_cover::object;
 
 void object::Load			(LPCSTR section)

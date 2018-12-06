@@ -6,7 +6,7 @@
 #include "../../../ActorEffector.h"
 #include "../../../ActorCondition.h"
 #include "../ai_monster_effector.h"
-#include "../../../../Include/xrRender/KinematicsAnimated.h"
+#include "../../../xrRender/KinematicsAnimated.h"
 #include "../../../level.h"
 #include "../../../sound_player.h"
 #include "../../../ai_monster_space.h"
@@ -35,7 +35,7 @@
 #include "../../../monster_community.h"
 #include "../../../character_community.h"
 #include "../../../InventoryOwner.h"
-#include "../../../../xrServerEntities/character_info.h"
+#include "../../../character_info.h"
 
 #include "controller_psy_hit.h"
 #include "../monster_cover_manager.h"

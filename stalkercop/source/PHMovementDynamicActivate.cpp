@@ -7,12 +7,12 @@
 //#include "MathUtils.h"
 //#include "Physics.h"
 //#include "Level.h"
-//#include "../xrEngine/gamemtllib.h"
+//#include "engine/gamemtllib.h"
 //#include "IPhysicsShellHolder.h"
-//#include "../xrphysics/IPHWorld.h"
+//#include "physics/IPHWorld.h"
 //extern	class CPHWorld	*ph_world;
-#include "../xrphysics/phcharacter.h"
-#include "../xrphysics/iphysicsshellholder.h"
+#include "physics/phcharacter.h"
+#include "physics/iphysicsshellholder.h"
 bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_steps/*5*/,float resolve_depth/*=0.01f*/)
 {
 	bool  character_exist=CharacterExist();

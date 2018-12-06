@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "UIColorAnimatorWrapper.h"
-#include "../../xrEngine/LightAnimLibrary.h"
+#include "engine/LightAnimLibrary.h"
 
 //////////////////////////////////////////////////////////////////////////
 

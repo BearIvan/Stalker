@@ -1,11 +1,11 @@
 #pragma once
 
 #include "script_export_space.h"
-#include "object_interfaces.h"
+#include "engine/object_interfaces.h"
 #include "inventory_space.h"
 #include "gametype_chooser.h"
 #include "UIDialogHolder.h"
-#include "xrEngine/CustomHUD.h"
+#include "engine/CustomHUD.h"
 // refs
 class CUI;
 class CTeamBaseZone;

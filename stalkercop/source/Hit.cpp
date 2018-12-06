@@ -2,10 +2,10 @@
 #include "alife_space.h"
 #include "hit.h"
 //#include "ode_include.h"
-#include "../xrEngine/bone.h"
+#include "engine/bone.h"
 #include "xrMessages.h"
 #include "Level.h"
-#include "../xrphysics/mathutils.h"
+#include "physics/mathutils.h"
 SHit::SHit(float powerA, Fvector &dirA, CObject *whoA, u16 elementA, Fvector p_in_bone_spaceA,\
 		   float impulseA, ALife::EHitType hit_typeA, float armor_piercingA, bool AimBullet)
 {

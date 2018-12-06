@@ -25,7 +25,7 @@
 #include "XrRender/RenderDeviceRender.h"
 #include "editor_environment_ambients_ambient.hpp"
 #include "xr_efflensflare.h"
-#include "serverentities_cop/object_broker.h"
+#include "object_broker.h"
 using editor::environment::manager;
 using editor::environment::detail::logical_string_predicate;
 using particles_systems::library_interface;

@@ -2,12 +2,12 @@
 
 #include	"interactive_animation.h"
 
-#include	"../xrphysics/physicsshell.h"
-#include	"../xrphysics/ExtendedGeom.h"
-#include	"../xrphysics/mathutils.h"
+#include	"physics/physicsshell.h"
+#include	"physics/ExtendedGeom.h"
+#include	"physics/mathutils.h"
 //#include	"phobject.h"
 
-#include	"../Include/xrRender/KinematicsAnimated.h"
+#include	"xrRender/KinematicsAnimated.h"
 
 
 

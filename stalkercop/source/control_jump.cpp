@@ -3,7 +3,7 @@
 #include "BaseMonster/base_monster.h"
 #include "control_manager.h"
 #include "../../PHMovementControl.h"
-#include "../../../Include/xrRender/KinematicsAnimated.h"
+#include "../../xrRender/KinematicsAnimated.h"
 #include "../../detail_path_manager.h"
 #include "../../level.h"
 #include "control_animation_base.h"
@@ -20,9 +20,9 @@
 #endif
 
 #include "../../trajectories.h"
-#include "../../../xrPhysics/IPHWorld.h"
-#include "../../../xrPhysics/PHCharacter.h"
-#include "../../../xrCore/_vector3d_ext.h"
+#include "../../physics/IPHWorld.h"
+#include "../../physics/PHCharacter.h"
+#include "../../tools/_vector3d_ext.h"
 
 void CControlJump::reinit()
 {

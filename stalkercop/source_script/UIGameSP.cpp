@@ -2,7 +2,7 @@
 #include "uigamesp.h"
 #include "actor.h"
 #include "level.h"
-#include "../xrEngine/xr_input.h"
+#include "engine/xr_input.h"
 
 #ifdef DEBUG
 #include "attachable_item.h"
@@ -11,8 +11,8 @@
 #include "game_cl_Single.h"
 #include "xr_level_controller.h"
 #include "actorcondition.h"
-#include "../xrEngine/xr_ioconsole.h"
-#include "object_broker.h"
+#include "engine/xr_ioconsole.h"
+#include "engine/object_broker.h"
 #include "GameTaskManager.h"
 #include "GameTask.h"
 

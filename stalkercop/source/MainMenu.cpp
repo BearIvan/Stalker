@@ -2,9 +2,9 @@
 #include "MainMenu.h"
 #include "UI/UIDialogWnd.h"
 #include "ui/UIMessageBoxEx.h"
-#include "../xrEngine/xr_IOConsole.h"
-#include "../xrEngine/IGame_Level.h"
-#include "../xrEngine/CameraManager.h"
+#include "engine/xr_IOConsole.h"
+#include "engine/IGame_Level.h"
+#include "engine/CameraManager.h"
 #include "xr_Level_controller.h"
 #include "ui\UITextureMaster.h"
 #include "ui\UIXmlInit.h"
@@ -16,7 +16,7 @@
 #include "gamespy/GameSpy_Available.h"
 #include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
-#include "../xrCore/os_clipboard.h"
+#include "tools/os_clipboard.h"
 
 #include "DemoInfo.h"
 #include "DemoInfo_Loader.h"
@@ -26,7 +26,7 @@
 #include <shellapi.h>
 #pragma comment(lib, "shell32.lib")
 
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 #include "account_manager.h"
 #include "login_manager.h"

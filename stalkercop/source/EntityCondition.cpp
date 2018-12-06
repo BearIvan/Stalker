@@ -7,9 +7,9 @@
 #include "level.h"
 #include "game_cl_base.h"
 #include "entity_alive.h"
-#include "../Include/xrRender/KinematicsAnimated.h"
-#include "../Include/xrRender/Kinematics.h"
-#include "object_broker.h"
+#include "xrRender/KinematicsAnimated.h"
+#include "xrRender/Kinematics.h"
+#include "engine/object_broker.h"
 #include "ActorHelmet.h"
 
 #define MAX_HEALTH 1.0f

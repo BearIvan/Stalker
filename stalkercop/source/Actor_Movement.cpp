@@ -3,7 +3,7 @@
 #include "actor.h"
 #include "inventory.h"
 #include "weapon.h"
-#include "../xrEngine/CameraBase.h"
+#include "engine/CameraBase.h"
 #include "xrMessages.h"
 
 #include "level.h"

@@ -17,9 +17,8 @@ public class stalkercop_script:Project
 		Projects.Public.Add("directx");
 		Projects.Public.Add("loki");
 		Projects.Public.Add("openautomate");
-		Projects.Public.Add("ode");
+		Projects.Public.Add("stalkerphysics");
 		Projects.Public.Add("stalkerxmlparser");
-		Projects.Public.Add("stalkerserverentities_cop");
 		AddSourceFiles(Path.Combine(ProjectPath,"source_script"),true);
 	}
 }

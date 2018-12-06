@@ -1,13 +1,13 @@
 #pragma once
 
-#include "xrEngine/IGame_Level.h"
-#include "xrEngine/IGame_Persistent.h"
-#include "xrNetServer/NET_Client.h"
+#include "engine/IGame_Level.h"
+#include "engine/IGame_Persistent.h"
+#include "netserver/NET_Client.h"
 #include "script_export_space.h"
-#include "xrEngine/StatGraph.h"
+#include "engine/StatGraph.h"
 #include "xrMessages.h"
 #include "alife_space.h"
-#include "xrCore/xrDebug.h"
+#include "tools/xrDebug.h"
 #include "xrServer.h"
 #include "GlobalFeelTouch.hpp"
 #include "Level_network_map_sync.h"

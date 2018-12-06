@@ -7,14 +7,14 @@
 #include "ExtendedGeom.h"
 #include "draymotions.h"
 #include "PHCollideValidator.h"
-#include "../xrEngine/gamemtllib.h"
+#include "engine/gamemtllib.h"
 #ifdef    DEBUG
 #	include "PHDebug.h"
 #endif
 #include "PHCommander.h"
 #include "PHSimpleCalls.h"
-#include "PHSynchronize.h"
-#include "phnetstate.h"
+#include "physics/PHSynchronize.h"
+#include "physics/phnetstate.h"
 #include "geometrybits.h"
 
 #ifdef	DEBUG

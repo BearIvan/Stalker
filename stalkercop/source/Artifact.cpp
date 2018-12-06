@@ -4,8 +4,8 @@
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
 
-#include "../Include/xrRender/Kinematics.h"
-#include "../Include/xrRender/KinematicsAnimated.h"
+#include "xrRender/Kinematics.h"
+#include "xrRender/KinematicsAnimated.h"
 
 #include "inventory.h"
 #include "level.h"
@@ -13,7 +13,7 @@
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "phworld.h"
 #include "restriction_space.h"
-#include "../xrEngine/IGame_Persistent.h"
+#include "engine/IGame_Persistent.h"
 
 #include "ai_space.h"
 #include "patrol_path.h"

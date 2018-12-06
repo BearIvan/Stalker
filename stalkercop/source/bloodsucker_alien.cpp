@@ -6,7 +6,7 @@
 #include "../../../ActorEffector.h"
 #include "../../../inventory.h"
 #include "../../../HudItem.h"
-#include "../../../../xrEngine/CustomHUD.h"
+#include "../engine/CustomHUD.h"
 
 #define EFFECTOR_ID_GEN(type) (type( u32(u64(this) & u32(-1)) ))
 

@@ -3,8 +3,8 @@
 #include "game_cl_mp.h"
 #include "level.h"
 #include "DemoInfo.h"
-#include "../xrCore/stream_reader.h"
-#include "object_broker.h"
+#include "tools/stream_reader.h"
+#include "engine/object_broker.h"
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
 

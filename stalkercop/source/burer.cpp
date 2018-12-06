@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "burer.h"
-#include "../../../../xrphysics/PhysicsShell.h"
+#include "../../../physics/PhysicsShell.h"
 #include "../../../characterphysicssupport.h"
 #include "../../../actor.h"
 #include "burer_state_manager.h"
-#include "../../../../Include/xrRender/KinematicsAnimated.h"
+#include "../../../xrRender/KinematicsAnimated.h"
 #include "../../../sound_player.h"
 #include "../../../level.h"
 #include "../../../ai_monster_space.h"
@@ -22,7 +22,7 @@
 #include "../../../xr_level_controller.h"
 #include "../../../weapon.h"
 
-#include "../../../../xrCore/_vector3d_ext.h"
+#include "../../../tools/_vector3d_ext.h"
 #include "../control_direction_base.h"
 
 bool CBurer::can_scan = true;

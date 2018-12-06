@@ -13,8 +13,8 @@ class CLevelGraph;
 class CGameLevelCrossTable;
 class CGameGraph;
 
-#include "object_interfaces.h"
-#include "associative_vector.h"
+#include "engine/object_interfaces.h"
+#include "engine/associative_vector.h"
 
 class CPatrolPathStorage : public IPureSerializeObject<IReader,IWriter> {
 private:

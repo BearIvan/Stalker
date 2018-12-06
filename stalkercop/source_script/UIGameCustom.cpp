@@ -3,7 +3,7 @@
 #include "level.h"
 #include "ui/UIXmlInit.h"
 #include "ui/UIStatic.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "string_table.h"
 
 #include "InventoryOwner.h"
@@ -16,7 +16,7 @@
 #include "inventory.h"
 #include "game_cl_base.h"
 
-#include "xrEngine/x_ray.h"
+#include "engine/x_ray.h"
 
 EGameIDs ParseStringToGameType(const char* str);
 
