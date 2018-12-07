@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIDragDropListEx.h"
-#include "UIScrollBar.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiScrollBar.h"
 #include "engine/object_broker.h"
-#include "UICellItem.h"
-#include "UICursor.h"
+#include "ui\uiCellItem.h"
+#include "uiCursor.h"
 
 
 CUIDragItem* CUIDragDropListEx::m_drag_item = NULL;
@@ -530,7 +530,7 @@ CUICellContainer::CUICellContainer(CUIDragDropListEx* parent)
 {
 	m_pParentDragDropList		= parent;
 	hShader->create				( "hud\\fog_of_war", "ui\\ui_grid" );
-//	hShader_selected->create	( "hud\\fog_of_war", "ui_grid_selected" );
+//	hShader_selected->create	( "hud\\fog_of_war", "ui\\ui_grid_selected" );
 	m_cellSpacing.set			( 0, 0 );
 }
 

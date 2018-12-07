@@ -5,6 +5,7 @@
 #include "dcylinder//dCylinder.h"
 
 #include "engine/bone.h"
+#include "physics/PhysicsCommon.h"
 
 //global
 #ifdef DEBUG

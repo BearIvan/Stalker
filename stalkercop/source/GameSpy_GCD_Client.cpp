@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "GameSpy_GCD_Client.h"
-#include "GameSpy_Base_Defs.h"
+#include "gamespy/GameSpy_GCD_Client.h"
+#include "gamespy/GameSpy_Base_Defs.h"
 
 #define	REGISTRY_CDKEY_STR	"Software\\S.T.A.L.K.E.R\\CDKey"
 

@@ -8,8 +8,8 @@
 
 
 #include "StdAfx.h"
-#include "UILine.h"
-#include "uilinestd.h"
+#include "ui\uiLine.h"
+#include "ui\uilinestd.h"
 #include "ui_base.h"
 
 //#define LOG_ALL_LINES

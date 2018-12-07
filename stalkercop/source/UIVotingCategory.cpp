@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIVotingCategory.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIKickPlayer.h"
-#include "UIChangeMap.h"
+#include "ui\uiVotingCategory.h"
+#include "ui\uiXmlInit.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiKickPlayer.h"
+#include "ui\uiChangeMap.h"
 #include "ChangeWeatherDialog.hpp"
-#include "UIGameCustom.h"
+#include "uiGameCustom.h"
 
-#include "../game_cl_teamdeathmatch.h"
-#include "../game_sv_mp_vote_flags.h"
+#include "game_cl_teamdeathmatch.h"
+#include "game_sv_mp_vote_flags.h"
 
 
 CUIVotingCategory::CUIVotingCategory()

@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "boar.h"
+#include "ai/monsters/boar/boar.h"
 
 using namespace luabind;
 

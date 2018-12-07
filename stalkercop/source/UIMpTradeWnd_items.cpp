@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "../inventory_item.h"
-#include "../PhysicsShellHolder.h"
+#include "ui\uiMpTradeWnd.h"
+#include "inventory_item.h"
+#include "physicsShellHolder.h"
 #include "engine/object_broker.h"
-#include "UICellItem.h"
-#include "UIDragDropListEx.h"
-#include "../string_table.h"
-#include "UIMpItemsStoreWnd.h"
+#include "ui\uiCellItem.h"
+#include "ui\uiDragDropListEx.h"
+#include "string_table.h"
+#include "ui\uiMpItemsStoreWnd.h"
 
-#include "../Weapon.h"
-#include "../WeaponMagazinedWGrenade.h"
-#include "UICellCustomItems.h"
+#include "Weapon.h"
+#include "WeaponMagazinedWGrenade.h"
+#include "ui\uiCellCustomItems.h"
 
 extern "C"
 DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid);
@@ -566,7 +566,7 @@ void CUIMpTradeWnd::StorePreset(ETradePreset idx, bool bSilent, bool check_allow
 	{
 		string512						buff;
 		xr_sprintf							(buff,	"%s [%d]",
-												CStringTable().translate("ui_st_preset_stored_to").c_str(), idx);
+												CStringTable().translate("ui\\ui_st_preset_stored_to").c_str(), idx);
 		SetInfoString					(buff);
 	}
 	ITEMS_vec_cit it				= m_all_items.begin();

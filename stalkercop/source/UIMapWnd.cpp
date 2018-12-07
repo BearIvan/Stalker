@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "UIMapWnd.h"
-#include "UIMap.h"
-#include "UIXmlInit.h"
+#include "ui\uiMapWnd.h"
+#include "ui\uiMap.h"
+#include "ui\uiXmlInit.h"
 
-#include "../Actor.h"
-#include "../map_manager.h"
-#include "UIInventoryUtilities.h"
-#include "../map_spot.h"
-#include "../map_location.h"
+#include "Actor.h"
+#include "map_manager.h"
+#include "ui\uiInventoryUtilities.h"
+#include "map_spot.h"
+#include "map_location.h"
 
-#include "UIFixedScrollBar.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UITabControl.h"
-#include "UI3tButton.h"
-#include "UIMapWndActions.h"
-#include "UIMapWndActionsSpace.h"
-#include "UIHint.h"
+#include "ui\uiFixedScrollBar.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiTabControl.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiMapWndActions.h"
+#include "ui\uiMapWndActionsSpace.h"
+#include "ui\uiHint.h"
 #include "map_hint.h"
-#include "uicursor.h"
+#include "uiCursor.h"
 
 #include "engine/xr_input.h"		//remove me !!!
 
@@ -221,7 +221,7 @@ void CUIMapWnd::Show(bool status)
 			ViewActor				();
 			m_view_actor			= false;
 		}
-		InventoryUtilities::SendInfoToActor("ui_pda_map_local");
+		InventoryUtilities::SendInfoToActor("ui\\ui_pda_map_local");
 	}
 	HideCurHint();
 }
@@ -690,10 +690,10 @@ void CUIMapWnd::Reset()
 	ResetActionPlanner			();
 }
 
-#include "../gametaskmanager.h"
-#include "../actor.h"
-#include "../map_spot.h"
-#include "../gametask.h"
+#include "gametaskmanager.h"
+#include "actor.h"
+#include "map_spot.h"
+#include "gametask.h"
 
 void CUIMapWnd::SpotSelected( CUIWindow* w )
 {

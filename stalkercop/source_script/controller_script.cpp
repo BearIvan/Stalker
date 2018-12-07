@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "controller.h"
+#include "ai/monsters/controller/controller.h"
 
 using namespace luabind;
 

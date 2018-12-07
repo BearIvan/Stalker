@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "UIScrollBar.h"
-#include "UIStatic.h"
+#include "ui\uiListBox.h"
+#include "ui\uiListBoxItem.h"
+#include "ui\uiScrollBar.h"
+#include "ui\uiStatic.h"
 
 CUIListBox::CUIListBox()
 {
@@ -39,7 +39,7 @@ bool CUIListBox::OnMouseAction(float x, float y, EUIMessages mouse_action)
 	return false;
 }
 
-#include "../string_table.h"
+#include "string_table.h"
 CUIListBoxItem* CUIListBox::AddTextItem(LPCSTR text)
 {
 	CUIListBoxItem* pItem			= AddItem();

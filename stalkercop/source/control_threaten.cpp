@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "control_threaten.h"
-#include "BaseMonster/base_monster.h"
-#include "control_animation_base.h"
-#include "control_direction_base.h"
-#include "control_movement_base.h"
+#include "ai/monsters/control_threaten.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "ai/monsters/control_animation_base.h"
+#include "ai/monsters/control_direction_base.h"
+#include "ai/monsters/control_movement_base.h"
 
 void CControlThreaten::reinit()
 {

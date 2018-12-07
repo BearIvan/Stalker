@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "energy_holder.h"
-#include "../../gameobject.h"
+#include "ai/monsters/energy_holder.h"
+#include "gameobject.h"
 
 CEnergyHolder::CEnergyHolder()
 {

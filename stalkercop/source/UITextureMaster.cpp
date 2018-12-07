@@ -9,10 +9,10 @@
 
 
 #include "StdAfx.h"
-#include "UITextureMaster.h"
-#include "UIStaticItem.h"
-#include "uiabstract.h"
-#include "xrUIXmlParser.h"
+#include "ui\uiTextureMaster.h"
+#include "ui\uiStaticItem.h"
+#include "ui\uiabstract.h"
+#include "ui/xrUIXmlParser.h"
 #include "xrRender/UIShader.h"
 
 xr_map<shared_str, TEX_INFO>	CUITextureMaster::m_textures;

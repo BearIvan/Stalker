@@ -1,29 +1,29 @@
 
 #include "pch_script.h"
-#include "UIInventoryUtilities.h"
-#include "../WeaponAmmo.h"
-#include "../UIStaticItem.h"
-#include "UIStatic.h"
-#include "../eatable_item.h"
-#include "../Level.h"
-#include "../date_time.h"
-#include "../string_table.h"
-#include "../Inventory.h"
-#include "../InventoryOwner.h"
+#include "ui/UIInventoryUtilities.h"
+#include "WeaponAmmo.h"
+#include "UIStaticItem.h"
+#include "ui/UIStatic.h"
+#include "eatable_item.h"
+#include "Level.h"
+#include "date_time.h"
+#include "string_table.h"
+#include "Inventory.h"
+#include "InventoryOwner.h"
 
-#include "../InfoPortion.h"
+#include "InfoPortion.h"
 #include "game_base_space.h"
-#include "../actor.h"
+#include "actor.h"
 
-#include "../ai_space.h"
-#include "../script_engine.h"
+#include "ai_space.h"
+#include "script_engine.h"
 
 #include "xrRender/UIShader.h"
 
-#define BUY_MENU_TEXTURE "ui\\ui_mp_buy_menu"
-#define CHAR_ICONS		 "ui\\ui_icons_npc"
-#define MAP_ICONS		 "ui\\ui_icons_map"
-#define MP_CHAR_ICONS	 "ui\\ui_models_multiplayer"
+#define BUY_MENU_TEXTURE "ui/UI\\ui_mp_buy_menu"
+#define CHAR_ICONS		 "ui/UI\\ui_icons_npc"
+#define MAP_ICONS		 "ui/UI\\ui_icons_map"
+#define MP_CHAR_ICONS	 "ui/UI\\ui_models_multiplayer"
 
 const LPCSTR relationsLtxSection	= "game_relations";
 const LPCSTR ratingField			= "rating_names";
@@ -204,7 +204,7 @@ const ui_shader& InventoryUtilities::GetEquipmentIconsShader()
 	if(!g_EquipmentIconsShader)
 	{
 		g_EquipmentIconsShader = xr_new<ui_shader>();
-		(*g_EquipmentIconsShader)->create("hud\\default", "ui\\ui_icon_equipment");
+		(*g_EquipmentIconsShader)->create("hud\\default", "ui/UI\\ui_icon_equipment");
 	}
 
 	return *g_EquipmentIconsShader;
@@ -226,7 +226,7 @@ const ui_shader& InventoryUtilities::GetOutfitUpgradeIconsShader()
 	if(!g_OutfitUpgradeIconsShader)
 	{
 		g_OutfitUpgradeIconsShader = xr_new<ui_shader>();
-		(*g_OutfitUpgradeIconsShader)->create("hud\\default", "ui\\ui_actor_armor");
+		(*g_OutfitUpgradeIconsShader)->create("hud\\default", "ui/UI\\ui_actor_armor");
 	}
 
 	return *g_OutfitUpgradeIconsShader;
@@ -237,7 +237,7 @@ const ui_shader& InventoryUtilities::GetWeaponUpgradeIconsShader()
 	if(!g_WeaponUpgradeIconsShader)
 	{
 		g_WeaponUpgradeIconsShader = xr_new<ui_shader>();
-		(*g_WeaponUpgradeIconsShader)->create("hud\\default", "ui\\ui_actor_weapons");
+		(*g_WeaponUpgradeIconsShader)->create("hud\\default", "ui/UI\\ui_actor_weapons");
 	}
 
 	return *g_WeaponUpgradeIconsShader;
@@ -366,19 +366,19 @@ LPCSTR InventoryUtilities::GetTimePeriodAsString(LPSTR _buff, u32 buff_sz, ALife
 	_buff[0]	= 0;
 
 	if(month1!=month2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s ",month2-month1, *CStringTable().translate("ui_st_months"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s ",month2-month1, *CStringTable().translate("ui/UI_st_months"));
 
 	if(!cnt && day1!=day2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",day2-day1, *CStringTable().translate("ui_st_days"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",day2-day1, *CStringTable().translate("ui/UI_st_days"));
 
 	if(!cnt && hours1!=hours2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",hours2-hours1, *CStringTable().translate("ui_st_hours"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",hours2-hours1, *CStringTable().translate("ui/UI_st_hours"));
 
 	if(!cnt && mins1!=mins2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",mins2-mins1, *CStringTable().translate("ui_st_mins"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",mins2-mins1, *CStringTable().translate("ui/UI_st_mins"));
 
 	if(!cnt && secs1!=secs2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",secs2-secs1, *CStringTable().translate("ui_st_secs"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",secs2-secs1, *CStringTable().translate("ui/UI_st_secs"));
 
 	return _buff;
 }
@@ -528,14 +528,14 @@ void InventoryUtilities::SendInfoToActor(LPCSTR info_id)
 void InventoryUtilities::SendInfoToLuaScripts(shared_str info)
 {
 	if (GameID() != eGameIDSingle) return;
-	if ( info == shared_str("ui_talk_show") )
+	if ( info == shared_str("ui/UI_talk_show") )
 	{
 		int mode = 10; // now Menu is Talk Dialog (show)
 		luabind::functor<void>	funct;
 		R_ASSERT( ai().script_engine().functor( "pda.actor_menu_mode", funct ) );
 		funct( mode );
 	}
-	if ( info == shared_str("ui_talk_hide") )
+	if ( info == shared_str("ui/UI_talk_hide") )
 	{
 		int mode = 11; // Talk Dialog hide
 		luabind::functor<void>	funct;

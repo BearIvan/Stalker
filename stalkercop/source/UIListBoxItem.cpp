@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "UIListBoxItem.h"
-#include "UIScrollView.h"
+#include "ui\uiListBoxItem.h"
+#include "ui\uiScrollView.h"
 #include "engine/object_broker.h"
-#include "UIStatic.h"
+#include "ui\uiStatic.h"
 
 CUIListBoxItem::CUIListBoxItem(float height)
 :m_text(NULL),tag(u32(-1))
@@ -37,7 +37,7 @@ void CUIListBoxItem::OnFocusReceive()
 
 void CUIListBoxItem::InitDefault()
 {
-	InitTexture("ui_listline","hud\\default");
+	InitTexture("ui\\ui_listline","hud\\default");
 }
 
 void CUIListBoxItem::SetFont(CGameFont* F)

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "poltergeist.h"
-#include "../../../physics/PhysicsShell.h"
-#include "../../../level.h"
-#include "../../../material_manager.h"
-#include "../../../level_debug.h"
+#include "ai/monsters/poltergeist/poltergeist.h"
+#include "physics/PhysicsShell.h"
+#include "level.h"
+#include "material_manager.h"
+#include "level_debug.h"
 
 
 CPolterSpecialAbility::CPolterSpecialAbility(CPoltergeist *polter)

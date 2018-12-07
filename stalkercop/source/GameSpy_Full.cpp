@@ -1,14 +1,14 @@
 #include "StdAfx.h"
-#include "GameSpy_Full.h"
+#include "gamespy/GameSpy_Full.h"
 
-#include "GameSpy_Available.h"
-#include "GameSpy_Patching.h"
-#include "GameSpy_HTTP.h"
-#include "GameSpy_Browser.h"
-#include "GameSpy_GP.h"
-#include "GameSpy_SAKE.h"
-#include "GameSpy_ATLAS.h"
-#include "../MainMenu.h"
+#include "gamespy/GameSpy_Available.h"
+#include "gamespy/GameSpy_Patching.h"
+#include "gamespy/GameSpy_HTTP.h"
+#include "gamespy/GameSpy_Browser.h"
+#include "gamespy/GameSpy_GP.h"
+#include "gamespy/GameSpy_SAKE.h"
+#include "gamespy/GameSpy_ATLAS.h"
+#include "MainMenu.h"
 #include "engine/object_broker.h"
 
 

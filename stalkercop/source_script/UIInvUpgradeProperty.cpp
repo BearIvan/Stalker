@@ -7,12 +7,12 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "UIInvUpgradeProperty.h"
-#include "UIInvUpgradeInfo.h"
+#include "ui/UIInvUpgradeProperty.h"
+#include "ui/UIInvUpgradeInfo.h"
 
-#include "UIStatic.h"
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
+#include "ui/UIStatic.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui/UIXmlInit.h"
 
 #include "ai_space.h"
 #include "alife_simulator.h"

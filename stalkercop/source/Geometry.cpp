@@ -2,10 +2,10 @@
 #include "Geometry.h"
 #include "PHDynamicData.h"
 #include "ExtendedGeom.h"
-#include "dcylinder//dCylinder.h"
+#include "dcylinder/dCylinder.h"
 
 #include "engine/bone.h"
-
+#include "physics/PhysicsExternalCommon.h"
 //global
 #ifdef DEBUG
 #	include	"phdebug.h"

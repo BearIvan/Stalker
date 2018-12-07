@@ -1308,7 +1308,7 @@ extern void*     sbrk(ptrdiff_t);
 #define MMAP_FLAGS           (MAP_PRIVATE)
 static int dev_zero_fd = -1; /* Cached file descriptor for /dev/zero. */
 #define CALL_MMAP(s) ((dev_zero_fd < 0) ? \
-           (dev_zero_fd = open("/dev/zero", O_RDWR), \
+           (dev_zero_fd = open("dev/zero", O_RDWR), \
             mmap(0, (s), MMAP_PROT, MMAP_FLAGS, dev_zero_fd, 0)) : \
             mmap(0, (s), MMAP_PROT, MMAP_FLAGS, dev_zero_fd, 0))
 #endif /* MAP_ANONYMOUS */
@@ -2434,7 +2434,7 @@ static int init_mparams(void) {
       int fd;
       unsigned char buf[sizeof(size_t)];
       /* Try to use /dev/urandom, else fall back on using time */
-      if ((fd = open("/dev/urandom", O_RDONLY)) >= 0 &&
+      if ((fd = open("dev/urandom", O_RDONLY)) >= 0 &&
           read(fd, buf, sizeof(buf)) == sizeof(buf)) {
         s = *((size_t *) buf);
         close(fd);

@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "UITaskDescrWnd.h"
-#include "UIXmlInit.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIScrollView.h"
-#include "UIEncyclopediaArticleWnd.h"
-#include "../encyclopedia_article.h"
+#include "ui\uiTaskDescrWnd.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiEncyclopediaArticleWnd.h"
+#include "encyclopedia_article.h"
 
 
 CUITaskDescrWnd::CUITaskDescrWnd	()

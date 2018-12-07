@@ -1,8 +1,8 @@
 // sea 08.01.2008
 
 #include "StdAfx.h"
-#include "UIDoubleProgressBar.h"
-#include "UIXmlInit.h"
+#include "ui\uiDoubleProgressBar.h"
+#include "ui\uiXmlInit.h"
 
 CUIDoubleProgressBar::CUIDoubleProgressBar()
 {

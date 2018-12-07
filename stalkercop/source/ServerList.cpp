@@ -1,16 +1,16 @@
 #include "StdAfx.h"
-#include "ServerList.h"
-#include "UIXmlInit.h"
-#include "../string_table.h"
+#include "ui/ServerList.h"
+#include "ui/UIXmlInit.h"
+#include "string_table.h"
 #include "engine/xr_ioconsole.h"
-#include "UIEditBox.h"
-#include "UIMessageBoxEx.h"
-#include "UIMessageBox.h"
-#include "TeamInfo.h"
-#include "../MainMenu.h"
-#include "../login_manager.h"
-#include "../GameSpy/GameSpy_Full.h"
-#include "../GameSpy/GameSpy_Browser.h"
+#include "ui/UIEditBox.h"
+#include "ui/UIMessageBoxEx.h"
+#include "ui/UIMessageBox.h"
+#include "ui/TeamInfo.h"
+#include "MainMenu.h"
+#include "login_manager.h"
+#include "GameSpy/GameSpy_Full.h"
+#include "GameSpy/GameSpy_Browser.h"
 
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
@@ -696,7 +696,7 @@ void CServerList::SrvInfo2LstSrvInfo(const ServerInfo* pServerInfo)
 	m_itemInfo.info.server			= pServerInfo->m_ServerName;
 	xr_string address				= pServerInfo->m_HostName;
 	char							port[8];
-	address							+= "/port=";	
+	address							+= "port=";	
 	address							+= itoa(pServerInfo->m_Port, port, 10);
 	m_itemInfo.info.address			= address.c_str();
 	m_itemInfo.info.map				= pServerInfo->m_SessionName;

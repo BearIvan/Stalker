@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "UIGameAHunt.h"
+#include "uiGameAHunt.h"
 
 #include "team_base_zone.h"
 #include "level.h"
 #include "game_cl_ArtefactHunt.h"
-#include "ui/UIStatic.h"
-#include "ui/UIXmlInit.h"
-#include "ui/UIMessageBoxEx.h"
-#include "ui/UIMoneyIndicator.h"
-#include "ui/UIRankIndicator.h"
-#include "ui/UIHelper.h"
-#include "UITeamPanels.h"
+#include "ui\UIStatic.h"
+#include "ui\UIXmlInit.h"
+#include "ui\UIMessageBoxEx.h"
+#include "ui\UIMoneyIndicator.h"
+#include "ui\UIRankIndicator.h"
+#include "ui\UIHelper.h"
+#include "uiTeamPanels.h"
 #include "engine/object_broker.h"
 
-#define TEAM_PANELS_AHUNT_XML_NAME "ui_team_panels_ahunt.xml"
+#define TEAM_PANELS_AHUNT_XML_NAME "ui\\ui_team_panels_ahunt.xml"
 
 CUIGameAHunt::CUIGameAHunt()
 :m_game(NULL),m_pBuySpawnMsgBox(NULL)
@@ -32,7 +32,7 @@ void CUIGameAHunt::Init	(int stage)
 		m_pTeamPanels->Init				(TEAM_PANELS_AHUNT_XML_NAME, "team_panels_wnd");
 
 		CUIXml							uiXml;
-		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_ahunt.xml");
+		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_ahunt.xml");
 
 		CUIXmlInit::InitWindow			(uiXml, "global", 0,		Window);
 		CUIXmlInit::InitTextWnd			(uiXml, "fraglimit",0,		m_pFragLimitIndicator);

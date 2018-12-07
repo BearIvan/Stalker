@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "monster_hit_memory.h"
-#include "BaseMonster/base_monster.h"
+#include "ai/monsters/monster_hit_memory.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
 
 CMonsterHitMemory::CMonsterHitMemory()
 {

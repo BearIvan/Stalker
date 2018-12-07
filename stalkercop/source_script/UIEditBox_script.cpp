@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "UIEditBox.h"
+#include "ui/UIEditBox.h"
 
 using namespace luabind;
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "kills_store.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 namespace award_system
 {

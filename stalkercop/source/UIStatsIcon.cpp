@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "UIStatsIcon.h"
-#include "UITextureMaster.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiStatsIcon.h"
+#include "ui\uiTextureMaster.h"
+#include "ui\uiInventoryUtilities.h"
 
 #include "xrRender/UIShader.h"
 
@@ -19,11 +19,11 @@ void CUIStatsIcon::InitTexInfo(){
 	string128 rank_tex;	
 	for (int i = RANK_0; i <= RANK_4; i++)
 	{
-		xr_sprintf(rank_tex, "ui_hud_status_green_0%d", i+1);
+		xr_sprintf(rank_tex, "ui\\ui_hud_status_green_0%d", i+1);
 		CUITextureMaster::GetTextureShader		(rank_tex, m_tex_info[i][0].sh);
 		m_tex_info[i][0].rect =					CUITextureMaster::GetTextureRect	(rank_tex);
 
-		xr_sprintf(rank_tex, "ui_hud_status_blue_0%d", i+1);
+		xr_sprintf(rank_tex, "ui\\ui_hud_status_blue_0%d", i+1);
 		CUITextureMaster::GetTextureShader		(rank_tex, m_tex_info[i][1].sh);
 		m_tex_info[i][1].rect =					CUITextureMaster::GetTextureRect	(rank_tex);
 	}

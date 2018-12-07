@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "GameSpy_Full.h"
-#include "GameSpy_SAKE.h"
-#include "../MainMenu.h"
-#include "../profile_store.h"
+#include "gamespy/GameSpy_Full.h"
+#include "gamespy/GameSpy_SAKE.h"
+#include "MainMenu.h"
+#include "profile_store.h"
 
 
 shared_str const CGameSpy_SAKE::TryToTranslate(SAKERequestResult const & request_result)

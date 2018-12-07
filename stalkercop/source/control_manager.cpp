@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "control_manager.h"
-#include "control_combase.h"
-#include "BaseMonster/base_monster.h"
+#include "ai/monsters/control_manager.h"
+#include "ai/monsters/control_combase.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
 
 // Lain: added
 #ifdef DEBUG
-#include "../../debug_text_tree.h"
+#include "debug_text_tree.h"
 #endif
 
 enum EActiveComAction {

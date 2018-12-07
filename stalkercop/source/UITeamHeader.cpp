@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UITeamHeader.h"
-#include "UITeamState.h"
-#include "ui/UIStatic.h"
+#include "ui\uiTeamHeader.h"
+#include "ui\uiTeamState.h"
+#include "UIStatic.h"
 
 UITeamHeader::UITeamHeader(UITeamState const * const parent) : 
 	m_parent(parent),

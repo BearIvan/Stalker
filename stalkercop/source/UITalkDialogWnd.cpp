@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "UITalkDialogWnd.h"
+#include "ui\uiTalkDialogWnd.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIScrollView.h"
-#include "UI3tButton.h"
-#include "UITalkWnd.h"
-#include "UIInventoryUtilities.h"
-#include "UIBtnHint.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiScrollView.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiTalkWnd.h"
+#include "ui\uiInventoryUtilities.h"
+#include "ui\uiBtnHint.h"
 
-#include "../game_news.h"
-#include "../level.h"
-#include "../actor.h"
-#include "../alife_registry_wrappers.h"
+#include "game_news.h"
+#include "level.h"
+#include "actor.h"
+#include "alife_registry_wrappers.h"
 #include "dinput.h"
 
 #define				TALK_XML				"talk.xml"
@@ -104,8 +104,8 @@ void CUITalkDialogWnd::InitTalkDialogWnd()
 	
 void CUITalkDialogWnd::Show()
 {
-	InventoryUtilities::SendInfoToActor				("ui_talk_show");
-	InventoryUtilities::SendInfoToLuaScripts		("ui_talk_show");
+	InventoryUtilities::SendInfoToActor				("ui\\ui_talk_show");
+	InventoryUtilities::SendInfoToLuaScripts		("ui\\ui_talk_show");
 	inherited::Show									(true);
 	inherited::Enable								(true);
 
@@ -114,8 +114,8 @@ void CUITalkDialogWnd::Show()
 
 void CUITalkDialogWnd::Hide()
 {
-	InventoryUtilities::SendInfoToActor				("ui_talk_hide");
-	InventoryUtilities::SendInfoToLuaScripts		("ui_talk_hide");
+	InventoryUtilities::SendInfoToActor				("ui\\ui_talk_hide");
+	InventoryUtilities::SendInfoToLuaScripts		("ui\\ui_talk_hide");
 	inherited::Show									(false);
 	inherited::Enable								(false);
 	g_btnHint->Discard								();
@@ -250,13 +250,13 @@ void CUITalkDialogWnd::SetOsoznanieMode(bool b)
 	UIToTradeButton.Show(!b);
 	if ( mechanic_mode )
 	{
-		UIToTradeButton.m_hint_text = "ui_st_upgrade_hint";
-		UIToTradeButton.TextItemControl()->SetTextST( "ui_st_upgrade" );
+		UIToTradeButton.m_hint_text = "ui\\ui_st_upgrade_hint";
+		UIToTradeButton.TextItemControl()->SetTextST( "ui\\ui_st_upgrade" );
 	}
 	else
 	{
-		UIToTradeButton.m_hint_text = "ui_st_trade_hint";
-		UIToTradeButton.TextItemControl()->SetTextST( "ui_st_trade" );
+		UIToTradeButton.m_hint_text = "ui\\ui_st_trade_hint";
+		UIToTradeButton.TextItemControl()->SetTextST( "ui\\ui_st_trade" );
 	}
 }
 

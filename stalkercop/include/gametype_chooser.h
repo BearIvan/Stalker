@@ -15,6 +15,7 @@
         eGameIDTeamDominationZone                       = u32(1) << 6,
 };
 */
+#include "engine/IGame_Persistent.h"
 class PropValue;
 class PropItem;
 DEFINE_VECTOR			(PropItem*,PropItemVec,PropItemIt);

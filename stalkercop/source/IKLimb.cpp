@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "IKLimb.h"
+#include "ik/IKLimb.h"
 
 #include <boost/noncopyable.hpp>
 
-#include "../xrRender/Kinematics.h"
+#include "Kinematics.h"
 
 #include "gameobject.h"
 
-#include "../game_object_space.h"
-#include "../ik_anim_state.h"
+#include "game_object_space.h"
+#include "ik_anim_state.h"
 
-//#include "../ode_include.h"
-#include "../physics/MathUtils.h"
-#include "../physics/matrix_utils.h"
-#include "../pose_extrapolation.h"
+//#include "ode_include.h"
+#include "physics/MathUtils.h"
+#include "physics/matrix_utils.h"
+#include "pose_extrapolation.h"
 #ifdef DEBUG
-#include "../PHDebug.h"
+#include "PHDebug.h"
 #endif
 
 

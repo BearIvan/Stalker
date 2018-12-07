@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "UIProgressBar.h"
+#include "ui/UIProgressBar.h"
 
 using namespace luabind;
 

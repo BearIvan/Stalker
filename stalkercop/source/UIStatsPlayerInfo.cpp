@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 
-#include "UIStatsPlayerInfo.h"
-#include "UIStatic.h"
-#include "../game_cl_base.h"
-#include "UIStatsIcon.h"
-#include "../game_cl_artefacthunt.h"
-#include "../level.h"
-#include "../string_table.h"
+#include "ui\uiStatsPlayerInfo.h"
+#include "ui\uiStatic.h"
+#include "game_cl_base.h"
+#include "ui\uiStatsIcon.h"
+#include "game_cl_artefacthunt.h"
+#include "level.h"
+#include "string_table.h"
 
 CUIStatsPlayerInfo::CUIStatsPlayerInfo(xr_vector<PI_FIELD_INFO>* info, CGameFont* pF, u32 text_col)
 {
@@ -120,9 +120,9 @@ const char* CUIStatsPlayerInfo::GetInfoByID(const char* id){
 			team -= 1;
 
 		if (0 == team)
-            xr_sprintf(ans,"ui_hud_status_green_0%d",(int)m_pPlayerInfo->rank + 1);
+            xr_sprintf(ans,"ui\\ui_hud_status_green_0%d",(int)m_pPlayerInfo->rank + 1);
 		else
-			xr_sprintf(ans,"ui_hud_status_blue_0%d",(int)m_pPlayerInfo->rank + 1);
+			xr_sprintf(ans,"ui\\ui_hud_status_blue_0%d",(int)m_pPlayerInfo->rank + 1);
 
 	}
 	else if (0 == xr_strcmp(id, "death_atf"))

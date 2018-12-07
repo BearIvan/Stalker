@@ -6,27 +6,27 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "UIRankingWnd.h"
+#include "ui/UIRankingWnd.h"
 
-#include "UIFixedScrollBar.h"
-#include "UIXmlInit.h"
-#include "UIProgressBar.h"
-#include "UIFrameLineWnd.h"
-#include "UIScrollView.h"
-#include "UIHelper.h"
-#include "UIInventoryUtilities.h"
+#include "ui/UIFixedScrollBar.h"
+#include "ui/UIXmlInit.h"
+#include "ui/UIProgressBar.h"
+#include "ui/UIFrameLineWnd.h"
+#include "ui/UIScrollView.h"
+#include "ui/UIHelper.h"
+#include "ui/UIInventoryUtilities.h"
 
-#include "../actor.h"
-#include "../ai_space.h"
-#include "../alife_simulator.h"
+#include "actor.h"
+#include "ai_space.h"
+#include "alife_simulator.h"
 
-#include "../script_engine.h"
-#include "../character_community.h"
-#include "../character_reputation.h"
-#include "../relation_registry.h"
-#include "../string_table.h"
-#include "UICharacterInfo.h"
-#include "ui_base.h"
+#include "script_engine.h"
+#include "character_community.h"
+#include "character_reputation.h"
+#include "relation_registry.h"
+#include "string_table.h"
+#include "ui/UICharacterInfo.h"
+#include "UI_base.h"
 
 #define  PDA_RANKING_XML		"pda_ranking.xml"
 
@@ -131,7 +131,7 @@ void CUIRankingWnd::Init()
 
 	string256 buf;
 	xr_strcpy( buf, sizeof(buf), m_center_caption->GetText() );
-	xr_strcat( buf, sizeof(buf), CStringTable().translate("ui_ranking_center_caption").c_str() );
+	xr_strcat( buf, sizeof(buf), CStringTable().translate("ui/UI_ranking_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 
 

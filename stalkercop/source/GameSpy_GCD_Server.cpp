@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "GameSpy_GCD_Server.h"
-#include "GameSpy_FuncDefs.h"
-#include "GameSpy_Base_Defs.h"
-#include "../xrGameSpyServer.h"
+#include "gamespy/GameSpy_GCD_Server.h"
+#include "gamespy/GameSpy_FuncDefs.h"
+#include "gamespy/GameSpy_Base_Defs.h"
+#include "xrGameSpyServer.h"
 
 CGameSpy_GCD_Server::CGameSpy_GCD_Server()
 {

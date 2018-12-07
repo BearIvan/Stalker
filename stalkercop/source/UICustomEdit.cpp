@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "UICustomEdit.h"
-#include "UILines.h"
+#include "ui\uiCustomEdit.h"
+#include "ui\uiLines.h"
 
 #include "engine/line_edit_control.h"
 #include "engine/xr_input.h"

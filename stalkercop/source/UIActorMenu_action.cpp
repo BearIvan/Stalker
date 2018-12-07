@@ -6,28 +6,28 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIActorMenu.h"
-#include "UIActorStateInfo.h"
-#include "../actor.h"
-#include "../uigamesp.h"
-#include "../inventory.h"
-#include "../inventory_item.h"
-#include "../InventoryBox.h"
+#include "ui\uiActorMenu.h"
+#include "ui\uiActorStateInfo.h"
+#include "actor.h"
+#include "uigamesp.h"
+#include "inventory.h"
+#include "inventory_item.h"
+#include "InventoryBox.h"
 #include "engine/object_broker.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiInventoryUtilities.h"
 #include "game_cl_base.h"
 
-#include "UICursor.h"
-#include "UICellItem.h"
-#include "UICharacterInfo.h"
-#include "UIItemInfo.h"
-#include "UIDragDropListEx.h"
-#include "UIInventoryUpgradeWnd.h"
-#include "UI3tButton.h"
-#include "UIBtnHint.h"
-#include "UIMessageBoxEx.h"
-#include "UIPropertiesBox.h"
-#include "UIMainIngameWnd.h"
+#include "uiCursor.h"
+#include "ui\uiCellItem.h"
+#include "ui\uiCharacterInfo.h"
+#include "ui\uiItemInfo.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiInventoryUpgradeWnd.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiBtnHint.h"
+#include "ui\uiMessageBoxEx.h"
+#include "ui\uiPropertiesBox.h"
+#include "ui\uiMainIngameWnd.h"
 
 
 bool  CUIActorMenu::AllowItemDrops(EDDListType from, EDDListType to)
@@ -46,7 +46,7 @@ public:
 		m_icon.SetWndSize		(Fvector2().set(29.0f*UI().get_current_kx(), 36.0f));
 		m_icon.SetStretchTexture(true);
 //		m_icon.SetAlignment		(waCenter);
-		m_icon.InitTexture		("ui_inGame2_inv_trash");
+		m_icon.InitTexture		("ui\\ui_inGame2_inv_trash");
 	}
 	virtual void		OnDraw		(CUIDragItem* drag_item)
 	{

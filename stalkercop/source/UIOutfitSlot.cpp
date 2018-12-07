@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "UIOutfitSlot.h"
-#include "UIStatic.h"
-#include "UICellItem.h"
-#include "../CustomOutfit.h"
-#include "../actor.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiOutfitSlot.h"
+#include "ui\uiStatic.h"
+#include "ui\uiCellItem.h"
+#include "CustomOutfit.h"
+#include "actor.h"
+#include "ui\uiInventoryUtilities.h"
 
 CUIOutfitDragDropList::CUIOutfitDragDropList()
 {
@@ -18,7 +18,7 @@ CUIOutfitDragDropList::~CUIOutfitDragDropList()
 {
 }
 
-#include "../level.h"
+#include "level.h"
 #include "game_base_space.h"
 
 void CUIOutfitDragDropList::SetOutfit(CUICellItem* itm)

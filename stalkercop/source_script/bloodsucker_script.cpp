@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "bloodsucker.h"
+#include "ai/monsters/bloodsucker/bloodsucker.h"
 
 using namespace luabind;
 

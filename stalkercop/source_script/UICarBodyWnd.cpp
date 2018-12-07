@@ -1,32 +1,32 @@
 #include "pch_script.h"
 
 /*
-#include "UICarBodyWnd.h"
+#include "ui/UICarBodyWnd.h"
 #include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "../HUDManager.h"
-#include "../level.h"
-#include "UICharacterInfo.h"
-#include "UIDragDropListEx.h"
-#include "UIFrameWindow.h"
-#include "UIItemInfo.h"
-#include "UIPropertiesBox.h"
-#include "../ai/monsters/BaseMonster/base_monster.h"
-#include "../inventory.h"
-#include "UIInventoryUtilities.h"
-#include "UICellItem.h"
-#include "UICellItemFactory.h"
-#include "../WeaponMagazined.h"
-#include "../Actor.h"
-#include "../eatable_item.h"
-#include "../alife_registry_wrappers.h"
-#include "UI3tButton.h"
-#include "UIListBoxItem.h"
-#include "../InventoryBox.h"
-#include "../game_object_space.h"
-#include "../script_callback_ex.h"
-#include "../script_game_object.h"
-#include "../BottleItem.h"
+#include "ui/UIXmlInit.h"
+#include "HUDManager.h"
+#include "level.h"
+#include "ui/UICharacterInfo.h"
+#include "ui/UIDragDropListEx.h"
+#include "ui/UIFrameWindow.h"
+#include "ui/UIItemInfo.h"
+#include "ui/UIPropertiesBox.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "inventory.h"
+#include "ui/UIInventoryUtilities.h"
+#include "ui/UICellItem.h"
+#include "ui/UICellItemFactory.h"
+#include "WeaponMagazined.h"
+#include "Actor.h"
+#include "eatable_item.h"
+#include "alife_registry_wrappers.h"
+#include "ui/UI3tButton.h"
+#include "ui/UIListBoxItem.h"
+#include "InventoryBox.h"
+#include "game_object_space.h"
+#include "script_callback_ex.h"
+#include "script_game_object.h"
+#include "BottleItem.h"
 
 void move_item (u16 from_id, u16 to_id, u16 what_id);
 
@@ -209,11 +209,11 @@ void CUICarBodyWnd::UpdateLists_delayed()
 		m_b_need_update = true;
 }
 
-#include "UIInventoryUtilities.h"
+#include "ui/UIInventoryUtilities.h"
 
 void CUICarBodyWnd::Hide()
 {
-	InventoryUtilities::SendInfoToActor			("ui_car_body_hide");
+	InventoryUtilities::SendInfoToActor			("ui/UI_car_body_hide");
 	m_pUIOurBagList->ClearAll					(true);
 	m_pUIOthersBagList->ClearAll				(true);
 	inherited::Hide								();
@@ -316,7 +316,7 @@ void CUICarBodyWnd::Update()
 
 void CUICarBodyWnd::Show() 
 { 
-	InventoryUtilities::SendInfoToActor		("ui_car_body");
+	InventoryUtilities::SendInfoToActor		("ui/UI_car_body");
 	inherited::Show							();
 	SetCurrentItem							(NULL);
 //	InventoryUtilities::UpdateWeight		(*m_pUIOurBagWnd);
@@ -385,7 +385,7 @@ void CUICarBodyWnd::TakeAll()
 }
 
 
-#include "../xr_level_controller.h"
+#include "xr_level_controller.h"
 
 bool CUICarBodyWnd::OnKeyboard(int dik, EUIMessages keyboard_action)
 {
@@ -399,8 +399,8 @@ bool CUICarBodyWnd::OnKeyboard(int dik, EUIMessages keyboard_action)
 	return false;
 }
 
-#include "../Medkit.h"
-#include "../Antirad.h"
+#include "Medkit.h"
+#include "Antirad.h"
 
 void CUICarBodyWnd::ActivatePropertiesBox()
 {

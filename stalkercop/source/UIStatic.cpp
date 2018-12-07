@@ -1,15 +1,15 @@
 #include "stdafx.h"
-#include "uistatic.h"
-#include "UIXmlInit.h"
-#include "UITextureMaster.h"
+#include "ui\uistatic.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiTextureMaster.h"
 #include "engine/LightAnimLibrary.h"
-#include "uilines.h"
-#include "../ui_base.h"
+#include "ui\uilines.h"
+#include "ui_base.h"
 
 #include "xrRender/UIRender.h"
 
-#include "UIBtnHint.h"
-#include "UICursor.h"
+#include "ui\uiBtnHint.h"
+#include "uiCursor.h"
 
 bool is_in2(const Frect& b1, const Frect& b2);
 
@@ -101,7 +101,7 @@ void CUIStatic::DrawText()
 		g_statHint->Draw_();
 }
 
-#include "../xrRender/UIShader.h"
+#include "xrRender/UIShader.h"
 
 void CUIStatic::DrawTexture()
 {

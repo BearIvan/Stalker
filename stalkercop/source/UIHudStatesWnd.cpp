@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "UIHudStatesWnd.h"
+#include "ui\uiHudStatesWnd.h"
 
-#include "../Actor.h"
-#include "../ActorCondition.h"
-#include "../EntityCondition.h"
-#include "../CustomOutfit.h"
-#include "../ActorHelmet.h"
-#include "../inventory.h"
-#include "../RadioactiveZone.h"
+#include "Actor.h"
+#include "ActorCondition.h"
+#include "EntityCondition.h"
+#include "CustomOutfit.h"
+#include "ActorHelmet.h"
+#include "inventory.h"
+#include "RadioactiveZone.h"
 
-#include "UIStatic.h"
-#include "UIProgressBar.h"
-#include "UIProgressShape.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "ui_arrow.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiStatic.h"
+#include "ui\uiProgressBar.h"
+#include "ui\uiProgressShape.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHelper.h"
+#include "ui\\ui_arrow.h"
+#include "ui\uiInventoryUtilities.h"
 #include "CustomDetector.h"
-#include "../ai/monsters/basemonster/base_monster.h"
-#include "../PDA.h"
+#include "ai/monsters/basemonster/base_monster.h"
+#include "PDA.h"
 #include "WeaponMagazinedWGrenade.h"
 
 CUIHudStatesWnd::CUIHudStatesWnd()
@@ -556,10 +556,10 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 	string128 str;
 	switch(type)
 	{
-		case ALife::infl_rad: texture = "ui_inGame2_triangle_Radiation_"; break;
-		case ALife::infl_fire: texture = "ui_inGame2_triangle_Fire_"; break;
-		case ALife::infl_acid: texture = "ui_inGame2_triangle_Biological_"; break;
-		case ALife::infl_psi: texture = "ui_inGame2_triangle_Psy_"; break;
+		case ALife::infl_rad: texture = "ui\\ui_inGame2_triangle_Radiation_"; break;
+		case ALife::infl_fire: texture = "ui\\ui_inGame2_triangle_Fire_"; break;
+		case ALife::infl_acid: texture = "ui\\ui_inGame2_triangle_Biological_"; break;
+		case ALife::infl_psi: texture = "ui\\ui_inGame2_triangle_Psy_"; break;
 		default: NODEFAULT;
 	}
 	float           hit_power = m_zone_cur_power[type];
@@ -701,10 +701,10 @@ void CUIHudStatesWnd::FakeUpdateIndicatorType(u8 t, float power)
 	string128 str;
 	switch(type)
 	{
-		case ALife::infl_rad: texture = "ui_inGame2_triangle_Radiation_"; break;
-		case ALife::infl_fire: texture = "ui_inGame2_triangle_Fire_"; break;
-		case ALife::infl_acid: texture = "ui_inGame2_triangle_Biological_"; break;
-		case ALife::infl_psi: texture = "ui_inGame2_triangle_Psy_"; break;
+		case ALife::infl_rad: texture = "ui\\ui_inGame2_triangle_Radiation_"; break;
+		case ALife::infl_fire: texture = "ui\\ui_inGame2_triangle_Fire_"; break;
+		case ALife::infl_acid: texture = "ui\\ui_inGame2_triangle_Biological_"; break;
+		case ALife::infl_psi: texture = "ui\\ui_inGame2_triangle_Psy_"; break;
 		default: NODEFAULT;
 	}
 	float           hit_power = power;

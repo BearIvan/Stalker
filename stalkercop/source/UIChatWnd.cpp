@@ -1,14 +1,14 @@
 #include <stdafx.h>
-#include "UIChatWnd.h"
-#include "UIGameLog.h"
-#include "UIEditBox.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "xrUIXmlParser.h"
-#include "UIDialogHolder.h"
-#include "../game_cl_base.h"
-#include "../xr_level_controller.h"
-#include "../Level.h"
+#include "ui\uiChatWnd.h"
+#include "ui\uiGameLog.h"
+#include "ui\uiEditBox.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHelper.h"
+#include "ui/xrUIXmlParser.h"
+#include "uiDialogHolder.h"
+#include "game_cl_base.h"
+#include "xr_level_controller.h"
+#include "Level.h"
 
 CUIChatWnd::CUIChatWnd()
 	:	sendNextMessageToAll	(true)

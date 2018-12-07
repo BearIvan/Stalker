@@ -150,7 +150,7 @@ CUIOptConCom g_OptConCom;
 #endif // SEVERAL_ALLOCATORS
 
 typedef void (*full_memory_stats_callback_type) ( );
-tools_API full_memory_stats_callback_type g_full_memory_stats_callback;
+XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
 
 static void full_memory_stats	( )
 {
@@ -475,7 +475,7 @@ bool valid_saved_game_name(LPCSTR file_name)
 	LPCSTR		I = file_name;
 	LPCSTR		E = file_name + xr_strlen(file_name);
 	for ( ; I != E; ++I) {
-		if (!strchr("/\\:*?\"<>|^()[]%",*I))
+		if (!strchr("\\:*?\"<>|^()[]%",*I))
 			continue;
 
 		return	(false);
@@ -716,7 +716,7 @@ public:
 			return;
 		}
 
-		STRCONCAT				(command, "start server(", g_last_saved_game, "/single/alife/load)");
+		STRCONCAT				(command, "start server(", g_last_saved_game, "single/alife/load)");
 		Console->Execute		(command);
 	}
 	

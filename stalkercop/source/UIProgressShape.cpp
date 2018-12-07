@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "UIProgressShape.h"
+#include "ui\uiProgressShape.h"
 
-#include "UIStatic.h"
+#include "ui\uiStatic.h"
 #include "xrRender/UIShader.h"
 #include "xrRender/UIRender.h"
 

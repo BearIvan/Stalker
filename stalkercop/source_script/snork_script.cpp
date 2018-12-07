@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "snork.h"
+#include "ai/monsters/snork/snork.h"
 
 using namespace luabind;
 

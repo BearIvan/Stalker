@@ -1,9 +1,9 @@
 #pragma once
 
 //#include "../../../PHCharacter.h"
-#include "../../../physics/IPHCapture.h"
+#include "physics/IPHCapture.h"
 #include "../../../CaptureBoneCallback.h"
-#include "../../../xrRender/Kinematics.h"
+#include "..//Kinematics.h"
 #include <boost/noncopyable.hpp>
 
 #define TEMPLATE_SPECIALIZATION template <\

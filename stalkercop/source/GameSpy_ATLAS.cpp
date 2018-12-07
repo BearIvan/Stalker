@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GameSpy_ATLAS.h"
+#include "gamespy/GameSpy_ATLAS.h"
 
 CGameSpy_ATLAS::CGameSpy_ATLAS	(HMODULE hGameSpyDLL)
 {

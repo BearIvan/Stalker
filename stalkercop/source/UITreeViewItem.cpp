@@ -7,9 +7,9 @@
 //=============================================================================
 
 #include "stdafx.h"
-#include "UITreeViewItem.h"
-//#include "UIListWnd.h"
-#include "../string_table.h"
+#include "ui\uiTreeViewItem.h"
+//#include "ui\uiListWnd.h"
+#include "string_table.h"
 
 
 #define UNREAD_COLOR	0xff00ff00
@@ -370,11 +370,11 @@ xr_string CUITreeViewItem::GetHierarchyAsText()
 	}
 
 	xr_string::size_type prevPos = name.size() + 1;
-//	name += static_cast<xr_string>("/") + static_cast<xr_string>(GetText());
-	name += static_cast<xr_string>("/") + static_cast<xr_string>(GetSelectedText());
+//	name += static_cast<xr_string>("") + static_cast<xr_string>(GetText());
+	name += static_cast<xr_string>("") + static_cast<xr_string>(GetSelectedText());
 
 	// Удаляем мусор: [ +-]
-	xr_string::size_type pos = name.find_first_not_of("/ +-", prevPos);
+	xr_string::size_type pos = name.find_first_not_of(" +-", prevPos);
 	if (xr_string::npos != pos)
 	{
 		name.erase(prevPos, pos - prevPos);

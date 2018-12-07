@@ -4,7 +4,7 @@
 #include "engine/associative_vector.h"
 #include <boost/noncopyable.hpp>
 #include "profile_data_types.h"
-#include "../xrGameSpy/GameSpy/sake/sake.h"
+#include "GameSpy/sake/sake.h"
 #include "gsc_dsigned_ltx.h"
 
 class CGameSpy_Full;

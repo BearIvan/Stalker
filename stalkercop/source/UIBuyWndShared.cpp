@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "UIBuyWndShared.h"
-#include "UIMPTradeWnd.h"
+#include "ui\uiBuyWndShared.h"
+#include "ui\uiMPTradeWnd.h"
 
 
 extern LPCSTR _list_names[];

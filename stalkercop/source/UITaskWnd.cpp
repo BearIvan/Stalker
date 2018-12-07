@@ -1,26 +1,26 @@
 #include "stdafx.h"
-#include "UITaskWnd.h"
-#include "UIMapWnd.h"
+#include "ui\uiTaskWnd.h"
+#include "ui\uiMapWnd.h"
 #include "engine/object_broker.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
-#include "UI3tButton.h"
-#include "UIFrameLineWnd.h"
-#include "UISecondTaskWnd.h"
-#include "UIMapLegend.h"
-#include "UIHelper.h"
-#include "UIHint.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiStatic.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiSecondTaskWnd.h"
+#include "ui\uiMapLegend.h"
+#include "ui\uiHelper.h"
+#include "ui\uiHint.h"
 
-#include "../gametask.h"
-#include "../map_location.h"
-#include "../map_location_defs.h"
-#include "../map_manager.h"
-#include "UIInventoryUtilities.h"
-#include "../string_table.h"
-#include "../level.h"
-#include "../gametaskmanager.h"
-#include "../actor.h"
-#include "UICheckButton.h"
+#include "gametask.h"
+#include "map_location.h"
+#include "map_location_defs.h"
+#include "map_manager.h"
+#include "ui\uiInventoryUtilities.h"
+#include "string_table.h"
+#include "level.h"
+#include "gametaskmanager.h"
+#include "actor.h"
+#include "ui\uiCheckButton.h"
 
 CUITaskWnd::CUITaskWnd()
 {
@@ -189,10 +189,10 @@ void CUITaskWnd::ReloadTaskInfo()
 			m_bPrimaryObjectsEnabled?b->location->EnableSpot():b->location->DisableSpot();
 		else if(spot=="secondary_task_location" || spot=="secondary_task_location_complex_timer")
 			(/*b->location->SpotEnabled() && */m_bSecondaryTasksEnabled)?b->location->EnableSpot():b->location->DisableSpot();
-		else if(spot=="ui_pda2_trader_location" || spot=="ui_pda2_mechanic_location" ||
-		   spot=="ui_pda2_scout_location" || spot=="ui_pda2_quest_npc_location" || 
-		   spot=="ui_pda2_medic_location" || spot=="ui_pda2_actor_box_location" ||
-		   spot=="ui_pda2_actor_sleep_location")
+		else if(spot=="ui\\ui_pda2_trader_location" || spot=="ui\\ui_pda2_mechanic_location" ||
+		   spot=="ui\\ui_pda2_scout_location" || spot=="ui\\ui_pda2_quest_npc_location" || 
+		   spot=="ui\\ui_pda2_medic_location" || spot=="ui\\ui_pda2_actor_box_location" ||
+		   spot=="ui\\ui_pda2_actor_sleep_location")
 			m_bQuestNpcsEnabled?b->location->EnableSpot():b->location->DisableSpot();
 	}
 

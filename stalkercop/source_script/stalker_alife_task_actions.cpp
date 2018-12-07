@@ -6,10 +6,11 @@
 //	Description : Stalker alife task action classes
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "stalker_alife_task_actions.h"
+#include "pch_script.h"
 #include "ai/stalker/ai_stalker.h"
 #include "ai/trader/ai_trader.h"
+#include "stalker_alife_task_actions.h"
+
 #include "inventory_item.h"
 #include "weapon.h"
 #include "script_game_object.h"
@@ -32,7 +33,7 @@
 #include "alife_human_brain.h"
 #include "alife_smart_terrain_task.h"
 
-#include "pch_script.h"
+
 #include "patrol_path_manager.h"
 
 using namespace StalkerSpace;

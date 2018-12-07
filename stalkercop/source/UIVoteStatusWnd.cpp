@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UIVoteStatusWnd.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
+#include "ui\uiVoteStatusWnd.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiStatic.h"
 
 
 

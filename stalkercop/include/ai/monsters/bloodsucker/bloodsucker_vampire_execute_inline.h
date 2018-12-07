@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../xrRender/KinematicsAnimated.h"
+#include "..//KinematicsAnimated.h"
 #include "../../../actor.h"
-#include "../engine/CameraBase.h"
+#include "engine/CameraBase.h"
 
 // #include "../engine/CameraBase.h"
 //#include "../../../ActorCondition.h"

@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "fracture.h"
+#include "ai\monsters\fracture\fracture.h"
 
 using namespace luabind;
 

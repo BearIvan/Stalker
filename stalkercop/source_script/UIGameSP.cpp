@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "uigamesp.h"
+#include "UIgamesp.h"
 #include "actor.h"
 #include "level.h"
 #include "engine/xr_input.h"
@@ -16,10 +16,10 @@
 #include "GameTaskManager.h"
 #include "GameTask.h"
 
-#include "ui/UIActorMenu.h"
-#include "ui/UIPdaWnd.h"
-#include "ui/UITalkWnd.h"
-#include "ui/UIMessageBox.h"
+#include "UI/UIActorMenu.h"
+#include "UI/UIPdaWnd.h"
+#include "UI/UITalkWnd.h"
+#include "UI/UIMessageBox.h"
 
 
 CUIGameSP::CUIGameSP()

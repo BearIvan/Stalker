@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "rewarding_events_handlers.h"
 #include "reward_event_handler.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 namespace award_system
 {

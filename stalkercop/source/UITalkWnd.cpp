@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "UITalkWnd.h"
+#include "ui\uiTalkWnd.h"
 
-#include "UITalkDialogWnd.h"
+#include "ui\uiTalkDialogWnd.h"
 
-#include "../actor.h"
-#include "../trade.h"
-#include "../UIGameSP.h"
-#include "../PDA.h"
-#include "../character_info.h"
-#include "../level.h"
+#include "actor.h"
+#include "trade.h"
+#include "UIGameSP.h"
+#include "PDA.h"
+#include "character_info.h"
+#include "level.h"
 
-#include "../PhraseDialog.h"
-#include "../PhraseDialogManager.h"
+#include "PhraseDialog.h"
+#include "PhraseDialogManager.h"
 
-#include "../game_cl_base.h"
-#include "../string_table.h"
-#include "../xr_level_controller.h"
+#include "game_cl_base.h"
+#include "string_table.h"
+#include "xr_level_controller.h"
 #include "engine/cameraBase.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
+#include "ui\uiXmlInit.h"
+#include "ui\ui3tButton.h"
 
 CUITalkWnd::CUITalkWnd()
 {

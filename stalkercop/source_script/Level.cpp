@@ -47,8 +47,8 @@
 #include "demoplay_control.h"
 #include "demoinfo.h"
 #include "CustomDetector.h"
-#include "xrPhysics/IPHWorld.h"
-#include "xrPhysics/console_vars.h"
+#include "Physics/IPHWorld.h"
+#include "Physics/console_vars.h"
 
 #ifdef DEBUG
 #include "level_debug.h"
@@ -558,9 +558,9 @@ void CLevel::OnFrame()
 #endif
     }
 #ifdef DEBUG
-    g_pGamePersistent->Environment().m_paused = m_bEnvPaused;
+    ENV.m_paused = m_bEnvPaused;
 #endif
-    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(),
+    ENV.SetGameTime(GetEnvironmentGameDayTimeSec(),
         game->GetEnvironmentGameTimeFactor());
     if (!g_dedicated_server)
         ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->update();

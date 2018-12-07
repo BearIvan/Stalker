@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "zombie.h"
+#include "ai/monsters/zombie/zombie.h"
 
 using namespace luabind;
 

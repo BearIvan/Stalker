@@ -7,10 +7,10 @@
 // copyright 2005 GSC Game World
 
 #include "StdAfx.h"
-#include "UI3tButton.h"
-#include "UIFrameLineWnd.h"
-#include "UILines.h"
-#include "UICustomSpin.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiLines.h"
+#include "ui\uiCustomSpin.h"
 
 #define SPIN_HEIGHT 20.0f
 #define BTN_SIZE_X 11.0f
@@ -55,13 +55,13 @@ void CUICustomSpin::InitSpin(Fvector2 pos, Fvector2 size)
 
 	m_pFrameLine->SetWndPos		(Fvector2().set(0,0));
 	m_pFrameLine->SetWndSize	(Fvector2().set(size.x, SPIN_HEIGHT));
-	m_pFrameLine->InitTexture	("ui_inGame2_spin_box","hud\\default");
+	m_pFrameLine->InitTexture	("ui\\ui_inGame2_spin_box","hud\\default");
 
 	m_pBtnUp->InitButton		(Fvector2().set(size.x-BTN_SIZE_X-2.0f, 1.0f),Fvector2().set(BTN_SIZE_X, BTN_SIZE_Y));
-	m_pBtnUp->InitTexture		("ui_inGame2_spin_box_button_top");
+	m_pBtnUp->InitTexture		("ui\\ui_inGame2_spin_box_button_top");
 
 	m_pBtnDown->InitButton		(Fvector2().set(size.x-BTN_SIZE_X-2.0f, BTN_SIZE_Y+2.0f),Fvector2().set(BTN_SIZE_X, BTN_SIZE_Y));
-	m_pBtnDown->InitTexture		("ui_inGame2_spin_box_button_bottom");
+	m_pBtnDown->InitTexture		("ui\\ui_inGame2_spin_box_button_bottom");
 
 	m_pLines->m_wndPos.set		(Fvector2().set(0,0));
 	m_pLines->m_wndSize.set		(Fvector2().set(size.x-BTN_SIZE_X-10.0f, SPIN_HEIGHT));

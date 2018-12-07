@@ -15,7 +15,7 @@
 #include "ui/UICDkey.h"
 
 int		g_cl_save_demo = 0;
-extern tools_API bool g_allow_heap_min;
+extern XRCORE_API bool g_allow_heap_min;
 
 shared_str CLevel::OpenDemoFile(const char* demo_file_name)
 {
@@ -43,17 +43,17 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 	VERIFY( xr_strlen(player_name) );
 
 	//make Client Name if options doesn't have it
-	LPCSTR	NameStart	= strstr(op_client,"/name=");
+	LPCSTR	NameStart	= strstr(op_client,"name=");
 	if (!NameStart)
 	{
 		string512 tmp;
 		xr_strcpy(tmp, op_client);
-		xr_strcat(tmp, "/name=");
+		xr_strcat(tmp, "name=");
 		xr_strcat(tmp, player_name);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
-		LPCSTR		begin	= NameStart + xr_strlen("/name="); 
+		LPCSTR		begin	= NameStart + xr_strlen("name="); 
 		sscanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
@@ -61,7 +61,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 			xr_strcpy(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
 			xr_strcat(tmpstr, player_name);
-			const char* ptmp = strstr(strstr(op_client, "name="), "/");
+			const char* ptmp = strstr(strstr(op_client, "name="), "");
 			if (ptmp)
 				xr_strcat(tmpstr, ptmp);
 			m_caClientOptions = tmpstr;
@@ -75,14 +75,14 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 	//---------------------------------------------------------------------
 	if (!IsDemoPlay())
 	{
-		LPCSTR pdemosave = strstr(op_client, "/mpdemosave=");
+		LPCSTR pdemosave = strstr(op_client, "mpdemosave=");
 		bool is_single = m_caServerOptions.size() != 0 ? 
 			(strstr(m_caServerOptions.c_str(), "single") != NULL) :
 			false;
 		int save_demo = g_cl_save_demo;
 		if (pdemosave != NULL)
 		{
-			sscanf(pdemosave, "/mpdemosave=%d", &save_demo);
+			sscanf(pdemosave, "mpdemosave=%d", &save_demo);
 		}
 		if (!is_single && save_demo)
 		{
@@ -171,7 +171,7 @@ bool CLevel::net_start3				()
 	if (!strstr(m_caClientOptions.c_str(), "port=") && Server)
 	{
 		string64	PortStr;
-		xr_sprintf(PortStr, "/port=%d", Server->GetPort());
+		xr_sprintf(PortStr, "port=%d", Server->GetPort());
 
 		string4096	tmp;
 		xr_strcpy(tmp, m_caClientOptions.c_str());
@@ -196,10 +196,10 @@ bool CLevel::net_start3				()
 		};
 	};
 	//setting players GameSpy CDKey if it comes from command line
-	if (strstr(m_caClientOptions.c_str(), "/cdkey="))
+	if (strstr(m_caClientOptions.c_str(), "cdkey="))
 	{
 		string64 CDKey;
-		const char* start = strstr(m_caClientOptions.c_str(),"/cdkey=") +xr_strlen("/cdkey=");
+		const char* start = strstr(m_caClientOptions.c_str(),"cdkey=") +xr_strlen("cdkey=");
 		sscanf			(start, "%[^/]",CDKey);
 		string128 cmd;
 		xr_sprintf(cmd, "cdkey %s", _strupr(CDKey));

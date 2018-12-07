@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "uicursor.h"
+#include "uiCursor.h"
 
-#include "ui/UIStatic.h"
-#include "ui/UIBtnHint.h"
+#include "UI/UIStatic.h"
+#include "UI/UIBtnHint.h"
 #include "engine/IInputReceiver.h"
 
 #define C_DEFAULT	D3DCOLOR_XRGB(0xff,0xff,0xff)

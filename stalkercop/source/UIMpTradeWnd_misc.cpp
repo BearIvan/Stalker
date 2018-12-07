@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "UIMpItemsStoreWnd.h"
+#include "ui\uiMpTradeWnd.h"
+#include "ui\uiMpItemsStoreWnd.h"
 
-#include "UICellItem.h"
-#include "UITabControl.h"
-#include "UIDragDropListEx.h"
-#include "UIItemInfo.h"
-#include "UI3tButton.h"
+#include "ui\uiCellItem.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiItemInfo.h"
+#include "ui\ui3tButton.h"
 
-#include "../inventory_item.h"
-#include "../PhysicsShellHolder.h"
+#include "inventory_item.h"
+#include "physicsShellHolder.h"
 #include "engine/object_broker.h"
 #include <dinput.h>
 
-#include "UICellCustomItems.h"
+#include "ui\uiCellCustomItems.h"
 
 bool CUIMpTradeWnd::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 {
@@ -171,7 +171,7 @@ void CUIMpTradeWnd::SetCurrentItem(CUICellItem* itm)
 		{
 			xr_strcpy						(team, _team_names[m_store_hierarchy->TeamIdx()%1]);
 		}
-		xr_sprintf							(tex_name, "ui_hud_status_%s_0%d", team, 1+get_rank(current_sect_name.c_str()) );
+		xr_sprintf							(tex_name, "ui\\ui_hud_status_%s_0%d", team, 1+get_rank(current_sect_name.c_str()) );
 				
 		m_static_item_rank->InitTexture		(tex_name);
 		m_static_item_rank->TextureOn		();
@@ -483,7 +483,7 @@ void CUIMpTradeWnd::SetRank(u32 rank)
 	string64			team;
 
 	xr_strcpy				(team, _team_names[m_store_hierarchy->TeamIdx()]);
-	xr_sprintf				(tex_name, "ui_hud_status_%s_0%d", team, 1+rank );
+	xr_sprintf				(tex_name, "ui\\ui_hud_status_%s_0%d", team, 1+rank );
 			
 	m_static_player_rank->InitTexture(tex_name);
 	m_static_player_rank->TextureOn();

@@ -8,19 +8,19 @@
 
 #include "pch_script.h"
 #include "engine/object_broker.h"
-#include "../string_table.h"
+#include "string_table.h"
 
-#include "UIInvUpgrade.h"
+#include "ui/UIInvUpgrade.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui/UIXmlInit.h"
 
 #include "ai_space.h"
 #include "alife_simulator.h"
 #include "inventory_upgrade_manager.h"
 #include "inventory_upgrade.h"
 
-#include "UIInventoryUpgradeWnd.h"
+#include "ui/UIInventoryUpgradeWnd.h"
 
 UIUpgrade::UIUpgrade( CUIInventoryUpgradeWnd* parent_wnd )
 :m_point(NULL)

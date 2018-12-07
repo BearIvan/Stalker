@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "uizonemap.h"
+#include "ui\uizonemap.h"
 
 #include "InfoPortion.h"
 #include "Pda.h"
@@ -12,10 +12,10 @@
 #include "ai_space.h"
 #include "game_graph.h"
 
-#include "ui/UIMap.h"
-#include "ui/UIXmlInit.h"
-#include "ui/UIHelper.h"
-#include "ui/UIInventoryUtilities.h"
+#include "UIMap.h"
+#include "UIXmlInit.h"
+#include "UIHelper.h"
+#include "UIInventoryUtilities.h"
 //////////////////////////////////////////////////////////////////////////
 
 CUIZoneMap::CUIZoneMap()

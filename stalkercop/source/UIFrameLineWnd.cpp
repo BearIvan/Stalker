@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "UIFrameLineWnd.h"
-#include "UITextureMaster.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiTextureMaster.h"
 
 CUIFrameLineWnd::CUIFrameLineWnd()
 :bHorizontal(true),

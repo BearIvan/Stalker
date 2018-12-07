@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "UITabButton.h"
+#include "ui\uiTabButton.h"
 
 CUITabButton::CUITabButton()
 {}

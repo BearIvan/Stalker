@@ -7,7 +7,7 @@
 #include "gamespy/GameSpy_ATLAS.h"
 #include "gamespy/GameSpy_Patching.h"
 #include "RegistryFuncs.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "player_name_modifyer.h"
 #include "ui/UICDkey.h"
 #include "secure_messaging.h"
@@ -461,7 +461,7 @@ bool login_manager::get_remember_me_from_registry	()
 void login_manager::forgot_password(char const * url)
 {
 	LPCSTR params = NULL;
-	STRCONCAT(params, "/C start ", url);
+	STRCONCAT(params, "C start ", url);
 	ShellExecute(0, "open", "cmd.exe", params, NULL, SW_SHOW);
 }
 

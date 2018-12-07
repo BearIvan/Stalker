@@ -4,7 +4,7 @@
 #include "gameobject.h"
 #include "physicsshellholder.h"
 #include "xrRender/Kinematics.h"
-
+extern void	phys_shell_verify_object_model(CObject& O);
 void CPHShellSimpleCreator::CreatePhysicsShell()
 {
 	CPhysicsShellHolder* owner = smart_cast<CPhysicsShellHolder*>(this); VERIFY(owner);

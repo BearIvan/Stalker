@@ -9,6 +9,7 @@ public class stalkergamespy :Project
 		PCHIncludeFile="stdafx.h";
 		Defines.Private.Add("XRGAMESPY_EXPORTS");
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
+		Include.Public.Add(Path.Combine(ProjectPath,"source"));
 		Include.Private.Add(Path.Combine(ProjectPath,"source","gamespy"));
 		AddSourceFiles(Path.Combine(ProjectPath,"source"),true);
 	}

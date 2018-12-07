@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "UILanimController.h"
+#include "ui\uiLanimController.h"
 #include "engine/LightAnimLibrary.h"
 
 color_animation::color_animation()

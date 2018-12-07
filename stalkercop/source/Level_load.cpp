@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "LevelGameDef.h"
+#include "engine/LevelGameDef.h"
 #include "ai_space.h"
 #include "ParticlesObject.h"
 #include "script_process.h"
@@ -149,7 +149,7 @@ bool CLevel::Load_GameSpecific_After()
 		
 	BlockCheatLoad();
 
-	g_pGamePersistent->Environment().SetGameTime	(GetEnvironmentGameDayTimeSec(),game->GetEnvironmentGameTimeFactor());
+	ENV.SetGameTime	(GetEnvironmentGameDayTimeSec(),game->GetEnvironmentGameTimeFactor());
 
 	return TRUE;
 }

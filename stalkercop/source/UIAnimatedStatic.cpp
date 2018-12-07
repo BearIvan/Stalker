@@ -7,7 +7,7 @@
 //=============================================================================
 
 #include "stdafx.h"
-#include "UIAnimatedStatic.h"
+#include "ui\uiAnimatedStatic.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -98,10 +98,10 @@ void CUIAnimatedStatic::SetAnimPos(float pos){
 //-----------------------------------------------------------------------------------------
 //Static for sleep control-----------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-#include "../Actor_Flags.h"
-#include "../Level.h"
-#include "../date_time.h"
-#include "UITextureMaster.h"
+#include "Actor_Flags.h"
+#include "Level.h"
+#include "date_time.h"
+#include "ui\uiTextureMaster.h"
 CUISleepStatic::CUISleepStatic():m_cur_time(0) 
 {
 };

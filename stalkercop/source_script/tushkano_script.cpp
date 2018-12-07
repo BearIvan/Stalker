@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "tushkano.h"
+#include "ai/monsters/tushkano/tushkano.h"
 
 using namespace luabind;
 

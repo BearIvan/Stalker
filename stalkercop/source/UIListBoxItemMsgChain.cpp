@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "UIListBoxItemMsgChain.h"
-#include "UIScrollView.h"
+#include "ui\uiListBoxItemMsgChain.h"
+#include "ui\uiScrollView.h"
 
 bool CUIListBoxItemMsgChain::OnMouseDown(int mouse_btn)
 {

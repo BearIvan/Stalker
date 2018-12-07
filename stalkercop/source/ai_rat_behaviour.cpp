@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "ai_rat.h"
+#include "ai/monsters/rats/ai_rat.h"
 #include "rat_state_manager.h"
 #include "ai_space.h"
 #include "game_level_cross_table.h"

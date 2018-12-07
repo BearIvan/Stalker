@@ -1,12 +1,12 @@
 #include "StdAfx.h"
-#include "UIOutfitInfo2.h"
+#include "ui\uiOutfitInfo2.h"
 /*
-#include "UIXmlInit.h"
-#include "UIStatic.h"
-#include "UIScrollView.h"
-#include "../actor.h"
-#include "../CustomOutfit.h"
-#include "../string_table.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiStatic.h"
+#include "ui\uiScrollView.h"
+#include "actor.h"
+#include "CustomOutfit.h"
+#include "string_table.h"
 
 CUIOutfitInfo2::CUIOutfitInfo2()
 {
@@ -35,15 +35,15 @@ LPCSTR _imm_names []={
 };
 
 LPCSTR _imm_st_names[]={
-	"ui_inv_outfit_burn_protection",
-	"ui_inv_outfit_shock_protection",
-	"ui_inv_outfit_strike_protection",
-	"ui_inv_outfit_wound_protection",
-	"ui_inv_outfit_radiation_protection",
-	"ui_inv_outfit_telepatic_protection",
-	"ui_inv_outfit_chemical_burn_protection",
-	"ui_inv_outfit_explosion_protection",
-	"ui_inv_outfit_fire_wound_protection",
+	"ui\\ui_inv_outfit_burn_protection",
+	"ui\\ui_inv_outfit_shock_protection",
+	"ui\\ui_inv_outfit_strike_protection",
+	"ui\\ui_inv_outfit_wound_protection",
+	"ui\\ui_inv_outfit_radiation_protection",
+	"ui\\ui_inv_outfit_telepatic_protection",
+	"ui\\ui_inv_outfit_chemical_burn_protection",
+	"ui\\ui_inv_outfit_explosion_protection",
+	"ui\\ui_inv_outfit_fire_wound_protection",
 };
 
 void CUIOutfitInfo2::InitFromXml(CUIXml& xml_doc)

@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "cat.h"
+#include "ai/monsters/cat/cat.h"
 
 using namespace luabind;
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIMessageBox.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIEditBox.h"
-#include "../string_table.h"
+#include "ui\uiMessageBox.h"
+#include "ui\uiXmlInit.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiEditBox.h"
+#include "string_table.h"
 
 CUIMessageBox::CUIMessageBox()
 {
@@ -392,7 +392,7 @@ LPCSTR CUIMessageBox::GetHost()
 			m_ret_val.assign(tmp.begin(), tmp.begin()+pos);
 			tmp.erase(tmp.begin(), tmp.begin()+pos + 1);
 
-			m_ret_val += "/port=";			
+			m_ret_val += "port=";			
 		}
 		m_ret_val += tmp;
 

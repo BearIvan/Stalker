@@ -1,28 +1,28 @@
 #include "stdafx.h"
-#include "UIXmlInit.h"
-#include "../level.h"
-#include "../string_table.h"
-#include "UIFrameWindow.h"
-#include "UICheckButton.h"
-#include "UICustomSpin.h"
-#include "UIRadioButton.h"
-#include "UIProgressBar.h"
-#include "UIProgressShape.h"
-#include "UITabControl.h"
-#include "UILabel.h"
-#include "UIAnimatedStatic.h"
-#include "uixmlinit.h"
-#include "UIListBox.h"
-#include "UIComboBox.h"
-#include "UITrackBar.h"
-#include "UIHint.h"
+#include "ui\uiXmlInit.h"
+#include "level.h"
+#include "string_table.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiCheckButton.h"
+#include "ui\uiCustomSpin.h"
+#include "ui\uiRadioButton.h"
+#include "ui\uiProgressBar.h"
+#include "ui\uiProgressShape.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiLabel.h"
+#include "ui\uiAnimatedStatic.h"
+#include "ui\uixmlinit.h"
+#include "ui\uiListBox.h"
+#include "ui\uiComboBox.h"
+#include "ui\uiTrackBar.h"
+#include "ui\uiHint.h"
 #include "game_base_space.h"
 
-#include "UITextureMaster.h"
-#include "UIDragDropListEx.h"
-#include "UIDragDropReferenceList.h"
-#include "UItabButtonMP.h"
-#include "UILines.h"
+#include "ui\uiTextureMaster.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiDragDropReferenceList.h"
+#include "ui\uitabButtonMP.h"
+#include "ui\uiLines.h"
 
 extern int keyname_to_dik(LPCSTR);
 
@@ -238,7 +238,7 @@ bool CUIXmlInit::InitCheck(CUIXml& xml_doc, LPCSTR path, int index, CUICheckButt
 
 	string256 buf;	
 	strconcat(sizeof(buf),buf, path, ":texture");
-	LPCSTR texture = xml_doc.Read(buf, index, "ui_checker");
+	LPCSTR texture = xml_doc.Read(buf, index, "ui\\ui_checker");
 
 	pWnd->InitCheckButton(pWnd->GetWndPos(),pWnd->GetWndSize(),texture);
 

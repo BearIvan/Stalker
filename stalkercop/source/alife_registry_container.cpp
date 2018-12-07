@@ -10,7 +10,7 @@
 #include "alife_registry_container.h"
 #include "engine/object_interfaces.h"
 #include "alife_space.h"
-#include "object_type_traits.h"
+#include "engine/object_type_traits.h"
 
 template <typename T1, typename _T2, typename Head>
 struct CRegistryHelperLoad {

@@ -30,12 +30,12 @@
 #include "mainmenu.h"
 #include "WeaponKnife.h"
 #include "RegistryFuncs.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "screenshot_server.h"
 #include "tools/ppmd_compressor.h"
 #include "tools/rt_compressor.h"
 #include "game_cl_mp_snd_messages.h"
-#include "../3rd party/crypto/crypto.h"
+#include "crypto/crypto.h"
 
 #include "reward_event_generator.h"
 #include "game_cl_base_weapon_usage_statistic.h"
@@ -1545,7 +1545,7 @@ void game_cl_mp::generate_file_name(
 LPCSTR game_cl_mp::make_file_name(LPCSTR session_id, string_path & dest)
 {
 	xr_strcpy(dest, sizeof(dest), session_id);
-	static const char* denied_symbols = "/\\?%%*:|\"<>.";
+	static const char* denied_symbols = "\\?%%*:|\"<>.";
 	size_t tmp_length = xr_strlen(dest);
 	size_t start_pos = 0;
 	size_t char_pos;

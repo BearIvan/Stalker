@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "uiprogressbar.h"
+#include "ui\uiprogressbar.h"
 
 CUIProgressBar::CUIProgressBar(void)
 {

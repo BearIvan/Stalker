@@ -4,7 +4,7 @@
 #include "level.h"
 #include "UIGameAHunt.h"
 #include "map_manager.h"
-#include "LevelGameDef.h"
+#include "engine/LevelGameDef.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "actor.h"

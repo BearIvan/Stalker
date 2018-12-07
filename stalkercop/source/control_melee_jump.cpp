@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "control_melee_jump.h"
-#include "BaseMonster/base_monster.h"
-#include "control_manager.h"
+#include "ai/monsters/control_melee_jump.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "ai/monsters/control_manager.h"
 
 #define CHECK_YAW					165 * PI / 180
 #define ROTATION_JUMP_DELAY_MIN		500

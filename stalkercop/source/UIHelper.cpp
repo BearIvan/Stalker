@@ -6,17 +6,17 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
-#include "UIHelper.h"
-#include "UIXmlInit.h"
+#include "ui\uiHelper.h"
+#include "ui\uiXmlInit.h"
 
-#include "UIProgressBar.h"
-#include "UIFrameLineWnd.h"
-#include "UIFrameWindow.h"
-#include "UI3tButton.h"
-#include "UICheckButton.h"
-#include "UIHint.h"
-#include "UIDragDropReferenceList.h"
-#include "UIEditBox.h"
+#include "ui\uiProgressBar.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiCheckButton.h"
+#include "ui\uiHint.h"
+#include "ui\uiDragDropReferenceList.h"
+#include "ui\uiEditBox.h"
 
 CUIStatic* UIHelper::CreateStatic( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent )
 {

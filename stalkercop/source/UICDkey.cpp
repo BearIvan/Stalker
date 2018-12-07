@@ -1,13 +1,13 @@
 
 #include "stdafx.h"
-#include "UICDkey.h"
-#include "UILines.h"
+#include "ui\uiCDkey.h"
+#include "ui\uiLines.h"
 #include "engine/line_edit_control.h"
-#include "../MainMenu.h"
+#include "MainMenu.h"
 
 #include "engine/xr_IOConsole.h"
-#include "../RegistryFuncs.h"
-#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "RegistryFuncs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "player_name_modifyer.h"
 
 #include "gamespy/GameSpy_GP.h"

@@ -1,9 +1,9 @@
 #include "StdAfx.h"
-#include "UIMapInfo.h"
-#include "UIScrollView.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
-#include "../string_table.h"
+#include "ui\uiMapInfo.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiStatic.h"
+#include "string_table.h"
 
 CUIMapInfo::CUIMapInfo(){
 	m_view = xr_new<CUIScrollView>();	
@@ -50,7 +50,7 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
 	CStringTable str_tbl;
 
  	CUIXml xml_doc;
-	xml_doc.Load(CONFIG_PATH, UI_PATH, "ui_mapinfo.xml");
+	xml_doc.Load(CONFIG_PATH, UI_PATH, "ui\\ui_mapinfo.xml");
 
 
 	CUITextWnd* st;

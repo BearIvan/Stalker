@@ -1,26 +1,26 @@
 #include "stdafx.h"
 
-#include "UIInventoryUtilities.h"
+#include "ui\uiInventoryUtilities.h"
 
-#include "uicharacterinfo.h"
-#include "../actor.h"
-#include "../level.h"
-#include "../character_info.h"
-#include "../string_table.h"
-#include "../relation_registry.h"
+#include "ui\uicharacterinfo.h"
+#include "actor.h"
+#include "level.h"
+#include "character_info.h"
+#include "string_table.h"
+#include "relation_registry.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui\uiXmlInit.h"
 
-#include "uistatic.h"
-#include "UIScrollView.h"
+#include "ui\uistatic.h"
+#include "ui\uiScrollView.h"
 
 
-#include "../alife_simulator.h"
-#include "../ai_space.h"
-#include "../alife_object_registry.h"
-#include "../xrServer.h"
-#include "../xrServer_Objects_ALife_Monsters.h"
+#include "alife_simulator.h"
+#include "ai_space.h"
+#include "alife_object_registry.h"
+#include "xrServer.h"
+#include "xrServer_Objects_ALife_Monsters.h"
 
 using namespace InventoryUtilities;
 

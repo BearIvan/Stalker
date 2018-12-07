@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "UIStatix.h"
+#include "ui\uiStatix.h"
 
 CUIStatix::CUIStatix(){
 	m_bSelected		= false;
@@ -11,7 +11,7 @@ CUIStatix::~CUIStatix()
 
 void CUIStatix::start_anim()
 {
-	SetColorAnimation	("ui_slow_blinking", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR);
+	SetColorAnimation	("ui\\ui_slow_blinking", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR);
 	ResetColorAnimation	();
 }
 

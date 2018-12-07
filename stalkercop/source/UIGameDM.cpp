@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "UIGameDM.h"
+#include "uiGameDM.h"
 
-#include "ui/UISkinSelector.h"
-#include "ui/UIPdaWnd.h"
-#include "ui/UIMapDesc.h"
-#include "ui/KillMessageStruct.h"
+#include "ui\UISkinSelector.h"
+#include "ui\UIPdaWnd.h"
+#include "ui\UIMapDesc.h"
+#include "ui\KillMessageStruct.h"
 #include "level.h"
 #include "game_cl_base.h"
 #include "Spectator.h"
@@ -13,14 +13,14 @@
 #include "InventoryOwner.h"
 #include "xrserver_objects_alife_items.h"
 #include "xr_level_controller.h"
-#include "ui/xrUIXmlParser.h"
+#include "ui\xrUIXmlParser.h"
 #include "game_cl_Deathmatch.h"
-#include "ui/UIMoneyIndicator.h"
-#include "ui/UIRankIndicator.h"
-#include "ui/UIVoteStatusWnd.h"
-#include "ui/UIActorMenu.h"
-#include "ui/UIHelper.h"
-#include "UITeamPanels.h"
+#include "ui\UIMoneyIndicator.h"
+#include "ui\UIRankIndicator.h"
+#include "ui\UIVoteStatusWnd.h"
+#include "ui\UIActorMenu.h"
+#include "ui\UIHelper.h"
+#include "uiTeamPanels.h"
 #include "engine/object_broker.h"
 
 #define MSGS_OFFS 510
@@ -40,7 +40,7 @@
 #define SZ(x) x*UI_BASE_WIDTH
 
 //--------------------------------------------------------------------
-#define TEAM_PANELS_DM_XML_NAME "ui_team_panels_dm.xml"
+#define TEAM_PANELS_DM_XML_NAME "ui\\ui_team_panels_dm.xml"
 
 //--------------------------------------------------------------------
 CUIGameDM::CUIGameDM()
@@ -86,7 +86,7 @@ void	CUIGameDM::Init(int stage)
 	{ //unique
 		m_pTeamPanels->Init				(TEAM_PANELS_DM_XML_NAME, "team_panels_wnd");
 		CUIXml							uiXml;
-		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
+		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_dm.xml");
 		CUIXmlInit::InitWindow			(uiXml,"global", 0, Window);
 		m_pMoneyIndicator->InitFromXML	(uiXml);
 		m_pRankIndicator->InitFromXml	(uiXml);
@@ -185,7 +185,7 @@ void CUIGameDM::SetVoteMessage					(LPCSTR str)
 		if(!m_voteStatusWnd)
 		{
 			CUIXml							uiXml;
-			uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
+			uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_dm.xml");
 			m_voteStatusWnd					= xr_new<UIVoteStatusWnd>();
 			m_voteStatusWnd->InitFromXML	(uiXml);
 		}

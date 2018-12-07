@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIFrameWindow.h"
-#include "UITextureMaster.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiTextureMaster.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiStatic.h"
 
 void draw_rect(Fvector2 LTp, Fvector2 RBp, Fvector2 LTt, Fvector2 RBt, u32 clr, Fvector2 const& ts);
 

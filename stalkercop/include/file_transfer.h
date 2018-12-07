@@ -2,7 +2,7 @@
 #define FILETRANSFER
 
 #include "engine/associative_vector.h"
-#include "..\engine\StatGraph.h"
+#include "engine/StatGraph.h"
 #include "filetransfer_node.h"
 #include "filereceiver_node.h"
 

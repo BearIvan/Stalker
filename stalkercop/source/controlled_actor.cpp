@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "controlled_actor.h"
-#include "../../actor.h"
+#include "ai/monsters/controlled_actor.h"
+#include "actor.h"
 #include "engine/CameraBase.h"
-#include "../../xr_level_controller.h"
-#include "../../level.h"
-#include "ai_monster_utils.h"
-#include "../../inventory.h"
+#include "xr_level_controller.h"
+#include "level.h"
+#include "ai/monsters/ai_monster_utils.h"
+#include "inventory.h"
 
 #define SPEED_MIN		0.5f 
 #define SPEED_MAX		4.f

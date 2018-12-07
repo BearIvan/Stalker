@@ -1,58 +1,58 @@
 #include "stdafx.h"
 
-#include "UIMainIngameWnd.h"
-#include "UIMessagesWindow.h"
-#include "../UIZoneMap.h"
+#include "ui\uiMainIngameWnd.h"
+#include "ui\uiMessagesWindow.h"
+#include "UIZoneMap.h"
 
 
 #include <dinput.h>
-#include "../actor.h"
-#include "../ActorCondition.h"
-#include "../EntityCondition.h"
-#include "../CustomOutfit.h"
-#include "../ActorHelmet.h"
-#include "../PDA.h"
+#include "actor.h"
+#include "ActorCondition.h"
+#include "EntityCondition.h"
+#include "CustomOutfit.h"
+#include "ActorHelmet.h"
+#include "PDA.h"
 #include "character_info.h"
-#include "../inventory.h"
-#include "../UIGameSP.h"
-#include "../weaponmagazined.h"
-#include "../missile.h"
-#include "../Grenade.h"
+#include "inventory.h"
+#include "UIGameSP.h"
+#include "weaponmagazined.h"
+#include "missile.h"
+#include "Grenade.h"
 #include "xrServer_objects_ALife.h"
-#include "../alife_simulator.h"
-#include "../alife_object_registry.h"
-#include "../game_cl_base.h"
-#include "../level.h"
-#include "../seniority_hierarchy_holder.h"
+#include "alife_simulator.h"
+#include "alife_object_registry.h"
+#include "game_cl_base.h"
+#include "level.h"
+#include "seniority_hierarchy_holder.h"
 
-#include "../date_time.h"
+#include "date_time.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "engine/LightAnimLibrary.h"
 
-#include "UIInventoryUtilities.h"
-#include "UIHelper.h"
-#include "UIMotionIcon.h"
+#include "ui\uiInventoryUtilities.h"
+#include "ui\uiHelper.h"
+#include "ui\uiMotionIcon.h"
 
-#include "UIXmlInit.h"
-#include "UIPdaMsgListItem.h"
-#include "UIPdaWnd.h"
-#include "../alife_registry_wrappers.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiPdaMsgListItem.h"
+#include "ui\uiPdaWnd.h"
+#include "alife_registry_wrappers.h"
 
-#include "../string_table.h"
+#include "string_table.h"
 
 #ifdef DEBUG
-#	include "../attachable_item.h"
+#	include "attachable_item.h"
 #	include "engine/xr_input.h"
 #endif
 
-#include "UIScrollView.h"
-#include "map_hint.h"
-#include "../game_news.h"
+#include "ui\uiScrollView.h"
+#include "ui/map_hint.h"
+#include "game_news.h"
 
 #include "static_cast_checked.hpp"
 #include "game_cl_capture_the_artefact.h"
-#include "UIHudStatesWnd.h"
-#include "UIActorMenu.h"
+#include "ui\uiHudStatesWnd.h"
+#include "ui\uiActorMenu.h"
 
 void test_draw	();
 void test_key	(int dik);
@@ -82,7 +82,7 @@ CUIMainIngameWnd::CUIMainIngameWnd()
 	UIZoneMap					= xr_new<CUIZoneMap>();
 }
 
-#include "UIProgressShape.h"
+#include "ui\uiProgressShape.h"
 extern CUIProgressShape* g_MissileForceShape;
 
 CUIMainIngameWnd::~CUIMainIngameWnd()
@@ -682,18 +682,18 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 		m_ind_bleeding->Show(true);
 		if(bleeding<0.35f)
 		{
-			m_ind_bleeding->InitTexture("ui_inGame2_circle_bloodloose_green");
-			m_ind_bleeding->SetColorAnimation("ui_slow_blinking_alpha", flags);
+			m_ind_bleeding->InitTexture("ui\\ui_inGame2_circle_bloodloose_green");
+			m_ind_bleeding->SetColorAnimation("ui\\ui_slow_blinking_alpha", flags);
 		}
 		else if(bleeding<0.7f)
 		{
-			m_ind_bleeding->InitTexture("ui_inGame2_circle_bloodloose_yellow");
-			m_ind_bleeding->SetColorAnimation("ui_medium_blinking_alpha", flags);
+			m_ind_bleeding->InitTexture("ui\\ui_inGame2_circle_bloodloose_yellow");
+			m_ind_bleeding->SetColorAnimation("ui\\ui_medium_blinking_alpha", flags);
 		}
 		else
 		{
-			m_ind_bleeding->InitTexture("ui_inGame2_circle_bloodloose_red");
-			m_ind_bleeding->SetColorAnimation("ui_fast_blinking_alpha", flags);
+			m_ind_bleeding->InitTexture("ui\\ui_inGame2_circle_bloodloose_red");
+			m_ind_bleeding->SetColorAnimation("ui\\ui_fast_blinking_alpha", flags);
 		}
 	}
 // Radiation icon
@@ -708,18 +708,18 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 		m_ind_radiation->Show(true);
 		if(radiation<0.35f)
 		{
-			m_ind_radiation->InitTexture("ui_inGame2_circle_radiation_green");
-			m_ind_radiation->SetColorAnimation("ui_slow_blinking_alpha", flags);
+			m_ind_radiation->InitTexture("ui\\ui_inGame2_circle_radiation_green");
+			m_ind_radiation->SetColorAnimation("ui\\ui_slow_blinking_alpha", flags);
 		}
 		else if(radiation<0.7f)
 		{
-			m_ind_radiation->InitTexture("ui_inGame2_circle_radiation_yellow");
-			m_ind_radiation->SetColorAnimation("ui_medium_blinking_alpha", flags);
+			m_ind_radiation->InitTexture("ui\\ui_inGame2_circle_radiation_yellow");
+			m_ind_radiation->SetColorAnimation("ui\\ui_medium_blinking_alpha", flags);
 		}
 		else
 		{
-			m_ind_radiation->InitTexture("ui_inGame2_circle_radiation_red");
-			m_ind_radiation->SetColorAnimation("ui_fast_blinking_alpha", flags);
+			m_ind_radiation->InitTexture("ui\\ui_inGame2_circle_radiation_red");
+			m_ind_radiation->SetColorAnimation("ui\\ui_fast_blinking_alpha", flags);
 		}
 	}
 
@@ -733,11 +733,11 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 	{
 		m_ind_starvation->Show(true);
 		if(satiety_koef>0.0f)
-			m_ind_starvation->InitTexture("ui_inGame2_circle_hunger_green");
+			m_ind_starvation->InitTexture("ui\\ui_inGame2_circle_hunger_green");
 		else if(satiety_koef>-0.5f)
-			m_ind_starvation->InitTexture("ui_inGame2_circle_hunger_yellow");
+			m_ind_starvation->InitTexture("ui\\ui_inGame2_circle_hunger_yellow");
 		else
-			m_ind_starvation->InitTexture("ui_inGame2_circle_hunger_red");
+			m_ind_starvation->InitTexture("ui\\ui_inGame2_circle_hunger_red");
 	}
 // Armor broken icon
 	CCustomOutfit* outfit = smart_cast<CCustomOutfit*>(pActor->inventory().ItemFromSlot(OUTFIT_SLOT));
@@ -749,11 +749,11 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 		{
 			m_ind_outfit_broken->Show(true);
 			if(condition>0.5f)
-				m_ind_outfit_broken->InitTexture("ui_inGame2_circle_Armorbroken_green");
+				m_ind_outfit_broken->InitTexture("ui\\ui_inGame2_circle_Armorbroken_green");
 			else if(condition>0.25f)
-				m_ind_outfit_broken->InitTexture("ui_inGame2_circle_Armorbroken_yellow");
+				m_ind_outfit_broken->InitTexture("ui\\ui_inGame2_circle_Armorbroken_yellow");
 			else
-				m_ind_outfit_broken->InitTexture("ui_inGame2_circle_Armorbroken_red");
+				m_ind_outfit_broken->InitTexture("ui\\ui_inGame2_circle_Armorbroken_red");
 		}
 	}
 // Helmet broken icon
@@ -766,11 +766,11 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 		{
 			m_ind_helmet_broken->Show(true);
 			if(condition>0.5f)
-				m_ind_helmet_broken->InitTexture("ui_inGame2_circle_Helmetbroken_green");
+				m_ind_helmet_broken->InitTexture("ui\\ui_inGame2_circle_Helmetbroken_green");
 			else if(condition>0.25f)
-				m_ind_helmet_broken->InitTexture("ui_inGame2_circle_Helmetbroken_yellow");
+				m_ind_helmet_broken->InitTexture("ui\\ui_inGame2_circle_Helmetbroken_yellow");
 			else
-				m_ind_helmet_broken->InitTexture("ui_inGame2_circle_Helmetbroken_red");
+				m_ind_helmet_broken->InitTexture("ui\\ui_inGame2_circle_Helmetbroken_red");
 		}
 	}
 // Weapon broken icon
@@ -788,11 +788,11 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 			{
 				m_ind_weapon_broken->Show(true);
 				if(condition>(start_misf_cond+end_misf_cond)/2)
-					m_ind_weapon_broken->InitTexture("ui_inGame2_circle_Gunbroken_green");
+					m_ind_weapon_broken->InitTexture("ui\\ui_inGame2_circle_Gunbroken_green");
 				else if(condition>end_misf_cond)
-					m_ind_weapon_broken->InitTexture("ui_inGame2_circle_Gunbroken_yellow");
+					m_ind_weapon_broken->InitTexture("ui\\ui_inGame2_circle_Gunbroken_yellow");
 				else
-					m_ind_weapon_broken->InitTexture("ui_inGame2_circle_Gunbroken_red");
+					m_ind_weapon_broken->InitTexture("ui\\ui_inGame2_circle_Gunbroken_red");
 			}
 		}
 	}
@@ -804,11 +804,11 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 	{
 		m_ind_overweight->Show(true);
 		if(cur_weight>max_weight)
-			m_ind_overweight->InitTexture("ui_inGame2_circle_Overweight_red");
+			m_ind_overweight->InitTexture("ui\\ui_inGame2_circle_Overweight_red");
 		//else if(cur_weight>max_weight-10.0f)
-		//	m_ind_overweight->InitTexture("ui_inGame2_circle_Overweight_yellow");
+		//	m_ind_overweight->InitTexture("ui\\ui_inGame2_circle_Overweight_yellow");
 		else
-			m_ind_overweight->InitTexture("ui_inGame2_circle_Overweight_yellow");
+			m_ind_overweight->InitTexture("ui\\ui_inGame2_circle_Overweight_yellow");
 	}
 }
 
@@ -971,7 +971,7 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
 	m_ind_boost_power->Show(false);
 	m_ind_boost_rad->Show(false);
 
-	LPCSTR str_flag	= "ui_slow_blinking_alpha";
+	LPCSTR str_flag	= "ui\\ui_slow_blinking_alpha";
 	u8 flags = 0;
 	flags |= LA_CYCLIC;
 	flags |= LA_ONLYALPHA;

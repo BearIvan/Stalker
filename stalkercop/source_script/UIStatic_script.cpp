@@ -1,6 +1,6 @@
 #include "pch_script.h"
-#include "UIStatic.h"
-#include "UIAnimatedStatic.h"
+#include "ui/UIStatic.h"
+#include "ui/UIAnimatedStatic.h"
 
 using namespace luabind;
 

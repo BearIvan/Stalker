@@ -28,7 +28,7 @@ void	game_sv_Single::Create			(shared_str& options)
 	inherited::Create					(options);
 
 #ifndef NO_SINGLE
-	if (strstr(*options,"/alife"))
+	if (strstr(*options,"alife"))
 		m_alife_simulator				= xr_new<CALifeSimulator>(&server(),&options);
 #endif //#ifndef NO_SINGLE
 

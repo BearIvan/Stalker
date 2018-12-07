@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 #include "game_base_space.h"
-#include "../Spectator.h"
-#include "GameSpy_Browser.h"
-#include "GameSpy_Base_Defs.h"
-#include "../ui/ServerList.h"
-#include "../MainMenu.h"
+#include "Spectator.h"
+#include "gamespy/GameSpy_Browser.h"
+#include "gamespy/GameSpy_Base_Defs.h"
+#include "ui/ServerList.h"
+#include "MainMenu.h"
 
-#include "GameSpy_Available.h"
-#include "GameSpy_QR2.h"
+#include "gamespy/GameSpy_Available.h"
+#include "gamespy/GameSpy_QR2.h"
 
 #include "engine/object_broker.h"
-#include "../string_table.h"
+#include "string_table.h"
 
 void __cdecl SBCallback(ServerBrowser sb, SBCallbackReason reason, SBServer server, void *instance);
 EGameIDs ParseStringToGameType(LPCSTR str);

@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "chimera.h"
+#include "ai/monsters/chimera/chimera.h"
 
 using namespace luabind;
 

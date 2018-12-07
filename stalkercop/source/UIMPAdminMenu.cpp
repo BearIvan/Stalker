@@ -1,15 +1,15 @@
 #include "stdafx.h"
-#include "UIMPAdminMenu.h"
-#include "UIMPPlayersAdm.h"
-#include "UIMPServerAdm.h"
-#include "UIMPChangeMapAdm.h"
-#include "UIXmlInit.h"
+#include "ui\uiMPAdminMenu.h"
+#include "ui\uiMPPlayersAdm.h"
+#include "ui\uiMPServerAdm.h"
+#include "ui\uiMPChangeMapAdm.h"
+#include "ui\uiXmlInit.h"
 #include "engine/object_broker.h"
-#include "UITabControl.h"
-#include "UIStatic.h"
-#include "UI3tButton.h"
-#include "UIMessageBox.h"
-#include "UIMessageBoxEx.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiStatic.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiMessageBox.h"
+#include "ui\uiMessageBoxEx.h"
 #include "engine/xr_ioconsole.h"
 #include <dinput.h>
 
@@ -60,7 +60,7 @@ void CUIMpAdminMenu::Init()
 	if (!xml_doc)
 		xml_doc = xr_new<CUIXml>();
 
-	xml_doc->Load(CONFIG_PATH, UI_PATH, "ui_mp_admin_menu.xml");
+	xml_doc->Load(CONFIG_PATH, UI_PATH, "ui\\ui_mp_admin_menu.xml");
 
 	CUIXmlInit::InitWindow(*xml_doc, "admin_menu", 0, this);
 	CUIXmlInit::InitStatic(*xml_doc, "admin_menu:background", 0, m_pBack);

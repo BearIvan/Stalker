@@ -7,10 +7,10 @@
 
 #include "stdafx.h"
 /*
-#include "UIWarState.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
+#include "ui\uiWarState.h"
+#include "ui\uiStatic.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHelper.h"
 
 UIWarState::UIWarState()
 {

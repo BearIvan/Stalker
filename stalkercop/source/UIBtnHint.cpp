@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIBtnHint.h"
-#include "UIFrameWindow.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
+#include "ui\uiBtnHint.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiStatic.h"
+#include "ui\uiXmlInit.h"
 
 CUIButtonHint*		g_btnHint = NULL; 
 CUIButtonHint*		g_statHint = NULL;

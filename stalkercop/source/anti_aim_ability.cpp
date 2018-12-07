@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "anti_aim_ability.h"
-#include "basemonster/base_monster.h"
-#include "../../Actor.h"
-#include "../../ActorEffector.h"
-#include "../../tools/_vector3d_ext.h"
-#include "control_animation_base.h"
-#include "../../Inventory.h"
-#include "../../Weapon.h"
+#include "ai/monsters/anti_aim_ability.h"
+#include "ai/monsters/basemonster/base_monster.h"
+#include "Actor.h"
+#include "ActorEffector.h"
+#include "tools/_vector3d_ext.h"
+#include "ai/monsters/control_animation_base.h"
+#include "Inventory.h"
+#include "Weapon.h"
 
 namespace detail
 {
@@ -256,8 +256,8 @@ float   anti_aim_ability::calculate_angle () const
 	return _max							(0.f, deviation - max_deviation);
 }
 
-#include "../../level_debug.h"
-#include "../../debug_text_tree.h"
+#include "level_debug.h"
+#include "debug_text_tree.h"
 
 extern CActor* g_actor;
 

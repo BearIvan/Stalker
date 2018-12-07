@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIFixedScrollbar.h"
-#include "UI3tButton.h"
-#include "UIFrameLineWnd.h"
-#include "UIScrollBox.h"
-#include "UIXmlInit.h"
+#include "ui\uiFixedScrollbar.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiScrollBox.h"
+#include "ui\uiXmlInit.h"
 
 CUIFixedScrollBar::CUIFixedScrollBar()
 {
@@ -132,7 +132,7 @@ void CUIFixedScrollBar::ClampByViewRect()
 									m_IncButton->GetWndPos().y - m_ScrollBox->GetHeight()-m_ScrollBoxOffset.y));
 	}
 }
-#include "../uicursor.h"
+#include "uicursor.h"
 u32 last_hold_tm =0;
 bool CUIFixedScrollBar::OnKeyboardHold(int dik)
 {

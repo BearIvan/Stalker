@@ -10,8 +10,9 @@
 #endif
 
 #include <ddraw.h>
-#include "ximage.h"
-#include "xmemfile.h"
+#pragma FIXME("днаюбхрэ SCREENSHOT!!!")
+//#include "ximage.h"
+//#include "xmemfile.h"
 
 #pragma comment(lib,"cximage.lib")
 #pragma comment(lib,"libjpeg.lib")
@@ -127,7 +128,7 @@ void screenshot_manager::make_jpeg_file()
 	u32		height = *(++sizes);
 	u8* rgb24data = reinterpret_cast<u8*>(m_result_writer.pointer() + 2*sizeof(u32) );
 	
-	CxImage jpg_image;
+	/*CxImage jpg_image;
 	
 	jpg_image.CreateFromArray(
 		rgb24data,
@@ -148,7 +149,7 @@ void screenshot_manager::make_jpeg_file()
 
 #ifdef DEBUG
 	Msg("* JPEG encoded to %d bytes", m_jpeg_buffer_size);
-#endif
+#endif*/
 }
 
 void screenshot_manager::sign_jpeg_file()

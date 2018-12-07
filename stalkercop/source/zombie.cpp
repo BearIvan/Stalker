@@ -2,7 +2,7 @@
 #include "zombie.h"
 #include "zombie_state_manager.h"
 #include "../../../profiler.h"
-#include "../../../xrRender/KinematicsAnimated.h"
+#include "..//KinematicsAnimated.h"
 #include "../../../entitycondition.h"
 #include "../monster_velocity_space.h"
 

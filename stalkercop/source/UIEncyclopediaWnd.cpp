@@ -7,18 +7,18 @@
 //=============================================================================
 
 #include "StdAfx.h"
-#include "UIEncyclopediaWnd.h"
-/*#include "UIXmlInit.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIAnimatedStatic.h"
-#include "UIListWnd.h"
-#include "UIScrollView.h"
-#include "UITreeViewItem.h"
-#include "UIEncyclopediaArticleWnd.h"
-#include "../encyclopedia_article.h"
-#include "../alife_registry_wrappers.h"
-#include "../actor.h"
+#include "ui\uiEncyclopediaWnd.h"
+/*#include "ui\uiXmlInit.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiAnimatedStatic.h"
+#include "ui\uiListWnd.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiTreeViewItem.h"
+#include "ui\uiEncyclopediaArticleWnd.h"
+#include "encyclopedia_article.h"
+#include "alife_registry_wrappers.h"
+#include "actor.h"
 #include "engine/object_broker.h"
 
 #define				ENCYCLOPEDIA_DIALOG_XML		"encyclopedia.xml"
@@ -91,7 +91,7 @@ void CUIEncyclopediaWnd::Init()
 	xml_init.InitAutoStatic(uiXml, "right_auto_static", UIEncyclopediaIdxBkg);
 }
 
-#include "../string_table.h"
+#include "string_table.h"
 void CUIEncyclopediaWnd::SendMessage(CUIWindow *pWnd, s16 msg, void* pData)
 {
 	if (UIIdxList == pWnd && LIST_ITEM_CLICKED == msg)
@@ -104,7 +104,7 @@ void CUIEncyclopediaWnd::SendMessage(CUIWindow *pWnd, s16 msg, void* pData)
 			CEncyclopediaArticle* A = m_ArticlesDB[pTVItem->vSubItems[0]->GetValue()];
 
 			xr_string caption		= "# ";
-			caption					+= "/";
+			caption					+= "";
 			caption					+= CStringTable().translate(A->data()->group).c_str();
 
 #pragma todo("implement this")
@@ -118,9 +118,9 @@ void CUIEncyclopediaWnd::SendMessage(CUIWindow *pWnd, s16 msg, void* pData)
 
 #pragma todo("implement this")
 /*			xr_string caption		= "# ";
-			caption					+= "/";
+			caption					+= "";
 			caption					+= CStringTable().translate(A->data()->group).c_str();
-			caption					+= "/";
+			caption					+= "";
 			caption					+= CStringTable().translate(A->data()->name).c_str();
 			UIEncyclopediaInfoHeader->UITitleText.SetText(caption.c_str());
 *

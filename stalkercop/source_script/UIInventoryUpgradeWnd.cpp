@@ -8,15 +8,15 @@
 
 #include "pch_script.h"
 #include "engine/object_broker.h"
-#include "UIInventoryUpgradeWnd.h"
+#include "ui/UIInventoryUpgradeWnd.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "../string_table.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui/UIXmlInit.h"
+#include "string_table.h"
 
-#include "../actor.h"
-#include "../script_process.h"
-#include "../inventory.h"
+#include "actor.h"
+#include "script_process.h"
+#include "inventory.h"
 
 #include "ai_space.h"
 #include "alife_simulator.h"
@@ -24,17 +24,17 @@
 #include "inventory_upgrade.h"
 #include "inventory_upgrade_property.h"
 
-#include "UIInventoryUtilities.h"
-#include "UIActorMenu.h"
-#include "UIItemInfo.h"
-#include "UIFrameLineWnd.h"
-#include "UI3tButton.h"
-#include "UIHelper.h"
-#include "../ui_defs.h"
-#include "../Weapon.h"
-#include "../WeaponRPG7.h"
-#include "../CustomOutfit.h"
-#include "../ActorHelmet.h"
+#include "ui/UIInventoryUtilities.h"
+#include "ui/UIActorMenu.h"
+#include "ui/UIItemInfo.h"
+#include "ui/UIFrameLineWnd.h"
+#include "ui/UI3tButton.h"
+#include "ui/UIHelper.h"
+#include "ui_defs.h"
+#include "Weapon.h"
+#include "WeaponRPG7.h"
+#include "CustomOutfit.h"
+#include "ActorHelmet.h"
 
 // -----
 
@@ -54,9 +54,9 @@ CUIInventoryUpgradeWnd::Scheme::~Scheme()
 CUIInventoryUpgradeWnd::CUIInventoryUpgradeWnd()
 {
 	//m_WeaponIconsShader = xr_new<ui_shader>();
-	//(*m_WeaponIconsShader)->create("hud\\default", "ui\\ui_actor_weapons");
+	//(*m_WeaponIconsShader)->create("hud\\default", "ui/UI\\ui_actor_weapons");
 	//m_OutfitIconsShader = xr_new<ui_shader>();
-	//(*m_OutfitIconsShader)->create("hud\\default", "ui\\ui_actor_armor");
+	//(*m_OutfitIconsShader)->create("hud\\default", "ui/UI\\ui_actor_armor");
 	m_inv_item       = NULL;
 	m_cur_upgrade_id = NULL;
 	m_current_scheme = NULL;

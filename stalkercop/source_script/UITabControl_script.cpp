@@ -1,6 +1,6 @@
 #include "pch_script.h"
-#include "UITabControl.h"
-#include "UITabButton.h"
+#include "ui/UITabControl.h"
+#include "ui/UITabButton.h"
 
 using namespace luabind;
 

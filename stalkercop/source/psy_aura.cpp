@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "psy_aura.h"
-#include "BaseMonster/base_monster.h"
+#include "ai/monsters/psy_aura.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
 
 CPsyAura::CPsyAura()
 {

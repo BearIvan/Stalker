@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UICellCustomItems.h"
-#include "UIInventoryUtilities.h"
-#include "../Weapon.h"
-#include "UIDragDropListEx.h"
-#include "UIProgressBar.h"
+#include "ui\uiCellCustomItems.h"
+#include "ui\uiInventoryUtilities.h"
+#include "Weapon.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiProgressBar.h"
 
 #define INV_GRID_WIDTHF			50.0f
 #define INV_GRID_HEIGHTF		50.0f
@@ -193,7 +193,7 @@ CUIWeaponCellItem::CUIWeaponCellItem(CWeapon* itm)
 		m_addon_offset[eLauncher].set(object()->GetGrenadeLauncherX(), object()->GetGrenadeLauncherY());
 }
 
-#include "object_broker.h"
+#include "engine/object_broker.h"
 CUIWeaponCellItem::~CUIWeaponCellItem()
 {
 }

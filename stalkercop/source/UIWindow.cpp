@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UIWindow.h"
-#include "../UICursor.h"
-#include "../MainMenu.h"
+#include "ui\uiWindow.h"
+#include "UICursor.h"
+#include "MainMenu.h"
 
 #include "xrRender/DebugRender.h"
 #include "xrRender/UIRender.h"

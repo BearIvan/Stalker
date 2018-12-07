@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "UIPdaKillMessage.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiPdaKillMessage.h"
+#include "ui\uiInventoryUtilities.h"
 #include "xrRender/UIShader.h"
 
 const int INDENT = 3;
@@ -30,7 +30,7 @@ void CUIPdaKillMessage::Init(KillMessageStruct& msg, CGameFont* F)
 	sz.x			= _max(sz.x, x+m_ext_info.GetWidth());
 	SetWndSize		(sz);
 	
-	SetColorAnimation			("ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR, 5000.0f);
+	SetColorAnimation			("ui\\ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR, 5000.0f);
 }
 
 float CUIPdaKillMessage::InitText(CUITextWnd& refStatic, float x, PlayerInfo& info)

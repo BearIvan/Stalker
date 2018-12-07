@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "UIStaticItem.h"
+#include "ui\uiStaticItem.h"
 #include "ui_base.h"
 
 

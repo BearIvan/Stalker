@@ -12,8 +12,8 @@
 #include "UI/UIPropertiesBox.h"
 #include "UI/UITabControl.h"
 #include "UI/UIComboBox.h"
-#include "ui/UIOptionsManagerScript.h"
-#include "ui/UIMapInfo.h"
+#include "UI/UIOptionsManagerScript.h"
+#include "UI/UIMapInfo.h"
 #include "ScriptXmlInit.h"
 
 #include "login_manager.h"

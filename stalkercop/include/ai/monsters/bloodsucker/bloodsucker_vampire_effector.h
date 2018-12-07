@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../engine/effectorPP.h"
+#include "engine/effectorPP.h"
 #include "../../../CameraEffector.h"
-#include "../engine/cameramanager.h"
+#include "engine/cameramanager.h"
 
 class CVampirePPEffector : public CEffectorPP {
 	typedef CEffectorPP inherited;	

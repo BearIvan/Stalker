@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "UIEditKeyBind.h"
-#include "../xr_level_controller.h"
+#include "ui\uiEditKeyBind.h"
+#include "xr_level_controller.h"
 #include "engine/object_broker.h"
 #include "engine/xr_ioconsole.h"
 
@@ -61,7 +61,7 @@ void CUIEditKeyBind::InitKeyBind(Fvector2 pos, Fvector2 size)
 {
 	CUIStatic::SetWndPos	(pos);
 	CUIStatic::SetWndSize	(size);
-	InitTexture				("ui_listline2");
+	InitTexture				("ui\\ui_listline2");
 	TextItemControl()->SetFont	(UI().Font().pFontLetterica16Russian);
 	SetStretchTexture		(true);
 	SetEditMode				(false);
@@ -138,7 +138,7 @@ void CUIEditKeyBind::SetEditMode(bool b)
 
 	if(b)
 	{
-		SetColorAnimation	("ui_map_area_anim", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR);
+		SetColorAnimation	("ui\\ui_map_area_anim", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR);
 		TextureOn			();
 	}else
 	{

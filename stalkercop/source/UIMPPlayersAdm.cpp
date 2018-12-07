@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "UIMPPlayersAdm.h"
-#include "UIXmlInit.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "UIStatic.h"
-#include "UI3tButton.h"
-#include "UITrackBar.h"
-#include "UIComboBox.h"
-#include "../Level.h"
-#include "../xrServer.h"
-#include "../game_cl_base.h"
-#include "../game_cl_mp.h"
+#include "ui\uiMPPlayersAdm.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiListBox.h"
+#include "ui\uiListBoxItem.h"
+#include "ui\uiStatic.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiTrackBar.h"
+#include "ui\uiComboBox.h"
+#include "Level.h"
+#include "xrServer.h"
+#include "game_cl_base.h"
+#include "game_cl_mp.h"
 #include "engine/xr_ioconsole.h"
-#include "../string_table.h"
+#include "string_table.h"
 
 extern int g_sv_adm_menu_ping_limit;
 xr_token g_ban_times[] = {
-	{ "ui_mp_am_10_minutes",	600},
-	{ "ui_mp_am_30_minutes",	1800},
-	{ "ui_mp_am_1_hour",		3600},
-	{ "ui_mp_am_6_hours",	21600},
-	{ "ui_mp_am_1_day",		86400},
-	{ "ui_mp_am_1_week",		604800},
-	{ "ui_mp_am_1_month",	2592000},
-	{ "ui_mp_am_3_monthes",	7776000},
-	{ "ui_mp_am_forever",	999999999},
+	{ "ui\\ui_mp_am_10_minutes",	600},
+	{ "ui\\ui_mp_am_30_minutes",	1800},
+	{ "ui\\ui_mp_am_1_hour",		3600},
+	{ "ui\\ui_mp_am_6_hours",	21600},
+	{ "ui\\ui_mp_am_1_day",		86400},
+	{ "ui\\ui_mp_am_1_week",		604800},
+	{ "ui\\ui_mp_am_1_month",	2592000},
+	{ "ui\\ui_mp_am_3_monthes",	7776000},
+	{ "ui\\ui_mp_am_forever",	999999999},
 	{ 0,			0}
 };
 
@@ -191,7 +191,7 @@ void CUIMpPlayersAdm::SetMaxPingLimitText()
 {
 	int ping_limit = m_pPingLimitTrack->GetIValue();
 	string512 tmp_string;
-	xr_sprintf(tmp_string, "%s %d", CStringTable().translate("ui_mp_am_ping_limit").c_str(), ping_limit*10);
+	xr_sprintf(tmp_string, "%s %d", CStringTable().translate("ui\\ui_mp_am_ping_limit").c_str(), ping_limit*10);
 	m_pPingLimitText->SetText(tmp_string);
 }
 void CUIMpPlayersAdm::GetSelPlayerScreenshot()

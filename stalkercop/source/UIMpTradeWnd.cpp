@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
+#include "ui\uiMpTradeWnd.h"
 
-#include "UIMpItemsStoreWnd.h"
-#include "UITabButtonMP.h"
-#include "UITabControl.h"
-#include "UIDragDropListEx.h"
-#include "UICellItem.h"
+#include "ui\uiMpItemsStoreWnd.h"
+#include "ui\uiTabButtonMP.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiCellItem.h"
 
-#include "../UIDialogHolder.h"
-#include "../game_cl_deathmatch.h"
+#include "UIDialogHolder.h"
+#include "game_cl_deathmatch.h"
 
 
 void CUIMpTradeWnd::OnBtnOkClicked(CUIWindow* w, void* d)
@@ -216,7 +216,7 @@ void CUIMpTradeWnd::FillUpSubLevelItems()
 	}
 }
 
-#include "../actor.h"
+#include "actor.h"
 void CUIMpTradeWnd::Show(bool status)
 {
 	inherited::Show				(status);

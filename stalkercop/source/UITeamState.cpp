@@ -1,14 +1,14 @@
 #include "StdAfx.h"
 
-#include "UITeamState.h"
-#include "UITeamPanels.h"
+#include "ui\uiTeamState.h"
+#include "ui\uiTeamPanels.h"
 
-#include "UIPlayerItem.h"
-#include "UITeamHeader.h"
+#include "ui\uiPlayerItem.h"
+#include "ui\uiTeamHeader.h"
 
-#include "ui/UIFrameWindow.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIStatic.h"
+#include "UIFrameWindow.h"
+#include "UIScrollView.h"
+#include "UIStatic.h"
 
 #include "game_cl_mp.h"
 

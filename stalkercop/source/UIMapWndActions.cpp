@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIMapWndActions.h"
-#include "UIMapWndActionsSpace.h"
-#include "UIMap.h"
-#include "UIMapWnd.h"
+#include "ui\uiMapWndActions.h"
+#include "ui\uiMapWndActionsSpace.h"
+#include "ui\uiMap.h"
+#include "ui\uiMapWnd.h"
 
 typedef CActionBase<CUIMapWnd>				WORLD_OPERATOR;
 static const float	map_resize_speed		= 350.f;	// y.e./sec

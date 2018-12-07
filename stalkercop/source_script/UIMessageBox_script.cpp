@@ -1,6 +1,6 @@
 #include "pch_script.h"
-#include "UIMessageBox.h"
-#include "UIMessageBoxEx.h"
+#include "ui/UIMessageBox.h"
+#include "ui/UIMessageBoxEx.h"
 
 using namespace luabind;
 

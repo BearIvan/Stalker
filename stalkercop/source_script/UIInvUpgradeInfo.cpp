@@ -7,15 +7,15 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "UIInvUpgradeInfo.h"
-#include "../string_table.h"
-#include "../Actor.h"
+#include "ui/UIInvUpgradeInfo.h"
+#include "string_table.h"
+#include "Actor.h"
 
-#include "UIStatic.h"
-#include "UIXmlInit.h"
-#include "UIFrameWindow.h"
+#include "ui/UIStatic.h"
+#include "ui/UIXmlInit.h"
+#include "ui/UIFrameWindow.h"
 
-#include "UIInvUpgradeProperty.h"
+#include "ui/UIInvUpgradeProperty.h"
 
 #include "inventory_upgrade.h"
 #include "inventory_upgrade_property.h"

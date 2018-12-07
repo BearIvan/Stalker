@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "UIPropertiesBox.h"
+#include "ui/UIPropertiesBox.h"
 
 using namespace luabind;
 

@@ -1,17 +1,17 @@
 #include "pch_script.h"
 #include "UIGameCustom.h"
 #include "level.h"
-#include "ui/UIXmlInit.h"
-#include "ui/UIStatic.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
 #include "engine/object_broker.h"
 #include "string_table.h"
 
 #include "InventoryOwner.h"
-#include "ui/UIActorMenu.h"
-#include "ui/UIPdaWnd.h"
-#include "ui/UIMainIngameWnd.h"
-#include "ui/UIMessagesWindow.h"
-#include "ui/UIHudStatesWnd.h"
+#include "UI/UIActorMenu.h"
+#include "UI/UIPdaWnd.h"
+#include "UI/UIMainIngameWnd.h"
+#include "UI/UIMessagesWindow.h"
+#include "UI/UIHudStatesWnd.h"
 #include "actor.h"
 #include "inventory.h"
 #include "game_cl_base.h"
@@ -149,7 +149,7 @@ void CUIGameCustom::OnInventoryAction(PIItem item, u16 actionType)
         ActorMenu->OnInventoryAction(item, actionType);
 }
 
-#include "ui/UIGameTutorial.h"
+#include "UI/UIGameTutorial.h"
 // XXX nitrocaster: move to appropriate header
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
@@ -224,7 +224,7 @@ void CUIGameCustom::Load()
         return;
     R_ASSERT(!MsgConfig);
     MsgConfig = xr_new<CUIXml>();
-    MsgConfig->Load(CONFIG_PATH, UI_PATH, "ui_custom_msgs.xml");
+    MsgConfig->Load(CONFIG_PATH, UI_PATH, "UI_custom_msgs.xml");
     R_ASSERT(!ActorMenu);
     ActorMenu = xr_new<CUIActorMenu>();
     R_ASSERT(!PdaMenu);

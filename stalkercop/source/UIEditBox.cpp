@@ -4,8 +4,8 @@
 
 #include "stdafx.h"
 #include <dinput.h>
-#include "uieditbox.h"
-#include "UIFrameLineWnd.h"
+#include "ui\uieditbox.h"
+#include "ui\uiFrameLineWnd.h"
 
 
 CUIEditBox::CUIEditBox()

@@ -1,31 +1,31 @@
 #include "stdafx.h"
-#include "UIPdaWnd.h"
-#include "../Pda.h"
+#include "ui\uiPdaWnd.h"
+#include "Pda.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIInventoryUtilities.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiInventoryUtilities.h"
 
-#include "../level.h"
-#include "UIGameCustom.h"
+#include "level.h"
+#include "uiGameCustom.h"
 
-#include "UIStatic.h"
-#include "UIFrameWindow.h"
-#include "UITabControl.h"
-#include "UIMapWnd.h"
-#include "UIFrameLineWnd.h"
+#include "ui\uiStatic.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiMapWnd.h"
+#include "ui\uiFrameLineWnd.h"
 #include "engine/object_broker.h"
-#include "UIMessagesWindow.h"
-#include "UIMainIngameWnd.h"
-#include "UITabButton.h"
-#include "UIAnimatedStatic.h"
+#include "ui\uiMessagesWindow.h"
+#include "ui\uiMainIngameWnd.h"
+#include "ui\uiTabButton.h"
+#include "ui\uiAnimatedStatic.h"
 
-#include "UIHelper.h"
-#include "UIHint.h"
-#include "UIBtnHint.h"
-#include "UITaskWnd.h"
-#include "UIRankingWnd.h"
-#include "UILogsWnd.h"
+#include "ui\uiHelper.h"
+#include "ui\uiHint.h"
+#include "ui\uiBtnHint.h"
+#include "ui\uiTaskWnd.h"
+#include "ui\uiRankingWnd.h"
+#include "ui\uiLogsWnd.h"
 
 #define PDA_XML		"pda.xml"
 
@@ -141,7 +141,7 @@ void CUIPdaWnd::Show(bool status)
 	inherited::Show						(status);
 	if(status)
 	{
-		InventoryUtilities::SendInfoToActor	("ui_pda");
+		InventoryUtilities::SendInfoToActor	("ui\\ui_pda");
 		
 		if ( !m_pActiveDialog )
 		{
@@ -150,7 +150,7 @@ void CUIPdaWnd::Show(bool status)
 		m_pActiveDialog->Show				(true);
 	}else
 	{
-		InventoryUtilities::SendInfoToActor	("ui_pda_hide");
+		InventoryUtilities::SendInfoToActor	("ui\\ui_pda_hide");
 		CurrentGameUI()->UIMainIngameWnd->SetFlashIconState_(CUIMainIngameWnd::efiPdaTask, false);
 		m_pActiveDialog->Show				(false);
 		g_btnHint->Discard					();

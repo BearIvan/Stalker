@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "flesh.h"
+#include "ai\monsters\flesh\flesh.h"
 
 using namespace luabind;
 

@@ -1,16 +1,16 @@
 #include "pch_script.h"
-#include "UIGameTutorial.h"
-#include "UIWindow.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
+#include "ui/UIGameTutorial.h"
+#include "ui/UIWindow.h"
+#include "ui/UIStatic.h"
+#include "ui/UIXmlInit.h"
 #include "engine/object_broker.h"
 #include "engine/xr_input.h"
-#include "../xr_level_controller.h"
+#include "xr_level_controller.h"
 
 #include "xrRender/UISequenceVideoItem.h"
 #include "xrRender/UIShader.h"
 #include "xrRender/UIRender.h"
-#include "uicursor.h"
+#include "UIcursor.h"
 
 extern ENGINE_API BOOL bShowPauseString;
 

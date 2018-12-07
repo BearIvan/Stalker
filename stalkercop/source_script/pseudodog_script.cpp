@@ -1,6 +1,6 @@
 #include "pch_script.h"
-#include "pseudodog.h"
-#include "psy_dog.h"
+#include "ai/monsters/pseudodog/pseudodog.h"
+#include "ai/monsters/pseudodog/psy_dog.h"
 
 using namespace luabind;
 

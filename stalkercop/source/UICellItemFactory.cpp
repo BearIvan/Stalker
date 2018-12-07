@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "UICellItemFactory.h"
-#include "UICellCustomItems.h"
+#include "ui\uiCellItemFactory.h"
+#include "ui\uiCellCustomItems.h"
 
 
 

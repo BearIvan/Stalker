@@ -1,14 +1,14 @@
 #include "pch_script.h"
-#include "UIWindow.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIDialogWnd.h"
+#include "ui/UIWindow.h"
+#include "ui/UIFrameWindow.h"
+#include "ui/UIFrameLineWnd.h"
+#include "ui/UIDialogWnd.h"
 #include "UIDialogHolder.h"
-#include "../GamePersistent.h"
-#include "UILabel.h"
-#include "UIMMShniaga.h"
-#include "UITextureMaster.h"
-#include "UIScrollView.h"
+#include "GamePersistent.h"
+#include "ui/UILabel.h"
+#include "ui/UIMMShniaga.h"
+#include "ui/UITextureMaster.h"
+#include "ui/UIScrollView.h"
 
 CFontManager& mngr(){
 	return UI().Font();
@@ -135,7 +135,7 @@ void CUIWindow::script_register(lua_State *L)
 		.def("GetCurrentScrollPos",		&CUIScrollView::GetCurrentScrollPos)
 		.def("SetScrollPos",			&CUIScrollView::SetScrollPos),
 
-		class_<enum_exporter<EUIMessages> >("ui_events")
+		class_<enum_exporter<EUIMessages> >("ui/UI_events")
 			.enum_("events")
 			[
 	// CUIWindow

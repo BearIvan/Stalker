@@ -11,7 +11,7 @@
 #include "script_export_space.h"
 #include "base_client_classes.h"
 #include "engine/engineapi.h"
-#include "../xrcdb/ispatial.h"
+#include "cdb/ispatial.h"
 #include "engine/isheduled.h"
 #include "engine/irenderable.h"
 #include "engine/icollidable.h"

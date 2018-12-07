@@ -6,13 +6,13 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "UIActorMenu.h"
+#include "ui/UIActorMenu.h"
 
-#include "../actor.h"
-#include "../inventory_item.h"
-#include "UICellItem.h"
-#include "../ai_space.h"
-#include "../script_engine.h"
+#include "actor.h"
+#include "inventory_item.h"
+#include "ui/UICellItem.h"
+#include "ai_space.h"
+#include "script_engine.h"
 
 using namespace luabind;
 

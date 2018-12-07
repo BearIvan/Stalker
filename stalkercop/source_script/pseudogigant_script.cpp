@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "pseudo_gigant.h"
+#include "ai/monsters/pseudogigant/pseudo_gigant.h"
 
 using namespace luabind;
 

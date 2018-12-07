@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "UIMapInfo.h"
+#include "ui/UIMapInfo.h"
 
 using namespace luabind;
 

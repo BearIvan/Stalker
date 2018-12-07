@@ -1,19 +1,19 @@
 #include "stdafx.h"
 
-#include "UIMapDesc.h"
-#include "UIStatic.h"
-#include "UICursor.h"
-#include "UIScrollView.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIGameCustom.h"
-#include "../level.h"
-#include "../game_cl_teamdeathmatch.h"
-#include "UIMapInfo.h"
-#include "../xr_level_controller.h"
+#include "ui\uiMapDesc.h"
+#include "ui\uiStatic.h"
+#include "uiCursor.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiXmlInit.h"
+#include "ui\ui3tButton.h"
+#include "uiGameCustom.h"
+#include "level.h"
+#include "game_cl_teamdeathmatch.h"
+#include "ui\uiMapInfo.h"
+#include "xr_level_controller.h"
 #include <dinput.h>
 
-#include "UIStatsPlayerList.h"
+#include "ui\uiStatsPlayerList.h"
 
 CUIMapDesc::CUIMapDesc(){
 	m_pBackground	= xr_new<CUIStatic>();		AttachChild(m_pBackground);	

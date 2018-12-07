@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "burer.h"
+#include "ai/monsters/burer/burer.h"
 
 using namespace luabind;
 

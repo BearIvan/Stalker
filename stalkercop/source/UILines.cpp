@@ -8,10 +8,10 @@
 
 #include "StdAfx.h"
 
-#include "UILines.h"
-#include "UIXmlInit.h"
-#include "uilinestd.h"
-#include "../string_table.h"
+#include "ui\uiLines.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uilinestd.h"
+#include "string_table.h"
 
 
 CUILines::CUILines()

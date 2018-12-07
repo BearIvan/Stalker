@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 #include "engine/xr_ioconsole.h"
 #include "engine/xr_ioc_cmd.h"
-#include "UIOptConCom.h"
-#include "../tools/tools.h"
+#include "ui\uiOptConCom.h"
+#include "tools/tools.h"
 //#include "game_base_space.h"
 #include "gametype_chooser.h"
-#include "../RegistryFuncs.h"
-#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "RegistryFuncs.h"
+#include "../xrGameSpy/xrGameSpy_MainDefs.h"
 
 #include "gamespy/GameSpy_GP.h"
 
-#include "ui/UICDkey.h"
+#include "UICDkey.h"
 
 xr_token g_GameModes	[] = {
 	{ "st_deathmatch",				eGameIDDeathmatch			},

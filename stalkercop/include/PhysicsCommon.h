@@ -59,7 +59,7 @@ typedef void 	ContactCallbackFun(CDB::TRI* T,dContactGeom* c);
 typedef	void	ObjectContactCallbackFun(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2);
 
 
-typedef void	BoneCallbackFun(CBoneInstance* B);
+typedef void _BCL	BoneCallbackFun(CBoneInstance* B);
 
 
 
@@ -69,7 +69,7 @@ extern ContactCallbackFun *CharacterContactShotMark;
 typedef	void	PhysicsStepTimeCallback		(u32	step_start,u32	step_end);
 extern			PhysicsStepTimeCallback		*physics_step_time_callback;
 
-template <typename geom_type>
+/*template <typename geom_type>
 void	t_get_box( const geom_type*	shell, const	Fmatrix& form,	Fvector&	sz, Fvector&	c )
 {
 	c.set(0,0,0);
@@ -81,7 +81,7 @@ void	t_get_box( const geom_type*	shell, const	Fmatrix& form,	Fvector&	sz, Fvecto
 		shell->get_Extensions(ax,0,lo,hi);
 		sz[i]=hi-lo;c.add(Fvector().mul(ax,(lo+hi)/2));
 	}
-}
+}*/
 
 
 #endif  //PHYSICS_COMMON_H

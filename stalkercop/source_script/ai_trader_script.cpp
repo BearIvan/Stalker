@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "ai_trader.h"
+#include "ai/trader/ai_trader.h"
 
 using namespace luabind;
 

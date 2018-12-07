@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include <dinput.h>
-#include "UISpawnWnd.h"
-#include "UIXmlInit.h"
-#include "../level.h"
-#include "../game_cl_teamdeathmatch.h"
-#include "UIStatix.h"
-#include "UIScrollView.h"
-#include "UI3tButton.h"
-#include "../xr_level_controller.h"
-#include "uicursor.h"
-#include "uigamecustom.h"
+#include "ui\uiSpawnWnd.h"
+#include "ui\uiXmlInit.h"
+#include "level.h"
+#include "game_cl_teamdeathmatch.h"
+#include "ui\uiStatix.h"
+#include "ui\uiScrollView.h"
+#include "ui\ui3tButton.h"
+#include "xr_level_controller.h"
+#include "uiCursor.h"
+#include "uiGameCustom.h"
 
 CUISpawnWnd::CUISpawnWnd()
 	:  m_iCurTeam(0)

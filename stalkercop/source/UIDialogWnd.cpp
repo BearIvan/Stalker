@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "uidialogwnd.h"
+#include "ui\uidialogwnd.h"
 
 CUIDialogWnd:: CUIDialogWnd()
 {

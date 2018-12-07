@@ -1,18 +1,18 @@
 #include "stdafx.h"
 
-#include "UINewsWnd.h"
+#include "ui\uiNewsWnd.h"
 /*
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "../UI.h"
-#include "../HUDManager.h"
-#include "../level.h"
-#include "../game_news.h"
-#include "../actor.h"
-#include "../alife_registry_wrappers.h"
-#include "UIInventoryUtilities.h"
-#include "UINewsItemWnd.h"
-#include "UIScrollView.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui\uiXmlInit.h"
+#include "UI.h"
+#include "HUDManager.h"
+#include "level.h"
+#include "game_news.h"
+#include "actor.h"
+#include "alife_registry_wrappers.h"
+#include "ui\uiInventoryUtilities.h"
+#include "ui\uiNewsItemWnd.h"
+#include "ui\uiScrollView.h"
 
 #define				NEWS_XML			"news.xml"
 
@@ -102,7 +102,7 @@ void CUINewsWnd::Show(bool status)
 	if (status)
 		LoadNews();
 	else
-		InventoryUtilities::SendInfoToActor("ui_pda_news_hide");
+		InventoryUtilities::SendInfoToActor("ui\\ui_pda_news_hide");
 	inherited::Show(status);
 
 }

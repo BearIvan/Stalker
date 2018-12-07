@@ -7,20 +7,20 @@
 
 #include "pch_script.h"
 /*
-#include "UIFactionWarWnd.h"
+#include "ui/UIFactionWarWnd.h"
 
-#include "UIXmlInit.h"
-#include "UIProgressBar.h"
-#include "UIFrameLineWnd.h"
-#include "UIHelper.h"
+#include "ui/UIXmlInit.h"
+#include "ui/UIProgressBar.h"
+#include "ui/UIFrameLineWnd.h"
+#include "ui/UIHelper.h"
 
 #include "FactionState.h"
-#include "UIPdaWnd.h"
-#include "UICharacterInfo.h"
+#include "ui/UIPdaWnd.h"
+#include "ui/UICharacterInfo.h"
 
-#include "../actor.h"
-#include "../ai_space.h"
-#include "../script_engine.h"
+#include "actor.h"
+#include "ai_space.h"
+#include "script_engine.h"
 
 #define PDA_FACTION_WAR_XML		"pda_fraction_war.xml"
 

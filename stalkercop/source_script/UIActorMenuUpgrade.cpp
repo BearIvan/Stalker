@@ -1,23 +1,23 @@
 //#include "stdafx.h"
 #include "pch_script.h"
-#include "UIActorMenu.h"
-#include "UIInventoryUpgradeWnd.h"
-#include "UIInvUpgradeInfo.h"
+#include "ui/UIActorMenu.h"
+#include "ui/UIInventoryUpgradeWnd.h"
+#include "ui/UIInvUpgradeInfo.h"
 
-#include "UIDragDropListEx.h"
-#include "UIDragDropReferenceList.h"
-#include "UICharacterInfo.h"
+#include "ui/UIDragDropListEx.h"
+#include "ui/UIDragDropReferenceList.h"
+#include "ui/UICharacterInfo.h"
 
-#include "../inventory_item.h"
-#include "UICellItem.h"
-#include "../InventoryOwner.h"
-#include "../Inventory.h"
-#include "../actor.h"
-#include "../uigamesp.h"
-#include "UI3tButton.h"
+#include "inventory_item.h"
+#include "ui/UICellItem.h"
+#include "InventoryOwner.h"
+#include "Inventory.h"
+#include "actor.h"
+#include "uigamesp.h"
+#include "ui/UI3tButton.h"
 
 #include "inventory_upgrade.h"
-#include "UITalkWnd.h"
+#include "ui/UITalkWnd.h"
 
 void CUIActorMenu::InitUpgradeMode()
 {

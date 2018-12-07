@@ -1,8 +1,8 @@
 #include "pch_script.h"
-#include "UIWndCallback.h"
-#include "UIWindow.h"
+#include "ui/UIWndCallback.h"
+#include "ui/UIWindow.h"
 #include "engine/object_broker.h"
-#include "../callback_info.h"
+#include "callback_info.h"
 
 bool event_comparer::operator ()(SCallbackInfo* i)
 {

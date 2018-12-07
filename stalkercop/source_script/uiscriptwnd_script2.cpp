@@ -1,21 +1,21 @@
 #include "pch_script.h"
 
 //UI-controls
-//#include "UIListWnd.h"
-#include "UIScriptWnd.h"
-#include "UIButton.h"
-#include "UIMessageBox.h"
-#include "UIPropertiesBox.h"
-#include "UICheckButton.h"
-#include "UIRadioButton.h"
-#include "UIStatic.h"
-#include "UIEditBox.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIProgressBar.h"
-#include "UITabControl.h"
+//#include "ui/UIListWnd.h"
+#include "ui/UIScriptWnd.h"
+#include "ui/UIButton.h"
+#include "ui/UIMessageBox.h"
+#include "ui/UIPropertiesBox.h"
+#include "ui/UICheckButton.h"
+#include "ui/UIRadioButton.h"
+#include "ui/UIStatic.h"
+#include "ui/UIEditBox.h"
+#include "ui/UIFrameWindow.h"
+#include "ui/UIFrameLineWnd.h"
+#include "ui/UIProgressBar.h"
+#include "ui/UITabControl.h"
 
-#include "uiscriptwnd_script.h"
+#include "ui/UIscriptwnd_script.h"
 
 using namespace luabind;
 

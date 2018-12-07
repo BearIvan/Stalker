@@ -17,7 +17,7 @@
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "string_table.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "DemoPlay_Control.h"
 #include "account_manager_console.h"
 #include "gamespy/GameSpy_GP.h"
@@ -113,9 +113,9 @@ extern s32		lag_simmulator_max_ping;
 extern BOOL		g_sv_write_updates_bin;
 extern u32		g_sv_traffic_optimization_level;
 
-void netserver_API DumpNetCompressorStats	(bool brief);
-BOOL netserver_API g_net_compressor_enabled;
-BOOL netserver_API g_net_compressor_gather_stats;
+void XRNETSERVER_API DumpNetCompressorStats	(bool brief);
+BOOL XRNETSERVER_API g_net_compressor_enabled;
+BOOL XRNETSERVER_API g_net_compressor_gather_stats;
 
 class CCC_Restart : public IConsole_Command {
 public:
@@ -222,7 +222,7 @@ public:
 
 		u32 CLObjNum	= Level().Objects.o_count();
 		xr_vector<u16>	CObjID;
-		for (i=0; i<CLObjNum; i++)
+		for (u32 i=0; i<CLObjNum; i++)
 		{
 			CObjID.push_back(Level().Objects.o_get_by_iterator(i)->ID());
 		};
@@ -1445,7 +1445,7 @@ public:
 		if (!g_pGameLevel || !Level().Server || !Level().Server->game) return;
 
 		string512	MapName, MapVer;
-		LPCSTR c	= strstr(args, "/ver=");
+		LPCSTR c	= strstr(args, "ver=");
 		if(!c)
 			strncpy_s	(MapName, sizeof(MapName), args, sizeof(MapName)-1 );
 		else
@@ -1693,7 +1693,7 @@ public:
 
 		if ( weather_name && weather_name[0] )
 		{
-			g_pGamePersistent->Environment().SetWeather(weather_name);		
+			ENV.SetWeather(weather_name);		
 		}
 	};
 

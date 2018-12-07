@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIGameCTA.h"
+#include "uiGameCTA.h"
 
 #include <dinput.h>
 
-#include "UITeamPanels.h"
+#include "uiTeamPanels.h"
 
 #include "game_cl_base.h"
 #include "game_cl_capture_the_artefact.h"
@@ -23,26 +23,26 @@
 //#include "clsid_game.h"
 #include "weaponknife.h"
 
-#include "ui/UISkinSelector.h"
-//.#include "ui/UIInventoryWnd.h"
-#include "ui/UIPdaWnd.h"
-#include "ui/UIMapDesc.h"
-#include "ui/UISpawnWnd.h"
-#include "ui/UIBuyWndBase.h"
-#include "ui/UIMpTradeWnd.h"
-#include "ui/UIBuyWndShared.h"
-#include "ui/UIMoneyIndicator.h"
-#include "ui/UIRankIndicator.h"
-#include "ui/UIProgressShape.h"
-#include "ui/UIMessageBoxEx.h"
-#include "ui/UIVoteStatusWnd.h"
-#include "ui/UIActorMenu.h"
-#include "ui/UISkinSelector.h"
-#include "ui/UIHelper.h"
+#include "ui\UISkinSelector.h"
+//.#include "UIInventoryWnd.h"
+#include "ui\UIPdaWnd.h"
+#include "ui\UIMapDesc.h"
+#include "ui\UISpawnWnd.h"
+#include "ui\UIBuyWndBase.h"
+#include "ui\UIMpTradeWnd.h"
+#include "ui\UIBuyWndShared.h"
+#include "ui\UIMoneyIndicator.h"
+#include "ui\UIRankIndicator.h"
+#include "ui\UIProgressShape.h"
+#include "ui\UIMessageBoxEx.h"
+#include "ui\UIVoteStatusWnd.h"
+#include "ui\UIActorMenu.h"
+#include "ui\UISkinSelector.h"
+#include "ui\UIHelper.h"
 
-#define CTA_GAME_WND_XML	"ui_game_cta.xml"
+#define CTA_GAME_WND_XML	"ui\\ui_game_cta.xml"
 
-#define TEAM_PANELS_XML_NAME "ui_team_panels_cta.xml"
+#define TEAM_PANELS_XML_NAME "ui\\ui_team_panels_cta.xml"
 
 
 CUIGameCTA::CUIGameCTA()
@@ -847,7 +847,7 @@ void CUIGameCTA::SetVoteMessage(LPCSTR str)
 	}
 	if (str) {
 		CUIXml							uiXml;
-		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
+		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_dm.xml");
 		m_voteStatusWnd					= xr_new<UIVoteStatusWnd>();
 		m_voteStatusWnd->InitFromXML	(uiXml);
 		m_voteStatusWnd->Show			(true);

@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "control_sequencer.h"
-#include "control_manager.h"
+#include "ai/monsters/control_sequencer.h"
+#include "ai/monsters/control_manager.h"
 
 void CAnimationSequencer::reset_data()
 {

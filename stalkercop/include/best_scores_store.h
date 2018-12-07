@@ -3,7 +3,7 @@
 
 #include <boost/noncopyable.hpp>
 #include "engine/associative_vector.h"
-#include "../xrGameSpy/GameSpy/sake/sake.h"
+#include "GameSpy/sake/sake.h"
 #include "profile_data_types.h"
 
 class CGameSpy_Full;

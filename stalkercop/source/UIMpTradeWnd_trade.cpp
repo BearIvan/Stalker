@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "UIMpItemsStoreWnd.h"
+#include "ui\uiMpTradeWnd.h"
+#include "ui\uiMpItemsStoreWnd.h"
 
-#include "UICellItem.h"
-#include "UIDragDropListEx.h"
-#include "UICellCustomItems.h"
+#include "ui\uiCellItem.h"
+#include "ui\uiDragDropListEx.h"
+#include "ui\uiCellCustomItems.h"
 #include <dinput.h>
 #include "game_cl_deathmatch.h"
 #include "game_cl_capture_the_artefact.h"
@@ -197,7 +197,7 @@ bool CUIMpTradeWnd::TryToBuyItem(SBuyItemInfo* buy_itm, u32 buy_flags, SBuyItemI
 	}
 	return						true;
 }
-#include "../string_table.h"
+#include "string_table.h"
 bool CUIMpTradeWnd::CheckBuyPossibility(const shared_str& sect_name, u32 buy_flags, bool b_silent)
 {
 	string256					info_buffer;
@@ -212,11 +212,11 @@ bool CUIMpTradeWnd::CheckBuyPossibility(const shared_str& sect_name, u32 buy_fla
 			if(!b_silent)
 				xr_sprintf					(	info_buffer,
 											"%s. %s. %s[%d] %s[%d]",
-											CStringTable().translate("ui_inv_cant_buy_item").c_str(),
-											CStringTable().translate("ui_inv_not_enought_money").c_str(),
-											CStringTable().translate("ui_inv_has").c_str(),
+											CStringTable().translate("ui\\ui_inv_cant_buy_item").c_str(),
+											CStringTable().translate("ui\\ui_inv_not_enought_money").c_str(),
+											CStringTable().translate("ui\\ui_inv_has").c_str(),
 											GetMoneyAmount(), 
-											CStringTable().translate("ui_inv_need").c_str(),
+											CStringTable().translate("ui\\ui_inv_need").c_str(),
 											_item_cost);
 			b_can_buy				= false;
 		};
@@ -227,11 +227,11 @@ bool CUIMpTradeWnd::CheckBuyPossibility(const shared_str& sect_name, u32 buy_fla
 		if(!b_silent)
 			xr_sprintf					(	info_buffer,
 										"%s. %s. %s[%s] %s[%s] ", 
-										CStringTable().translate("ui_inv_cant_buy_item").c_str(),
-										CStringTable().translate("ui_inv_rank_restr").c_str(),
-										CStringTable().translate("ui_inv_has").c_str(),
+										CStringTable().translate("ui\\ui_inv_cant_buy_item").c_str(),
+										CStringTable().translate("ui\\ui_inv_rank_restr").c_str(),
+										CStringTable().translate("ui\\ui_inv_has").c_str(),
 										g_mp_restrictions.GetRankName(GetRank()).c_str(), 
-										CStringTable().translate("ui_inv_need").c_str(),
+										CStringTable().translate("ui\\ui_inv_need").c_str(),
 										g_mp_restrictions.GetRankName(get_rank(sect_name)).c_str()
 										);
 		b_can_buy				= false;
@@ -250,9 +250,9 @@ bool CUIMpTradeWnd::CheckBuyPossibility(const shared_str& sect_name, u32 buy_fla
 			if(!b_silent)
 				xr_sprintf				(	info_buffer,
 										"%s. %s. %s [%d]", 
-										CStringTable().translate("ui_inv_cant_buy_item").c_str(),
-										CStringTable().translate("ui_inv_count_restr").c_str(),
-										CStringTable().translate("ui_inv_you_already_have").c_str(),
+										CStringTable().translate("ui\\ui_inv_cant_buy_item").c_str(),
+										CStringTable().translate("ui\\ui_inv_count_restr").c_str(),
+										CStringTable().translate("ui\\ui_inv_you_already_have").c_str(),
 										cnt_have);
 		b_can_buy				= false;
 		}

@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "UIBoosterInfo.h"
-#include "UIStatic.h"
+#include "ui\uiBoosterInfo.h"
+#include "ui\uiStatic.h"
 #include "engine/object_broker.h"
-#include "../EntityCondition.h"
-#include "..\actor.h"
-#include "../ActorCondition.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "../string_table.h"
+#include "EntityCondition.h"
+#include "actor.h"
+#include "ActorCondition.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHelper.h"
+#include "string_table.h"
 
 CUIBoosterInfo::CUIBoosterInfo()
 {
@@ -31,19 +31,19 @@ CUIBoosterInfo::~CUIBoosterInfo()
 
 LPCSTR boost_influence_caption[] =
 {
-	"ui_inv_health",
-	"ui_inv_power",
-	"ui_inv_radiation",
-	"ui_inv_bleeding",
-	"ui_inv_outfit_additional_weight",
-	"ui_inv_outfit_radiation_protection",
-	"ui_inv_outfit_telepatic_protection",
-	"ui_inv_outfit_chemical_burn_protection",
-	"ui_inv_outfit_burn_immunity",
-	"ui_inv_outfit_shock_immunity",
-	"ui_inv_outfit_radiation_immunity",
-	"ui_inv_outfit_telepatic_immunity",
-	"ui_inv_outfit_chemical_burn_immunity"
+	"ui\\ui_inv_health",
+	"ui\\ui_inv_power",
+	"ui\\ui_inv_radiation",
+	"ui\\ui_inv_bleeding",
+	"ui\\ui_inv_outfit_additional_weight",
+	"ui\\ui_inv_outfit_radiation_protection",
+	"ui\\ui_inv_outfit_telepatic_protection",
+	"ui\\ui_inv_outfit_chemical_burn_protection",
+	"ui\\ui_inv_outfit_burn_immunity",
+	"ui\\ui_inv_outfit_shock_immunity",
+	"ui\\ui_inv_outfit_radiation_immunity",
+	"ui\\ui_inv_outfit_telepatic_immunity",
+	"ui\\ui_inv_outfit_chemical_burn_immunity"
 };
 
 void CUIBoosterInfo::InitFromXml(CUIXml& xml)
@@ -77,21 +77,21 @@ void CUIBoosterInfo::InitFromXml(CUIXml& xml)
 	m_booster_satiety = xr_new<UIBoosterInfoItem>();
 	m_booster_satiety->Init(xml, "boost_satiety");
 	m_booster_satiety->SetAutoDelete(false);
-	LPCSTR name = CStringTable().translate("ui_inv_satiety").c_str();
+	LPCSTR name = CStringTable().translate("ui\\ui_inv_satiety").c_str();
 	m_booster_satiety->SetCaption(name);
 	xml.SetLocalRoot( base_node );
 
 	m_booster_anabiotic = xr_new<UIBoosterInfoItem>();
 	m_booster_anabiotic->Init(xml, "boost_anabiotic");
 	m_booster_anabiotic->SetAutoDelete(false);
-	name = CStringTable().translate("ui_inv_survive_surge").c_str();
+	name = CStringTable().translate("ui\\ui_inv_survive_surge").c_str();
 	m_booster_anabiotic->SetCaption(name);
 	xml.SetLocalRoot( base_node );
 
 	m_booster_time = xr_new<UIBoosterInfoItem>();
 	m_booster_time->Init(xml, "boost_time");
 	m_booster_time->SetAutoDelete(false);
-	name = CStringTable().translate("ui_inv_effect_time").c_str();
+	name = CStringTable().translate("ui\\ui_inv_effect_time").c_str();
 	m_booster_time->SetCaption(name);
 
 	xml.SetLocalRoot( stored_root );

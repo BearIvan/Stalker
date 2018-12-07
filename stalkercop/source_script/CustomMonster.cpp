@@ -46,7 +46,7 @@
 #include "client_spawn_manager.h"
 #include "moving_object.h"
 #include "level_path_manager.h"
-
+#include "engine/Environment.h"
 // Lain: added
 #include "engine/IGame_Level.h"
 #include "tools/_vector3d_ext.h"
@@ -600,9 +600,9 @@ void CCustomMonster::update_range_fov	(float &new_range, float &new_fov, float s
 {
 	const float	standard_far_plane			= eye_range;
 
-	float	current_fog_density				= GamePersistent().Environment().CurrentEnv->fog_density	;	
+	float	current_fog_density				= ENV.CurrentEnv->fog_density	;
 	// 0=no_fog, 1=full_fog, >1 = super-fog
-	float	current_far_plane				= GamePersistent().Environment().CurrentEnv->far_plane	;	
+	float	current_far_plane				= ENV.CurrentEnv->far_plane	;
 	// 300=standart, 50=super-fog
 
 	new_fov									= start_fov;

@@ -3,9 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include ".\uicheckbutton.h"
-#include "UIXmlInit.h"
-#include "UIHint.h"
+#include "ui\uicheckbutton.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHint.h"
 #include "engine/xr_input.h"	
 
 CUICheckButton::CUICheckButton()
@@ -71,7 +71,7 @@ void CUICheckButton::InitCheckButton(Fvector2 pos, Fvector2 size, LPCSTR texture
 
 void CUICheckButton::InitTexture2(LPCSTR texture_name)
 {
-	CUI3tButton::InitTexture(texture_name); // "ui_checker"
+	CUI3tButton::InitTexture(texture_name); // "ui\\ui_checker"
 	Frect r = m_background->Get(S_Enabled)->GetStaticItem()->GetTextureRect();
 	TextItemControl()->m_TextOffset.x	= TextItemControl()->m_TextOffset.x + r.width();
 }

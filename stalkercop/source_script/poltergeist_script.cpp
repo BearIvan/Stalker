@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include "poltergeist.h"
+#include "ai/monsters/poltergeist/poltergeist.h"
 
 using namespace luabind;
 

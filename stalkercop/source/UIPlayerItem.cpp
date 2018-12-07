@@ -1,10 +1,10 @@
 #include "StdAfx.h"
-#include "UIPlayerItem.h"
-#include "UITeamState.h"
-#include "UITeamPanels.h"
+#include "ui\uiPlayerItem.h"
+#include "ui\uiTeamState.h"
+#include "ui\uiTeamPanels.h"
 
-#include "ui/UIStatic.h"
-#include "ui/UIStatsIcon.h"
+#include "UIStatic.h"
+#include "UIStatsIcon.h"
 
 #include "game_cl_capture_the_artefact.h"
 #include "game_cl_artefacthunt.h"
@@ -165,10 +165,10 @@ void UIPlayerItem::GetIconParamValue(game_PlayerState const * ps,
 	{
 		if (ETeam(cl_game->ModifyTeam(ps->team)) == etGreenTeam)
 		{
-			xr_sprintf(dest.begin(), dest.size(), "ui_hud_status_green_0%d", ps->rank + 1);
+			xr_sprintf(dest.begin(), dest.size(), "ui\\ui_hud_status_green_0%d", ps->rank + 1);
 		} else if (ETeam(cl_game->ModifyTeam(ps->team)) == etBlueTeam)
 		{
-			xr_sprintf(dest.begin(), dest.size(), "ui_hud_status_blue_0%d", ps->rank + 1);
+			xr_sprintf(dest.begin(), dest.size(), "ui\\ui_hud_status_blue_0%d", ps->rank + 1);
 		}
 	} else if (param_name.equal("death_atf"))
 	{

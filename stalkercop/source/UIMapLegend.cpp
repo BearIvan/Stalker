@@ -6,23 +6,23 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIMapLegend.h"
+#include "ui\uiMapLegend.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
+#include "ui/xrUIXmlParser.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiHelper.h"
 
-#include "UIFrameWindow.h"
-#include "UIScrollView.h"
-#include "UIStatic.h"
-#include "UI3tButton.h"
-#include "UICheckButton.h"
-#include "UIFrameLineWnd.h"
-#include "UIHint.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiStatic.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiCheckButton.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiHint.h"
 
-#include "UIInventoryUtilities.h"
-#include "../string_table.h"
-#include "../level.h"
+#include "ui\uiInventoryUtilities.h"
+#include "string_table.h"
+#include "level.h"
 
 
 UIMapLegend::UIMapLegend()

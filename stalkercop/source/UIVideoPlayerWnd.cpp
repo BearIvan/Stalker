@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "UIVideoPlayerWnd.h"
-#include "UITabControl.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
-#include "../level.h"
-#include "../hudmanager.h"
+#include "ui\uiVideoPlayerWnd.h"
+#include "ui\uiTabControl.h"
+#include "ui\uiStatic.h"
+#include "ui\uiXmlInit.h"
+#include "level.h"
+#include "hudmanager.h"
 #include <dinput.h>
 
 void CUIVideoPlayerWnd::SendMessage	(CUIWindow* pWnd, s16 msg, void* pData)

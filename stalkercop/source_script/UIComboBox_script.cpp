@@ -8,8 +8,8 @@
 //
 
 #include "pch_script.h"
-#include "UIComboBox.h"
-#include "UIListBoxItem.h"
+#include "ui/UIComboBox.h"
+#include "ui/UIListBoxItem.h"
 
 using namespace luabind;
 

@@ -1,18 +1,18 @@
 #include "StdAfx.h"
-#include "UIChangeMap.h"
-#include "UIVotingCategory.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "../level.h"
-#include "../game_cl_teamdeathmatch.h"
+#include "ui\uiChangeMap.h"
+#include "ui\uiVotingCategory.h"
+#include "ui\uiXmlInit.h"
+#include "ui\ui3tButton.h"
+#include "ui\uiListBox.h"
+#include "ui\uiListBoxItem.h"
+#include "level.h"
+#include "game_cl_teamdeathmatch.h"
 #include "engine/xr_ioconsole.h"
-#include "UIMapList.h"
+#include "ui\uiMapList.h"
 
 #include "engine/object_broker.h"
-#include "../UIGameCustom.h"
-#include "../UIDialogHolder.h"
+#include "UIGameCustom.h"
+#include "UIDialogHolder.h"
 
 xr_token	game_types		[];
 
@@ -140,7 +140,7 @@ void CUIChangeMap::OnBtnOk()
 		HideDialog					();
 	}
 }
-#include "../string_table.h"
+#include "string_table.h"
 void CUIChangeMap::FillUpList()
 {
 	lst->Clear				();

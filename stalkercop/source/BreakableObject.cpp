@@ -150,6 +150,7 @@ void CBreakableObject::DestroyUnbroken()
 	//}
 
 //}
+extern void	phys_shell_verify_object_model(CObject& O);
 void CBreakableObject::CreateBroken()
 {
 	phys_shell_verify_object_model ( *this );

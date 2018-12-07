@@ -1,11 +1,11 @@
 #include "pch_script.h"
-#include "UIButton.h"
-#include "UI3tButton.h"
-#include "UICheckButton.h"
-#include "UIRadioButton.h"
-#include "UISpinNum.h"
-#include "UISpinText.h"
-#include "UITrackBar.h"
+#include "ui/UIButton.h"
+#include "ui/UI3tButton.h"
+#include "ui/UICheckButton.h"
+#include "ui/UIRadioButton.h"
+#include "ui/UISpinNum.h"
+#include "ui/UISpinText.h"
+#include "ui/UITrackBar.h"
 
 using namespace luabind;
 

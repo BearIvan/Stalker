@@ -6,26 +6,26 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UILogsWnd.h"
+#include "ui\uiLogsWnd.h"
 
-#include "UIXmlInit.h"
-#include "UIProgressBar.h"
-#include "UIFrameLineWnd.h"
-#include "UIFrameWindow.h"
-#include "UIScrollBar.h"
-#include "UIFixedScrollBar.h"
-#include "UIScrollView.h"
-#include "UICheckButton.h"
-#include "UIHelper.h"
-#include "UICharacterInfo.h"
-#include "UIInventoryUtilities.h"
+#include "ui\uiXmlInit.h"
+#include "ui\uiProgressBar.h"
+#include "ui\uiFrameLineWnd.h"
+#include "ui\uiFrameWindow.h"
+#include "ui\uiScrollBar.h"
+#include "ui\uiFixedScrollBar.h"
+#include "ui\uiScrollView.h"
+#include "ui\uiCheckButton.h"
+#include "ui\uiHelper.h"
+#include "ui\uiCharacterInfo.h"
+#include "ui\uiInventoryUtilities.h"
 
-#include "../actor.h"
-#include "../game_news.h"
-#include "../alife_time_manager.h"
-#include "../alife_registry_wrappers.h"
-#include "../string_table.h"
-#include "UINewsItemWnd.h"
+#include "actor.h"
+#include "game_news.h"
+#include "alife_time_manager.h"
+#include "alife_registry_wrappers.h"
+#include "string_table.h"
+#include "ui\uiNewsItemWnd.h"
 #include "engine/xr_input.h"
 
 
@@ -62,7 +62,7 @@ void CUILogsWnd::Show( bool status )
 		m_need_reload = true;
 		Update();
 	}
-	//InventoryUtilities::SendInfoToActor("ui_pda_news_hide");
+	//InventoryUtilities::SendInfoToActor("ui\\ui_pda_news_hide");
 	inherited::Show( status );
 }
 
@@ -110,7 +110,7 @@ void CUILogsWnd::Init()
 
 	string256 buf;
 	xr_strcpy( buf, sizeof(buf), m_center_caption->GetText() );
-	xr_strcat( buf, sizeof(buf), CStringTable().translate("ui_logs_center_caption").c_str() );
+	xr_strcat( buf, sizeof(buf), CStringTable().translate("ui\\ui_logs_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 
 	CUIFixedScrollBar* tmp_scroll = xr_new<CUIFixedScrollBar>();

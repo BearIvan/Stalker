@@ -1,14 +1,14 @@
 #include "pch_script.h"
-#include "UIAchievements.h"
-#include "UIScrollView.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "UIHint.h"
-#include "UIStatic.h"
+#include "ui/UIAchievements.h"
+#include "ui/UIScrollView.h"
+#include "ui/UIXmlInit.h"
+#include "ui/UIHelper.h"
+#include "ui/UIHint.h"
+#include "ui/UIStatic.h"
 #include "UICursor.h"
-#include "../ai_space.h"
-#include "../script_engine.h"
-#include "../string_table.h"
+#include "ai_space.h"
+#include "script_engine.h"
+#include "string_table.h"
 
 CUIAchievements::CUIAchievements(CUIScrollView* parent):m_parent(parent)
 {

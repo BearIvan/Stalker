@@ -1,12 +1,12 @@
 #include "pch_script.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "UIListBoxItemMsgChain.h"
-#include "ServerList.h"
-#include "UIMapList.h"
-#include "UISpinText.h"
-#include "UIMapInfo.h"
-#include "UIComboBox.h"
+#include "ui/UIListBox.h"
+#include "ui/UIListBoxItem.h"
+#include "ui/UIListBoxItemMsgChain.h"
+#include "ui/ServerList.h"
+#include "ui/UIMapList.h"
+#include "ui/UISpinText.h"
+#include "ui/UIMapInfo.h"
+#include "ui/UIComboBox.h"
 
 using namespace luabind;
 

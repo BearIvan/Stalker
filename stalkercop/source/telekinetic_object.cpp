@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "../../physicsshellholder.h"
-#include "telekinetic_object.h"
-#include "../../physics/PhysicsShell.h"
-#include "../../physics/MathUtils.h"
+#include "physicsshellholder.h"
+#include "ai/monsters/telekinetic_object.h"
+#include "physics/PhysicsShell.h"
+#include "physics/MathUtils.h"
 //#include "../../PHInterpolation.h"
 //#include "../../PHElement.h"
-#include "../../level.h"
-#include "../../gameobject.h"
+#include "level.h"
+#include "gameobject.h"
 
 
 #define KEEP_IMPULSE_UPDATE 200

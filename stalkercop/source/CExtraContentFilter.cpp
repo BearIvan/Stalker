@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "CExtraContentFilter.h"
-#include "../RegistryFuncs.h"
+#include "ui/CExtraContentFilter.h"
+#include "RegistryFuncs.h"
 #include "engine/object_broker.h"
 
 #define EXTRA_CONTENT_SECTION	"extracontent_packs"	

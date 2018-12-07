@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "UIDebugFonts.h"
-#include "UIDialogHolder.h"
+#include "ui\uiDebugFonts.h"
+#include "uiDialogHolder.h"
 #include "dinput.h"
 
 
@@ -33,7 +33,7 @@ bool CUIDebugFonts::OnKeyboardAction(int dik, EUIMessages keyboard_action){
 
     return true;
 }
-#include "../string_table.h"
+#include "string_table.h"
 
 void CUIDebugFonts::FillUpList(){
 	CFontManager::FONTS_VEC& v = UI().Font().m_all_fonts;

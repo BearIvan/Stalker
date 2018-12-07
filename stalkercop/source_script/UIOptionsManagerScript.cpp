@@ -1,6 +1,6 @@
 #include "pch_script.h"
-#include "UIOptionsItem.h"
-#include "UIOptionsManagerScript.h"
+#include "ui/UIOptionsItem.h"
+#include "ui/UIOptionsManagerScript.h"
 
 using namespace luabind;
 

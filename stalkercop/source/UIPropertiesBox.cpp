@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIPropertiesBox.h"
-#include "../level.h"
-#include "UIListBoxItem.h"
-#include "UIXmlInit.h"
+#include "ui\uiPropertiesBox.h"
+#include "level.h"
+#include "ui\uiListBoxItem.h"
+#include "ui\uiXmlInit.h"
 
 #define OFFSET_X (5.0f)
 #define OFFSET_Y (5.0f)

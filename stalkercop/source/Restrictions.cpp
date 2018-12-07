@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "Restrictions.h"
+#include "ui/Restrictions.h"
 #ifdef DEBUG
 #	include "engine/xr_ioconsole.h"
 #	include "engine/xr_ioc_cmd.h"
 #endif //#ifdef DEBUG
-#include "../string_table.h"
+#include "string_table.h"
 CRestrictions g_mp_restrictions;
 
 shared_str	g_ranks[_RANK_COUNT];
