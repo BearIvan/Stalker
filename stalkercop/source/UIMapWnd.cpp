@@ -17,7 +17,7 @@
 #include "ui\uiMapWndActions.h"
 #include "ui\uiMapWndActionsSpace.h"
 #include "ui\uiHint.h"
-#include "map_hint.h"
+#include "ui/map_hint.h"
 #include "uiCursor.h"
 
 #include "engine/xr_input.h"		//remove me !!!

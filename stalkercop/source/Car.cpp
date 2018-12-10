@@ -824,7 +824,6 @@ void CCar::ParseDefinitions()
 
 	m_damage_particles.Init(this);
 }
-void	phys_shell_verify_object_model(CObject& O);
 void CCar::CreateSkeleton(CSE_Abstract	*po)
 {
 

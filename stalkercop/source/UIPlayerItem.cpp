@@ -1,10 +1,10 @@
 #include "StdAfx.h"
-#include "ui\uiPlayerItem.h"
-#include "ui\uiTeamState.h"
-#include "ui\uiTeamPanels.h"
+#include "uiPlayerItem.h"
+#include "uiTeamState.h"
+#include "uiTeamPanels.h"
 
-#include "UIStatic.h"
-#include "UIStatsIcon.h"
+#include "ui\UIStatic.h"
+#include "ui\UIStatsIcon.h"
 
 #include "game_cl_capture_the_artefact.h"
 #include "game_cl_artefacthunt.h"

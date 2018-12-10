@@ -323,5 +323,7 @@ public:
 
 extern XRCORE_API xrCore Core;
 
+#include "BearCore.hpp"
+
 #endif
 

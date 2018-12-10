@@ -135,7 +135,7 @@ void CUIWindow::script_register(lua_State *L)
 		.def("GetCurrentScrollPos",		&CUIScrollView::GetCurrentScrollPos)
 		.def("SetScrollPos",			&CUIScrollView::SetScrollPos),
 
-		class_<enum_exporter<EUIMessages> >("ui/UI_events")
+		class_<enum_exporter<EUIMessages> >("ui_events")
 			.enum_("events")
 			[
 	// CUIWindow

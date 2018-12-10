@@ -59,11 +59,19 @@ CGameSpy_Full::~CGameSpy_Full()
 
 void	CGameSpy_Full::LoadGameSpy()
 {
-	LPCSTR			g_name	= "xrGameSpy.dll";
-	Log				("Loading DLL:",g_name);
-	m_hGameSpyDLL			= LoadLibrary	(g_name);
-	if (0==m_hGameSpyDLL)	R_CHK			(GetLastError());
-	R_ASSERT2				(m_hGameSpyDLL,"GameSpy DLL raised exception during loading or there is no game DLL at all");
+	LPCSTR			g_name =
+#ifdef MIXED
+		"stalker_gamespy_mixed.dll"
+#elif DEBUG
+		"stalker_gamespy_debug.dll"
+#else
+		"stalker_gamespy.dll"
+#endif
+		;
+	Log("Loading DLL:", g_name);
+	m_hGameSpyDLL = LoadLibrary(g_name);
+	if (0 == m_hGameSpyDLL)	R_CHK(GetLastError());
+	R_ASSERT2(m_hGameSpyDLL, "GameSpy DLL raised exception during loading or there is no game DLL at all");
 
 	HMODULE	hGameSpyDLL		= m_hGameSpyDLL;
 	GAMESPY_LOAD_FN			(xrGS_GetGameVersion);

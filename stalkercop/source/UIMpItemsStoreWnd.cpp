@@ -3,7 +3,7 @@
 #include "ui\uiXmlInit.h"
 #include "ui\uiTabButtonMP.h"
 #include "engine/object_broker.h"
-#include "restrictions.h"
+#include "ui/restrictions.h"
 
 void CStoreHierarchy::item::destroy()
 {

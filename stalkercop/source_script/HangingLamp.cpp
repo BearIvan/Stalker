@@ -334,7 +334,6 @@ void	CHangingLamp::Hit					(SHit* pHDS)
 
 	if (bWasAlive && (!Alive()))		TurnOff	();
 }
-extern void	phys_shell_verify_object_model(CObject& O);
 static BONE_P_MAP bone_map=BONE_P_MAP();
 void CHangingLamp::CreateBody(CSE_ALifeObjectHangingLamp	*lamp)
 {
@@ -359,6 +358,7 @@ void CHangingLamp::CreateBody(CSE_ALifeObjectHangingLamp	*lamp)
 	}else{
 		bone_map.insert(mk_pair(pKinematics->LL_GetBoneRoot(),physicsBone()))			;
 	}
+
 	phys_shell_verify_object_model( *this );
 	
 	m_pPhysicsShell->build_FromKinematics(pKinematics,&bone_map);

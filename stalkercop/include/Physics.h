@@ -3,13 +3,13 @@
 
 
 #include "dCylinder/dCylinder.h"
-#include "PhysicsShell.h"
+#include "physics/PhysicsShell.h"
 #include "PHObject.h"
 #include "PHInterpolation.h"
 #include "tools/_cylinder.h"
 #include "BlockAllocator.h"
 #include "PhysicsCommon.h"
-#include "PHWorld.h"
+#include "physics/PHWorld.h"
 #include "PHContactBodyEffector.h"
 #include "phvalide.h"
 //#define ODE_SLOW_SOLVER

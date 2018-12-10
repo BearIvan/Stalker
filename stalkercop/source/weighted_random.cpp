@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "weighted_random.h"
+#include "ai/weighted_random.h"
 #include <math.h>
 
 //------------------------------------------------------------

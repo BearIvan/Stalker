@@ -4,7 +4,7 @@
 #include "ui\ui3tButton.h"
 #include "ui\uiKickPlayer.h"
 #include "ui\uiChangeMap.h"
-#include "ChangeWeatherDialog.hpp"
+#include "ui/ChangeWeatherDialog.hpp"
 #include "uiGameCustom.h"
 
 #include "game_cl_teamdeathmatch.h"

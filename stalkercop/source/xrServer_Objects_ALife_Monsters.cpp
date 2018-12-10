@@ -41,7 +41,7 @@
 
 void setup_location_types_section(GameGraph::TERRAIN_VECTOR &m_vertex_types, CInifile const * ini, LPCSTR section)
 {
-	DEBUGFATALERROR13							(ini->section_exist(section),"cannot open section",section);
+	VERIFY3							(ini->section_exist(section),"cannot open section",section);
 	GameGraph::STerrainPlace		terrain_mask;
 	terrain_mask.tMask.resize		(GameGraph::LOCATION_TYPE_COUNT);
 

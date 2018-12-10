@@ -658,7 +658,7 @@ static BONE_P_MAP* spGetingMap=NULL;
 void CPHShell::build_FromKinematics(IKinematics* K,BONE_P_MAP* p_geting_map)
 {
     DEBUGFATALERROR1( K );
-    phys_shell_DEBUGFATALERROR1_model ( *K );
+	phys_shell_verify_model( *K );
     m_pKinematics           =K;
     spGetingMap             =p_geting_map;
     //CBoneData& bone_data  = m_pKinematics->LL_GetData(0);
@@ -673,7 +673,7 @@ void CPHShell::build_FromKinematics(IKinematics* K,BONE_P_MAP* p_geting_map)
 void CPHShell::preBuild_FromKinematics(IKinematics* K,BONE_P_MAP* p_geting_map)
 {
     DEBUGFATALERROR1( K );
-    phys_shell_DEBUGFATALERROR1_model ( *K );
+    phys_shell_verify_model ( *K );
     m_pKinematics           =K;
     spGetingMap             =p_geting_map;
     //CBoneData& bone_data  = m_pKinematics->LL_GetData(0);

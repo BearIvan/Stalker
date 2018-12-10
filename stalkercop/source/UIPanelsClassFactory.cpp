@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "ui\uiPanelsClassFactory.h"
+#include "uiPanelsClassFactory.h"
 #include "game_base.h"
-#include "ui\uiTeamPanels.h"
+#include "uiTeamPanels.h"
 
 UIPanelsClassFactory::UIPanelsClassFactory()
 {

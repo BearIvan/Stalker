@@ -713,7 +713,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #else // DEDICATED_SERVER
     Debug._initialize(false);
 #endif // DEDICATED_SERVER
-
+	BearCore::Initialize(TEXT("stalker"), TEXT(""), TEXT(""));
 
 	Modloader::Run();
 
@@ -784,7 +784,6 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     SetThreadAffinityMask(GetCurrentThread(), 1);
 
     // Title window
-
 	LogoWindow1.Init("logo.bmp");
 	setup_luabind_allocator();
   
@@ -807,18 +806,26 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     g_sLaunchOnExit_params[0] = NULL;
 
     LPCSTR fsgame_ltx_name = "-fsltx ";
-    string_path fsgame = "";
-    //MessageBox(0, lpCmdLine, "my cmd string", MB_OK);
-    if (strstr(lpCmdLine, fsgame_ltx_name))
-    {
-        int sz = xr_strlen(fsgame_ltx_name);
-        sscanf(strstr(lpCmdLine, fsgame_ltx_name) + sz, "%[^ ] ", fsgame);
-        //MessageBox(0, fsgame, "using fsltx", MB_OK);
-    }
 
     // g_temporary_stuff = &trivial_encryptor::decode;
 
     compute_build_id();
+	string_path fsgame = TEXT("fssoc.ltx");
+	switch (gameVersionController->getGame())
+	{
+	case GameVersionController::SOC:
+		break;
+	case GameVersionController::COP:
+		BearCore::BearString::Copy( fsgame, TEXT("fscop.ltx"));
+		break;
+	case GameVersionController::CS:
+		BearCore::BearString::Copy(fsgame, TEXT("fscs.ltx"));
+		break;
+	default:
+		NODEFAULT;
+		break;
+	}
+
     Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL);
 
     InitSettings();
@@ -919,7 +926,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     }
     // here damn_keys_filter class instanse will be destroyed
 #endif // DEDICATED_SERVER
-
+	BearCore::Destroy();
     return 0;
 }
 

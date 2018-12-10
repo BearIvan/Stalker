@@ -54,7 +54,7 @@ CPhysicsJoint*				P_create_Joint			( CPhysicsJoint::enumType type, CPhysicsEleme
 CPhysicsShell*	__stdcall P_build_Shell			( IPhysicsShellHolder* obj, bool not_active_state, BONE_P_MAP* bone_map, bool not_set_bone_callbacks )
 {
 	DEBUGFATALERROR1( obj );
-	phys_shell_DEBUGFATALERROR1_object_model( *obj );
+	phys_shell_verify_object_model( *obj );
 	//IRenderVisual*	V = obj->ObjectVisual();
 	//IKinematics* pKinematics=smart_cast<IKinematics*>(V);
 	//IKinematics* pKinematics	=  V->dcast_PKinematics			();
@@ -283,14 +283,14 @@ bool has_physics_collision_shapes( IKinematics& K )
 	return false;
 }
 
-void	phys_shell_DEBUGFATALERROR1_model( IKinematics& K )
+void	phys_shell_verify_model( IKinematics& K )
 {
 	//IRenderVisual* V = K.dcast_RenderVisual();
 	//DEBUGFATALERROR1( V );
 	DEBUGFATALERROR12( has_physics_collision_shapes( K ), make_string( "Can not create physics shell for model %s because it has no physics collision shapes set", K.getDebugName().c_str() ) );
 }
 
-void	phys_shell_DEBUGFATALERROR1_object_model( IPhysicsShellHolder& O )	
+void	phys_shell_verify_object_model( IPhysicsShellHolder& O )	
 {
 	//IRenderVisual	*V = O.ObjectVisual();
 

@@ -1,5 +1,4 @@
-#ifndef PhysicsShellH
-#define PhysicsShellH
+
 #pragma once
 
 #include "PHDefs.h"
@@ -443,9 +442,8 @@ struct	NearestToPointCallback
 };
 					bool				shape_is_physic					( const SBoneShape& shape );
 					bool				has_physics_collision_shapes	( IKinematics& K );
-XRPHYSICS_API		void				phys_shell_DEBUGFATALERROR1_object_model	( IPhysicsShellHolder& O );
+XRPHYSICS_API		void				phys_shell_verify_object_model( IPhysicsShellHolder& O );
 
 
 
-					void				phys_shell_DEBUGFATALERROR1_model			( IKinematics& K );
-#endif // PhysicsShellH
+					void				phys_shell_verify_model			( IKinematics& K );

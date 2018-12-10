@@ -5,7 +5,7 @@
 #include "ui\uiStatic.h"
 #include "ui\uiScrollView.h"
 #include "ui\uiXmlInit.h"
-#include "MMsound.h"
+#include "ui/MMsound.h"
 #include "game_base_space.h"
 #include "level.h"
 #include "engine/object_broker.h"

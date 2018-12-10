@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include ".\uiradiobutton.h"
+#include "ui/uiradiobutton.h"
 #include "ui\uiLines.h"
 
 

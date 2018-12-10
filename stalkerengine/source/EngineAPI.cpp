@@ -8,6 +8,8 @@
 
 #include "securom_api.h"
 
+#include "BearCore.hpp"
+#include "api/XrGameVersionController.h"
 extern xr_token* vid_quality_token;
 
 //////////////////////////////////////////////////////////////////////
@@ -17,11 +19,8 @@ extern xr_token* vid_quality_token;
 void __cdecl dummy(void)
 {
 };
-CEngineAPI::CEngineAPI()
+CEngineAPI::CEngineAPI():bRender(false)
 {
-    hGame = 0;
-    hRender = 0;
-    hTuner = 0;
     pCreate = 0;
     pDestroy = 0;
     tune_pause = dummy;
@@ -64,7 +63,7 @@ void CEngineAPI::InitializeNotDedicated()
 {
     SECUROM_MARKER_HIGH_SECURITY_ON(2)
 
-        LPCSTR r2_name = "StalkerRender2.dll";
+   /*LPCSTR r2_name = "StalkerRender2.dll";
     LPCSTR r3_name = "StalkerRender3.dll";
     LPCSTR r4_name = "StalkerRender4.dll";
 
@@ -111,7 +110,7 @@ void CEngineAPI::InitializeNotDedicated()
         else
             g_current_renderer = 2;
     }
-
+	*/
     SECUROM_MARKER_HIGH_SECURITY_OFF(2)
 }
 #endif // DEDICATED_SERVER
@@ -135,18 +134,18 @@ void CEngineAPI::Initialize(void)
     InitializeNotDedicated();
 #endif // DEDICATED_SERVER
 
-    if (0 == hRender)
+    if (!bRender)
     {
         // try to load R1
         psDeviceFlags.set(rsR4, FALSE);
         psDeviceFlags.set(rsR3, FALSE);
         psDeviceFlags.set(rsR2, FALSE);
         renderer_value = 0; //con cmd
+	
+        Log("Loading DLL:", TEXT("stalker_r1") );
 
-        Log("Loading DLL:", r1_name);
-        hRender = LoadLibrary(r1_name);
-        if (0 == hRender) R_CHK(GetLastError());
-        R_ASSERT(hRender);
+		R_ASSERT(BearCore::BearProjectTool::CheckProject(TEXT("stalker_r1")));
+		bRender = true;
         g_current_renderer = 1;
     }
 
@@ -154,49 +153,36 @@ void CEngineAPI::Initialize(void)
 
     // game
 
-    {
-        LPCSTR g_name =
-#ifdef MIXED
-			"stalker_soc_mixed.dll"
-#elif DEBUG
-			"stalker_soc_debug.dll"
-#else
-			"stalker_soc"
-#endif
-
-			;
-        Log("Loading DLL:", g_name);
-        hGame = LoadLibrary(g_name);
-        if (0 == hGame) R_CHK(GetLastError());
-        R_ASSERT2(hGame, "Game DLL raised exception during loading or there is no game DLL at all");
-        pCreate = (Factory_Create*)GetProcAddress(hGame, "xrFactory_Create");
-        R_ASSERT(pCreate);
-        pDestroy = (Factory_Destroy*)GetProcAddress(hGame, "xrFactory_Destroy");
-        R_ASSERT(pDestroy);
+	{
+		const bchar*name = TEXT("stalkersoc");
+		switch (gameVersionController->getGame())
+		{
+		case GameVersionController::SOC:
+			break;
+		case GameVersionController::COP:
+			name = TEXT("stalkercop");
+			break;
+		case GameVersionController::CS:
+			name = TEXT("stalkercs");
+			break;
+		default:
+			NODEFAULT;
+			break;
+		}
+        Log("Loading DLL:", name);
+        R_ASSERT2(BearCore::BearProjectTool::CheckProject(name), "Game DLL raised exception during loading or there is no game DLL at all");
+        pCreate = BearCore::BearProjectTool::GetFunctionInProject< Factory_Create*>(name, TEXT("xrFactory_Create"));
+		pDestroy = BearCore::BearProjectTool::GetFunctionInProject< Factory_Destroy*>(name, TEXT("xrFactory_Destroy"));
     }
 
     //////////////////////////////////////////////////////////////////////////
     // vTune
     tune_enabled = FALSE;
-    if (strstr(Core.Params, "-tune"))
-    {
-        LPCSTR g_name = "vTuneAPI.dll";
-        Log("Loading DLL:", g_name);
-        hTuner = LoadLibrary(g_name);
-        if (0 == hTuner) R_CHK(GetLastError());
-        R_ASSERT2(hTuner, "Intel vTune is not installed");
-        tune_enabled = TRUE;
-        tune_pause = (VTPause*)GetProcAddress(hTuner, "VTPause");
-        R_ASSERT(tune_pause);
-        tune_resume = (VTResume*)GetProcAddress(hTuner, "VTResume");
-        R_ASSERT(tune_resume);
-    }
+   
 }
 
 void CEngineAPI::Destroy(void)
 {
-    if (hGame) { FreeLibrary(hGame); hGame = 0; }
-    if (hRender) { FreeLibrary(hRender); hRender = 0; }
     pCreate = 0;
     pDestroy = 0;
     Engine.Event._destroy();
@@ -243,7 +229,7 @@ void CEngineAPI::CreateRendererList()
     else
     {
         // try to initialize R2
-        Log("Loading DLL:", r2_name);
+      /*  Log("Loading DLL:", r2_name);
         hRender = LoadLibrary(r2_name);
         if (hRender)
         {
@@ -282,10 +268,10 @@ void CEngineAPI::CreateRendererList()
             R_ASSERT(test_dx11_rendering);
             bSupports_r4 = test_dx11_rendering();
             FreeLibrary(hRender);
-        }
+        }*/
     }
 
-    hRender = 0;
+    bRender = 0;
 
     xr_vector<LPCSTR> _tmp;
     u32 i = 0;

@@ -371,9 +371,6 @@ void CScriptEngine::load_common_scripts()
 
 void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_exist)
 {
-	bool G = false;
-	if (xr_strcmp(file_name, "_G")==0)
-		G = true;
 	u32						string_length = xr_strlen(file_name);
 	if (!warn_if_not_exist && no_file_exists(file_name,string_length))
 		return;
@@ -381,20 +378,19 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 	string_path				S,S1,S2;
 	auto src1 = file_name;
 	bool b1 = false;
-	for (; *src1&&*src1 != '_'; src1++)if (*(src1 + 1) == '_') b1 = true;
+	/*for (; *src1&&*src1 != '_'; src1++)if (*(src1 + 1) == '_') b1 = true;
 	memcpy(S2, file_name, src1 - file_name);
 	if (b1)
 	{
 		S2[src1 - file_name ] = '\\';
 		S2[src1 - file_name+1] = 0;
 	}
-	else
+	else*/
 		S2[0] = 0;
-	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) {
-		if (G)
-			strconcat(sizeof(S1), S1, S2, "main", ".lua");
-		else
-			strconcat(sizeof(S1), S1,S2, file_name, ".lua");
+	
+	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) 
+	{
+			strconcat(sizeof(S1), S1,S2, file_name, ".script");
 		FS.update_path		(S,"$game_scripts$",S1);
 		if (!warn_if_not_exist && !FS.exist(S)) {
 //			R_ASSERT2(false,S);

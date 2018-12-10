@@ -30,7 +30,7 @@
 
  */
 #include "stdafx.h"
-#include "eqn.h"
+#include "ik/eqn.h"
 
 
 /*

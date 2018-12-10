@@ -10,7 +10,7 @@
 
 #include "StdAfx.h"
 #include "ui\uiTextureMaster.h"
-#include "ui\uiStaticItem.h"
+#include "uiStaticItem.h"
 #include "ui\uiabstract.h"
 #include "ui/xrUIXmlParser.h"
 #include "xrRender/UIShader.h"

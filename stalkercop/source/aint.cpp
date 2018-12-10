@@ -31,7 +31,7 @@
  */
 #include "stdafx.h"
 //#include <math.h>
-#include "aint.h"
+#include "ik/aint.h"
 
 
 inline float min(float x, float y)

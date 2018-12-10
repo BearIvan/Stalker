@@ -675,7 +675,7 @@ void CCharacterPhysicsSupport::in_UpdateCL( )
 	}
 #endif
 }
-extern void	phys_shell_verify_object_model(CObject& O);
+
 
 void CCharacterPhysicsSupport::CreateSkeleton(CPhysicsShell* &pShell)
 {

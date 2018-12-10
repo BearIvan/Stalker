@@ -115,7 +115,8 @@ bool CLevel::net_start1				()
 		if (!xr_strcmp(p.m_game_type,"single"))
 		{
 			Server					= xr_new<xrServer>();
-		} else
+		}
+		else
 		{
 			g_allow_heap_min		= false;
 			Server					= xr_new<xrGameSpyServer>();
