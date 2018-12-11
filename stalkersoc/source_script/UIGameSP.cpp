@@ -8,7 +8,7 @@
 #include "xr_level_controller.h"
 #include "actorcondition.h"
 #include "engine/xr_ioconsole.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "GameTaskManager.h"
 #include "GameTask.h"
 

@@ -10,7 +10,7 @@
 #include "ui/UIMApWnd.h"
 #include "level.h"
 #include "engine/xr_object.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 CMapSpot::CMapSpot(CMapLocation* ml)
 :m_map_location(ml)

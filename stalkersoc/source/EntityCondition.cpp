@@ -8,7 +8,7 @@
 #include "game_cl_base.h"
 #include "entity_alive.h"
 #include "XrRender/SkeletonCustom.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 #define MAX_HEALTH 1.0f
 #define MIN_HEALTH -0.01f

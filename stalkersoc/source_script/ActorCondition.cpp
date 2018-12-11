@@ -14,7 +14,7 @@
 #include "game_object_space.h"
 #include "ui\UIVideoPlayerWnd.h"
 #include "script_callback_ex.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "weapon.h"
 
 #define MAX_SATIETY					1.0f

@@ -7,7 +7,7 @@
 #include "GameSpy\GameSpy_Browser.h"
 
 #include "MainMenu.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 
 CGameSpy_Full::CGameSpy_Full()	

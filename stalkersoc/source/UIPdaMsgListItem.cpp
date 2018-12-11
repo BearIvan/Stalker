@@ -11,7 +11,7 @@
 #include "ui/xrUIXmlParser.h"
 #include "ui/UIXmlInit.h"
 #include "ui/uicoloranimatorwrapper.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 #define PDA_MSG_MAINGAME_CHAR "maingame_pda_msg.xml"
 

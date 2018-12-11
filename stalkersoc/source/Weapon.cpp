@@ -24,7 +24,7 @@
 #include "ai_object_location.h"
 #include "clsid_game.h"
 #include "mathutils.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "engine/igame_persistent.h"
 
 #define WEAPON_REMOVE_TIME		60000

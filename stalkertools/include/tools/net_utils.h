@@ -1,5 +1,3 @@
-#ifndef _INCDEF_NETUTILS_H_
-#define _INCDEF_NETUTILS_H_
 #pragma once
 
 #include "client_id.h"
@@ -275,5 +273,3 @@ public:
 };
 
 #pragma pack(pop)
-
-#endif /*_INCDEF_NETUTILS_H_*/

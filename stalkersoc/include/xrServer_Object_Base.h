@@ -9,7 +9,7 @@
 #pragma once
 
 #include "xrServer_Objects_Abstract.h"
-#include "object_interfaces.h"
+#include "engine/object_interfaces.h"
 #include "script_value_container.h"
 #include "alife_space.h"
 #include "tools/client_id.h"

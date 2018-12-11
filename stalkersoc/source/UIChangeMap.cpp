@@ -11,7 +11,7 @@
 #include "ui/UIMapList.h"
 #include "ui/CExtraContentFilter.h"
 
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "UIGameCustom.h"
 
 xr_token	game_types		[];

@@ -5,6 +5,8 @@
 #include "UI/UIBtnHint.h"
 #include "engine/IInputReceiver.h"
 
+ENGINE_API extern u32   size_screen_x, size_screen_y;
+
 #define C_DEFAULT	D3DCOLOR_XRGB(0xff,0xff,0xff)
 
 CUICursor::CUICursor()
@@ -95,24 +97,39 @@ Fvector2 CUICursor::GetCursorPositionDelta()
 
 void CUICursor::UpdateCursorPosition(int _dx, int _dy)
 {
+	/*POINT		p;
+	BOOL r		= GetCursorPos(&p);
+	R_ASSERT	(r);
+
+	vPrevPos = vPos;
+
+	vPos.x			= (float)p.x * (UI_BASE_WIDTH/(float)Device.dwWidth);
+	vPos.y			= (float)p.y * (UI_BASE_HEIGHT/(float)Device.dwHeight);
+	clamp			(vPos.x, 0.f, UI_BASE_WIDTH);
+	clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);*/
+
 	Fvector2	p;
-	vPrevPos	= vPos;
+	vPrevPos = vPos;
 	if (m_b_use_win_cursor)
 	{
-        Ivector2 pti;
-        IInputReceiver::IR_GetMousePosReal(pti);
-		p.x			= (float)pti.x;
-		p.y			= (float)pti.y;
-		vPos.x		= p.x * (UI_BASE_WIDTH/(float)Device.dwWidth);
-		vPos.y		= p.y * (UI_BASE_HEIGHT/(float)Device.dwHeight);
-	}else
+		//     Ivector2 pti;
+		//      IInputReceiver::IR_GetMousePosReal(pti);
+
+		POINT point;
+		GetCursorPos(&point);
+		p.x = (float)point.x;
+		p.y = (float)point.y;
+		vPos.x += p.x - ((int)size_screen_x / 2);
+		vPos.y += p.y - ((int)size_screen_y / 2);
+	}
+	else
 	{
 		float sens = 1.0f;
-		vPos.x		+= _dx*sens;
-		vPos.y		+= _dy*sens;
+		vPos.x += _dx * sens;
+		vPos.y += _dy * sens;
 	}
-	clamp		(vPos.x, 0.f, UI_BASE_WIDTH);
-	clamp		(vPos.y, 0.f, UI_BASE_HEIGHT);
+	clamp(vPos.x, 0.f, UI_BASE_WIDTH);
+	clamp(vPos.y, 0.f, UI_BASE_HEIGHT);
 }
 
 void CUICursor::SetUICursorPosition(Fvector2 pos)

@@ -9,7 +9,7 @@
 #include "xrServer_Objects_ALife.h"
 #include "script_engine.h"
 #include "ui\uixmlinit.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 void INFO_DATA::load (IReader& stream) 
 {

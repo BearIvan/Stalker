@@ -4,7 +4,7 @@
 #include "PostprocessAnimator.h"
 #include "engine/effectorPP.h"
 #include "engine/ObjectAnimator.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 #include "actor.h"
 
 void AddEffector		(CActor* A, int type, const shared_str& sect_name)

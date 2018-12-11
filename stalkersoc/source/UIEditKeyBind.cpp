@@ -3,7 +3,7 @@
 #include "ui/UIEditKeyBind.h"
 #include "ui/UIColorAnimatorWrapper.h"
 #include "xr_level_controller.h"
-#include "object_broker.h"
+#include "engine/object_broker.h"
 
 CUIEditKeyBind::CUIEditKeyBind(bool bPrim)
 {
