@@ -1,8 +1,5 @@
-#include <Windows.h>
+#include "BearUI.hpp"
 #include "tools/XrCore.h"
-#include "BearCore.hpp"
+#include "api/XrGameVersionController.h"
 #include "Modloader.h"
-#include "Button.h"
-#include "Combobox.h"
-#include "Window.h"
 #include "MainForm.h"

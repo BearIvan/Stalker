@@ -11,7 +11,7 @@ public class stalkertools :Project
 		Projects.Public.Add("bear_core");
 		
 		Defines.Private.Add("XRCORE_EXPORTS"); 
-		Defines.Public.Add("_ITERATOR_DEBUG_LEVEL=0");
+
 		Defines.Public.Add("_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS");
 		
 		AddSourceFiles(Path.Combine(ProjectPath,"source"));

@@ -19,7 +19,10 @@ public class stalker :Executable
 		Projects.Private.Add("stalkermodloader");
 		Projects.Private.Add("directx");
 		Projects.Public.Add("stalkernetserver");
-		IncludeInProject.Public.Add("stalkercpu_pipe");
+
+
+
+        IncludeInProject.Public.Add("stalkercpu_pipe");
 		IncludeInProject.Private.Add("stalkergamespy");
 		
 		LibrariesStatic.Private.Add("winmm.lib");
@@ -42,8 +45,8 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
 
-       IncludeAutonomousProjects.Add("stalkersoc");
-       IncludeAutonomousProjects.Add("stalkercop");
+      // IncludeAutonomousProjects.Add("stalkersoc");
+        IncludeAutonomousProjects.Add("stalkercs");
 
         IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;

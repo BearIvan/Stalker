@@ -715,7 +715,13 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #endif // DEDICATED_SERVER
 	BearCore::Initialize(TEXT("stalker"), TEXT(""), TEXT(""));
 
-	Modloader::Run();
+	if (!Modloader::Run())
+	{
+		BearCore::bear_delete(gameVersionController);
+	
+		BearCore::Destroy();
+		return 0;
+	}
 
     if (!IsDebuggerPresent())
 	{
@@ -926,6 +932,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     }
     // here damn_keys_filter class instanse will be destroyed
 #endif // DEDICATED_SERVER
+	BearCore::bear_delete(gameVersionController);
 	BearCore::Destroy();
     return 0;
 }

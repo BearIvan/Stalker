@@ -1,4 +1,4 @@
 namespace Modloader
 {
-	void Run();
+	bool Run();
 }
