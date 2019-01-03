@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "controller_psy_hit_effector.h"
+#include "ai/monsters/controller/controller_psy_hit_effector.h"
 
 
 //void CPsyHitEffectorPP::load(LPCSTR section)

@@ -1,11 +1,10 @@
 #include "stdafx.h"
 
-#include "dTriCollideK.h"
-#include "dxTriList.h"
-#include "dcTriListCollider.h"
-#include "../ExtendedGeom.h"
-#include "dcTriListCollider.cpp"	// Allow inlining
-#include "../gameobject.h"
+#include "tri-colliderknoopc/dTriCollideK.h"
+#include "tri-colliderknoopc/dxTriList.h"
+#include "tri-colliderknoopc/dcTriListCollider.h"
+#include "ExtendedGeom.h"
+#include "gameobject.h"
 
 
 

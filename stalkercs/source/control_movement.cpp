@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "control_movement.h"
-#include "BaseMonster/base_monster.h"
-#include "control_manager.h"
-#include "../../PHMovementControl.h"
-#include "../../CharacterPhysicsSupport.h"
+#include "ai/monsters/control_movement.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "ai/monsters/control_manager.h"
+#include "PHMovementControl.h"
+#include "CharacterPhysicsSupport.h"
 void CControlMovement::reinit()
 {
 	inherited::reinit		();

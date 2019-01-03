@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "GameSpy_QR2.h"
-#include "GameSpy_Base_Defs.h"
+#include "gamespy/GameSpy_QR2.h"
+#include "gamespy/GameSpy_Base_Defs.h"
 
-#include "GameSpy_QR2_callbacks.h"
+#include "gamespy/GameSpy_QR2_callbacks.h"
 
 CGameSpy_QR2::CGameSpy_QR2()
 {

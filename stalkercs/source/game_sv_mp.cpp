@@ -138,16 +138,18 @@ void game_sv_mp::OnRoundStart()
 		{
 			xrClientData* tmp_client = static_cast<xrClientData*>(client);
 			game_PlayerState* tmp_ps = tmp_client->ps;
+			if (!tmp_ps)
+				return;
 			tmp_ps->resetFlag(GAME_PLAYER_FLAG_READY+GAME_PLAYER_FLAG_VERY_VERY_DEAD);
 			tmp_ps->m_online_time = Level().timeServer();
 		}
 	};
-	m_server->clear_DisconnectedClients();
+
 	ready_clearer tmp_functor;
 	m_server->ForEachClientDo(tmp_functor);
 	m_async_stats_request_time = 0;
-	
-	
+	m_server->clear_DisconnectedClients();
+
 	// 1. We have to destroy all delayed events
 	CleanDelayedEvents();
 
@@ -1052,7 +1054,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			string256 WeatherTime = "", WeatherName = "";
 			sscanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, WeatherTime);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
 		} else if (!stricmp(votecommands[i].name, "changemap"))
 		{
@@ -1071,7 +1073,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			LPCSTR sv_vote_command = NULL;
 			STRCONCAT(sv_vote_command, votecommands[i].command, " ", LevelName, " ", LevelVersion);
 			m_pVoteCommand = sv_vote_command;
-			sprintf_s(resVoteCommand, 
+			sprintf_s(resVoteCommand,
 				"%s %s [%s]",
 				votecommands[i].name,
 				LevelName,
@@ -1083,10 +1085,10 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			IClient*	tmp_client = m_server->FindClient(tmp_predicate);
 			if (tmp_client)
 			{
-				m_pVoteCommand.sprintf("sv_kick_id %u", tmp_client->ID.value());
+				m_pVoteCommand.printf("sv_kick_id %u", tmp_client->ID.value());
 			} else
 			{
-				m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);	//backward compatibility
+				m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);	//backward compatibility
 			}
 			strcpy_s(resVoteCommand, VoteCommand);
 		} else if (!stricmp(votecommands[i].name, "ban"))
@@ -1099,7 +1101,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			IClient*	tmp_client = m_server->FindClient(tmp_predicate);
 			if (tmp_client)
 			{
-				m_pVoteCommand.sprintf("sv_banplayer %u %d", tmp_client->ID.value(), ban_time);
+				m_pVoteCommand.printf("sv_banplayer %u %d", tmp_client->ID.value(), ban_time);
 			} else
 			{
 				Msg("! ERROR: can't find player with name %s", tmp_victim_name);
@@ -1111,13 +1113,13 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			strcpy_s(resVoteCommand, VoteCommand);
 		} else
 		{
-			m_pVoteCommand.sprintf("%s %s", votecommands[i].command, CommandParams);
+			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
 			strcpy_s(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
 	{
-		m_pVoteCommand.sprintf("%s", VoteCommand+1);
+		m_pVoteCommand.printf("%s", VoteCommand+1);
 	};
 
 	struct vote_status_setter

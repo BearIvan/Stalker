@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "ai_monster_bones.h"
-#include "../../Kinematics.h"
-#include "../../engine/bone.h"
+#include "ai/monsters/ai_monster_bones.h"
+#include "Kinematics.h"
+#include "engine/bone.h"
 
 
 //****************************************************************************************************

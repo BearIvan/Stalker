@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "control_direction_base.h"
-#include "basemonster/base_monster.h"
-#include "../../detail_path_manager.h"
+#include "ai/monsters/control_direction_base.h"
+#include "ai/monsters/basemonster/base_monster.h"
+#include "detail_path_manager.h"
 
 void CControlDirectionBase::reinit()
 {

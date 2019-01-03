@@ -17,6 +17,7 @@
 #include "zone_effector.h"
 #include "breakableobject.h"
 #include "GamePersistent.h"
+#include "engine/xr_collide_form.h"
 
 #define WIND_RADIUS (4*Radius())	//расстояние до актера, когда появляется ветер 
 #define FASTMODE_DISTANCE (50.f)	//distance to camera from sphere, when zone switches to fast update sequence
@@ -601,7 +602,7 @@ void CCustomZone::feel_touch_delete(CObject* O)
 	}
 }
 
-BOOL CCustomZone::feel_touch_contact(CObject* O) 
+bool CCustomZone::feel_touch_contact(CObject* O) 
 {
 	if (smart_cast<CCustomZone*>(O))				return FALSE;
 	if (smart_cast<CBreakableObject*>(O))			return FALSE;
@@ -1169,15 +1170,15 @@ void CCustomZone::StartWind()
 
 	m_zone_flags.set(eBlowoutWindActive, TRUE);
 
-	m_fStoreWindPower = g_pGamePersistent->Environment().wind_strength_factor;
-	clamp(g_pGamePersistent->Environment().wind_strength_factor, 0.f, 1.f);
+	m_fStoreWindPower = ENV.wind_strength_factor;
+	clamp(ENV.wind_strength_factor, 0.f, 1.f);
 }
 
 void CCustomZone::StopWind()
 {
 	if(!m_zone_flags.test(eBlowoutWindActive)) return;
 	m_zone_flags.set(eBlowoutWindActive, FALSE);
-	g_pGamePersistent->Environment().wind_strength_factor = m_fStoreWindPower;
+	ENV.wind_strength_factor = m_fStoreWindPower;
 }
 
 void CCustomZone::UpdateWind()
@@ -1192,17 +1193,17 @@ void CCustomZone::UpdateWind()
 
 	if(m_dwBlowoutWindTimePeak > (u32)m_iStateTime)
 	{
-		g_pGamePersistent->Environment().wind_strength_factor = m_fBlowoutWindPowerMax + ( m_fStoreWindPower - m_fBlowoutWindPowerMax)*
+		ENV.wind_strength_factor = m_fBlowoutWindPowerMax + ( m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 								float(m_dwBlowoutWindTimePeak - (u32)m_iStateTime)/
 								float(m_dwBlowoutWindTimePeak - m_dwBlowoutWindTimeStart);
-		clamp(g_pGamePersistent->Environment().wind_strength_factor, 0.f, 1.f);
+		clamp(ENV.wind_strength_factor, 0.f, 1.f);
 	}
 	else
 	{
-		g_pGamePersistent->Environment().wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax)*
+		ENV.wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 			float((u32)m_iStateTime - m_dwBlowoutWindTimePeak)/
 			float(m_dwBlowoutWindTimeEnd - m_dwBlowoutWindTimePeak);
-		clamp(g_pGamePersistent->Environment().wind_strength_factor, 0.f, 1.f);
+		clamp(ENV.wind_strength_factor, 0.f, 1.f);
 	}
 }
 

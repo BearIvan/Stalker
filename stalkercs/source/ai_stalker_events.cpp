@@ -7,14 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "ai_stalker.h"
-#include "../../pda.h"
-#include "../../inventory.h"
-#include "../xrmessages.h"
-#include "../../shootingobject.h"
-#include "../../level.h"
-#include "../../ai_monster_space.h"
-#include "../../characterphysicssupport.h"
+#include "ai/stalker/ai_stalker.h"
+#include "pda.h"
+#include "inventory.h"
+#include "xrmessages.h"
+#include "shootingobject.h"
+#include "level.h"
+#include "ai_monster_space.h"
+#include "characterphysicssupport.h"
 
 using namespace StalkerSpace;
 using namespace MonsterSpace;

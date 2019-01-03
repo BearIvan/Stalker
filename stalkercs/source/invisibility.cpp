@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "invisibility.h"
+#include "ai/monsters/invisibility.h"
 
 void CInvisibility::reinit()
 {

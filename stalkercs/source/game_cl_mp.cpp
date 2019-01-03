@@ -30,7 +30,7 @@
 #include "mainmenu.h"
 #include "WeaponKnife.h"
 #include "RegistryFuncs.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "file_transfer.h"
 #include "screenshot_server.h"
 #include "tools/ppmd_compressor.h"
@@ -45,7 +45,7 @@
 #define KILLEVENT_GRID_HEIGHT	64
 
 #include "game_cl_mp_snd_messages.h"
-#include "../3rd party/crypto/crypto.h"
+#include "crypto/crypto.h"
 #include "player_name_modifyer.h"
 
 BOOL g_draw_downloads = TRUE;
@@ -234,12 +234,12 @@ bool game_cl_mp::OnKeyboardPress(int key)
 
 				if (kCHAT_TEAM == key)
 				{
-					prefix.sprintf("%s> ", *st.translate("st_mp_say_to_team"));
+					prefix.printf("%s> ", *st.translate("st_mp_say_to_team"));
 					pChatWnd->TeamChat();
 				}
 				else
 				{
-					prefix.sprintf("%s> ", *st.translate("st_mp_say_to_all"));					
+					prefix.printf("%s> ", *st.translate("st_mp_say_to_all"));					
 					pChatWnd->AllChat();
 				}
 				
@@ -753,7 +753,7 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 		{
 			m_bSpectatorSelected = FALSE;
 
-			if (Level().pHUD && HUD().GetUI())
+			if (g_hud && HUD().GetUI())
 			{
 				CUIMessagesWindow*	messages_window = NULL;
 				CUI*				ui_window = HUD().GetUI();
@@ -796,7 +796,7 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 
 	default:
 		{
-			if (Level().pHUD && HUD().GetUI())
+			if (g_hud && HUD().GetUI())
 				HUD().GetUI()->ShowGameIndicators(false);
 			HideMessageMenus();
 		}break;
@@ -1278,7 +1278,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 			}break;
 		case SKT_KIR: 
 			{				
-				BName.sprintf("%d_kill_in_row", BonusKills);
+				BName.printf("%d_kill_in_row", BonusKills);
 
 				sprintf_s		(MoneyStr, sizeof(MoneyStr), "%d", BonusKills);
 				BMS.m_killer.m_name = MoneyStr;

@@ -20,7 +20,7 @@
 #include "weapon.h"
 #include "ik/math3d.h"
 #include "actor.h"
-
+#include "engine/xr_collide_form.h"
 //константы ShootFactor, определ€ющие 
 //поведение пули при столкновении с объектом
 #define RICOCHET_THRESHOLD		0.1

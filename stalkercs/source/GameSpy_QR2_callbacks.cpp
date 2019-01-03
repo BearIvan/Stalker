@@ -1,13 +1,13 @@
 #include "StdAfx.h"
 
-#include "../xrGameSpyServer.h"
-#include "GameSpy_Keys.h"
-#include "GameSpy_GCD_Client.h"
+#include "xrGameSpyServer.h"
+#include "gamespy/GameSpy_Keys.h"
+#include "gamespy/GameSpy_GCD_Client.h"
 
-#include "../Level.h"
+#include "Level.h"
 
-#include "../game_sv_artefacthunt.h"
-#include "../ui/UIInventoryUtilities.h"
+#include "game_sv_artefacthunt.h"
+#include "ui/UIInventoryUtilities.h"
 //--------------------------- QR2 callbacks ---------------------------------------
 #define ADD_KEY_VAL(g, q, qf, o, gf)		{if (g) {q->qf(o, g->gf);} else q->BufferAdd(o, "");}
 #define ADD_KEY_VAL_INT(g, q, qf, o, gf)		{if (g) {q->qf(o, int(g->gf));} else q->BufferAdd(o, "");}

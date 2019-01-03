@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "control_animation_base.h"
-#include "control_direction_base.h"
-#include "control_movement_base.h"
-#include "BaseMonster/base_monster.h"
-#include "../../CharacterPhysicsSupport.h"
-#include "../../PHMovementControl.h"
-#include "../../detail_path_manager.h"
-#include "monster_velocity_space.h"
-#include "control_path_builder_base.h"
+#include "ai/monsters/control_animation_base.h"
+#include "ai/monsters/control_direction_base.h"
+#include "ai/monsters/control_movement_base.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "CharacterPhysicsSupport.h"
+#include "PHMovementControl.h"
+#include "detail_path_manager.h"
+#include "ai/monsters/monster_velocity_space.h"
+#include "ai/monsters/control_path_builder_base.h"
 
 // DEBUG purpose only
 char *dbg_anim_name_table[] = {

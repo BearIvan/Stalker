@@ -11,7 +11,7 @@
 #ifndef AI_COMPILER
 #	include "engine/xrLevel.h"
 #else
-#	include "../engine/xrLevel.h"
+#	include "engine/xrLevel.h"
 #endif
 
 #include "alife_space.h"

@@ -245,20 +245,23 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 				Fvector	ext		= {w,h,VIEWPORT_NEAR/2};
 				Fvector				pt;
 				calc_gl_point	( pt, xform, radius, alpha );
-				if ( test_point( pt, mat, ext  ) )
+				if (test_point(pt, mat, ext))
 				{
-					da			= PI/1000.f;
+					da = PI / 1000.f;
 					if (!fis_zero(r_torso.roll))
-						da		*= r_torso.roll/_abs(r_torso.roll);
-					for (float angle=0.f; _abs(angle)<_abs(alpha); angle+=da)
+						da *= r_torso.roll / _abs(r_torso.roll);
+					float angle = 0.f;
+					for (; _abs(angle) < _abs(alpha); angle += da)
 					{
 						Fvector				pt;
-						calc_gl_point( pt, xform, radius, angle );
-						if (test_point( pt, mat,ext )) 
-							{ bIntersect=TRUE; break; } 
+						calc_gl_point(pt, xform, radius, angle);
+						if (test_point(pt, mat, ext))
+						{
+							bIntersect = TRUE; break;
+						}
 					}
-					valid_angle	= bIntersect?angle:alpha;
-				} 
+					valid_angle = bIntersect ? angle : alpha;
+				}
 			}
 			r_torso.roll		= valid_angle*2.f;
 			r_torso_tgt_roll	= r_torso.roll;

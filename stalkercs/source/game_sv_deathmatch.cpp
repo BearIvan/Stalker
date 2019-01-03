@@ -16,6 +16,7 @@
 #include "Missile.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "clsid_game.h"
+#include <functional>
 
 //#define DELAYED_ROUND_TIME	7000
 #include "ui\UIBuyWndShared.h"
@@ -168,9 +169,9 @@ void game_sv_Deathmatch::OnRoundStart()
 	fastdelegate::FastDelegate1<IClient*, void> tmp_delegate;
 	tmp_delegate.bind(this, &game_sv_Deathmatch::RespawnPlayerAsSpectator);
 	m_server->ForEachClientDoSender(tmp_delegate);
-	
+	m_item_respawner.respawn_all_items();
 	//Clear disconnected players
-	struct DisconnectedPlayersClearer
+	/*struct DisconnectedPlayersClearer
 	{
 		game_sv_Deathmatch*	m_owner;
 		DisconnectedPlayersClearer(game_sv_Deathmatch* owner) :
@@ -187,9 +188,11 @@ void game_sv_Deathmatch::OnRoundStart()
 			m_owner->Money_SetStart			(l_pC->ID);
 		}
 	};
-	DisconnectedPlayersClearer tmp_functor(this);
-	m_server->ForEachDisconnectedClientDo(tmp_functor);
-	m_item_respawner.respawn_all_items();
+
+	fastdelegate::FastDelegate1<IClient*, void> tmp_delegate;
+	tmp_delegate.bind(this, &game_sv_Deathmatch::RespawnPlayerAsSpectator);
+	m_server->ForEachClientDoSender(tmp_delegate);
+	m_item_respawner.respawn_all_items();*/
 }
 
 void game_sv_Deathmatch::OnRoundEnd()

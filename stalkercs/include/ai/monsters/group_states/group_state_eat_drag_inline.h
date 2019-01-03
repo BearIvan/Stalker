@@ -3,7 +3,7 @@
 #include "../../../PHCharacter.h"
 #include "../../../PHCapture.h"
 #include "../../../CaptureBoneCallback.h"
-#include "../../../Kinematics.h"
+#include "Kinematics.h"
 #include <boost/noncopyable.hpp>
 
 #define TEMPLATE_SPECIALIZATION template <\

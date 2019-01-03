@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "control_animation.h"
-#include "BaseMonster/base_monster.h"
-#include "control_manager.h"
-#include "../../profiler.h"
+#include "ai/monsters/control_animation.h"
+#include "ai/monsters/BaseMonster/base_monster.h"
+#include "ai/monsters/control_manager.h"
+#include "profiler.h"
 
 //#ifdef _DEBUG
 //#include "control_animation_base.h"

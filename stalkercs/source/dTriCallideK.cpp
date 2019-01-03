@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "dTriCollideK.h"
+#include "tri-colliderknoopc/dTriCollideK.h"
 
 
 

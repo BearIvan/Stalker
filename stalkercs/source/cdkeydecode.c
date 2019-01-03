@@ -2,7 +2,7 @@
 #define CHECK_LENGTH 2 //16 bit
 #define MAX_EXTRA_DATA_LENGTH 16 //16 bytes of data
 #define MAX_ENCODED_KEY (((MAX_EXTRA_DATA_LENGTH + KEY_LENGTH + CHECK_LENGTH) * 8 + 4) / 5)
-#include "base32.h"
+#include "gamespy/CdkeyDecode/base32.h"
 #include <string.h>
 
 int DecodeKeyData(const char *key, unsigned char *extradata)

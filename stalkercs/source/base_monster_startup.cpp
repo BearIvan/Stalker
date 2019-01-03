@@ -1,33 +1,33 @@
 #include "stdafx.h"
-#include "base_monster.h"
-#include "../../../ai_space.h"
-#include "../../../hit.h"
-#include "../../../PHDestroyable.h"
-#include "../../../CharacterPhysicsSupport.h"
-#include "../../../phmovementcontrol.h"
-#include "../ai_monster_squad_manager.h"
-#include "../KinematicsAnimated.h"
-#include "../../../detail_path_manager.h"
-#include "../../../level_graph.h"
-#include "../corpse_cover.h"
-#include "../../../cover_evaluators.h"
-#include "../../../sound_player.h"
+#include "ai/monsters/basemonster/base_monster.h"
+#include "ai_space.h"
+#include "hit.h"
+#include "PHDestroyable.h"
+#include "CharacterPhysicsSupport.h"
+#include "phmovementcontrol.h"
+#include "ai/monsters/ai_monster_squad_manager.h"
+#include "KinematicsAnimated.h"
+#include "detail_path_manager.h"
+#include "level_graph.h"
+#include "ai/monsters/corpse_cover.h"
+#include "cover_evaluators.h"
+#include "sound_player.h"
 
-#include "../state_manager.h"
-#include "../controlled_entity.h"
-#include "../anomaly_detector.h"
-#include "../monster_cover_manager.h"
-#include "../monster_home.h"
-#include "../../../ai_object_location.h"
-#include "../../../level.h"
-#include "../../xrserver_objects_alife_monsters.h"
-#include "../../../alife_simulator.h"
-#include "../../../alife_object_registry.h"
-#include "../../../xrServer.h"
-#include "../../../inventory_item.h"
-#include "../../xrServer_objects_ALife.h"
-#include "../../../phMovementControl.h"
-#include "../ai_monster_squad.h"
+#include "ai/monsters/state_manager.h"
+#include "ai/monsters/controlled_entity.h"
+#include "ai/monsters/anomaly_detector.h"
+#include "ai/monsters/monster_cover_manager.h"
+#include "ai/monsters/monster_home.h"
+#include "ai_object_location.h"
+#include "level.h"
+#include "xrserver_objects_alife_monsters.h"
+#include "alife_simulator.h"
+#include "alife_object_registry.h"
+#include "xrServer.h"
+#include "inventory_item.h"
+#include "xrServer_objects_ALife.h"
+#include "phMovementControl.h"
+#include "ai/monsters/ai_monster_squad.h"
 
 namespace detail
 {
@@ -287,7 +287,7 @@ void CBaseMonster::net_Destroy()
 	else if (ltx->line_exist(section,name)) var = ltx->method(section,name);\
 }
 
-void CBaseMonster::settings_read(CInifile *ini, LPCSTR section, SMonsterSettings &data)
+void CBaseMonster::settings_read(const CInifile *ini, LPCSTR section, SMonsterSettings &data)
 {
 	READ_SETTINGS(data.m_fSoundThreshold, "SoundThreshold", r_float, ini, section);
 

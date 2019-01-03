@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "anim_triple.h"
-#include "control_manager.h"
+#include "ai/monsters/anim_triple.h"
+#include "ai/monsters/control_manager.h"
 
 char *dbg_states[] = {
 	"eStatePrepare", 

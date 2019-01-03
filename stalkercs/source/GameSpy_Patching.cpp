@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "GameSpy_Patching.h"
-#include "GameSpy_Base_Defs.h"
-#include "../MainMenu.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "gamespy/GameSpy_Patching.h"
+#include "gamespy/GameSpy_Base_Defs.h"
+#include "MainMenu.h"
+#include "xrGameSpy_MainDefs.h"
 #include "engine/no_single.h"
 
 CGameSpy_Patching::CGameSpy_Patching()

@@ -17,7 +17,7 @@
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "string_table.h"
-#include "../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "xrGameSpy_MainDefs.h"
 
 EGameIDs ParseStringToGameType(LPCSTR str);
 
@@ -203,7 +203,7 @@ public:
 
 		u32 CLObjNum	= Level().Objects.o_count();
 		xr_vector<u16>	CObjID;
-		for (i=0; i<CLObjNum; i++)
+		for (u32 i=0; i<CLObjNum; i++)
 		{
 			CObjID.push_back(Level().Objects.o_get_by_iterator(i)->ID());
 		};
@@ -1417,7 +1417,7 @@ public:
 		weather_name[0]			= 0;
 		sscanf					(args,"%s", weather_name);
 		if (!weather_name[0])	return;
-		g_pGamePersistent->Environment().SetWeather(weather_name);		
+		ENV.SetWeather(weather_name);		
 	};
 
 	virtual void	Info	(TInfo& I){strcpy_s(I,"Set new weather"); }

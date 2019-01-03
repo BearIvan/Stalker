@@ -2,7 +2,7 @@
 
 #include "../KinematicsAnimated.h"
 #include "../../../actor.h"
-#include "../../../engine/CameraBase.h"
+#include "engine/CameraBase.h"
 
 #define TEMPLATE_SPECIALIZATION template <\
 	typename _Object\

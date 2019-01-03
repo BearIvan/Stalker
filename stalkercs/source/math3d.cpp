@@ -31,7 +31,7 @@
 
  */
 #include "StdAfx.h"
-#include "math3d.h"
+#include "ik/math3d.h"
 
 #ifndef JACK
 

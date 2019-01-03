@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../engine/effector.h"
+#include "engine/effector.h"
 #include "../../../pp_effector_custom.h"
 
 ////////////////////////////////////////////////////////////////////////////////////

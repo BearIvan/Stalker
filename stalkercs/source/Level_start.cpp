@@ -17,7 +17,7 @@ extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 #define DEMO_PLAY_OPT "mpdemoplay:"
 #define DEMO_SAVE_KEY "-mpdemosave"
 
-BOOL CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
+bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 {
 	net_start_result_total				= TRUE;
 
@@ -247,14 +247,14 @@ bool CLevel::net_start6				()
 	}else{
 		Msg				("! Failed to start client. Check the connection or level existance.");
 
-		if (m_connect_server_err==xrServer::ErrBELoad)
+		/*if (m_connect_server_err==xrServer::ErrBELoad)
 		{
 			DEL_INSTANCE	(g_pGameLevel);
 			Console->Execute("main_menu on");
 
 			MainMenu()->OnLoadError("BattlEye/BEServer.dll");
 		}
-		else
+		else*/
 		if (m_connect_server_err==xrServer::ErrConnect&&!psNET_direct_connect && !g_dedicated_server) 
 		{
 			DEL_INSTANCE	(g_pGameLevel);

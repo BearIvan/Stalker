@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "dCylinder.h"
+#include "dcylinder/dCylinder.h"
 // given a pointer `p' to a dContactGeom, return the dContactGeom at
 // p + skip bytes.
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "dTriColliderCommon.h"
-#include "../dCylinder/dCylinder.h"
-#include "dTriCylinder.h"
-#include "../MathUtils.h"
-#include "dcTrilistCollider.h"
+#include "tri-colliderknoopc/dTriColliderCommon.h"
+#include "dCylinder/dCylinder.h"
+#include "tri-colliderknoopc/dTriCylinder.h"
+#include "MathUtils.h"
+#include "tri-colliderknoopc/dcTrilistCollider.h"
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////

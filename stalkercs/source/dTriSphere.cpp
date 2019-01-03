@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "dTriColliderCommon.h"
-#include "dTriColliderMath.h"
-#include "dTriSphere.h"
-#include "dctrilistcollider.h"
+#include "tri-colliderknoopc/dTriColliderCommon.h"
+#include "tri-colliderknoopc/dTriColliderMath.h"
+#include "tri-colliderknoopc/dTriSphere.h"
+#include "tri-colliderknoopc/dctrilistcollider.h"
 ////////////////////////////////////////////////////////////////////////////
 IC dReal dcTriListCollider::PointSphereTest(const dReal* center, const dReal radius,
 							 const dReal* pt,dReal* norm)

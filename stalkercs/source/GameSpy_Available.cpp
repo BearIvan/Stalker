@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "GameSpy_Available.h"
-#include "GameSpy_Base_Defs.h"
+#include "gamespy/GameSpy_Available.h"
+#include "gamespy/GameSpy_Base_Defs.h"
 
 CGameSpy_Available::CGameSpy_Available()
 {

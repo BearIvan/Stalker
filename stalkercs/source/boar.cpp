@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "boar.h"
-#include "boar_state_manager.h"
-#include "../KinematicsAnimated.h"
-#include "../monster_velocity_space.h"
-#include "../../../game_object_space.h"
-#include "../control_animation_base.h"
-#include "../control_movement_base.h"
+#include "ai/monsters/boar/boar.h"
+#include "ai/monsters/boar/boar_state_manager.h"
+#include "KinematicsAnimated.h"
+#include "ai/monsters/monster_velocity_space.h"
+#include "game_object_space.h"
+#include "ai/monsters/control_animation_base.h"
+#include "ai/monsters/control_movement_base.h"
 
 
 CAI_Boar::CAI_Boar()

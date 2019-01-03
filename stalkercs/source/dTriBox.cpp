@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "dTriColliderCommon.h"
-#include "dTriBox.h"
-#include "dcTriListCollider.h"
+#include "tri-colliderknoopc/dTriColliderCommon.h"
+#include "tri-colliderknoopc/dTriBox.h"
+#include "tri-colliderknoopc/dcTriListCollider.h"
 
 
 int dcTriListCollider::dSortedTriBox (

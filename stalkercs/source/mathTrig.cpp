@@ -32,7 +32,7 @@
  */
 #include "StdAfx.h"
 
-#include "mathTrig.h"
+#include "ik/mathTrig.h"
 
 //
 // Normalize an angle to the range -Pi..Pi

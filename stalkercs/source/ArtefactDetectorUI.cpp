@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "ArtefactDetectorUI.h"
-#include "UIXmlInit.h"
-#include "xrUIXmlParser.h"
+#include "ui/ArtefactDetectorUI.h"
+#include "ui/UIXmlInit.h"
+#include "ui/xrUIXmlParser.h"
 
 
 void CUIDetectorWave::SetVelocity(float v)
