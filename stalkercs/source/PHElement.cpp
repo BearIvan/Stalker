@@ -11,7 +11,7 @@
 //#include "Kinematics.h"
 #include "Kinematics.h"
 #include "KinematicsAnimated.h"
-#include "src/util.h"
+#include "ode/src/util.h"
 #ifdef DEBUG
 #	include "PHDebug.h"
 #	include "objectdump.h"
@@ -21,7 +21,7 @@
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
 
-#include "src/collision_kernel.h"
+#include "ode/src/collision_kernel.h"
 
 
 #pragma warning(default:4267)

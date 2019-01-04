@@ -896,6 +896,15 @@ void CLevel::OnRender()
 #endif
 }
 
+shared_str CLevel::OpenDemoFile(const char * demo_file_name)
+{
+	return shared_str();
+}
+
+void CLevel::net_StartPlayDemo()
+{
+}
+
 void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
 {
 	if (E==eEntitySpawn)	{

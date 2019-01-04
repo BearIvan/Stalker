@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "poltergeist.h"
-#include "../../../PhysicsShellHolder.h"
-#include "../../../level.h"
-#include "../../../actor.h"
+#include "ai/monsters/poltergeist/poltergeist.h"
+#include "PhysicsShellHolder.h"
+#include "level.h"
+#include "actor.h"
 
 CPolterTele::CPolterTele(CPoltergeist *polter) : inherited (polter)
 {

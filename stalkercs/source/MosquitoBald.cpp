@@ -4,6 +4,7 @@
 #include "ParticlesObject.h"
 #include "level.h"
 #include "physicsshellholder.h"
+#include "engine/xr_collide_form.h"
 
 CMosquitoBald::CMosquitoBald(void) 
 {

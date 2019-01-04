@@ -10,7 +10,7 @@
 #include "engine/gamemtllib.h"
 
 #include "tri-colliderKNoOPC\__aabb_tri.h"
-#include "src/util.h"
+#include "ode/src/util.h"
 
 CPHCharacter::CPHCharacter(void):
   CPHDisablingTranslational()

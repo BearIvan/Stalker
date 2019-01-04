@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "monster_event_manager.h"
+#include "ai/monsters/monster_event_manager.h"
 
 CMonsterEventManager::CMonsterEventManager()
 {

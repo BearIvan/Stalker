@@ -50,6 +50,7 @@ public:
 	virtual					~CHUDManager		();
 	virtual		void		OnEvent				(EVENT E, u64 P1, u64 P2);
 
+	virtual void			OnScreenResolutionChanged();
 	virtual		void		Load				();
 	
 	virtual		void		Render_First		();

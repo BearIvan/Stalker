@@ -141,6 +141,18 @@ CHUDManager::~CHUDManager()
 
 //--------------------------------------------------------------------
 
+void CHUDManager::OnScreenResolutionChanged()
+{
+/*pUI->HideShownDialogs();
+
+	xr_delete(pWpnScopeXml);
+
+	pUI->UnLoad();
+	UI->Load();
+
+	pUI->OnConnected();*/
+}
+
 void CHUDManager::Load()
 {
 	if(pUI){

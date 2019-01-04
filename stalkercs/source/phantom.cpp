@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "phantom.h"
-#include "../../level.h"
-#include "../xrserver_objects_alife_monsters.h"
-#include "../../engine/motion.h"
+#include "ai/phantom/phantom.h"
+#include "level.h"
+#include "xrserver_objects_alife_monsters.h"
+#include "engine/motion.h"
 #include "RenderVisual.h"
 #include "KinematicsAnimated.h"
 

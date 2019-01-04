@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "monster_morale.h"
+#include "ai/monsters/monster_morale.h"
 
 void CMonsterMorale::init_external(CBaseMonster *obj)
 {
