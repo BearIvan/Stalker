@@ -11,7 +11,7 @@
 #ifdef INGAME_EDITOR
 #include "editor_environment_ambients_ambient.hpp"
 #include "ide.hpp"
-#include "property_collection.hpp"
+#include "property_collection.hpp" 
 #include "editor_environment_ambients_effect_id.hpp"
 #include "editor_environment_ambients_sound_id.hpp"
 #include "editor_environment_ambients_manager.hpp"

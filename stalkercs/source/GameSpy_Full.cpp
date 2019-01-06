@@ -48,7 +48,15 @@ CGameSpy_Full::~CGameSpy_Full()
 
 void	CGameSpy_Full::LoadGameSpy()
 {
-	LPCSTR			g_name	= "xrGameSpy.dll";
+	LPCSTR			g_name =
+#ifdef MIXED
+		"stalker_gamespy_mixed.dll"
+#elif DEBUG
+		"stalker_gamespy_debug.dll"
+#else
+		"stalker_gamespy.dll"
+#endif
+		;
 	Log				("Loading DLL:",g_name);
 	m_hGameSpyDLL			= LoadLibrary	(g_name);
 	if (0==m_hGameSpyDLL)	R_CHK			(GetLastError());

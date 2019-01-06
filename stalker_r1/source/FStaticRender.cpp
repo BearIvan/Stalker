@@ -79,7 +79,7 @@ void					CRender::create					()
 	if ( v_dev >= v_need )						o.color_mapping = TRUE;
 	else										o.color_mapping = FALSE;
 	if (strstr(Core.Params,"-nocolormap"))		o.color_mapping = FALSE;
-	if (gameVersionController->getGame() == gameVersionController->SOC)
+	if (gameVersionController->getGame() != gameVersionController->COP)
 		o.color_mapping = 0;
 
 	Msg				("* color_mapping: %s, dev(%d),need(%d)",o.color_mapping?"used":"unavailable",v_dev,v_need);

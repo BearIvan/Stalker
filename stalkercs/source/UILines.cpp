@@ -13,7 +13,11 @@
 #include "UI/UIXmlInit.h"
 #include "UI/UIlinestd.h"
 
-
+bool isspace_(int ch)
+{
+	return ((ch == 0x09) || (ch == 0x0A) || (ch == 0x0B) ||
+		(ch == 0x0B) || (ch == 0x0C) || (ch == 0x0D) || (ch == 0x20)) ? true : false;
+}
 CUILines::CUILines()
 {
 	m_pFont = NULL;
@@ -265,7 +269,7 @@ void CUILines::ParseText(){
 			{
 				bool b_last_ch	= (idx==sub_len-1);
 				
-				if(isspace(sbl.m_text[idx]))
+				if(isspace_(sbl.m_text[idx]))
 					last_space_idx = idx;
 
 				float w1		= get_str_width(m_pFont, sbl.m_text[idx]);

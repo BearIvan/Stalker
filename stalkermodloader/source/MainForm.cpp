@@ -47,13 +47,16 @@ void MainForm::cbCbGames()
 	{
 	case 0:
 		path = GameVersionController::Path::SOC_1004;
+		break;
 	case 1:
 		path = GameVersionController::Path::SOC_1007;
+		break;
 	case 2:
 		path = GameVersionController::Path::CS_1510;
+		break;
 	case 3:
 		path = GameVersionController::Path::COP_1602;
-
+		break;
 	default:
 		break;
 	}
