@@ -4,13 +4,13 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIPdaMsgListItem.h"
-#include "../Entity.h"
+#include "UI/UIPdaMsgListItem.h"
+#include "Entity.h"
 #include "character_info.h"
-#include "UIInventoryUtilities.h"
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "uicoloranimatorwrapper.h"
+#include "UI/UIInventoryUtilities.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIcoloranimatorwrapper.h"
 #include "engine/object_broker.h"
 
 #define PDA_MSG_MAINGAME_CHAR "maingame_pda_msg.xml"

@@ -1,14 +1,14 @@
 #include "StdAfx.h"
-#include "UIOutfitInfo.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
-#include "UIDoubleProgressBar.h"
+#include "UI/UIOutfitInfo.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
+#include "UI/UIDoubleProgressBar.h"
 
-#include "..\CustomOutfit.h"
-#include "..\string_table.h"
-#include "..\actor.h"
-#include "..\ActorCondition.h"
-#include "..\player_hud.h"
+#include "CustomOutfit.h"
+#include "string_table.h"
+#include "actor.h"
+#include "ActorCondition.h"
+#include "player_hud.h"
 
 
 LPCSTR immunity_names[]=

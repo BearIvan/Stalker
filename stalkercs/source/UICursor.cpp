@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "uicursor.h"
+#include "UIcursor.h"
 
 #include "engine/CustomHUD.h"
 #include "UI.h"
 #include "HUDManager.h"
-#include "ui/UIStatic.h"
+#include "UI/UIStatic.h"
 
 
 #define C_DEFAULT	D3DCOLOR_XRGB(0xff,0xff,0xff)

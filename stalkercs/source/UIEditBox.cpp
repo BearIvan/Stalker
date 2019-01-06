@@ -4,9 +4,9 @@
 
 #include "stdafx.h"
 #include <dinput.h>
-#include "uieditbox.h"
-#include "../HUDManager.h"
-#include "UIColorAnimatorWrapper.h"
+#include "UI/UIeditbox.h"
+#include "HUDManager.h"
+#include "UI/UIColorAnimatorWrapper.h"
 
 
 CUIEditBox::CUIEditBox()

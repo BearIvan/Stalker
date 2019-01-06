@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIPropertiesBox.h"
-#include "../hudmanager.h"
-#include "../level.h"
-#include "UIListBoxItem.h"
-#include "UIXmlInit.h"
+#include "UI/UIPropertiesBox.h"
+#include "hudmanager.h"
+#include "level.h"
+#include "UI/UIListBoxItem.h"
+#include "UI/UIXmlInit.h"
 
 #define OFFSET_X (5.0f)
 #define OFFSET_Y (5.0f)

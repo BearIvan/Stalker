@@ -8,19 +8,19 @@
 
 #include "StdAfx.h"
 
-#include "UIMessagesWindow.h"
-#include "../level.h"
-#include "UIGameLog.h"
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIChatWnd.h"
-#include "UIPdaMsgListItem.h"
-#include "UIColorAnimatorWrapper.h"
-#include "../InfoPortion.h"
-#include "../string_table.h"
-#include "../game_cl_artefacthunt.h"
-#include "../game_news.h"
-#include "UIInventoryUtilities.h"
+#include "UI/UIMessagesWindow.h"
+#include "level.h"
+#include "UI/UIGameLog.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIChatWnd.h"
+#include "UI/UIPdaMsgListItem.h"
+#include "UI/UIColorAnimatorWrapper.h"
+#include "InfoPortion.h"
+#include "string_table.h"
+#include "game_cl_artefacthunt.h"
+#include "game_news.h"
+#include "UI/UIInventoryUtilities.h"
 
 CUIMessagesWindow::CUIMessagesWindow(){
 	m_pChatLog = NULL;

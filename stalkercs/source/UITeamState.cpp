@@ -6,9 +6,9 @@
 #include "UIPlayerItem.h"
 #include "UITeamHeader.h"
 
-#include "ui/UIFrameWindow.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIStatic.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIScrollView.h"
+#include "UI/UIStatic.h"
 
 #include "game_cl_mp.h"
 

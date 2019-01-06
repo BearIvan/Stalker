@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "UIEditBoxEx.h"
-#include "UIFrameWindow.h"
+#include "UI/UIEditBoxEx.h"
+#include "UI/UIFrameWindow.h"
 
 
 

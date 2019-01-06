@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIFrameWindow.h"
-#include "../HUDManager.h"
-#include "UITextureMaster.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
+#include "UI/UIFrameWindow.h"
+#include "HUDManager.h"
+#include "UI/UITextureMaster.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
 #include "UIRender.h"
 
 CUIFrameWindow::CUIFrameWindow()

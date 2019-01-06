@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "UIScrollBar.h"
+#include "UI/UIListBox.h"
+#include "UI/UIListBoxItem.h"
+#include "UI/UIScrollBar.h"
 
 CUIListBox::CUIListBox()
 {
@@ -39,7 +39,7 @@ bool CUIListBox::OnMouse(float x, float y, EUIMessages mouse_action)
 	return false;
 }
 
-#include "../string_table.h"
+#include "string_table.h"
 CUIListBoxItem* CUIListBox::AddItem(LPCSTR text)
 {
 	if (!text)			

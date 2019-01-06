@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "UIMpItemsStoreWnd.h"
+#include "UI/UIMpTradeWnd.h"
+#include "UI/UIMpItemsStoreWnd.h"
 
-#include "UICellItem.h"
-#include "UIDragDropListEx.h"
-#include "UICellCustomItems.h"
+#include "UI/UICellItem.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UICellCustomItems.h"
 #include <dinput.h>
 #include "game_cl_deathmatch.h"
 #include "game_cl_capture_the_artefact.h"
@@ -198,7 +198,7 @@ bool CUIMpTradeWnd::TryToBuyItem(SBuyItemInfo* buy_itm, u32 buy_flags, SBuyItemI
 	}
 	return						true;
 }
-#include "../string_table.h"
+#include "string_table.h"
 bool CUIMpTradeWnd::CheckBuyPossibility(const shared_str& sect_name, u32 buy_flags, bool b_silent)
 {
 	string256					info_buffer;

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "UIOptionsManager.h"
-#include "UIOptionsItem.h"
-#include "../engine/xr_ioconsole.h"
+#include "UI/UIOptionsManager.h"
+#include "UI/UIOptionsItem.h"
+#include "engine/xr_ioconsole.h"
 
 CUIOptionsManager::CUIOptionsManager()
 {

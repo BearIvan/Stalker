@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "uistatic.h"
-#include "UIXmlInit.h"
-#include "UITextureMaster.h"
-#include "uiframewindow.h"
-#include "../HUDManager.h"
-#include "../engine/LightAnimLibrary.h"
-#include "uilines.h"
-#include "../string_table.h"
-#include "../ui_base.h"
+#include "UI/UIstatic.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UITextureMaster.h"
+#include "UI/UIframewindow.h"
+#include "HUDManager.h"
+#include "engine/LightAnimLibrary.h"
+#include "UI/UIlines.h"
+#include "string_table.h"
+#include "UI_base.h"
 
 #include "UIRender.h"
 
@@ -166,7 +166,7 @@ void CUIStatic::DrawText()
 
 	}
 }
-#include "../UIShader.h"
+#include "UIShader.h"
 
 void CUIStatic::DrawTexture()
 {

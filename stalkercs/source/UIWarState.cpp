@@ -6,10 +6,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIWarState.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
+#include "UI/UIWarState.h"
+#include "UI/UIStatic.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIHelper.h"
 
 UIWarState::UIWarState()
 {

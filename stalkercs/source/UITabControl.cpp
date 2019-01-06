@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "UITabControl.h"
-#include "UITabButton.h"
+#include "UI/UITabControl.h"
+#include "UI/UITabButton.h"
 
 CUITabControl::CUITabControl()
 	 :m_cGlobalTextColor	(0xFFFFFFFF),

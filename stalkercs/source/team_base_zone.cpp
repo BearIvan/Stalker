@@ -18,7 +18,7 @@
 #include "map_manager.h"
 #include "map_location.h"
 #include "engine/IGame_Persistent.h"
-
+#include "engine/xr_collide_form.h"
 #ifdef DEBUG
 #	include "debug_renderer.h"
 #endif
@@ -137,7 +137,7 @@ void CTeamBaseZone::feel_touch_delete	(CObject *tpObject)
 	};
 }
 
-BOOL CTeamBaseZone::feel_touch_contact	(CObject* O)
+bool CTeamBaseZone::feel_touch_contact	(CObject* O)
 {
 	CActor*	pActor = smart_cast<CActor*>(O);
 	if (!pActor) return (FALSE);

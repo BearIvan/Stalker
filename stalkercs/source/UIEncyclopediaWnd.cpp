@@ -7,18 +7,18 @@
 //=============================================================================
 
 #include "StdAfx.h"
-#include "UIEncyclopediaWnd.h"
-/*#include "UIXmlInit.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIAnimatedStatic.h"
-#include "UIListWnd.h"
-#include "UIScrollView.h"
-#include "UITreeViewItem.h"
-#include "UIEncyclopediaArticleWnd.h"
-#include "../encyclopedia_article.h"
-#include "../alife_registry_wrappers.h"
-#include "../actor.h"
+#include "UI/UIEncyclopediaWnd.h"
+/*#include "UI/UIXmlInit.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIFrameLineWnd.h"
+#include "UI/UIAnimatedStatic.h"
+#include "UI/UIListWnd.h"
+#include "UI/UIScrollView.h"
+#include "UI/UITreeViewItem.h"
+#include "UI/UIEncyclopediaArticleWnd.h"
+#include "encyclopedia_article.h"
+#include "alife_registry_wrappers.h"
+#include "actor.h"
 #include "engine/object_broker.h"
 
 #define				ENCYCLOPEDIA_DIALOG_XML		"encyclopedia.xml"
@@ -91,7 +91,7 @@ void CUIEncyclopediaWnd::Init()
 	xml_init.InitAutoStatic(uiXml, "right_auto_static", UIEncyclopediaIdxBkg);
 }
 
-#include "../string_table.h"
+#include "string_table.h"
 void CUIEncyclopediaWnd::SendMessage(CUIWindow *pWnd, s16 msg, void* pData)
 {
 	if (UIIdxList == pWnd && LIST_ITEM_CLICKED == msg)

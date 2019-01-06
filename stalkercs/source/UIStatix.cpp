@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "UIStatix.h"
+#include "UI/UIStatix.h"
 
 CUIStatix::CUIStatix(){
 	m_bSelected		= false;

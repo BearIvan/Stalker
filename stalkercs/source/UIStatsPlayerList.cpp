@@ -1,13 +1,13 @@
 #include "StdAfx.h"
-#include "UIStatsPlayerList.h"
-#include "../game_cl_base.h"
-#include "../game_cl_artefacthunt.h"
-#include "UIStatsPlayerInfo.h"
-#include "UIStatsIcon.h"
-#include "../string_table.h"
-#include "../level.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
+#include "UI/UIStatsPlayerList.h"
+#include "game_cl_base.h"
+#include "game_cl_artefacthunt.h"
+#include "UI/UIStatsPlayerInfo.h"
+#include "UI/UIStatsIcon.h"
+#include "string_table.h"
+#include "level.h"
+#include "UI/UIStatic.h"
+#include "UI/UIXmlInit.h"
 
 IC bool	DM_Compare_Players		(game_PlayerState* p1, game_PlayerState* p2);
 

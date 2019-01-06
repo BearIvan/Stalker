@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "UIMessageBox.h"
-#include "UIMessageBoxEx.h"
-#include "../UIDialogHolder.h"
+#include "UI/UIMessageBox.h"
+#include "UI/UIMessageBoxEx.h"
+#include "UIDialogHolder.h"
 #include <dinput.h>
 
 CUIMessageBoxEx::CUIMessageBoxEx(){

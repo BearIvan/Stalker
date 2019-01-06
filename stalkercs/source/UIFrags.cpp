@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 
-#include "UIFrags.h"
-#include "UIStats.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
+#include "UI/UIFrags.h"
+#include "UI/UIStats.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
 
 CUIFrags::CUIFrags(){	
 	m_pBackT = xr_new<CUIStatic>(); AttachChild(m_pBackT);

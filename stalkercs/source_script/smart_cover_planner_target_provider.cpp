@@ -52,3 +52,7 @@ void target_fire_no_lookout::initialize							()
 	m_storage->set_property				(StalkerDecisionSpace::eWorldPropertyLookedOut, false);
 	inherited::initialize				();
 }
+target_fire_no_lookout::~target_fire_no_lookout()
+{
+
+}

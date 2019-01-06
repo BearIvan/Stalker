@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIPdaContactsWnd.h"
-#include "../Pda.h"
-#include "UIXmlInit.h"
-#include "../actor.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UIAnimatedStatic.h"
-#include "UIScrollView.h"
-#include "../actor.h"
-#include "../string_table.h"
+#include "UI/UIPdaContactsWnd.h"
+#include "Pda.h"
+#include "UI/UIXmlInit.h"
+#include "actor.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIFrameLineWnd.h"
+#include "UI/UIAnimatedStatic.h"
+#include "UI/UIScrollView.h"
+#include "actor.h"
+#include "string_table.h"
 
 #define PDA_CONTACT_HEIGHT 70
 
@@ -146,7 +146,7 @@ CUIPdaContactItem::~CUIPdaContactItem()
 
 extern CSE_ALifeTraderAbstract* ch_info_get_from_id (u16 id);
 
-#include "UICharacterInfo.h"
+#include "UI/UICharacterInfo.h"
 
 void CUIPdaContactItem::SetSelected	(bool b)
 {

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UIDragDropListEx.h"
-#include "UIScrollBar.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UIScrollBar.h"
 #include "engine/object_broker.h"
-#include "UICellItem.h"
+#include "UI/UICellItem.h"
 
 #include "UIRender.h"
 #include "UIShader.h"
@@ -291,7 +291,7 @@ void CUIDragDropListEx::Compact()
 }
 
 
-#include "../HUDManager.h"
+#include "HUDManager.h"
 void CUIDragDropListEx::Draw()
 {
 	inherited::Draw				();

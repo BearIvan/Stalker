@@ -7,8 +7,8 @@
 // Copyright 2005 GSC GameWorld
 
 #include "StdAfx.h"
-#include "UIPdaKillMessage.h"
-#include "UIInventoryUtilities.h"
+#include "UI/UIPdaKillMessage.h"
+#include "UI/UIInventoryUtilities.h"
 #include "UIShader.h"
 
 using namespace InventoryUtilities;

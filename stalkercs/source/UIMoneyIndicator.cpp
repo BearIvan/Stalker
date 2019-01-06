@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIMoneyIndicator.h"
-#include "UIColorAnimatorWrapper.h"
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIGameLog.h"
+#include "UI/UIMoneyIndicator.h"
+#include "UI/UIColorAnimatorWrapper.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIGameLog.h"
 
 CUIMoneyIndicator::CUIMoneyIndicator(){
 	AttachChild(&m_back);

@@ -18,6 +18,7 @@
 #include "actorEffector.h"
 #include "CustomOutfit.h"
 
+#include "engine/xr_collide_form.h"
 static const float		TIME_2_HIDE					= 5.f;
 static const float		TORCH_INERTION_CLAMP		= PI_DIV_6;
 static const float		TORCH_INERTION_SPEED_MAX	= 7.5f;

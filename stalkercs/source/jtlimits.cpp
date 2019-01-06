@@ -33,8 +33,8 @@
 
 
 #include "stdafx.h"
-#include "aint.h"
-#include "jtlimits.h"
+#include "ik/aint.h"
+#include "ik/jtlimits.h"
 
 
 //

@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "UIDragDropListEx.h"
-#include "UICellItem.h"
-#include "../weaponmagazinedwgrenade.h"
-#include "../engine/xr_input.h"
-#include "UIMpItemsStoreWnd.h"
+#include "UI/UIMpTradeWnd.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UICellItem.h"
+#include "weaponmagazinedwgrenade.h"
+#include "engine/xr_input.h"
+#include "UI/UIMpItemsStoreWnd.h"
 
 void CUIMpTradeWnd::OnBtnPistolAmmoClicked(CUIWindow* w, void* d)
 {

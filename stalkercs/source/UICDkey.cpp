@@ -1,14 +1,14 @@
 
 #include "stdafx.h"
-#include "UICDkey.h"
-#include "UILines.h"
-#include "../engine/line_edit_control.h"
-#include "../MainMenu.h"
+#include "UI/UICDkey.h"
+#include "UI/UILines.h"
+#include "engine/line_edit_control.h"
+#include "MainMenu.h"
 
-#include "UIColorAnimatorWrapper.h"
-#include "../engine/xr_IOConsole.h"
-#include "../RegistryFuncs.h"
-#include "../../xrGameSpy/xrGameSpy_MainDefs.h"
+#include "UI/UIColorAnimatorWrapper.h"
+#include "engine/xr_IOConsole.h"
+#include "RegistryFuncs.h"
+#include "xrGameSpy_MainDefs.h"
 #include "player_name_modifyer.h"
 
 extern string64	gsCDKey;

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "UIFrameLineWnd.h"
+#include "UI/UIFrameLineWnd.h"
 
 CUIFrameLineWnd::CUIFrameLineWnd()
 	:	bHorizontal(true),

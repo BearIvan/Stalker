@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "UIMapWnd.h"
-#include "UIMap.h"
-#include "UIXmlInit.h"
+#include "UI/UIMapWnd.h"
+#include "UI/UIMap.h"
+#include "UI/UIXmlInit.h"
 
-#include "UI3tButton.h"
-#include "UIHelper.h"
-#include "UITaskWnd.h"
+#include "UI/UI3tButton.h"
+#include "UI/UIHelper.h"
+#include "UI/UITaskWnd.h"
 
 void CUIMapWnd::init_xml_nav( CUIXml& xml )
 {

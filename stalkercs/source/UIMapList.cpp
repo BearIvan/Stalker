@@ -1,17 +1,17 @@
 #include "StdAfx.h"
-#include "UIMapList.h"
-#include "UIListBox.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UI3tButton.h"
-#include "UISpinText.h"
-#include "UIXmlInit.h"
-#include "UIMapInfo.h"
-#include "UIComboBox.h"
-#include "UIListBoxItem.h"
-#include "../engine/xr_ioconsole.h"
-#include "../string_table.h"
-#include "CExtraContentFilter.h"
+#include "UI/UIMapList.h"
+#include "UI/UIListBox.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIFrameLineWnd.h"
+#include "UI/UI3tButton.h"
+#include "UI/UISpinText.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIMapInfo.h"
+#include "UI/UIComboBox.h"
+#include "UI/UIListBoxItem.h"
+#include "engine/xr_ioconsole.h"
+#include "string_table.h"
+#include "UI/CExtraContentFilter.h"
 
 #include "engine/object_broker.h"
 #include "game_base.h"
@@ -219,7 +219,7 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 
     return m_command.c_str();
 }
-#include "../UIGameCustom.h"
+#include "UIGameCustom.h"
 void CUIMapList::LoadMapList()
 {
 
@@ -286,7 +286,7 @@ void CUIMapList::SetServerParams(LPCSTR params){
 	m_srv_params = params;
 }
 
-#include "uilistboxitem.h"
+#include "UI/UIlistboxitem.h"
 void CUIMapList::AddWeather(const shared_str& WeatherType, const shared_str& WeatherTime, u32 _id)
 {
 	R_ASSERT2					(m_pWeatherSelector, "m_pWeatherSelector == NULL");

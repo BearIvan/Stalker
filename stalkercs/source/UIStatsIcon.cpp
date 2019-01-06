@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "UIStatsIcon.h"
-#include "UITextureMaster.h"
-#include "UIInventoryUtilities.h"
+#include "UI/UIStatsIcon.h"
+#include "UI/UITextureMaster.h"
+#include "UI/UIInventoryUtilities.h"
 
 #include "UIShader.h"
 

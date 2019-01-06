@@ -1,12 +1,12 @@
 #include <stdafx.h>
-#include "UIChatWnd.h"
-#include "UIGameLog.h"
-#include "UIEditBox.h"
-#include "UIXmlInit.h"
-#include "../game_cl_base.h"
-#include "../xr_level_controller.h"
-#include "../Level.h"
-#include "../engine/xr_object.h"
+#include "UI/UIChatWnd.h"
+#include "UI/UIGameLog.h"
+#include "UI/UIEditBox.h"
+#include "UI/UIXmlInit.h"
+#include "game_cl_base.h"
+#include "xr_level_controller.h"
+#include "Level.h"
+#include "engine/xr_object.h"
 
 CUIChatWnd::CUIChatWnd(CUIGameLog *pList)
 	:	pUILogList				(pList),

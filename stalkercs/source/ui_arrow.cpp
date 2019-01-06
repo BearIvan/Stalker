@@ -1,8 +1,8 @@
 
 #include "stdafx.h"
 
-#include "ui_arrow.h"
-#include "UIXmlInit.h"
+#include "UI/UI_arrow.h"
+#include "UI/UIXmlInit.h"
 
 
 UI_Arrow::UI_Arrow()

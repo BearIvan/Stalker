@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "ui_af_params.h"
-#include "UIStatic.h"
+#include "UI/UI_af_params.h"
+#include "UI/UIStatic.h"
 
-#include "..\actor.h"
-#include "..\ActorCondition.h"
+#include "actor.h"
+#include "ActorCondition.h"
 #include "engine/object_broker.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "../string_table.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIHelper.h"
+#include "string_table.h"
 
 u32 const red_clr   = color_argb( 250, 210, 50,  50 );
 u32 const green_clr = color_argb( 250, 50,  210, 50 );

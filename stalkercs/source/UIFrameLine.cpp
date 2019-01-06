@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UIFrameLine.h"
-#include "../hudmanager.h"
-#include "UITextureMaster.h"
+#include "UI/UIFrameLine.h"
+#include "hudmanager.h"
+#include "UI/UITextureMaster.h"
 
 CUIFrameLine::CUIFrameLine()
 	:	uFlags					(0),

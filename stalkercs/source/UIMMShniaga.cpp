@@ -1,17 +1,17 @@
 #include "StdAfx.h"
 
-#include "UIMMShniaga.h"
-#include "UIStatic.h"
-#include "UIScrollView.h"
-#include "UIXmlInit.h"
-#include "MMsound.h"
-#include "../hudmanager.h"
+#include "UI/UIMMShniaga.h"
+#include "UI/UIStatic.h"
+#include "UI/UIScrollView.h"
+#include "UI/UIXmlInit.h"
+#include "UI/MMsound.h"
+#include "hudmanager.h"
 #include "game_base_space.h"
-#include "../level.h"
+#include "level.h"
 #include "engine/object_broker.h"
 #include <math.h>
-#include "../Actor.h"
-#include "../saved_game_wrapper.h"
+#include "Actor.h"
+#include "saved_game_wrapper.h"
 
 extern string_path g_last_saved_game;
 

@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "UICellItem.h"
-#include "../inventory_item.h"
-#include "UIDragDropListEx.h"
-#include "../xr_level_controller.h"
-#include "../engine/xr_input.h"
-#include "../HUDManager.h"
-#include "../level.h"
+#include "UI/UICellItem.h"
+#include "inventory_item.h"
+#include "UI/UIDragDropListEx.h"
+#include "xr_level_controller.h"
+#include "engine/xr_input.h"
+#include "HUDManager.h"
+#include "level.h"
 #include "engine/object_broker.h"
-#include "UIXmlInit.h"
+#include "UI/UIXmlInit.h"
 
 CUICellItem* CUICellItem::m_mouse_selected_item = NULL;
 

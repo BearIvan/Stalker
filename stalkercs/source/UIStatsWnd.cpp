@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "UIStatsWnd.h"
-#include "UIXmlInit.h"
-#include "../UI.h"
-#include "../string_table.h"
+#include "UI/UIStatsWnd.h"
+#include "UI/UIXmlInit.h"
+#include "UI.h"
+#include "string_table.h"
 
 //////////////////////////////////////////////////////////////////////////
 

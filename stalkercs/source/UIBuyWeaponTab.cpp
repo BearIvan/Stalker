@@ -1,10 +1,10 @@
 #include "StdAfx.h"
-#include "UIBuyWeaponTab.h"
-#include "UITabButtonMP.h"
-#include "../string_table.h"
-#include "../HUDManager.h"
-#include "../UI.h"
-#include "UIXmlInit.h"
+#include "UI/UIBuyWeaponTab.h"
+#include "UI/UITabButtonMP.h"
+#include "string_table.h"
+#include "HUDManager.h"
+#include "UI.h"
+#include "UI/UIXmlInit.h"
 
 
 // CUIBuyWeaponTab::CUIBuyWeaponTab()

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIButton.h"
-#include "../HUDManager.h"
-#include "UILines.h"
-#include "UIBtnHint.h"
-#include "../UIShader.h"
+#include "UI/UIButton.h"
+#include "HUDManager.h"
+#include "UI/UILines.h"
+#include "UI/UIBtnHint.h"
+#include "UIShader.h"
 
 #define PUSH_OFFSET_RIGHT 1
 #define PUSH_OFFSET_DOWN  1

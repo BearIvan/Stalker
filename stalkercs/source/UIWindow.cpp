@@ -2,9 +2,9 @@
 //
 //////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
-#include "UIWindow.h"
-#include "../UICursor.h"
-#include "../MainMenu.h"
+#include "UI/UIWindow.h"
+#include "UIcursor.h"
+#include "MainMenu.h"
 
 #include "DebugRender.h"
 #include "UIRender.h"

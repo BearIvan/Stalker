@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "UIGameTDM.h"
 
-//. #include "UITDMPlayerList.h"
-//.#include "UITDMFragList.h"
+//. #include "UI/UITDMPlayerList.h"
+//.#include "UI/UITDMFragList.h"
 #include "UIDMStatisticWnd.h"
 
 #include "hudmanager.h"
@@ -10,8 +10,8 @@
 
 #include "game_cl_TeamDeathmatch.h"
 
-#include "ui/UIFrags2.h"
-#include "ui/TeamInfo.h"
+#include "UI/UIFrags2.h"
+#include "UI/TeamInfo.h"
 #include <dinput.h>
 
 #include "engine/object_broker.h"

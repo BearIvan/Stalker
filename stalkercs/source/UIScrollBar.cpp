@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "uiscrollbar.h"
-#include "UI3tButton.h"
-#include "UIScrollBox.h"
-#include "UIXmlInit.h"
-#include "UITextureMaster.h"
+#include "UI/UIscrollbar.h"
+#include "UI/UI3tButton.h"
+#include "UI/UIScrollBox.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UITextureMaster.h"
 
 CUIScrollBar::CUIScrollBar()
 {
@@ -173,7 +173,7 @@ void CUIScrollBar::UpdateScrollBar()
 	ClampByViewRect();
 }
 
-#include "../uicursor.h"
+#include "UIcursor.h"
 u32 last_hold_time =0;
 
 bool CUIScrollBar::OnKeyboardHold(int dik)

@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "ai/monsters/pseudodog/pseudo_gigant.h"
-#include "ai/monsters/pseudodog/pseudogigant_state_manager.h" 
+#include "ai/monsters/pseudogigant/pseudo_gigant.h"
+#include "ai/monsters/pseudogigant/pseudogigant_state_manager.h" 
 
 #include "ai/monsters/control_animation_base.h"
 #include "ai/monsters/control_direction_base.h"

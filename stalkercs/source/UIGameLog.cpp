@@ -6,12 +6,12 @@
 //  Multiplayer game log window
 //=============================================================================
 #include "stdafx.h"
-#include "UIGameLog.h"
-#include "UIXmlInit.h"
-#include "UIColorAnimatorWrapper.h"
-#include "UIPdaMsgListItem.h"
-#include "UIPdaKillMessage.h"
-#include "UILines.h"
+#include "UI/UIGameLog.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIColorAnimatorWrapper.h"
+#include "UI/UIPdaMsgListItem.h"
+#include "UI/UIPdaKillMessage.h"
+#include "UI/UILines.h"
 
 const char * const	CHAT_LOG_ITEMS_ANIMATION	= "ui_main_msgs_short";
 

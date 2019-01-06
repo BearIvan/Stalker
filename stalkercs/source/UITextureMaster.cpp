@@ -9,9 +9,9 @@
 
 
 #include "StdAfx.h"
-#include "UITextureMaster.h"
-#include "uiabstract.h"
-#include "xrUIXmlParser.h"
+#include "UI/UITextureMaster.h"
+#include "UI/UIabstract.h"
+#include "UI/xrUIXmlParser.h"
 #include "UIShader.h"
 
 xr_map<shared_str, TEX_INFO>	CUITextureMaster::m_textures;

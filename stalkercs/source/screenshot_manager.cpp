@@ -9,12 +9,10 @@
 	#define CXIMAGE_AS_SHARED_LIBRARY
 #endif
 
-#include <ddraw.h>
+#include <ddraw.h>/*
 #include "../3rd party/cximage/cximage/ximage.h"
-#include "../3rd party/cximage/cximage/xmemfile.h"
+#include "../3rd party/cximage/cximage/xmemfile.h"*/
 
-#pragma comment(lib,"cximage.lib")
-#pragma comment(lib,"jpeg.lib")
 
 void*	cxalloc(size_t size)
 {
@@ -121,7 +119,7 @@ void screenshot_manager::prepare_image()
 }
 
 void screenshot_manager::make_jpeg_file()
-{
+{/*
 	u32*	sizes = reinterpret_cast<u32*>(m_result_writer.pointer());
 	u32		width = *sizes;
 	u32		height = *(++sizes);
@@ -148,16 +146,16 @@ void screenshot_manager::make_jpeg_file()
 
 #ifdef DEBUG
 	Msg("* JPEG encoded to %d bytes", m_jpeg_buffer_size);
-#endif
+#endif*/
 }
 
 void screenshot_manager::sign_jpeg_file()
 {
-	screenshots::writer	tmp_writer		(m_jpeg_buffer, m_jpeg_buffer_size, m_jpeg_buffer_capacity);
+	/*screenshots::writer	tmp_writer		(m_jpeg_buffer, m_jpeg_buffer_size, m_jpeg_buffer_capacity);
 	game_cl_mp*	tmp_cl_game				= smart_cast<game_cl_mp*>(&Game());
 	tmp_writer.set_player_name			(tmp_cl_game->local_player->name);
 	tmp_writer.set_player_cdkey_digest	(Level().get_cdkey_digest());
-	m_jpeg_buffer_size					= tmp_writer.write_info(&g_jpeg_encode_delegate);
+	m_jpeg_buffer_size					= tmp_writer.write_info(&g_jpeg_encode_delegate);*/
 }
 
 
@@ -269,12 +267,12 @@ void screenshot_manager::process_screenshot(bool singlecore)
 	if (singlecore)
 	{
 		//g_jpeg_encode_cb = &jpeg_encode_callback;
-		g_jpeg_encode_delegate.bind(this,
-			&screenshot_manager::jpeg_compress_cb);
+		/*g_jpeg_encode_delegate.bind(this,
+			&screenshot_manager::jpeg_compress_cb);*/
 	} else
 	{
 		//g_jpeg_encode_cb = NULL;
-		g_jpeg_encode_delegate.clear();
+	//	g_jpeg_encode_delegate.clear();
 	}
 		
 	if (m_make_start_event)

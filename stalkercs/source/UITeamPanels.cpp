@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "UITeamPanels.h"
-#include "ui/UIStatsIcon.h"
-#include "ui/UIFrameLineWnd.h"
+#include "UI/UIStatsIcon.h"
+#include "UI/UIFrameLineWnd.h"
 
 UITeamPanels::UITeamPanels()
 {

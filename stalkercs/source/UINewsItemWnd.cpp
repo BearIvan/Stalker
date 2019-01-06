@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "UINewsItemWnd.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
-#include "../game_news.h"
-#include "../date_time.h"
-#include "UIInventoryUtilities.h"
-#include "UIHelper.h"
+#include "UI/UINewsItemWnd.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
+#include "game_news.h"
+#include "date_time.h"
+#include "UI/UIInventoryUtilities.h"
+#include "UI/UIHelper.h"
 
 CUINewsItemWnd::CUINewsItemWnd()
 {}

@@ -6,29 +6,29 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIActorStateInfo.h"
-#include "UIProgressBar.h"
-#include "UIProgressShape.h"
-#include "UIScrollView.h"
-#include "UIFrameWindow.h"
-#include "UIStatic.h"
-#include "UIXmlInit.h"
+#include "UI/UIActorStateInfo.h"
+#include "UI/UIProgressBar.h"
+#include "UI/UIProgressShape.h"
+#include "UI/UIScrollView.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIStatic.h"
+#include "UI/UIXmlInit.h"
 #include "engine/object_broker.h"
 
-#include "UIHelper.h"
-#include "ui_arrow.h"
-#include "UIHudStatesWnd.h"
+#include "UI/UIHelper.h"
+#include "UI/UI_arrow.h"
+#include "UI/UIHudStatesWnd.h"
 
-#include "../Level.h"
-#include "../location_manager.h"
-#include "../player_hud.h"
-#include "../hudmanager.h"
-#include "UIMainIngameWnd.h"
+#include "Level.h"
+#include "location_manager.h"
+#include "player_hud.h"
+#include "hudmanager.h"
+#include "UI/UIMainIngameWnd.h"
 
-#include "../Actor.h"
-#include "../ActorCondition.h"
-#include "../CustomOutfit.h"
-#include "../string_table.h"
+#include "Actor.h"
+#include "ActorCondition.h"
+#include "CustomOutfit.h"
+#include "string_table.h"
 
 ui_actor_state_wnd::ui_actor_state_wnd()
 {

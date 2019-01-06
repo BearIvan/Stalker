@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include ".\uiradiobutton.h"
-#include "UILines.h"
+#include "UI/uiradiobutton.h"
+#include "UI/UILines.h"
 
 
 void CUIRadioButton::InitButton(Fvector2 pos, Fvector2 size)

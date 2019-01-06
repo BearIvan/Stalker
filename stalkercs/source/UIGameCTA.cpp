@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "UIGameCTA.h"
 
-//. #include "UITDMPlayerList.h"
-//.#include "UITDMFragList.h"
+//. #include "UI/UITDMPlayerList.h"
+//.#include "UI/UITDMFragList.h"
 #include <dinput.h>
 
 #include "UITeamPanels.h"
@@ -25,23 +25,25 @@
 //#include "clsid_game.h"
 #include "weaponknife.h"
 
-#include "ui/UISkinSelector.h"
-//.#include "ui/UIInventoryWnd.h"
-#include "ui/UIPdaWnd.h"
-#include "ui/UIMapDesc.h"
-#include "ui/UISpawnWnd.h"
-#include "ui/UIBuyWndBase.h"
-#include "ui/UIMpTradeWnd.h"
-#include "ui/UIBuyWndShared.h"
-#include "ui/UIMoneyIndicator.h"
-#include "ui/UIRankIndicator.h"
-#include "ui/UIProgressShape.h"
-#include "ui/UIMultiTextStatic.h"
-#include "ui/UIMessageBoxEx.h"
-#include "ui/UIVoteStatusWnd.h"
-#include "ui/UIActorMenu.h"
+#include "UI/UISkinSelector.h"
+//.#include "UI/UIInventoryWnd.h"
+#include "UI/UIPdaWnd.h"
+#include "UI/UIMapDesc.h"
+#include "UI/UISpawnWnd.h"
+#include "UI/UIBuyWndBase.h"
+#include "UI/UIMpTradeWnd.h"
+#include "UI/UIBuyWndShared.h"
+#include "UI/UIMoneyIndicator.h"
+#include "UI/UIRankIndicator.h"
+#include "UI/UIProgressShape.h"
+#include "UI/UIMultiTextStatic.h"
+#include "UI/UIMessageBoxEx.h"
+#include "UI/UIVoteStatusWnd.h"
+#include "UI/UIActorMenu.h"
 
-#include "ui/UISkinSelector.h"
+#include "UI/UISkinSelector.h"
+
+#include <functional>
 
 #define CTA_GAME_WND_XML	"ui_game_cta.xml"
 
@@ -575,44 +577,24 @@ void CUIGameCTA::SetPlayerItemsToBuyMenu()
 			max_addammo_count * 2
 		);
 		TryToDefuseAllWeapons(add_ammo);
-		
+
 		std::for_each(
 			actor->inventory().m_slots.begin(),
 			actor->inventory().m_slots.end(),
-			std::bind1st(
-				std::mem_fun<void, CUIGameCTA, CInventorySlot const &>(
-					&CUIGameCTA::BuyMenuItemInserter
-				),
-				this
-			)
+			[&](const CInventorySlot  & a) {BuyMenuItemInserter(a); }
 		);
 		std::for_each(
 			actor->inventory().m_belt.begin(),
 			actor->inventory().m_belt.end(),
-			std::bind1st(
-				std::mem_fun<void, CUIGameCTA, PIItem const &>(
-					&CUIGameCTA::BuyMenuItemInserter
-				),
-				this
-			)
+			[&](const PIItem  & a) {BuyMenuItemInserter(a); }
 		);
 		std::for_each(
 			actor->inventory().m_ruck.begin(),
 			actor->inventory().m_ruck.end(),
-			std::bind1st(
-				std::mem_fun<void, CUIGameCTA, PIItem const &>(
-					&CUIGameCTA::BuyMenuItemInserter
-				),
-				this
-			)
+			[&](const PIItem  & a) {BuyMenuItemInserter(a); }
 		);
 		std::for_each(add_ammo.begin(), add_ammo.end(),
-			std::bind1st(
-				std::mem_fun<void, CUIGameCTA, aditional_ammo_t::value_type const &>(
-					&CUIGameCTA::AdditionalAmmoInserter
-				), 
-				this
-			)
+			[&](const aditional_ammo_t::value_type  & a) {AdditionalAmmoInserter(a); }
 		);
 	} else
 	{

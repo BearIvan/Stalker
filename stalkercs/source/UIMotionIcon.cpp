@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "UIMainIngameWnd.h"
-#include "UIMotionIcon.h"
-#include "UIXmlInit.h"
+#include "UI/UIMainIngameWnd.h"
+#include "UI/UIMotionIcon.h"
+#include "UI/UIXmlInit.h"
 const LPCSTR MOTION_ICON_XML = "motion_icon.xml";
 
 //--extern BOOL g_old_style_ui_hud;

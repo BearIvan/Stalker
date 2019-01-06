@@ -11,8 +11,8 @@
 //=============================================================================
 
 #include "stdafx.h"
-#include "UIColorAnimatorWrapper.h"
-#include "../engine/LightAnimLibrary.h"
+#include "UI/UIColorAnimatorWrapper.h"
+#include "engine/LightAnimLibrary.h"
 
 //////////////////////////////////////////////////////////////////////////
 

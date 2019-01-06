@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 
-#include "UIKickPlayer.h"
-#include "UIVotingCategory.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIListBox.h"
-#include "UIListBoxItem.h"
-#include "UISpinNum.h"
-#include "../level.h"
-#include "../game_cl_base.h"
-#include "../game_cl_teamdeathmatch.h"
-#include "../engine/xr_ioconsole.h"
+#include "UI/UIKickPlayer.h"
+#include "UI/UIVotingCategory.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UI3tButton.h"
+#include "UI/UIListBox.h"
+#include "UI/UIListBoxItem.h"
+#include "UI/UISpinNum.h"
+#include "level.h"
+#include "game_cl_base.h"
+#include "game_cl_teamdeathmatch.h"
+#include "engine/xr_ioconsole.h"
 
 CUIKickPlayer::CUIKickPlayer()
 {

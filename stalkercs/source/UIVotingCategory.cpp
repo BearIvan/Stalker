@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIVotingCategory.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "../game_cl_teamdeathmatch.h"
-#include "UIKickPlayer.h"
-#include "UIChangeMap.h"
-#include "UIChangeWeather.h"
-#include "UITextVote.h"
+#include "UI/UIVotingCategory.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UI3tButton.h"
+#include "game_cl_teamdeathmatch.h"
+#include "UI/UIKickPlayer.h"
+#include "UI/UIChangeMap.h"
+#include "UI/UIChangeWeather.h"
+#include "UI/UITextVote.h"
 
-#include "../game_sv_mp_vote_flags.h"
+#include "game_sv_mp_vote_flags.h"
 
 
 CUIVotingCategory::CUIVotingCategory()
@@ -105,7 +105,7 @@ bool CUIVotingCategory::OnKeyboard(int dik, EUIMessages keyboard_action)
 	return false;
 }
 
-#include "../engine/xr_ioconsole.h"
+#include "engine/xr_ioconsole.h"
 
 void CUIVotingCategory::OnBtn(int i)
 {

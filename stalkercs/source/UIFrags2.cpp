@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 
-#include "UIFrags2.h"
-#include "UIStats.h"
-#include "UIXmlInit.h"
-#include "UIStatic.h"
+#include "UI/UIFrags2.h"
+#include "UI/UIStats.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIStatic.h"
 
 CUIFrags2::CUIFrags2(){	
 	m_pStats2 = xr_new<CUIStats>();  AttachChild(m_pStats2);

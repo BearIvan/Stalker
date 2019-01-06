@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "UITabButton.h"
-#include "../HUDManager.h"
+#include "UI/UITabButton.h"
+#include "HUDManager.h"
 
 CUITabButton::CUITabButton()
 {}

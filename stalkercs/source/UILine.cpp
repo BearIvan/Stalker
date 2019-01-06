@@ -8,9 +8,9 @@
 
 
 #include "StdAfx.h"
-#include "UILine.h"
-#include "uilinestd.h"
-#include "UIColorAnimatorWrapper.h"
+#include "UI/UILine.h"
+#include "UI/UIlinestd.h"
+#include "UI/UIColorAnimatorWrapper.h"
 
 CUIColorAnimatorWrapper CUILine::m_animation;
 

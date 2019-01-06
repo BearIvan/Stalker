@@ -7,9 +7,9 @@
 #include "actor.h"
 #include "level.h"
 #include "game_cl_base.h"
-#include "ui/UIMainIngameWnd.h"
-#include "ui/UIMessagesWindow.h"
-#include "ui/UIPdaWnd.h"
+#include "UI/UIMainIngameWnd.h"
+#include "UI/UIMessagesWindow.h"
+#include "UI/UIPdaWnd.h"
 
 CUI::CUI(CHUDManager* p)
 {

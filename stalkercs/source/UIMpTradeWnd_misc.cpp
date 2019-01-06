@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
-#include "UIMpItemsStoreWnd.h"
+#include "UI/UIMpTradeWnd.h"
+#include "UI/UIMpItemsStoreWnd.h"
 
-#include "UICellItem.h"
-#include "UITabControl.h"
-#include "UIDragDropListEx.h"
-#include "UIItemInfo.h"
-#include "UI3tButton.h"
+#include "UI/UICellItem.h"
+#include "UI/UITabControl.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UIItemInfo.h"
+#include "UI/UI3tButton.h"
 
-#include "../inventory_item.h"
-#include "../PhysicsShellHolder.h"
+#include "inventory_item.h"
+#include "PhysicsShellHolder.h"
 #include "engine/object_broker.h"
 #include <dinput.h>
 
-#include "UICellCustomItems.h"
+#include "UI/UICellCustomItems.h"
 
 bool CUIMpTradeWnd::OnKeyboard(int dik, EUIMessages keyboard_action)
 {

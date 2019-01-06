@@ -8,10 +8,10 @@
 
 #include "StdAfx.h"
 
-#include "UILines.h"
-#include "../HUDmanager.h"
-#include "UIXmlInit.h"
-#include "uilinestd.h"
+#include "UI/UILines.h"
+#include "HUDmanager.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIlinestd.h"
 
 
 CUILines::CUILines()

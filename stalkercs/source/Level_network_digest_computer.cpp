@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "gamespy/md5.h"
 
+
 extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
 char const * ComputeClientDigest(string128& dest, bool lower_case)
 {

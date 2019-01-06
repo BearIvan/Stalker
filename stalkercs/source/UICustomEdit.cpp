@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "UICustomEdit.h"
-#include "UILines.h"
+#include "UI/UICustomEdit.h"
+#include "UI/UILines.h"
 
-#include "../engine/line_edit_control.h"
-#include "../engine/xr_input.h"
+#include "engine/line_edit_control.h"
+#include "engine/xr_input.h"
 
 CUICustomEdit::CUICustomEdit()
 {
@@ -179,7 +179,7 @@ void CUICustomEdit::Update()
 	{
 		if ( m_last_key_state_time + 7000 < Device.dwTimeGlobal ) // 7 sec
 		{
-			ec().reset_key_state();
+			ec().clear_states();
 		}
 	}
 
@@ -254,7 +254,7 @@ void  CUICustomEdit::Draw()
 
 void CUICustomEdit::Show( bool status )
 {
-	ec().reset_key_state();
+	ec().clear_states();
 	m_force_update = true;
 	inherited::Show( status );
 }

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
-#include "UIComboBox.h"
-#include "UITextureMaster.h"
-#include "UIScrollBar.h"
+#include "UI/UIComboBox.h"
+#include "UI/UITextureMaster.h"
+#include "UI/UIScrollBar.h"
 
 #define CB_HEIGHT 23.0f
 
@@ -75,7 +75,7 @@ void CUIComboBox::Init(float x, float y, float width, float height)
 	this->Init		(x, y, width);
 }*/
 
-#include "uilistboxitem.h"
+#include "UI/UIlistboxitem.h"
 CUIListBoxItem* CUIComboBox::AddItem_(LPCSTR str, int _data)
 {
     R_ASSERT2			(m_bInited, "Can't add item to ComboBox before Initialization");
@@ -116,7 +116,7 @@ void CUIComboBox::enable_id(int id)
 		m_disabled.erase(it);
 }
 
-#include "../string_table.h"
+#include "string_table.h"
 void CUIComboBox::SetCurrentValue()
 {
 	m_list_box.Clear		();

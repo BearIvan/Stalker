@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 /*
-#include "UITextVote.h"
-#include "UIVotingCategory.h"
-#include "UIXmlInit.h"
-#include "UI3tButton.h"
-#include "UIEditboxEx.h"
+#include "UI/UITextVote.h"
+#include "UI/UIVotingCategory.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UI3tButton.h"
+#include "UI/UIEditboxEx.h"
 
-//#include "UIMapList.h"
-#include "../level.h"
-//#include "../game_cl_base.h"
-#include "../game_cl_teamdeathmatch.h"
-#include "../engine/xr_ioconsole.h"
+//#include "UI/UIMapList.h"
+#include "level.h"
+//#include "game_cl_base.h"
+#include "game_cl_teamdeathmatch.h"
+#include "engine/xr_ioconsole.h"
 
 
 

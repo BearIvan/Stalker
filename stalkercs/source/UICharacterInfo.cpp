@@ -1,25 +1,25 @@
 #include "stdafx.h"
 
-#include "UIInventoryUtilities.h"
+#include "UI/UIInventoryUtilities.h"
 
-#include "uicharacterinfo.h"
-#include "../actor.h"
-#include "../level.h"
+#include "UI/UIcharacterinfo.h"
+#include "actor.h"
+#include "level.h"
 #include "character_info.h"
-#include "../string_table.h"
-#include "../relation_registry.h"
+#include "string_table.h"
+#include "relation_registry.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
+#include "ui/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
 
-#include "uistatic.h"
-#include "UIScrollView.h"
+#include "UI/UIstatic.h"
+#include "UI/UIScrollView.h"
 
 
-#include "../alife_simulator.h"
-#include "../ai_space.h"
-#include "../alife_object_registry.h"
-#include "../xrServer.h"
+#include "alife_simulator.h"
+#include "ai_space.h"
+#include "alife_object_registry.h"
+#include "xrServer.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 
 using namespace InventoryUtilities;
@@ -364,8 +364,8 @@ bool CUICharacterInfo::get_actor_community( shared_str* our, shared_str* enemy )
 	u32   size_temp   = (xr_strlen(vs_teams) + 1) * sizeof(char);
 	PSTR  our_fract   = (PSTR)_alloca( size_temp );
 	PSTR  enemy_fract = (PSTR)_alloca( size_temp );
-	_GetItem( vs_teams, 0, our_fract );
-	_GetItem( vs_teams, 1, enemy_fract );
+	_GetItem( vs_teams, 0, our_fract , size_temp);
+	_GetItem( vs_teams, 1, enemy_fract , size_temp);
 
 	if ( xr_strlen(our_fract) == 0 || xr_strlen(enemy_fract) == 0 )
 	{

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "uistaticitem.h"
+#include "UIstaticitem.h"
 #include "hudmanager.h"
 
 #include "UIRender.h"

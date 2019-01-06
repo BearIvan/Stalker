@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
+#include "UI/UIMpTradeWnd.h"
 
-#include "UIXmlInit.h"
-#include "UIMpItemsStoreWnd.h"
-#include "UITabControl.h"
-#include "UITabButtonMP.h"
-#include "UIDragDropListEx.h"
-#include "UIItemInfo.h"
-#include "UIHelper.h"
-#include "UIBuyWeaponTab.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIMpItemsStoreWnd.h"
+#include "UI/UITabControl.h"
+#include "UI/UITabButtonMP.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UIItemInfo.h"
+#include "UI/UIHelper.h"
+#include "UI/UIBuyWeaponTab.h"
 
 #include "engine/object_broker.h"
 

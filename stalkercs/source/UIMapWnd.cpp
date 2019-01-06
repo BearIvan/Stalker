@@ -1,28 +1,28 @@
 #include "stdafx.h"
-#include "UIMapWnd.h"
-#include "UIMap.h"
-#include "UIXmlInit.h"
+#include "UI/UIMapWnd.h"
+#include "UI/UIMap.h"
+#include "UI/UIXmlInit.h"
 
-#include "../Actor.h"
-#include "../map_manager.h"
-#include "UIInventoryUtilities.h"
-#include "../map_spot.h"
-#include "../map_location.h"
+#include "Actor.h"
+#include "map_manager.h"
+#include "UI/UIInventoryUtilities.h"
+#include "map_spot.h"
+#include "map_location.h"
 
-#include "UIScrollBar.h"
-#include "UIFrameWindow.h"
-#include "UIFrameLineWnd.h"
-#include "UITabControl.h"
-#include "UI3tButton.h"
-#include "UIMapWndActions.h"
-#include "UIMapWndActionsSpace.h"
-#include "UIHint.h"
-#include "map_hint.h"
+#include "UI/UIScrollBar.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIFrameLineWnd.h"
+#include "UI/UITabControl.h"
+#include "UI/UI3tButton.h"
+#include "UI/UIMapWndActions.h"
+#include "UI/UIMapWndActionsSpace.h"
+#include "UI/UIHint.h"
+#include "UI/map_hint.h"
 
-#include "../HUDManager.h"
+#include "HUDManager.h"
 
 //#include <dinput.h>						//remove me !!!
-#include "../engine/xr_input.h"		//remove me !!!
+#include "engine/xr_input.h"		//remove me !!!
 
 //const int     SCROLLBARS_SHIFT		= 5;
 
@@ -734,10 +734,10 @@ void CUIMapWnd::Reset()
 	ResetActionPlanner			();
 }
 
-#include "../gametaskmanager.h"
-#include "../actor.h"
-#include "../map_spot.h"
-#include "../gametask.h"
+#include "gametaskmanager.h"
+#include "actor.h"
+#include "map_spot.h"
+#include "gametask.h"
 
 void CUIMapWnd::SpotSelected(CUIWindow* w)
 {

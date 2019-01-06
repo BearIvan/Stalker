@@ -3,11 +3,11 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include ".\uicheckbutton.h"
-#include "../HUDManager.h"
-#include "UILines.h"
-#include "UIXmlInit.h"
-#include "UIHint.h"
+#include "ui/uicheckbutton.h"
+#include "HUDManager.h"
+#include "UI/UILines.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIHint.h"
 
 CUICheckButton::CUICheckButton(void)
 {	

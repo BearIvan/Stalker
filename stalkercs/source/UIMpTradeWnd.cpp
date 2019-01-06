@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "UIMpTradeWnd.h"
+#include "UI/UIMpTradeWnd.h"
 
-#include "UIMpItemsStoreWnd.h"
-#include "UITabButtonMP.h"
-#include "UITabControl.h"
-#include "UIDragDropListEx.h"
-#include "UICellItem.h"
+#include "UI/UIMpItemsStoreWnd.h"
+#include "UI/UITabButtonMP.h"
+#include "UI/UITabControl.h"
+#include "UI/UIDragDropListEx.h"
+#include "UI/UICellItem.h"
 
-#include "../UIDialogHolder.h"
-#include "../game_cl_deathmatch.h"
+#include "UIDialogHolder.h"
+#include "game_cl_deathmatch.h"
 
 
 void CUIMpTradeWnd::OnBtnOkClicked(CUIWindow* w, void* d)
@@ -49,7 +49,7 @@ void CUIMpTradeWnd::TryUsePreset(ETradePreset idx)
 	ApplyPreset					(idx);
 }
 
-#include "../engine/xr_input.h"
+#include "engine/xr_input.h"
 void CUIMpTradeWnd::OnBtnPreset1Clicked(CUIWindow* w, void* d)
 {
 	CheckDragItemToDestroy				();
@@ -216,7 +216,7 @@ void CUIMpTradeWnd::FillUpSubLevelItems()
 	}
 }
 
-#include "../actor.h"
+#include "actor.h"
 void CUIMpTradeWnd::Show()
 {
 	m_pMouseCapturer		= NULL;

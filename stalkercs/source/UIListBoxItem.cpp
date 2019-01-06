@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "UIListBoxItem.h"
-#include "UIScrollView.h"
+#include "UI/UIListBoxItem.h"
+#include "UI/UIScrollView.h"
 #include "engine/object_broker.h"
 
 CUIListBoxItem::CUIListBoxItem()

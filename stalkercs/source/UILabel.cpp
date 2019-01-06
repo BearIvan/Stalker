@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 /*
-#include "UILabel.h"
-#include "../engine/LightAnimLibrary.h"
+#include "UI/UILabel.h"
+#include "engine/LightAnimLibrary.h"
 
 CUILabel::CUILabel()
 {

@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "UIGameAHunt.h"
 
-//.#include "UIAHuntPlayerList.h"
-//.#include "UIAHuntFragList.h"
+//.#include "UI/UIAHuntPlayerList.h"
+//.#include "UI/UIAHuntFragList.h"
 #include "UIDMStatisticWnd.h"
 
 #include "hudmanager.h"
 #include "team_base_zone.h"
 #include "level.h"
 #include "game_cl_ArtefactHunt.h"
-#include "ui/UIFrags2.h"
-#include "ui/UIProgressShape.h"
-#include "ui/UIXmlInit.h"
-#include "ui/UIMessageBoxEx.h"
+#include "UI/UIFrags2.h"
+#include "UI/UIProgressShape.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIMessageBoxEx.h"
 
 #include "UITeamPanels.h"
 

@@ -1,11 +1,11 @@
 #include "StdAfx.h"
-#include "UIKeyBinding.h"
-#include "UIXmlInit.h"
-#include "xrUIXmlParser.h"
-#include "UIEditKeyBind.h"
-#include "UIScrollView.h"
-#include "../xr_level_controller.h"
-#include "../string_table.h"
+#include "UI/UIKeyBinding.h"
+#include "UI/UIXmlInit.h"
+#include "ui/xrUIXmlParser.h"
+#include "UI/UIEditKeyBind.h"
+#include "UI/UIScrollView.h"
+#include "xr_level_controller.h"
+#include "string_table.h"
 
 CUIKeyBinding::CUIKeyBinding()
 {

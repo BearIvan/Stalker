@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "UITalkDialogWnd.h"
+#include "UI/UITalkDialogWnd.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIScrollView.h"
-#include "UI3tButton.h"
-#include "../UI.h"
-#include "UITalkWnd.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIScrollView.h"
+#include "UI/UI3tButton.h"
+#include "UI.h"
+#include "UI/UITalkWnd.h"
 
 
 #define				TALK_XML				"talk.xml"
@@ -96,7 +96,7 @@ void CUITalkDialogWnd::InitTalkDialogWnd()
 	AddCallback					("exit_btn",BUTTON_CLICKED,CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnExitClicked));
 }
 
-#include "UIInventoryUtilities.h"
+#include "UI/UIInventoryUtilities.h"
 	
 void CUITalkDialogWnd::Show()
 {
@@ -177,10 +177,10 @@ void CUITalkDialogWnd::AddQuestion(LPCSTR str, LPCSTR value)
 	Register						(itm);
 }
 
-#include "../game_news.h"
-#include "../level.h"
-#include "../actor.h"
-#include "../alife_registry_wrappers.h"
+#include "game_news.h"
+#include "level.h"
+#include "actor.h"
+#include "alife_registry_wrappers.h"
 
 void CUITalkDialogWnd::AddAnswer(LPCSTR SpeakerName, LPCSTR str, bool bActor)
 {

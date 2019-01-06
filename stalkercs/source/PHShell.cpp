@@ -1165,7 +1165,7 @@ void CPHShell::EnabledCallbacks(BOOL val)
 
 
 template< typename T>
-void for_each_bone_id( IKinematics &K, T op )
+void for_each_bone_id( IKinematics &K, T& op )
 {
 	u16 bn =  K.LL_BoneCount();
 	for(u16 i = 0; i < bn; ++i )
@@ -1732,7 +1732,7 @@ void CPHShell::SetIgnoreRagDoll()
 
 
 	//Делает данный физический объек анимированным 
-void CPHShell::CreateShellAnimator( CInifile* ini, LPCSTR section )
+void CPHShell::CreateShellAnimator( const CInifile* ini, LPCSTR section )
 {	
 	//Для фильтра коллизий относим данный объект к классу анимированных
 	CPHCollideValidator::SetAnimatedClass(*this);

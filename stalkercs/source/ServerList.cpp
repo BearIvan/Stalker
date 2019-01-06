@@ -1,18 +1,18 @@
 #include "StdAfx.h"
-#include "ServerList.h"
-#include "UIXmlInit.h"
-#include "../string_table.h"
-#include "../engine/xr_ioconsole.h"
-#include "UIEditBox.h"
-#include "UIColorAnimatorWrapper.h"
-#include "UIListItemAdv.h"
-#include "UIMessageBoxEx.h"
-#include "UIMessageBox.h"
-#include "TeamInfo.h"
-#include "../MainMenu.h"
+#include "ui/ServerList.h"
+#include "ui/UIXmlInit.h"
+#include "string_table.h"
+#include "engine/xr_ioconsole.h"
+#include "ui/UIEditBox.h"
+#include "ui/UIColorAnimatorWrapper.h"
+#include "ui/UIListItemAdv.h"
+#include "ui/UIMessageBoxEx.h"
+#include "ui/UIMessageBox.h"
+#include "ui/TeamInfo.h"
+#include "MainMenu.h"
 
-#include "../GameSpy/GameSpy_Full.h"
-#include "../GameSpy/GameSpy_Browser.h"
+#include "GameSpy/GameSpy_Full.h"
+#include "GameSpy/GameSpy_Browser.h"
 
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
@@ -711,8 +711,8 @@ void CServerList::SrvInfo2LstSrvInfo(const ServerInfo* pServerInfo)
 	m_itemInfo.info.address			= address.c_str();
 	m_itemInfo.info.map				= pServerInfo->m_SessionName;
 	m_itemInfo.info.game			= GameTypeToString( (EGameIDs)pServerInfo->m_GameType, true);
-	m_itemInfo.info.players.sprintf("%d/%d", pServerInfo->m_ServerNumPlayers, pServerInfo->m_ServerMaxPlayers);
-	m_itemInfo.info.ping.sprintf	("%d", pServerInfo->m_Ping);
+	m_itemInfo.info.players.printf("%d/%d", pServerInfo->m_ServerNumPlayers, pServerInfo->m_ServerMaxPlayers);
+	m_itemInfo.info.ping.printf	("%d", pServerInfo->m_Ping);
 	m_itemInfo.info.version			= pServerInfo->m_ServerVersion;
 	m_itemInfo.info.icons.pass		= pServerInfo->m_bPassword;
 	m_itemInfo.info.icons.dedicated	= pServerInfo->m_bDedicated;

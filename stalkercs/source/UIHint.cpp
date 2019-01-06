@@ -6,13 +6,13 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UIHint.h"
+#include "UI/UIHint.h"
 
-#include "UIStatic.h"
-#include "UIFrameWindow.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
-#include "../string_table.h"
+#include "UI/UIStatic.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIHelper.h"
+#include "string_table.h"
 
 UIHint::UIHint()
 {

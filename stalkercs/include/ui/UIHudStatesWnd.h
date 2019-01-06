@@ -2,8 +2,8 @@
 #define UI_HUD_STATES_WND_H_INCLUDED
 
 #include "UIWindow.h"
-#include "..\..\xrServerEntities\alife_space.h"
-#include "..\actor_defs.h"
+#include "alife_space.h"
+#include "actor_defs.h"
 
 class CUIStatic;
 class CUIProgressBar;

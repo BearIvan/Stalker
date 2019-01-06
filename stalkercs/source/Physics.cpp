@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
-#include "src/collision_kernel.h"
+#include "ode/src/collision_kernel.h"
 #include "ode/src/joint.h"
 #include "ode/src/objects.h"
 #pragma warning(default:4267)

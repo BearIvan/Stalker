@@ -6,28 +6,28 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "UISecondTaskWnd.h"
+#include "UI/UISecondTaskWnd.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
-#include "UIHelper.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UIHelper.h"
 
-#include "UIFrameWindow.h"
-#include "UIScrollView.h"
-#include "UIStatic.h"
-#include "UI3tButton.h"
-#include "UICheckButton.h"
-#include "UIFrameLineWnd.h"
-#include "UIHint.h"
+#include "UI/UIFrameWindow.h"
+#include "UI/UIScrollView.h"
+#include "UI/UIStatic.h"
+#include "UI/UI3tButton.h"
+#include "UI/UICheckButton.h"
+#include "UI/UIFrameLineWnd.h"
+#include "UI/UIHint.h"
 
-#include "../GameTaskDefs.h"
-#include "../gametask.h"
-#include "../map_location.h"
-#include "UIInventoryUtilities.h"
-#include "../string_table.h"
-#include "../level.h"
-#include "../gametaskmanager.h"
-#include "../actor.h"
+#include "GameTaskDefs.h"
+#include "gametask.h"
+#include "map_location.h"
+#include "UI/UIInventoryUtilities.h"
+#include "string_table.h"
+#include "level.h"
+#include "gametaskmanager.h"
+#include "actor.h"
 
 
 UISecondTaskWnd::UISecondTaskWnd()

@@ -1,19 +1,19 @@
 #include "stdafx.h"
 
-#include "UIPdaListItem.h"
-#include "../actor.h"
-#include "UIInventoryUtilities.h"
-#include "../string_table.h"
+#include "UI/UIPdaListItem.h"
+#include "actor.h"
+#include "UI/UIInventoryUtilities.h"
+#include "string_table.h"
 
-#include "xrUIXmlParser.h"
-#include "UIXmlInit.h"
+#include "UI/xrUIXmlParser.h"
+#include "UI/UIXmlInit.h"
 
 #include "character_info.h"
 
-#include "UIFrameWindow.h"
-#include "../InventoryOwner.h"
-#include "UICharacterInfo.h"
-#include "UIStatic.h"
+#include "UI/UIFrameWindow.h"
+#include "InventoryOwner.h"
+#include "UI/UICharacterInfo.h"
+#include "UI/UIStatic.h"
 
 #define			PDA_CONTACT_CHAR		"pda_character.xml"
 

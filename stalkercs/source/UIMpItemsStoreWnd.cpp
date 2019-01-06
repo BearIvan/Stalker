@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "UIMpItemsStoreWnd.h"
-#include "UIXmlInit.h"
-#include "UITabButtonMP.h"
+#include "UI/UIMpItemsStoreWnd.h"
+#include "UI/UIXmlInit.h"
+#include "UI/UITabButtonMP.h"
 #include "engine/object_broker.h"
-#include "restrictions.h"
+#include "UI/restrictions.h"
 
 void CStoreHierarchy::item::destroy()
 {

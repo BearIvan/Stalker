@@ -168,7 +168,7 @@ IClient*	xrServer::client_Find_Get	(ClientID ID)
 	return newCL;
 };
 
-INT	g_sv_Client_Reconnect_Time = 0;
+u32	g_sv_Client_Reconnect_Time = 0;
 
 void		xrServer::client_Destroy	(IClient* C)
 {

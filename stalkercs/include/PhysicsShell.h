@@ -290,7 +290,7 @@ virtual				void						GetGlobalTransformDynamic					(Fmatrix* m) 																
 	virtual			void						SetRagDoll									()																							= 0;
 	virtual			void						SetIgnoreRagDoll							()																							= 0;
 
-	virtual			void						CreateShellAnimator							( CInifile* ini, LPCSTR section )															= 0;
+	virtual			void						CreateShellAnimator							(const CInifile* ini, LPCSTR section )															= 0;
 	virtual			void						SetIgnoreAnimated							()																							= 0;
 //	virtual			bool						Animated									()																							= 0;
 
