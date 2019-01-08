@@ -106,7 +106,7 @@ void	CObjectSpace::		Load				(  LPCSTR path, LPCSTR fname, CDB::build_callback b
 #ifdef USE_ARENA_ALLOCATOR
 	Msg( "CObjectSpace::Load, g_collision_allocator.get_allocated_size() - %d", int(g_collision_allocator.get_allocated_size()/1024.0/1024) );
 #endif // #ifdef USE_ARENA_ALLOCATOR
-	IReader *F					= FS.r_open	(path, fname);
+	IReader *F					=XRayBearReader::Create( FS.Read	(path, fname));
 	R_ASSERT					(F);
 	Load( F, build_callback );
 }
@@ -119,7 +119,7 @@ void	CObjectSpace::	Load				(  IReader* F, CDB::build_callback build_callback  )
 	Fvector*	verts			= (Fvector*)F->pointer();
 	CDB::TRI*	tris			= (CDB::TRI*)(verts+H.vertcount);
 	Create						( verts, tris, H, build_callback );
-	FS.r_close					(F);
+	XRayBearReader::Destroy			(F);
 }
 
 void			CObjectSpace::Create				(  Fvector*	verts, CDB::TRI* tris, const hdrCFORM &H, CDB::build_callback build_callback  )

@@ -67,16 +67,14 @@ IC float	Area		(Fvector& v0, Fvector& v1, Fvector& v2)
 void CHOM::Load			()
 {
 	// Find and open file
-	string_path		fName;
-	FS.update_path	(fName,"$level$","level.hom");
-	if (!FS.exist(fName))
+	if (!FS.ExistFile("%level%", "level.hom"))
 	{
-		Msg		(" WARNING: Occlusion map '%s' not found.",fName);
+		Msg		(" WARNING: Occlusion map '%s' not found.","level.hom");
 		return;
 	}
-	Msg	("* Loading HOM: %s",fName);
+	Msg	("* Loading HOM: %s", "level.hom");
 	
-	IReader* fs				= FS.r_open(fName);
+	IReader* fs				= XRayBearReader::Create(FS.Read("%level%", "level.hom"));
 	IReader* S				= fs->open_chunk(1);
 
 	// Load tris and merge them
@@ -119,7 +117,7 @@ void CHOM::Load			()
 	m_pModel->build		(CL.getV(),int(CL.getVS()),CL.getT(),int(CL.getTS()));
 	bEnabled			= TRUE;
 	S->close			();
-	FS.r_close			(fs);
+	XRayBearReader::Destroy(fs);
 }
 
 void CHOM::Unload		()

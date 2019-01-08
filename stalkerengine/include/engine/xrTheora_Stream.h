@@ -19,7 +19,7 @@ class ENGINE_API CTheoraStream
 #ifdef _EDITOR
     IReader* source;
 #else
-    CStreamReader* source;
+    XRayBearFileStream* source;
 #endif
     yuv_buffer t_yuv_buffer;
 

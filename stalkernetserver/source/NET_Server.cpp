@@ -330,7 +330,7 @@ if(!psNET_direct_connect)
 #endif
 
 	BOOL	bSimulator		= FALSE;
-	if (strstr(Core.Params,"-netsim"))		bSimulator = TRUE;
+	if (strstr(GetCommandLine(),"-netsim"))		bSimulator = TRUE;
 	
 	
 	// dump_URL		("! sv ",	net_Address_device);
@@ -949,7 +949,8 @@ void IPureServer::Print_Banned_Addreses	()
 
 void IPureServer::BannedList_Save	()
 {
-	string_path					temp;
+	BEAR_ASSERT(false);
+	/*string_path					temp;
 	FS.update_path				(temp,"$app_data_root$", GetBannedListName());
 	
 	CInifile					ini(temp,FALSE,FALSE,TRUE);
@@ -958,12 +959,13 @@ void IPureServer::BannedList_Save	()
 	{
 		IBannedClient* cl	= BannedAddresses[it];
 		cl->Save			(ini);
-	};
+	};*/
 }
 
 void IPureServer::BannedList_Load()
 {
-	string_path					temp;
+	BEAR_ASSERT(false);
+	/*string_path					temp;
 	FS.update_path				(temp,"$app_data_root$", GetBannedListName());
 	
 	CInifile					ini(temp);
@@ -977,7 +979,7 @@ void IPureServer::BannedList_Load()
 		IBannedClient* Cl			= xr_new<IBannedClient>();
 		Cl->Load					(ini, sect_name);
 		BannedAddresses.push_back	(Cl);
-	}
+	}*/
 }
 
 void IPureServer::IpList_Load()

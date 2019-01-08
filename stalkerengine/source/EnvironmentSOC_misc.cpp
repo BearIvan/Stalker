@@ -308,10 +308,10 @@ CEnvAmbientSOC* CEnvironmentSOC::AppendEnvAmb		(const shared_str& sect)
 void	CEnvironmentSOC::mods_load			()
 {
 	Modifiers.clear_and_free			();
-	string_path							path;
-	if (FS.exist(path,"$level$","level.env_mod"))	
+
+	if (FS.ExistFile("%level%","level.env_mod"))	
 	{
-		IReader*	fs	= FS.r_open		(path);
+		IReader*	fs	=XRayBearReader::Create( FS.Read		("%level%", "level.env_mod"));
 		u32			id	= 0;
 		while		(fs->find_chunk(id))	
 		{
@@ -320,7 +320,7 @@ void	CEnvironmentSOC::mods_load			()
 			Modifiers.push_back	(E);
 			id					++;
 		}
-		FS.r_close	(fs);
+		XRayBearReader::Destroy	(fs);
 	}
 }
 void	CEnvironmentSOC::mods_unload		()

@@ -47,8 +47,12 @@ static void hton_bo(u32 const source_ip, subnet_item & dest)
 #define SUBNET_LIST_SECT_NAME "subnet_list"
 u32 ip_filter::load()
 {
-	string_path			temp;
-	FS.update_path		(temp,"$app_data_root$", "ip_filter.ltx");
+	BEAR_ASSERT(0);
+	return 0;
+	/*
+	//string_path			temp;
+
+	//FS.update_path		(temp, TEXT("%user%"), "ip_filter.ltx");
 	CInifile			ini(temp);
 	
 	if (!ini.section_exist(SUBNET_LIST_SECT_NAME))
@@ -91,7 +95,7 @@ u32 ip_filter::load()
 		m_all_subnets.push_back(tmp_item);
 	};
 	std::sort(m_all_subnets.begin(), m_all_subnets.end(), subnet_comparator());
-	return m_all_subnets.size();
+	return m_all_subnets.size();*/
 }
 
 bool ip_filter::is_ip_present(u32 ip_address)

@@ -40,24 +40,34 @@ void CObjectAnimator::SetActiveMotion(COMotion* mot)
 
 void CObjectAnimator::LoadMotions(LPCSTR fname)
 {
-    string_path full_path;
-    if (!FS.exist(full_path, "$level$", fname))
-        if (!FS.exist(full_path, "$game_anims$", fname))
-            Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", fname);
 
-    LPCSTR ext = strext(full_path);
+    LPCSTR ext = strext(fname);
     if (ext)
     {
         Clear();
         if (0 == xr_strcmp(ext, ".anm"))
         {
             COMotion* M = xr_new<COMotion>();
-            if (M->LoadMotion(full_path)) m_Motions.push_back(M);
+            if (M->LoadMotion(fname)) m_Motions.push_back(M);
             else FATAL("ERROR: Can't load motion. Incorrect file version.");
         }
         else if (0 == xr_strcmp(ext, ".anms"))
         {
-            IReader* F = FS.r_open(full_path);
+			IReader* F = 0;
+			if (FS.ExistFile("%level%", fname))
+			{
+				F = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname));
+			}
+			else if (FS.ExistFile("%anims%", fname))
+			{
+				F = XRayBearReader::Create(FS.Read(TEXT("%anims%"), fname));
+			}
+			else
+			{
+				Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", fname);
+			}
+
+					
             u32 dwMCnt = F->r_u32();
             VERIFY(dwMCnt);
             for (u32 i = 0; i < dwMCnt; i++)
@@ -67,7 +77,7 @@ void CObjectAnimator::LoadMotions(LPCSTR fname)
                 if (!bRes) FATAL("ERROR: Can't load motion. Incorrect file version.");
                 m_Motions.push_back(M);
             }
-            FS.r_close(F);
+			XRayBearReader::Destroy(F);
         }
         std::sort(m_Motions.begin(), m_Motions.end(), motion_sort_pred);
     }

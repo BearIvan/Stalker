@@ -57,11 +57,8 @@ void manager::load()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "environment\\suns.ltx"
-            ),
+                "%config%",
+                "environment\\suns.ltx",
             TRUE,
             TRUE,
             FALSE
@@ -83,11 +80,8 @@ void manager::save()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "environment\\suns.ltx"
-            ),
+                "%config%",
+                "environment\\suns.ltx",
             FALSE,
             FALSE,
             TRUE

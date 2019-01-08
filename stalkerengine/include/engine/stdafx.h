@@ -6,7 +6,7 @@
 #include "..\editors\ECore\stdafx.h"
 #else
 
-#ifndef NDEBUG
+#if 0
 # ifndef INGAME_EDITOR
 # define INGAME_EDITOR
 # endif // #ifndef INGAME_EDITOR

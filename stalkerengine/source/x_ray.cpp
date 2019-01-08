@@ -177,7 +177,6 @@ ENGINE_API CApplication* pApp = NULL;
 
 
 int doLauncher();
-void doBenchmark(LPCSTR name);
 ENGINE_API bool g_bBenchmark = false;
 string512 g_sBenchmarkName;
 
@@ -218,11 +217,10 @@ PROTECT_API void InitSettings()
 #endif // DEDICATED_SERVER
 
     string_path fname;
-    FS.update_path(fname, "$game_config$", "system.ltx");
 #ifdef DEBUG
     Msg("Updated path to system.ltx is %s", fname);
 #endif // #ifdef DEBUG
-    pSettings = xr_new<CInifile>(fname, TRUE);
+    pSettings = xr_new<CInifile>("%config%", "system.ltx", TRUE);
     CHECK_OR_EXIT(0 != pSettings->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 
     xr_auth_strings_t tmp_ignore_pathes;
@@ -241,8 +239,7 @@ PROTECT_API void InitSettings()
                         tmp_functor
                     );
 
-    FS.update_path(fname, "$game_config$", "game.ltx");
-    pGameIni = xr_new<CInifile>(fname, TRUE);
+    pGameIni = xr_new<CInifile>("%config%", "game.ltx", TRUE);
     CHECK_OR_EXIT(0 != pGameIni->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 }
 PROTECT_API void InitConsole()
@@ -262,10 +259,10 @@ PROTECT_API void InitConsole()
     Console->Initialize();
 
     xr_strcpy(Console->ConfigFile, "user.ltx");
-    if (strstr(Core.Params, "-ltx "))
+    if (strstr(GetCommandLine(), "-ltx "))
     {
         string64 c_name;
-        sscanf(strstr(Core.Params, "-ltx ") + 5, "%[^ ] ", c_name);
+        sscanf(strstr(GetCommandLine(), "-ltx ") + 5, "%[^ ] ", c_name);
         xr_strcpy(Console->ConfigFile, c_name);
     }
 
@@ -274,7 +271,7 @@ PROTECT_API void InitConsole()
 
 PROTECT_API void InitInput()
 {
-    BOOL bCaptureInput = !strstr(Core.Params, "-i");
+    BOOL bCaptureInput = !strstr(GetCommandLine(), "-i");
 
     pInput = xr_new<CInput>(false);
 }
@@ -340,11 +337,11 @@ void slowdownthread(void*)
 void CheckPrivilegySlowdown()
 {
 #ifdef DEBUG
-    if (strstr(Core.Params, "-slowdown"))
+    if (strstr(GetCommandLine(), "-slowdown"))
     {
         thread_spawn(slowdownthread, "slowdown", 0, 0);
     }
-    if (strstr(Core.Params, "-slowdown2x"))
+    if (strstr(GetCommandLine(), "-slowdown2x"))
     {
         thread_spawn(slowdownthread, "slowdown", 0, 0);
         thread_spawn(slowdownthread, "slowdown", 0, 0);
@@ -360,11 +357,11 @@ void Startup()
 
     // ...command line for auto start
     {
-        LPCSTR pStartup = strstr(Core.Params, "-start ");
+        LPCSTR pStartup = strstr(GetCommandLine(), "-start ");
         if (pStartup) Console->Execute(pStartup + 1);
     }
     {
-        LPCSTR pStartup = strstr(Core.Params, "-load ");
+        LPCSTR pStartup = strstr(GetCommandLine(), "-load ");
         if (pStartup) Console->Execute(pStartup + 1);
     }
 
@@ -832,7 +829,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		break;
 	}
 
-    Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL);
+	xrCore::Initialize( NULL);
 
     InitSettings();
 
@@ -858,15 +855,6 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 
         Engine.External.CreateRendererList();
 
-        LPCSTR benchName = "-batch_benchmark ";
-        if (strstr(lpCmdLine, benchName))
-        {
-            int sz = xr_strlen(benchName);
-            string64 b_name;
-            sscanf(strstr(Core.Params, benchName) + sz, "%[^ ] ", b_name);
-            doBenchmark(b_name);
-            return 0;
-        }
 
         Msg("command line %s", lpCmdLine);
         LPCSTR sashName = "-openautomate ";
@@ -874,7 +862,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         {
             int sz = xr_strlen(sashName);
             string512 sash_arg;
-            sscanf(strstr(Core.Params, sashName) + sz, "%[^ ] ", sash_arg);
+            sscanf(strstr(GetCommandLine(), sashName) + sz, "%[^ ] ", sash_arg);
             //doBenchmark (sash_arg);
             g_SASH.Init(sash_arg);
             g_SASH.MainLoop();
@@ -889,9 +877,9 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         };
 
 #ifndef DEDICATED_SERVER
-        if (strstr(Core.Params, "-r2a"))
+        if (strstr(GetCommandLine(), "-r2a"))
             Console->Execute("renderer renderer_r2a");
-        else if (strstr(Core.Params, "-r2"))
+        else if (strstr(GetCommandLine(), "-r2"))
             Console->Execute("renderer renderer_r2");
         else
         {
@@ -907,7 +895,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         Console->Execute("stat_memory");
 
         Startup();
-        Core._destroy();
+        xrCore::Destroy();
 
         // check for need to execute something external
         if (/*xr_strlen(g_sLaunchOnExit_params) && */xr_strlen(g_sLaunchOnExit_app))
@@ -1287,7 +1275,7 @@ void CApplication::LoadStage()
     phase_timer.Start();
     Msg("* phase cmem: %d K", Memory.mem_usage() / 1024);
 
-    if (g_pGamePersistent->GameType() == 1 && strstr(Core.Params, "alife"))
+    if (g_pGamePersistent->GameType() == 1 && strstr(GetCommandLine(), "alife"))
         max_load_stage = 17;
     else
         max_load_stage = 14;
@@ -1316,10 +1304,10 @@ void CApplication::Level_Append(LPCSTR folder)
     strconcat(sizeof(N3), N3, folder, "level.geom");
     strconcat(sizeof(N4), N4, folder, "level.cform");
     if (
-        FS.exist("$game_levels$", N1) &&
-        FS.exist("$game_levels$", N2) &&
-        FS.exist("$game_levels$", N3) &&
-        FS.exist("$game_levels$", N4)
+		 FS.ExistFile("%levels%", N1) &&
+		FS.ExistFile("%levels%", N2) &&
+		FS.ExistFile("%levels%", N3) &&
+		FS.ExistFile("%levels%", N4)
     )
     {
         sLevelInfo LI;
@@ -1340,14 +1328,19 @@ void CApplication::Level_Scan()
     }
     Levels.clear();
 
+	BearCore::BearVector<BearCore::BearString> list;
+	FS.GetFiles(list, "%levels%", "*.ltx");
+	VERIFY(list.size());
 
-    xr_vector<char*>* folder = FS.file_list_open("$game_levels$", FS_ListFolders | FS_RootOnly);
+	BearCore::BearVector<BearCore::BearString> dirs;
+	FS.GetDirectories(dirs, "%levels%");
+	VERIFY(dirs.size());
+
     //. R_ASSERT (folder&&folder->size());
 
-    for (u32 i = 0; i < folder->size(); ++i)
-        Level_Append((*folder)[i]);
+    for (u32 i = 0; i < dirs.size(); ++i)
+        Level_Append(*(dirs)[i]);
 
-    FS.file_list_close(folder);
 
     SECUROM_MARKER_PERFORMANCE_OFF(8)
 }
@@ -1370,7 +1363,8 @@ void CApplication::Level_Set(u32 L)
     SECUROM_MARKER_PERFORMANCE_ON(9)
 
     if (L >= Levels.size()) return;
-    FS.get_path("$level$")->_set(Levels[L].folder);
+	FS.SubPath("%level%");
+	FS.AppendPath("%level%", Levels[L].folder, "%levels%",0);
 
     static string_path path;
 
@@ -1383,9 +1377,8 @@ void CApplication::Level_Set(u32 L)
         int count = 0;
         while (true)
         {
-            string_path temp2;
             gen_logo_name(path, Levels[L].folder, count);
-            if (FS.exist(temp2, "$game_textures$", path, ".dds") || FS.exist(temp2, "$level$", path, ".dds"))
+            if (FS.ExistFile( "%textures%", path, ".dds") || FS.ExistFile( "%levels%", path, ".dds"))
                 count++;
             else
                 break;
@@ -1412,11 +1405,11 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
 
     SECUROM_MARKER_SECURITY_ON(7)
 
-    CLocatorAPI::archives_it it = FS.m_archives.begin();
-    CLocatorAPI::archives_it it_e = FS.m_archives.end();
+  /*  CLocatorAPI::archives_it it = FS.m_archives.begin();
+    CLocatorAPI::archives_it it_e = FS.m_archives.end();*/
     bool arch_res = false;
 
-    for (; it != it_e; ++it)
+    /*for (; it != it_e; ++it)
     {
         CLocatorAPI::archive& A = *it;
         if (A.hSrcFile == NULL)
@@ -1430,7 +1423,7 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
             }
         }
     }
-
+	*/
     if (arch_res)
         Level_Scan();
 
@@ -1458,7 +1451,7 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
 
 CInifile* CApplication::GetArchiveHeader(LPCSTR name, LPCSTR ver)
 {
-    CLocatorAPI::archives_it it = FS.m_archives.begin();
+    /*CLocatorAPI::archives_it it = FS.m_archives.begin();
     CLocatorAPI::archives_it it_e = FS.m_archives.end();
 
     for (; it != it_e; ++it)
@@ -1471,17 +1464,17 @@ CInifile* CApplication::GetArchiveHeader(LPCSTR name, LPCSTR ver)
         {
             return A.header;
         }
-    }
+    }*/
     return NULL;
 }
 
 void CApplication::LoadAllArchives()
 {
-    if (FS.load_all_unloaded_archives())
+  /*  if (FS.load_all_unloaded_archives())
     {
         Level_Scan();
         g_pGamePersistent->OnAssetsChanged();
-    }
+    }*/
 }
 
 #ifndef DEDICATED_SERVER
@@ -1593,49 +1586,6 @@ int doLauncher()
     return 0;
 }
 
-void doBenchmark(LPCSTR name)
-{
-    g_bBenchmark = true;
-    string_path in_file;
-    FS.update_path(in_file, "$app_data_root$", name);
-    CInifile ini(in_file);
-    int test_count = ini.line_count("benchmark");
-    LPCSTR test_name, t;
-    shared_str test_command;
-    for (int i = 0; i < test_count; ++i)
-    {
-        ini.r_line("benchmark", i, &test_name, &t);
-        xr_strcpy(g_sBenchmarkName, test_name);
-
-        test_command = ini.r_string_wb("benchmark", test_name);
-        u32 cmdSize = test_command.size() + 1;
-        Core.Params = (char*)xr_realloc(Core.Params, cmdSize);
-        xr_strcpy(Core.Params, cmdSize, test_command.c_str());
-        xr_strlwr(Core.Params);
-
-        InitInput();
-        if (i)
-        {
-            //ZeroMemory(&HW,sizeof(CHW));
-            // TODO: KILL HW here!
-            // pApp->m_pRender->KillHW();
-            InitEngine();
-        }
-
-
-        Engine.External.Initialize();
-
-        xr_strcpy(Console->ConfigFile, "user.ltx");
-        if (strstr(Core.Params, "-ltx "))
-        {
-            string64 c_name;
-            sscanf(strstr(Core.Params, "-ltx ") + 5, "%[^ ] ", c_name);
-            xr_strcpy(Console->ConfigFile, c_name);
-        }
-
-        Startup();
-    }
-}
 #pragma optimize("g", off)
 void CApplication::load_draw_internal()
 {
@@ -1647,7 +1597,7 @@ void CApplication::load_draw_internal()
     }
     // Draw logo
     u32 Offset;
-    u32 C = 0xffffffff;
+    3u32 C = 0xffffffff;
     u32 _w = Device.dwWidth;
     u32 _h = Device.dwHeight;
     FVF::TL* pv = NULL;

@@ -272,7 +272,7 @@ NET_Compressor::NET_Compressor()
 NET_Compressor::~NET_Compressor()
 {
 #if 1//def DEBUG
-//	if( strstr(Core.Params,"-dump_traffic") ) 
+//	if( strstr(GetCommandLine(),"-dump_traffic") ) 
 //	{
 //		fclose( OriginalTrafficDump );
 //		fclose( CompressedTrafficDump );
@@ -296,7 +296,7 @@ void NET_Compressor::Initialize	()
 	CS.Enter		();
 
 #if 1//def DEBUG
-	if( strstr(Core.Params,"-dump_traffic") ) 
+	if( strstr(GetCommandLine(),"-dump_traffic") ) 
 	{
 		OriginalTrafficDump     = fopen( "x:/network_out_original.dat", "wb" );
 		CompressedTrafficDump   = fopen( "x:/network_out_compressed.dat", "wb" );
@@ -346,7 +346,7 @@ u16 NET_Compressor::Compress(BYTE* dest, const u32 &dest_size, BYTE* src, const 
 	VERIFY(count);
 
 #if 1//def DEBUG
-	if( strstr(Core.Params,"-dump_traffic") ) 
+	if( strstr(GetCommandLine(),"-dump_traffic") ) 
 	{
 //		fwrite( src,count,1,OriginalTrafficDump );
 //		fflush( OriginalTrafficDump );
@@ -429,7 +429,7 @@ u16 NET_Compressor::Compress(BYTE* dest, const u32 &dest_size, BYTE* src, const 
 		_p->compressed_size		+= compressed_size;
 
     #if 1//def DEBUG
-//	if( strstr(Core.Params,"-dump_traffic")) 
+//	if( strstr(GetCommandLine(),"-dump_traffic")) 
 //	{
 //		fwrite(dest,compressed_size,1,CompressedTrafficDump);
 //		fflush(CompressedTrafficDump);

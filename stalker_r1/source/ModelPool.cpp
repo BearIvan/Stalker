@@ -105,20 +105,24 @@ dxRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 	// Add default ext if no ext at all
 	if (0==strext(N))	strconcat	(sizeof(name),name,N,".ogf");
 	else				xr_strcpy	(name,sizeof(name),N);
-
+	IReader*			data = 0;
 	// Load data from MESHES or LEVEL
-	if (!FS.exist(N))	{
-		if (!FS.exist(fn, "$level$", name))
-			if (!FS.exist(fn, "$game_meshes$", name)){
+	if (FS.ExistFile( "%level%", name))
+	{
+		data =XRayBearReader::Create( FS.Read("%level%", name));
+	}
+	else	if (FS.ExistFile( "%meshes%", name))
+	{
+		data = XRayBearReader::Create(FS.Read("%meshes%", name));
+	}
+	else
+	{
 #ifdef _EDITOR
-				Msg("!Can't find model file '%s'.",name);
-                return 0;
+		Msg("!Can't find model file '%s'.", name);
+		return 0;
 #else            
-				Debug.fatal(DEBUG_INFO,"Can't find model file '%s'.",name);
+		Debug.fatal(DEBUG_INFO, "Can't find model file '%s'.", name);
 #endif
-			}
-	} else {
-		xr_strcpy			(fn,N);
 	}
 	
 	// Actual loading
@@ -126,12 +130,12 @@ dxRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 	if (bLogging)		Msg		("- Uncached model loading: %s",fn);
 #endif // DEBUG
 
-	IReader*			data	= FS.r_open(fn);
+
 	ogf_header			H;
 	data->r_chunk_safe	(OGF_HEADER,&H,sizeof(H));
 	V = Instance_Create (H.type);
 	V->Load				(N,data,0);
-	FS.r_close			(data);
+	XRayBearReader::Destroy(data);
 	g_pGamePersistent->RegisterModel(V);
 
 	// Registration

@@ -81,7 +81,7 @@ void xrMemory::_initialize(BOOL bDebug)
     }
 
 #ifndef M_BORLAND
-    if (!strstr(Core.Params, "-pure_alloc"))
+    if (!strstr(GetCommandLine(), "-pure_alloc"))
     {
         // initialize POOLs
         u32 element = mem_pools_ebase;
@@ -95,7 +95,7 @@ void xrMemory::_initialize(BOOL bDebug)
 #endif // M_BORLAND
 
 #ifdef DEBUG_MEMORY_MANAGER
-    if (0 == strstr(Core.Params, "-memo")) mem_initialized = TRUE;
+    if (0 == strstr(GetCommandLine(), "-memo")) mem_initialized = TRUE;
     else g_bMEMO = TRUE;
 #else // DEBUG_MEMORY_MANAGER
     mem_initialized = TRUE;
@@ -150,7 +150,7 @@ void xrMemory::mem_compact()
     HeapCompact(GetProcessHeap(), 0);
     if (g_pStringContainer) g_pStringContainer->clean();
     if (g_pSharedMemoryContainer) g_pSharedMemoryContainer->clean();
-    if (strstr(Core.Params, "-swap_on_compact"))
+    if (strstr(GetCommandLine(), "-swap_on_compact"))
         SetProcessWorkingSetSize(GetCurrentProcess(), size_t(-1), size_t(-1));
 }
 

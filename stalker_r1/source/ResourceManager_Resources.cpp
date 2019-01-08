@@ -18,7 +18,7 @@ void fix_texture_name(LPSTR fn);
 
 void simplify_texture(string_path &fn)
 {
-	if (strstr(Core.Params,"-game_designer"))
+	if (strstr(GetCommandLine(),"-game_designer"))
 	{
 		if (strstr(fn, "$user")) return;
 		if (strstr(fn, "ui\\")) return;
@@ -159,11 +159,6 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 
 		string_path					cname;
 		strconcat					(sizeof(cname),cname,::Render->getShaderPath(),_name,".vs");
-		FS.update_path				(cname,	"$game_shaders$", cname);
-//		LPCSTR						target		= NULL;
-
-		IReader*					fs			= FS.r_open(cname);
-		R_ASSERT3					(fs, "shader file doesnt exist", cname);
 
 		// Select target
 		LPCSTR						c_target	= "vs_2_0";
@@ -172,13 +167,14 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		else 							c_target="vs_1_1";
 
 		// duplicate and zero-terminate
-		IReader* file			= FS.r_open(cname);
+	
+		IReader* file			= XRayBearReader::Create(FS.Read(TEXT("%shaders%"), cname));
 		R_ASSERT2				( file, cname );
 		u32	const size			= file->length();
 		char* const data		= (LPSTR)_alloca(size + 1);
 		CopyMemory				( data, file->pointer(), size );
 		data[size]				= 0;
-		FS.r_close				( file );
+		XRayBearReader::Destroy( file );
 
 		if (strstr(data, "main_vs_1_1"))	{ c_target = "vs_1_1"; c_entry = "main_vs_1_1";	}
 		if (strstr(data, "main_vs_2_0"))	{ c_target = "vs_2_0"; c_entry = "main_vs_2_0";	}
@@ -233,16 +229,13 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		string_path					cname;
         LPCSTR						shader_path = ::Render->getShaderPath();
 		strconcat					(sizeof(cname), cname,shader_path,name,".ps");
-		FS.update_path				(cname,	"$game_shaders$", cname);
-
-		// duplicate and zero-terminate
-		IReader* file			= FS.r_open(cname);
+		IReader* file = XRayBearReader::Create(FS.Read(TEXT("%shaders%"), cname));
 		R_ASSERT2				( file, cname );
 		u32	const size			= file->length();
 		char* const data		= (LPSTR)_alloca(size + 1);
 		CopyMemory				( data, file->pointer(), size );
 		data[size]				= 0;
-		FS.r_close				( file );
+		XRayBearReader::Destroy(file);
 
 		// Select target
 		LPCSTR						c_target	= "ps_2_0";

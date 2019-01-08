@@ -693,27 +693,34 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
         {
         	_GetItem	(items_nm,k,nm);
             xr_strcat		(nm,".omf");
-            string_path	fn;
-            if (!FS.exist(fn, "$level$", nm))
-            {
-                if (!FS.exist(fn, "$game_meshes$", nm))
-                {
-#ifdef _EDITOR
-                    Msg			("!Can't find motion file '%s'.",nm);
-                    return;
-#else
-                    Debug.fatal	(DEBUG_INFO,"Can't find motion file '%s'.",nm);
-#endif
-                }
-            }
             // Check compatibility
             m_Motions.push_back				(SMotionsSlot());
             bool create_res = true;
             if( !g_pMotionsContainer->has(nm) ) //optimize fs operations
 			{
-				IReader* MS						= FS.r_open(fn);
-				create_res = m_Motions.back().motions.create	(nm,MS,bones);
-				FS.r_close						(MS);
+
+				if (FS.ExistFile( "%level%", nm))
+				{
+					IReader* MS =XRayBearReader::Create( FS.Read("%level%", nm));
+					create_res = m_Motions.back().motions.create(nm, MS, bones);
+					XRayBearReader::Destroy(MS);
+				}
+				else if (FS.ExistFile("%meshes%", nm))
+				{
+					IReader* MS = XRayBearReader::Create(FS.Read("%meshes%", nm));
+					create_res = m_Motions.back().motions.create(nm, MS, bones);
+					XRayBearReader::Destroy(MS);
+				}
+				else
+				{
+#ifdef _EDITOR
+					Msg("!Can't find motion file '%s'.", nm);
+					return;
+#else
+					Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", nm);
+#endif
+				}
+			
 			}
             if(create_res)
 				m_Motions.back().motions.create	(nm,NULL,bones);
@@ -722,8 +729,8 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
                 Msg					("! error in model [%s]. Unable to load motion file '%s'.", N, nm);
                 }
     	}
-    }else
-    if (data->find_chunk(OGF_S_MOTION_REFS2))
+    }
+	else  if (data->find_chunk(OGF_S_MOTION_REFS2))
     {
 		u32 set_cnt		= data->r_u32();
 		m_Motions.reserve(set_cnt);
@@ -733,26 +740,35 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
 			data->r_stringZ	(nm,sizeof(nm));
             xr_strcat			(nm,".omf");
             string_path	fn;
-            if (!FS.exist(fn, "$level$", nm))
-            {
-                if (!FS.exist(fn, "$game_meshes$", nm))
-                {
-#ifdef _EDITOR
-                    Msg			("!Can't find motion file '%s'.",nm);
-                    return;
-#else
-                    Debug.fatal	(DEBUG_INFO,"Can't find motion file '%s'.",nm);
-#endif
-                }
-            }
+
             // Check compatibility
             m_Motions.push_back				(SMotionsSlot());
             bool create_res = true;
             if( !g_pMotionsContainer->has(nm) ) //optimize fs operations
 			{
-				IReader* MS						= FS.r_open(fn);
-				create_res = m_Motions.back().motions.create	(nm,MS,bones);
-				FS.r_close						(MS);
+
+				if (FS.ExistFile("%level%", nm))
+				{
+					IReader* MS = XRayBearReader::Create(FS.Read("%level%", nm));
+					create_res = m_Motions.back().motions.create(nm, MS, bones);
+					XRayBearReader::Destroy(MS);
+				}
+				else if (FS.ExistFile("%meshes%", nm))
+				{
+					IReader* MS = XRayBearReader::Create(FS.Read("%meshes%", nm));
+					create_res = m_Motions.back().motions.create(nm, MS, bones);
+					XRayBearReader::Destroy(MS);
+				}
+				else
+				{
+#ifdef _EDITOR
+					Msg("!Can't find motion file '%s'.", nm);
+					return;
+#else
+					Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", nm);
+#endif
+				}
+
 			}
             if(create_res)
 				m_Motions.back().motions.create	(nm,NULL,bones);

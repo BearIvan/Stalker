@@ -14,7 +14,7 @@ extern XRCDB_API BOOL* cdb_bDebug;
 void SetupGPU(IRenderDeviceRender* pRender)
 {
     // Command line
-    char* lpCmdLine = Core.Params;
+    char* lpCmdLine = GetCommandLine();
 
     BOOL bForceGPU_SW;
     BOOL bForceGPU_NonPure;
@@ -198,11 +198,11 @@ PROTECT_API void CRenderDevice::Create()
         true
     );
 
-    string_path fname;
-    FS.update_path(fname, "$game_data$", "shaders.xr");
-
+  /*  string_path fname;
+    FS.update_path(fname, "$game_data$", );
+	*/
     //////////////////////////////////////////////////////////////////////////
-    _Create(fname);
+    _Create("shaders.xr");
 
     PreCache(0, false, false);
 

@@ -117,11 +117,11 @@ int CSoundRender_Core::pause_emitters(bool val)
 void CSoundRender_Core::env_load	()
 {
 	// Load environment
-	string_path					fn;
-	if (FS.exist(fn,"$game_data$",SNDENV_FILENAME))
+	BearCore::BearStringPath fn;
+	if (FS.ExistFile(fn,TEXT("%content%"),SNDENV_FILENAME))
 	{
 		s_environment				= xr_new<SoundEnvironment_LIB>();
-		s_environment->Load			(fn);
+		s_environment->Load			(SNDENV_FILENAME);
 	}
 
 	// Load geometry

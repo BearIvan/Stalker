@@ -459,9 +459,9 @@ void _LogCallback(LPCSTR string)
 
 void CStats::OnDeviceCreate()
 {
-    g_bDisableRedText = strstr(Core.Params, "-xclsx") ? TRUE : FALSE;
+    g_bDisableRedText = strstr(GetCommandLine(), "-xclsx") ? TRUE : FALSE;
 
-    // if (!strstr(Core.Params, "-dedicated"))
+    // if (!strstr(GetCommandLine(), "-dedicated"))
 #ifndef DEDICATED_SERVER
     pFont = xr_new<CGameFont>("stat_font", CGameFont::fsDeviceIndependent);
 #endif

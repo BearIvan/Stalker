@@ -224,24 +224,30 @@ public:
 
         bool b_abs_name = xr_strlen(cfg_full_name) > 2 && cfg_full_name[1] == ':';
 
-        if (!b_abs_name)
-            FS.update_path(cfg_full_name, "$app_data_root$", cfg_full_name);
+		BearCore::BearStringPath path;
 
-        if (strext(cfg_full_name))
-            *strext(cfg_full_name) = 0;
-        xr_strcat(cfg_full_name, ".ltx");
+        if (!b_abs_name)
+            FS.UpdatePath( "%user%",0,  path);
+
+		BearCore::BearString::Contact(path,TEXT( BEAR_PATH));
+		if (strext(cfg_full_name))
+			*strext(cfg_full_name) = 0;
+		xr_strcat(cfg_full_name, ".ltx");
+		BearCore::BearString::Contact(path, cfg_full_name);
+
+
 
         BOOL b_allow = TRUE;
-        if (FS.exist(cfg_full_name))
+        if (FS.ExistFile("%user%",cfg_full_name))
             b_allow = SetFileAttributes(cfg_full_name, FILE_ATTRIBUTE_NORMAL);
 
         if (b_allow)
         {
-            IWriter* F = FS.w_open(cfg_full_name);
+            IWriter* F =XRayBearWriter::Create( FS.Write("%user%", cfg_full_name,0));
             CConsole::vecCMD_IT it;
             for (it = Console->Commands.begin(); it != Console->Commands.end(); it++)
                 it->second->Save(F);
-            FS.w_close(F);
+			XRayBearWriter::Destroy(F);
             Msg("Config-file [%s] saved successfully", cfg_full_name);
         }
         else
@@ -253,41 +259,45 @@ CCC_LoadCFG::CCC_LoadCFG(LPCSTR N) : IConsole_Command(N)
 
 void CCC_LoadCFG::Execute(LPCSTR args)
 {
-    Msg("Executing config-script \"%s\"...", args);
-    string_path cfg_name;
+	Msg("Executing config-script \"%s\"...", args);
+	string_path cfg_name;
 
-    xr_strcpy(cfg_name, args);
-    if (strext(cfg_name)) *strext(cfg_name) = 0;
-    xr_strcat(cfg_name, ".ltx");
+	xr_strcpy(cfg_name, args);
+	if (strext(cfg_name)) *strext(cfg_name) = 0;
+	xr_strcat(cfg_name, ".ltx");
 
-    string_path cfg_full_name;
+	string_path cfg_full_name;
+	IReader* F = 0;
+	if (!FS.ExistFile(TEXT("%user%"), cfg_name))
+	{
+		if (!FS.ExistFile(TEXT("%config%"), cfg_name))
+		{
+			F = XRayBearReader::Create(FS.Read(TEXT("%config%"), cfg_name));
+		}
+		else if (BearCore::BearFileManager::FileExists(cfg_name))
+		{
+			F = XRayBearReader::Create(cfg_name);
+		}
+		else
+		{
+			Msg("! Cannot open script file [%s]", cfg_name);
+			return;
+		}
+	}
+	else
+	{
+		 F = XRayBearReader::Create(FS.Read(TEXT("%user%"), cfg_name));
+	}
+	string1024 str;
+	while (!F->eof())
+	{
+		F->r_string(str, sizeof(str));
+		if (allow(str))
+			Console->Execute(str);
+	}
+	XRayBearReader::Destroy(F);
 
-    FS.update_path(cfg_full_name, "$app_data_root$", cfg_name);
-
-    if (NULL == FS.exist(cfg_full_name))
-        FS.update_path(cfg_full_name, "$fs_root$", cfg_name);
-
-    if (NULL == FS.exist(cfg_full_name))
-        xr_strcpy(cfg_full_name, cfg_name);
-
-    IReader* F = FS.r_open(cfg_full_name);
-
-    string1024 str;
-    if (F != NULL)
-    {
-        while (!F->eof())
-        {
-            F->r_string(str, sizeof(str));
-            if (allow(str))
-                Console->Execute(str);
-        }
-        FS.r_close(F);
-        Msg("[%s] successfully loaded.", cfg_full_name);
-    }
-    else
-    {
-        Msg("! Cannot open script file [%s]", cfg_full_name);
-    }
+	Msg("[%s] successfully loaded.", cfg_full_name); 
 }
 
 CCC_LoadCFG_custom::CCC_LoadCFG_custom(LPCSTR cmd)
@@ -583,7 +593,7 @@ public:
     {
         //fill_render_mode_list ();
         tokens = vid_quality_token;
-        if (!strstr(Core.Params, "-r2"))
+        if (!strstr(GetCommandLine(), "-r2"))
         {
             inherited::Save(F);
         }

@@ -271,12 +271,6 @@ DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
 #include "log.h"
 #include "xr_trims.h"
 #include "xr_ini.h"
-#ifdef NO_FS_SCAN
-# include "ELocatorAPI.h"
-#else
-# include "LocatorAPI.h"
-#endif
-#include "FileSystem.h"
 #include "FTimer.h"
 #include "fastdelegate.h"
 #include "intrusive_ptr.h"
@@ -298,32 +292,26 @@ public:
 };
 
 // ********************************************** The Core definition
+
+#include "BearCore.hpp"
+#include "XrayToBearCore.h"
 class XRCORE_API xrCore
 {
 public:
-    string64 ApplicationName;
-    string_path ApplicationPath;
-    string_path WorkingPath;
-    string64 UserName;
-    string64 CompName;
-    char* Params;
-    DWORD dwFrame;
+	static  string64 UserName;
+	static string64 CompName;
+	static u32 dwFrame;
 
 public:
-    void _initialize(LPCSTR ApplicationName, LogCallback cb = 0, BOOL init_fs = TRUE, LPCSTR fs_fname = 0);
-    void _destroy();
+    static void Initialize(LogCallback cb = 0);
+	static void Destroy();
 };
 
-//Borland class dll interface
-#define _BCL __stdcall
-
-//Borland global function dll interface
-#define _BGCL __stdcall
-
+#define _BCL 
+#define _BGCL 
 
 extern XRCORE_API xrCore Core;
 
-#include "BearCore.hpp"
 
 #endif
 

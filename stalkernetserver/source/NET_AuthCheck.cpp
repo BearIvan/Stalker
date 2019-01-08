@@ -3,7 +3,7 @@
 
 void XRNETSERVER_API fill_auth_check_params(xr_auth_strings_t & ignore,
 											xr_auth_strings_t & check)
-{
+{/*
 	string_path				config;
 	LPCSTR pth				= FS.get_path("$app_data_root$")->m_Path;
 	ignore.push_back		(shared_str(pth));
@@ -44,7 +44,7 @@ void XRNETSERVER_API fill_auth_check_params(xr_auth_strings_t & ignore,
 	check.push_back			(shared_str("xrrender_r1.dll"));
 	check.push_back			(shared_str("xrrender_r2.dll"));
 	check.push_back			(shared_str("xrsound.dll"));
-	check.push_back			(shared_str("xrxmlparser.dll"));
+	check.push_back			(shared_str("xrxmlparser.dll"));*/
 //	check.push_back			(shared_str("xrEngine.exe"));
 }
 

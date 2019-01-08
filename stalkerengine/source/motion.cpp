@@ -104,9 +104,25 @@ void COMotion::SaveMotion(const char* buf)
 
 bool COMotion::LoadMotion(const char* buf)
 {
-    destructor<IReader> F(FS.r_open(buf));
-    R_ASSERT(F().find_chunk(EOBJ_OMOTION));
-    return Load(F());
+	IReader*F = 0;
+	if (FS.ExistFile("%level%", buf))
+	{
+		F = XRayBearReader::Create(FS.Read(TEXT("%level%"), buf));
+	}
+	else if (FS.ExistFile("%anims%", buf))
+	{
+		F = XRayBearReader::Create(FS.Read(TEXT("%anims%"), buf));
+	}
+	else
+	{
+		Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", buf);
+	}
+
+
+    R_ASSERT(F->find_chunk(EOBJ_OMOTION));
+   bool result= Load(*F);
+   XRayBearReader::Destroy(F);
+   return result;
 }
 
 void COMotion::Save(IWriter& F)

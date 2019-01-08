@@ -66,7 +66,7 @@ void SGameMtl::Load(IReader& fs)
 void CGameMtlLibrary::Load()
 {
     string_path name;
-    if (!FS.exist(name, _game_data_, GAMEMTL_FILENAME))
+    if (!FS.ExistFile( TEXT("%content%"), GAMEMTL_FILENAME))
     {
         Log("! Can't find game material file: ", name);
         return;
@@ -75,7 +75,7 @@ void CGameMtlLibrary::Load()
     R_ASSERT(material_pairs.empty());
     R_ASSERT(materials.empty());
 
-    IReader* F = FS.r_open(name);
+    IReader* F =XRayBearReader::Create( FS.Read(TEXT("%content%"), GAMEMTL_FILENAME));
     IReader& fs = *F;
 
     R_ASSERT(fs.find_chunk(GAMEMTLS_CHUNK_VERSION));
@@ -83,7 +83,7 @@ void CGameMtlLibrary::Load()
     if (GAMEMTL_CURRENT_VERSION != version)
     {
         Log("CGameMtlLibrary: invalid version. Library can't load.");
-        FS.r_close(F);
+		XRayBearReader::Destroy(F);
         return;
     }
 
@@ -141,7 +141,7 @@ void CGameMtlLibrary::Load()
      }
      }
      */
-    FS.r_close (F);
+	XRayBearReader::Destroy(F);
 }
 
 #ifdef GM_NON_GAME

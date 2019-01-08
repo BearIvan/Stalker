@@ -251,14 +251,16 @@ void CMemoryWriter::w(const void* ptr, u32 count)
 //static const u32 mb_sz = 0x1000000;
 bool CMemoryWriter::save_to(LPCSTR fn)
 {
-    IWriter* F = FS.w_open(fn);
+	BEAR_ASSERT(false);
+	return false;
+   /* IWriter* F = FS.w_open(fn);
     if (F)
     {
         F->w(pointer(), size());
         FS.w_close(F);
         return true;
     }
-    return false;
+    return false;*/
 }
 
 
@@ -336,35 +338,35 @@ void IWriter::w_printf(const char* format, ...)
 
     w(buf, xr_strlen(buf));
 }
-
-//---------------------------------------------------
 // base stream
 IReader* IReader::open_chunk(u32 ID)
 {
-    BOOL bCompressed;
+	BOOL bCompressed;
 
-    u32 dwSize = find_chunk(ID, &bCompressed);
-    if (dwSize != 0)
-    {
-        if (bCompressed)
-        {
-            BYTE* dest;
-            unsigned dest_sz;
-            _decompressLZ(&dest, &dest_sz, pointer(), dwSize);
-            return xr_new<CTempReader>(dest, dest_sz, tell() + dwSize);
-        }
-        else
-        {
-            return xr_new<IReader>(pointer(), dwSize, tell() + dwSize);
-        }
-    }
-    else return 0;
+	u32 dwSize = find_chunk(ID, &bCompressed);
+	if (dwSize != 0)
+	{
+		if (bCompressed)
+		{
+			BYTE* dest;
+			unsigned dest_sz;
+			_decompressLZ(&dest, &dest_sz, pointer(), dwSize);
+			return xr_new<CTempReader>(dest, dest_sz, tell() + dwSize);
+		}
+		else
+		{
+			return xr_new<IReader>(pointer(), dwSize, tell() + dwSize);
+		}
+	}
+	else return 0;
 };
 void IReader::close()
 {
-	if(this)
-	Memory.mem_free(this);
-//	*const_cast<IReader**>(&this) = 0;
+	if (this)
+	{
+		this->~IReader();
+		Memory.mem_free((void*)this);
+	}
 }
 
 #include "FS_impl.h"
@@ -372,7 +374,7 @@ void IReader::close()
 #ifdef TESTING_IREADER
 IReaderTestPolicy::~IReaderTestPolicy()
 {
-    xr_delete(m_test);
+	xr_delete(m_test);
 };
 #endif // TESTING_IREADER
 
@@ -382,219 +384,116 @@ find_chunk_counter g_find_chunk_counter;
 
 u32 IReader::find_chunk(u32 ID, BOOL* bCompressed)
 {
-    return inherited::find_chunk(ID, bCompressed);
+	return inherited::find_chunk(ID, bCompressed);
 }
 
 IReader* IReader::open_chunk_iterator(u32& ID, IReader* _prev)
 {
-    if (0 == _prev)
-    {
-        // first
-        rewind();
-    }
-    else
-    {
-        // next
-        seek(_prev->iterpos);
-        _prev->close();
-    }
+	if (0 == _prev)
+	{
+		// first
+		rewind();
+	}
+	else
+	{
+		// next
+		seek(_prev->iterpos);
+		_prev->close();
+	}
 
-    // open
-    if (elapsed() < 8) return NULL;
-    ID = r_u32();
-    u32 _size = r_u32();
-    if (ID & CFS_CompressMark)
-    {
-        // compressed
-        u8* dest;
-        unsigned dest_sz;
-        _decompressLZ(&dest, &dest_sz, pointer(), _size);
-        return xr_new<CTempReader>(dest, dest_sz, tell() + _size);
-    }
-    else
-    {
-        // normal
-        return xr_new<IReader>(pointer(), _size, tell() + _size);
-    }
+	// open
+	if (elapsed() < 8) return NULL;
+	ID = r_u32();
+	u32 _size = r_u32();
+	if (ID & CFS_CompressMark)
+	{
+		// compressed
+		u8* dest;
+		unsigned dest_sz;
+		_decompressLZ(&dest, &dest_sz, pointer(), _size);
+		return xr_new<CTempReader>(dest, dest_sz, tell() + _size);
+	}
+	else
+	{
+		// normal
+		return xr_new<IReader>(pointer(), _size, tell() + _size);
+	}
 }
 
 void IReader::r(void* p, int cnt)
 {
-    VERIFY(Pos + cnt <= Size);
-    CopyMemory(p, pointer(), cnt);
-    advance(cnt);
-#ifdef DEBUG
-    BOOL bShow = FALSE;
-    if (dynamic_cast<CFileReader*>(this)) bShow = TRUE;
-    if (dynamic_cast<CVirtualFileReader*>(this)) bShow = TRUE;
-    if (bShow)
-    {
-        FS.dwOpenCounter++;
-    }
-#endif
+	VERIFY(Pos + cnt <= Size);
+	CopyMemory(p, pointer(), cnt);
+	advance(cnt);
 };
 
 IC BOOL is_term(char a) { return (a == 13) || (a == 10); };
 IC u32 IReader::advance_term_string()
 {
-    u32 sz = 0;
-    char* src = (char*)data;
-    while (!eof())
-    {
-        Pos++;
-        sz++;
-        if (!eof() && is_term(src[Pos]))
-        {
-            while (!eof() && is_term(src[Pos]))
-                Pos++;
-            break;
-        }
-    }
-    return sz;
+	u32 sz = 0;
+	char* src = (char*)data;
+	while (!eof())
+	{
+		Pos++;
+		sz++;
+		if (!eof() && is_term(src[Pos]))
+		{
+			while (!eof() && is_term(src[Pos]))
+				Pos++;
+			break;
+		}
+	}
+	return sz;
 }
 void IReader::r_string(char* dest, u32 tgt_sz)
 {
-    char* src = (char*)data + Pos;
-    u32 sz = advance_term_string();
-    R_ASSERT2(sz < (tgt_sz - 1), "Dest string less than needed.");
-    R_ASSERT(!IsBadReadPtr((void*)src, sz));
+	char* src = (char*)data + Pos;
+	u32 sz = advance_term_string();
+	R_ASSERT2(sz < (tgt_sz - 1), "Dest string less than needed.");
+	R_ASSERT(!IsBadReadPtr((void*)src, sz));
 
 #ifdef _EDITOR
-    CopyMemory(dest, src, sz);
+	CopyMemory(dest, src, sz);
 #else
-    strncpy_s(dest, tgt_sz, src, sz);
+	strncpy_s(dest, tgt_sz, src, sz);
 #endif
-    dest[sz] = 0;
+	dest[sz] = 0;
 }
 void IReader::r_string(xr_string& dest)
 {
-    char* src = (char*)data + Pos;
-    u32 sz = advance_term_string();
-    dest.assign(src, sz);
+	char* src = (char*)data + Pos;
+	u32 sz = advance_term_string();
+	dest.assign(src, sz);
 }
 void IReader::r_stringZ(char* dest, u32 tgt_sz)
 {
-    char* src = (char*)data;
-    u32 sz = xr_strlen(src);
-    R_ASSERT2(sz < tgt_sz, "Dest string less than needed.");
-    while ((src[Pos] != 0) && (!eof())) *dest++ = src[Pos++];
-    *dest = 0;
-    Pos++;
+	char* src = (char*)data;
+	u32 sz = xr_strlen(src);
+	R_ASSERT2(sz < tgt_sz, "Dest string less than needed.");
+	while ((src[Pos] != 0) && (!eof())) *dest++ = src[Pos++];
+	*dest = 0;
+	Pos++;
 }
 void IReader::r_stringZ(shared_str& dest)
 {
-    dest = (char*)(data + Pos);
-    Pos += (dest.size() + 1);
+	dest = (char*)(data + Pos);
+	Pos += (dest.size() + 1);
 }
 void IReader::r_stringZ(xr_string& dest)
 {
-    dest = (char*)(data + Pos);
-    Pos += int(dest.size() + 1);
+	dest = (char*)(data + Pos);
+	Pos += int(dest.size() + 1);
 };
 
 void IReader::skip_stringZ()
 {
-    char* src = (char*)data;
-    while ((src[Pos] != 0) && (!eof())) Pos++;
-    Pos++;
+	char* src = (char*)data;
+	while ((src[Pos] != 0) && (!eof())) Pos++;
+	Pos++;
 };
-
-//---------------------------------------------------
-// temp stream
 CTempReader::~CTempReader()
 {
-    xr_free(data);
+	xr_free(data);
 };
 //---------------------------------------------------
 // pack stream
-CPackReader::~CPackReader()
-{
-#ifdef FS_DEBUG
-    unregister_file_mapping(base_address, Size);
-#endif // DEBUG
-
-    UnmapViewOfFile(base_address);
-};
-//---------------------------------------------------
-// file stream
-CFileReader::CFileReader(const char* name)
-{
-    data = (char*)FileDownload(name, (u32*)&Size);
-    Pos = 0;
-};
-CFileReader::~CFileReader()
-{
-    xr_free(data);
-};
-//---------------------------------------------------
-// compressed stream
-CCompressedReader::CCompressedReader(const char* name, const char* sign)
-{
-    data = (char*)FileDecompress(name, sign, (u32*)&Size);
-    Pos = 0;
-}
-CCompressedReader::~CCompressedReader()
-{
-    xr_free(data);
-};
-
-
-CVirtualFileRW::CVirtualFileRW(const char* cFileName)
-{
-    // Open the file
-    hSrcFile = CreateFile(cFileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
-    R_ASSERT3(hSrcFile != INVALID_HANDLE_VALUE, cFileName, Debug.error2string(GetLastError()));
-    Size = (int)GetFileSize(hSrcFile, NULL);
-    R_ASSERT3(Size, cFileName, Debug.error2string(GetLastError()));
-
-    hSrcMap = CreateFileMapping(hSrcFile, 0, PAGE_READWRITE, 0, 0, 0);
-    R_ASSERT3(hSrcMap != INVALID_HANDLE_VALUE, cFileName, Debug.error2string(GetLastError()));
-
-    data = (char*)MapViewOfFile(hSrcMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-    R_ASSERT3(data, cFileName, Debug.error2string(GetLastError()));
-
-#ifdef FS_DEBUG
-    register_file_mapping(data, Size, cFileName);
-#endif // DEBUG
-}
-
-CVirtualFileRW::~CVirtualFileRW()
-{
-#ifdef FS_DEBUG
-    unregister_file_mapping(data, Size);
-#endif // DEBUG
-
-    UnmapViewOfFile((void*)data);
-    CloseHandle(hSrcMap);
-    CloseHandle(hSrcFile);
-}
-
-CVirtualFileReader::CVirtualFileReader(const char* cFileName)
-{
-    // Open the file
-    hSrcFile = CreateFile(cFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
-    R_ASSERT3(hSrcFile != INVALID_HANDLE_VALUE, cFileName, Debug.error2string(GetLastError()));
-    Size = (int)GetFileSize(hSrcFile, NULL);
-    R_ASSERT3(Size, cFileName, Debug.error2string(GetLastError()));
-
-    hSrcMap = CreateFileMapping(hSrcFile, 0, PAGE_READONLY, 0, 0, 0);
-    R_ASSERT3(hSrcMap != INVALID_HANDLE_VALUE, cFileName, Debug.error2string(GetLastError()));
-
-    data = (char*)MapViewOfFile(hSrcMap, FILE_MAP_READ, 0, 0, 0);
-    R_ASSERT3(data, cFileName, Debug.error2string(GetLastError()));
-
-#ifdef FS_DEBUG
-    register_file_mapping(data, Size, cFileName);
-#endif // DEBUG
-}
-
-CVirtualFileReader::~CVirtualFileReader()
-{
-#ifdef FS_DEBUG
-    unregister_file_mapping(data, Size);
-#endif // DEBUG
-
-    UnmapViewOfFile((void*)data);
-    CloseHandle(hSrcMap);
-    CloseHandle(hSrcFile);
-}

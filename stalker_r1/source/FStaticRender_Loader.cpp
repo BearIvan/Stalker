@@ -64,10 +64,10 @@ void CRender::level_Load(IReader *fs)
 		// VB,IB,SWI
 //		g_pGamePersistent->LoadTitle("st_loading_geometry");
 		g_pGamePersistent->LoadTitle();
-		CStreamReader				*geom = FS.rs_open	("$level$","level.geom");
+		XRayBearFileStream				*geom = XRayBearFileStream::Create( FS.Read	("%level%","level.geom"));
 		LoadBuffers					(geom);
 		LoadSWIs					(geom);
-		FS.r_close					(geom);
+		XRayBearFileStream::Destroy(geom);
 
 		// Visuals
 //		g_pGamePersistent->LoadTitle("st_loading_spatial_db");

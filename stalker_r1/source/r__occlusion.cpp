@@ -5,7 +5,7 @@
 
 R_occlusion::R_occlusion(void)
 {
-	enabled			= strstr(Core.Params,"-no_occq")?FALSE:TRUE;
+	enabled			= strstr(GetCommandLine(),"-no_occq")?FALSE:TRUE;
 }
 R_occlusion::~R_occlusion(void)
 {

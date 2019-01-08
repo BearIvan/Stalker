@@ -30,9 +30,8 @@ void CPartition::load(IKinematics* V, LPCSTR model_name)
         *strext(fn) = 0;
     xr_strcat(fn, sizeof(fn), ".ltx");
 
-    FS.update_path(fn_full, "$game_meshes$", fn);
 
-    CInifile ini(fn_full, TRUE, TRUE, FALSE);
+    CInifile ini("%meshes%", fn, TRUE, TRUE, FALSE);
 
     if (ini.sections().size() == 0) return;
     shared_str part_name = "partition_name";

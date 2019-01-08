@@ -171,7 +171,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				FS.w_close			(fs);
 				_RELEASE			(saved);
 
-				if (strstr(Core.Params,"-ss_tga"))	
+				if (strstr(GetCommandLine(),"-ss_tga"))	
 				{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 					ID3DBlob*		saved	= 0;
@@ -234,8 +234,8 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 {
 	if (!Device.b_is_Ready)			return;
 	if ((psDeviceFlags.test(rsFullscreen)) == 0) {
-		if(name && FS.exist(name))
-			FS.file_delete(0,name);
+		if(name && BearCore::BearFileManager::FileExists( name))
+			BearCore::BearFileManager::FileDelete(name);
 
 		Log("~ Can't capture screen while in windowed mode...");
 		return;
@@ -316,10 +316,10 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
 				if(hr!=D3D_OK)		goto _end_;
 				
-				IWriter*			fs		= FS.w_open	(name); 
+				IWriter*			fs		=XRayBearWriter::Create(name); 
 				if (fs)				{
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
-					FS.w_close			(fs);
+					XRayBearWriter::Destroy(fs);
 				}
 				_RELEASE			(saved);
 
@@ -351,10 +351,10 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				
 				if (!memory_writer)
 				{
-					IWriter*			fs		= FS.w_open	(name); 
+					IWriter*			fs = XRayBearWriter::Create(name);
 					if (fs)				{
 						fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
-						FS.w_close			(fs);
+						XRayBearWriter::Destroy(fs);
 					}
 				} else
 				{
@@ -374,17 +374,17 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob*		saved	= 0;
 				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_JPG,pFB,0,0));
-				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
+				IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
 				fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
-				FS.w_close			(fs);
+				XRayBearWriter::Destroy		(fs);
 				_RELEASE			(saved);
-				if (strstr(Core.Params,"-ss_tga"))	{ // hq
+				if (strstr(GetCommandLine(),"-ss_tga"))	{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 					ID3DBlob*		saved	= 0;
 					CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
-					IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
+					IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
-					FS.w_close			(fs);
+					XRayBearWriter::Destroy(fs);
 					_RELEASE			(saved);
 				}
 			}
@@ -396,7 +396,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				string_path			buf;
 				VERIFY				(name);
 				strconcat			(sizeof(buf), buf, name, ".tga");
-				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
+				IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%", buf, 0)); R_ASSERT(fs);
 				TGAdesc				p;
 				p.format			= IMG_24B;
 
@@ -417,7 +417,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				p.maketga			(*fs);
 				xr_free				(data);
 
-				FS.w_close			(fs);
+				XRayBearWriter::Destroy(fs);
 			}
 			break;
 	}

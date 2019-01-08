@@ -522,7 +522,7 @@ BOOL	CHW::support	(D3DFORMAT fmt, DWORD type, DWORD usage)
 
 void	CHW::updateWindowProps	(HWND m_hWnd)
 {
-//	BOOL	bWindowed				= strstr(Core.Params,"-dedicated") ? TRUE : !psDeviceFlags.is	(rsFullscreen);
+//	BOOL	bWindowed				= strstr(GetCommandLine(),"-dedicated") ? TRUE : !psDeviceFlags.is	(rsFullscreen);
 //#ifndef DEDICATED_SERVER
 //	BOOL	bWindowed				= !psDeviceFlags.is	(rsFullscreen);
 //#else
@@ -540,7 +540,7 @@ void	CHW::updateWindowProps	(HWND m_hWnd)
 	if (bWindowed)		{
 		if (m_move_window) {
             dwWindowStyle = WS_BORDER | WS_VISIBLE;
-            if (!strstr(Core.Params, "-no_dialog_header"))
+            if (!strstr(GetCommandLine(), "-no_dialog_header"))
                 dwWindowStyle |= WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX;
             SetWindowLong(m_hWnd, GWL_STYLE, dwWindowStyle);
 			// When moving from fullscreen to windowed mode, it is important to

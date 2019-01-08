@@ -539,9 +539,9 @@ void CEnvironment::mods_load()
  VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     Modifiers.clear_and_free();
     string_path path;
-    if (FS.exist(path, "$level$", "level.env_mod"))
-    {
-        IReader* fs = FS.r_open(path);
+	if (FS.ExistFile("%level%", "level.env_mod"))
+	{
+		IReader*	fs = XRayBearReader::Create(FS.Read("%level%", "level.env_mod"));
         u32 id = 0;
         u32 ver = 0x0015;
         u32 sz;
@@ -560,7 +560,7 @@ void CEnvironment::mods_load()
             }
             id++;
         }
-        FS.r_close(fs);
+		XRayBearReader::Destroy(fs);
     }
 
     load_level_specific_ambients();
@@ -583,8 +583,7 @@ void CEnvironment::load_level_specific_ambients()
     strconcat(sizeof(path), path, "environment\\ambients\\", level_name.c_str(), ".ltx");
 
     string_path full_path;
-    CInifile* level_ambients = xr_new<CInifile>(
-        FS.update_path(full_path, "$game_config$", path),
+    CInifile* level_ambients = xr_new<CInifile>("%config%", path,
         TRUE,
         TRUE,
         FALSE);
@@ -627,27 +626,23 @@ void CEnvironment::load_weathers()
  VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     if (!WeatherCycles.empty())
         return;
-    typedef xr_vector<LPSTR> file_list_type;
-    file_list_type* file_list = FS.file_list_open("$game_weathers$", "");
-    VERIFY(file_list);
+	BearCore::BearVector<BearCore::BearString> list;
+	FS.GetFiles(list,"%game_weathers%", "*.ltx");
+    VERIFY(list.size());
     xr_string id;
-    file_list_type::const_iterator i = file_list->begin();
-    file_list_type::const_iterator e = file_list->end();
+    auto i = list.begin();
+	auto e = list.end();
     for (; i != e; ++i)
     {
-        u32 length = xr_strlen(*i);
+        u32 length = xr_strlen(**i);
         VERIFY(length >= 4);
-        VERIFY((*i)[length - 4] == '.');
-        VERIFY((*i)[length - 3] == 'l');
-        VERIFY((*i)[length - 2] == 't');
-        VERIFY((*i)[length - 1] == 'x');
-        id.assign(*i, length - 4);
+		id.assign(**i, length - 4);
         EnvVec& env = WeatherCycles[id.c_str()];
 
         string_path file_name;
-        FS.update_path(file_name, "$game_weathers$", id.c_str());
+		xr_strcpy(file_name, id.c_str());
         xr_strcat(file_name, ".ltx");
-        CInifile* config = CInifile::Create(file_name);
+        CInifile* config = CInifile::Create("%game_weathers%",file_name);
 
         typedef CInifile::Root sections_type;
         sections_type& sections = config->sections();
@@ -665,7 +660,6 @@ void CEnvironment::load_weathers()
         CInifile::Destroy(config);
     }
 
-    FS.file_list_close(file_list);
 
     // sorting weather envs
     EnvsMapIt _I = WeatherCycles.begin();
@@ -685,26 +679,23 @@ void CEnvironment::load_weather_effects()
     if (!WeatherFXs.empty())
         return;
     typedef xr_vector<LPSTR> file_list_type;
-    file_list_type* file_list = FS.file_list_open("$game_weather_effects$", "");
-    VERIFY(file_list);
+	BearCore::BearVector<BearCore::BearString> list;
+	FS.GetFiles(list, "%game_weather_effects%", "*.ltx");
+	VERIFY(list.size());
     xr_string id;
-    file_list_type::const_iterator i = file_list->begin();
-    file_list_type::const_iterator e = file_list->end();
+	auto i = list.begin();
+	auto e = list.end();
     for (; i != e; ++i)
     {
-        u32 length = xr_strlen(*i);
-        VERIFY(length >= 4);
-        VERIFY((*i)[length - 4] == '.');
-        VERIFY((*i)[length - 3] == 'l');
-        VERIFY((*i)[length - 2] == 't');
-        VERIFY((*i)[length - 1] == 'x');
-        id.assign(*i, length - 4);
+        u32 length = xr_strlen(**i);
+		VERIFY(length >= 4);
+        id.assign(**i, length - 4);
         EnvVec& env = WeatherFXs[id.c_str()];
 
         string_path file_name;
-        FS.update_path(file_name, "$game_weather_effects$", id.c_str());
+		xr_strcpy(file_name,  id.c_str());
         xr_strcat(file_name, ".ltx");
-        CInifile* config = CInifile::Create(file_name);
+        CInifile* config = CInifile::Create("%game_weather_effects%",file_name);
 
         typedef CInifile::Root sections_type;
         sections_type& sections = config->sections();
@@ -727,7 +718,6 @@ void CEnvironment::load_weather_effects()
 
     }
 
-    FS.file_list_close(file_list);
 
 #if 0
     int line_count = pSettings->line_count("weather_effects");

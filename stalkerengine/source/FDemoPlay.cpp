@@ -34,36 +34,18 @@ CDemoPlay::CDemoPlay(const char* name, float ms, u32 cycles, float life_time) : 
     if (extp)
         xr_strcpy(nm, sizeof(nm) - (extp - nm), ".anm");
 
-    if (FS.exist(fn, "$level$", nm) || FS.exist(fn, "$game_anims$", nm))
-    {
-        m_pMotion = xr_new<COMotion>();
-        m_pMotion->LoadMotion(fn);
-        m_MParam = xr_new<SAnimParams>();
-        m_MParam->Set(m_pMotion);
-        m_MParam->Play();
-    }
-    else
-    {
-        if (!FS.exist(name))
-        {
-            g_pGameLevel->Cameras().RemoveCamEffector(cefDemo);
-            return;
-        }
-        IReader* fs = FS.r_open(name);
-        u32 sz = fs->length();
-        if (sz%sizeof(Fmatrix) != 0)
-        {
-            FS.r_close(fs);
-            g_pGameLevel->Cameras().RemoveCamEffector(cefDemo);
-            return;
-        }
-
-        seq.resize(sz / sizeof(Fmatrix));
-        m_count = seq.size();
-        CopyMemory(&*seq.begin(), fs->pointer(), sz);
-        FS.r_close(fs);
-        Log("~ Total key-frames: ", m_count);
-    }
+	if ( FS.ExistFile("%anims%",nm))
+	{
+		m_pMotion = xr_new<COMotion>();
+		m_pMotion->LoadMotion(fn);
+		m_MParam = xr_new<SAnimParams>();
+		m_MParam->Set(m_pMotion);
+		m_MParam->Play();
+	}
+	else
+	{
+		return;
+	}
     stat_started = FALSE;
     Device.PreCache(50, true, false);
 }
@@ -168,8 +150,7 @@ void CDemoPlay::stat_Stop()
             xr_strcpy(fname, sizeof(fname), "benchmark.result");
 
 
-        FS.update_path(fname, "$app_data_root$", fname);
-        CInifile res(fname, FALSE, FALSE, TRUE);
+        CInifile res("%user%", fname, FALSE, FALSE, TRUE);
         res.w_float("general", "renderer", float(::Render->get_generation()) / 10.f, "dx-level required");
         res.w_float("general", "min", rfps_min, "absolute minimum");
         res.w_float("general", "max", rfps_max, "absolute maximum");

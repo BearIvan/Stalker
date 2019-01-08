@@ -168,14 +168,13 @@ void CTexture::Load		()
 #endif
 	{
 		// Check for OGM
-		string_path			fn;
-		if (FS.exist(fn,"$game_textures$",*cName,".ogm"))
+		if (FS.ExistFile("%textures%",*cName,".ogm"))
 		{
 			// AVI
 			pTheora		= xr_new<CTheoraSurface>();
 			m_play_time	= 0xFFFFFFFF;
 
-			if (!pTheora->Load(fn)) 
+			if (!pTheora->Load(*cName))
 			{
 				xr_delete(pTheora);
 				FATAL				("Can't open video stream");
@@ -236,11 +235,11 @@ void CTexture::Load		()
 
 			}
 		} */
-		else if (FS.exist(fn,"$game_textures$",*cName,".seq"))
+		else if (FS.ExistFile("%textures%",*cName,".seq"))
 		{
 			// Sequence
 			string256 buffer;
-			IReader* _fs		= FS.r_open(fn);
+			IReader* _fs		=XRayBearReader::Create( FS.Read("%textures%", *cName, ".seq"));
 
 			flags.seqCycles	= FALSE;
 			_fs->r_string	(buffer,sizeof(buffer));
@@ -270,7 +269,7 @@ void CTexture::Load		()
 				}
 			}
 			pSurface	= 0;
-			FS.r_close	(_fs);
+			XRayBearReader::Destroy	(_fs);
 		} 
 		else
 		{

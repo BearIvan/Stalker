@@ -107,8 +107,8 @@ BOOL CTheoraSurface::Load(const char* fname)
             xr_strcpy(ext, pext);
             *pext = 0;
         }
-        strconcat(sizeof(alpha), alpha, alpha, "#alpha", ext);
-        if (FS.exist(alpha))
+        strconcat(sizeof(alpha), alpha, alpha, "#alpha.ogm", ext);
+        if (FS.ExistFile(TEXT("%textures%"),alpha))
         {
             m_alpha = xr_new<CTheoraStream>();
             if (!m_alpha->Load(alpha)) res = FALSE;

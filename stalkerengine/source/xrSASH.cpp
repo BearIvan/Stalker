@@ -116,7 +116,7 @@ void xrSASH::LoopOA()
 
 void xrSASH::LoopNative()
 {
-    string_path in_file;
+   /* string_path in_file;
     FS.update_path(in_file, "$app_data_root$", m_strBenchCfgName);
 
     CInifile ini(in_file);
@@ -137,9 +137,9 @@ void xrSASH::LoopNative()
 
             test_command = ini.r_string_wb("benchmark", test_name);
             u32 cmdSize = test_command.size() + 1;
-            Core.Params = (char*)xr_realloc(Core.Params, cmdSize);
-            xr_strcpy(Core.Params, cmdSize, test_command.c_str());
-            xr_strlwr(Core.Params);
+            GetCommandLine() = (char*)xr_realloc(GetCommandLine(), cmdSize);
+            xr_strcpy(GetCommandLine(), cmdSize, test_command.c_str());
+            xr_strlwr(GetCommandLine());
 
             RunBenchmark(test_name);
 
@@ -150,12 +150,12 @@ void xrSASH::LoopNative()
     else
         Msg("oa:: Native path can't find \"%s\" config file.", in_file);
 
-    FlushLog();
+    FlushLog();*/
 }
 
 void xrSASH::ReportNative(LPCSTR pszTestName)
 {
-    string_path fname;
+ /*   string_path fname;
     xr_sprintf(fname, sizeof(fname), "%s.result", pszTestName);
     FS.update_path(fname, "$app_data_root$", fname);
     CInifile res(fname, FALSE, FALSE, TRUE);
@@ -208,7 +208,7 @@ void xrSASH::ReportNative(LPCSTR pszTestName)
     // Output statistics
     res.w_float("general", "average", fNumFrames / fTotal, "average for this run");
     res.w_float("general", "min", fMinFps, "absolute (smoothed) minimum");
-    res.w_float("general", "max", fMaxFps, "absolute (smoothed) maximum");
+    res.w_float("general", "max", fMaxFps, "absolute (smoothed) maximum");*/
 }
 
 void xrSASH::StartBenchmark()
@@ -455,16 +455,16 @@ void xrSASH::TryInitEngine(bool bNoRun)
     }
 
     xr_strcpy(Console->ConfigFile, "user.ltx");
-    if (strstr(Core.Params, "-ltx "))
+    if (strstr(GetCommandLine(), "-ltx "))
     {
         string64 c_name;
-        sscanf(strstr(Core.Params, "-ltx ") + 5, "%[^ ] ", c_name);
+        sscanf(strstr(GetCommandLine(), "-ltx ") + 5, "%[^ ] ", c_name);
         xr_strcpy(Console->ConfigFile, c_name);
     }
 
-    if (strstr(Core.Params, "-r2a"))
+    if (strstr(GetCommandLine(), "-r2a"))
         Console->Execute("renderer renderer_r2a");
-    else if (strstr(Core.Params, "-r2"))
+    else if (strstr(GetCommandLine(), "-r2"))
         Console->Execute("renderer renderer_r2");
     else
     {

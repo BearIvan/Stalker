@@ -83,11 +83,10 @@ void manager::save()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
+			"%config%"
+            ,
                 "environment\\ambients.ltx"
-            ),
+            ,
             FALSE,
             FALSE,
             TRUE

@@ -89,11 +89,9 @@ void manager::load_thunderbolts()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
+                "%config%",
                 "environment\\thunderbolts.ltx"
-            ),
+            ,
             TRUE,
             TRUE,
             FALSE
@@ -120,11 +118,8 @@ void manager::save_thunderbolts()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "environment\\thunderbolts.ltx"
-            ),
+               "%config%",
+                "environment\\thunderbolts.ltx",
             FALSE,
             FALSE,
             TRUE
@@ -145,11 +140,9 @@ void manager::load_collections()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
+			"%config%",
                 "environment\\thunderbolt_collections.ltx"
-            ),
+            ,
             TRUE,
             TRUE,
             FALSE
@@ -176,11 +169,8 @@ void manager::save_collections()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "environment\\thunderbolt_collections.ltx"
-            ),
+			"%config%",
+                "environment\\thunderbolt_collections.ltx",
             FALSE,
             FALSE,
             TRUE
@@ -208,11 +198,8 @@ void manager::save()
     string_path file_name;
     CInifile* config =
         xr_new<CInifile>(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "environment\\environment.ltx"
-            ),
+			"%config%",
+                "environment\\environment.ltx",
             FALSE,
             FALSE,
             TRUE

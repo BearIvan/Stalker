@@ -218,9 +218,8 @@ void ELightAnimLibrary::Unload()
 
 __declspec(dllexport) void ELightAnimLibrary::Load()
 {
-    string_path fn;
-    FS.update_path(fn, _game_data_, "lanims.xr");
-    IReader* fs = FS.r_open(fn);
+    
+    IReader* fs =XRayBearReader::Create( FS.Read(TEXT("%content%"), TEXT("lanims.xr")));
     if (fs)
     {
         u16 version = 0;
@@ -248,31 +247,27 @@ __declspec(dllexport) void ELightAnimLibrary::Load()
             OBJ->close();
         }
 
-        FS.r_close(fs);
+		XRayBearReader::Destroy(fs);
     }
 }
 
 void ELightAnimLibrary::Save()
 {
-    CMemoryWriter F;
-    F.open_chunk(CHUNK_VERSION);
-    F.w_u16(LANIM_VERSION);
-    F.close_chunk();
-    F.open_chunk(CHUNK_ITEM_LIST);
+	IWriter* F = XRayBearWriter::Create(FS.Write(TEXT("%content%"), TEXT("lanims.xr"),0));
+    F->open_chunk(CHUNK_VERSION);
+	F->w_u16(LANIM_VERSION);
+	F->close_chunk();
+	F->open_chunk(CHUNK_ITEM_LIST);
     int count = 0;
     for (LAItemIt it = Items.begin(); it != Items.end(); it++)
     {
-        F.open_chunk(count++);
-        (*it)->Save(F);
-        F.close_chunk();
+		F->open_chunk(count++);
+        (*it)->Save(*F);
+		F->close_chunk();
     }
-    F.close_chunk();
+	F->close_chunk();
 
-    string_path fn;
-    FS.update_path(fn, _game_data_, "lanims.xr");
-
-    if (!F.save_to(fn))
-        Log("!Can't save color animations:", fn);
+	XRayBearWriter::Destroy(F);
 }
 
 void ELightAnimLibrary::Reload()

@@ -31,8 +31,7 @@ void CPSLibrary::OnCreate()
 #endif
     {
     	string_path		fn;
-        FS.update_path	(fn,_game_data_,"particles.xr");
-        Load			(fn);
+        Load			("particles.xr");
     }
 }
  
@@ -124,7 +123,7 @@ void CPSLibrary::Remove(const char* nm)
 //----------------------------------------------------
 bool CPSLibrary::Load2()
 {
-	FS_FileSet					files;
+/*	FS_FileSet					files;
 	string_path					_path;
     FS.update_path				(_path, "$game_particles$", "");
 
@@ -184,19 +183,21 @@ bool CPSLibrary::Load2()
     if(pb) UI->ProgressEnd		(pb);
 #endif
 	Msg				("Loaded particles :%d", files.size());
-	return true;
+	return true;*/
+	BEAR_ASSERT(0);
+	return false;
 }
 
 
 bool CPSLibrary::Load(const char* nm)
 {
-    if (!FS.exist(nm))
+    if (!FS.ExistFile("%content%",nm))
     {
         Msg("Can't find file: '%s'",nm);
         return 				false;
     }
     
-	IReader*	F			= FS.r_open(nm);
+	IReader*	F			=XRayBearReader::Create( FS.Read("%content%", nm));
 	bool bRes 				= true;
     R_ASSERT(F->find_chunk(PS_CHUNK_VERSION));
     u16 ver					= F->r_u16();
@@ -232,7 +233,7 @@ bool CPSLibrary::Load(const char* nm)
     }
 
     // final
-	FS.r_close			(F);
+	XRayBearReader::Destroy(F);
 
 	std::sort			(m_PEDs.begin(),m_PEDs.end(),ped_sort_pred);
 	std::sort			(m_PGDs.begin(),m_PGDs.end(),pgd_sort_pred);

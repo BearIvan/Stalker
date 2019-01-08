@@ -462,7 +462,7 @@ if(!psNET_direct_connect)
 	R_CHK(NET->Initialize	(this, Handler, DPNINITIALIZE_DISABLEPARAMVAL ));
 #endif
 	BOOL	bSimulator		= FALSE;
-	if (strstr(Core.Params,"-netsim"))		bSimulator = TRUE;
+	if (strstr(GetCommandLine(),"-netsim"))		bSimulator = TRUE;
 	
     // Create our IDirectPlay8Address Device Address, --- Set the SP for our Device Address
 	net_Address_device	= NULL;

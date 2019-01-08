@@ -289,7 +289,6 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize)
 {
 	ID3DTexture2D*		pTexture2D		= NULL;
 	IDirect3DCubeTexture9*	pTextureCUBE	= NULL;
-	string_path				fn;
 	u32						dwWidth,dwHeight;
 	u32						img_size		= 0;
 	int						img_loaded_lod	= 0;
@@ -305,43 +304,41 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize)
 	fix_texture_name		(fname);
 	IReader* S				= NULL;
 	//if (FS.exist(fn,"$game_textures$",fname,	".dds")	&& strstr(fname,"_bump"))	goto _BUMP;
-	if (!FS.exist(fn,"$game_textures$",	fname,	".dds")	&& strstr(fname,"_bump"))	goto _BUMP_from_base;
-	if (FS.exist(fn,"$level$",			fname,	".dds"))							goto _DDS;
-	if (FS.exist(fn,"$game_saves$",		fname,	".dds"))							goto _DDS;
-	if (FS.exist(fn,"$game_textures$",	fname,	".dds"))							goto _DDS;
 
-
-#ifdef _EDITOR
-	ELog.Msg(mtError,"Can't find texture '%s'",fname);
-	return 0;
-#else
-
-	Msg("! Can't find texture '%s'",fname);
-	R_ASSERT(FS.exist(fn,"$game_textures$",	"ed\\ed_not_existing_texture",".dds"));
-	goto _DDS;
-
-//	Debug.fatal(DEBUG_INFO,"Can't find texture '%s'",fname);
-
-#endif
-
+	if ( BearCore::BearString::Find(fname, TEXT("_bump")))
+	{
+		goto _BUMP_from_base;
+	}
 _DDS:
 	{
 		// Load and get header
 		D3DXIMAGE_INFO			IMG;
-		S						= FS.r_open	(fn);
+		if (FS.ExistFile("%textures%", fname, ".dds"))
+		{
+			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+		}
+		else if (FS.ExistFile("%saves%", fname, ".dds"))
+		{
+			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
+		}
+		else if (FS.ExistFile("%level%", fname, ".dds"))
+		{
+			S = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname, ".dds"));
+		}
+		else
+		{
+			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_not_existing_texture", ".dds"));
+		}
 #ifdef DEBUG
-		Msg						("* Loaded: %s[%d]",fn,S->length());
+		Msg						("* Loaded: %s[%d]", fname,S->length());
 #endif // DEBUG
 		img_size				= S->length	();
 		R_ASSERT				(S);
 		HRESULT const result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(),S->length(),&IMG);
 		if ( FAILED(result) ) {
-			Msg					("! Can't get image info for texture '%s'",fn);
-			FS.r_close			(S);
-			string_path			temp;
-			R_ASSERT			( FS.exist( temp, "$game_textures$", "ed\\ed_not_existing_texture", ".dds" ) );
-			R_ASSERT			( xr_strcmp(temp,fn) );
-			xr_strcpy			( fn, temp );
+			Msg					("! Can't get image info for texture '%s'", fname);
+			XRayBearReader::Destroy			(S);
+			xr_strcpy			(fname, "ed\\ed_not_existing_texture" );
 			goto _DDS;
 		}
 
@@ -363,14 +360,12 @@ _DDS_CUBE:
 					0,&IMG,0,
 					&pTextureCUBE
 				);
-			FS.r_close				(S);
+			XRayBearReader::Destroy(S);
 
 			if ( FAILED(result) ) {
-				Msg					("! Can't load texture '%s'",fn);
-				string_path			temp;
-				R_ASSERT			( FS.exist( temp, "$game_textures$", "ed\\ed_not_existing_texture", ".dds" ) );
-				R_ASSERT			( xr_strcmp(temp,fn) );
-				xr_strcpy			( fn, temp );
+				Msg("! Can't load texture'%s'", fname);
+				XRayBearReader::Destroy(S);
+				xr_strcpy(fname, "ed\\ed_not_existing_texture");
 				goto _DDS;
 			}
 
@@ -384,7 +379,7 @@ _DDS_CUBE:
 		}
 _DDS_2D:
 		{
-			strlwr					(fn);
+			strlwr					(fname);
 			// Load   SYS-MEM-surface, bound to device restrictions
 			ID3DTexture2D*		T_sysmem;
 			HRESULT const result	=
@@ -399,19 +394,16 @@ _DDS_2D:
 					0,&IMG,0,
 					&T_sysmem
 				);
-			FS.r_close				(S);
+			XRayBearReader::Destroy(S);
 
 			if ( FAILED(result) ) {
-				Msg					("! Can't load texture '%s'",fn);
-				string_path			temp;
-				R_ASSERT			( FS.exist( temp, "$game_textures$", "ed\\ed_not_existing_texture", ".dds" ) );
-				strlwr				(temp);
-				R_ASSERT			( xr_strcmp(temp,fn) );
-				xr_strcpy			( fn, temp );
+				Msg("! Can't load texture'%s'", fname);
+				XRayBearReader::Destroy(S);
+				xr_strcpy(fname, "ed\\ed_not_existing_texture");
 				goto _DDS;
 			}
 
-			img_loaded_lod			= get_texture_load_lod(fn);
+			img_loaded_lod			= get_texture_load_lod(fname);
 			pTexture2D				= TW_LoadTextureFromTexture(T_sysmem,IMG.Format, img_loaded_lod, dwWidth, dwHeight);
 			mip_cnt					= pTexture2D->GetLevelCount();
 			_RELEASE				(T_sysmem);
@@ -497,41 +489,48 @@ _BUMP_from_base:
 		Msg			("! auto-generated bump map: %s",fname);
 //////////////////
 #ifndef _EDITOR
+	
 		if (strstr(fname,"_bump#"))
 		{
-			R_ASSERT2	(FS.exist(fn,"$game_textures$",	"ed\\ed_dummy_bump#",	".dds"), "ed_dummy_bump#");
-			S						= FS.r_open	(fn);
-			R_ASSERT2				(S, fn);
+			if (FS.ExistFile("%texture%", fname, ".dds"))
+			{
+				S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+			}
+			else
+			{
+				S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_dummy_bump#", ".dds"));
+			}
 			img_size				= S->length	();
 			goto		_DDS_2D;
 		}
 		if (strstr(fname,"_bump"))
 		{
-			R_ASSERT2	(FS.exist(fn,"$game_textures$",	"ed\\ed_dummy_bump",	".dds"),"ed_dummy_bump");
-			S						= FS.r_open	(fn);
-
-			R_ASSERT2	(S, fn);
-
-			img_size				= S->length	();
+			if (FS.ExistFile("%texture%", fname, ".dds"))
+			{
+				S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+			}
+			else
+			{
+				S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_dummy_bump", ".dds"));
+			}
+			img_size = S->length();
 			goto		_DDS_2D;
 		}
 #endif        
 //////////////////
 
 		*strstr		(fname,"_bump")	= 0;
-		R_ASSERT2	(FS.exist(fn,"$game_textures$",	fname,	".dds"),fname);
-
 		// Load   SYS-MEM-surface, bound to device restrictions
 		D3DXIMAGE_INFO			IMG;
-		S						= FS.r_open	(fn);
+		S					 = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
 		img_size				= S->length	();
 		ID3DTexture2D*		T_base;
 		R_CHK2(D3DXCreateTextureFromFileInMemoryEx(
 			HW.pDevice,	S->pointer(),S->length(),
 			D3DX_DEFAULT,D3DX_DEFAULT,	D3DX_DEFAULT,0,D3DFMT_A8R8G8B8,
 			D3DPOOL_SYSTEMMEM,			D3DX_DEFAULT,D3DX_DEFAULT,
-			0,&IMG,0,&T_base	), fn);
-		FS.r_close				(S);
+			0,&IMG,0,&T_base	), fname);
+		XRayBearReader::Destroy			(S);
 
 		// Create HW-surface
 		ID3DTexture2D*	T_normal_1	= 0;
@@ -543,7 +542,7 @@ _BUMP_from_base:
 
 		// Compress
 		fmt								= D3DFMT_DXT5;
-		img_loaded_lod					= get_texture_load_lod(fn);
+		img_loaded_lod					= get_texture_load_lod(fname);
 		ID3DTexture2D*	T_normal_1C	= TW_LoadTextureFromTexture(T_normal_1, fmt, img_loaded_lod, dwWidth, dwHeight);
 		mip_cnt							= T_normal_1C->GetLevelCount();
 

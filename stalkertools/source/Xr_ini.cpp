@@ -6,9 +6,9 @@
 XRCORE_API CInifile const* pSettings = NULL;
 XRCORE_API CInifile const* pSettingsAuth = NULL;
 
-CInifile* CInifile::Create(const char* szFileName, BOOL ReadOnly)
+CInifile* CInifile::Create(LPCSTR FsPath, const char* szFileName, BOOL ReadOnly)
 {
-    return xr_new<CInifile>(szFileName, ReadOnly);
+    return xr_new<CInifile>(FsPath,szFileName, ReadOnly);
 }
 
 void CInifile::Destroy(CInifile* ini)
@@ -97,7 +97,7 @@ BOOL CInifile::Sect::line_exist(LPCSTR L, LPCSTR* val)
 }
 //------------------------------------------------------------------------------
 
-CInifile::CInifile(IReader* F, LPCSTR path
+CInifile::CInifile(IReader* F, LPCSTR FsPath, LPCSTR path
 #ifndef _EDITOR
                    , allow_include_func_t allow_include_func
 #endif
@@ -108,14 +108,14 @@ CInifile::CInifile(IReader* F, LPCSTR path
     m_flags.set(eSaveAtEnd, FALSE);
     m_flags.set(eReadOnly, TRUE);
     m_flags.set(eOverrideNames, FALSE);
-    Load(F, path
+    Load(F, FsPath, path
 #ifndef _EDITOR
          , allow_include_func
 #endif
         );
 }
 
-CInifile::CInifile(LPCSTR szFileName,
+CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
                    BOOL ReadOnly,
                    BOOL bLoad,
                    BOOL SaveAtEnd,
@@ -142,17 +142,17 @@ CInifile::CInifile(LPCSTR szFileName,
         string_path path, folder;
         _splitpath(m_file_name, path, folder, 0, 0);
         xr_strcat(path, sizeof(path), folder);
-        IReader* R = FS.r_open(szFileName);
+        IReader* R =XRayBearReader::Create( FS.Read(FsPath,szFileName));
         if (R)
         {
             if (sect_count)
                 DATA.reserve(sect_count);
-            Load(R, path
+            Load(R, FsPath, path
 #ifndef _EDITOR
                  , allow_include_func
 #endif
                 );
-            FS.r_close(R);
+			XRayBearReader::Destroy(R);
         }
     }
 }
@@ -197,7 +197,7 @@ IC BOOL is_empty_line_now(IReader* F)
     return (*a0 == 13) && (*a1 == 10) && (*a2 == 13) && (*a3 == 10);
 };
 
-void CInifile::Load(IReader* F, LPCSTR path
+void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
 #ifndef _EDITOR
                     , allow_include_func_t allow_include_func
 #endif
@@ -260,18 +260,20 @@ void CInifile::Load(IReader* F, LPCSTR path
                 _splitpath(fn, inc_path, folder, 0, 0);
                 xr_strcat(inc_path, sizeof(inc_path), folder);
 #ifndef _EDITOR
-                if (!allow_include_func || allow_include_func(fn))
+				if (!allow_include_func || allow_include_func(fn))
 #endif
-                {
-                    IReader* I = FS.r_open(fn);
-                    R_ASSERT3(I, "Can't find include file:", inc_name);
-                    Load(I, inc_path
+				{
+					IReader* R = XRayBearReader::Create(FS.Read(TEXT("%config%"), fn));
+						Load(R, FsPath, inc_path
 #ifndef _EDITOR
-                         , allow_include_func
+							, allow_include_func
 #endif
-                        );
-                    FS.r_close(I);
-                }
+						);
+					XRayBearReader::Destroy(R);
+
+
+
+				}
             }
         }
         else if (str[0] && (str[0] == '[')) //new section ?
@@ -444,17 +446,21 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
 
 bool CInifile::save_as(LPCSTR new_fname)
 {
+
     // save if needed
     if (new_fname && new_fname[0])
         xr_strcpy(m_file_name, sizeof(m_file_name), new_fname);
 
     R_ASSERT(m_file_name&&m_file_name[0]);
-    IWriter* F = FS.w_open_ex(m_file_name);
-    if (!F)
-        return (false);
+	auto fs = BearCore::bear_new<BearCore::BearFileStream>();
+	if (!fs->Open(new_fname, fs->M_Write))
+	{
+		BearCore::bear_free(fs);
+	}
+	IWriter*F = XRayBearWriter::Create(fs);
 
     save_as(*F);
-    FS.w_close(F);
+	XRayBearWriter::Destroy(F);
     return (true);
 }
 

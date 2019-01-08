@@ -137,8 +137,7 @@ manager::shader_ids_type const& manager::shader_ids() const
         return (m_shader_ids);
 
     string_path path;
-    FS.update_path(path, "$game_data$", "shaders.xr");
-    IReader* reader = FS.r_open(path);
+    IReader* reader = XRayBearReader::Create(FS.Read(TEXT("%content%"), "shaders.xr"));
     IReader* stream = reader->open_chunk(3);
     R_ASSERT(stream);
 
@@ -154,7 +153,7 @@ manager::shader_ids_type const& manager::shader_ids() const
     }
 
     stream->close();
-    FS.r_close(reader);
+	XRayBearReader::Destroy(reader);
 
     std::sort(m_shader_ids.begin(), m_shader_ids.end(), logical_string_predicate());
 

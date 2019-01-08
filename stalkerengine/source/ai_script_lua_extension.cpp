@@ -277,20 +277,19 @@ bool Script::bfLoadBuffer(CLuaVirtualMachine* tpLuaVM, LPCSTR caBuffer, size_t t
     return (true);
 }
 
-bool bfDoFile(CLuaVirtualMachine* tpLuaVM, LPCSTR caScriptName, LPCSTR caNameSpaceName, bool bCall)
+bool bfDoFile(CLuaVirtualMachine* tpLuaVM, LPCSTR fsPath, LPCSTR caScriptName, LPCSTR caNameSpaceName, bool bCall)
 {
     string_path l_caLuaFileName;
-    IReader* l_tpFileReader = FS.r_open(caScriptName);
-    R_ASSERT(l_tpFileReader);
+	IReader* l_tpFileReader = XRayBearReader::Create(FS.Read(TEXT(fsPath), caScriptName));
     strconcat(sizeof(l_caLuaFileName), l_caLuaFileName, "@", caScriptName);
 
     if (!bfLoadBuffer(tpLuaVM, static_cast<LPCSTR>(l_tpFileReader->pointer()), (size_t)l_tpFileReader->length(), l_caLuaFileName, caNameSpaceName))
     {
         lua_pop(tpLuaVM, 4);
-        FS.r_close(l_tpFileReader);
+		XRayBearReader::Destroy(l_tpFileReader);
         return (false);
     }
-    FS.r_close(l_tpFileReader);
+	XRayBearReader::Destroy(l_tpFileReader);
 
     if (bCall)
     {
@@ -351,12 +350,12 @@ void vfSetNamespace(CLuaVirtualMachine* tpLuaVM)
     lua_pop(tpLuaVM, 3);
 }
 
-bool Script::bfLoadFileIntoNamespace(CLuaVirtualMachine* tpLuaVM, LPCSTR caScriptName, LPCSTR caNamespaceName, bool bCall)
+bool Script::bfLoadFileIntoNamespace(CLuaVirtualMachine* tpLuaVM,LPCSTR fsPath, LPCSTR caScriptName, LPCSTR caNamespaceName, bool bCall)
 {
     if (!bfCreateNamespaceTable(tpLuaVM, caNamespaceName))
         return (false);
     vfCopyGlobals(tpLuaVM);
-    if (!bfDoFile(tpLuaVM, caScriptName, caNamespaceName, bCall))
+    if (!bfDoFile(tpLuaVM, fsPath, caScriptName, caNamespaceName, bCall))
         return (false);
     vfSetNamespace(tpLuaVM);
     return (true);

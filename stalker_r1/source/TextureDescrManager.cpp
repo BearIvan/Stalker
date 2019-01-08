@@ -30,28 +30,27 @@ void fix_texture_thm_name(LPSTR fn)
 
 void CTextureDescrMngr::LoadTHM(LPCSTR initial)
 {
-	FS_FileSet				flist;
-	FS.file_list			(flist, initial, FS_ListFiles, "*.thm");
-#ifdef DEBUG
-	Msg						("count of .thm files=%d", flist.size());
-#endif // #ifdef DEBUG
-	FS_FileSetIt It			= flist.begin();
-	FS_FileSetIt It_e		= flist.end();
+	
+	BearCore::BearVector<BearCore::BearString> flist;
+	FS.GetFiles(flist, initial, TEXT("*.thm"), true);
+
+
+	auto It			= flist.begin();
+	auto It_e		= flist.end();
 	STextureParams			tp;
 	string_path				fn;
 	for(;It!=It_e;++It)
 	{
-		
-		FS.update_path		(fn, initial, (*It).name.c_str());
-		IReader* F			= FS.r_open(fn);
-		xr_strcpy			(fn,(*It).name.c_str());
+
+		IReader* F			=XRayBearReader::Create( FS.Read(initial,**It));
+		xr_strcpy			(fn,*BearCore::BearFileManager::GetFileNameAndExtension(**It));
 		fix_texture_thm_name(fn);
 
 		R_ASSERT			(F->find_chunk(THM_CHUNK_TYPE));
 		F->r_u32			();
 		tp.Clear			();
 		tp.Load				(*F);
-		FS.r_close			(F);
+		XRayBearReader::Destroy(F);
 		if (STextureParams::ttImage		== tp.type ||
 			STextureParams::ttTerrain	== tp.type ||
 			STextureParams::ttNormalMap	== tp.type	)
@@ -109,8 +108,8 @@ void CTextureDescrMngr::Load()
 	TT.Start				();
 #endif // #ifdef DEBUG
 
-	LoadTHM					("$game_textures$");
-	LoadTHM					("$level$");
+	LoadTHM					("%textures%");
+	LoadTHM					("%level%");
 
 #ifdef DEBUG
 	Msg("load time=%d ms",TT.GetElapsed_ms());

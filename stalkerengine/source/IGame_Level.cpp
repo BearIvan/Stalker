@@ -32,7 +32,7 @@ IGame_Level::IGame_Level()
 
 IGame_Level::~IGame_Level()
 {
-    if (strstr(Core.Params, "-nes_texture_storing"))
+    if (strstr(GetCommandLine(), "-nes_texture_storing"))
         //Device.Resources->StoreNecessaryTextures();
         Device.m_pRender->ResourcesStoreNecessaryTextures();
     xr_delete(pLevel);
@@ -84,16 +84,14 @@ bool IGame_Level::Load(u32 dwNum)
     SECUROM_MARKER_PERFORMANCE_ON(10)
 
         // Initialize level data
-        pApp->Level_Set(dwNum);
-    string_path temp;
-    if (!FS.exist(temp, "$level$", "level.ltx"))
-        Debug.fatal(DEBUG_INFO, "Can't find level configuration file '%s'.", temp);
-    pLevel = xr_new<CInifile>(temp);
+     pApp->Level_Set(dwNum);
+
+    pLevel = xr_new<CInifile>("%level%", "level.ltx");
 
     // Open
     // g_pGamePersistent->LoadTitle ("st_opening_stream");
     g_pGamePersistent->LoadTitle();
-    IReader* LL_Stream = FS.r_open("$level$", "level");
+    IReader* LL_Stream =XRayBearReader::Create(FS.Read("%level%", "level"));
     IReader& fs = *LL_Stream;
 
     // Header
@@ -128,7 +126,7 @@ bool IGame_Level::Load(u32 dwNum)
     //. ANDY R_ASSERT (Load_GameSpecific_After ());
 
     // Done
-    FS.r_close(LL_Stream);
+	XRayBearReader::Destroy(LL_Stream);
     bReady = true;
     if (!g_dedicated_server) IR_Capture();
 #ifndef DEDICATED_SERVER

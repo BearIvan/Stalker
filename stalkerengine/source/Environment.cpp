@@ -98,78 +98,63 @@ m_ambients_config(0)
     string_path file_name;
     m_ambients_config =
         xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
-        "environment\\ambients.ltx"
-        ),
+        "%config%",
+        "environment\\ambients.ltx",
         TRUE,
         TRUE,
         FALSE
         );
     m_sound_channels_config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+				"%config%",
         "environment\\sound_channels.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE
         );
     m_effects_config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+			"%config%",
         "environment\\effects.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE
         );
     m_suns_config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+			"%config%",
         "environment\\suns.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE
         );
     m_thunderbolt_collections_config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+			"%config%",
         "environment\\thunderbolt_collections.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE
         );
     m_thunderbolts_config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+			"%config%",
         "environment\\thunderbolts.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE
         );
 
     CInifile* config =
-        xr_new<CInifile>(
-        FS.update_path(
-        file_name,
-        "$game_config$",
+		xr_new<CInifile>(
+			"%config%",
         "environment\\environment.ltx"
-        ),
+        ,
         TRUE,
         TRUE,
         FALSE

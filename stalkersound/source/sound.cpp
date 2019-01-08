@@ -13,7 +13,7 @@ void CSound_manager_interface::_create(int stage)
 		SoundRender		= SoundRenderA;
 		Sound			= SoundRender;
 
-		if (strstr			( Core.Params,"-nosound"))
+		if (strstr			( GetCommandLine(),"-nosound"))
 		{
 			SoundRender->bPresent = FALSE;
 			return;

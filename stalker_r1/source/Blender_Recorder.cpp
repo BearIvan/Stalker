@@ -246,7 +246,7 @@ void	CBlender_Compile::PassSET_Blend	(BOOL bABlend, u32 abSRC, u32 abDST, BOOL b
 {
 	PassSET_ablend_mode					(bABlend,abSRC,abDST);
 #ifdef DEBUG
-	if (strstr(Core.Params,"-noaref"))	{bATest=FALSE; aRef=0; }
+	if (strstr(GetCommandLine(),"-noaref"))	{bATest=FALSE; aRef=0; }
 #endif
 	PassSET_ablend_aref					(bATest,aRef);
 }

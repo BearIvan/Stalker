@@ -2,9 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef fsH
-#define fsH
-
+#pragma once
 #define CFS_CompressMark (1ul << 31ul)
 #define CFS_HeaderChunkID (666)
 
@@ -243,85 +241,75 @@ private:
     u32 m_last_pos;
 };
 
+
 class XRCORE_API IReader : public IReaderBase < IReader >
 {
 protected:
-    char* data;
-    int Pos;
-    int Size;
-    int iterpos;
+	char* data;
+	int Pos;
+	int Size;
+	int iterpos;
 
 public:
-    IC IReader()
-    {
-        Pos = 0;
-    }
+	IC IReader()
+	{
+		Pos = 0;
+	}
 
-    virtual ~IReader() {}
+	virtual ~IReader() {}
 
-    IC IReader(void* _data, int _size, int _iterpos = 0)
-    {
-        data = (char*)_data;
-        Size = _size;
-        Pos = 0;
-        iterpos = _iterpos;
-    }
+	IC IReader(void* _data, int _size, int _iterpos = 0)
+	{
+		data = (char*)_data;
+		Size = _size;
+		Pos = 0;
+		iterpos = _iterpos;
+	}
 
 protected:
-    IC u32 correction(u32 p)
-    {
-        if (p % 16)
-        {
-            return ((p % 16) + 1) * 16 - p;
-        }
-        return 0;
-    }
+	IC u32 correction(u32 p)
+	{
+		if (p % 16)
+		{
+			return ((p % 16) + 1) * 16 - p;
+		}
+		return 0;
+	}
 
-    u32 advance_term_string();
-
-public:
-    IC int elapsed() const { return Size - Pos; };
-    IC int tell() const { return Pos; };
-    IC void seek(int ptr) { Pos = ptr; VERIFY((Pos <= Size) && (Pos >= 0)); };
-    IC int length() const { return Size; };
-    IC void* pointer() const { return &(data[Pos]); };
-    IC void advance(int cnt) { Pos += cnt; VERIFY((Pos <= Size) && (Pos >= 0)); };
+	u32 advance_term_string();
 
 public:
-    void r(void* p, int cnt);
-
-    void r_string(char* dest, u32 tgt_sz);
-    void r_string(xr_string& dest);
-
-    void skip_stringZ();
-
-    void r_stringZ(char* dest, u32 tgt_sz);
-    void r_stringZ(shared_str& dest);
-    void r_stringZ(xr_string& dest);
+	IC int elapsed() const { return Size - Pos; };
+	IC int tell() const { return Pos; };
+	IC void seek(int ptr) { Pos = ptr; VERIFY((Pos <= Size) && (Pos >= 0)); };
+	IC int length() const { return Size; };
+	IC void* pointer() const { return &(data[Pos]); };
+	IC void advance(int cnt) { Pos += cnt; VERIFY((Pos <= Size) && (Pos >= 0)); };
 
 public:
-    void close();
+	void r(void* p, int cnt);
+
+	void r_string(char* dest, u32 tgt_sz);
+	void r_string(xr_string& dest);
+
+	void skip_stringZ();
+
+	void r_stringZ(char* dest, u32 tgt_sz);
+	void r_stringZ(shared_str& dest);
+	void r_stringZ(xr_string& dest);
 
 public:
-    // поиск XR Chunk'ов - возврат - размер или 0
-    IReader* open_chunk(u32 ID);
+	void close();
 
-    // iterators
-    IReader* open_chunk_iterator(u32& ID, IReader* previous = NULL); // NULL=first
+public:
+	// поиск XR Chunk'ов - возврат - размер или 0
+	IReader* open_chunk(u32 ID);
 
-    u32 find_chunk(u32 ID, BOOL* bCompressed = 0);
+	// iterators
+	IReader* open_chunk_iterator(u32& ID, IReader* previous = NULL); // NULL=first
+
+	u32 find_chunk(u32 ID, BOOL* bCompressed = 0);
 
 private:
-    typedef IReaderBase<IReader> inherited;
+	typedef IReaderBase<IReader> inherited;
 };
-
-class XRCORE_API CVirtualFileRW : public IReader
-{
-private:
-    void* hSrcFile, *hSrcMap;
-public:
-    CVirtualFileRW(const char* cFileName);
-    virtual ~CVirtualFileRW();
-};
-
-#endif // fsH

@@ -91,21 +91,15 @@ void manager::load()
 
     m_config_single =
         CInifile::Create(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "game_maps_single.ltx"
-            ),
+			"%config%",
+                "game_maps_single.ltx",
             false
         );
 
     m_config_mp =
         CInifile::Create(
-            FS.update_path(
-                file_name,
-                "$game_config$",
-                "game_maps_mp.ltx"
-            ),
+                "%config%",
+                "game_maps_mp.ltx",
             false
         );
 

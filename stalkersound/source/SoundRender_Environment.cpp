@@ -148,7 +148,7 @@ void CSoundRender_Environment::save	(IWriter* fs)
 void	SoundEnvironment_LIB::Load	(LPCSTR name)
 {
 	R_ASSERT			(library.empty());
-	IReader* F			= FS.r_open(name);
+	IReader* F			= XRayBearReader::Create( FS.Read(TEXT("%content%"),name));
 	IReader* C;
 	library.reserve		(256);
 	for (u32 chunk=0; 0!=(C=F->open_chunk(chunk)); chunk++)
@@ -157,11 +157,11 @@ void	SoundEnvironment_LIB::Load	(LPCSTR name)
 		if (E->load(C))	library.push_back(E);
         C->close		();
 	}
-	FS.r_close			(F);
+	XRayBearReader::Destroy		(F);
 }
 bool	SoundEnvironment_LIB::Save	(LPCSTR name)
 {
-	IWriter* F			= FS.w_open(name);
+	IWriter* F = XRayBearWriter::Create(FS.Write(TEXT("%content%"), name,0));
     if (F){
         for (u32 chunk=0; chunk<library.size(); chunk++)
         {
@@ -169,7 +169,7 @@ bool	SoundEnvironment_LIB::Save	(LPCSTR name)
             library[chunk]->save(F);
             F->close_chunk		();
         }
-        FS.w_close		(F);
+		XRayBearWriter::Destroy(F);
         return 			true;
     }   
     return 				false;

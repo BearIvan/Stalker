@@ -25,7 +25,8 @@ void FlushLog()
     if (!no_log)
     {
         logCS.Enter();
-        IWriter* f = FS.w_open(logFName);
+	
+		XRayBearWriter* f = XRayBearWriter::Create(FS.Write(TEXT("%user%"), logFName, 0));
         if (f)
         {
             for (u32 it = 0; it < LogFile->size(); it++)
@@ -33,7 +34,7 @@ void FlushLog()
                 LPCSTR s = *((*LogFile)[it]);
                 f->w_string(s ? s : "");
             }
-            FS.w_close(f);
+			XRayBearWriter::Destroy(f);
         }
         logCS.Leave();
     }
@@ -197,18 +198,17 @@ void InitLog()
 void CreateLog(BOOL nl)
 {
     no_log = nl;
-    strconcat(sizeof(log_file_name), log_file_name, Core.ApplicationName, "_", Core.UserName, ".log");
-    if (FS.path_exist("$logs$"))
-        FS.update_path(logFName, "$logs$", log_file_name);
+    strconcat(sizeof(log_file_name), log_file_name,"stalker", "_", "bear", ".log");
+	if(FS.ExistDirectory(TEXT("%logs%")))
     if (!no_log)
     {
-        IWriter* f = FS.w_open(logFName);
+		XRayBearWriter* f = XRayBearWriter::Create(FS.Write(TEXT("%user%"), logFName, 0));
         if (f == NULL)
         {
             MessageBox(NULL, "Can't create log file.", "Error", MB_ICONERROR);
             abort();
         }
-        FS.w_close(f);
+		XRayBearWriter::Destroy(f);
     }
 }
 

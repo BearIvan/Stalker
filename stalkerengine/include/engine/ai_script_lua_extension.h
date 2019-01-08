@@ -32,7 +32,7 @@ void vfExportMemoryObjects(CLuaVirtualMachine* tpLuaVM);
 void vfExportToLua(CLuaVirtualMachine* tpLuaVM);
 void vfExportActionManagement(CLuaVirtualMachine* tpLuaVM);
 void vfExportMotivationManagement(CLuaVirtualMachine* tpLuaVM);
-bool bfLoadFile(CLuaVirtualMachine* tpLuaVM, LPCSTR caScriptName, bool bCall = true);
+bool bfLoadFile(CLuaVirtualMachine* tpLuaVM, LPCSTR fsPath, LPCSTR caScriptName, bool bCall = true);
 void LuaHookCall(CLuaVirtualMachine* tpLuaVM, lua_Debug* tpLuaDebug);
 int LuaPanic(CLuaVirtualMachine* tpLuaVM);
 #endif
@@ -41,7 +41,7 @@ LPCSTR cafEventToString(int iEventCode);
 void vfPrintError(CLuaVirtualMachine* tpLuaVM, int iErrorCode);
 bool bfListLevelVars(CLuaVirtualMachine* tpLuaVM, int iStackLevel);
 bool bfLoadBuffer(CLuaVirtualMachine* tpLuaVM, LPCSTR caBuffer, size_t tSize, LPCSTR caScriptName, LPCSTR caNameSpaceName = 0);
-bool bfLoadFileIntoNamespace(CLuaVirtualMachine* tpLuaVM, LPCSTR caScriptName, LPCSTR caNamespaceName, bool bCall);
+bool bfLoadFileIntoNamespace(CLuaVirtualMachine* tpLuaVM, LPCSTR fsPath, LPCSTR caScriptName, LPCSTR caNamespaceName, bool bCall);
 bool bfGetNamespaceTable(CLuaVirtualMachine* tpLuaVM, LPCSTR caName);
 CLuaVirtualMachine* get_namespace_table(CLuaVirtualMachine* tpLuaVM, LPCSTR caName);
 bool bfIsObjectPresent(CLuaVirtualMachine* tpLuaVM, LPCSTR caIdentifier, int type);

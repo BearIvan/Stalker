@@ -86,32 +86,4 @@ public:
     CTempReader(void* _data, int _size, int _iterpos) : IReader(_data, _size, _iterpos) {}
     virtual ~CTempReader();
 };
-class CPackReader : public IReader
-{
-    void* base_address;
-public:
-    CPackReader(void* _base, void* _data, int _size) : IReader(_data, _size) { base_address = _base; }
-    virtual ~CPackReader();
-};
-class XRCORE_API CFileReader : public IReader
-{
-public:
-    CFileReader(const char* name);
-    virtual ~CFileReader();
-};
-class CCompressedReader : public IReader
-{
-public:
-    CCompressedReader(const char* name, const char* sign);
-    virtual ~CCompressedReader();
-};
-class CVirtualFileReader : public IReader
-{
-private:
-    void* hSrcFile, *hSrcMap;
-public:
-    CVirtualFileReader(const char* cFileName);
-    virtual ~CVirtualFileReader();
-};
-
 #endif

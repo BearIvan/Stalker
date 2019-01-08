@@ -59,8 +59,8 @@ bool logical_string_predicate::operator() (shared_str const& first, shared_str c
 
 shared_str editor::environment::detail::real_path(LPCSTR folder, LPCSTR path)
 {
-    string_path result;
-    FS.update_path(result, folder, path);
+    BearCore::BearStringPath result;
+    FS.Update(folder,path, result);
     return (result);
 }
 

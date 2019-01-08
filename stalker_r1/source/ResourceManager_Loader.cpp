@@ -126,7 +126,7 @@ void	CResourceManager::OnDeviceCreate	(LPCSTR shName)
 	// Check if file is compressed already
 	string32	ID			= "shENGINE";
 	string32	id;
-	IReader*	F			= FS.r_open(shName);
+	IReader*	F			=XRayBearReader::Create( FS.Read(TEXT("%content%"),shName));
 	R_ASSERT2	(F,shName);
 	F->r		(&id,8);
 	if (0==strncmp(id,ID,8))
@@ -134,7 +134,7 @@ void	CResourceManager::OnDeviceCreate	(LPCSTR shName)
 		FATAL				("Unsupported blender library. Compressed?");
 	}
 	OnDeviceCreate			(F);
-	FS.r_close				(F);
+	XRayBearReader::Destroy		(F);
 }
 
 void CResourceManager::StoreNecessaryTextures()

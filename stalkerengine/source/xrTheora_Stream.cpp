@@ -33,7 +33,7 @@ CTheoraStream::~CTheoraStream()
     theora_clear(&t_state);
     theora_comment_clear(&t_comment);
     theora_info_clear(&t_info);
-    FS.r_close(source);
+    XRayBearFileStream::Destroy(source);
 }
 
 void CTheoraStream::Reset()
@@ -236,12 +236,9 @@ BOOL CTheoraStream::Decode(u32 in_tm_play)
 BOOL CTheoraStream::Load(const char* fname)
 {
     VERIFY(0 == source);
-    // open source
-#ifdef _EDITOR
-    source = FS.r_open(0, fname);
-#else
-    source = FS.rs_open(0, fname);
-#endif
+    // open source=
+	source = XRayBearFileStream::Create(FS.Read(TEXT("%textures%"), fname,TEXT(".ogm")));
+
     VERIFY(source);
 
     // parse headers

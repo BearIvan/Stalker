@@ -61,7 +61,8 @@ void CSoundRender_Source::LoadWave	(LPCSTR pName)
 	// Load file into memory and parse WAV-format
 	OggVorbis_File			ovf;
 	ov_callbacks ovc		= {ov_read_func,ov_seek_func,ov_close_func,ov_tell_func};
-	IReader* wave			= FS.r_open		(pname.c_str()); 
+	
+	IReader* wave			= XRayBearReader::Create(FS.Read(TEXT("%sounds%"), pname.c_str()));
 	R_ASSERT3				(wave&&wave->length(),"Can't open wave file:",pname.c_str());
 	ov_open_callbacks		(wave,&ovf,NULL,0,ovc);
 
@@ -123,7 +124,7 @@ void CSoundRender_Source::LoadWave	(LPCSTR pName)
 	R_ASSERT3((m_fMaxAIDist>=0.1f)&&(m_fMaxDist>=0.1f),"Invalid max distance.",pName);
 
 	ov_clear				(&ovf);
-	FS.r_close				(wave);
+	XRayBearReader::Destroy(wave);
 }
 
 void CSoundRender_Source::load(LPCSTR name)
@@ -136,7 +137,7 @@ void CSoundRender_Source::load(LPCSTR name)
 	fname				= N;
 
 	strconcat			(sizeof(fn),fn,N,".ogg");
-	if (!FS.exist("$level$",fn))	FS.update_path	(fn,"$game_sounds$",fn);
+//	if (!FS.exist("$level$",fn))	FS.update_path	(fn,"$game_sounds$",fn);
 
 #ifdef _EDITOR
 	if (!FS.exist(fn)){ 
