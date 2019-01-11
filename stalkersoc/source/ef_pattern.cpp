@@ -42,19 +42,18 @@ CPatternFunction::~CPatternFunction()
 
 void CPatternFunction::vfLoadEF(LPCSTR caFileName)
 {
-	string_path		caPath;
-	if (!FS.exist(caPath,"$game_ai$",caFileName)) {
-		Msg			("! Evaluation function : File not found \"%s\"",caPath);
+	if (!FS.ExistFile("%ai%",caFileName)) {
+		Msg			("! Evaluation function : File not found \"%s\"", caFileName);
 		R_ASSERT	(false);
 		return;
 	}
 	
-	IReader			*F = FS.r_open(caPath);
+	IReader			*F =XRayBearReader::Create( FS.Read("%ai%", caFileName));
 	F->r			(&m_tEFHeader,sizeof(SEFHeader));
 
 	if (EFC_VERSION != m_tEFHeader.dwBuilderVersion) {
-		FS.r_close	(F);
-		Msg			("! Evaluation function (%s) : Not supported version of the Evaluation Function Contructor",caPath);
+		XRayBearReader::Destroy(F);
+		Msg			("! Evaluation function (%s) : Not supported version of the Evaluation Function Contructor", caFileName);
 		R_ASSERT	(false);
 		return;
 	}
@@ -98,7 +97,7 @@ void CPatternFunction::vfLoadEF(LPCSTR caFileName)
 	
 	m_faParameters	= xr_alloc<float>(m_dwParameterCount);
 	F->r			(m_faParameters,m_dwParameterCount*sizeof(float));
-	FS.r_close		(F);
+	XRayBearReader::Destroy(F);
 
 	m_dwaVariableValues = xr_alloc<u32>(m_dwVariableCount);
 	
@@ -106,7 +105,7 @@ void CPatternFunction::vfLoadEF(LPCSTR caFileName)
     
 	ef_storage().m_fpaBaseFunctions[m_dwFunctionType] = this;
 	
-	_splitpath		(caPath,0,0,m_caName,0);
+	_splitpath		(caFileName,0,0,m_caName,0);
 
 	// Msg			("* Evaluation function \"%s\" is successfully loaded",m_caName);
 }

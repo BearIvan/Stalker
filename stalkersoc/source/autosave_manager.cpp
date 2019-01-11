@@ -73,10 +73,12 @@ void CAutosaveManager::shedule_Update		(u32 dt)
 	net_packet.w_stringZ		(temp);
 	net_packet.w_u8				(0);
 	Level().Send				(net_packet,net_flags(TRUE));
+	strcat_s(temp, sizeof(temp), ".dds");
+	BearCore::BearStringPath		S1;
+	FS.UpdatePath("%saves%", 0, S1);
+	BearCore::BearString::Contact(S1, BEAR_PATH);
+	BearCore::BearString::Contact(S1, temp);
 
-	string_path					S1;
-	strcat_s					(temp,sizeof(temp),".dds");
-	FS.update_path				(S1,"$game_saves$",temp);
 
 	MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);
 	

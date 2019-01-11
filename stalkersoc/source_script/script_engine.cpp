@@ -203,10 +203,8 @@ void CScriptEngine::load_common_scripts()
 {
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
-#endif
-	string_path		S;
-	FS.update_path	(S,"$game_config$","script.ltx");
-	CInifile		*l_tpIniFile = xr_new<CInifile>(S);
+#endif=
+	CInifile		*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT		(l_tpIniFile);
 	if (!l_tpIniFile->section_exist("common")) {
 		xr_delete			(l_tpIniFile);
@@ -239,8 +237,8 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 
 	string_path				S,S1;
 	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) {
-		FS.update_path		(S,"$game_scripts$",strconcat(sizeof(S1),S1,file_name,".script"));
-		if (!warn_if_not_exist && !FS.exist(S)) {
+		strconcat(sizeof(S1), S1, file_name, ".script");
+		if (!warn_if_not_exist && !FS.ExistFile(TEXT("%scripts%"), S1)) {
 #ifdef DEBUG
 #	ifndef XRSE_FACTORY_EXPORTS
 			if (psAI_Flags.test(aiNilObjectAccess))
@@ -258,7 +256,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 		Msg					("* loading script %s",S1);
 #endif // MASTER_GOLD
 		m_reload_modules	= false;
-		load_file_into_namespace(S,*file_name ? file_name : "_G");
+		load_file_into_namespace(TEXT("%scripts%"), S1,*file_name ? file_name : "_G");
 	}
 }
 
@@ -279,9 +277,7 @@ void CScriptEngine::register_script_classes		()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string_path					S;
-	FS.update_path				(S,"$game_config$","script.ltx");
-	CInifile					*l_tpIniFile = xr_new<CInifile>(S);
+	CInifile					*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT					(l_tpIniFile);
 
 	if (!l_tpIniFile->section_exist("common")) {

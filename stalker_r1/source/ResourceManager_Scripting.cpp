@@ -159,6 +159,10 @@ static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
 #endif // USE_DL_ALLOCATOR
 
 // export
+int LuaPanic(lua_State*L)
+{
+	return 0;
+}
 void	CResourceManager::LS_Load			()
 {
 	LSVM			= lua_newstate(lua_alloc, NULL);
@@ -167,19 +171,41 @@ void	CResourceManager::LS_Load			()
 		return;
 	}
 
-	// initialize lua standard library functions 
-	luaopen_base	(LSVM); 
-	luaopen_table	(LSVM);
-	luaopen_string	(LSVM);
-	luaopen_math	(LSVM);
-	luaopen_jit		(LSVM);
+	struct luajit {
+		static void open_lib(lua_State *L, pcstr module_name, lua_CFunction function)
+		{
+			lua_pushcfunction(L, function);
+			lua_pushstring(L, module_name);
+			lua_call(L, 1, 0);
+		}
+	}; // struct lua;
+
+	luajit::open_lib(LSVM, "", luaopen_base);
+	luajit::open_lib(LSVM, LUA_LOADLIBNAME, luaopen_package);
+	luajit::open_lib(LSVM, LUA_TABLIBNAME, luaopen_table);
+	luajit::open_lib(LSVM, LUA_IOLIBNAME, luaopen_io);
+	luajit::open_lib(LSVM, LUA_OSLIBNAME, luaopen_os);
+	luajit::open_lib(LSVM, LUA_MATHLIBNAME, luaopen_math);
+	luajit::open_lib(LSVM, LUA_STRLIBNAME, luaopen_string);
+
+#ifdef DEBUG
+	luajit::open_lib(LSVM, LUA_DBLIBNAME, luaopen_debug);
+#endif // #ifdef DEBUG
+
+	if (!strstr(GetCommandLine(), "-nojit")) {
+		luajit::open_lib(LSVM, LUA_JITLIBNAME, luaopen_jit);
+#ifndef DEBUG
+		put_function(LSVM, opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
+		put_function(LSVM, opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
+		dojitopt(LSVM, "2");
+#endif // #ifndef DEBUG
+	}
 
 	luabind::open						(LSVM);
 #if !XRAY_EXCEPTIONS
-	if (0==luabind::get_error_callback())
-		luabind::set_error_callback		(LuaError);
+		luabind::set_error_callback(LuaError);
 #endif
-
+	lua_atpanic(LSVM, LuaPanic);
 	function		(LSVM, "log",	LuaLog);
 
 	module			(LSVM)
@@ -241,7 +267,8 @@ void	CResourceManager::LS_Load			()
 	// load shaders
 
 	BearCore::BearVector<BearCore::BearString> folder;
-	FS.GetFiles(folder, "%shaders%", ::Render->getShaderPath())
+
+	FS.GetFiles(folder, TEXT("%cur_shaders%"),TEXT("*.s"));
 	VERIFY								(folder.size());
 	for (u32 it=0; it<folder.size(); it++)	{
 		string_path						namesp,fn;
@@ -249,9 +276,9 @@ void	CResourceManager::LS_Load			()
 		if	(0==strext(namesp) || 0!=xr_strcmp(strext(namesp),".s"))	continue;
 		*strext	(namesp)=0;
 		if		(0==namesp[0])			xr_strcpy	(namesp,"_G");
-		strconcat						(sizeof(fn),fn,::Render->getShaderPath(), *(folder[it]));
+		strcpy						(fn, *(folder[it]));
 		try {
-			Script::bfLoadFileIntoNamespace	(LSVM,TEXT("%shaders%"),fn,namesp,true);
+			Script::bfLoadFileIntoNamespace	(LSVM,TEXT("%cur_shaders%"),fn,namesp,true);
 		} catch (...)
 		{
 			Log(lua_tostring(LSVM,-1));
@@ -382,7 +409,8 @@ ShaderElement*		CBlender_Compile::_lua_Compile	(LPCSTR namesp, LPCSTR name)
 	object				shader	= get_globals(LSVM)[namesp];
 	functor<void>		element	= object_cast<functor<void> >(shader[name]);
 	adopt_compiler		ac		= adopt_compiler(this);
-	element						(ac,t_0,t_1,t_d);
+		element(ac, t_0, t_1, t_d);
+
 	r_End				();
 	ShaderElement*	_r	= dxRenderDeviceRender::Instance().Resources->_CreateElement(E);
 	return			_r;

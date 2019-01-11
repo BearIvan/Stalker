@@ -85,10 +85,9 @@ namespace std
 #		define LUABIND_NO_ERROR_CHECKING
 #	endif // LUABIND_NO_ERROR_CHECKING
 
+#endif // NDEBUG
 #	define LUABIND_NO_EXCEPTIONS
 #	define BOOST_NO_EXCEPTIONS
-
-#endif // NDEBUG
 // LUABIND_NO_ERROR_CHECKING
 // define this to remove all error checks
 // this will improve performance and memory

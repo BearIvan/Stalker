@@ -111,15 +111,13 @@ void dump	(CDetailManager::vis_list& lst)
 void CDetailManager::Load		()
 {
 	// Open file stream
-	if (!FS.exist("$level$","level.details"))
+	if (FS.ExistFile("%level%","level.details"))
 	{
 		dtFS	= NULL;
 		return;
 	}
 
-	string_path			fn;
-	FS.update_path		(fn,"$level$","level.details");
-	dtFS				= FS.r_open(fn);
+	dtFS				= XRayBearReader::Create(FS.Read("%level%", "level.details"));
 
 	// Header
 	dtFS->r_chunk_safe	(0,&dtH,sizeof(dtH));
@@ -182,7 +180,7 @@ void CDetailManager::Unload		()
 	m_visibles[0].clear	();
 	m_visibles[1].clear	();
 	m_visibles[2].clear	();
-	FS.r_close			(dtFS);
+	XRayBearReader::Destroy	(dtFS);
 }
 
 extern ECORE_API float r_ssaDISCARD;

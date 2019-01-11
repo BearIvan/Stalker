@@ -70,21 +70,34 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
 {
     m_Name = name;
 #ifndef _PP_EDITOR_
-    string_path full_path;
-    if (!FS.exist (full_path, "$level$", name))
-       if (!FS.exist (full_path, "$game_anims$", name))
-          Debug.fatal (DEBUG_INFO,"Can't find motion file '%s'.", name);
 #else /*_PP_EDITOR_*/
     string_path full_path;
     strcpy (full_path, name);
 #endif /*_PP_EDITOR_*/
+	
 
-    LPCSTR  ext = strext(full_path);
+    LPCSTR  ext = strext(name);
     if (ext)
        {
        if (!xr_strcmp (ext,POSTPROCESS_FILE_EXTENSION))
           {
-          IReader* F = FS.r_open (full_path);
+
+		   IReader* F = 0;
+		   if (FS.ExistFile("%level%", name))
+		   {
+			   F = XRayBearReader::Create(FS.Read("%level%", name));
+		   }
+
+		   else if (FS.ExistFile("%anims%", name))
+		   {
+			   F = XRayBearReader::Create(FS.Read("%anims%", name));
+		   }
+		   else
+		   {
+			   Debug.fatal(DEBUG_INFO, "Can't find motion file '%s'.", name);
+		   }
+
+
           u32 dwVersion = F->r_u32();
           VERIFY (dwVersion == POSTPROCESS_FILE_VERSION);
           //load base color
@@ -118,7 +131,7 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
           VERIFY (m_Params[9]);
           m_Params[9]->load (*F);
           //close reader
-          FS.r_close (F);
+		  XRayBearReader::Destroy(F);
           }
         else
            FATAL	("ERROR: Can't support files with many animations set. Incorrect file.");

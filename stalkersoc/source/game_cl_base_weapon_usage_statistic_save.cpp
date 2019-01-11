@@ -52,8 +52,8 @@ void WeaponUsageStatistic::SaveData()
 	if (OnClient()) return;
 	if (!CollectData()) return;
 	if (aPlayersStatistic.empty()) return;
-
-	string1024		GameType;
+	return;
+	/*string1024		GameType;
 	SYSTEMTIME		Time;	
 	switch (GameID())
 	{
@@ -80,7 +80,7 @@ void WeaponUsageStatistic::SaveData()
 	//---------------------------------------------------------
 	Write					(SFile);
 	//---------------------------------------------------------
-	fclose					(SFile);
+	fclose					(SFile);*/
 };
 
 void WeaponUsageStatistic::Write(FILE* pFile)

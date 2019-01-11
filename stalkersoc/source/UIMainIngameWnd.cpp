@@ -275,8 +275,6 @@ void CUIMainIngameWnd::Draw()
 	test_draw				();
 #endif
 	// show IO icon
-	bool IOActive	= (FS.dwOpenCounter>0);
-	if	(IOActive)	UIStaticDiskIO_start_time = Device.fTimeGlobal;
 
 	if ((UIStaticDiskIO_start_time+1.0f) < Device.fTimeGlobal)	UIStaticDiskIO.Show(false); 
 	else {
@@ -284,7 +282,6 @@ void CUIMainIngameWnd::Draw()
 		UIStaticDiskIO.Show		( true  ); 
 		UIStaticDiskIO.SetColor	(color_rgba(255,255,255,alpha));
 	}
-	FS.dwOpenCounter = 0;
 
 	if(!IsGameTypeSingle())
 	{

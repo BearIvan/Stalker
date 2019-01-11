@@ -504,9 +504,9 @@ public:
 		bindConsoleCmds.clear();
 //.		Console->Execute("cfg_load default_controls.ltx");
 
-		string_path				_cfg;
+		BearCore::BearStringPath _cfg;
 		string_path				cmd;
-		FS.update_path			(_cfg,"$game_config$","default_controls.ltx");
+		FS.Update			("%config%","default_controls.ltx", _cfg);
 		strconcat				(sizeof(cmd),cmd,"cfg_load", " ", _cfg);
 		Console->Execute		(cmd);
 	}

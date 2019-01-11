@@ -29,7 +29,7 @@
 #include "script_callback_ex.h"
 #include "game_object_space.h"
 
-void __stdcall ActionCallback(IKinematics *tpKinematics);
+void  ActionCallback(IKinematics *tpKinematics);
 
 CScriptEntity::CScriptEntity()
 {

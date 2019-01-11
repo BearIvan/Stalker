@@ -407,6 +407,35 @@ static int llex (LexState *ls, SemInfo *seminfo) {
       case EOZ: {
         return TK_EOS;
       }
+	  case '/':
+		  next(ls);
+		  if (ls->current == '/')
+		  {
+			  while (!currIsNewline(ls) && ls->current != EOZ)
+				  next(ls);
+			  continue;
+		  }
+		  else if (ls->current == '*')
+		  {
+			  while (1)
+			  {
+				  if (ls->current == EOZ)
+					  break;
+				  next(ls);
+				  if (ls->current == '*')
+				  {
+					  next(ls);
+					  if (ls->current == '/')
+					  {
+						  next(ls);
+						  break;
+					  }
+				  }
+			  }
+			  continue;
+		  }
+		  return '/';
+		
       default: {
         if (isspace(ls->current)) {
           lua_assert(!currIsNewline(ls));

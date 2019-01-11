@@ -191,7 +191,7 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
 #ifndef _EDITOR    
 	// User data
 	IReader* UD 	= data->open_chunk(OGF_S_USERDATA);
-    pUserData		= UD?xr_new<CInifile>(UD, "%game_config%",""):0;
+    pUserData		= UD?xr_new<CInifile>(UD, "%config%",""):0;
     if (UD)			UD->close();
 #endif
 

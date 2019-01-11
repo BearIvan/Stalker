@@ -46,3 +46,4 @@
 #define		TEX_POINT_ATT	"internal\\internal_light_attpoint"
 #define		TEX_SPOT_ATT	"internal\\internal_light_attclip"
 
+#define LUABIND_NO_EXCEPTIONS

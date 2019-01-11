@@ -216,12 +216,10 @@ PROTECT_API void InitSettings()
     Msg("EH: %s\n", ComputeModuleHash(szEngineHash));
 #endif // DEDICATED_SERVER
 
-    string_path fname;
 #ifdef DEBUG
-    Msg("Updated path to system.ltx is %s", fname);
+    Msg("Updated path to system.ltx ");
 #endif // #ifdef DEBUG
     pSettings = xr_new<CInifile>("%config%", "system.ltx", TRUE);
-    CHECK_OR_EXIT(0 != pSettings->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 
     xr_auth_strings_t tmp_ignore_pathes;
     xr_auth_strings_t tmp_check_pathes;
@@ -231,7 +229,7 @@ PROTECT_API void InitSettings()
     CInifile::allow_include_func_t tmp_functor;
     tmp_functor.bind(&tmp_excluder, &path_excluder_predicate::is_allow_include);
     pSettingsAuth = xr_new<CInifile>(
-                        fname,
+		"%config%", "system.ltx",
                         TRUE,
                         TRUE,
                         FALSE,
@@ -240,7 +238,6 @@ PROTECT_API void InitSettings()
                     );
 
     pGameIni = xr_new<CInifile>("%config%", "game.ltx", TRUE);
-    CHECK_OR_EXIT(0 != pGameIni->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 }
 PROTECT_API void InitConsole()
 {
@@ -697,6 +694,7 @@ extern void setup_luabind_allocator();
 BOOL IsPCAccessAllowed();
 #endif // DEDICATED_SERVER
 #include "Modloader.h"
+
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
                           HINSTANCE hPrevInstance,
                           char* lpCmdLine,
@@ -711,6 +709,25 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     Debug._initialize(false);
 #endif // DEDICATED_SERVER
 	BearCore::Initialize(TEXT("stalker"), TEXT(""), TEXT(""));
+	
+	BearCore::BearStringPath FSFilePath;
+	BearCore::BearFileManager::GetApplicationPath(FSFilePath);
+
+	BearCore::BearString::Contact(FSFilePath, BEAR_PATH);
+	BearCore::BearString::Contact(FSFilePath, TEXT(".."));
+	BearCore::BearString::Contact(FSFilePath, BEAR_PATH);
+	BearCore::BearString::Contact(FSFilePath, TEXT("stalker.fs"));
+	
+#undef FS
+	BearCore::FS = BearCore::bear_new<BearCore::BearFileSystem>();
+	
+	BEAR_ERRORMESSAGE(BearCore::FS->LoadFromFile(FSFilePath, BearCore::BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
+#define FS (*BearCore::FS)
+	
+	FS.CreateDirectory(TEXT("%user%"), 0);
+
+
+	
 
 	if (!Modloader::Run())
 	{
@@ -829,7 +846,9 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		break;
 	}
 
+
 	xrCore::Initialize( NULL);
+
 
     InitSettings();
 
@@ -1299,10 +1318,14 @@ void CApplication::OnFrame()
 void CApplication::Level_Append(LPCSTR folder)
 {
     string_path N1, N2, N3, N4;
-    strconcat(sizeof(N1), N1, folder, "level");
-    strconcat(sizeof(N2), N2, folder, "level.ltx");
-    strconcat(sizeof(N3), N3, folder, "level.geom");
-    strconcat(sizeof(N4), N4, folder, "level.cform");
+	strconcat(sizeof(N1), N1, folder, BEAR_PATH);
+    strcat( N1, "level");
+	strconcat(sizeof(N2), N2, folder, BEAR_PATH);
+	strcat(N2, "level.ltx");
+	strconcat(sizeof(N3), N3, folder, BEAR_PATH);
+	strcat(N3, "level.geom");
+	strconcat(sizeof(N4), N4, folder, BEAR_PATH);
+	strcat(N4, "level.cform");
     if (
 		 FS.ExistFile("%levels%", N1) &&
 		FS.ExistFile("%levels%", N2) &&
@@ -1329,7 +1352,7 @@ void CApplication::Level_Scan()
     Levels.clear();
 
 	BearCore::BearVector<BearCore::BearString> list;
-	FS.GetFiles(list, "%levels%", "*.ltx");
+	FS.GetFiles(list, "%levels%", "*.ltx",true);
 	VERIFY(list.size());
 
 	BearCore::BearVector<BearCore::BearString> dirs;
@@ -1427,11 +1450,9 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
     if (arch_res)
         Level_Scan();
 
-    string256 buffer;
-    strconcat(sizeof(buffer), buffer, name, "\\");
     for (u32 I = 0; I < Levels.size(); ++I)
     {
-        if (0 == stricmp(buffer, Levels[I].folder))
+        if (0 == stricmp(name, Levels[I].folder))
         {
             result = int(I);
             break;

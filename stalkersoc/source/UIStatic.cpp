@@ -127,7 +127,7 @@ void CUIStatic::InitTextureEx(LPCSTR tex_name, LPCSTR sh_name)
 	string_path buff;
 /*	u32		v_dev	= CAP_VERSION(2, 1);
 	u32		v_need	= CAP_VERSION(2,0);*/
-	if ( FS.exist(buff,"$game_textures$", tex_name, ".ogm") )
+	if ( FS.ExistFile("%textures%", tex_name, ".ogm") )
 		CUITextureMaster::InitTexture	(tex_name, "hud\\movie", &m_UIStaticItem);
 	else
 		CUITextureMaster::InitTexture	(tex_name, sh_name, &m_UIStaticItem);

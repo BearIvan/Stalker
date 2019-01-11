@@ -99,7 +99,7 @@ IC int   CObjectSpace::GetNearest( xr_vector<CObject*>&	q_nearest, ICollisionFor
 
 void CObjectSpace::Load	( CDB::build_callback build_callback )
 {
-	Load("$level$","level.cform", build_callback);
+	Load("%level%","level.cform", build_callback);
 }
 void	CObjectSpace::		Load				(  LPCSTR path, LPCSTR fname, CDB::build_callback build_callback  )
 {

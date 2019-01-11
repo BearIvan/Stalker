@@ -3,7 +3,6 @@
 #pragma once
 
 #include <theora/theora.h>
-#include "tools/Stream_Reader.h"
 
 class ENGINE_API CTheoraStream
 {

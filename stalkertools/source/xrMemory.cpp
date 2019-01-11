@@ -66,19 +66,9 @@ void xrMemory::_initialize(BOOL bDebug)
     stat_calls = 0;
     stat_counter = 0;
 
-    u32 features = CPU::ID.feature;
-    if (features & _CPU_FEATURE_MMX)
-    {
         mem_copy = xrMemCopy_MMX;
         mem_fill = xrMemFill_x86;
         mem_fill32 = xrMemFill32_MMX;
-    }
-    else
-    {
-        mem_copy = xrMemCopy_x86;
-        mem_fill = xrMemFill_x86;
-        mem_fill32 = xrMemFill32_x86;
-    }
 
 #ifndef M_BORLAND
     if (!strstr(GetCommandLine(), "-pure_alloc"))

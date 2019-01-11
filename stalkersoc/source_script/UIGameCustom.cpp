@@ -230,8 +230,7 @@ xr_token		game_types[];
 void CMapListHelper::Load()
 {
 	string_path					fn;
-	FS.update_path				(fn, "$game_config$", "mp\\map_list.ltx");
-	CInifile map_list_cfg		(fn);
+	CInifile map_list_cfg		("%config%", "mp\\map_list.ltx");
 
 	//read weathers set
 	CInifile::Sect w			= map_list_cfg.r_section("weather");
@@ -264,17 +263,17 @@ void CMapListHelper::Load()
 		}
 	}
 	// scan for additional maps
-	FS_FileSet			fset;
-	FS.file_list		(fset,"$game_levels$",FS_ListFiles,"*level.ltx");
+	BearCore::BearVector<BearCore::BearString>			fset;
+	FS.GetFiles(fset, "%levels%", "*level.ltx", true);
 
-	FS_FileSetIt fit	= fset.begin();
-	FS_FileSetIt fit_e	= fset.end();
+
+	auto fit	= fset.begin();
+	auto fit_e	= fset.end();
 
 	for( ;fit!=fit_e; ++fit)
 	{
 		string_path					map_cfg_fn;
-		FS.update_path				(map_cfg_fn, "$game_levels$", (*fit).name.c_str());
-		CInifile	map_ini			(map_cfg_fn);
+		CInifile	map_ini			("%levels%", *(*fit));
 
 		if(map_ini.section_exist("map_usage"))
 		{
@@ -294,7 +293,7 @@ void CMapListHelper::Load()
 					Itm.m_game_type_id		= (EGameTypes)get_token_id(game_types, game_type.c_str() );
 					M						= &m_storage.back();
 				}
-				shared_str _map_name			= (*fit).name.substr(0,(*fit).name.find('\\')).c_str();
+				shared_str _map_name			= *BearCore::BearFileManager::GetPathFile(*(*fit));
 				
 				if(M->m_map_names.end()==std::find(M->m_map_names.begin(),M->m_map_names.end(),_map_name))
 					M->m_map_names.push_back	(_map_name);

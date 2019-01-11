@@ -114,6 +114,7 @@ void CGameFont::Initialize(LPCSTR cShader, LPCSTR cTextureName)
 
         for (u32 i = 0; i < nNumChars; i++)
         {
+			
             xr_sprintf(buf, sizeof(buf), "%05d", i);
             if (ini->line_exist("mb_symbol_coords", buf))
             {
@@ -136,7 +137,6 @@ void CGameFont::Initialize(LPCSTR cShader, LPCSTR cTextureName)
         float d = 0.0f;
         //. if(ini->section_exist("width_correction"))
         //. d = ini->r_float("width_correction", "value");
-
         fHeight = ini->r_float("symbol_coords", "height");
         for (u32 i = 0; i < nNumChars; i++)
         {

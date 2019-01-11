@@ -342,9 +342,10 @@ public:
 		Console->Hide	();
 		string_path		fn_; 
 		strconcat		(sizeof(fn_),fn_, args, ".xrdemo");
-		string_path		fn;
-		FS.update_path	(fn, "$game_saves$", fn_);
-
+		BearCore::BearStringPath		fn;
+		FS.UpdatePath	("%saves%", 0,  fn);
+		BearCore::BearString::Contact(fn, BEAR_PATH);
+		BearCore::BearString::Contact(fn, fn_);
 		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
 	}
 };
@@ -367,15 +368,19 @@ public:
 			  Msg	("! There are no level(s) started");
 		  } else {
 			  Console->Hide			();
-			  string_path			fn;
+			  string_path			fn1;
 			  u32		loops	=	0;
 			  LPSTR		comma	=	strchr(const_cast<LPSTR>(args),',');
 			  if (comma)	{
 				  loops			=	atoi	(comma+1);
 				  *comma		=	0;	//. :)
 			  }
-			  strconcat			(sizeof(fn),fn, args, ".xrdemo");
-			  FS.update_path	(fn, "$game_saves$", fn);
+			  strconcat(sizeof(fn1), fn1, args, ".xrdemo");
+			  BearCore::BearStringPath		fn;
+			  FS.UpdatePath("%saves%", 0, fn);
+			  BearCore::BearString::Contact(fn, BEAR_PATH);
+			  BearCore::BearString::Contact(fn, fn1);
+		
 			  g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay> (fn, 1.0f, loops));
 		  }
 	  }
@@ -420,7 +425,7 @@ public:
 			return;
 		}
 
-		string_path				S,S1;
+		string_path				S;
 		S[0]					= 0;
 //.		sscanf					(args ,"%s",S);
 		strcpy_s					(S,args);
@@ -458,7 +463,10 @@ public:
 		_s->wnd()->SetText			(save_name);
 
 		strcat					(S,".dds");
-		FS.update_path			(S1,"$game_saves$",S);
+		BearCore::BearStringPath		S1;
+		FS.UpdatePath("%saves%", 0, S1);
+		BearCore::BearString::Contact(S1, BEAR_PATH);
+		BearCore::BearString::Contact(S1, S);
 		
 #ifdef DEBUG
 		timer.Start				();
@@ -640,9 +648,6 @@ public:
 			Log("* Specify script name!");
 		else {
 			// rescan pathes
-			FS_Path* P = FS.get_path("$game_scripts$");
-			P->m_Flags.set	(FS_Path::flNeedRescan,TRUE);
-			FS.rescan_pathes();
 			// run script
 			if (ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel))
 				ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->add_script(S,false,true);
@@ -1252,14 +1257,13 @@ public:
 		}
 
 		string_path				name;
-		string_path				fn;
 
 		if (0==strext(arguments))
 			strconcat			(sizeof(name),name,arguments,".ogf");
 		else
 			strcpy_s			(name,sizeof(name),arguments);
 
-		if (!FS.exist(arguments) && !FS.exist(fn, "$level$", name) && !FS.exist(fn, "$game_meshes$", name)) {
+		if (!FS.ExistFile("%level%", name) && !FS.ExistFile( "%meshes%", name)) {
 			Msg					("! Cannot find visual \"%s\"",arguments);
 			return;
 		}

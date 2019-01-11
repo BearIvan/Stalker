@@ -19,10 +19,9 @@ IC CGameGraph::CGameGraph											()
 {
 #if !defined(AI_COMPILER) && !defined(PRIQUEL)
 	string_path						file_name;
-	FS.update_path					(file_name,"$game_data$",GRAPH_NAME);
 #endif // !defined(AI_COMPILER) && !defined(PRIQUEL)
 
-	m_reader						= FS.r_open(file_name);
+	m_reader						=XRayBearReader::Create( FS.Read("%content%", GRAPH_NAME));
 	VERIFY							(m_reader);
 	m_header.load					(m_reader);
 	R_ASSERT2						(header().version() == 8,"Graph version mismatch!");
@@ -61,7 +60,7 @@ IC CGameGraph::~CGameGraph											()
 #endif // PRIQUEL
 
 #if defined(AI_COMPILER) || !defined(PRIQUEL)
-	FS.r_close					(m_reader);
+	XRayBearReader::Destroy		(m_reader);
 #endif // defined(AI_COMPILER) || !defined(PRIQUEL)
 }
 

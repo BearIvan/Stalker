@@ -14,7 +14,7 @@
 #include "XrRender/RenderDeviceRender.h"
 
 #include "xr_object.h"
-
+#include "api/XrGameVersionController.h"
 xr_token* vid_quality_token = NULL;
 
 xr_token vid_bpp_token[] =
@@ -200,15 +200,15 @@ public:
 };
 
 
-XRCORE_API void _dump_open_files(int mode);
+//XRCORE_API void _dump_open_files(int mode);
 class CCC_DumpOpenFiles : public IConsole_Command
 {
 public:
     CCC_DumpOpenFiles(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = FALSE; };
     virtual void Execute(LPCSTR args)
     {
-        int _mode = atoi(args);
-        _dump_open_files(_mode);
+       // int _mode = atoi(args);
+    //    _dump_open_files(_mode);
     }
 };
 
@@ -270,7 +270,7 @@ void CCC_LoadCFG::Execute(LPCSTR args)
 	IReader* F = 0;
 	if (!FS.ExistFile(TEXT("%user%"), cfg_name))
 	{
-		if (!FS.ExistFile(TEXT("%config%"), cfg_name))
+		if (FS.ExistFile(TEXT("%config%"), cfg_name))
 		{
 			F = XRayBearReader::Create(FS.Read(TEXT("%config%"), cfg_name));
 		}
@@ -848,10 +848,16 @@ void CCC_Register()
 #ifndef DEDICATED_SERVER
     CMD1(CCC_soundDevice, "snd_device");
 #endif
-    //psSoundRolloff = pSettings->r_float ("sound","rolloff"); clamp(psSoundRolloff, EPS_S, 2.f);
-    psSoundOcclusionScale = pSettings->r_float("sound", "occlusion_scale");
-    clamp(psSoundOcclusionScale, 0.1f, .5f);
-
+	if (gameVersionController->getGame() == GameVersionController::SOC)
+	{
+		psSoundOcclusionScale = 0.4f;
+	}
+	else
+	{
+		//psSoundRolloff = pSettings->r_float ("sound","rolloff"); clamp(psSoundRolloff, EPS_S, 2.f);
+		psSoundOcclusionScale = pSettings->r_float("sound", "occlusion_scale");
+	}
+	clamp(psSoundOcclusionScale, 0.1f, .5f);
     extern int g_Dump_Export_Obj;
     extern int g_Dump_Import_Obj;
     CMD4(CCC_Integer, "net_dbg_dump_export_obj", &g_Dump_Export_Obj, 0, 1);

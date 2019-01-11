@@ -99,15 +99,9 @@ BOOL CTheoraSurface::Load(const char* fname)
     BOOL res = m_rgb->Load(fname);
     if (res)
     {
-        string_path alpha, ext;
+        string_path alpha;
         xr_strcpy(alpha, fname);
-        pstr pext = strext(alpha);
-        if (pext)
-        {
-            xr_strcpy(ext, pext);
-            *pext = 0;
-        }
-        strconcat(sizeof(alpha), alpha, alpha, "#alpha.ogm", ext);
+        strconcat(sizeof(alpha), alpha, alpha, "#alpha");
         if (FS.ExistFile(TEXT("%textures%"),alpha))
         {
             m_alpha = xr_new<CTheoraStream>();

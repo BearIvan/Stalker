@@ -85,11 +85,11 @@ public:
 
 private:
 	// Loading / Unloading
-	void								LoadBuffers				(CStreamReader	*fs);
+	void								LoadBuffers				(XRayBearFileStream	*fs);
 	void								LoadVisuals				(IReader *fs);
 	void								LoadLights				(IReader *fs);
 	void								LoadSectors				(IReader *fs);
-	void								LoadSWIs				(CStreamReader	*fs);
+	void								LoadSWIs				(XRayBearFileStream	*fs);
 
 	BOOL								add_Dynamic				(dxRender_Visual	*pVisual, u32 planes);		// normal processing
 	void								add_Static				(dxRender_Visual	*pVisual, u32 planes);
@@ -215,7 +215,7 @@ protected:
 	virtual	void					ScreenshotImpl			(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
 
 private:
-	FS_FileSet						m_file_set;
+	BearCore::BearVector<BearCore::BearString>						m_file_set;
 };
 
 extern CRender						RImplementation;

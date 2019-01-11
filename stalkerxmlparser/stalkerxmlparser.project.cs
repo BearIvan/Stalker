@@ -14,7 +14,7 @@ public class stalkerxmlparser :Project
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 		Include.Private.Add(Path.Combine(ProjectPath,"include","xmlparser"));
 
-		
-		Projects.Private.Add("stalkertools");
+        Projects.Private.Add("stalkerapi");
+        Projects.Private.Add("stalkertools");
 	}
 } 

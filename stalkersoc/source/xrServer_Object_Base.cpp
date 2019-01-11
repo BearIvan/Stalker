@@ -111,12 +111,11 @@ CSE_Abstract::CSE_Abstract					(LPCSTR caSection)
 
 	if (pSettings->line_exist(caSection,"custom_data")) {
 		string_path				file_name;
-		FS.update_path			(file_name,"$game_config$",pSettings->r_string(caSection,"custom_data"));
-		if (!FS.exist(file_name)) {
+		if (!FS.ExistFile("%config%", pSettings->r_string(caSection, "custom_data"))) {
 			Msg					("! cannot open config file %s",file_name);
 		}
 		else {
-			IReader				*reader = FS.r_open(file_name);
+			IReader				*reader =XRayBearReader::Create( FS.Read("%config%", pSettings->r_string(caSection, "custom_data")));
 			VERIFY				(reader);
 			{
 				int				size = reader->length()*sizeof(char);
@@ -125,7 +124,7 @@ CSE_Abstract::CSE_Abstract					(LPCSTR caSection)
 				temp[size]		= 0;
 				m_ini_string	= temp;
 			}
-			FS.r_close			(reader);
+			XRayBearReader::Destroy(reader);
 		}
 	}
 
@@ -165,7 +164,7 @@ CInifile &CSE_Abstract::spawn_ini			()
 				(void*)(*(m_ini_string)),
 				m_ini_string.size()
 			),
-			FS.get_path("$game_config$")->m_Path
+			"%config%",""
 		);
 #pragma warning(pop)
 	return						(*m_ini_file);

@@ -145,7 +145,7 @@ void CScriptStorage::reinit	()
 #endif
 
 #ifdef USE_JIT
-	if (strstr(Core.Params,"-nojit")) {
+	if (strstr(GetCommandLine(),"-nojit")) {
 //		luaopen_jit			(lua());
 //		luaopen_coco		(lua());
 //		luaJIT_setmode		(lua(),2,LUAJIT_MODE_DEBUG);
@@ -156,7 +156,7 @@ void CScriptStorage::reinit	()
 	}
 #endif
 
-	if (strstr(Core.Params,"-_g"))
+	if (strstr(GetCommandLine(),"-_g"))
 		file_header			= file_header_new;
 	else
 		file_header			= file_header_old;*/
@@ -192,7 +192,7 @@ void CScriptStorage::reinit	()
 	luajit::open_lib(lua(), LUA_DBLIBNAME, luaopen_debug);
 #endif // #ifdef DEBUG
 
-	if (!strstr(Core.Params, "-nojit")) {
+	if (!strstr(GetCommandLine(), "-nojit")) {
 		luajit::open_lib(lua(), LUA_JITLIBNAME, luaopen_jit);
 #ifndef DEBUG
 		put_function(lua(), opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
@@ -201,7 +201,7 @@ void CScriptStorage::reinit	()
 #endif // #ifndef DEBUG
 	}
 
-	if (strstr(Core.Params, "-_g"))
+	if (strstr(GetCommandLine(), "-_g"))
 		file_header = file_header_new;
 	else
 		file_header = file_header_old;
@@ -407,11 +407,11 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 	return				(true);
 }
 
-bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
+bool CScriptStorage::do_file	(const bchar*fsPath,LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
 	int				start = lua_gettop(lua());
 	string_path		l_caLuaFileName;
-	IReader			*l_tpFileReader = FS.r_open(caScriptName);
+	IReader			*l_tpFileReader =XRayBearReader::Create(FS.Read(fsPath,caScriptName));
 	if (!l_tpFileReader) {
 		script_log	(eLuaMessageTypeError,"Cannot open file \"%s\"",caScriptName);
 		return		(false);
@@ -423,10 +423,10 @@ bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 //		lua_pop		(lua(),4);
 //		VERIFY		(lua_gettop(lua()) == start - 3);
 		lua_settop	(lua(),start);
-		FS.r_close	(l_tpFileReader);
+		XRayBearReader::Destroy(l_tpFileReader);
 		return		(false);
 	}
-	FS.r_close		(l_tpFileReader);
+	XRayBearReader::Destroy(l_tpFileReader);
 
 	int errFuncId = -1;
 #ifdef USE_DEBUGGER
@@ -460,10 +460,10 @@ bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 	return			(true);
 }
 
-bool CScriptStorage::load_file_into_namespace(LPCSTR caScriptName, LPCSTR caNamespaceName)
+bool CScriptStorage::load_file_into_namespace(const bchar*fsPath,LPCSTR caScriptName, LPCSTR caNamespaceName)
 {
 	int				start = lua_gettop(lua());
-	if (!do_file(caScriptName,caNamespaceName)) {
+	if (!do_file(fsPath,caScriptName,caNamespaceName)) {
 		lua_settop	(lua(),start);
 		return		(false);
 	}
@@ -636,8 +636,15 @@ void CScriptStorage::print_error(lua_State *L, int iErrorCode)
 void CScriptStorage::flush_log()
 {
 	string_path			log_file_name;
-	strconcat           (sizeof(log_file_name),log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
-	FS.update_path      (log_file_name,"$logs$",log_file_name);
-	m_output.save_to	(log_file_name);
+	strconcat           (sizeof(log_file_name),log_file_name,"stalker","_",Core.UserName,"_lua.log");
+	BearCore::BearStringPath Path;
+	FS.UpdatePath      ("%logs%",0, Path);
+	BearCore::BearString::Contact(Path, BEAR_PATH);
+	BearCore::BearString::Contact(Path, log_file_name);
+	BearCore::BearFileStream file_out;
+	if (file_out.Open(Path, file_out.M_Write))
+	{
+		file_out.Write(m_output.pointer(), m_output.size());
+	}
 }
 #endif // DEBUG

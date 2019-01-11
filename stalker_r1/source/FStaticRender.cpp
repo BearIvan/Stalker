@@ -684,7 +684,7 @@ void	CRender::Statistics	(CGameFont* _F)
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result );
+static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result );
 
 //--------------------------------------------------------------------------------------------------------------
 class	includer				: public ID3DXInclude
@@ -692,21 +692,28 @@ class	includer				: public ID3DXInclude
 public:
 	HRESULT __stdcall	Open	(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
 	{
-		string_path				pname;
-		strconcat				(sizeof(pname),pname,::Render->getShaderPath(),pFileName);
-		IReader*		R		= FS.r_open	("$game_shaders$",pname);
-		if (0==R)				{
-			// possibly in shared directory or somewhere else - open directly
-			R					= FS.r_open	("$game_shaders$",pFileName);
-			if (0==R)			return			E_FAIL;
+		IReader*		R = 0;
+		if (FS.ExistFile("%cur_shaders%", pFileName))
+		{
+			 R = XRayBearReader::Create(FS.Read("%cur_shaders%", pFileName));
 		}
+		else 		if (FS.ExistFile("%shaders%", pFileName))
+		{
+			R = XRayBearReader::Create(FS.Read("%shaders%", pFileName));
+		}
+		else
+		{
+			return			E_FAIL;
+		}
+	
+
 
 		// duplicate and zero-terminate
 		u32				size	= R->length();
 		u8*				data	= xr_alloc<u8>	(size + 1);
 		CopyMemory			(data,R->pointer(),size);
 		data[size]				= 0;
-		FS.r_close				(R);
+		XRayBearReader::Destroy			(R);
 
 		*ppData					= data;
 		*pBytes					= size;
@@ -780,9 +787,9 @@ static HRESULT create_shader				(
 		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm );
 		string_path		dname;
 		strconcat		(sizeof(dname),dname,"disasm\\",file_name,('v'==pTarget[0])?".vs":".ps" );
-		IWriter*		W = FS.w_open("$logs$",dname);
+		IWriter*		W =XRayBearWriter::Create( FS.Write("%logs%",dname,0));
 		W->w			(disasm->GetBufferPointer(),disasm->GetBufferSize());
-		FS.w_close		(W);
+		XRayBearWriter::Destroy		(W);
 		_RELEASE		(disasm);
 	}
 
@@ -875,31 +882,29 @@ HRESULT	CRender::shader_compile			(
 	strncpy_s		( extension, pTarget, 2 );
 	xr_strcat		( folder, extension );
 
-	FS.update_path	( folder_name, "$game_shaders$", folder );
-	xr_strcat		( folder_name, "\\" );
+
 	
-	m_file_set.clear( );
-	FS.file_list	( m_file_set, folder_name, FS_ListFiles | FS_RootOnly, "*");
+	m_file_set.clear_not_free( );
+	FS.GetFiles(m_file_set, "%shaders%", "*");
 
 	string_path temp_file_name, file_name;
-	if ( !match_shader_id(name, sh_name, m_file_set, temp_file_name) ) {
+	if (!match_shader_id(name, sh_name, m_file_set, temp_file_name)) {
 		string_path file;
-		xr_strcpy		( file, "shaders_cache\\r1\\" );
-		xr_strcat		( file, name );
-		xr_strcat		( file, "." );
-		xr_strcat		( file, extension );
-		xr_strcat		( file, "\\" );
-		xr_strcat		( file, sh_name );
-		FS.update_path	( file_name, "$app_data_root$", file);
+		xr_strcpy(file, "shaders_cache\\r1\\");
+		xr_strcat(file, name);
+		xr_strcat(file, ".");
+		xr_strcat(file, extension);
+		xr_strcat(file, "\\");
+		xr_strcat(file, sh_name);
+		xr_strcpy(file_name, file);
 	}
 	else {
-		xr_strcpy		( file_name, folder_name );
 		xr_strcat		( file_name, temp_file_name );
 	}
 
-	if (FS.exist(file_name))
+	if (FS.ExistFile("%user%",file_name))
 	{
-		IReader* file = FS.r_open(file_name);
+		IReader* file = XRayBearReader::Create( FS.Read("%user%",file_name));
 		if (file->length()>4)
 		{
 			u32 crc = 0;
@@ -913,7 +918,7 @@ HRESULT	CRender::shader_compile			(
 				_result				= create_shader(pTarget, (DWORD*)file->pointer(), file->elapsed(), file_name, result, o.disasm);
 			}
 		}
-		file->close();
+		XRayBearReader::Destroy(file);
 	}
 
 	if (FAILED(_result))
@@ -926,7 +931,7 @@ HRESULT	CRender::shader_compile			(
 
 		_result						= D3DXCompileShader((LPCSTR)pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags|D3DXSHADER_USE_LEGACY_D3DX9_31_DLL,&pShaderBuf,&pErrorBuf,&pConstants);
 		if (SUCCEEDED(_result)) {
-			IWriter* file = FS.w_open(file_name);
+			IWriter* file =XRayBearWriter::Create( FS.Write("%user%", file_name,0));
 
 			boost::crc_32_type		processor;
 			processor.process_block	( pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize() );
@@ -934,7 +939,7 @@ HRESULT	CRender::shader_compile			(
 
 			file->w_u32				(crc);
 			file->w					( pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize());
-			FS.w_close				(file);
+			XRayBearWriter::Destroy(file);
 
 			_result					= create_shader(pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize(), file_name, result, o.disasm);
 		}
@@ -978,7 +983,7 @@ static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const fu
 	return					true;
 }
 
-static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result )
+static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result )
 {
 #if 0
 	strcpy_s					( result, "" );
@@ -987,13 +992,13 @@ static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const 
 #ifdef DEBUG
 	LPCSTR temp					= "";
 	bool found					= false;
-	FS_FileSet::const_iterator	i = file_set.begin();
-	FS_FileSet::const_iterator	const e = file_set.end();
+	auto i = file_set.begin();
+	auto e = file_set.end();
 	for ( ; i != e; ++i ) {
-		if ( match_shader(debug_shader_id, full_shader_id, (*i).name.c_str(), (*i).name.size() ) ) {
+		if ( match_shader(debug_shader_id, full_shader_id, *(*i), (*i).size() ) ) {
 			VERIFY				( !found );
 			found				= true;
-			temp				= (*i).name.c_str();
+			temp = *(*i);
 		}
 	}
 

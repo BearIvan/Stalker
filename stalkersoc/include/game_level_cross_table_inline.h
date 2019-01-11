@@ -17,10 +17,9 @@ IC CGameLevelCrossTable::CGameLevelCrossTable	()
 {
 #ifndef AI_COMPILER
 	string_path			fName;
-	FS.update_path		(fName,"$level$",CROSS_TABLE_NAME);
 #endif // AI_COMPILER
 
-	m_tpCrossTableVFS	= FS.r_open(fName);
+	m_tpCrossTableVFS	= XRayBearReader::Create( FS.Read("%level%", CROSS_TABLE_NAME));
 	R_ASSERT2			(m_tpCrossTableVFS,"Can't open cross table!");
 	
 	IReader				*chunk = m_tpCrossTableVFS->open_chunk(CROSS_TABLE_CHUNK_VERSION);
@@ -53,7 +52,7 @@ IC CGameLevelCrossTable::~CGameLevelCrossTable	()
 	m_chunk->close		();
 	
 	VERIFY				(m_tpCrossTableVFS);
-	FS.r_close			(m_tpCrossTableVFS);
+	XRayBearReader::Destroy		(m_tpCrossTableVFS);
 #endif // PRIQUEL
 };
 

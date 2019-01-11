@@ -106,7 +106,7 @@ void	CSoundRender_Target::dettach()
 {
 	if (wave)		{
 		ov_clear		(&ovf);
-		XRayBearReader::Destroy(wave);
+		XRayBearReader::Destroy(wave); wave = 0;
 	}
 }
 

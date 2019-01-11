@@ -20,15 +20,14 @@ bool CLevel::Load_GameSpecific_Before()
 {
 	// AI space
 	g_pGamePersistent->LoadTitle		("st_loading_ai_objects");
-	string_path							fn_game;
 	
-	if (GamePersistent().GameType() == GAME_SINGLE && !ai().get_alife() && FS.exist(fn_game,"$level$","level.ai"))
+	if (GamePersistent().GameType() == GAME_SINGLE && !ai().get_alife() && FS.ExistFile ("%level%","level.ai"))
 		ai().load						(net_SessionName());
 
-	if (!g_dedicated_server && !ai().get_alife() && ai().get_game_graph() && FS.exist(fn_game, "$level$", "level.game")) {
-		IReader							*stream = FS.r_open		(fn_game);
+	if (!g_dedicated_server && !ai().get_alife() && ai().get_game_graph() && FS.ExistFile( "%level%", "level.game")) {
+		IReader							*stream = XRayBearReader::Create(FS.Read("%level%", "level.game"));
 		ai().patrol_path_storage_raw	(*stream);
-		FS.r_close						(stream);
+		XRayBearReader::Destroy			(stream);
 	}
 
 	return								(TRUE);
@@ -37,9 +36,8 @@ bool CLevel::Load_GameSpecific_Before()
 bool CLevel::Load_GameSpecific_After()
 {
 	// loading static particles
-	string_path		fn_game;
-	if (FS.exist(fn_game, "$level$", "level.ps_static")) {
-		IReader *F = FS.r_open	(fn_game);
+	if (FS.ExistFile("%level%", "level.ps_static")) {
+		IReader *F = XRayBearReader::Create(FS.Read("%level%", "level.ps_static"));
 		CParticlesObject* pStaticParticles;
 		u32				chunk = 0;
 		string256		ref_name;
@@ -53,7 +51,7 @@ bool CLevel::Load_GameSpecific_After()
 			pStaticParticles->Play			(false);
 			m_StaticParticles.push_back		(pStaticParticles);
 		}
-		FS.r_close		(F);
+		XRayBearReader::Destroy(F);
 	}
 	
 	if	(!g_dedicated_server)
@@ -63,16 +61,16 @@ bool CLevel::Load_GameSpecific_After()
 		m_level_sound_manager->Load			();
 
 		// loading sound environment
-		if ( FS.exist(fn_game, "$level$", "level.snd_env")) {
-			IReader *F				= FS.r_open	(fn_game);
+		if ( FS.ExistFile( "%level%", "level.snd_env")) {
+			IReader *F				= XRayBearReader::Create(FS.Read("%level%", "level.snd_env"));  
 			::Sound->set_geometry_env(F);
-			FS.r_close				(F);
+			XRayBearReader::Destroy(F);
 		}
 		// loading SOM
-		if (FS.exist(fn_game, "$level$", "level.som")) {
-			IReader *F				= FS.r_open	(fn_game);
+		if (FS.ExistFile( "%level%", "level.som")) {
+			IReader *F				= XRayBearReader::Create(FS.Read("%level%", "level.som"));
 			::Sound->set_geometry_som(F);
-			FS.r_close				(F);
+			XRayBearReader::Destroy(F);
 		}
 
 		// loading random (around player) sounds

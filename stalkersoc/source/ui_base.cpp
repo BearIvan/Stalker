@@ -268,7 +268,7 @@ shared_str	ui_core::get_xml_name(LPCSTR fn)
 		}else
 			sprintf_s				(str, "%s_16", fn);
 
-		if(NULL==FS.exist(str_, "$game_config$", "ui\\" , str) )
+		if(NULL==FS.ExistFile("%config%", "ui\\" , str) )
 		{
 			sprintf_s(str, "%s", fn);
 			if ( NULL==strext(fn) ) strcat(str, ".xml");

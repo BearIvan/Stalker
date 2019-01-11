@@ -19,6 +19,7 @@
 
 #include "engine/object_broker.h"
 
+#include "api/XrGameVersionController.h"
 //#define DEMO_BUILD
 
 string128	ErrMsgBoxTemplate	[]	= {
@@ -73,13 +74,27 @@ CMainMenu::CMainMenu	()
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
 		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
-		
-		for (u32 i=0; i<u32(ErrMax); i++)
+		if (gameVersionController->getPath() == GameVersionController::SOC_1004)
 		{
-			CUIMessageBoxEx*			pNewErrDlg;
-			INIT_MSGBOX					(pNewErrDlg, ErrMsgBoxTemplate[i]);
-			m_pMB_ErrDlgs.push_back		(pNewErrDlg);
+			for (u32 i = 0; i < u32(ErrMax)-2; i++)
+			{
+				CUIMessageBoxEx*			pNewErrDlg;
+
+				INIT_MSGBOX(pNewErrDlg, ErrMsgBoxTemplate[i]);
+				m_pMB_ErrDlgs.push_back(pNewErrDlg);
+			}
 		}
+		else
+		{
+			for (u32 i = 0; i < u32(ErrMax); i++)
+			{
+				CUIMessageBoxEx*			pNewErrDlg;
+
+				INIT_MSGBOX(pNewErrDlg, ErrMsgBoxTemplate[i]);
+				m_pMB_ErrDlgs.push_back(pNewErrDlg);
+			}
+		}
+		
 
 		Register						(m_pMB_ErrDlgs[PatchDownloadSuccess]);
 		m_pMB_ErrDlgs[PatchDownloadSuccess]->SetWindowName	("msg_box");
@@ -516,7 +531,7 @@ void CMainMenu::OnNoNewPatchFound				()
 
 void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 {
-	CGameSpy_Available GSA;
+	/*CGameSpy_Available GSA;
 	shared_str result_string;
 	if (!GSA.CheckAvailableServices(result_string))
 	{
@@ -535,7 +550,7 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	else
 		if (strrchr(fileName, '\\')) fileName = strrchr(fileName, '\\')+1;
 	if (!fileName) return;
-	*/
+	
 
 	string_path		fname;
 	if (FS.path_exist("$downloads$"))
@@ -551,7 +566,8 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	m_sPDProgress.FileName		= m_sPatchFileName;
 	m_sPDProgress.Status		= "";
 
-	m_pGameSpyFull->m_pGS_HTTP->DownloadFile(*m_sPatchURL, *m_sPatchFileName);
+	m_pGameSpyFull->m_pGS_HTTP->DownloadFile(*m_sPatchURL, *m_sPatchFileName);*/
+	return;
 }
 
 void	CMainMenu::OnDownloadPatchError()

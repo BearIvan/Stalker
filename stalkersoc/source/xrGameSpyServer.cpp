@@ -207,15 +207,13 @@ bool xrGameSpyServer::Check_ServerAccess( IClient* CL, string512& reason )
 		return true;
 	}
 
-	string_path		fn;
-	FS.update_path( fn, "$app_data_root$", "server_users.ltx" );
-	if( FS.exist(fn) == NULL )
+	if( !FS.ExistFile("%user%", "server_users.ltx"))
 	{
 		strcpy_s( reason, "Access denied by server. " );
 		return false;
 	}
 
-	CInifile inif( fn );
+	CInifile inif("%user%", "server_users.ltx");
 	if( inif.section_exist( "users" ) == FALSE )
 	{
 		strcpy_s( reason, "Access denied by server. " );
@@ -254,10 +252,9 @@ bool xrGameSpyServer::Check_ServerAccess( IClient* CL, string512& reason )
 void xrGameSpyServer::Assign_ServerType( string512& res )
 {
 	string_path		fn;
-	FS.update_path( fn, "$app_data_root$", "server_users.ltx" );
-	if( FS.exist(fn) )
+	if( FS.ExistFile("%user%", "server_users.ltx") )
 	{
-		CInifile inif( fn );
+		CInifile inif("%user%", "server_users.ltx");
 		if( inif.section_exist( "users" ) )
 		{
 			if( inif.line_count( "users" ) != 0 )

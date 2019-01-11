@@ -109,6 +109,7 @@ void CTextureDescrMngr::Load()
 #endif // #ifdef DEBUG
 
 	LoadTHM					("%textures%");
+	if(FS.ExistPath("%level%"))
 	LoadTHM					("%level%");
 
 #ifdef DEBUG

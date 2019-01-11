@@ -4,7 +4,6 @@
 #include "engine/xrLevel.h"
 #include "engine/x_ray.h"
 #include "engine/IGame_Persistent.h"
-#include "tools/stream_reader.h"
 
 #include "xrRender/dxRenderDeviceRender.h"
 
@@ -168,7 +167,7 @@ void CRender::level_Unload		()
 	b_loaded					= FALSE;
 }
 
-void CRender::LoadBuffers	(CStreamReader *base_fs)
+void CRender::LoadBuffers	(XRayBearFileStream*base_fs)
 {
 	dxRenderDeviceRender::Instance().Resources->Evict	();
 	u32	dwUsage				= D3DUSAGE_WRITEONLY | (HW.Caps.geometry.bSoftware?D3DUSAGE_SOFTWAREPROCESSING:0);
@@ -177,7 +176,7 @@ void CRender::LoadBuffers	(CStreamReader *base_fs)
 	if (base_fs->find_chunk(fsL_VB))
 	{
 		// Use DX9-style declarators
-		CStreamReader			*fs	= base_fs->open_chunk(fsL_VB);
+		XRayBearFileStream			*fs	= base_fs->open_chunk(fsL_VB);
 		u32 count				= fs->r_u32();
 		DCL.resize				(count);
 		VB.resize				(count);
@@ -213,7 +212,7 @@ void CRender::LoadBuffers	(CStreamReader *base_fs)
 
 //			fs->advance			(vCount*vSize);
 		}
-		fs->close				();
+		XRayBearFileStream::Destroy(fs);
 	} else {
 		FATAL					("DX7-style FVFs unsupported");
 	}
@@ -221,7 +220,7 @@ void CRender::LoadBuffers	(CStreamReader *base_fs)
 	// Index buffers
 	if (base_fs->find_chunk(fsL_IB))
 	{
-		CStreamReader			*fs	= base_fs->open_chunk(fsL_IB);
+		XRayBearFileStream			*fs	= base_fs->open_chunk(fsL_IB);
 		u32 count				= fs->r_u32();
 		IB.resize				(count);
 		for (u32 i=0; i<count; i++)
@@ -240,7 +239,7 @@ void CRender::LoadBuffers	(CStreamReader *base_fs)
 
 //			fs->advance			(iCount*2);
 		}
-		fs->close				();
+		XRayBearFileStream::Destroy(fs);
 	}
 }
 
@@ -347,11 +346,11 @@ void CRender::LoadSectors(IReader* fs)
 	pLastSector = 0;
 }
 
-void CRender::LoadSWIs(CStreamReader* base_fs)
+void CRender::LoadSWIs(XRayBearFileStream* base_fs)
 {
 	// allocate memory for portals
 	if (base_fs->find_chunk(fsL_SWIS)){
-		CStreamReader		*fs = base_fs->open_chunk(fsL_SWIS);
+		XRayBearFileStream		*fs = base_fs->open_chunk(fsL_SWIS);
 		u32 item_count		= fs->r_u32();	
 
 		xr_vector<FSlideWindowItem>::iterator it	= SWIs.begin();
@@ -375,6 +374,6 @@ void CRender::LoadSWIs(CStreamReader* base_fs)
 			fs->r			(swi.sw,sizeof(FSlideWindow)*swi.count);
 		}
 
-		fs->close			();
+		XRayBearFileStream::Destroy(fs);
 	}
 }

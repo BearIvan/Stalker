@@ -56,6 +56,24 @@ bool Modloader::Run()
 			viewport.Swap();
 		}
 		gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
+		switch (gameVersionController->getPath())
+		{
+		case	GameVersionController::Path::SOC_1004:
+			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+			break;
+		case	GameVersionController::Path::SOC_1007:
+			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
+			break;
+		case	GameVersionController::Path::CS_1510:
+			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
+			break;
+		case	GameVersionController::Path::COP_1602:
+			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+			break;
+		default:
+			break;
+		}
 		ok = mainform.Ok;
 	}
 	BearGraphics::BearRenderInterface::Destroy();

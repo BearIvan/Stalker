@@ -62,9 +62,9 @@ void game_cl_ArtefactHunt::Init ()
 	old_teamInPossession = 0;
 	//---------------------------------------------------
 	string_path	fn_game;
-	if (FS.exist(fn_game, "$level$", "level.game")) 
+	if (FS.ExistFile( "%level%", "level.game")) 
 	{
-		IReader *F = FS.r_open	(fn_game);
+		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
 		IReader *O = 0;
 
 		// Load RPoints
@@ -112,7 +112,7 @@ void game_cl_ArtefactHunt::Init ()
 			O->close();
 		}
 
-		FS.r_close	(F);
+		XRayBearReader::Destroy	(F);
 	}
 	//-------------------------------------------------------
 	if (pSettings->line_exist("artefacthunt_gamedata", "artefact_spawn_effect"))

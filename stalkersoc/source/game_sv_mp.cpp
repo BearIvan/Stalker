@@ -1492,7 +1492,7 @@ void game_sv_mp::DumpOnlineStatistic()
 	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 
 	string_path					fn;
-	FS.update_path				(fn,"$logs$","mp_stats\\");
+	strcpy                      (fn,"mp_stats\\");
 	strcat_s					(fn, srv->HostName.c_str());
 	strcat_s					(fn, "\\online\\dmp" );
 
@@ -1501,7 +1501,7 @@ void game_sv_mp::DumpOnlineStatistic()
 	strcat_s					(fn, t_stamp );
 	strcat_s					(fn, ".ltx" );
 
-	CInifile					ini(fn, FALSE, FALSE, TRUE);
+	/*CInifile					ini(fn, FALSE, FALSE, TRUE);
 	shared_str					current_section = "global";
 	string256					str_buff;
 
@@ -1521,7 +1521,7 @@ void game_sv_mp::DumpOnlineStatistic()
 		sprintf_s					(num_buf,"%d",idx);
 		sprintf_s					(str_buff,"\"%s\"", CStringTable().translate((*it).c_str()).c_str());
 		ini.w_string				("map_rotation", num_buf, str_buff);
-	}
+	}*/
 
 /*	for(u32 idx=0; idx<m_server->client_Count(); ++idx)
 	{
@@ -1539,7 +1539,7 @@ void game_sv_mp::DumpOnlineStatistic()
 		WritePlayerStats			(ini,num_buf,l_pC);
 	}
 	WriteGameState				(ini, current_section.c_str(), false);*/
-	struct player_stats_writer
+	/*struct player_stats_writer
 	{
 		game_sv_mp* m_owner;
 		xrServer* m_server;
@@ -1572,7 +1572,7 @@ void game_sv_mp::DumpOnlineStatistic()
 	tmp_functor.ini = &ini;
 	tmp_functor.player_index = 0;
 	m_server->ForEachClientDo(tmp_functor);
-	WriteGameState(ini, current_section.c_str(), false);
+	WriteGameState(ini, current_section.c_str(), false);*/
 }
 
 void game_sv_mp::WritePlayerStats(CInifile& ini, LPCSTR sect, xrClientData* pCl)
@@ -1619,7 +1619,7 @@ void game_sv_mp::DumpRoundStatistics()
 	string_path					fn;
 	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 
-	FS.update_path				(fn,"$logs$","mp_stats\\");
+	/*FS.update_path				(fn,"$logs$","mp_stats\\");
 	string64					t_stamp;
 	timestamp					(t_stamp);
 	strcat_s					(fn, srv->HostName.c_str() );
@@ -1659,6 +1659,7 @@ void game_sv_mp::DumpRoundStatistics()
 
 	Game().m_WeaponUsageStatistic->SaveDataLtx(ini);*/
 	//Game().m_WeaponUsageStatistic->Clear();
+	/*
 	struct player_stats_writer
 	{
 		game_sv_mp* m_owner;
@@ -1672,8 +1673,8 @@ void game_sv_mp::DumpRoundStatistics()
 
 			if (m_server->GetServerClient() == l_pC && g_dedicated_server)
 				return;
-			/*if (!l_pC->m_cdkey.size())
-				return;*/
+			if (!l_pC->m_cdkey.size())
+				return;
 			if (!l_pC->ps)
 				return;
 
@@ -1693,7 +1694,7 @@ void game_sv_mp::DumpRoundStatistics()
 
 	WriteGameState(ini, current_section.c_str(), true);
 
-	Game().m_WeaponUsageStatistic->SaveDataLtx(ini);
+	Game().m_WeaponUsageStatistic->SaveDataLtx(ini);*/
 }
 
 void game_sv_mp::SvSendChatMessage(LPCSTR str)

@@ -107,7 +107,7 @@ dxRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 	else				xr_strcpy	(name,sizeof(name),N);
 	IReader*			data = 0;
 	// Load data from MESHES or LEVEL
-	if (FS.ExistFile( "%level%", name))
+	if (FS.ExistPath(TEXT("%level%"))&&FS.ExistFile( "%level%", name))
 	{
 		data =XRayBearReader::Create( FS.Read("%level%", name));
 	}

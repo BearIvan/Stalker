@@ -73,7 +73,7 @@ CDemoRecord::CDemoRecord(const char* name, float life_time) : CEffectorCam(cefDe
      */
     m_b_redirect_input_to_level = false;
     _unlink(name);
-    file = FS.w_open(name);
+    file = XRayBearWriter::Create (name);
     if (file)
     {
         g_position.set_position = false;
@@ -125,7 +125,7 @@ CDemoRecord::~CDemoRecord()
     if (file)
     {
         IR_Release(); // release input
-        FS.w_close(file);
+		XRayBearWriter::Destroy( file);
     }
     g_bDisableRedText = stored_red_text;
 

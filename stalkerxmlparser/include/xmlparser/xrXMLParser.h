@@ -9,7 +9,7 @@
 	#define XRXMLPARSER_API __declspec(dllimport)
 #endif
 
-const LPCSTR CONFIG_PATH			= "$game_config$";
+const LPCSTR CONFIG_PATH			= "%config%";
 const LPCSTR UI_PATH				= "ui";
 const LPCSTR GAME_PATH = "gameplay";
 const LPCSTR STRING_TABLE_PATH = "text";

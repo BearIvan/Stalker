@@ -60,11 +60,11 @@ CGamePersistent::CGamePersistent(void)
 	dSetFreeHandler				(ode_free		);
 
 	// 
-	BOOL	bDemoMode	= (0!=strstr(Core.Params,"-demomode "));
+	/*BOOL	bDemoMode	= (0!=strstr(GetCommandLine(),"-demomode "));
 	if (bDemoMode)
 	{
 		string256	fname;
-		LPCSTR		name	=	strstr(Core.Params,"-demomode ") + 10;
+		LPCSTR		name	=	strstr(GetCommandLine(),"-demomode ") + 10;
 		sscanf				(name,"%s",fname);
 		R_ASSERT2			(fname[0],"Missing filename for 'demomode'");
 		Msg					("- playing in demo mode '%s'",fname);
@@ -72,10 +72,10 @@ CGamePersistent::CGamePersistent(void)
 		Device.seqFrame.Add	(this);
 		eDemoStart			=	Engine.Event.Handler_Attach("GAME:demo",this);	
 		uTime2Change		=	0;
-	} else {
+	} else {*/
 		pDemoFile			=	NULL;
 		eDemoStart			=	NULL;
-	}
+	/*}*/
 
 	CWeaponHUD::CreateSharedContainer();
 
@@ -86,7 +86,7 @@ CGamePersistent::CGamePersistent(void)
 CGamePersistent::~CGamePersistent(void)
 {	
 	CWeaponHUD::DestroySharedContainer();
-	FS.r_close					(pDemoFile);
+	//FS.r_close					(pDemoFile);
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
@@ -265,7 +265,7 @@ void CGamePersistent::WeathersUpdate()
 void CGamePersistent::start_logo_intro		()
 {
 #if 1//def DEBUG
-	if (0!=strstr(Core.Params,"-nointro")){
+	if (0!=strstr(GetCommandLine(),"-nointro")){
 		m_intro_event			= 0;
 		Console->Show			();
 		Console->Execute		("main_menu on");
@@ -296,7 +296,7 @@ void CGamePersistent::update_logo_intro			()
 void CGamePersistent::start_game_intro		()
 {
 #if 1//def DEBUG
-	if (0!=strstr(Core.Params,"-nointro")){
+	if (0!=strstr(GetCommandLine(),"-nointro")){
 		m_intro_event			= 0;
 		return;
 	}

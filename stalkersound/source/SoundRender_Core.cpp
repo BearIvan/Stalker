@@ -117,8 +117,7 @@ int CSoundRender_Core::pause_emitters(bool val)
 void CSoundRender_Core::env_load	()
 {
 	// Load environment
-	BearCore::BearStringPath fn;
-	if (FS.ExistFile(fn,TEXT("%content%"),SNDENV_FILENAME))
+	if (FS.ExistFile(TEXT("%content%"),SNDENV_FILENAME))
 	{
 		s_environment				= xr_new<SoundEnvironment_LIB>();
 		s_environment->Load			(SNDENV_FILENAME);

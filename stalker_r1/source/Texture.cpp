@@ -315,23 +315,37 @@ _DDS:
 		D3DXIMAGE_INFO			IMG;
 		if (FS.ExistFile("%textures%", fname, ".dds"))
 		{
+
 			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
 		}
 		else if (FS.ExistFile("%saves%", fname, ".dds"))
 		{
+
 			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
 		}
-		else if (FS.ExistFile("%level%", fname, ".dds"))
+		else if (FS.ExistPath("%level%")&&FS.ExistFile("%level%", fname, ".dds"))
 		{
+
 			S = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
 		}
 		else
 		{
-			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_not_existing_texture", ".dds"));
-		}
 #ifdef DEBUG
-		Msg						("* Loaded: %s[%d]", fname,S->length());
+			Msg("*Error,don't found Texture:", fname);
 #endif // DEBUG
+			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_not_existing_texture", ".dds"));
+
+		}
+
 		img_size				= S->length	();
 		R_ASSERT				(S);
 		HRESULT const result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(),S->length(),&IMG);

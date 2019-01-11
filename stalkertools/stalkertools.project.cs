@@ -9,8 +9,9 @@ public class stalkertools :Project
 		PCHIncludeFile="stdafx.h";
 		
 		Projects.Public.Add("bear_core");
-		
-		Defines.Private.Add("XRCORE_EXPORTS"); 
+        Projects.Private.Add("stalkerapi");
+
+        Defines.Private.Add("XRCORE_EXPORTS"); 
 
 		Defines.Public.Add("_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS");
 		

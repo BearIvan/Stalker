@@ -2,6 +2,8 @@
 #pragma hdrstop
 
 #include "fs_internal.h"
+#include "api/XrGameVersionController.h"
+
 
 XRCORE_API CInifile const* pSettings = NULL;
 XRCORE_API CInifile const* pSettingsAuth = NULL;
@@ -30,7 +32,29 @@ bool item_pred(const CInifile::Item& x, LPCSTR val)
 //------------------------------------------------------------------------------
 //Тело функций Inifile
 //------------------------------------------------------------------------------
-XRCORE_API BOOL _parse(LPSTR dest, LPCSTR src)
+
+XRCORE_API BOOL _parseSOC(LPSTR dest, LPCSTR src)
+{
+	if (src) {
+		BOOL bInsideSTR = false;
+		while (*src) {
+			if (isspace((u8)*src)) {
+				if (bInsideSTR) { *dest++ = *src++; continue; }
+				while (*src && isspace(*src)) src++;
+				continue;
+			}
+			else if (*src == '"') {
+				bInsideSTR = !bInsideSTR;
+			}
+			*dest++ = *src++;
+		}
+	}
+	*dest = 0;
+	return 0;
+}
+
+
+XRCORE_API BOOL _parseOther(LPSTR dest, LPCSTR src)
 {
     BOOL bInsideSTR = false;
     if (src)
@@ -60,6 +84,9 @@ XRCORE_API BOOL _parse(LPSTR dest, LPCSTR src)
     *dest = 0;
     return bInsideSTR;
 }
+
+BOOL(*_parse)(LPSTR dest, LPCSTR src) = 0;
+
 
 XRCORE_API void _decorate(LPSTR dest, LPCSTR src)
 {
@@ -137,23 +164,23 @@ CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
     m_flags.set(eSaveAtEnd, SaveAtEnd);
     m_flags.set(eReadOnly, ReadOnly);
 
-    if (bLoad)
-    {
-        string_path path, folder;
-        _splitpath(m_file_name, path, folder, 0, 0);
-        xr_strcat(path, sizeof(path), folder);
-        IReader* R =XRayBearReader::Create( FS.Read(FsPath,szFileName));
-        if (R)
-        {
-            if (sect_count)
-                DATA.reserve(sect_count);
-            Load(R, FsPath, path
+	if (bLoad)
+	{
+		string_path path, folder;
+		_splitpath(m_file_name, path, folder, 0, 0);
+		xr_strcat(path, sizeof(path), folder);
+		if (FS.ExistFile(FsPath, szFileName))
+		{
+			IReader* R = XRayBearReader::Create(FS.Read(FsPath, szFileName));
+			if (sect_count)
+				DATA.reserve(sect_count);
+			Load(R, FsPath, path
 #ifndef _EDITOR
-                 , allow_include_func
+				, allow_include_func
 #endif
-                );
+			);
 			XRayBearReader::Destroy(R);
-        }
+		}
     }
 }
 
@@ -252,7 +279,6 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
         if (str[0] && (str[0] == '#') && strstr(str, "#include")) //handle includes
         {
             string_path inc_name;
-            R_ASSERT(path&&path[0]);
             if (_GetItem(str, 1, inc_name, '"'))
             {
                 string_path fn, inc_path, folder;
@@ -263,7 +289,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
 				if (!allow_include_func || allow_include_func(fn))
 #endif
 				{
-					IReader* R = XRayBearReader::Create(FS.Read(TEXT("%config%"), fn));
+					IReader* R = XRayBearReader::Create(FS.Read(FsPath, fn));
 						Load(R, FsPath, inc_path
 #ifndef _EDITOR
 							, allow_include_func
@@ -921,5 +947,17 @@ void CInifile::remove_line(LPCSTR S, LPCSTR L)
         R_ASSERT(A != data.Data.end() && xr_strcmp(*A->first, L) == 0);
         data.Data.erase(A);
     }
+}
+
+void CInifile::Initialize()
+{
+	if (gameVersionController->getGame() == GameVersionController::SOC)
+	{
+		_parse = _parseSOC;
+	}
+	else
+	{
+		_parse = _parseOther;
+	}
 }
 

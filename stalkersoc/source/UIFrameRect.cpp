@@ -23,13 +23,15 @@ void CUIFrameRect::Init(LPCSTR texture, float x, float y, float w, float h)//, D
 }
 
 void CUIFrameRect::InitTexture(const char* texture){
-	string_path		fn,buf;
+	string_path		buf,fn;
 	strcpy			(buf,texture); if (strext(buf)) *strext(buf)=0;
 
-	if (FS.exist(fn,"$game_textures$",buf,".ini")){
+	if (FS.ExistFile("%textures%",buf,".ini")){
 		Fvector4	v;
+		strcpy(fn, buf);
+		strcat(fn, ".ini");
 		//uFlags.set	(flSingleTex,TRUE);
-		CInifile* ini= CInifile::Create(fn,TRUE);
+		CInifile* ini= CInifile::Create("%textures%", fn,TRUE);
 		LPCSTR sh	= ini->r_string("frame","shader");
 		frame[fmBK].CreateShader(texture,sh);
 		frame[fmL].CreateShader	(texture,sh);

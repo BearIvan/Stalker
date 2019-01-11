@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "xrXMLParser.h"
-
+#include "api/XrGameVersionController.h"
 
 XRXMLPARSER_API CXml::CXml()
 	:	m_root			(NULL),
@@ -36,11 +36,11 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F, CXml* xml )
 					shared_str fn	= xml->correct_file_name("ui", strchr(inc_name,'\\')+1);
 					string_path		buff;
 					strconcat		(sizeof(buff),buff,"ui\\",fn.c_str());
-					I 				= FS.r_open(path, buff);
+					I 				=XRayBearReader::Create( FS.Read(path, buff));
 				}
 
 				if(!I)
-					I 	= FS.r_open(path, inc_name);
+					I 	= XRayBearReader::Create(FS.Read(path, inc_name));
 
 				if(!I){
 					string1024 str;
@@ -48,7 +48,7 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F, CXml* xml )
 					R_ASSERT2(false,str);
 				}
 				ParseFile(path, W, I, xml);
-				FS.r_close	(I);
+				XRayBearReader::Destroy(I);
 			}
 		}else
 			W.w_string		(str);
@@ -70,21 +70,28 @@ void CXml::Load(LPCSTR path, LPCSTR  xml_filename)
 {
 	xr_strcpy					(m_xml_file_name, xml_filename);
 	// Load and parse xml file
-
-	IReader *F				= FS.r_open(path, xml_filename);
+	
+	IReader *F = XRayBearReader::Create(FS.Read(path, xml_filename));
 	R_ASSERT2				(F,xml_filename);
 
 	CMemoryWriter			W;
 	ParseFile				(path, W, F, this);
 	W.w_stringZ				("");
-	FS.r_close				(F);
+	XRayBearReader::Destroy(F);
 
 	m_Doc.Parse				(&m_Doc, (LPCSTR)W.pointer());
 	if (m_Doc.Error())
 	{
 		string1024			str;
 		xr_sprintf				(str, "XML file:%s value:%s errDescr:%s",m_xml_file_name,m_Doc.Value(), m_Doc.ErrorDesc());
-		R_ASSERT2			(false, str);
+		if (gameVersionController->getGame() != GameVersionController::SOC)
+		{
+			R_ASSERT2(false, str);
+		}
+		else
+		{
+			Log(str);
+		}
 	} 
 
 	m_root					= m_Doc.FirstChildElement();

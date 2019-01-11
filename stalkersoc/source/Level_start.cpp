@@ -51,19 +51,19 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	m_bDemoPlayMode = FALSE;
 	m_aDemoData.clear();
 	m_bDemoStarted	= FALSE;
-	if (strstr(Core.Params,"-tdemo ") || strstr(Core.Params,"-tdemof "))
+	if (strstr(GetCommandLine(),"-tdemo ") || strstr(GetCommandLine(),"-tdemof "))
 	{
 		string1024				f_name;
-		if (strstr(Core.Params,"-tdemo "))
+		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			sscanf					(strstr(Core.Params,"-tdemo ")+7,"%[^ ] ",f_name);
+			sscanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			sscanf					(strstr(Core.Params,"-tdemof ")+8,"%[^ ] ",f_name);
+			sscanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;
@@ -275,10 +275,10 @@ bool CLevel::net_start6()
 
 	if(net_start_result_total)
 	{
-		if (strstr(Core.Params,"-$")) 
+		if (strstr(GetCommandLine(),"-$")) 
 		{
 			string256				buf,cmd,param;
-			sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			sscanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

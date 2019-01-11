@@ -23,12 +23,11 @@ CLevelGraph::CLevelGraph		()
 	sh_debug->create				("debug\\ai_nodes","$null");
 #endif
 	string_path					file_name;
-	FS.update_path				(file_name,"$level$",LEVEL_GRAPH_NAME);
 #else
 	string256					file_name;
 	strconcat					(file_name,filename,LEVEL_GRAPH_NAME);
 #endif
-	m_reader					= FS.r_open	(file_name);
+	m_reader					= XRayBearReader::Create(FS.Read	("%level%", LEVEL_GRAPH_NAME));
 
 	// m_header & data
 	m_header					= (CHeader*)m_reader->pointer();
@@ -52,7 +51,7 @@ CLevelGraph::CLevelGraph		()
 
 CLevelGraph::~CLevelGraph		()
 {
-	FS.r_close					(m_reader);
+	XRayBearReader::Destroy			(m_reader);
 }
 
 u32	CLevelGraph::vertex		(const Fvector &position) const

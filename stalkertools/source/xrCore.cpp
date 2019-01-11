@@ -30,6 +30,10 @@ extern char g_application_path[256];
 string64 xrCore::UserName;
 string64 xrCore::CompName;
 u32 xrCore::dwFrame=0;
+
+
+
+
 void xrCore::Initialize(LogCallback cb)
 {
 
@@ -48,6 +52,10 @@ void xrCore::Initialize(LogCallback cb)
 	rtc_initialize();
 
 	SetLogCB(cb);
+
+	CPU::Detect();
+	_initialize_cpu();
+	CInifile::Initialize();
 	init_counter++;
 }
 
@@ -82,6 +90,7 @@ BOOL WINAPI DllEntryPoint(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID l
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvReserved)
 #endif
 {
+
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
