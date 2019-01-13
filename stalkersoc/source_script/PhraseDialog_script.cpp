@@ -29,6 +29,15 @@ void CPhraseScript::AddDisableInfo	(LPCSTR str)
 	m_DisableInfo.push_back	(str);
 }
 
+CPhrase * AddPhrase_script2(CPhraseDialog*pd,LPCSTR text, int phrase_id, int prev_phrase_id, int goodwil_level)
+{
+
+	BearCore::BearString1024  phrase;
+	BearCore::BearString1024  prev_phrase;
+	BearCore::BearString::Printf(phrase, TEXT("%d"), phrase_id);
+	BearCore::BearString::Printf(prev_phrase, TEXT("%d"), prev_phrase_id);
+	return pd->AddPhrase(text, phrase, prev_phrase, goodwil_level);
+}
 
 #pragma optimize("s",on)
 void CPhraseDialogExporter::script_register(lua_State *L)
@@ -39,7 +48,8 @@ void CPhraseDialogExporter::script_register(lua_State *L)
 		.def("GetPhraseScript",		&CPhrase::GetPhraseScript),
 
 		class_<CPhraseDialog>("CPhraseDialog")
-		.def("AddPhrase",			&CPhraseDialog::AddPhrase_script ),
+		.def("AddPhrase",			&CPhraseDialog::AddPhrase_script )
+		.def("AddPhrase", &AddPhrase_script2),
 
 		class_<CPhraseScript>("CPhraseScript")
 		.def("AddPrecondition",		&CPhraseScript::AddPrecondition)

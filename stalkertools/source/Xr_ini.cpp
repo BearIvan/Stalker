@@ -4,7 +4,17 @@
 #include "fs_internal.h"
 #include "api/XrGameVersionController.h"
 
+bool isspace_(int ch)
+{
+	return ((ch == 0x09) || (ch == 0x0A) || (ch == 0x0B) ||
+		(ch == 0x0B) || (ch == 0x0C) || (ch == 0x0D) || (ch == 0x20)) ? true : false;
+}
 
+bool isdigit_(int ch)
+{
+	return ((ch == '0') || (ch == '1') || (ch == '2') || (ch == '3') || (ch == '4') ||
+		(ch == '5') || (ch == '6') || (ch == '7') || (ch == '8') || (ch == '9')) ? true : false;
+}
 XRCORE_API CInifile const* pSettings = NULL;
 XRCORE_API CInifile const* pSettingsAuth = NULL;
 
@@ -38,9 +48,9 @@ XRCORE_API BOOL _parseSOC(LPSTR dest, LPCSTR src)
 	if (src) {
 		BOOL bInsideSTR = false;
 		while (*src) {
-			if (isspace((u8)*src)) {
+			if (isspace_((u8)*src)) {
 				if (bInsideSTR) { *dest++ = *src++; continue; }
-				while (*src && isspace(*src)) src++;
+				while (*src && isspace_(*src)) src++;
 				continue;
 			}
 			else if (*src == '"') {
@@ -61,14 +71,14 @@ XRCORE_API BOOL _parseOther(LPSTR dest, LPCSTR src)
     {
         while (*src)
         {
-            if (isspace((u8)*src))
+            if (isspace_((u8)*src))
             {
                 if (bInsideSTR)
                 {
                     *dest++ = *src++;
                     continue;
                 }
-                while (*src && isspace(*src))
+                while (*src && isspace_(*src))
                 {
                     ++src;
                 }

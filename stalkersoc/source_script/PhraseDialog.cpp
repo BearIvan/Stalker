@@ -239,6 +239,8 @@ void CPhraseDialog::load_shared	(LPCSTR)
 	AddPhrase				(pXML, phrase_node, "0", "");
 }
 
+
+
 void CPhraseDialog::SetCaption	(LPCSTR str)
 {
 	data()->m_sCaption = str;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "dxRenderFactory.h"
-
+#include "api/XrGameVersionController.h"
 #include "dxStatGraphRender.h"
 #ifndef _EDITOR
 	#include "dxLensFlareRender.h"
@@ -47,7 +47,30 @@ dxRenderFactory RenderFactoryImpl;
 #	ifdef DEBUG
 		RENDER_FACTORY_IMPLEMENT(ObjectSpaceRender)
 #	endif // DEBUG
-	RENDER_FACTORY_IMPLEMENT(ApplicationRender)
+	IApplicationRender* dxRenderFactory::CreateApplicationRender()
+	{
+		if (gameVersionController->getGame() != GameVersionController::COP)
+		{
+			return xr_new<dxApplicationRenderSOC>();
+		}
+		else 
+		{
+			return xr_new<dxApplicationRender>();
+		}
+	}
+	void dxRenderFactory::DestroyApplicationRender(IApplicationRender *pObject)
+	{
+		if (gameVersionController->getGame() != GameVersionController::COP)
+		{
+			xr_delete((dxApplicationRenderSOC*&)pObject);
+		}
+		else
+		{
+			xr_delete((dxApplicationRender*&)pObject);
+		}
+	
+	}
+
 	RENDER_FACTORY_IMPLEMENT(WallMarkArray)
 	RENDER_FACTORY_IMPLEMENT(StatsRender)
 #endif // _EDITOR

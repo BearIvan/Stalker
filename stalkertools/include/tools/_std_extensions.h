@@ -186,6 +186,7 @@ IC char* strext(const char* S)
 
 IC u32 xr_strlen(const char* S)
 {
+	if (S == 0)return 0;
     return (u32)strlen(S);
 }
 

@@ -26,6 +26,8 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		xrRender_initconsole				();
 		FS.SubPath(TEXT("%cur_shaders%"));
 		FS.AppendPath(TEXT("%cur_shaders%"), ::Render->getShaderPath(), TEXT("%shaders%"), 0);
+		FS.AppendPath(TEXT("%shaders_cache%"), ::Render->getShaderPath(), TEXT("%user%"), 0);
+		FS.CreateDirectory(TEXT("%shaders_cache%"), 0);
 		break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:

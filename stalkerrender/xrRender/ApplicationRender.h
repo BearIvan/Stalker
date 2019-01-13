@@ -9,7 +9,7 @@ class IApplicationRender
 public:
 	virtual ~IApplicationRender() {;}
 	virtual void Copy(IApplicationRender &_in) = 0;
-
+	virtual void LoadTitleInt(LPCSTR str) =0;
 	virtual void LoadBegin() = 0;
 	virtual void destroy_loading_shaders() = 0;
 	virtual void setLevelLogo(LPCSTR pszLogoName) = 0;

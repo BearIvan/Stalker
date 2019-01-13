@@ -340,7 +340,7 @@ _DDS:
 		else
 		{
 #ifdef DEBUG
-			Msg("*Error,don't found Texture:", fname);
+			Msg("*Error,don't found Texture:[%s]", fname);
 #endif // DEBUG
 			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), "ed\\ed_not_existing_texture", ".dds"));
 

@@ -874,8 +874,7 @@ HRESULT	CRender::shader_compile			(
 	HRESULT		_result = E_FAIL;
 
 	string_path	folder_name, folder;
-	xr_strcpy		( folder, "r1\\objects\\r1\\" );
-	xr_strcat		( folder, name );
+	xr_strcpy		( folder, name );
 	xr_strcat		( folder, "." );
 
 	char extension[3];
@@ -885,26 +884,26 @@ HRESULT	CRender::shader_compile			(
 
 	
 	m_file_set.clear_not_free( );
+
+	string_path path;
+	xr_strcpy(path, name);
+	xr_strcat(path, ".");
+	xr_strcat(path, extension);
+	FS.AppendPath(TEXT("%cur_shaders_cache%"), path, TEXT("%shaders_cache%"), 0);
+
 	FS.GetFiles(m_file_set, "%shaders%", "*");
 
 	string_path temp_file_name, file_name;
 	if (!match_shader_id(name, sh_name, m_file_set, temp_file_name)) {
-		string_path file;
-		xr_strcpy(file, "shaders_cache\\r1\\");
-		xr_strcat(file, name);
-		xr_strcat(file, ".");
-		xr_strcat(file, extension);
-		xr_strcat(file, "\\");
-		xr_strcat(file, sh_name);
-		xr_strcpy(file_name, file);
+		xr_strcpy(file_name, sh_name);
 	}
 	else {
-		xr_strcat		( file_name, temp_file_name );
+		xr_strcpy( file_name, temp_file_name );
 	}
 
-	if (FS.ExistFile("%user%",file_name))
+	if (FS.ExistFile("%cur_shaders_cache%",file_name))
 	{
-		IReader* file = XRayBearReader::Create( FS.Read("%user%",file_name));
+		IReader* file = XRayBearReader::Create( FS.Read("%cur_shaders_cache%",file_name));
 		if (file->length()>4)
 		{
 			u32 crc = 0;
@@ -931,7 +930,7 @@ HRESULT	CRender::shader_compile			(
 
 		_result						= D3DXCompileShader((LPCSTR)pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags|D3DXSHADER_USE_LEGACY_D3DX9_31_DLL,&pShaderBuf,&pErrorBuf,&pConstants);
 		if (SUCCEEDED(_result)) {
-			IWriter* file =XRayBearWriter::Create( FS.Write("%user%", file_name,0));
+			IWriter* file =XRayBearWriter::Create( FS.Write("%cur_shaders_cache%", file_name,0));
 
 			boost::crc_32_type		processor;
 			processor.process_block	( pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize() );
@@ -951,7 +950,7 @@ HRESULT	CRender::shader_compile			(
 				Msg					("Can't compile shader hr=0x%08x", _result);
 		}
 	}
-
+	FS.SubPath(TEXT("%cur_shaders_cache%"));
 	return						_result;
 }
 

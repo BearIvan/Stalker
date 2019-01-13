@@ -697,6 +697,13 @@ LPCSTR CMainMenu::GetGSVer()
 		buff[0]		= 0;
 		buff2[0]	= 0;
 	}
-
+	if (gameVersionController->getPath() == GameVersionController::SOC_1004)
+	{
+		strcat(buff2, "(1.0.04)");
+	}
+	else
+	{
+		strcat(buff2, "(1.0.06)");
+	}
 	return buff2;
 }

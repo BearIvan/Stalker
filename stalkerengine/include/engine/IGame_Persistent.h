@@ -126,6 +126,7 @@ public:
     {}
 #endif
     virtual void LoadTitle(bool change_tip = false, shared_str map_name = "") {}
+	virtual void LoadTitle(const bchar*text) {}
     virtual bool CanBePaused() { return true; }
 };
 

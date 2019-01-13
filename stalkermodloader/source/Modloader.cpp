@@ -5,14 +5,13 @@ bool Modloader::Run()
 	BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx11"));
 	bint ok = 0;
 	{
-		BearCore::BearLog::Printf(TEXT("%p"), sizeof(BearCore::BearString));
 		
-		BearUI::BearViewport viewport(400, 100);
+		BearUI::BearViewport viewport(1000, 600);
 		MainForm mainform;
 		
 
 		BearGraphics::BearRenderInterface::AttachRenderTargetView(0, viewport);
-		BearGraphics::BearRenderInterface::SetViewport(0, 0, 400, 100);
+		BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
 
 		while (viewport.Update()&& mainform.Ok==-1)
 		{
@@ -24,14 +23,11 @@ bool Modloader::Run()
 				{
 				case BearUI::EVT_Active:
 					mainform.KillFocus();
-					BearCore::BearLog::Printf(TEXT("Active"));
 					break;
 				case BearUI::EVT_Deactive:
 					mainform.KillFocus();
-					BearCore::BearLog::Printf(TEXT("Deactive"));
 					break;
 				case  BearUI::EVT_Char:
-					BearCore::BearLog::Printf(TEXT("Char:%c"), ev.Char);
 					break;
 				case BearUI::EVT_MouseEnter:
 				case BearUI::EVT_MouseLevae:
@@ -55,24 +51,27 @@ bool Modloader::Run()
 			mainform.Draw(0);
 			viewport.Swap();
 		}
-		gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
-		switch (gameVersionController->getPath())
+		if (mainform.Ok == 1)
 		{
-		case	GameVersionController::Path::SOC_1004:
-			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
-			break;
-		case	GameVersionController::Path::SOC_1007:
-			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
-			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
-			break;
-		case	GameVersionController::Path::CS_1510:
-			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
-			break;
-		case	GameVersionController::Path::COP_1602:
-			FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
-			break;
-		default:
-			break;
+			gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
+			switch (gameVersionController->getPath())
+			{
+			case	GameVersionController::Path::SOC_1004:
+				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+				break;
+			case	GameVersionController::Path::SOC_1007:
+				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
+				break;
+			case	GameVersionController::Path::CS_1510:
+				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
+				break;
+			case	GameVersionController::Path::COP_1602:
+				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+				break;
+			default:
+				break;
+			}
 		}
 		ok = mainform.Ok;
 	}

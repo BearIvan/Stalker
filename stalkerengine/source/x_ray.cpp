@@ -723,11 +723,11 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	
 	BEAR_ERRORMESSAGE(BearCore::FS->LoadFromFile(FSFilePath, BearCore::BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
 #define FS (*BearCore::FS)
-	
-	FS.CreateDirectory(TEXT("%user%"), 0);
 
-
-	
+	FS.CreateDirectory(TEXT("%mods_soc14%"), 0);
+	FS.CreateDirectory(TEXT("%mods_soc16%"), 0);
+	FS.CreateDirectory(TEXT("%mods_cs%"), 0);
+	FS.CreateDirectory(TEXT("%mods_cop%"), 0);
 
 	if (!Modloader::Run())
 	{
@@ -736,6 +736,10 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		BearCore::Destroy();
 		return 0;
 	}
+
+	FS.CreateDirectory(TEXT("%user%"), 0);
+	FS.CreateDirectory(TEXT("%logs%"), 0);
+	FS.CreateDirectory(TEXT("%saves%"), 0);
 
     if (!IsDebuggerPresent())
 	{
@@ -1284,7 +1288,11 @@ void CApplication::LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3)
     xr_strcpy(ls_header, str1);
     xr_strcpy(ls_tip_number, str2);
     xr_strcpy(ls_tip, str3);
-    // LoadDraw ();
+	if (gameVersionController->getGame() != GameVersionController::COP)
+	{
+		m_pRender->LoadTitleInt(str1);
+		LoadDraw();
+	}
 }
 void CApplication::LoadStage()
 {
@@ -1370,15 +1378,18 @@ void CApplication::Level_Scan()
 
 void gen_logo_name(string_path& dest, LPCSTR level_name, int num)
 {
-    strconcat(sizeof(dest), dest, "intro\\intro_", level_name);
+	strconcat(sizeof(dest), dest, "intro\\intro_", level_name);
 
-    u32 len = xr_strlen(dest);
-    if (dest[len - 1] == '\\')
-        dest[len - 1] = 0;
+	u32 len = xr_strlen(dest);
+	if (dest[len - 1] == '\\')
+		dest[len - 1] = 0;
 
-    string16 buff;
-    xr_strcat(dest, sizeof(dest), "_");
-    xr_strcat(dest, sizeof(dest), itoa(num + 1, buff, 10));
+	string16 buff;
+	if (gameVersionController->getGame() == GameVersionController::COP)
+	{
+		xr_strcat(dest, sizeof(dest), "_");
+		xr_strcat(dest, sizeof(dest), itoa(num + 1, buff, 10));
+	}
 }
 
 void CApplication::Level_Set(u32 L)
@@ -1396,22 +1407,28 @@ void CApplication::Level_Set(u32 L)
         path[0] = 0;
 
         Level_Current = L;
+		if (gameVersionController->getGame() == GameVersionController::COP)
+		{
+			int count = 0;
+			while (true)
+			{
+				gen_logo_name(path, Levels[L].folder, count);
+				if (FS.ExistFile("%textures%", path, ".dds") || FS.ExistFile("%levels%", path, ".dds"))
+					count++;
+				else
+					break;
+			}
 
-        int count = 0;
-        while (true)
-        {
-            gen_logo_name(path, Levels[L].folder, count);
-            if (FS.ExistFile( "%textures%", path, ".dds") || FS.ExistFile( "%levels%", path, ".dds"))
-                count++;
-            else
-                break;
-        }
-
-        if (count)
-        {
-            int num = ::Random.randI(count);
-            gen_logo_name(path, Levels[L].folder, num);
-        }
+			if (count)
+			{
+				int num = ::Random.randI(count);
+				gen_logo_name(path, Levels[L].folder, num);
+			}
+		}
+		else
+		{
+			gen_logo_name(path, Levels[L].folder, 0);
+		}
     }
 
     if (path[0])

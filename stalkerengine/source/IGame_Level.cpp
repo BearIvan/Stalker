@@ -89,7 +89,7 @@ bool IGame_Level::Load(u32 dwNum)
     pLevel = xr_new<CInifile>("%level%", "level.ltx");
 
     // Open
-    // g_pGamePersistent->LoadTitle ("st_opening_stream");
+     g_pGamePersistent->LoadTitle ("st_opening_stream");
     g_pGamePersistent->LoadTitle();
     IReader* LL_Stream =XRayBearReader::Create(FS.Read("%level%", "level"));
     IReader& fs = *LL_Stream;
@@ -100,7 +100,7 @@ bool IGame_Level::Load(u32 dwNum)
     R_ASSERT2(XRCL_PRODUCTION_VERSION == H.XRLC_version, "Incompatible level version.");
 
     // CForms
-    // g_pGamePersistent->LoadTitle ("st_loading_cform");
+     g_pGamePersistent->LoadTitle ("st_loading_cform");
     g_pGamePersistent->LoadTitle();
     ObjectSpace.Load(build_callback);
     //Sound->set_geometry_occ ( &Static );
