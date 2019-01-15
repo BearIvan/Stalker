@@ -8,7 +8,6 @@
 #include "actor.h"
 #include "game_cl_base.h"
 #include "game_cl_mp.h"
-#include "tools/stream_reader.h"
 #include "Message_Filter.h"
 
 void CLevel::PrepareToSaveDemo		()
@@ -27,15 +26,15 @@ void CLevel::PrepareToSaveDemo		()
 		Time.wSecond
 	);
 	Msg					("Demo would be stored in - %s", demo_name);
-	FS.update_path      (demo_path, "$logs$", demo_name);
-	m_writer			= FS.w_open(demo_path);
+/*	FS.update_path      (demo_path, "$logs$", demo_name);
+	m_writer			= FS.w_open(demo_path);*/
 	m_DemoSave			= TRUE;
 }
 
 bool CLevel::PrepareToPlayDemo		(shared_str const & file_name)
 {
 	R_ASSERT(!m_DemoSave);
-	m_reader	= FS.rs_open("$logs$", file_name.c_str());
+	//m_reader	= FS.rs_open("$logs$", file_name.c_str());
 	if (!m_reader)
 	{
 		Msg("ERROR: failed to open file [%s] to play demo...", file_name.c_str());
@@ -54,7 +53,7 @@ void CLevel::StopSaveDemo()
 {
 	if (m_writer)
 	{
-		FS.w_close(m_writer);
+		//FS.w_close(m_writer);
 	}
 }
 
@@ -84,7 +83,7 @@ void CLevel::StopPlayDemo()
 {
 	if (m_reader)
 	{
-		FS.r_close			(m_reader);
+		//FS.r_close			(m_reader);
 		m_reader			= NULL;
 		m_DemoPlayStarted	= FALSE;
 		m_DemoPlayStoped	= TRUE;

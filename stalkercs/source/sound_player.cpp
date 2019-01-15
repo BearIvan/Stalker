@@ -248,7 +248,7 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 		LPSTR							S = (LPSTR)&s;
 		_GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
-		if (FS.exist(fn,"$game_sounds$",S,".ogg")) {
+		if (FS.ExistFile("%sounds%",S,".ogg")) {
 			ref_sound					*temp = add(params.m_type,S);
 			if (temp)
 				m_sounds.push_back		(temp);
@@ -256,7 +256,7 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 		for (u32 i=0; i<params.m_max_count; ++i){
 			string256					name;
 			sprintf_s						(name,"%s%d",S,i);
-			if (FS.exist(fn,"$game_sounds$",name,".ogg")) {
+			if (FS.ExistFile("%sounds%", name,".ogg")) {
 				ref_sound				*temp = add(params.m_type,name);
 				if (temp)
 					m_sounds.push_back	(temp);

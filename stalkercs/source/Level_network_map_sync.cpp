@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "level.h"
 #include "xrServerMapSync.h"
-#include "tools/stream_reader.h"
 #include "MainMenu.h"
 #include "string_table.h"
 #include "engine/xr_ioconsole.h"
@@ -11,7 +10,7 @@ void CLevel::CalculateLevelCrc32()
 {
 	void* read_buffer	= _alloca(r_buffer_size);
 	Msg("* calculating checksum of level.geom");
-	CStreamReader*		geom = FS.rs_open	("$level$","level.geom");
+	XRayBearFileStream *		geom = XRayBearFileStream::Create( FS.Read	("%level%","level.geom"));
 	R_ASSERT2			(geom, "failed to open level.geom file");
 	u32 remaind			= geom->elapsed();
 	map_data.m_level_geom_crc32	= 0;
@@ -26,7 +25,7 @@ void CLevel::CalculateLevelCrc32()
 		map_data.m_level_geom_crc32 ^= crc32(read_buffer, to_read);
 		remaind = geom->elapsed();
 	}
-	FS.r_close					(geom);
+	XRayBearFileStream::Destroy(geom);
 }
 
 bool CLevel::IsChecksumsEqual(u32 check_sum) const

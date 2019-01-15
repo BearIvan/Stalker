@@ -5,7 +5,7 @@
 #include "UI.h"
 #include "HUDManager.h"
 #include "UI/UIStatic.h"
-
+ENGINE_API extern u32   size_screen_x, size_screen_y;
 
 #define C_DEFAULT	D3DCOLOR_XRGB(0xff,0xff,0xff)
 
@@ -44,6 +44,9 @@ void CUICursor::InitInternal()
 
 	m_static->SetWndSize		(sz);
 	m_static->SetStretchTexture	(true);
+	u32 screen_size_x = GetSystemMetrics(SM_CXSCREEN);
+	u32 screen_size_y = GetSystemMetrics(SM_CYSCREEN);
+	m_b_use_win_cursor = (screen_size_y >= Device.dwHeight && screen_size_x >= Device.dwWidth);
 }
 
 //--------------------------------------------------------------------
@@ -89,7 +92,7 @@ Fvector2 CUICursor::GetCursorPositionDelta()
 void CUICursor::UpdateCursorPosition()
 {
 
-	POINT		p;
+	/*POINT		p;
 	BOOL r		= GetCursorPos(&p);
 	R_ASSERT	(r);
 
@@ -98,7 +101,27 @@ void CUICursor::UpdateCursorPosition()
 	vPos.x			= (float)p.x * (UI_BASE_WIDTH/(float)Device.dwWidth);
 	vPos.y			= (float)p.y * (UI_BASE_HEIGHT/(float)Device.dwHeight);
 	clamp			(vPos.x, 0.f, UI_BASE_WIDTH);
-	clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);
+	clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);*/
+	Fvector2	p;
+	vPrevPos = vPos;
+	if (m_b_use_win_cursor)
+	{
+		POINT point;
+		GetCursorPos(&point);
+		p.x = (float)point.x;
+		p.y = (float)point.y;
+		vPos.x += p.x - ((int)size_screen_x / 2);
+		vPos.y += p.y - ((int)size_screen_y / 2);
+	}
+	else
+	{	Ivector2 pti;
+		IInputReceiver::IR_GetMousePosReal(pti);
+		float sens = 1.0f;
+		vPos.x += pti.x * sens;
+		vPos.y += pti.y * sens;
+	}
+	clamp(vPos.x, 0.f, UI_BASE_WIDTH);
+	clamp(vPos.y, 0.f, UI_BASE_HEIGHT);
 }
 
 void CUICursor::SetUICursorPosition(Fvector2 pos)
@@ -107,6 +130,7 @@ void CUICursor::SetUICursorPosition(Fvector2 pos)
 	POINT		p;
 	p.x			= iFloor(vPos.x / (UI_BASE_WIDTH/(float)Device.dwWidth));
 	p.y			= iFloor(vPos.y / (UI_BASE_HEIGHT/(float)Device.dwHeight));
-
+	if (m_b_use_win_cursor)
+		ClientToScreen(Device.m_hWnd, (LPPOINT)&p);
 	SetCursorPos(p.x, p.y);
 }

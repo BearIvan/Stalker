@@ -76,7 +76,7 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	,DemoCS(MUTEX_PROFILE_ID(DemoCS))
 #endif // PROFILE_CRITICAL_SECTIONS
 {
-	g_bDebugEvents				= strstr(Core.Params,"-debug_ge")?TRUE:FALSE;
+	g_bDebugEvents				= strstr(GetCommandLine(),"-debug_ge")?TRUE:FALSE;
 
 	Server						= NULL;
 
@@ -179,7 +179,7 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 	
 	hud_zones_list = NULL;
 
-//	if ( !strstr( Core.Params, "-tdemo " ) && !strstr(Core.Params,"-tdemof "))
+//	if ( !strstr( GetCommandLine(), "-tdemo " ) && !strstr(GetCommandLine(),"-tdemof "))
 //	{
 //		Demo_PrepareToStore();
 //	};
@@ -188,20 +188,20 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 //	m_aDemoData.clear();
 //	m_bDemoStarted	= FALSE;
 
-	Msg("%s", Core.Params);
+	Msg("%s", GetCommandLine());
 	/*
-	if (strstr(Core.Params,"-tdemo ") || strstr(Core.Params,"-tdemof ")) {		
+	if (strstr(GetCommandLine(),"-tdemo ") || strstr(GetCommandLine(),"-tdemof ")) {		
 		string1024				f_name;
-		if (strstr(Core.Params,"-tdemo "))
+		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			sscanf					(strstr(Core.Params,"-tdemo ")+7,"%[^ ] ",f_name);
+			sscanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			sscanf					(strstr(Core.Params,"-tdemof ")+8,"%[^ ] ",f_name);
+			sscanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;

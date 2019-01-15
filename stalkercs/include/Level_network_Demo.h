@@ -68,6 +68,6 @@ private:
 	
 	DemoHeader					m_demo_header;
 	IWriter*					m_writer;
-	CStreamReader*				m_reader;
+	XRayBearFileStream*				m_reader;
 	
 

@@ -69,15 +69,14 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 	}
 
 	string_path					temp;
-	FS.update_path				(temp,"$game_saves$",m_save_name);
-	IWriter						*writer = FS.w_open(temp);
+	IWriter						*writer =XRayBearWriter::Create( FS.Write("%saves%", m_save_name,0));
 	writer->w_u32				(u32(-1));
 	writer->w_u32				(ALIFE_VERSION);
 	
 	writer->w_u32				(source_count);
 	writer->w					(dest_data,dest_count);
 	xr_free						(dest_data);
-	FS.w_close					(writer);
+	XRayBearWriter::Destroy(writer);
 #ifdef DEBUG
 	Msg							("* Game %s is successfully saved to file '%s' (%d bytes compressed to %d)",m_save_name,temp,source_count,dest_count + 4);
 #else // DEBUG
@@ -134,21 +133,18 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 	}
 	else
 		strconcat				(sizeof(m_save_name),m_save_name,save_name,SAVE_EXTENSION);
-	string_path					file_name;
-	FS.update_path				(file_name,"$game_saves$",m_save_name);
 
 	strcpy_s					(g_last_saved_game, save_name);
-	strcpy_s					(g_bug_report_file, file_name);
 
 	IReader						*stream;
-	stream						= FS.r_open(file_name);
+	stream = XRayBearReader::Create( FS.Read("%saves%", m_save_name));
 	if (!stream) {
-		Msg						("* Cannot find saved game %s",file_name);
+		Msg						("* Cannot find saved game %s", m_save_name);
 		strcpy_s				(m_save_name,save);
 		return					(false);
 	}
 
-	CHECK_OR_EXIT				(CSavedGameWrapper::valid_saved_game(*stream),make_string("%s\nSaved game version mismatch or saved game is corrupted",file_name));
+	CHECK_OR_EXIT				(CSavedGameWrapper::valid_saved_game(*stream),make_string("%s\nSaved game version mismatch or saved game is corrupted", save_name));
 
 	string512					temp;
 	strconcat					(sizeof(temp),temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name,SAVE_EXTENSION,"\"");
@@ -160,15 +156,15 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 	u32							source_count = stream->r_u32();
 	void						*source_data = xr_malloc(source_count);
 	rtc_decompress				(source_data,source_count,stream->pointer(),stream->length() - 3*sizeof(u32));
-	FS.r_close					(stream);
-	load						(source_data, source_count, file_name);
+	XRayBearReader::Destroy(stream);
+	load						(source_data, source_count, m_save_name);
 	xr_free						(source_data);
 
 	groups().on_after_game_load	();
 
 	VERIFY						(graph().actor());
 	
-	Msg							("* Game %s is successfully loaded from file '%s' (%.3fs)",save_name, file_name,timer.GetElapsed_sec());
+	Msg							("* Game %s is successfully loaded from file '%s' (%.3fs)",save_name, save_name,timer.GetElapsed_sec());
 
 	return						(true);
 }

@@ -357,10 +357,8 @@ public:
 		Console->Hide	();
 		string_path		fn_; 
 		strconcat		(sizeof(fn_),fn_, args, ".xrdemo");
-		string_path		fn;
-		FS.update_path	(fn, "$game_saves$", fn_);
 
-		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
+		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn_));
 	}
 };
 
@@ -414,7 +412,6 @@ public:
 				  *comma		=	0;	//. :)
 			  }
 			  strconcat			(sizeof(fn),fn, args, ".xrdemo");
-			  FS.update_path	(fn, "$game_saves$", fn);
 			  g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay> (fn, 1.0f, loops));
 		  }
 	  }
@@ -458,7 +455,7 @@ public:
 			return;
 		}
 
-		string_path				S,S1;
+		string_path				S;
 		S[0]					= 0;
 //.		sscanf					(args ,"%s",S);
 		strcpy_s					(S,args);
@@ -496,12 +493,11 @@ public:
 		_s->wnd()->SetText			(save_name);
 
 		strcat					(S,".dds");
-		FS.update_path			(S1,"$game_saves$",S);
 		
 #ifdef DEBUG
 		timer.Start				();
 #endif
-		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);
+		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S);
 
 #ifdef DEBUG
 		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);
@@ -1092,9 +1088,9 @@ public:
 			Log("* Specify script name!");
 		else {
 			// rescan pathes
-			FS_Path* P = FS.get_path("$game_scripts$");
+		/*	FS_Path* P = FS.get_path("$game_scripts$");
 			P->m_Flags.set	(FS_Path::flNeedRescan,TRUE);
-			FS.rescan_pathes();
+			FS.rescan_pathes();*/
 			// run script
 			if (ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel))
 				ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->add_script(S,false,true);
@@ -1379,14 +1375,13 @@ public:
 		}
 
 		string_path				name;
-		string_path				fn;
 
 		if (0==strext(arguments))
 			strconcat			(sizeof(name),name,arguments,".ogf");
 		else
 			strcpy_s			(name,sizeof(name),arguments);
 
-		if (!FS.exist(arguments) && !FS.exist(fn, "$level$", name) && !FS.exist(fn, "$game_meshes$", name)) {
+		if (!FS.ExistFile("%level%", name) && !FS.ExistFile( "%meshes%", name)) {
 			Msg					("! Cannot find visual \"%s\"",arguments);
 			return;
 		}

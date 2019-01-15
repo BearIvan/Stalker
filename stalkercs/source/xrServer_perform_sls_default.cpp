@@ -18,13 +18,12 @@ void xrServer::SLS_Default	()
 	}
 
 #ifdef USE_DESIGNER_KEY
-	bool					_designer = !!strstr(Core.Params,"-designer");
+	bool					_designer = !!strstr(GetCommandLine(),"-designer");
 	CSE_ALifeCreatureActor	*_actor = 0;
 #endif
 
-	string_path				fn_spawn;
-	if (FS.exist(fn_spawn, "$level$", "level.spawn")) {
-		IReader*			SP		= FS.r_open(fn_spawn);
+	if (FS.ExistFile("%level%", "level.spawn")) {
+		IReader*			SP		=XRayBearReader::Create( FS.Read("%level%", "level.spawn"));
 		NET_Packet			P;
 		u32					S_id;
 		for (IReader *S = SP->open_chunk_iterator(S_id); S; S = SP->open_chunk_iterator(S_id,S)) {
@@ -48,7 +47,7 @@ void xrServer::SLS_Default	()
 			}
 #endif
 		}
-		FS.r_close			(SP);
+		XRayBearReader::Destroy(SP);
 	}
 
 #ifdef USE_DESIGNER_KEY

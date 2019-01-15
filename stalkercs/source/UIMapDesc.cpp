@@ -70,7 +70,7 @@ void CUIMapDesc::Init(){
 	xr_string full_name				= map_name + ".dds";
 
 	Frect orig_rect = m_pImage->GetOriginalRect();
-	if (FS.exist("$game_textures$",full_name.c_str()))
+	if (FS.ExistFile("%textures%",full_name.c_str()))
 		m_pImage->InitTexture(map_name.c_str());
 	else
 		m_pImage->InitTexture("ui\\ui_noise");

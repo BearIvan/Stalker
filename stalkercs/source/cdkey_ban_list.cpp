@@ -15,8 +15,7 @@ void cdkey_ban_list::load()
 {
 	Msg("* Loading ban list...");
 	string_path		banlist_file;
-	FS.update_path			(banlist_file, "$app_data_root$", "banned_list.ltx");
-	CInifile		bl_ini	(banlist_file);
+	CInifile		bl_ini	("%user%", "banned_list.ltx");
 	CInifile::Root& banlist = bl_ini.sections();
 	for (CInifile::Root::iterator i = banlist.begin(),
 		ie = banlist.end(); i != ie; ++i)
@@ -36,8 +35,7 @@ void cdkey_ban_list::load()
 void cdkey_ban_list::save()
 {
 	string_path		banlist_file;
-	FS.update_path	(banlist_file, "$app_data_root$", "banned_list.ltx");
-	CInifile		bl_ini(banlist_file, FALSE, FALSE, TRUE);
+	CInifile		bl_ini("%user%", "banned_list.ltx", FALSE, FALSE, TRUE);
 	string64		tmp_sect_name;
 	u32				index = 0;
 	

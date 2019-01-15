@@ -514,11 +514,7 @@ public:
 	virtual void Execute(LPCSTR args) 
 	{
 		CCC_UnBindAll::Execute(args);
-		string_path				_cfg;
-		string_path				cmd;
-		FS.update_path			(_cfg,"$game_config$","default_controls.ltx");
-		strconcat				(sizeof(cmd),cmd,"cfg_load", " ", _cfg);
-		Console->Execute		(cmd);
+		Console->Execute		("cfg_load default_controls.ltx");
 	}
 };
 

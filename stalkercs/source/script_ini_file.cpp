@@ -18,7 +18,7 @@ CScriptIniFile::CScriptIniFile		(IReader *F, LPCSTR path) :
 }
 
 CScriptIniFile::CScriptIniFile		(LPCSTR szFileName, BOOL ReadOnly, BOOL bLoadAtStart, BOOL SaveAtEnd) :
-	inherited	(update(szFileName), ReadOnly, bLoadAtStart, SaveAtEnd)
+	inherited	(TEXT("%config%"),szFileName, ReadOnly, bLoadAtStart, SaveAtEnd)
 {
 }
 
@@ -29,7 +29,6 @@ CScriptIniFile::~CScriptIniFile		()
 LPCSTR	CScriptIniFile::update		(LPCSTR file_name)
 {
 	string_path			S1;
-	FS.update_path		(S1,"$game_config$",file_name);
 	return				(*shared_str(S1));
 }
 

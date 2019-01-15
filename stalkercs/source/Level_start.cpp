@@ -79,7 +79,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	}
 	else
 	{
-		pdemok = strstr(Core.Params, DEMO_SAVE_KEY);
+		pdemok = strstr(GetCommandLine(), DEMO_SAVE_KEY);
 		bool is_single = m_caServerOptions.size() != 0 ? 
 			(strstr(m_caServerOptions.c_str(), "single") != NULL) :
 			false;
@@ -238,9 +238,9 @@ bool CLevel::net_start6				()
 	pApp->LoadEnd				();
 
 	if(net_start_result_total){
-		if (strstr(Core.Params,"-$")) {
+		if (strstr(GetCommandLine(),"-$")) {
 			string256				buf,cmd,param;
-			sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			sscanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

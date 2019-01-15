@@ -18,7 +18,7 @@ shared_str const xr_dsa_signer::sign(u8 const * data,
 {
 	m_sha.start_calculate	(data, data_size);
 	while					(!m_sha.continue_calculate()) {};
-#ifdef DEBUG
+#if 0
 	IWriter*	sign_data	= FS.w_open("$logs$", "sign");
 	sign_data->w(data, data_size);
 	sign_data->w_string("sha_checksum");

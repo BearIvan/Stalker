@@ -627,7 +627,7 @@ void CEnvironment::load_weathers()
     if (!WeatherCycles.empty())
         return;
 	BearCore::BearVector<BearCore::BearString> list;
-	FS.GetFiles(list,"%game_weathers%", "*.ltx");
+	FS.GetFiles(list,"%weathers%", "*.ltx");
     VERIFY(list.size());
     xr_string id;
     auto i = list.begin();
@@ -642,7 +642,7 @@ void CEnvironment::load_weathers()
         string_path file_name;
 		xr_strcpy(file_name, id.c_str());
         xr_strcat(file_name, ".ltx");
-        CInifile* config = CInifile::Create("%game_weathers%",file_name);
+        CInifile* config = CInifile::Create("%weathers%",file_name);
 
         typedef CInifile::Root sections_type;
         sections_type& sections = config->sections();
@@ -680,7 +680,7 @@ void CEnvironment::load_weather_effects()
         return;
     typedef xr_vector<LPSTR> file_list_type;
 	BearCore::BearVector<BearCore::BearString> list;
-	FS.GetFiles(list, "%game_weather_effects%", "*.ltx");
+	FS.GetFiles(list, "%weather_effects%", "*.ltx");
 	VERIFY(list.size());
     xr_string id;
 	auto i = list.begin();
@@ -695,7 +695,7 @@ void CEnvironment::load_weather_effects()
         string_path file_name;
 		xr_strcpy(file_name,  id.c_str());
         xr_strcat(file_name, ".ltx");
-        CInifile* config = CInifile::Create("%game_weather_effects%",file_name);
+        CInifile* config = CInifile::Create("%weather_effects%",file_name);
 
         typedef CInifile::Root sections_type;
         sections_type& sections = config->sections();

@@ -1148,9 +1148,9 @@ s32	game_sv_CaptureTheArtefact::GetMoneyAmount(const shared_str& caSection, char
 void game_sv_CaptureTheArtefact::LoadArtefactRPoints()
 {
 	string_path	fn_game;
-	if (FS.exist(fn_game, "$level$", "level.game")) 
+	if (FS.ExistFile("%level%", "level.game"))
 	{
-		IReader *F = FS.r_open	(fn_game);
+		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
 		IReader *O = 0;
 
 		// Load RPoints
@@ -1193,7 +1193,7 @@ void game_sv_CaptureTheArtefact::LoadArtefactRPoints()
 			O->close();
 		}
 
-		FS.r_close	(F);
+		XRayBearReader::Destroy(F);
 	}
 	// verifying initialization of all rpoints
 	for (TeamsMap::const_iterator i = teams.begin();

@@ -464,7 +464,7 @@ void game_sv_mp::Create (shared_str &options)
 	//------------------------------------------------------------------
 	Set_RankUp_Allowed(false);
 	m_cdkey_ban_list.load();
-	if (strstr(Core.Params, SAVE_SCREENSHOTS_KEY))
+	if (strstr(GetCommandLine(), SAVE_SCREENSHOTS_KEY))
 	{
 		g_sv_mp_save_proxy_screenshots = TRUE;
 	}
@@ -1921,7 +1921,7 @@ void game_sv_mp::DumpOnlineStatistic()
 {
 	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 
-	string_path					fn;
+	/*string_path					fn;
 	FS.update_path				(fn,"$logs$","mp_stats\\");
 	strcat_s					(fn, srv->HostName.c_str());
 	strcat_s					(fn, "\\online_dump.ltx" );
@@ -1983,7 +1983,7 @@ void game_sv_mp::DumpOnlineStatistic()
 	tmp_functor.ini = &ini;
 	tmp_functor.player_index = 0;
 	m_server->ForEachClientDo(tmp_functor);
-	WriteGameState				(ini, current_section.c_str(), false);
+	WriteGameState				(ini, current_section.c_str(), false);*/
 }
 
 void game_sv_mp::WritePlayerStats(CInifile& ini, LPCSTR sect, xrClientData* pCl)
@@ -2097,14 +2097,14 @@ void game_sv_mp::StartToDumpStatistics	()
 		StopToDumpStatistics();
 	}
 	
-	xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
+	/*xrGameSpyServer* srv		= smart_cast<xrGameSpyServer*>(m_server);
 	FS.update_path				(round_statistics_dump_fn,"$logs$","mp_stats\\");
 	string64					t_stamp;
 	timestamp					(t_stamp);
 	strcat_s					(round_statistics_dump_fn, srv->HostName.c_str() );
 	strcat_s					(round_statistics_dump_fn, "\\games\\dmp" );
 	strcat_s					(round_statistics_dump_fn, t_stamp );
-	strcat_s					(round_statistics_dump_fn, ".ltx" );
+	strcat_s					(round_statistics_dump_fn, ".ltx" );*/
 }
 
 void game_sv_mp::StopToDumpStatistics	()

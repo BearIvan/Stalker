@@ -20,15 +20,15 @@ extern LPCSTR alife_section;
 LPCSTR CSavedGameWrapper::saved_game_full_name	(LPCSTR saved_game_name, string_path& result)
 {
 	string_path					temp;
-	strconcat					(sizeof(temp),temp,saved_game_name,SAVE_EXTENSION);
-	FS.update_path				(result,"$game_saves$",temp);
+	strconcat(sizeof(temp), temp, saved_game_name, SAVE_EXTENSION);
+	xr_strcpy(result, temp);
 	return						(result);
 }
 
 bool CSavedGameWrapper::saved_game_exist		(LPCSTR saved_game_name)
 {
 	string_path					file_name;
-	return						(!!FS.exist(saved_game_full_name(saved_game_name,file_name)));
+	return						(!!FS.ExistFile(TEXT("%saves%"), saved_game_full_name(saved_game_name, file_name)));
 }
 
 bool CSavedGameWrapper::valid_saved_game		(IReader &stream)
@@ -48,36 +48,36 @@ bool CSavedGameWrapper::valid_saved_game		(IReader &stream)
 bool CSavedGameWrapper::valid_saved_game		(LPCSTR saved_game_name)
 {
 	string_path					file_name;
-	if (!FS.exist(saved_game_full_name(saved_game_name,file_name)))
+	if (!FS.ExistFile(TEXT("%saves%"), saved_game_full_name(saved_game_name, file_name)))
 		return					(false);
 
-	IReader						*stream = FS.r_open(file_name);
+	IReader						*stream = XRayBearReader::Create(FS.Read(TEXT("%saves%"), file_name));
 	bool						result = valid_saved_game(*stream);
-	FS.r_close					(stream);
+	XRayBearReader::Destroy(stream);
 	return						(result);
 }
 
 CSavedGameWrapper::CSavedGameWrapper			(LPCSTR saved_game_name)
 {
 	string_path					file_name;
-	saved_game_full_name		(saved_game_name,file_name);
-	R_ASSERT3					(FS.exist(file_name),"There is no saved game ",file_name);
-	
-	IReader						*stream = FS.r_open(file_name);
+	saved_game_full_name(saved_game_name, file_name);
+	R_ASSERT3(FS.ExistFile(TEXT("%saves%"), file_name), "There is no saved game ", file_name);
+
+	IReader						*stream = XRayBearReader::Create(FS.Read(TEXT("%saves%"), file_name));
 	if (!valid_saved_game(*stream)) {
-		FS.r_close				(stream);
+		XRayBearReader::Destroy(stream);
 		CALifeTimeManager		time_manager(alife_section);
-		m_game_time				= time_manager.game_time();
-		m_actor_health			= 1.f;
-		m_level_id				= _LEVEL_ID(-1);
-		m_level_name			= "";
+		m_game_time = time_manager.game_time();
+		m_actor_health = 1.f;
+		m_level_id = ai().game_graph().header().levels().begin()->first;
 		return;
 	}
 
 	u32							source_count = stream->r_u32();
 	void						*source_data = xr_malloc(source_count);
-	rtc_decompress				(source_data,source_count,stream->pointer(),stream->length() - 3*sizeof(u32));
-	FS.r_close					(stream);
+	rtc_decompress(source_data, source_count, stream->pointer(), stream->length() - 3 * sizeof(u32));
+	XRayBearReader::Destroy(stream);
+
 
 	IReader						reader(source_data,source_count);
 
@@ -117,14 +117,14 @@ CSavedGameWrapper::CSavedGameWrapper			(LPCSTR saved_game_name)
 
 		chunk->close			();
 
-		if (!FS.exist(file_name, "$game_spawn$", spawn_file_name, ".spawn")) {
+		if (!FS.ExistFile( "%spawn%", spawn_file_name, ".spawn")) {
 			F_entity_Destroy	(object);
 			m_level_id			= _LEVEL_ID(-1);
 			m_level_name		= "";
 			return;
 		}
 
-		IReader* spawn			= FS.r_open(file_name);
+		IReader* spawn			= XRayBearReader::Create(FS.Read("%spawn%", spawn_file_name, ".spawn"));
 		if (!spawn) {
 			F_entity_Destroy	(object);
 			m_level_id			= _LEVEL_ID(-1);
@@ -135,7 +135,7 @@ CSavedGameWrapper::CSavedGameWrapper			(LPCSTR saved_game_name)
 		chunk					= spawn->open_chunk(4);
 		if (!chunk) {
 			F_entity_Destroy	(object);
-			FS.r_close			(spawn);
+			XRayBearReader::Destroy(spawn);
 			m_level_id			= _LEVEL_ID(-1);
 			m_level_name		= "";
 			return;
@@ -148,7 +148,7 @@ CSavedGameWrapper::CSavedGameWrapper			(LPCSTR saved_game_name)
 		}
 
 		chunk->close			();
-		FS.r_close				(spawn);
+		XRayBearReader::Destroy(spawn);
 		F_entity_Destroy		(object);
 	}
 

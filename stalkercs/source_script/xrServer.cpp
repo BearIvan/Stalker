@@ -803,10 +803,9 @@ bool xrServer::CheckAdminRights(const shared_str& user, const shared_str& pass, 
 {
 	bool res			= false;
 	string_path			fn;
-	FS.update_path		(fn,"$app_data_root$","radmins.ltx");
-	if(FS.exist(fn))
+	if(FS.ExistFile("%user%","radmins.ltx"))
 	{
-		CInifile			ini(fn);
+		CInifile			ini("%user%", "radmins.ltx");
 		if(ini.line_exist("radmins",user.c_str()))
 		{
 			if (ini.r_string ("radmins",user.c_str()) == pass)
@@ -1003,7 +1002,7 @@ bool xrServer::verify_entities				() const
 {
 	if (!_ve_initialized)	{
 		_ve_initialized					= TRUE;
-		if (strstr(Core.Params,"-~ve"))	_ve_use=FALSE;
+		if (strstr(GetCommandLine(),"-~ve"))	_ve_use=FALSE;
 	}
 	if (!_ve_use)						return true;
 

@@ -135,7 +135,7 @@ void CUIMapList::OnListItemClicked()
 
 	Frect orig_rect = m_pMapPic->GetOriginalRect();
 
-	if (FS.exist("$game_textures$",full_name.c_str()))
+	if (FS.ExistFile("%textures%",full_name.c_str()))
 		m_pMapPic->InitTexture		(map_name.c_str());
 	else
 		m_pMapPic->InitTexture		("ui\\ui_noise");
@@ -239,14 +239,14 @@ void CUIMapList::LoadMapList()
 void	CUIMapList::SaveMapList()
 {
 	string_path					temp;
-	FS.update_path				(temp,"$app_data_root$", MAP_ROTATION_LIST);
+
 
 	if(m_pList2->GetSize()<=1){
-		FS.file_delete(temp);
+		FS.Delete("%user%", MAP_ROTATION_LIST);
 		return;
 	}
 
-	IWriter*	pW = FS.w_open	(temp);
+	IWriter*	pW =XRayBearWriter::Create( FS.Write	("%user%", MAP_ROTATION_LIST,0));
 	if (!pW){
 		Msg("! Cant create map rotation file [%s]", temp);
 		return;
@@ -263,7 +263,7 @@ void	CUIMapList::SaveMapList()
 		pW->w_string					(map_name);
 	}
 
-	FS.w_close							(pW);
+	XRayBearWriter::Destroy(pW);
 }
 
 void CUIMapList::SetWeatherSelector(CUIComboBox* ws){

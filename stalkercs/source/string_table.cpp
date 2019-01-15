@@ -34,17 +34,19 @@ void CStringTable::Init		()
 
 
 //---
-	FS_FileSet fset;
+	BearCore::BearVector<BearCore::BearString>			fset;
+
 	string_path			files_mask;
-	sprintf				(files_mask, "text\\%s\\*.xml",pData->m_sLanguage.c_str());
-	FS.file_list		(fset, "$game_config$", FS_ListFiles, files_mask);
-	FS_FileSetIt fit	= fset.begin();
-	FS_FileSetIt fit_e	= fset.end();
+	sprintf(files_mask, "text\\%s\\*.xml", pData->m_sLanguage.c_str());
+	FS.GetFiles(fset, "%config%", files_mask, true);
+
+	auto fit	= fset.begin();
+	auto fit_e	= fset.end();
 
 	for( ;fit!=fit_e; ++fit)
 	{
     	string_path		fn, ext;
-        _splitpath		((*fit).name.c_str(), 0, 0, fn, ext);
+        _splitpath		((**fit), 0, 0, fn, ext);
 		strcat			(fn, ext);
 
 		Load			(fn);

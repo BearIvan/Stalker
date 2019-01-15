@@ -31,7 +31,7 @@ CALifeSpawnRegistry::~CALifeSpawnRegistry	()
 {
 	xr_delete					(m_game_graph);
 	m_chunk->close				();
-	FS.r_close					(m_file);
+	XRayBearReader::Destroy				(m_file);
 }
 
 void CALifeSpawnRegistry::save				(IWriter &memory_stream)
@@ -53,8 +53,6 @@ void CALifeSpawnRegistry::save				(IWriter &memory_stream)
 
 void CALifeSpawnRegistry::load				(IReader &file_stream, LPCSTR game_name)
 {
-	R_ASSERT					(FS.exist(game_name));
-
 	IReader						*chunk, *chunk0;
 	Msg							("* Loading spawn registry...");
 	R_ASSERT2					(file_stream.find_chunk(SPAWN_CHUNK_DATA),"Cannot find chunk SPAWN_CHUNK_DATA!");
@@ -67,12 +65,11 @@ void CALifeSpawnRegistry::load				(IReader &file_stream, LPCSTR game_name)
 	chunk->r					(&guid,sizeof(guid));
 	chunk->close				();
 
-	string_path					file_name;
-	bool						file_exists = !!FS.exist(file_name, "$game_spawn$", *m_spawn_name, ".spawn");
+	bool						file_exists = !!FS.ExistFile( "%spawns%", *m_spawn_name, ".spawn");
 	R_ASSERT3					(file_exists,"Can't find spawn file:",*m_spawn_name);
 	
 	VERIFY						(!m_file);
-	m_file						= FS.r_open(file_name);
+	m_file						=XRayBearReader::Create( FS.Read("%spawns%", *m_spawn_name, ".spawn"));
 	load						(*m_file,&guid);
 
 	chunk0->close				();
@@ -83,10 +80,10 @@ void CALifeSpawnRegistry::load				(LPCSTR spawn_name)
 	Msg							("* Loading spawn registry...");
 	m_spawn_name				= spawn_name;
 	string_path					file_name;
-	R_ASSERT3					(FS.exist(file_name, "$game_spawn$", *m_spawn_name, ".spawn"),"Can't find spawn file:",*m_spawn_name);
+	R_ASSERT3					(FS.ExistFile( "%spawns%", *m_spawn_name, ".spawn"),"Can't find spawn file:",*m_spawn_name);
 	
 	VERIFY						(!m_file);
-	m_file						= FS.r_open(file_name);
+	m_file						= XRayBearReader::Create(FS.Read("%spawns%", *m_spawn_name, ".spawn"));
 	load						(*m_file);
 }
 
@@ -98,7 +95,7 @@ struct dummy {
 
 static bool ignore_save_incompatibility		()
 {
-	return						(!!strstr(Core.Params,"-ignore_save_incompatibility"));
+	return						(!!strstr(GetCommandLine(),"-ignore_save_incompatibility"));
 }
 
 void CALifeSpawnRegistry::load				(IReader &file_stream, xrGUID *save_guid)

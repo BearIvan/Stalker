@@ -45,7 +45,7 @@
 	.def(#c, (d (a::*)(e))(&a::c), (d (*)(b*,f))(&b::c##_static))
 
 #ifdef DEBUG
-#	ifdef LUABIND_NO_EXCEPTIONS 
+#	if 1 
 #	define CAST_FAILED(v_func_name,ret_type)
 #	else
 #	define CAST_FAILED(v_func_name,ret_type) \
