@@ -45,8 +45,8 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
 
+        IncludeAutonomousProjects.Add("stalkersoc");
         IncludeAutonomousProjects.Add("stalkercs");
-        //IncludeAutonomousProjects.Add("stalkercs");
 
         IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;

@@ -53,7 +53,7 @@ void CUIOptionsItem::SaveOptIntegerValue(int val)
 
 void CUIOptionsItem::GetOptFloatValue(float& val, float& min, float& max)
 {
-	Console->GetFloat(m_entry.c_str(),  min, max);
+	val =  Console->GetFloat(m_entry.c_str(),  min, max);
 }
 
 void CUIOptionsItem::SaveOptFloatValue(float val)

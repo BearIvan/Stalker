@@ -266,7 +266,6 @@ void CCC_LoadCFG::Execute(LPCSTR args)
 	if (strext(cfg_name)) *strext(cfg_name) = 0;
 	xr_strcat(cfg_name, ".ltx");
 
-	string_path cfg_full_name;
 	IReader* F = 0;
 	if (!FS.ExistFile(TEXT("%user%"), cfg_name))
 	{
@@ -297,7 +296,7 @@ void CCC_LoadCFG::Execute(LPCSTR args)
 	}
 	XRayBearReader::Destroy(F);
 
-	Msg("[%s] successfully loaded.", cfg_full_name); 
+	Msg("[%s] successfully loaded.", cfg_name);
 }
 
 CCC_LoadCFG_custom::CCC_LoadCFG_custom(LPCSTR cmd)
