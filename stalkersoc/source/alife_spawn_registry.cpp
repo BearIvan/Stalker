@@ -75,7 +75,7 @@ void CALifeSpawnRegistry::load				(IReader &file_stream, LPCSTR game_name)
 	IReader						*m_file = 0;
 #endif // PRIQUEL
 	VERIFY						(!m_file);
-	m_file						=XRayBearReader::Create( FS.Read("%spawn%", *m_spawn_name, ".spawn"));
+	m_file						=XRayBearReader::Create( FS.Read("%spawns%", *m_spawn_name, ".spawn"));
 	load						(*m_file,&guid);
 #ifndef PRIQUEL
 	XRayBearReader::Destroy(m_file);

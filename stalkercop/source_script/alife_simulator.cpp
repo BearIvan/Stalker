@@ -27,7 +27,7 @@ extern void destroy_lua_wpn_params	();
 
 void restart_all				()
 {
-	if (strstr(Core.Params,"-keep_lua"))
+	if (strstr(GetCommandLine(),"-keep_lua"))
 		return;
 
 	destroy_lua_wpn_params		();
@@ -84,7 +84,7 @@ CALifeSimulator::~CALifeSimulator		()
 	configs_type::iterator i	= m_configs_lru.begin();
 	configs_type::iterator const e	= m_configs_lru.end();
 	for ( ; i != e; ++i )
-		FS.r_close				( (*i).second );
+		XRayBearReader::Destroy			( (*i).second );
 }
 
 void CALifeSimulator::destroy			()
@@ -131,11 +131,10 @@ IReader const* CALifeSimulator::get_config	( shared_str config ) const
 	}
 
 	string_path						file_name;
-	FS.update_path					( file_name,"$game_config$", config.c_str() );
-	if ( !FS.exist(file_name) )
+	if ( !FS.ExistFile("%config%", config.c_str()) )
 		return						0;
 
-	m_configs_lru.insert			( m_configs_lru.begin(), std::make_pair(config, FS.r_open(file_name)) );
+	m_configs_lru.insert			( m_configs_lru.begin(), std::make_pair(config,XRayBearReader::Create( FS.Read("%config%", config.c_str()))) );
 	return							m_configs_lru.front().second;
 }
 

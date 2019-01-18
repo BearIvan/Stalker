@@ -11,7 +11,7 @@
 extern BOOL LogExecCB = TRUE;
 static string_path logFName = "engine.log";
 static string_path log_file_name = "engine.log";
-static BOOL no_log = TRUE;
+static BOOL no_log = FALSE;
 #ifdef PROFILE_CRITICAL_SECTIONS
 static xrCriticalSection logCS(MUTEX_PROFILE_ID(log));
 #else // PROFILE_CRITICAL_SECTIONS
@@ -26,7 +26,7 @@ void FlushLog()
     {
         logCS.Enter();
 	
-		XRayBearWriter* f = XRayBearWriter::Create(FS.Write(TEXT("%user%"), logFName, 0));
+		XRayBearWriter* f = XRayBearWriter::Create(FS.Write(TEXT("%logs%"), logFName, 0));
         if (f)
         {
             for (u32 it = 0; it < LogFile->size(); it++)

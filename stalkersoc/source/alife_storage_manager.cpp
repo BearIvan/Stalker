@@ -129,7 +129,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 		strconcat				(sizeof(m_save_name),m_save_name,save_name,SAVE_EXTENSION);
 	string_path					file_name;
 	IReader						*stream;
-	stream						= XRayBearReader::Create(FS.Read("%saves%", m_save_name, 0));
+	stream						= XRayBearReader::Create(FS.Read("%saves%", m_save_name));
 	if (!stream) {
 		Msg						("* Cannot find saved game %s",file_name);
 		strcpy					(m_save_name,save);

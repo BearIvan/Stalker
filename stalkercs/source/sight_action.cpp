@@ -13,7 +13,7 @@
 #include "ai_object_location.h"
 #include "stalker_movement_manager_smart_cover.h"
 #include "inventory.h"
-
+#include "ai_object_location_impl.h"
 //#define SIGHT_TEST
 
 void CSightAction::initialize					()

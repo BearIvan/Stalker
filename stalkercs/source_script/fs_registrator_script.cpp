@@ -9,7 +9,7 @@ inline static void FSGetPath(bchar(&dst)[sizeBuffer], const  bchar *path)
 		dst[0] = 0;
 		BearCore::BearString::Contact(dst, TEXT("%"));
 		BearCore::BearString::Contact(dst, path + 6);
-		dst[BearCore::BearString::GetSize(dst)-1] = TEXT('%');
+		dst[BearCore::BearString::GetSize(dst) - 1] = TEXT('%');
 	}
 	else
 	{
@@ -110,11 +110,11 @@ enum FSFlags
 FS_file_list_ex::FS_file_list_ex(LPCSTR path, u32 flags, LPCSTR mask)
 {
 	BearCore::BearStringPath new_path;
-	FSGetPath(new_path,reinterpret_cast<const bchar*>( path));
+	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	BearCore::BearVector<BearCore::BearString> list;
 	if (flags&FS_ListFiles)
 	{
-		FS.GetFiles(list, new_path, "*", !(flags&FS_RootOnly));
+		FS.GetFiles(list, new_path, mask, !(flags&FS_RootOnly));
 	}
 	else
 	{
@@ -146,21 +146,23 @@ void FS_file_list_ex::Sort(u32 flags)
 
 FS_file_list_ex file_list_open_ex(BearCore::BearFileSystem* fs, LPCSTR path, u32 flags, LPCSTR mask)
 {
-		BearCore::BearStringPath new_path;
-		FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
+	BearCore::BearStringPath new_path;
+	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	return FS_file_list_ex(new_path, flags, mask);
 }
 
 FS_file_list file_list_open_script(BearCore::BearFileSystem* fs, LPCSTR initial, u32 flags)
 {
+	BearCore::BearStringPath new_path;
+	FSGetPath(new_path, reinterpret_cast<const bchar*>(initial));
 	BearCore::BearVector<BearCore::BearString> list;
 	if (flags&FS_ListFiles)
 	{
-		FS.GetFiles(list, initial, "*", !(flags&FS_RootOnly));
+		FS.GetFiles(list, new_path, "*", !(flags&FS_RootOnly));
 	}
 	else
 	{
-		FS.GetDirectories(list, initial);
+		FS.GetDirectories(list, new_path);
 	}
 	return FS_file_list(list);
 }

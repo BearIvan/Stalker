@@ -72,7 +72,7 @@ CLevel::CLevel() :
     , DemoCS(MUTEX_PROFILE_ID(DemoCS))
 #endif
 {
-    g_bDebugEvents = strstr(Core.Params, "-debug_ge") != nullptr;
+    g_bDebugEvents = strstr(GetCommandLine(), "-debug_ge") != nullptr;
     game_events = xr_new<NET_Queue_Event>();
     eChangeRP = Engine.Event.Handler_Attach("LEVEL:ChangeRP", this);
     eDemoPlay = Engine.Event.Handler_Attach("LEVEL:PlayDEMO", this);
@@ -104,7 +104,7 @@ CLevel::CLevel() :
     pActors4CrPr.clear();
     g_player_hud = xr_new<player_hud>();
     g_player_hud->load_default();
-    Msg("%s", Core.Params);
+    Msg("%s", GetCommandLine());
 }
 
 extern CAI_Space *g_ai_space;
@@ -178,7 +178,8 @@ CLevel::~CLevel()
         StopPlayDemo();
         if (m_reader)
         {
-            FS.r_close(m_reader);
+		//	XRayBearReader::Destroy();
+          //  FS.r_close(m_reader);
             m_reader = nullptr;
         }
     }

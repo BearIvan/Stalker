@@ -3,7 +3,6 @@
 #include "game_cl_mp.h"
 #include "level.h"
 #include "DemoInfo.h"
-#include "tools/stream_reader.h"
 #include "engine/object_broker.h"
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
@@ -45,7 +44,7 @@ demo_player_info::~demo_player_info()
 {
 }
 
-void demo_player_info::read_from_file(CStreamReader* file_to_read)
+void demo_player_info::read_from_file(IReader* file_to_read)
 {
 	file_to_read->r_stringZ	(m_name);
 	m_frags					= file_to_read->r_s16();
@@ -103,7 +102,7 @@ demo_info::~demo_info()
 	delete_data				(m_players);
 }
 
-void demo_info::read_from_file(CStreamReader* file_to_read)
+void demo_info::read_from_file(IReader* file_to_read)
 {
 	u32 old_pos = file_to_read->tell();
 	file_to_read->r_stringZ	(m_map_name);

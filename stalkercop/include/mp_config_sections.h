@@ -2,7 +2,6 @@
 #define MP_CONFIG_SECTIONS_INCLUDED
 
 #include "tools/xr_ini.h"
-#include "tools/FS.h"
 #include "anticheat_dumpable_object.h"
 
 class CGameObject;

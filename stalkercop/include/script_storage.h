@@ -50,7 +50,7 @@ protected:
 protected:
 	static	int					vscript_log					(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker);
 			bool				parse_namespace				(LPCSTR caNamespaceName, LPSTR b, u32 const b_size, LPSTR c, u32 const c_size);
-			bool				do_file						(LPCSTR	caScriptName, LPCSTR caNameSpaceName);
+			bool				do_file						(const bchar*fsPath, LPCSTR	caScriptName, LPCSTR caNameSpaceName);
 			void				reinit						();
 
 public:
@@ -65,7 +65,7 @@ public:
 	IC		void				current_thread				(CScriptThread *thread);
 	IC		CScriptThread		*current_thread				() const;
 			bool				load_buffer					(lua_State *L, LPCSTR caBuffer, size_t tSize, LPCSTR caScriptName, LPCSTR caNameSpaceName = 0);
-			bool				load_file_into_namespace	(LPCSTR	caScriptName, LPCSTR caNamespaceName);
+			bool				load_file_into_namespace	(const bchar*fsPath, LPCSTR	caScriptName, LPCSTR caNamespaceName);
 			bool				namespace_loaded			(LPCSTR	caName, bool remove_from_stack = true);
 			bool				object						(LPCSTR	caIdentifier, int type);
 			bool				object						(LPCSTR	caNamespaceName, LPCSTR	caIdentifier, int type);

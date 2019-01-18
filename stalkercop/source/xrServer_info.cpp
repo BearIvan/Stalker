@@ -66,22 +66,22 @@ void xrServer::SendServerInfoToClient(ClientID const & new_client) //WARNING ! t
 
 void xrServer::LoadServerInfo()
 {
-	if (!FS.exist("$app_data_root$", SERVER_LOGO_FN) ||
-		!FS.exist("$app_data_root$", SERVER_RULES_FN))
+	if (!FS.ExistFile("%user%", SERVER_LOGO_FN) ||
+		!FS.ExistFile("%user%", SERVER_RULES_FN))
 	{
 		return;
 	}
-	m_server_logo = FS.r_open("$app_data_root$", SERVER_LOGO_FN);
+	m_server_logo =XRayBearReader::Create( FS.Read("%user%", SERVER_LOGO_FN));
 	if (!m_server_logo)
 	{
 		Msg("! ERROR: failed to open server logo file %s", SERVER_LOGO_FN);
 		return;
 	}
-	m_server_rules = FS.r_open("$app_data_root$", SERVER_RULES_FN);
+	m_server_rules = XRayBearReader::Create(FS.Read("%user%", SERVER_RULES_FN));
 	if (!m_server_rules)
 	{
 		Msg("! ERROR: failed to open server rules file %s", SERVER_RULES_FN);
-		FS.r_close(m_server_logo);
+		XRayBearReader::Destroy(m_server_logo);
 		m_server_logo = NULL;
 		return;
 	}

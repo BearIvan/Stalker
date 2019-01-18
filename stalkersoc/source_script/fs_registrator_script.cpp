@@ -114,7 +114,7 @@ FS_file_list_ex::FS_file_list_ex(LPCSTR path, u32 flags, LPCSTR mask)
 	BearCore::BearVector<BearCore::BearString> list;
 	if (flags&FS_ListFiles)
 	{
-		FS.GetFiles(list, new_path, "*", !(flags&FS_RootOnly));
+		FS.GetFiles(list, new_path, mask, !(flags&FS_RootOnly));
 	}
 	else
 	{
@@ -153,14 +153,16 @@ FS_file_list_ex file_list_open_ex(BearCore::BearFileSystem* fs, LPCSTR path, u32
 
 FS_file_list file_list_open_script(BearCore::BearFileSystem* fs, LPCSTR initial, u32 flags)
 {
+	BearCore::BearStringPath new_path;
+	FSGetPath(new_path, reinterpret_cast<const bchar*>(initial));
 	BearCore::BearVector<BearCore::BearString> list;
 	if (flags&FS_ListFiles)
 	{
-		FS.GetFiles(list, initial, "*", !(flags&FS_RootOnly));
+		FS.GetFiles(list, new_path, "*", !(flags&FS_RootOnly));
 	}
 	else
 	{
-		FS.GetDirectories(list, initial);
+		FS.GetDirectories(list, new_path);
 	}
 	return FS_file_list(list);
 }
@@ -351,14 +353,14 @@ void fs_registrator::script_register(lua_State *L)
 			value("FS_sort_by_modif_up", int(FS_file_list_ex::eSortByModifUp)),
 			value("FS_sort_by_modif_down", int(FS_file_list_ex::eSortByModifDown))
 		]
-	.enum_("FS_List")
+		.enum_("FS_List")
 		[
 			value("FS_ListFiles", int(FS_ListFiles)),
 			value("FS_ListFolders", int(FS_ListFolders)),
 			value("FS_ClampExt", int(FS_ClampExt)),
 			value("FS_RootOnly", int(FS_RootOnly))
 		]
-	.def("path_exist", &path_exist)
+		.def("path_exist", &path_exist)
 		.def("update_path", &update_path_script)
 		.def("get_path", &get_path)
 		.def("append_path", &append_path)

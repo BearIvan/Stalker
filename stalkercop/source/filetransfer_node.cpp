@@ -9,12 +9,12 @@ using namespace file_transfer;
 //disk reader ..
 disk_file_reader::disk_file_reader(shared_str const & file_name)
 {
-	m_reader = FS.r_open(file_name.c_str());
+	m_reader = XRayBearReader::Create(file_name.c_str());
 };
 
 disk_file_reader::~disk_file_reader()
 {
-	FS.r_close(m_reader);
+	XRayBearReader::Destroy(m_reader);
 }
 
 bool disk_file_reader::make_data_packet(NET_Packet& packet, u32 chunk_size)

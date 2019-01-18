@@ -27,11 +27,9 @@ void CUICustomMap::Initialize(shared_str name, LPCSTR sh_name)
 		levelIni = g_pGameLevel->pLevel;
 	else
 	{
-		string_path					map_cfg_fn;
 		string_path					fname;
 		strconcat					(sizeof(fname),fname,name.c_str(), "\\level.ltx");
-		FS.update_path				(map_cfg_fn, "$game_levels$", fname);
-		levelIni					= xr_new<CInifile>(map_cfg_fn);
+		levelIni					= xr_new<CInifile>("%levels%", fname);
 	}
 
 	if(levelIni->section_exist("level_map"))

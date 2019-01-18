@@ -44,11 +44,7 @@ void reward_manager::update_tasks		()
 void reward_manager::load_rewards		()
 {
 	static char const * section_name_prefix = "reward_";
-	string_path reward_config_path;
-	FS.update_path(reward_config_path, "$game_config$", "mp\\rewarding.ltx");
-	IReader*	tmp_reader = FS.r_open(reward_config_path);
-	VERIFY2		(tmp_reader, "can't open $game_config$\\mp\\rewarding.ltx");
-	CInifile	rewards_config(tmp_reader);
+	CInifile	rewards_config("%config%", "mp\\rewarding.ltx");
 	
 	u32			reward_index = 0;
 	LPCSTR		section_name = NULL;
@@ -67,7 +63,6 @@ void reward_manager::load_rewards		()
 			itoa(reward_index, tmp_dst_buff, 10));
 	}
 	
-	FS.r_close	(tmp_reader);
 }
 
 

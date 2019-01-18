@@ -90,7 +90,7 @@ bool gsc_dsigned_ltx_reader::load_and_verify(u8* buffer, u32 const size)
 	u32 const dsign_sect_size = size - static_cast<u32>((u8*)dsign_section - buffer);
 	
 	IReader	sign_reader(dsign_section, dsign_sect_size);
-	CInifile tmp_dsign_reader(&sign_reader);
+	CInifile tmp_dsign_reader(&sign_reader,TEXT("%config%"));
 
 	shared_str ltx_date		= tmp_dsign_reader.r_string(dsign_secion, "date");
 	shared_str ltx_dsign	= tmp_dsign_reader.r_string(dsign_secion, "sign_hash");
@@ -104,6 +104,6 @@ bool gsc_dsigned_ltx_reader::load_and_verify(u8* buffer, u32 const size)
 	}
 	*dsign_section = 0;
 	IReader tmp_reader(buffer, size);
-	m_ltx = xr_new<CInifile>(&tmp_reader);
+	m_ltx = xr_new<CInifile>(&tmp_reader, TEXT("%config%"));
 	return true;
 }

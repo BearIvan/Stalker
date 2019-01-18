@@ -189,7 +189,7 @@ void xrDebug::backend(const char* expression, const char* description, const cha
     (MUTEX_PROFILE_ID(xrDebug::backend))
 #endif // PROFILE_CRITICAL_SECTIONS
     ;
-
+	
     CS.Enter();
 
     error_after_dialog = true;
@@ -254,6 +254,7 @@ void xrDebug::backend(const char* expression, const char* description, const cha
 # ifdef USE_BUG_TRAP
     BT_SetUserMessage (assertion_info);
 # endif // USE_BUG_TRAP
+	FlushLog();
     DEBUG_INVOKE;
 # endif // USE_OWN_ERROR_MESSAGE_WINDOW
 #endif
@@ -357,6 +358,7 @@ XRCORE_API string_path g_bug_report_file;
 
 void CALLBACK PreErrorHandler(INT_PTR)
 {
+
 #ifdef USE_BUG_TRAP
     if (!xr_FS || !FS.m_Flags.test(CLocatorAPI::flReady))
         return;

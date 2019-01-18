@@ -29,7 +29,7 @@ public:
 	demo_player_info();
 	~demo_player_info();
 
-	void	read_from_file		(CStreamReader* file_to_read);
+	void	read_from_file		(IReader* file_to_read);
 	void	write_to_file		(IWriter* file_to_write) const;
 	void	load_from_player	(game_PlayerState*	player_state);
 
@@ -68,7 +68,7 @@ public:
 
 	typedef bool (*sorting_less_comparator)(demo_player_info const *, demo_player_info const*);
 	
-	void	read_from_file	(CStreamReader* file_to_read);
+	void	read_from_file	(IReader* file_to_read);
 	void	write_to_file	(IWriter* file_to_write) const;
 	void	sort_players	(sorting_less_comparator sorting_comparator);
 	void	load_from_game	();

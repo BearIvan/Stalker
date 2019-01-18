@@ -11,7 +11,7 @@ filereceiver_node::filereceiver_node(shared_str const & file_name,
 	m_process_callback(callback),
 	m_last_read_time(0)
 {
-	m_writer = FS.w_open(file_name.c_str());
+	m_writer =XRayBearWriter::Create(file_name.c_str());
 }
 
 filereceiver_node::filereceiver_node(CMemoryWriter* mem_writer,
@@ -26,7 +26,7 @@ filereceiver_node::filereceiver_node(CMemoryWriter* mem_writer,
 filereceiver_node::~filereceiver_node()
 {
 	if (m_writer && !m_is_writer_memory)
-		FS.w_close(m_writer);
+		XRayBearWriter::Destroy(m_writer);
 }
 
 bool filereceiver_node::receive_packet(NET_Packet & packet)

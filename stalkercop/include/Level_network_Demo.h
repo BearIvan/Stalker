@@ -69,7 +69,7 @@ private:
     demo_info* m_demo_info = nullptr;
     u32 m_demo_info_file_pos;
     IWriter* m_writer = nullptr;
-    CStreamReader* m_reader = nullptr;
+    XRayBearFileStream* m_reader = nullptr;
     u32 m_prev_packet_pos;
     u32 m_prev_packet_dtime;
     u32 m_starting_spawns_pos;

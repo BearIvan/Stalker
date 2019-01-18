@@ -10,8 +10,8 @@ message_filter::message_filter()
 }
 message_filter::~message_filter()
 {
-	if (m_msg_log_file)
-		FS.w_close(m_msg_log_file);
+	//if (m_msg_log_file)
+		//FS.w_close(m_msg_log_file);
 }
 
 void message_filter::filter(u16 const & msg_type,
@@ -96,7 +96,7 @@ void message_filter::check_new_data	(NET_Packet & packet)
 void message_filter::dbg_set_message_log_file(string_path const & message_log_file)
 {
 	R_ASSERT(message_log_file);
-	m_msg_log_file = FS.w_open(message_log_file);
+	//m_msg_log_file = FS.w_open(message_log_file);
 	if (!m_msg_log_file)
 	{
 		Msg("! ERROR: failed to open demo messages logging file");

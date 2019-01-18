@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-MainForm::MainForm():BearUI(1000,600),Ok(-1)
+MainForm::MainForm() :BearUI(1000, 600), Ok(-1)
 {
 	btOk.Font = GetFont(F_RUS, 16);
 	btOk.Text = TEXT("Запустить");
@@ -22,7 +22,7 @@ MainForm::MainForm():BearUI(1000,600),Ok(-1)
 	cbGames.SetCallback(this, &MainForm::cbCbGames);
 	path = GameVersionController::Path::SOC_1004;
 
-	lbMods.Font = GetFont(F_RUS, 16); 
+	lbMods.Font = GetFont(F_RUS, 16);
 	lbMods.Rect.set(20, 20, 560, 560);
 
 
@@ -101,16 +101,16 @@ void MainForm::cbBtOk()
 		switch (path)
 		{
 		case GameVersionController::SOC_1004:
-			FS.AppendPath(TEXT("%user%"), TEXT("original_soc14"), TEXT("%guser%"), 0);
+			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::SOC_1007:
-			FS.AppendPath(TEXT("%user%"), TEXT("original_soc16"), TEXT("%guser%"), 0);
+			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::CS_1510:
-			FS.AppendPath(TEXT("%user%"), TEXT("original_cs"), TEXT("%guser%"), 0);
+			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::COP_1602:
-			FS.AppendPath(TEXT("%user%"), TEXT("original_cop"), TEXT("%guser%"), 0);
+			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
 			break;
 		}
 		

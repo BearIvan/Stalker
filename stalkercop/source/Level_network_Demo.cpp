@@ -7,7 +7,6 @@
 #include "actor.h"
 #include "game_cl_base.h"
 #include "game_cl_mp.h"
-#include "tools/stream_reader.h"
 #include "Message_Filter.h"
 #include "DemoPlay_Control.h"
 #include "DemoInfo.h"
@@ -29,15 +28,15 @@ void CLevel::PrepareToSaveDemo		()
 		Time.wSecond
 	);
 	Msg					("Demo would be stored in - %s", demo_name);
-	FS.update_path      (demo_path, "$logs$", demo_name);
+	/*FS.update_path      (demo_path, "$logs$", demo_name);
 	m_writer			= FS.w_open(demo_path);
-	m_DemoSave			= TRUE;
+	m_DemoSave			= TRUE;*/
 }
 
 bool CLevel::PrepareToPlayDemo		(shared_str const & file_name)
 {
 	R_ASSERT(!m_DemoSave);
-	m_reader	= FS.rs_open("$logs$", file_name.c_str());
+//	m_reader	= FS.rs_open("$logs$", file_name.c_str());
 	if (!m_reader)
 	{
 		Msg("ERROR: failed to open file [%s] to play demo...", file_name.c_str());
@@ -56,7 +55,7 @@ void CLevel::StopSaveDemo()
 {
 	if (m_writer)
 	{
-		FS.w_close(m_writer);
+		//FS.w_close(m_writer);
 	}
 }
 
@@ -75,7 +74,7 @@ void CLevel::StartPlayDemo()
 	CatchStartingSpawns	();
 
 	//if using some filter ...
-#ifdef MP_LOGGING
+#if 0
 	message_filter* tmp_msg_filter = GetMessageFilter();
 	if (tmp_msg_filter)
 	{
@@ -179,8 +178,8 @@ void CLevel::SavePacket(NET_Packet& packet)
 
 bool CLevel::LoadDemoHeader	()
 {
-	R_ASSERT(m_reader);
-	m_reader->r				(&m_demo_header, sizeof(m_demo_header));
+	R_ASSERT(0);
+/*	m_reader->r				(&m_demo_header, sizeof(m_demo_header));
 	m_reader->r_stringZ		(m_demo_server_options);
 	u32 demo_info_start_pos	= m_reader->tell();
 	
@@ -189,7 +188,9 @@ bool CLevel::LoadDemoHeader	()
 	m_demo_info->read_from_file(m_reader);
 
 	m_reader->seek			(demo_info_start_pos + demo_info::max_demo_info_size);
-	return (m_reader->elapsed() >= sizeof(DemoPacket));
+	return (m_reader->elapsed() >= sizeof(DemoPacket));*/
+
+	return false;
 }
 
 bool CLevel::LoadPacket		(NET_Packet & dest_packet, u32 global_time_delta)

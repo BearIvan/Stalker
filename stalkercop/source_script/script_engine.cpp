@@ -283,7 +283,7 @@ void CScriptEngine::init				()
 	CScriptStorage::reinit				();
 
 #ifdef USE_LUA_STUDIO
-	if (m_lua_studio_world || strstr(Core.Params, "-lua_studio")) {
+	if (m_lua_studio_world || strstr(GetCommandLine(), "-lua_studio")) {
 		if (!lua_studio_connected)
 			try_connect_to_debugger		();
 		else {
@@ -342,8 +342,7 @@ void CScriptEngine::load_common_scripts()
 	return;
 #endif
 	string_path		S;
-	FS.update_path	(S,"$game_config$","script.ltx");
-	CInifile		*l_tpIniFile = xr_new<CInifile>(S);
+	CInifile		*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT		(l_tpIniFile);
 	if (!l_tpIniFile->section_exist("common")) {
 		xr_delete			(l_tpIniFile);
@@ -375,7 +374,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 	if (!warn_if_not_exist && no_file_exists(file_name,string_length))
 		return;
 
-	string_path				S,S1,S2;
+	string_path			S1,S2;
 	auto src1 = file_name;
 	bool b1 = false;
 	/*for (; *src1&&*src1 != '_'; src1++)if (*(src1 + 1) == '_') b1 = true;
@@ -390,9 +389,8 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 	
 	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) 
 	{
-			strconcat(sizeof(S1), S1,S2, file_name, ".script");
-		FS.update_path		(S,"$game_scripts$",S1);
-		if (!warn_if_not_exist && !FS.exist(S)) {
+		strconcat(sizeof(S1), S1,S2, file_name, ".script");
+		if (!warn_if_not_exist && !FS.ExistFile("%scripts%", S1)) {
 //			R_ASSERT2(false,S);
 #ifdef DEBUG
 #	ifndef XRSE_FACTORY_EXPORTS
@@ -411,7 +409,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 		Msg					("* loading script %s",S1);
 #endif // MASTER_GOLD
 		m_reload_modules	= false;
-		load_file_into_namespace(S,*file_name ? file_name : "_G");
+		load_file_into_namespace(TEXT("%scripts%"),S1,*file_name ? file_name : "_G");
 	}
 }
 
@@ -432,9 +430,7 @@ void CScriptEngine::register_script_classes		()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string_path					S;
-	FS.update_path				(S,"$game_config$","script.ltx");
-	CInifile					*l_tpIniFile = xr_new<CInifile>(S);
+	CInifile					*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT					(l_tpIniFile);
 
 	if (!l_tpIniFile->section_exist("common")) {

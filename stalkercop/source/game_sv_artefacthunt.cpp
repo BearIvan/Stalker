@@ -54,10 +54,9 @@ void	game_sv_ArtefactHunt::Create					(shared_str& options)
 //.	ArtefactsRPoints_ID.clear();
 	Artefact_rpoints.clear();
 
-	string_path	fn_game;
-	if (FS.exist(fn_game, "$level$", "level.game")) 
+	if (FS.ExistFile("%level%", "level.game")) 
 	{
-		IReader *F = FS.r_open	(fn_game);
+		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
 		IReader *O = 0;
 
 		// Load RPoints
@@ -88,7 +87,7 @@ void	game_sv_ArtefactHunt::Create					(shared_str& options)
 			O->close();
 		}
 
-		FS.r_close	(F);
+		XRayBearReader::Destroy(F);
 	}
 	R_ASSERT2 (!Artefact_rpoints.empty(), "No points to spawn ARTEFACT");
 	//---------------------------------------------------------------

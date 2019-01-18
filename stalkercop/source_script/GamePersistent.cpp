@@ -79,11 +79,11 @@ CGamePersistent::CGamePersistent(void)
 	//dSetFreeHandler				(ode_free		);
 
 	// 
-	BOOL	bDemoMode	= (0!=strstr(Core.Params,"-demomode "));
-	if (bDemoMode)
+	BOOL	bDemoMode	= (0!=strstr(GetCommandLine(),"-demomode "));
+/*	if (bDemoMode)
 	{
 		string256	fname;
-		LPCSTR		name	=	strstr(Core.Params,"-demomode ") + 10;
+		LPCSTR		name	=	strstr(GetCommandLine(),"-demomode ") + 10;
 		sscanf				(name,"%s",fname);
 		R_ASSERT2			(fname[0],"Missing filename for 'demomode'");
 		Msg					("- playing in demo mode '%s'",fname);
@@ -91,11 +91,11 @@ CGamePersistent::CGamePersistent(void)
 		Device.seqFrame.Add	(this);
 		eDemoStart			=	Engine.Event.Handler_Attach("GAME:demo",this);	
 		uTime2Change		=	0;
-	} else {
+	} else {*/
 		pDemoFile			=	NULL;
 		eDemoStart			=	NULL;
-	}
-
+/*	}
+*/
 	eQuickLoad				= Engine.Event.Handler_Attach("Game:QuickLoad",this);
 	Fvector3* DofValue		= Console->GetFVectorPtr("r2_dof");
 	SetBaseDof				(*DofValue);
@@ -103,7 +103,7 @@ CGamePersistent::CGamePersistent(void)
 
 CGamePersistent::~CGamePersistent(void)
 {	
-	FS.r_close					(pDemoFile);
+//				(pDemoFile);
 	Device.seqFrame.Remove		(this);
 	Engine.Event.Handler_Detach	(eDemoStart,this);
 	Engine.Event.Handler_Detach	(eQuickLoad,this);
@@ -306,7 +306,7 @@ void CGamePersistent::WeathersUpdate()
 					snd.play_at_pos		(0,pos);
 
 #ifdef DEBUG
-					if (!snd._handle() && strstr(Core.Params,"-nosound"))
+					if (!snd._handle() && strstr(GetCommandLine(),"-nosound"))
 						continue;
 #endif // DEBUG
 
@@ -434,7 +434,7 @@ bool allow_intro ()
 #ifdef MASTER_GOLD
 	if (g_SASH.IsRunning())
 #else	// #ifdef MASTER_GOLD
-	if ((0!=strstr(Core.Params, "-nointro")) || g_SASH.IsRunning())
+	if ((0!=strstr(GetCommandLine(), "-nointro")) || g_SASH.IsRunning())
 #endif	// #ifdef MASTER_GOLD
 	{
 		return false;

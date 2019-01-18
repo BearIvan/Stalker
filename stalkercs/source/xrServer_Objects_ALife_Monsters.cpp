@@ -1098,11 +1098,6 @@ IC	void CSE_ALifeCreatureAbstract::set_health	(float const health_value)
 	fHealth = health_value;
 }
 
-IC	void CSE_ALifeCreatureAbstract::set_killer_id	(ALife::_OBJECT_ID const killer_id)
-{
-	m_killer_id = killer_id;
-}
-
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterAbstract
 ////////////////////////////////////////////////////////////////////////////

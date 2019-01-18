@@ -685,7 +685,7 @@ public:
 	CCC_EngineVersion(LPCSTR N):IConsole_Command(N){ bEmptyArgsHandled = TRUE; }
 	virtual void Execute(LPCSTR args)
 	{
-		Log("EngineVersion 1.6.0.2");
+		Log("X-Ray 1.7.00");
 
 	}
 };

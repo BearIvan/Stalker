@@ -25,34 +25,36 @@ void CStringTable::rescan()
 
 void CStringTable::Init		()
 {
-	if(NULL != pData) return;
-    
-	pData				= xr_new<STRING_TABLE_DATA>();
-	
+	if (NULL != pData) return;
+
+	pData = xr_new<STRING_TABLE_DATA>();
+
 	//имя языка, если не задано (NULL), то первый <text> в <string> в XML
-	pData->m_sLanguage	= pSettings->r_string("string_table", "language");
+	pData->m_sLanguage = pSettings->r_string("string_table", "language");
 
 
-//---
-	FS_FileSet fset;
+	//---
+	BearCore::BearVector<BearCore::BearString>			fset;
+
 	string_path			files_mask;
-	xr_sprintf				(files_mask, "text\\%s\\*.xml",pData->m_sLanguage.c_str());
-	FS.file_list		(fset, "$game_config$", FS_ListFiles, files_mask);
-	FS_FileSetIt fit	= fset.begin();
-	FS_FileSetIt fit_e	= fset.end();
+	sprintf(files_mask, "text\\%s\\*.xml", pData->m_sLanguage.c_str());
+	FS.GetFiles(fset, "%config%", files_mask, true);
 
-	for( ;fit!=fit_e; ++fit)
+	auto fit = fset.begin();
+	auto fit_e = fset.end();
+
+	for (; fit != fit_e; ++fit)
 	{
-    	string_path		fn, ext;
-        _splitpath		((*fit).name.c_str(), 0, 0, fn, ext);
-		xr_strcat			(fn, ext);
+		string_path		fn, ext;
+		_splitpath((**fit), 0, 0, fn, ext);
+		strcat(fn, ext);
 
-		Load			(fn);
+		Load(fn);
 	}
 #ifdef DEBUG
 	Msg("StringTable: loaded %d files", fset.size());
 #endif // #ifdef DEBUG
-//---
+	//---
 	ReparseKeyBindings();
 }
 

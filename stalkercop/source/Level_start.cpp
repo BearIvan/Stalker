@@ -250,9 +250,9 @@ bool CLevel::net_start6				()
 	pApp->LoadEnd				();
 
 	if(net_start_result_total){
-		if (strstr(Core.Params,"-$")) {
+		if (strstr(GetCommandLine(),"-$")) {
 			string256				buf,cmd,param;
-			sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			sscanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

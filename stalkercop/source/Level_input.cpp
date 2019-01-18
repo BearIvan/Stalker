@@ -173,7 +173,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	}
 	if(_curr == kQUICK_LOAD && IsGameTypeSingle())
 	{
-#ifdef DEBUG
+#if 0
 		FS.get_path					("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
 		FS.get_path					("$game_scripts$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
 		FS.rescan_pathes			();
@@ -192,9 +192,9 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	switch (key) {
 	case DIK_F7: {
 		if (GameID() != eGameIDSingle) return;
-		FS.get_path					("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
+		/*FS.get_path					("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
 		FS.get_path					("$game_scripts$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
-		FS.rescan_pathes			();
+		FS.rescan_pathes			();*/
 		NET_Packet					net_packet;
 		net_packet.w_begin			(M_RELOAD_GAME);
 		Send						(net_packet,net_flags(TRUE));

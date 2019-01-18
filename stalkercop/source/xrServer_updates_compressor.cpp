@@ -116,7 +116,7 @@ server_updates_compressor::~server_updates_compressor()
 
 	if (g_sv_write_updates_bin && dbg_update_bins_writer)
 	{
-		FS.w_close(dbg_update_bins_writer);
+		XRayBearWriter::Destroy(dbg_update_bins_writer);
 	}
 	deinit_compression();
 }
@@ -292,9 +292,7 @@ void server_updates_compressor::end_updates(send_ready_updates_t::const_iterator
 
 void server_updates_compressor::create_update_bin_writer	()
 {
-	string_path		bin_name;
-	FS.update_path	(bin_name, "$logs$", "updates.bins");
-	dbg_update_bins_writer = FS.w_open(bin_name);
+	dbg_update_bins_writer = XRayBearWriter::Create( FS.Write("%logs%", "updates.bins",0));
 	VERIFY(dbg_update_bins_writer);
 	
 	static u8 const header[] = {'B','I','N','S'};

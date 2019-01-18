@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "DemoInfo_Loader.h"
-#include "tools/stream_reader.h"
 #include "Level.h"
 #include "engine/object_broker.h"
 
@@ -26,7 +25,7 @@ static bool sort_team_players_by_spots(demo_player_info const * left, demo_playe
 
 demo_info* demo_info_loader::load_demofile(LPCSTR demo_file_name)
 {
-	CStreamReader*	tmp_reader	= FS.rs_open("$logs$", demo_file_name);
+/*	CStreamReader*	tmp_reader	= FS.rs_open("$logs$", demo_file_name);
 	if (!tmp_reader)
 	{
 		Msg("ERROR: failed to open file [%s] ...", demo_file_name);
@@ -41,7 +40,9 @@ demo_info* demo_info_loader::load_demofile(LPCSTR demo_file_name)
 	tmp_demoinfo->read_from_file(tmp_reader);
 	tmp_demoinfo->sort_players(&sort_team_players_by_spots);
 	FS.r_close(tmp_reader);
-	return tmp_demoinfo;
+	return tmp_demoinfo;*/
+	BEAR_ASSERT(false);
+	return 0;
 }
 
 demo_info const * demo_info_loader::get_demofile_info(LPCSTR demo_file_name)

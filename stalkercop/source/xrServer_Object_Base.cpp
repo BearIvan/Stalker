@@ -124,10 +124,8 @@ CSE_Abstract::CSE_Abstract					(LPCSTR caSection)
 		else
 #endif // #ifdef XRGAME_EXPORTS
 		{
-			string_path			file_name;
-			FS.update_path		(file_name,"$game_config$", raw_file_name);
-			if ( FS.exist(file_name) )
-				config			= FS.r_open(file_name);
+			if ( FS.ExistFile("%config%", raw_file_name) )
+				config			=XRayBearReader::Create( FS.Read("%config%", raw_file_name));
 		}
 
 		if ( config ) {
@@ -142,7 +140,7 @@ CSE_Abstract::CSE_Abstract					(LPCSTR caSection)
 #endif // #ifdef XRGAME_EXPORTS
 		{
 			IReader* _r	= (IReader*)config;
-			FS.r_close(_r);
+			XRayBearReader::Destroy(_r);
 		}
 
 		}
@@ -186,7 +184,7 @@ CInifile &CSE_Abstract::spawn_ini			()
 				(void*)(*(m_ini_string)),
 				m_ini_string.size()
 			),
-			FS.get_path("$game_config$")->m_Path
+			TEXT("%config%"),""
 		);
 #pragma warning(pop)
 	return						(*m_ini_file);

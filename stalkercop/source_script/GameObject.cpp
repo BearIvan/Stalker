@@ -309,7 +309,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 				(void*)(*(O->m_ini_string)),
 				O->m_ini_string.size()
 			),
-			FS.get_path("$game_config$")->m_Path
+			TEXT("%config%"),""
 		);
 #pragma warning(pop)
 	}

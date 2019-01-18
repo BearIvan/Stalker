@@ -270,8 +270,8 @@ void CUIMainIngameWnd::Draw()
 	CActor* pActor		= smart_cast<CActor*>(Level().CurrentViewEntity());
 
 	// show IO icon
-	bool IOActive	= (FS.dwOpenCounter>0);
-	if	(IOActive)	UIStaticDiskIO_start_time = Device.fTimeGlobal;
+	//bool IOActive	= (FS.dwOpenCounter>0);
+//	if	(IOActive)	UIStaticDiskIO_start_time = Device.fTimeGlobal;
 
 	if ((UIStaticDiskIO_start_time+1.0f) < Device.fTimeGlobal)	UIStaticDiskIO->Show(false); 
 	else {
@@ -279,7 +279,7 @@ void CUIMainIngameWnd::Draw()
 		UIStaticDiskIO->Show		( true  ); 
 		UIStaticDiskIO->SetTextureColor(color_rgba(255,255,255,alpha));
 	}
-	FS.dwOpenCounter = 0;
+//	FS.dwOpenCounter = 0;
 
 	if(!IsGameTypeSingle())
 	{

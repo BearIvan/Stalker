@@ -73,13 +73,11 @@ void CAutosaveManager::shedule_Update		(u32 dt)
 	net_packet.w_u8				(0);
 	Level().Send				(net_packet,net_flags(TRUE));
 
-	string_path					S1;
 	xr_strcat					(temp,sizeof(temp),".dds");
-	FS.update_path				(S1,"$game_saves$",temp);
 
-	MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);
+	MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE, temp);
 
-	SetFileAttributes			( S1, FILE_ATTRIBUTE_HIDDEN );
+	SetFileAttributes			(temp, FILE_ATTRIBUTE_HIDDEN );
 	
 	CurrentGameUI()->AddCustomStatic("autosave", true);
 }

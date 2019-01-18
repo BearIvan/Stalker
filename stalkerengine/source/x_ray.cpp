@@ -314,8 +314,20 @@ void destroyEngine()
 
 void execUserScript()
 {
-    Console->Execute("default_controls");
-    Console->ExecuteScript(Console->ConfigFile);
+	if (gameVersionController->getGame() != GameVersionController::COP)
+	{
+		string_path				cmd;
+		strconcat(sizeof(cmd), cmd, "cfg_load", " ", "default_controls.ltx");
+		Console->Execute(cmd);
+
+		strconcat(sizeof(cmd), cmd, "cfg_load", " ", "user.ltx");
+		Console->Execute(cmd);
+	}
+	else
+	{
+		Console->Execute("default_controls");
+		Console->ExecuteScript(Console->ConfigFile);
+	}
 }
 
 void slowdownthread(void*)

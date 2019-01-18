@@ -202,9 +202,7 @@ u32 item_respawn_manager::load_section_items(CInifile & ini, const char* section
 item_respawn_manager::respawn_section_iter
 	item_respawn_manager::load_respawn_section(shared_str const & section_name)
 {
-	string_path				fn;
-	FS.update_path			(fn,"$game_config$", "mp\\respawn_items.ltx");
-	CInifile				ini(fn);
+	CInifile				ini("%config%", "mp\\respawn_items.ltx");
 
 	u32 sections_count = _GetItemCount(section_name.c_str());
 	string256				temp_section_name;
@@ -364,10 +362,9 @@ void item_respawn_manager::clear_level_items()
 void item_respawn_manager::respawn_level_items()
 {
 	clear_level_items();
-	string_path				fn_spawn;
-	if (FS.exist(fn_spawn, "$level$", "level_rs.spawn"))
+	if (FS.ExistFile("%level%", "level_rs.spawn"))
 	{
-		IReader*			SP		= FS.r_open(fn_spawn);
+		IReader*			SP		=XRayBearReader::Create( FS.Read("%level%", "level_rs.spawn"));
 		NET_Packet			P;
 		u32					S_id;
 		for (IReader *S = SP->open_chunk_iterator(S_id); S; S = SP->open_chunk_iterator(S_id,S)) {
@@ -384,6 +381,6 @@ void item_respawn_manager::respawn_level_items()
 			if (entity)
 				level_items_respawn.insert(entity->ID);
 		}
-		FS.r_close			(SP);
+		XRayBearReader::Destroy(SP);
 	}
 }

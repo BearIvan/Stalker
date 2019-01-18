@@ -59,11 +59,9 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
 	info_path += map_name;
 	info_path += ".ltx";
 
-	if (FS.exist("$game_config$", info_path.c_str()))
+	if (FS.ExistFile("%config%", info_path.c_str()))
 	{
-		string_path				ltxPath;
-		FS.update_path			(ltxPath, CONFIG_PATH, info_path.c_str());
-		CInifile ltx			(ltxPath);
+		CInifile ltx			("%config%", info_path.c_str());
 		xr_string				text;
 
 

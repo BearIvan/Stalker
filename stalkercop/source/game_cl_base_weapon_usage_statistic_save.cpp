@@ -81,7 +81,7 @@ void WeaponUsageStatistic::SaveData()
 
 
 	//---------------------------------------------------------
-	FS.update_path			(mFileName,"$logs$",mFileName);
+	/*FS.update_path			(mFileName,"$logs$",mFileName);
 	FILE* SFile				= fopen(mFileName, "wb");
 	if (!SFile)				return;
 	//---------------------------------------------------------
@@ -92,7 +92,7 @@ void WeaponUsageStatistic::SaveData()
 	//---------------------------------------------------------
 	Write					(SFile);
 	//---------------------------------------------------------
-	fclose					(SFile);
+	fclose					(SFile);*/
 };
 
 void WeaponUsageStatistic::Write(FILE* pFile)

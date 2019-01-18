@@ -35,6 +35,7 @@ bool Modloader::Run()
 					break;
 				case BearUI::EVT_MouseMove:
 					mainform.OnMouse(ev.Position.x, ev.Position.y);
+					break;
 				case BearUI::EVT_KeyDown:
 					mainform.OnKeyDown(ev.Key);
 					break;

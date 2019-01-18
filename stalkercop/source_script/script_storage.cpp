@@ -306,7 +306,7 @@ void CScriptStorage::reinit	()
 	luajit::open_lib	(lua(),	LUA_DBLIBNAME,		luaopen_debug);
 #endif // #ifdef DEBUG
 
-	if (!strstr(Core.Params,"-nojit")) {
+	if (!strstr(GetCommandLine(),"-nojit")) {
 		luajit::open_lib(lua(),	LUA_JITLIBNAME,		luaopen_jit);
 #ifndef DEBUG
 		put_function	(lua(), opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
@@ -315,7 +315,7 @@ void CScriptStorage::reinit	()
 #endif // #ifndef DEBUG
 	}
 
-	if (strstr(Core.Params,"-_g"))
+	if (strstr(GetCommandLine(),"-_g"))
 		file_header			= file_header_new;
 	else
 		file_header			= file_header_old;
@@ -552,67 +552,67 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 	return				(true);
 }
 
-bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
+bool CScriptStorage::do_file	(const bchar*fsPath, LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
 	int				start = lua_gettop(lua());
 	string_path		l_caLuaFileName;
-	IReader			*l_tpFileReader = FS.r_open(caScriptName);
+	IReader			*l_tpFileReader = XRayBearReader::Create(FS.Read(fsPath, caScriptName));
 	if (!l_tpFileReader) {
-		script_log	(eLuaMessageTypeError,"Cannot open file \"%s\"",caScriptName);
+		script_log(eLuaMessageTypeError, "Cannot open file \"%s\"", caScriptName);
 		return		(false);
 	}
-	strconcat		(sizeof(l_caLuaFileName),l_caLuaFileName,"@",caScriptName);
-	
-	if (!load_buffer(lua(),static_cast<LPCSTR>(l_tpFileReader->pointer()),(size_t)l_tpFileReader->length(),l_caLuaFileName,caNameSpaceName)) {
-//		DEBUGFATALERROR1		(lua_gettop(lua()) >= 4);
-//		lua_pop		(lua(),4);
-//		DEBUGFATALERROR1		(lua_gettop(lua()) == start - 3);
-		lua_settop	(lua(),start);
-		FS.r_close	(l_tpFileReader);
+	strconcat(sizeof(l_caLuaFileName), l_caLuaFileName, "@", caScriptName);
+
+	if (!load_buffer(lua(), static_cast<LPCSTR>(l_tpFileReader->pointer()), (size_t)l_tpFileReader->length(), l_caLuaFileName, caNameSpaceName)) {
+		//		VERIFY		(lua_gettop(lua()) >= 4);
+		//		lua_pop		(lua(),4);
+		//		VERIFY		(lua_gettop(lua()) == start - 3);
+		lua_settop(lua(), start);
+		XRayBearReader::Destroy(l_tpFileReader);
 		return		(false);
 	}
-	FS.r_close		(l_tpFileReader);
+	XRayBearReader::Destroy(l_tpFileReader);
 
 	int errFuncId = -1;
 #ifdef USE_DEBUGGER
 #	ifndef USE_LUA_STUDIO
-		if( ai().script_engine().debugger() )
-			errFuncId = ai().script_engine().debugger()->PrepareLua(lua());
+	if (ai().script_engine().debugger())
+		errFuncId = ai().script_engine().debugger()->PrepareLua(lua());
 #	endif // #ifndef USE_LUA_STUDIO
 #endif // #ifdef USE_DEBUGGER
 	if (0)	//.
 	{
-	    for (int i=0; lua_type(lua(), -i-1); i++)
-            Msg	("%2d : %s",-i-1,lua_typename(lua(), lua_type(lua(), -i-1)));
+		for (int i = 0; lua_type(lua(), -i - 1); i++)
+			Msg("%2d : %s", -i - 1, lua_typename(lua(), lua_type(lua(), -i - 1)));
 	}
 
 	// because that's the first and the only call of the main chunk - there is no point to compile it
 //	luaJIT_setmode	(lua(),0,LUAJIT_MODE_ENGINE|LUAJIT_MODE_OFF);						// Oles
-	int	l_iErrorCode = lua_pcall(lua(),0,0,(-1==errFuncId)?0:errFuncId);				// new_Andy
+	int	l_iErrorCode = lua_pcall(lua(), 0, 0, (-1 == errFuncId) ? 0 : errFuncId);				// new_Andy
 //	luaJIT_setmode	(lua(),0,LUAJIT_MODE_ENGINE|LUAJIT_MODE_ON);						// Oles
 
 #ifdef USE_DEBUGGER
 #	ifndef USE_LUA_STUDIO
-		if( ai().script_engine().debugger() )
-			ai().script_engine().debugger()->UnPrepareLua(lua(),errFuncId);
+	if (ai().script_engine().debugger())
+		ai().script_engine().debugger()->UnPrepareLua(lua(), errFuncId);
 #	endif // #ifndef USE_LUA_STUDIO
 #endif // #ifdef USE_DEBUGGER
 	if (l_iErrorCode) {
 #ifdef DEBUG
-		print_output(lua(),caScriptName,l_iErrorCode);
+		print_output(lua(), caScriptName, l_iErrorCode);
 #endif
-		on_error	(lua());
-		lua_settop	(lua(),start);
+		on_error(lua());
+		lua_settop(lua(), start);
 		return		(false);
 	}
 
 	return			(true);
 }
 
-bool CScriptStorage::load_file_into_namespace(LPCSTR caScriptName, LPCSTR caNamespaceName)
+bool CScriptStorage::load_file_into_namespace(const bchar*fsPath, LPCSTR caScriptName, LPCSTR caNamespaceName)
 {
 	int				start = lua_gettop(lua());
-	if (!do_file(caScriptName,caNamespaceName)) {
+	if (!do_file(fsPath,caScriptName,caNamespaceName)) {
 		lua_settop	(lua(),start);
 		return		(false);
 	}
@@ -737,7 +737,7 @@ struct raii_guard : private boost::noncopyable {
 #endif //#ifdef DEBUG
 		{
 #ifdef DEBUG
-			static bool const break_on_assert	= !!strstr(Core.Params,"-break_on_assert");
+			static bool const break_on_assert	= !!strstr(GetCommandLine(),"-break_on_assert");
 #else // #ifdef DEBUG
 			static bool const break_on_assert	= true;
 #endif // #ifdef DEBUG
@@ -827,9 +827,8 @@ void CScriptStorage::print_error(lua_State *L, int iErrorCode)
 void CScriptStorage::flush_log()
 {
 	string_path			log_file_name;
-	strconcat           (sizeof(log_file_name),log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
-	FS.update_path      (log_file_name,"$logs$",log_file_name);
-	m_output.save_to	(log_file_name);
+	strconcat           (sizeof(log_file_name),log_file_name,"stalker","_",Core.UserName,"_lua.log");
+	FS.Write("%logs%", log_file_name, 0)->Write(m_output.pointer(),m_output.size());
 }
 #endif // DEBUG
 

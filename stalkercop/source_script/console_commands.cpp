@@ -401,14 +401,11 @@ public:
 		//	return;
 		//};
 		#endif
-		Console->Hide	();
+		Console->Hide();
+		string_path		fn_;
+		strconcat(sizeof(fn_), fn_, args, ".xrdemo");
 
-		LPSTR			fn_; 
-		STRCONCAT		(fn_, args, ".xrdemo");
-		string_path		fn;
-		FS.update_path	(fn, "$game_saves$", fn_);
-
-		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
+		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord>(fn_));
 	}
 };
 
@@ -434,40 +431,40 @@ public:
 
 };
 Fvector CCC_DemoRecordSetPos::p = {0,0,0};
-
 class CCC_DemoPlay : public IConsole_Command
 {
 public:
-	CCC_DemoPlay(LPCSTR N) : 
-	  IConsole_Command(N) 
-	  { bEmptyArgsHandled = TRUE; };
-	  virtual void Execute(LPCSTR args) {
-		#ifndef	DEBUG
-		//if (GameID() != eGameIDSingle) 
-		//{
-		//	Msg("For this game type Demo Play is disabled.");
-		//	return;
-		//};
-		#endif
-		  if (0==g_pGameLevel)
-		  {
-			  Msg	("! There are no level(s) started");
-		  } else {
-			  Console->Hide			();
-			  string_path			fn;
-			  u32		loops	=	0;
-			  LPSTR		comma	=	strchr(const_cast<LPSTR>(args),',');
-			  if (comma)	{
-				  loops			=	atoi	(comma+1);
-				  *comma		=	0;	//. :)
-			  }
-			  strconcat			(sizeof(fn),fn, args, ".xrdemo");
-			  FS.update_path	(fn, "$game_saves$", fn);
-			  g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay> (fn, 1.0f, loops));
-		  }
-	  }
+	CCC_DemoPlay(LPCSTR N) :
+		IConsole_Command(N)
+	{
+		bEmptyArgsHandled = TRUE;
+	};
+	virtual void Execute(LPCSTR args) {
+#ifndef	DEBUG
+		if (GameID() != eGameIDSingle)
+		{
+			Msg("For this game type Demo Play is disabled.");
+			return;
+		};
+#endif
+		if (0 == g_pGameLevel)
+		{
+			Msg("! There are no level(s) started");
+		}
+		else {
+			Console->Hide();
+			string_path			fn;
+			u32		loops = 0;
+			LPSTR		comma = strchr(const_cast<LPSTR>(args), ',');
+			if (comma) {
+				loops = atoi(comma + 1);
+				*comma = 0;	//. :)
+			}
+			strconcat(sizeof(fn), fn, args, ".xrdemo");
+			g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoPlay>(fn, 1.0f, loops));
+		}
+	}
 };
-
 // helper functions --------------------------------------------
 
 bool valid_saved_game_name(LPCSTR file_name)
@@ -489,30 +486,16 @@ void get_files_list( xr_vector<shared_str>& files, LPCSTR dir, LPCSTR file_ext )
 	VERIFY( dir && file_ext );
 	files.clear_not_free();
 
-	FS_Path* P = FS.get_path( dir );
-	P->m_Flags.set( FS_Path::flNeedRescan, TRUE );
-	FS.m_Flags.set( CLocatorAPI::flNeedCheck, TRUE );
-	FS.rescan_pathes();
+	BearCore::BearVector<BearCore::BearString> Files;
+	FS.GetFiles(Files, dir, file_ext,true);
 
-	LPCSTR fext;
-	STRCONCAT( fext, "*", file_ext );
-
-	FS_FileSet  files_set;
-	FS.file_list( files_set, dir, FS_ListFiles, fext );
-	u32 len_str_ext = xr_strlen( file_ext );
-
-	FS_FileSetIt itb = files_set.begin();
-	FS_FileSetIt ite = files_set.end();
-
-	for( ; itb != ite; ++itb )
+	auto b = Files.begin();
+	auto e = Files.end();
+	while (b != e)
 	{
-		LPCSTR fn_ext = (*itb).name.c_str();
-		VERIFY( xr_strlen(fn_ext) > len_str_ext );
-		string_path fn;
-		strncpy_s( fn, sizeof(fn), fn_ext, xr_strlen(fn_ext)-len_str_ext );
-		files.push_back( fn );
+		files.push_back(**b);
+		b++;
 	}
-	FS.m_Flags.set( CLocatorAPI::flNeedCheck, FALSE );
 }
 
 #include "UIGameCustom.h"
@@ -540,7 +523,7 @@ public:
 
 		Console->Execute			("stat_memory");
 
-		string_path				S, S1;
+		string_path				S;
 		S[0]					= 0;
 		strncpy_s				(S, sizeof(S), args, _MAX_PATH - 1 );
 		
@@ -576,12 +559,11 @@ public:
 		_s->wnd()->TextItemControl()->SetText(save_name);
 
 		xr_strcat				(S,".dds");
-		FS.update_path			(S1,"$game_saves$",S);
 		
 #ifdef DEBUG
 		timer.Start				();
 #endif
-		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);
+		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE, S);
 
 #ifdef DEBUG
 		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);
@@ -590,7 +572,7 @@ public:
 
 	virtual void fill_tips			(vecTips& tips, u32 mode)
 	{
-		get_files_list				(tips, "$game_saves$", SAVE_EXTENSION);
+		get_files_list				(tips, "%saves%", SAVE_EXTENSION);
 	}
 
 };//CCC_ALifeSave
@@ -1240,11 +1222,11 @@ public:
 			Log("* Specify script name!");
 		}
 		else
-		{
+		{/*
 			// rescan pathes
 			FS_Path* P = FS.get_path("$game_scripts$");
 			P->m_Flags.set	(FS_Path::flNeedRescan,TRUE);
-			FS.rescan_pathes();
+			FS.rescan_pathes();*/
 			// run script
 			if (ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel))
 				ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->add_script(args,false,true);
@@ -1588,8 +1570,9 @@ public:
 
 		string_path				fn;
 
-		if (!FS.exist(arguments) && !FS.exist(fn, "$level$", name) && !FS.exist(fn, "$game_meshes$", name)) {
-			Msg					("! Cannot find visual \"%s\"",arguments);
+
+		if (!FS.ExistFile("%level%", name) && !FS.ExistFile("%meshes%", name)) {
+			Msg("! Cannot find visual \"%s\"", arguments);
 			return;
 		}
 

@@ -495,9 +495,9 @@ void stats_submitter::save_file(gamespy_gp::profile const * profile)
 	ltx_to_write.w_s32(profile_data_section, profile_id_line, profile->m_profile_id);
 	ltx_to_write.w_u32(profile_data_section, profile_last_submit_time, static_cast<u32>(tmp_time));
 
-	IWriter* tmp_writer = FS.w_open("$app_data_root$", profile_store_file_name);
+	IWriter* tmp_writer =XRayBearWriter::Create( FS.Write("%user%", profile_store_file_name,0));
 	m_ltx_file.sign_and_save(*tmp_writer);
-	FS.w_close(tmp_writer);
+	XRayBearWriter::Destroy(tmp_writer);
 }
 
 

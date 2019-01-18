@@ -148,19 +148,20 @@ CMainMenu::~CMainMenu	()
 
 void CMainMenu::ReadTextureInfo()
 {
-	FS_FileSet fset;
-	FS.file_list(fset, "$game_config$", FS_ListFiles,"ui\\textures_descr\\*.xml");
-	FS_FileSetIt fit	= fset.begin();
-	FS_FileSetIt fit_e	= fset.end();
+	BearCore::BearVector<BearCore::BearString> fset;
+	FS.GetFiles(fset, "%config%", "ui\\textures_descr\\*.xml", true);
+	auto fit = fset.begin();
+	auto fit_e = fset.end();
 
-	for( ;fit!=fit_e; ++fit)
+	for (; fit != fit_e; ++fit)
 	{
-    	string_path	fn1, fn2,fn3;
-        _splitpath	((*fit).name.c_str(),fn1,fn2,fn3,0);
-		xr_strcat(fn3,".xml");
+		string_path	fn1, fn2, fn3;
+		_splitpath((**fit), fn1, fn2, fn3, 0);
+		strcat(fn3, ".xml");
 
 		CUITextureMaster::ParseShTexInfo(fn3);
 	}
+
 
 }
 
@@ -596,7 +597,7 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	GetFullPathName(fileName, 4096, FilePath, &FileName);
 
 	string_path		fname;
-	if (FS.path_exist("$downloads$"))
+	/*if (FS.path_exist("$downloads$"))
 	{
 		FS.update_path(fname, "$downloads$", FileName);
 		m_sPatchFileName = fname;
@@ -609,7 +610,7 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	m_sPDProgress.FileName		= m_sPatchFileName;
 	m_sPDProgress.Status		= "";
 
-	m_pGameSpyFull->GetGameSpyHTTP()->DownloadFile(*m_sPatchURL, *m_sPatchFileName);
+	m_pGameSpyFull->GetGameSpyHTTP()->DownloadFile(*m_sPatchURL, *m_sPatchFileName);*/
 }
 
 void	CMainMenu::OnDownloadPatchError()

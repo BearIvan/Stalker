@@ -5,7 +5,7 @@
 using namespace luabind;
 
 void CUIOptionsManagerScript::SetCurrentValues(const char* group){
-	CUIOptionsItem::GetOptionsManager()->SetCurrentValues(group);
+		CUIOptionsItem::GetOptionsManager()->SetCurrentValues(group);
 }
 
 void CUIOptionsManagerScript::SaveBackupValues(const char* group){

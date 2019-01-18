@@ -14,7 +14,7 @@ cdkey_ban_list::~cdkey_ban_list()
 void cdkey_ban_list::load()
 {
 	Msg("* Loading ban list...");
-	string_path		banlist_file;
+/*	string_path		banlist_file;
 	FS.update_path			(banlist_file, "$app_data_root$", "banned_list.ltx");
 	CInifile		bl_ini	(banlist_file);
 	CInifile::Root& banlist = bl_ini.sections();
@@ -30,12 +30,12 @@ void cdkey_ban_list::load()
 			Msg("! ERROR: load [%s] ban item section", (*i)->Name.size() > 0 ? (*i)->Name.c_str() : "");
 			xr_delete(tmp_client);
 		}
-	}
+	}*/
 	erase_expired_ban_items();
 }
 void cdkey_ban_list::save()
 {
-	string_path		banlist_file;
+	/*string_path		banlist_file;
 	FS.update_path	(banlist_file, "$app_data_root$", "banned_list.ltx");
 	CInifile		bl_ini(banlist_file, FALSE, FALSE, TRUE);
 	string64		tmp_sect_name;
@@ -47,7 +47,7 @@ void cdkey_ban_list::save()
 		xr_sprintf(tmp_sect_name, "client_%d", index);
 		(*i)->save(&bl_ini, tmp_sect_name);
 		++index;
-	}
+	}*/
 }
 
 bool cdkey_ban_list::is_player_banned(char const * hexstr_digest, shared_str & buy_who)

@@ -52,7 +52,7 @@ void CSE_ALifeTraderAbstract::spawn_supplies	()
 					(void*)(*dynamic_object->m_ini_string),
 					xr_strlen(dynamic_object->m_ini_string)
 				),
-				FS.get_path("$game_config$")->m_Path
+				TEXT("%config%"),TEXT("")
 			);
 #pragma warning(pop)
 

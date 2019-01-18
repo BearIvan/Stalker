@@ -137,15 +137,14 @@ void CLevelSoundManager::Load()
 {
 	// static level sounds
  	VERIFY(m_StaticSounds.empty());
-	string_path fn;
-	if (FS.exist(fn, "$level$", "level.snd_static")) {
-		IReader *F		= FS.r_open	(fn);
+	if (FS.ExistFile( "%level%", "level.snd_static")) {
+		IReader *F		=XRayBearReader::Create( FS.Read	("%level%", "level.snd_static"));
 		u32				chunk = 0;
 		for (IReader *OBJ = F->open_chunk_iterator(chunk); OBJ; OBJ = F->open_chunk_iterator(chunk,OBJ)) {
 			m_StaticSounds.push_back	(SStaticSound());
 			m_StaticSounds.back().Load	(*OBJ);
 		}
-		FS.r_close				(F);
+		XRayBearReader::Destroy(F);
 	}
 
 	// music

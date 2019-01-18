@@ -368,9 +368,9 @@ void game_sv_GameState::Create					(shared_str &options)
 {
 	string_path	fn_game;
 	m_item_respawner.clear_respawns();
-	if (FS.exist(fn_game, "$level$", "level.game")) 
+	if (FS.ExistFile( "%level%", "level.game")) 
 	{
-		IReader *F = FS.r_open	(fn_game);
+		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
 		IReader *O = 0;
 
 		// Load RPoints
@@ -435,16 +435,14 @@ void game_sv_GameState::Create					(shared_str &options)
 			O->close();
 		}
 
-		FS.r_close	(F);
+		XRayBearReader::Destroy(F);
 	}
 
 	if (!g_dedicated_server)
 	{
 		// loading scripts
 		ai().script_engine().remove_script_process(ScriptEngine::eScriptProcessorGame);
-		string_path					S;
-		FS.update_path				(S,"$game_config$","script.ltx");
-		CInifile					*l_tpIniFile = xr_new<CInifile>(S);
+		CInifile					*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 		R_ASSERT					(l_tpIniFile);
 
 		if( l_tpIniFile->section_exist( type_name() ) )
@@ -464,11 +462,11 @@ void game_sv_GameState::Create					(shared_str &options)
 //	xr_delete					(pTmp);
 	//---------------------------------------------------------------------
 	LPCSTR		svcfg_ltx_name = "-svcfg ";
-	if (strstr(Core.Params, svcfg_ltx_name))
+	if (strstr(GetCommandLine(), svcfg_ltx_name))
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		sscanf		(strstr(Core.Params,svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		sscanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -484,9 +482,7 @@ void	game_sv_GameState::ReadOptions				(shared_str &options)
 
 //.	xr_strcpy(MAPROT_LIST, MAPROT_LIST_NAME);
 //.	if (!FS.exist(MAPROT_LIST))
-	FS.update_path(MAPROT_LIST, "$app_data_root$", MAPROT_LIST_NAME);
-	if (FS.exist(MAPROT_LIST))
-		Console->ExecuteScript(MAPROT_LIST);
+		Console->ExecuteScript(MAPROT_LIST_NAME);
 	
 	g_sv_base_iVotingEnabled = get_option_i(*options,"vote",(g_sv_base_iVotingEnabled));
 	//---------------------------
@@ -1093,7 +1089,7 @@ void game_sv_GameState::SaveMapList				()
 {
 	if (0==MAPROT_LIST[0])				return;
 	if (m_pMapRotation_List.empty())	return;
-	IWriter*		fs		= FS.w_open(MAPROT_LIST);
+	IWriter*		fs		=XRayBearWriter::Create( FS.Write(TEXT("%user%"),MAPROT_LIST_NAME,0));
 
 	while(m_pMapRotation_List.size())
 	{
@@ -1101,7 +1097,7 @@ void game_sv_GameState::SaveMapList				()
 		fs->w_printf		("sv_addmap %s/ver=%s\n", R.map_name.c_str(), R.map_ver.c_str());
 		m_pMapRotation_List.pop_front();
 	};
-	FS.w_close				(fs);
+	XRayBearWriter::Destroy(fs);
 };
 
 shared_str game_sv_GameState::level_name		(const shared_str &server_options) const

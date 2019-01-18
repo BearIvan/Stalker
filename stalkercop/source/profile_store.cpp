@@ -128,14 +128,12 @@ void profile_store::load_profile(store_operation_cb progress_indicator_cb)
 		m_progress_indicator = progress_indicator_cb;
 	}
 	
-	string_path		tmp_path;
-	FS.update_path	(tmp_path, "$app_data_root$", profile_store_file_name);
 	IReader*		tmp_reader = NULL;
 	m_valid_ltx		= false;
 	
-	if (FS.exist(tmp_path))
+	if (FS.ExistFile("%user%", profile_store_file_name))
 	{
-		tmp_reader = FS.r_open("$app_data_root$", profile_store_file_name);
+		tmp_reader =XRayBearReader::Create( FS.Read("%user%", profile_store_file_name));
 	}
 	
 	if (tmp_reader)
@@ -147,7 +145,7 @@ void profile_store::load_profile(store_operation_cb progress_indicator_cb)
 				static_cast<u8*>(tmp_reader->pointer()),
 				tmp_length
 			);
-			FS.r_close(tmp_reader);
+			XRayBearReader::Destroy(tmp_reader);
 		}
 	}
 	if (m_valid_ltx)

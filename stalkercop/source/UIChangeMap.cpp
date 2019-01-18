@@ -116,7 +116,7 @@ void CUIChangeMap::OnItemSelect()
 	xr_string full_name		= map_name + ".dds";
 
 	Frect orig_rect = map_pic->GetTextureRect();
-	if (FS.exist("$game_textures$",full_name.c_str()))
+	if (FS.ExistFile("%textures%",full_name.c_str()))
 		map_pic->InitTexture(map_name.c_str());
 	else
 		map_pic->InitTexture("ui\\ui_noise");

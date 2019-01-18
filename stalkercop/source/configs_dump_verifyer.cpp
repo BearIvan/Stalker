@@ -56,7 +56,7 @@ bool const configs_verifyer::verify_dsign(u8* data,
 	--tmp_info_sect;
 	u32			tmp_info_sect_size = xr_strlen(tmp_info_sect);
 	IReader		tmp_reader(tmp_info_sect, tmp_info_sect_size);
-	CInifile	tmp_ini(&tmp_reader);
+	CInifile	tmp_ini(&tmp_reader,TEXT("%config%"));
 
 	if (!tmp_ini.line_exist(cd_info_secion, cd_player_name_key) ||
 		!tmp_ini.line_exist(cd_info_secion, cd_player_digest_key) ||
@@ -202,7 +202,7 @@ bool const configs_verifyer::verify(u8* data, u32 data_size, string256 & diff)
 	}
 
 	IReader		tmp_reader(data, data_size);
-	CInifile	tmp_ini(&tmp_reader);
+	CInifile	tmp_ini(&tmp_reader,TEXT("%config%"));
 	CInifile	tmp_active_params(NULL, FALSE, FALSE, FALSE);
 	
 	string16	tmp_digit;

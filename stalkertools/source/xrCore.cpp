@@ -65,6 +65,7 @@ extern compression::ppmd::stream* trained_model;
 #endif
 void xrCore::Destroy()
 {
+	FlushLog();
     --init_counter;
 	if (0 == init_counter)
 	{

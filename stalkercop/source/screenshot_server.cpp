@@ -178,14 +178,14 @@ void clientdata_proxy::save_proxy_config()
 	SYSTEMTIME					date_time;
 	GetLocalTime				(&date_time);
 	clgame->generate_file_name	(dest_file_name, fn_suffix, date_time);
-	IWriter*	tmp_writer		= FS.w_open("$screenshots$", dest_file_name);
+	IWriter*	tmp_writer		=XRayBearWriter::Create( FS.Write("%screenshots%", dest_file_name,0));
 	if (!tmp_writer)
 		return;
 	tmp_writer->w_u32			(m_receiver->get_user_param());	//unpacked size
 	tmp_writer->w				(
 		my_proxy_mem_file.pointer(),
 		my_proxy_mem_file.size());
-	FS.w_close					(tmp_writer);
+	XRayBearWriter::Destroy(tmp_writer);
 }
 
 void clientdata_proxy::download_screenshot_callback(file_transfer::receiving_status_t status, 

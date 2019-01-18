@@ -18,7 +18,7 @@ CScriptIniFile::CScriptIniFile		(IReader *F, LPCSTR path) :
 }
 
 CScriptIniFile::CScriptIniFile		(LPCSTR szFileName, BOOL ReadOnly, BOOL bLoadAtStart, BOOL SaveAtEnd) :
-	inherited	(update(szFileName), ReadOnly, bLoadAtStart, SaveAtEnd)
+	inherited	("%config%", szFileName, ReadOnly, bLoadAtStart, SaveAtEnd)
 {
 }
 
@@ -28,12 +28,11 @@ CScriptIniFile::~CScriptIniFile		()
 
 LPCSTR	CScriptIniFile::update		(LPCSTR file_name)
 {
-	if (!FS.exist("$game_config$", file_name))
+	if (!FS.ExistFile("%config%", file_name))
 	{
 		Msg("!  Не найден [%s]", file_name);
 	}
 	string_path			S1;
-	FS.update_path		(S1,"$game_config$",file_name);
 
 	return				(*shared_str(S1));
 }

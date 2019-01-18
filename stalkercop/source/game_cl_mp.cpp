@@ -1763,17 +1763,16 @@ void game_cl_mp::decompress_and_save_screenshot(LPCSTR file_name, u8* data, u32 
 		Msg("! WARNING: original and downloaded file size are different !");
 	}
 	string_path screen_shot_path;
-	FS.update_path(screen_shot_path, "$screenshots$", file_name);
 	xr_strcat(screen_shot_path, ".jpg");
 	
-	IWriter* ftosave = FS.w_open(screen_shot_path);
+	IWriter* ftosave =XRayBearWriter::Create( FS.Write("%screenshots%", file_name,TEXT(".jpg"),0));
 	if (!ftosave)
 	{
 		Msg("! ERROR: failed to create file [%s]", file_name);
 		return;
 	}
 	ftosave->w(buffer_for_compress, file_size);
-	FS.w_close(ftosave);
+	XRayBearWriter::Destroy(ftosave);
 }
 
 void game_cl_mp::decompress_and_process_config(LPCSTR file_name, u8* data, u32 data_size, u32 file_size)
@@ -1799,18 +1798,15 @@ void game_cl_mp::decompress_and_process_config(LPCSTR file_name, u8* data, u32 d
 	{
 		Msg("! WARNING: original and downloaded file size are different !");
 	}
-	string_path screen_shot_path;
-	FS.update_path(screen_shot_path, "$screenshots$", file_name);
-	xr_strcat(screen_shot_path, ".ltx");
 	
-	IWriter* ftosave = FS.w_open(screen_shot_path);
+	IWriter* ftosave = XRayBearWriter::Create(FS.Write("%screenshots%", file_name, TEXT(".ltx"), 0));
 	if (!ftosave)
 	{
 		Msg("! ERROR: failed to create file [%s]", file_name);
 		return;
 	}
 	ftosave->w			(buffer_for_compress, file_size);
-	FS.w_close			(ftosave);
+	XRayBearWriter::Destroy(ftosave);
 	string256			tmp_diff;
 	if (!cd_verifyer.verify(buffer_for_compress, file_size, tmp_diff))
 	{

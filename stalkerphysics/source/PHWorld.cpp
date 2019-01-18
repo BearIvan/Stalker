@@ -61,14 +61,16 @@ void	__stdcall	destroy_physics_world()
 
 CObjectSpace* __stdcall create_object_space()
 {
-	//CFileReader* fr =	xr_new<CFileReader>("D:/STALKER/resources/gamedata/levels/stohe_selo/level.cform");
-	CFileReader* fr =	xr_new<CFileReader>("ActorEditorLevel.cform");
+/*	//CFileReader* fr =	xr_new<CFileReader>("D:/STALKER/resources/gamedata/levels/stohe_selo/level.cform");
+	XRayBearFileStream* fr = XRayBearFileStream::Create()
 	CObjectSpace* os = xr_new<CObjectSpace>();
 	g_SpatialSpace				= xr_new<ISpatial_DB>	();
 	g_SpatialSpacePhysic		= xr_new<ISpatial_DB>	();
 	os->Load( fr, 0 );
 	//xr_delete(fr);
-	return os;
+	return os;*/
+	BEAR_ASSERT(false);
+	return 0;
 }
 CObjectSpace*	__stdcall	mesh_create_object_space(Fvector* verts, CDB::TRI* tris, const hdrCFORM &H, CDB::build_callback build_callback)
 {
