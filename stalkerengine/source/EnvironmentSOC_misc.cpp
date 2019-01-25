@@ -259,8 +259,9 @@ void CEnvDescriptorMixerSOC::lerp	(CEnvironmentSOC* , CEnvDescriptorSOC& A, CEnv
 	clouds_r_textures.push_back	(mk_pair(0,A.clouds_texture));
 	clouds_r_textures.push_back	(mk_pair(1,B.clouds_texture));
 
-	weight					=	f;
+	
 	*/
+	weight = f;
 	clouds_color.lerp		(A.clouds_color,B.clouds_color,f);
 	sky_rotation			=	(fi*A.sky_rotation + f*B.sky_rotation);
 	far_plane				=	(fi*A.far_plane + f*B.far_plane + M.far_plane)*psVisDistance*_power;

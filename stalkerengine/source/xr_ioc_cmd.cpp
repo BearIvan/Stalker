@@ -220,6 +220,7 @@ public:
     virtual void Execute(LPCSTR args)
     {
         string_path cfg_full_name;
+		BearCore::BearStringPath fn;
         xr_strcpy(cfg_full_name, (xr_strlen(args) > 0) ? args : Console->ConfigFile);
 
         bool b_abs_name = xr_strlen(cfg_full_name) > 2 && cfg_full_name[1] == ':';
@@ -238,8 +239,8 @@ public:
 
 
         BOOL b_allow = TRUE;
-        if (FS.ExistFile("%user%",cfg_full_name))
-            b_allow = SetFileAttributes(cfg_full_name, FILE_ATTRIBUTE_NORMAL);
+        if (FS.ExistFileAndUpdate("%user%",cfg_full_name, fn))
+            b_allow = SetFileAttributes(fn, FILE_ATTRIBUTE_NORMAL);
 
         if (b_allow)
         {

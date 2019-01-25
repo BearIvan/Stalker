@@ -63,36 +63,37 @@ void CEngineAPI::InitializeNotDedicated()
 {
     SECUROM_MARKER_HIGH_SECURITY_ON(2)
 
-   /*LPCSTR r2_name = "StalkerRender2.dll";
-    LPCSTR r3_name = "StalkerRender3.dll";
-    LPCSTR r4_name = "StalkerRender4.dll";
 
     if (psDeviceFlags.test(rsR4))
     {
         // try to initialize R4
-        Log("Loading DLL:", r4_name);
-        hRender = LoadLibrary(r4_name);
-        if (0 == hRender)
+		Log("Loading DLL:", TEXT("stalker_r4"));
+
+        if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
         {
-            // try to load R1
             Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
             psDeviceFlags.set(rsR2, TRUE);
         }
+		else
+		{
+			bRender = true;
+		}
     }
 
     if (psDeviceFlags.test(rsR3))
     {
         // try to initialize R3
-        Log("Loading DLL:", r3_name);
-        hRender = LoadLibrary(r3_name);
-        if (0 == hRender)
-        {
-            // try to load R1
-            Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
-            psDeviceFlags.set(rsR2, TRUE);
-        }
-        else
-            g_current_renderer = 3;
+		Log("Loading DLL:", TEXT("stalker_r3"));
+		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r3")))
+		{
+			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
+			psDeviceFlags.set(rsR2, TRUE);
+		}
+		else
+		{
+			g_current_renderer = 3;
+			bRender = true;
+		}
     }
 
     if (psDeviceFlags.test(rsR2))
@@ -100,17 +101,17 @@ void CEngineAPI::InitializeNotDedicated()
         // try to initialize R2
         psDeviceFlags.set(rsR4, FALSE);
         psDeviceFlags.set(rsR3, FALSE);
-        Log("Loading DLL:", r2_name);
-        hRender = LoadLibrary(r2_name);
-        if (0 == hRender)
-        {
-            // try to load R1
-            Msg("! ...Failed - incompatible hardware.");
-        }
-        else
-            g_current_renderer = 2;
+		Log("Loading DLL:", TEXT("stalker_r2"));
+		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r2")))
+		{
+			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
+		}
+		else
+		{
+			g_current_renderer = 2;
+			bRender = true;
+		}
     }
-	*/
     SECUROM_MARKER_HIGH_SECURITY_OFF(2)
 }
 #endif // DEDICATED_SERVER
@@ -120,15 +121,6 @@ void CEngineAPI::Initialize(void)
 {
     //////////////////////////////////////////////////////////////////////////
     // render
-    LPCSTR r1_name =
-#ifdef MIXED
-		"stalker_r1_mixed.dll"
-#elif DEBUG
-		"stalker_r1_debug.dll"
-#else
-		"stalker_r1"
-#endif
-		;
 
 #ifndef DEDICATED_SERVER
     InitializeNotDedicated();
@@ -183,6 +175,29 @@ void CEngineAPI::Initialize(void)
 
 void CEngineAPI::Destroy(void)
 {
+	{
+		const bchar*name = TEXT("stalkersoc");
+		switch (gameVersionController->getGame())
+		{
+		case GameVersionController::SOC:
+			break;
+		case GameVersionController::COP:
+			name = TEXT("stalkercop");
+			break;
+		case GameVersionController::CS:
+			name = TEXT("stalkercs");
+			break;
+		default:
+			NODEFAULT;
+			break;
+		}
+		BearCore::BearProjectTool::UnLoad(name);
+	}
+	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r1"));
+	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r2"));
+	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r3"));
+	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
+
     pCreate = 0;
     pDestroy = 0;
     Engine.Event._destroy();
@@ -215,9 +230,6 @@ void CEngineAPI::CreateRendererList()
     bool bSupports_r3 = false;
     bool bSupports_r4 = false;
 
-    LPCSTR r2_name = "xrRender_R2.dll";
-    LPCSTR r3_name = "xrRender_R3.dll";
-    LPCSTR r4_name = "xrRender_R4.dll";
 
     if (strstr(GetCommandLine(), "-perfhud_hack"))
     {
@@ -228,6 +240,26 @@ void CEngineAPI::CreateRendererList()
     }
     else
     {
+		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r2")))
+		{
+			bSupports_r2 = true;
+			SupportsAdvancedRendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsAdvancedRendering*>(TEXT("stalker_r2"), TEXT("SupportsAdvancedRendering"));
+			R_ASSERT(test_rendering);
+			bSupports_r2_5 = test_rendering();
+			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r2"));
+		}
+		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r3")))
+		{
+			SupportsDX10Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX10Rendering*>(TEXT("stalker_r3"), TEXT("SupportsDX10Rendering"));
+			bSupports_r3= test_rendering();
+			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r3"));
+		}
+		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
+		{
+			SupportsDX11Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r4"), TEXT("SupportsDX11Rendering"));
+			bSupports_r4 = test_rendering();
+			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
+		}
         // try to initialize R2
       /*  Log("Loading DLL:", r2_name);
         hRender = LoadLibrary(r2_name);

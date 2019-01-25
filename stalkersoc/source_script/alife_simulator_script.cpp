@@ -4,7 +4,7 @@
 //  Modified 	: 13.05.2004
 //	Author		: Dmitriy Iassenev
 //	Description : ALife Simulator script export
-////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////object
 
 #include "pch_script.h"
 #include "alife_simulator.h"
@@ -34,14 +34,16 @@ CALifeSimulator *alife				()
 	return			(const_cast<CALifeSimulator*>(ai().get_alife()));
 }
 
-CSE_ALifeDynamicObject *alife_object		(const CALifeSimulator *self, ALife::_OBJECT_ID object_id)
+CSE_ALifeDynamicObject *alife_object		(const CALifeSimulator *self,int id)
 {
+	ALife::_OBJECT_ID object_id = id;
 	VERIFY			(self);
 	return			(self->objects().object(object_id,true));
 }
 
-bool valid_object_id						(const CALifeSimulator *self, ALife::_OBJECT_ID object_id)
+bool valid_object_id						(const CALifeSimulator *self, int id)
 {
+	ALife::_OBJECT_ID object_id = id;
 	VERIFY			(self);
 	return			(object_id != 0xffff);
 }
@@ -60,8 +62,9 @@ CSE_ALifeDynamicObject *alife_object		(const CALifeSimulator *self, LPCSTR name)
 }
 
 
-CSE_ALifeDynamicObject *alife_object		(const CALifeSimulator *self, ALife::_OBJECT_ID id, bool no_assert)
+CSE_ALifeDynamicObject *alife_object		(const CALifeSimulator *self, int id, bool no_assert)
 {
+	ALife::_OBJECT_ID object_id = id;
 	VERIFY			(self);
 	return			(self->objects().object(id,no_assert));
 }
@@ -337,9 +340,9 @@ void CALifeSimulator::script_register			(lua_State *L)
 			.def("valid_object_id",			&valid_object_id)
 			.def("level_id",				&get_level_id)
 			.def("level_name",				&get_level_name)
-			.def("object",					(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *,ALife::_OBJECT_ID))(alife_object))
+			.def("object",					(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *,int))(alife_object))
 			.def("object",					(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *,LPCSTR))(alife_object))
-			.def("object",					(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *,ALife::_OBJECT_ID, bool))(alife_object))
+			.def("object",					(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *, int, bool))(alife_object))
 			.def("story_object",			(CSE_ALifeDynamicObject *(*) (const CALifeSimulator *,ALife::_STORY_ID))(alife_story_object))
 			.def("set_switch_online",		(void (CALifeSimulator::*) (ALife::_OBJECT_ID,bool))(&CALifeSimulator::set_switch_online))
 			.def("set_switch_offline",		(void (CALifeSimulator::*) (ALife::_OBJECT_ID,bool))(&CALifeSimulator::set_switch_offline))
