@@ -1,19 +1,17 @@
 #include "stdafx.h"
 #include "r4.h"
-#include "../xrRender/ResourceManager.h"
-#include "../xrRender/fbasicvisual.h"
-#include "../../xrEngine/fmesh.h"
-#include "../../xrEngine/xrLevel.h"
-#include "../../xrEngine/x_ray.h"
-#include "../../xrEngine/IGame_Persistent.h"
-#include "../../xrCore/stream_reader.h"
+#include "xrRender/ResourceManager.h"
+#include "xrRender/fbasicvisual.h"
+#include "engine/fmesh.h"
+#include "engine/xrLevel.h"
+#include "engine/x_ray.h"
+#include "engine/IGame_Persistent.h"
+#include "xrRender/dxRenderDeviceRender.h"
 
-#include "../xrRender/dxRenderDeviceRender.h"
+#include "xrRenderDX10/dx10BufferUtils.h"
+#include "xrRenderDX10/3DFluid/dx103DFluidVolume.h"
 
-#include "../xrRenderDX10/dx10BufferUtils.h"
-#include "../xrRenderDX10/3DFluid/dx103DFluidVolume.h"
-
-#include "../xrRender/FHierrarhyVisual.h"
+#include "xrRender/FHierrarhyVisual.h"
 
 #pragma warning(push)
 #pragma warning(disable:4995)
@@ -62,19 +60,19 @@ void CRender::level_Load(IReader* fs)
 //		g_pGamePersistent->LoadTitle("st_loading_geometry");
 		g_pGamePersistent->LoadTitle();
 		{
-			CStreamReader			*geom = FS.rs_open("$level$","level.geom");
-			R_ASSERT2				(geom, "level.geom");
-			LoadBuffers				(geom,FALSE);
-			LoadSWIs				(geom);
-			FS.r_close				(geom);
+			XRayBearFileStream			*geom = XRayBearFileStream::Create(FS.Read("%level%", "level.geom"));
+			R_ASSERT2(geom, "level.geom");
+			LoadBuffers(geom, FALSE);
+			LoadSWIs(geom);
+			XRayBearFileStream::Destroy(geom);
 		}
 
 		//...and alternate/fast geometry
 		{
-			CStreamReader			*geom = FS.rs_open("$level$","level.geomx");
-			R_ASSERT2				(geom, "level.geomX");
-			LoadBuffers				(geom,TRUE);
-			FS.r_close				(geom);
+			XRayBearFileStream			*geom = XRayBearFileStream::Create(FS.Read("%level%", "level.geomx"));
+			R_ASSERT2(geom, "level.geomX");
+			LoadBuffers(geom, TRUE);
+			XRayBearFileStream::Destroy(geom);
 		}
 
 		// Visuals
@@ -176,7 +174,7 @@ void CRender::level_Unload()
 	b_loaded					= FALSE;
 }
 
-void CRender::LoadBuffers		(CStreamReader *base_fs,	BOOL _alternative)
+void CRender::LoadBuffers		(XRayBearFileStream *base_fs,	BOOL _alternative)
 {
 	R_ASSERT2					(base_fs,"Could not load geometry. File not found.");
 	dxRenderDeviceRender::Instance().Resources->Evict		();
@@ -189,7 +187,7 @@ void CRender::LoadBuffers		(CStreamReader *base_fs,	BOOL _alternative)
 	// Vertex buffers
 	{
 		// Use DX9-style declarators
-		CStreamReader			*fs	= base_fs->open_chunk(fsL_VB);
+		XRayBearFileStream			*fs	= base_fs->open_chunk(fsL_VB);
 		R_ASSERT2				(fs,"Could not load geometry. File 'level.geom?' corrupted.");
 		u32 count				= fs->r_u32();
 		_DC.resize				(count);
@@ -228,12 +226,12 @@ void CRender::LoadBuffers		(CStreamReader *base_fs,	BOOL _alternative)
 
 //			fs->advance			(vCount*vSize);
 		}
-		fs->close				();
+		XRayBearFileStream::Destroy(fs);
 	}
 
 	// Index buffers
 	{
-		CStreamReader			*fs	= base_fs->open_chunk(fsL_IB);
+		XRayBearFileStream			*fs	= base_fs->open_chunk(fsL_IB);
 		u32 count				= fs->r_u32();
 		_IB.resize				(count);
 		for (u32 i=0; i<count; i++)
@@ -258,7 +256,7 @@ void CRender::LoadBuffers		(CStreamReader *base_fs,	BOOL _alternative)
 
 //			fs().advance		(iCount*2);
 		}
-		fs->close				();
+		XRayBearFileStream::Destroy(fs);
 	}
 }
 
@@ -325,7 +323,7 @@ void CRender::LoadSectors(IReader* fs)
 	{
 		CDB::Collector	CL;
 		fs->find_chunk	(fsL_PORTALS);
-		for (i=0; i<count; i++)
+		for (u32 i=0; i<count; i++)
 		{
 			b_portal	P;
 			fs->r		(&P,sizeof(P));
@@ -362,11 +360,11 @@ void CRender::LoadSectors(IReader* fs)
 	pLastSector = 0;
 }
 
-void CRender::LoadSWIs(CStreamReader* base_fs)
+void CRender::LoadSWIs(XRayBearFileStream* base_fs)
 {
 	// allocate memory for portals
 	if (base_fs->find_chunk(fsL_SWIS)){
-		CStreamReader		*fs	= base_fs->open_chunk(fsL_SWIS);
+		XRayBearFileStream		*fs	= base_fs->open_chunk(fsL_SWIS);
 		u32 item_count		= fs->r_u32();
 
 		xr_vector<FSlideWindowItem>::iterator it	= SWIs.begin();
@@ -389,7 +387,7 @@ void CRender::LoadSWIs(CStreamReader* base_fs)
 			swi.sw			= xr_alloc<FSlideWindow> (swi.count);
 			fs->r			(swi.sw,sizeof(FSlideWindow)*swi.count);
 		}
-		fs->close			();
+		XRayBearFileStream::Destroy(fs);
 	}
 }
 
@@ -400,9 +398,10 @@ void CRender::Load3DFluid()
 		return;
 
 	string_path fn_game;
-	if ( FS.exist( fn_game, "$level$", "level.fog_vol" ) )
+	if (FS.ExistFile("%level%", "level.fog_vol"))
 	{
-		IReader *F	= FS.r_open( fn_game );
+		IReader *F = XRayBearReader::Create(FS.Read("%level%", "level.fog_vol"));
+
 		u16 version	= F->r_u16();
 
 		if(version == 3)
@@ -427,6 +426,6 @@ void CRender::Load3DFluid()
 			}
 		}
 
-		FS.r_close(F);
+		XRayBearReader::Destroy(F);
 	}
 }

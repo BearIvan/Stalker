@@ -7,7 +7,7 @@
 #include "stdafx.h"
 #include "CSCompiler.h"
 #include "ComputeShader.h"
-#include "..\xrRender\dxRenderDeviceRender.h"
+#include "xrRender\dxRenderDeviceRender.h"
 
 CSCompiler::CSCompiler(ComputeShader& target):
 	m_Target(target), m_cs(0)
@@ -186,9 +186,8 @@ void CSCompiler::compile(const char* name)
 
 	string_path					cname;
 	strconcat					(sizeof(cname),cname,::Render->getShaderPath(),name,".cs");
-	FS.update_path				(cname,	"$game_shaders$", cname);
 
-	IReader* file				= FS.r_open(cname);
+	IReader* file = XRayBearReader::Create(FS.Read("%shaders%", cname));
 	R_ASSERT2					( file, cname );
 
 	// Select target
@@ -197,7 +196,7 @@ void CSCompiler::compile(const char* name)
 
 	HRESULT	const _hr			= ::Render->shader_compile(name,(DWORD const*)file->pointer(),file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)m_cs );
 
-	FS.r_close					( file );
+	XRayBearReader::Destroy(file);
 
 	VERIFY(SUCCEEDED(_hr));
 

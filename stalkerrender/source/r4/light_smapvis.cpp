@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "../xrRender/light.h"
-#include "../xrRender/FBasicVisual.h"
+#include "xrRender/light.h"
+#include "xrRender/FBasicVisual.h"
 
 		smapvis::smapvis	()
 {

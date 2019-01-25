@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../../xrEngine/environment.h"
+#include "engine/igame_persistent.h"
+#include "engine/environment.h"
 
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
@@ -187,8 +187,8 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 			static	float	w_shift		= 0;
 			Fmatrix			m_xform;
 			Fvector			direction	= fuckingsun->direction	;
-			float	w_dir				= g_pGamePersistent->Environment().CurrentEnv->wind_direction	;
-			//float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
+			float	w_dir				=GetEnv().CurrentEnv->wind_direction	;
+			//float	w_speed				=GetEnv().CurrentEnv->wind_velocity	;
 			Fvector			normal	;	normal.setHP(w_dir,0);
 							w_shift		+=	0.003f*Device.fTimeDelta;
 			Fvector			position;	position.set(0,0,0);
@@ -235,9 +235,9 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 			zMin = 0;
 			zMax = ps_r2_sun_near;
 		} else {
-			extern float	OLES_SUN_LIMIT_27_01_07;
+			extern float	OLES_SUN_LIMIT_COP;
 			zMin = ps_r2_sun_near;
-			zMax = OLES_SUN_LIMIT_27_01_07;
+			zMax = OLES_SUN_LIMIT_COP;
 		}
 		center_pt.mad(Device.vCameraPosition,Device.vCameraDirection,zMin);	Device.mFullTransform.transform	(center_pt);
 		zMin = center_pt.z	;
@@ -472,8 +472,8 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 			static	float	w_shift		= 0;
 			Fmatrix			m_xform;
 			Fvector			direction	= fuckingsun->direction	;
-			float	w_dir				= g_pGamePersistent->Environment().CurrentEnv->wind_direction	;
-			//float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
+			float	w_dir				=GetEnv().CurrentEnv->wind_direction	;
+			//float	w_speed				=GetEnv().CurrentEnv->wind_velocity	;
 			Fvector			normal	;	normal.setHP(w_dir,0);
 			w_shift		+=	0.003f*Device.fTimeDelta;
 			Fvector			position;	position.set(0,0,0);
@@ -562,9 +562,9 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 			zMin = 0;
 			zMax = ps_r2_sun_near;
 		} else {
-			extern float	OLES_SUN_LIMIT_27_01_07;
+			extern float	OLES_SUN_LIMIT_COP;
 			zMin = ps_r2_sun_near;
-			zMax = OLES_SUN_LIMIT_27_01_07;
+			zMax = OLES_SUN_LIMIT_COP;
 		}
 		center_pt.mad(Device.vCameraPosition,Device.vCameraDirection,zMin);	Device.mFullTransform.transform	(center_pt);
 		zMin = center_pt.z	;
@@ -1167,9 +1167,9 @@ void CRenderTarget::accum_direct_volumetric	(u32 sub_phase, const u32 Offset, co
 			zMin = 0;
 			zMax = ps_r2_sun_near;
 		} else {
-			extern float	OLES_SUN_LIMIT_27_01_07;
+			extern float	OLES_SUN_LIMIT_COP;
 			zMin = 0; /////*****************************************************************************************
-			zMax = OLES_SUN_LIMIT_27_01_07;
+			zMax = OLES_SUN_LIMIT_COP;
 		}
 
 		RCache.set_c("volume_range", zMin, zMax, 0, 0);

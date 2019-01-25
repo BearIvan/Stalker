@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "../xrRender/du_sphere_part.h"
+#include "xrRender/du_sphere_part.h"
 
-#include "../xrRenderDX10/dx10BufferUtils.h"
+#include "xrRenderDX10/dx10BufferUtils.h"
 
 void CRenderTarget::accum_omnip_geom_create		()
 {

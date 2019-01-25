@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../xrRender/FBasicVisual.h"
-#include "../../xrEngine/customhud.h"
-#include "../../xrEngine/xr_object.h"
+#include "engine/igame_persistent.h"
+#include "xrRender/FBasicVisual.h"
+#include "engine/customhud.h"
+#include "engine/xr_object.h"
 
-#include "../xrRender/QueryHelper.h"
+#include "xrRender/QueryHelper.h"
 
 IC	bool	pred_sp_sort	(ISpatial*	_1, ISpatial* _2)
 {
@@ -249,7 +249,7 @@ void CRender::Render		()
 		m_project.build_projection	(
 			deg2rad(Device.fFOV/* *Device.fASPECT*/), 
 			Device.fASPECT, VIEWPORT_NEAR, 
-			z_distance * g_pGamePersistent->Environment().CurrentEnv->far_plane);
+			z_distance *(GetEnv().CurrentEnv->far_plane));
 		m_zfill.mul	(m_project,Device.mView);
 		r_pmask										(true,false);	// enable priority "0"
 		set_Recorder								(NULL)		;
@@ -392,7 +392,7 @@ void CRender::Render		()
 			RCache.set_ColorWriteEnable					();
 			//CHK_DX(HW.pDevice->SetRenderState			( D3DRS_ZENABLE,	FALSE				));
 			RCache.set_Z(FALSE);
-			g_pGamePersistent->Environment().RenderSky	();
+			GetEnv().RenderSky	();
 			//CHK_DX(HW.pDevice->SetRenderState			( D3DRS_ZENABLE,	TRUE				));
 			RCache.set_Z(TRUE);
 		}
@@ -523,7 +523,7 @@ void CRender::render_forward				()
 		r_dsgraph_render_graph					(1)	;					// normal level, secondary priority
 		PortalTraverser.fade_render				()	;					// faded-portals
 		r_dsgraph_render_sorted					()	;					// strict-sorted geoms
-		g_pGamePersistent->Environment().RenderLast()	;					// rain/thunder-bolts
+		GetEnv().RenderLast()	;					// rain/thunder-bolts
 	}
 
 	RImplementation.o.distortion				= FALSE;				// disable distorion

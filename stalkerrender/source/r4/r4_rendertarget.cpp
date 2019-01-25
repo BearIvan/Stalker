@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../xrRender/resourcemanager.h"
+#include "xrRender/resourcemanager.h"
 #include "blender_light_occq.h"
 #include "blender_light_mask.h"
 #include "blender_light_direct.h"
@@ -12,13 +12,13 @@
 #include "blender_ssao.h"
 #include "dx11MinMaxSMBlender.h"
 #include "dx11HDAOCSBlender.h"
-#include "../xrRenderDX10/msaa/dx10MSAABlender.h"
-#include "../xrRenderDX10/DX10 Rain/dx10RainBlender.h"
+#include "xrRenderDX10/msaa/dx10MSAABlender.h"
+#include "xrRenderDX10/DX10 Rain/dx10RainBlender.h"
 
 
-#include "../xrRender/dxRenderDeviceRender.h"
+#include "xrRender/dxRenderDeviceRender.h"
 
-#include <D3DX10Tex.h>
+#include "directx/D3DX10.h"
 
 void	CRenderTarget::u_setrt			(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb)
 {
@@ -873,8 +873,8 @@ CRenderTarget::CRenderTarget		()
 			//for (int it=0; it<TEX_jitter_count; it++)	{
 			//	R_CHK						(t_noise_surf[it]->UnlockRect(0));
 			//}
-
-			for (int it=0; it<TEX_jitter_count-1; it++)
+			int it = 0;
+			for (; it<TEX_jitter_count-1; it++)
 			{
 				string_path					name;
 				xr_sprintf						(name,"%s%d",r2_jitter,it);
@@ -1109,7 +1109,7 @@ bool CRenderTarget::need_to_render_sunshafts()
 		return false;
 
 	{
-		CEnvDescriptor&	E = *g_pGamePersistent->Environment().CurrentEnv;
+		CEnvDescriptor&	E = *GetEnv().CurrentEnv;
 		float fValue = E.m_fSunShaftsIntensity;
 		//	TODO: add multiplication by sun color here
 		if (fValue<0.0001) return false;

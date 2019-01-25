@@ -1,26 +1,26 @@
 #pragma once
 
-#include "../xrRender/r__dsgraph_structure.h"
-#include "../xrRender/r__occlusion.h"
+#include "xrRender/r__dsgraph_structure.h"
+#include "xrRender/r__occlusion.h"
 
-#include "../xrRender/PSLibrary.h"
+#include "xrRender/PSLibrary.h"
 
 #include "r2_types.h"
 #include "r4_rendertarget.h"
 
-#include "../xrRender/hom.h"
-#include "../xrRender/detailmanager.h"
-#include "../xrRender/modelpool.h"
-#include "../xrRender/wallmarksengine.h"
+#include "xrRender/hom.h"
+#include "xrRender/detailmanager.h"
+#include "xrRender/modelpool.h"
+#include "xrRender/wallmarksengine.h"
 
 #include "smap_allocator.h"
-#include "../xrRender/light_db.h"
+#include "xrRender/light_db.h" 
 #include "light_render_direct.h"
-#include "../xrRender/LightTrack.h"
-#include "../xrRender/r_sun_cascades.h"
+#include "xrRender/LightTrack.h"
+#include "xrRender/r_sun_cascades.h"
 
-#include "../../xrEngine/irenderable.h"
-#include "../../xrEngine/fmesh.h"
+#include "engine/irenderable.h"
+#include "engine/fmesh.h"
 
 class dxRender_Visual;
 
@@ -168,12 +168,12 @@ public:
 
 private:
 	// Loading / Unloading
-	void							LoadBuffers					(CStreamReader	*fs,	BOOL	_alternative);
+	void							LoadBuffers					(XRayBearFileStream	*fs,	BOOL	_alternative);
 	void							LoadVisuals					(IReader	*fs);
 	void							LoadLights					(IReader	*fs);
 	void							LoadPortals					(IReader	*fs);
 	void							LoadSectors					(IReader	*fs);
-	void							LoadSWIs					(CStreamReader	*fs);
+	void							LoadSWIs					(XRayBearFileStream	*fs);
 	void							Load3DFluid					();
 
 	BOOL							add_Dynamic					(dxRender_Visual*pVisual, u32 planes);		// normal processing
@@ -356,7 +356,7 @@ protected:
 	virtual	void					ScreenshotImpl				(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
 
 private:
-	FS_FileSet						m_file_set;
+	BearCore::BearVector<BearCore::BearString>							m_file_set;
 };
 
 extern CRender						RImplementation;

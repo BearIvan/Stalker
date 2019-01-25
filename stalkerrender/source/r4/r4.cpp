@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "r4.h"
-#include "../xrRender/fbasicvisual.h"
-#include "../../xrEngine/xr_object.h"
-#include "../../xrEngine/CustomHUD.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../../xrEngine/environment.h"
-#include "../xrRender/SkeletonCustom.h"
-#include "../xrRender/LightTrack.h"
-#include "../xrRender/dxRenderDeviceRender.h"
-#include "../xrRender/dxWallMarkArray.h"
-#include "../xrRender/dxUIShader.h"
+#include "xrRender/fbasicvisual.h"
+#include "engine/xr_object.h"
+#include "engine/CustomHUD.h"
+#include "engine/igame_persistent.h"
+#include "engine/environment.h"
+#include "xrRender/SkeletonCustom.h"
+#include "xrRender/LightTrack.h"
+#include "xrRender/dxRenderDeviceRender.h"
+#include "xrRender/dxWallMarkArray.h"
+#include "xrRender/dxUIShader.h"
 
-#include "../xrRenderDX10/3DFluid/dx103DFluidManager.h"
-#include "../xrRender/ShaderResourceTraits.h"
+#include "xrRenderDX10/3DFluid/dx103DFluidManager.h"
+#include "xrRender/ShaderResourceTraits.h"
 
-#include "D3DX10Core.h"
+#include "directx/D3DX10Core.h"
 
 CRender										RImplementation;
 
@@ -89,7 +89,7 @@ static class cl_water_intensity : public R_constant_setup
 {	
 	virtual void setup	(R_constant* C)
 	{
-		CEnvDescriptor&	E = *g_pGamePersistent->Environment().CurrentEnv;
+		CEnvDescriptor&	E = *GetEnv().CurrentEnv;
 		float fValue = E.m_fWaterIntensity;
 		RCache.set_c	(C, fValue, fValue, fValue, 0);
 	}
@@ -99,7 +99,7 @@ static class cl_sun_shafts_intensity : public R_constant_setup
 {	
 	virtual void setup	(R_constant* C)
 	{
-		CEnvDescriptor&	E = *g_pGamePersistent->Environment().CurrentEnv;
+		CEnvDescriptor&	E = *GetEnv().CurrentEnv;
 		float fValue = E.m_fSunShaftsIntensity;
 		RCache.set_c	(C, fValue, fValue, fValue, 0);
 	}
@@ -214,7 +214,7 @@ void					CRender::create					()
 	o.fp16_blend		= true;
 
 	// search for ATI formats
-	if (!o.HW_smap && (0==strstr(Core.Params,"-nodf24")) )		{
+	if (!o.HW_smap && (0==strstr(GetCommandLine(),"-nodf24")) )		{
 		o.HW_smap		= HW.support	((D3DFORMAT)(MAKEFOURCC('D','F','2','4')),	D3DRTYPE_TEXTURE,D3DUSAGE_DEPTHSTENCIL);
 		if (o.HW_smap)	{
 			o.HW_smap_FORMAT= MAKEFOURCC	('D','F','2','4');
@@ -225,7 +225,7 @@ void					CRender::create					()
 	}
 
 	// emulate ATI-R4xx series
-	if (strstr(Core.Params,"-r4xx"))	{
+	if (strstr(GetCommandLine(),"-r4xx"))	{
 		o.mrtmixdepth	= FALSE;
 		o.HW_smap		= FALSE;
 		o.HW_smap_PCF	= FALSE;
@@ -241,7 +241,7 @@ void					CRender::create					()
 	// nvstencil on NV40 and up
 	o.nvstencil			= FALSE;
 	//if ((HW.Caps.id_vendor==0x10DE)&&(HW.Caps.id_device>=0x40))	o.nvstencil = TRUE;
-	if (strstr(Core.Params,"-nonvs"))		o.nvstencil	= FALSE;
+	if (strstr(GetCommandLine(),"-nonvs"))		o.nvstencil	= FALSE;
 
 	// nv-dbt
 	//	DX10 disabled
@@ -250,35 +250,35 @@ void					CRender::create					()
 	if (o.nvdbt)		Msg	("* NV-DBT supported and used");
 
 	// options (smap-pool-size)
-	if (strstr(Core.Params,"-smap1536"))	o.smapsize	= 1536;
-	if (strstr(Core.Params,"-smap2048"))	o.smapsize	= 2048;
-	if (strstr(Core.Params,"-smap2560"))	o.smapsize	= 2560;
-	if (strstr(Core.Params,"-smap3072"))	o.smapsize	= 3072;
-	if (strstr(Core.Params,"-smap4096"))	o.smapsize	= 4096;
+	if (strstr(GetCommandLine(),"-smap1536"))	o.smapsize	= 1536;
+	if (strstr(GetCommandLine(),"-smap2048"))	o.smapsize	= 2048;
+	if (strstr(GetCommandLine(),"-smap2560"))	o.smapsize	= 2560;
+	if (strstr(GetCommandLine(),"-smap3072"))	o.smapsize	= 3072;
+	if (strstr(GetCommandLine(),"-smap4096"))	o.smapsize	= 4096;
 
 	// gloss
-	char*	g			= strstr(Core.Params,"-gloss ");
+	char*	g			= strstr(GetCommandLine(),"-gloss ");
 	o.forcegloss		= g?	TRUE	:FALSE	;
 	if (g)				{
 		o.forcegloss_v		= float	(atoi	(g+xr_strlen("-gloss ")))/255.f;
 	}
 
 	// options
-	o.bug				= (strstr(Core.Params,"-bug"))?			TRUE	:FALSE	;
-	o.sunfilter			= (strstr(Core.Params,"-sunfilter"))?	TRUE	:FALSE	;
-	//.	o.sunstatic			= (strstr(Core.Params,"-sunstatic"))?	TRUE	:FALSE	;
+	o.bug				= (strstr(GetCommandLine(),"-bug"))?			TRUE	:FALSE	;
+	o.sunfilter			= (strstr(GetCommandLine(),"-sunfilter"))?	TRUE	:FALSE	;
+	//.	o.sunstatic			= (strstr(GetCommandLine(),"-sunstatic"))?	TRUE	:FALSE	;
 	o.sunstatic			= r2_sun_static;
 	o.advancedpp		= r2_advanced_pp;
 	o.volumetricfog		= ps_r2_ls_flags.test(R3FLAG_VOLUMETRIC_SMOKE);
-	o.sjitter			= (strstr(Core.Params,"-sjitter"))?		TRUE	:FALSE	;
-	o.depth16			= (strstr(Core.Params,"-depth16"))?		TRUE	:FALSE	;
-	o.noshadows			= (strstr(Core.Params,"-noshadows"))?	TRUE	:FALSE	;
-	o.Tshadows			= (strstr(Core.Params,"-tsh"))?			TRUE	:FALSE	;
-	o.mblur				= (strstr(Core.Params,"-mblur"))?		TRUE	:FALSE	;
-	o.distortion_enabled= (strstr(Core.Params,"-nodistort"))?	FALSE	:TRUE	;
+	o.sjitter			= (strstr(GetCommandLine(),"-sjitter"))?		TRUE	:FALSE	;
+	o.depth16			= (strstr(GetCommandLine(),"-depth16"))?		TRUE	:FALSE	;
+	o.noshadows			= (strstr(GetCommandLine(),"-noshadows"))?	TRUE	:FALSE	;
+	o.Tshadows			= (strstr(GetCommandLine(),"-tsh"))?			TRUE	:FALSE	;
+	o.mblur				= (strstr(GetCommandLine(),"-mblur"))?		TRUE	:FALSE	;
+	o.distortion_enabled= (strstr(GetCommandLine(),"-nodistort"))?	FALSE	:TRUE	;
 	o.distortion		= o.distortion_enabled;
-	o.disasm			= (strstr(Core.Params,"-disasm"))?		TRUE	:FALSE	;
-	o.forceskinw		= (strstr(Core.Params,"-skinw"))?		TRUE	:FALSE	;
+	o.disasm			= (strstr(GetCommandLine(),"-disasm"))?		TRUE	:FALSE	;
+	o.forceskinw		= (strstr(GetCommandLine(),"-skinw"))?		TRUE	:FALSE	;
 
 	o.ssao_blur_on		= ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_BLUR) && (ps_r_ssao != 0);
 	o.ssao_opt_data		= ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_OPT_DATA) && (ps_r_ssao != 0);
@@ -672,7 +672,7 @@ CRender::~CRender()
 {
 }
 
-#include "../../xrEngine/GameFont.h"
+#include "engine/GameFont.h"
 void	CRender::Statistics	(CGameFont* _F)
 {
 	CGameFont&	F	= *_F;
@@ -924,19 +924,17 @@ static HRESULT create_shader				(
 		NODEFAULT;
 	}
 
-	if ( disasm )
+	if (disasm)
 	{
-		ID3DBlob*		disasm	= 0;
-		D3DDisassemble	(buffer, buffer_size, FALSE, 0, &disasm );
-		//D3DXDisassembleShader		(LPDWORD(code->GetBufferPointer()), FALSE, 0, &disasm );
+		ID3DXBuffer*	disasm = 0;
+		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm);
 		string_path		dname;
-		strconcat		(sizeof(dname),dname,"disasm\\",file_name,('v'==pTarget[0])?".vs":('p'==pTarget[0])?".ps":".gs" );
-		IWriter*		W		= FS.w_open("$logs$",dname);
-		W->w			(disasm->GetBufferPointer(),(u32)disasm->GetBufferSize());
-		FS.w_close		(W);
-		_RELEASE		(disasm);
+		strconcat(sizeof(dname), dname, "disasm\\", file_name, ('v' == pTarget[0]) ? ".vs" : ".ps");
+		IWriter*		W = XRayBearWriter::Create(FS.Write("%logs%", dname, 0));
+		W->w(disasm->GetBufferPointer(), disasm->GetBufferSize());
+		XRayBearWriter::Destroy(W);
+		_RELEASE(disasm);
 	}
-
 	return				_result;
 }
 
@@ -946,24 +944,29 @@ class	includer				: public ID3DInclude
 public:
 	HRESULT __stdcall	Open	(D3D10_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
 	{
-		string_path				pname;
-		strconcat				(sizeof(pname),pname,::Render->getShaderPath(),pFileName);
-		IReader*		R		= FS.r_open	("$game_shaders$",pname);
-		if (0==R)				{
-			// possibly in shared directory or somewhere else - open directly
-			R					= FS.r_open	("$game_shaders$",pFileName);
-			if (0==R)			return			E_FAIL;
+		IReader*		R = 0;
+		if (FS.ExistFile("%cur_shaders%", pFileName))
+		{
+			R = XRayBearReader::Create(FS.Read("%cur_shaders%", pFileName));
+		}
+		else 		if (FS.ExistFile("%shaders%", pFileName))
+		{
+			R = XRayBearReader::Create(FS.Read("%shaders%", pFileName));
+		}
+		else
+		{
+			return			E_FAIL;
 		}
 
 		// duplicate and zero-terminate
-		u32				size	= R->length();
-		u8*				data	= xr_alloc<u8>	(size + 1);
-		CopyMemory			(data,R->pointer(),size);
-		data[size]				= 0;
-		FS.r_close				(R);
+		u32				size = R->length();
+		u8*				data = xr_alloc<u8>(size + 1);
+		CopyMemory(data, R->pointer(), size);
+		data[size] = 0;
+		XRayBearReader::Destroy(R);
 
-		*ppData					= data;
-		*pBytes					= size;
+		*ppData = data;
+		*pBytes = size;
 		return	D3D_OK;
 	}
 	HRESULT __stdcall	Close	(LPCVOID	pData)
@@ -975,7 +978,7 @@ public:
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result );
+static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result );
 
 HRESULT	CRender::shader_compile			(
 	LPCSTR							name,
@@ -1463,31 +1466,27 @@ HRESULT	CRender::shader_compile			(
 	strncpy_s		( extension, pTarget, 2 );
 	xr_strcat		( folder, extension );
 
-	FS.update_path	( folder_name, "$game_shaders$", folder );
-	xr_strcat		( folder_name, "\\" );
-	
-	m_file_set.clear( );
-	FS.file_list	( m_file_set, folder_name, FS_ListFiles | FS_RootOnly, "*");
+	string_path path;
+	xr_strcpy(path, name);
+	xr_strcat(path, ".");
+	xr_strcat(path, extension);
+	FS.SubPath(TEXT("%cur_shaders_cache%"));
+	FS.AppendPath(TEXT("%cur_shaders_cache%"), path, TEXT("%shaders_cache%"), 0);
+
+	FS.GetFiles(m_file_set, "%shaders%", "*");
 
 	string_path temp_file_name, file_name;
-	if ( !match_shader_id(name, sh_name, m_file_set, temp_file_name) ) {
-		string_path file;
-		xr_strcpy		( file, "shaders_cache\\r4\\" );
-		xr_strcat		( file, name );
-		xr_strcat		( file, "." );
-		xr_strcat		( file, extension );
-		xr_strcat		( file, "\\" );
-		xr_strcat		( file, sh_name );
-		FS.update_path	( file_name, "$app_data_root$", file);
+	if (!match_shader_id(name, sh_name, m_file_set, temp_file_name)) {
+		xr_strcpy(file_name, sh_name);
 	}
 	else {
-		xr_strcpy		( file_name, folder_name );
-		xr_strcat		( file_name, temp_file_name );
+		xr_strcpy(file_name, temp_file_name);
 	}
 
-	if (FS.exist(file_name))
+	if (FS.ExistFile("%cur_shaders_cache%", file_name))
 	{
-		IReader* file = FS.r_open(file_name);
+		IReader* file = XRayBearReader::Create(FS.Read("%cur_shaders_cache%", file_name));
+
 		if (file->length()>4)
 		{
 			u32 crc = 0;
@@ -1501,7 +1500,7 @@ HRESULT	CRender::shader_compile			(
 				_result				= create_shader(pTarget, (DWORD*)file->pointer(), file->elapsed(), file_name, result, o.disasm);
 			}
 		}
-		file->close();
+		XRayBearReader::Destroy(file);
 	}
 
 	if (FAILED(_result))
@@ -1523,7 +1522,8 @@ HRESULT	CRender::shader_compile			(
 
 		if (SUCCEEDED(_result))
 		{
-			IWriter* file = FS.w_open(file_name);
+			FS.CreateDirectory("%cur_shaders_cache%", 0);
+			IWriter* file = XRayBearWriter::Create(FS.Write("%cur_shaders_cache%", file_name, 0));
 
 			boost::crc_32_type		processor;
 			processor.process_block	( pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize() );
@@ -1531,7 +1531,7 @@ HRESULT	CRender::shader_compile			(
 
 			file->w_u32				(crc);
 			file->w					(pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize());
-			FS.w_close				(file);
+			XRayBearWriter::Destroy(file);
 
 			_result					= create_shader(pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize(), file_name, result, o.disasm);
 		}
@@ -1576,33 +1576,33 @@ static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const fu
 	return					true;
 }
 
-static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result )
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result)
 {
 #if 0
-	strcpy_s					( result, "" );
+	strcpy_s(result, "");
 	return						false;
 #else // #if 1
 #ifdef DEBUG
-	LPCSTR temp					= "";
-	bool found					= false;
-	FS_FileSet::const_iterator	i = file_set.begin();
-	FS_FileSet::const_iterator	const e = file_set.end();
-	for ( ; i != e; ++i ) {
-		if ( match_shader(debug_shader_id, full_shader_id, (*i).name.c_str(), (*i).name.size() ) ) {
-			VERIFY				( !found );
-			found				= true;
-			temp				= (*i).name.c_str();
+	LPCSTR temp = "";
+	bool found = false;
+	auto i = file_set.begin();
+	auto e = file_set.end();
+	for (; i != e; ++i) {
+		if (match_shader(debug_shader_id, full_shader_id, *(*i), (*i).size())) {
+			VERIFY(!found);
+			found = true;
+			temp = *(*i);
 		}
 	}
 
-	xr_strcpy					( result, temp );
+	xr_strcpy(result, temp);
 	return						found;
 #else // #ifdef DEBUG
-	FS_FileSet::const_iterator	i = file_set.begin();
-	FS_FileSet::const_iterator	const e = file_set.end();
-	for ( ; i != e; ++i ) {
-		if ( match_shader(debug_shader_id, full_shader_id, (*i).name.c_str(), (*i).name.size() ) ) {
-			xr_strcpy			( result, (*i).name.c_str() );
+	auto i = file_set.begin();
+	auto e = file_set.end();
+	for (; i != e; ++i) {
+		if (match_shader(debug_shader_id, full_shader_id, *(*i), (*i).size())) {
+			xr_strcpy(result, *(*i));
 			return				true;
 		}
 	}

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../../xrEngine/irenderable.h"
-#include "../xrRender/FBasicVisual.h"
+#include "engine/igame_persistent.h"
+#include "engine/irenderable.h"
+#include "xrRender/FBasicVisual.h"
 
 #include "r4_R_sun_support.h"
 
@@ -9,8 +9,8 @@ const	float	tweak_COP_initial_offs			= 1200.f	;
 const	float	tweak_ortho_xform_initial_offs	= 1000.f	;	//. ?
 const	float	tweak_guaranteed_range			= 20.f		;	//. ?
 
-//float			OLES_SUN_LIMIT_27_01_07			= 180.f		;
-float			OLES_SUN_LIMIT_27_01_07			= 100.f		;
+float			OLES_SUN_LIMIT_SOC			= 180.f		;
+float			OLES_SUN_LIMIT_COP			= 100.f		;
 
 const	float	MAP_SIZE_START					= 6.f		;
 const	float	MAP_GROW_FACTOR					= 4.f		;
@@ -317,7 +317,7 @@ void CRender::render_sun				()
 	// calculate view-frustum bounds in world space
 	Fmatrix	ex_project, ex_full, ex_full_inverse;
 	{
-		float _far_	= min(OLES_SUN_LIMIT_27_01_07, g_pGamePersistent->Environment().CurrentEnv->far_plane);
+		float _far_	= min(OLES_SUN_LIMIT_COP, GetEnv().CurrentEnv->far_plane);
 		//ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,ps_r2_sun_near,_far_);	
 		ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,VIEWPORT_NEAR,_far_);
 		//VIEWPORT_NEAR

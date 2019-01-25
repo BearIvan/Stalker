@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../../xrEngine/environment.h"
+#include "engine/igame_persistent.h"
+#include "engine/environment.h"
 
-#include "../xrRender/dxEnvironmentRender.h"
+#include "xrRender/dxEnvironmentRender.h"
 
 #define STENCIL_CULL 0
 
@@ -97,11 +97,11 @@ void	CRenderTarget::phase_combine	()
 		//RCache.set_ColorWriteEnable					();
 		//	Moved to shader!
 		//RCache.set_Z(FALSE);
-		g_pGamePersistent->Environment().RenderSky	();
+		GetEnv().RenderSky	();
 
 		//	Igor: Render clouds before compine without Z-test
 		//	to avoid siluets. HOwever, it's a bit slower process.
-		g_pGamePersistent->Environment().RenderClouds	();
+		GetEnv().RenderClouds	();
 
 		//	Moved to shader!
 		//RCache.set_Z(TRUE);
@@ -137,7 +137,7 @@ void	CRenderTarget::phase_combine	()
 		PIX_EVENT(combine_1);
 		// Compute params
 		Fmatrix		m_v2w;			m_v2w.invert				(Device.mView		);
-		CEnvDescriptorMixer& envdesc= *g_pGamePersistent->Environment().CurrentEnv		;
+		CEnvDescriptorMixer& envdesc= *GetEnv().CurrentEnv		;
 		const float minamb			= 0.001f;
 		Fvector4	ambclr			= { _max(envdesc.ambient.x*2,minamb),	_max(envdesc.ambient.y*2,minamb),			_max(envdesc.ambient.z*2,minamb),	0	};
 					ambclr.mul		(ps_r2_sun_lumscale_amb);
@@ -270,7 +270,7 @@ void	CRenderTarget::phase_combine	()
 		RCache.set_Stencil				(FALSE);
 		RCache.set_ColorWriteEnable		();
 		//	TODO: DX10: CHeck this!
-		//g_pGamePersistent->Environment().RenderClouds	();
+		//GetEnv().RenderClouds	();
 		RImplementation.render_forward	();
 		if (g_pGamePersistent)	g_pGamePersistent->OnRenderPPUI_main()	;	// PP-UI
 	}
@@ -421,7 +421,7 @@ void	CRenderTarget::phase_combine	()
 	RCache.set_Stencil		(FALSE);
 
 	//	if FP16-BLEND !not! supported - draw flares here, overwise they are already in the bloom target
-	/* if (!RImplementation.o.fp16_blend)*/	g_pGamePersistent->Environment().RenderFlares	();	// lens-flares
+	/* if (!RImplementation.o.fp16_blend)*/	GetEnv().RenderFlares	();	// lens-flares
 
 	//	PP-if required
 	if (PP_Complex)		

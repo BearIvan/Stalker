@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "../../xrEngine/igame_persistent.h"
-#include "../../xrEngine/irenderable.h"
-#include "../xrRender/FBasicVisual.h"
+#include "engine/igame_persistent.h"
+#include "engine/irenderable.h"
+#include "xrRender/FBasicVisual.h"
 
 #include "r4_R_sun_support.h"
 
@@ -30,7 +30,7 @@ static int			facetable[6][4]		= {
 void CRender::render_rain()
 {
 	//return;
-	float	fRainFactor	= g_pGamePersistent->Environment().CurrentEnv->rain_density;
+	float	fRainFactor	= GetEnv().CurrentEnv->rain_density;
 	if ( fRainFactor < EPS_L )			return;
 
 	PIX_EVENT(render_rain);
