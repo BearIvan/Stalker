@@ -10,7 +10,7 @@ CUIMoneyIndicator::CUIMoneyIndicator(){
 	AttachChild(&m_money_change);
 	m_pBonusMoney = xr_new<CUIGameLog>();
 	AttachChild(m_pBonusMoney);
-//	m_pAnimChange = xr_new<CUIColorAnimatorWrapper>("ui\\ui_mp_chat");
+//	m_pAnimChange = xr_new<CUIColorAnimatorWrapper>("ui_mp_chat");
 //	m_pAnimChange->Cyclic(false);
 //	m_pAnimChange->SetDone(true);
 }
@@ -32,7 +32,7 @@ void CUIMoneyIndicator::InitFromXML(CUIXml& xml_doc)
 	m_pBonusMoney->SetTextAtrib	(pF, color);
 	m_money_change.SetVisible	(false);
 
-	m_money_change.SetColorAnimation("ui\\ui_mp_chat", LA_ONLYALPHA|LA_TEXTCOLOR);
+	m_money_change.SetColorAnimation("ui_mp_chat", LA_ONLYALPHA|LA_TEXTCOLOR);
 }
 
 void CUIMoneyIndicator::SetMoneyAmount(LPCSTR money){

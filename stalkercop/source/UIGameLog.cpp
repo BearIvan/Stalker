@@ -25,7 +25,7 @@ CUITextWnd* CUIGameLog::AddLogMessage(LPCSTR msg)
 	ADD_TEXT_TO_VIEW3				(msg, pItem, this);
 	pItem->SetFont					(m_pFont);
 	pItem->SetTextColor				(txt_color);
-	pItem->SetColorAnimation		("ui\\ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR, 5000.0f);
+	pItem->SetColorAnimation		("ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR, 5000.0f);
 	ForceUpdate						();
 	return							pItem;
 }
@@ -34,7 +34,7 @@ CUIPdaMsgListItem* CUIGameLog::AddPdaMessage()
 {
 	CUIPdaMsgListItem* pItem				= xr_new<CUIPdaMsgListItem>();
 	pItem->InitPdaMsgListItem				(Fvector2().set(GetDesiredChildWidth(),10.0f));
-	pItem->SetColorAnimation				("ui\\ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR);
+	pItem->SetColorAnimation				("ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR|LA_TEXTURECOLOR);
 	AddWindow								(pItem, true);
 
 	return pItem;
@@ -63,7 +63,7 @@ void CUIGameLog::AddChatMessage(LPCSTR msg, LPCSTR author)
     pItem->SetCutWordsMode		(true);
 	pItem->SetFont				(m_pFont);
 	pItem->SetTextColor			(txt_color);
-	pItem->SetColorAnimation	("ui\\ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR, 5000.0f);
+	pItem->SetColorAnimation	("ui_main_msgs_short", LA_ONLYALPHA|LA_TEXTCOLOR, 5000.0f);
 	pItem->SetWidth				(this->GetDesiredChildWidth());
 	pItem->AdjustHeightToText	();
 	AddWindow					(pItem, true);	

@@ -15,7 +15,7 @@
 #include "ui\UIRankIndicator.h"
 
 #define MSGS_OFFS 510
-#define TEAM_PANELS_TDM_XML_NAME "ui\\ui_team_panels_tdm.xml"
+#define TEAM_PANELS_TDM_XML_NAME "ui_team_panels_tdm.xml"
 
 //--------------------------------------------------------------------
 CUIGameTDM::CUIGameTDM()
@@ -52,7 +52,7 @@ void CUIGameTDM::Init (int stage)
 		m_pTeamPanels->Init				(TEAM_PANELS_TDM_XML_NAME, "team_panels_wnd");
 
 		CUIXml							uiXml, xml2;
-		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_tdm.xml");
+		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_tdm.xml");
 
 		CUIXmlInit::InitWindow			(uiXml, "global",		0,  Window);
 		CUIXmlInit::InitStatic			(uiXml, "team1_icon",	0,	m_team1_icon);

@@ -20,10 +20,10 @@
 
 #include "xrRender/UIShader.h"
 
-#define BUY_MENU_TEXTURE "ui/UI\\ui_mp_buy_menu"
-#define CHAR_ICONS		 "ui/UI\\ui_icons_npc"
-#define MAP_ICONS		 "ui/UI\\ui_icons_map"
-#define MP_CHAR_ICONS	 "ui/UI\\ui_models_multiplayer"
+#define BUY_MENU_TEXTURE "ui\\ui_mp_buy_menu"
+#define CHAR_ICONS		 "ui\\ui_icons_npc"
+#define MAP_ICONS		 "ui\\ui_icons_map"
+#define MP_CHAR_ICONS	 "ui\\ui_models_multiplayer"
 
 const LPCSTR relationsLtxSection	= "game_relations";
 const LPCSTR ratingField			= "rating_names";
@@ -204,7 +204,7 @@ const ui_shader& InventoryUtilities::GetEquipmentIconsShader()
 	if(!g_EquipmentIconsShader)
 	{
 		g_EquipmentIconsShader = xr_new<ui_shader>();
-		(*g_EquipmentIconsShader)->create("hud\\default", "ui/UI\\ui_icon_equipment");
+		(*g_EquipmentIconsShader)->create("hud\\default", "UI\\ui_icon_equipment");
 	}
 
 	return *g_EquipmentIconsShader;
@@ -226,7 +226,7 @@ const ui_shader& InventoryUtilities::GetOutfitUpgradeIconsShader()
 	if(!g_OutfitUpgradeIconsShader)
 	{
 		g_OutfitUpgradeIconsShader = xr_new<ui_shader>();
-		(*g_OutfitUpgradeIconsShader)->create("hud\\default", "ui/UI\\ui_actor_armor");
+		(*g_OutfitUpgradeIconsShader)->create("hud\\default", "UI\\ui_actor_armor");
 	}
 
 	return *g_OutfitUpgradeIconsShader;
@@ -237,7 +237,7 @@ const ui_shader& InventoryUtilities::GetWeaponUpgradeIconsShader()
 	if(!g_WeaponUpgradeIconsShader)
 	{
 		g_WeaponUpgradeIconsShader = xr_new<ui_shader>();
-		(*g_WeaponUpgradeIconsShader)->create("hud\\default", "ui/UI\\ui_actor_weapons");
+		(*g_WeaponUpgradeIconsShader)->create("hud\\default", "UI\\ui_actor_weapons");
 	}
 
 	return *g_WeaponUpgradeIconsShader;

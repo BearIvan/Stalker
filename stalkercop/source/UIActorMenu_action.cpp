@@ -46,7 +46,7 @@ public:
 		m_icon.SetWndSize		(Fvector2().set(29.0f*UI().get_current_kx(), 36.0f));
 		m_icon.SetStretchTexture(true);
 //		m_icon.SetAlignment		(waCenter);
-		m_icon.InitTexture		("ui\\ui_inGame2_inv_trash");
+		m_icon.InitTexture		("ui_inGame2_inv_trash");
 	}
 	virtual void		OnDraw		(CUIDragItem* drag_item)
 	{

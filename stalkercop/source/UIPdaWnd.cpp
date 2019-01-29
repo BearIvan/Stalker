@@ -141,7 +141,7 @@ void CUIPdaWnd::Show(bool status)
 	inherited::Show						(status);
 	if(status)
 	{
-		InventoryUtilities::SendInfoToActor	("ui\\ui_pda");
+		InventoryUtilities::SendInfoToActor	("ui_pda");
 		
 		if ( !m_pActiveDialog )
 		{
@@ -150,7 +150,7 @@ void CUIPdaWnd::Show(bool status)
 		m_pActiveDialog->Show				(true);
 	}else
 	{
-		InventoryUtilities::SendInfoToActor	("ui\\ui_pda_hide");
+		InventoryUtilities::SendInfoToActor	("ui_pda_hide");
 		CurrentGameUI()->UIMainIngameWnd->SetFlashIconState_(CUIMainIngameWnd::efiPdaTask, false);
 		m_pActiveDialog->Show				(false);
 		g_btnHint->Discard					();

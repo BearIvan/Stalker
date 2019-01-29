@@ -37,7 +37,7 @@ void CUIListBoxItem::OnFocusReceive()
 
 void CUIListBoxItem::InitDefault()
 {
-	InitTexture("ui\\ui_listline","hud\\default");
+	InitTexture("ui_listline","hud\\default");
 }
 
 void CUIListBoxItem::SetFont(CGameFont* F)

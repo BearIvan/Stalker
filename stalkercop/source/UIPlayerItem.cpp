@@ -165,10 +165,10 @@ void UIPlayerItem::GetIconParamValue(game_PlayerState const * ps,
 	{
 		if (ETeam(cl_game->ModifyTeam(ps->team)) == etGreenTeam)
 		{
-			xr_sprintf(dest.begin(), dest.size(), "ui\\ui_hud_status_green_0%d", ps->rank + 1);
+			xr_sprintf(dest.begin(), dest.size(), "ui_hud_status_green_0%d", ps->rank + 1);
 		} else if (ETeam(cl_game->ModifyTeam(ps->team)) == etBlueTeam)
 		{
-			xr_sprintf(dest.begin(), dest.size(), "ui\\ui_hud_status_blue_0%d", ps->rank + 1);
+			xr_sprintf(dest.begin(), dest.size(), "ui_hud_status_blue_0%d", ps->rank + 1);
 		}
 	} else if (param_name.equal("death_atf"))
 	{

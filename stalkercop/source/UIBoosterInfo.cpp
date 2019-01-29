@@ -77,21 +77,21 @@ void CUIBoosterInfo::InitFromXml(CUIXml& xml)
 	m_booster_satiety = xr_new<UIBoosterInfoItem>();
 	m_booster_satiety->Init(xml, "boost_satiety");
 	m_booster_satiety->SetAutoDelete(false);
-	LPCSTR name = CStringTable().translate("ui\\ui_inv_satiety").c_str();
+	LPCSTR name = CStringTable().translate("ui_inv_satiety").c_str();
 	m_booster_satiety->SetCaption(name);
 	xml.SetLocalRoot( base_node );
 
 	m_booster_anabiotic = xr_new<UIBoosterInfoItem>();
 	m_booster_anabiotic->Init(xml, "boost_anabiotic");
 	m_booster_anabiotic->SetAutoDelete(false);
-	name = CStringTable().translate("ui\\ui_inv_survive_surge").c_str();
+	name = CStringTable().translate("ui_inv_survive_surge").c_str();
 	m_booster_anabiotic->SetCaption(name);
 	xml.SetLocalRoot( base_node );
 
 	m_booster_time = xr_new<UIBoosterInfoItem>();
 	m_booster_time->Init(xml, "boost_time");
 	m_booster_time->SetAutoDelete(false);
-	name = CStringTable().translate("ui\\ui_inv_effect_time").c_str();
+	name = CStringTable().translate("ui_inv_effect_time").c_str();
 	m_booster_time->SetCaption(name);
 
 	xml.SetLocalRoot( stored_root );

@@ -1114,7 +1114,7 @@ void CUIActorMenu::PropertiesBoxForRepair( PIItem item, bool& b_show )
 
 	if ( (pOutfit || pWeapon || pHelmet) && item->GetCondition() < 0.99f )
 	{
-		m_UIPropertiesBox->AddItem( "ui\\ui_inv_repair", NULL, INVENTORY_REPAIR );
+		m_UIPropertiesBox->AddItem( "ui_inv_repair", NULL, INVENTORY_REPAIR );
 		b_show = true;
 	}
 }

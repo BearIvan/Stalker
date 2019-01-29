@@ -23,7 +23,7 @@ void CUIListItemServer::InitItemServer(LIST_SRV_ITEM& params)
 {
 	float offset = 0.0f;
 
-	float icon_size			= CUITextureMaster::GetTextureHeight("ui\\ui_icon_password");
+	float icon_size			= CUITextureMaster::GetTextureHeight("ui_icon_password");
 
 	icon_size				*= UI().get_current_kx();
 	m_iconPass->SetStretchTexture		(true);
@@ -35,22 +35,22 @@ void CUIListItemServer::InitItemServer(LIST_SRV_ITEM& params)
 
 	m_iconPass->SetWndPos	(Fvector2().set(offset, icon_y));
 	m_iconPass->SetWndSize	(Fvector2().set(icon_size,icon_size));
-	m_iconPass->InitTexture	("ui\\ui_icon_password");
+	m_iconPass->InitTexture	("ui_icon_password");
 	offset					+= icon_size;
 
 	m_iconDedicated->SetWndPos(Fvector2().set(offset, icon_y));
 	m_iconDedicated->SetWndSize(Fvector2().set(icon_size,icon_size));
-	m_iconDedicated->InitTexture("ui\\ui_icon_dedicated");
+	m_iconDedicated->InitTexture("ui_icon_dedicated");
 	offset					+= icon_size;
 	
 	//m_iconPunkBuster->SetWndPos(Fvector2().set(offset, icon_y));
 	//m_iconPunkBuster->SetWndSize(Fvector2().set(icon_size,icon_size));
-	//m_iconPunkBuster->InitTexture("ui\\ui_icon_punkbuster");
+	//m_iconPunkBuster->InitTexture("ui_icon_punkbuster");
 	//offset					+= icon_size;
 
 	m_iconUserPass->SetWndPos(Fvector2().set(offset, icon_y));
 	m_iconUserPass->SetWndSize(Fvector2().set(icon_size,icon_size));
-	m_iconUserPass->InitTexture("ui\\ui_icon_punkbuster");
+	m_iconUserPass->InitTexture("ui_icon_punkbuster");
 	offset					+= icon_size;
 
 
@@ -135,11 +135,11 @@ void CUIListItemServer::CreateConsoleCommand(xr_string& command, LPCSTR player_n
 {
 	command = "start client(";
 	command += *m_srv_info.info.address;
-	command += "name=";
+	command += "/name=";
 	command += player_name;
-	command += "pass=";
+	command += "/pass=";
 	command += player_pass;
-	command += "psw=";
+	command += "/psw=";
 	command += server_psw;
 	command += ")";
 }

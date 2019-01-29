@@ -11,7 +11,7 @@ CUIAchivementIndicator::CUIAchivementIndicator()
 	m_achivement_log			= xr_new<CUIGameLog>();
 	AttachChild					(m_achivement_log);
 	CUIXml						tmp_xml;
-	tmp_xml.Load				(CONFIG_PATH, UI_PATH, "ui\\ui_mp_achivements.xml");
+	tmp_xml.Load				(CONFIG_PATH, UI_PATH, "ui_mp_achivements.xml");
 	CUIXmlInit::InitWindow		(tmp_xml, "mp_achivement_wnd", 0, this);
 	CUIXmlInit::InitScrollView	(tmp_xml, "mp_achivement_wnd:achivement_list", 0, m_achivement_log);
 }

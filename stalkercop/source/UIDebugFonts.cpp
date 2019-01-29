@@ -21,7 +21,7 @@ void CUIDebugFonts::InitDebugFonts(Frect r)
 	FillUpList();
 
 	m_background.SetWndRect	(r);
-	m_background.InitTexture	("ui\\ui_debug_font");
+	m_background.InitTexture	("ui_debug_font");
 }
 
 bool CUIDebugFonts::OnKeyboardAction(int dik, EUIMessages keyboard_action){

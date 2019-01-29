@@ -255,9 +255,9 @@ void UITaskListWndItem::update_view()
 		m_bt_focus->Show(false);
 
 	if(m_task->GetTaskType()==eTaskTypeStoryline)
-		m_st_story->InitTexture("ui\\ui_inGame2_PDA_icon_Primary_mission");
+		m_st_story->InitTexture("ui_inGame2_PDA_icon_Primary_mission");
 	else
-		m_st_story->InitTexture("ui\\ui_inGame2_PDA_icon_Secondary_mission");
+		m_st_story->InitTexture("ui_inGame2_PDA_icon_Secondary_mission");
 
 	m_name->TextItemControl()->SetTextST( m_task->m_Title.c_str() );
 	m_name->AdjustHeightToText();

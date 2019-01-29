@@ -104,8 +104,8 @@ void CUITalkDialogWnd::InitTalkDialogWnd()
 	
 void CUITalkDialogWnd::Show()
 {
-	InventoryUtilities::SendInfoToActor				("ui\\ui_talk_show");
-	InventoryUtilities::SendInfoToLuaScripts		("ui\\ui_talk_show");
+	InventoryUtilities::SendInfoToActor				("ui_talk_show");
+	InventoryUtilities::SendInfoToLuaScripts		("ui_talk_show");
 	inherited::Show									(true);
 	inherited::Enable								(true);
 
@@ -114,8 +114,8 @@ void CUITalkDialogWnd::Show()
 
 void CUITalkDialogWnd::Hide()
 {
-	InventoryUtilities::SendInfoToActor				("ui\\ui_talk_hide");
-	InventoryUtilities::SendInfoToLuaScripts		("ui\\ui_talk_hide");
+	InventoryUtilities::SendInfoToActor				("ui_talk_hide");
+	InventoryUtilities::SendInfoToLuaScripts		("ui_talk_hide");
 	inherited::Show									(false);
 	inherited::Enable								(false);
 	g_btnHint->Discard								();
@@ -250,13 +250,13 @@ void CUITalkDialogWnd::SetOsoznanieMode(bool b)
 	UIToTradeButton.Show(!b);
 	if ( mechanic_mode )
 	{
-		UIToTradeButton.m_hint_text = "ui\\ui_st_upgrade_hint";
-		UIToTradeButton.TextItemControl()->SetTextST( "ui\\ui_st_upgrade" );
+		UIToTradeButton.m_hint_text = "ui_st_upgrade_hint";
+		UIToTradeButton.TextItemControl()->SetTextST( "ui_st_upgrade" );
 	}
 	else
 	{
-		UIToTradeButton.m_hint_text = "ui\\ui_st_trade_hint";
-		UIToTradeButton.TextItemControl()->SetTextST( "ui\\ui_st_trade" );
+		UIToTradeButton.m_hint_text = "ui_st_trade_hint";
+		UIToTradeButton.TextItemControl()->SetTextST( "ui_st_trade" );
 	}
 }
 

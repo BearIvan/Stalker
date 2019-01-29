@@ -238,7 +238,7 @@ bool CUIXmlInit::InitCheck(CUIXml& xml_doc, LPCSTR path, int index, CUICheckButt
 
 	string256 buf;	
 	strconcat(sizeof(buf),buf, path, ":texture");
-	LPCSTR texture = xml_doc.Read(buf, index, "ui\\ui_checker");
+	LPCSTR texture = xml_doc.Read(buf, index, "ui_checker");
 
 	pWnd->InitCheckButton(pWnd->GetWndPos(),pWnd->GetWndSize(),texture);
 

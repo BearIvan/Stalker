@@ -40,9 +40,9 @@
 #include "ui\UISkinSelector.h"
 #include "ui\UIHelper.h"
 
-#define CTA_GAME_WND_XML	"ui\\ui_game_cta.xml"
+#define CTA_GAME_WND_XML	"ui_game_cta.xml"
 
-#define TEAM_PANELS_XML_NAME "ui\\ui_team_panels_cta.xml"
+#define TEAM_PANELS_XML_NAME "ui_team_panels_cta.xml"
 
 
 CUIGameCTA::CUIGameCTA()
@@ -847,7 +847,7 @@ void CUIGameCTA::SetVoteMessage(LPCSTR str)
 	}
 	if (str) {
 		CUIXml							uiXml;
-		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui\\ui_game_dm.xml");
+		uiXml.Load						(CONFIG_PATH, UI_PATH, "ui_game_dm.xml");
 		m_voteStatusWnd					= xr_new<UIVoteStatusWnd>();
 		m_voteStatusWnd->InitFromXML	(uiXml);
 		m_voteStatusWnd->Show			(true);

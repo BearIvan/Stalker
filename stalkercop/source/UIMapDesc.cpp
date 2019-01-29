@@ -74,7 +74,7 @@ void CUIMapDesc::Init(){
 	if (FS.ExistFile("%textures%",full_name.c_str()))
 		m_pImage->InitTexture(map_name.c_str());
 	else
-		m_pImage->InitTexture("ui\\ui_noise");
+		m_pImage->InitTexture("ui_noise");
 	m_pImage->SetTextureRect(orig_rect);
 
 

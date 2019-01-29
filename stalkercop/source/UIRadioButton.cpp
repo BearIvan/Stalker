@@ -8,7 +8,7 @@ void CUIRadioButton::InitButton(Fvector2 pos, Fvector2 size)
 	inherited::InitButton(pos, size);
 
 	TextItemControl				();
-    CUI3tButton::InitTexture	("ui\\ui_radio");
+    CUI3tButton::InitTexture	("ui_radio");
 	Fvector2 sz					= m_background->Get(S_Enabled)->GetStaticItem()->GetSize(); 
 	TextItemControl()->m_TextOffset.x = sz.x;
 

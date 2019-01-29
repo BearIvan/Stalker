@@ -27,15 +27,15 @@ LPCSTR immunity_names[]=
 
 LPCSTR immunity_st_names[]=
 {
-	"ui\\ui_inv_outfit_burn_protection",
-	"ui\\ui_inv_outfit_shock_protection",
-	"ui\\ui_inv_outfit_chemical_burn_protection",
-	"ui\\ui_inv_outfit_radiation_protection",
-	"ui\\ui_inv_outfit_telepatic_protection",
-	"ui\\ui_inv_outfit_wound_protection",
-	"ui\\ui_inv_outfit_fire_wound_protection",
-//	"ui\\ui_inv_outfit_strike_protection",
-//	"ui\\ui_inv_outfit_explosion_protection",
+	"ui_inv_outfit_burn_protection",
+	"ui_inv_outfit_shock_protection",
+	"ui_inv_outfit_chemical_burn_protection",
+	"ui_inv_outfit_radiation_protection",
+	"ui_inv_outfit_telepatic_protection",
+	"ui_inv_outfit_wound_protection",
+	"ui_inv_outfit_fire_wound_protection",
+//	"ui_inv_outfit_strike_protection",
+//	"ui_inv_outfit_explosion_protection",
 };
 
 CUIOutfitImmunity::CUIOutfitImmunity()

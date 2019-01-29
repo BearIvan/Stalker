@@ -556,10 +556,10 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 	string128 str;
 	switch(type)
 	{
-		case ALife::infl_rad: texture = "ui\\ui_inGame2_triangle_Radiation_"; break;
-		case ALife::infl_fire: texture = "ui\\ui_inGame2_triangle_Fire_"; break;
-		case ALife::infl_acid: texture = "ui\\ui_inGame2_triangle_Biological_"; break;
-		case ALife::infl_psi: texture = "ui\\ui_inGame2_triangle_Psy_"; break;
+		case ALife::infl_rad: texture = "ui_inGame2_triangle_Radiation_"; break;
+		case ALife::infl_fire: texture = "ui_inGame2_triangle_Fire_"; break;
+		case ALife::infl_acid: texture = "ui_inGame2_triangle_Biological_"; break;
+		case ALife::infl_psi: texture = "ui_inGame2_triangle_Psy_"; break;
 		default: NODEFAULT;
 	}
 	float           hit_power = m_zone_cur_power[type];
@@ -701,10 +701,10 @@ void CUIHudStatesWnd::FakeUpdateIndicatorType(u8 t, float power)
 	string128 str;
 	switch(type)
 	{
-		case ALife::infl_rad: texture = "ui\\ui_inGame2_triangle_Radiation_"; break;
-		case ALife::infl_fire: texture = "ui\\ui_inGame2_triangle_Fire_"; break;
-		case ALife::infl_acid: texture = "ui\\ui_inGame2_triangle_Biological_"; break;
-		case ALife::infl_psi: texture = "ui\\ui_inGame2_triangle_Psy_"; break;
+		case ALife::infl_rad: texture = "ui_inGame2_triangle_Radiation_"; break;
+		case ALife::infl_fire: texture = "ui_inGame2_triangle_Fire_"; break;
+		case ALife::infl_acid: texture = "ui_inGame2_triangle_Biological_"; break;
+		case ALife::infl_psi: texture = "ui_inGame2_triangle_Psy_"; break;
 		default: NODEFAULT;
 	}
 	float           hit_power = power;

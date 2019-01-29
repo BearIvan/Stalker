@@ -77,7 +77,7 @@ void CUIMapList::StartDedicatedServer(){
 	ModuleName[0]		= 0;
 			
 	xr_strcpy			(g_sLaunchOnExit_app, g_sLaunchWorkingFolder);
-	xr_strcat			(g_sLaunchOnExit_app, "dedicated\\engine.exe");
+	xr_strcat			(g_sLaunchOnExit_app, "dedicated\\xrEngine.exe");
 
 	xr_strcpy			(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
 	xr_strcat			(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");
@@ -208,12 +208,12 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 	m_command.clear();
 	m_command = "start server(";
 	m_command += M.map_name.c_str();
-	m_command += "";
+	m_command += "/";
 	m_command += GameTypeToString(GetCurGameType(),true);
 	m_command += m_srv_params;
-	m_command += "ver=";
+	m_command += "/ver=";
 	m_command += M.map_ver.c_str();
-	m_command += "estime=";
+	m_command += "/estime=";
 	
 	u32 id		= m_pWeatherSelector->m_list_box.GetSelectedItem()->GetTAG();
 

@@ -61,7 +61,7 @@ void CUIEditKeyBind::InitKeyBind(Fvector2 pos, Fvector2 size)
 {
 	CUIStatic::SetWndPos	(pos);
 	CUIStatic::SetWndSize	(size);
-	InitTexture				("ui\\ui_listline2");
+	InitTexture				("ui_listline2");
 	TextItemControl()->SetFont	(UI().Font().pFontLetterica16Russian);
 	SetStretchTexture		(true);
 	SetEditMode				(false);
@@ -138,7 +138,7 @@ void CUIEditKeyBind::SetEditMode(bool b)
 
 	if(b)
 	{
-		SetColorAnimation	("ui\\ui_map_area_anim", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR);
+		SetColorAnimation	("ui_map_area_anim", LA_CYCLIC|LA_ONLYALPHA|LA_TEXTCOLOR);
 		TextureOn			();
 	}else
 	{

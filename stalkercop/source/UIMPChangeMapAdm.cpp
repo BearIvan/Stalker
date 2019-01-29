@@ -79,7 +79,7 @@ void CUIMpChangeMapAdm::OnItemSelect()
 	if (FS.ExistFile("%textures%",full_name.c_str()))
 		map_pic->InitTexture(map_name.c_str());
 	else
-		map_pic->InitTexture("ui\\ui_noise");
+		map_pic->InitTexture("ui_noise");
 	
 	map_pic->SetTextureRect(orig_rect);
 	map_version->SetText(map_ver);

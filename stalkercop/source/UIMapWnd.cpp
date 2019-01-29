@@ -221,7 +221,7 @@ void CUIMapWnd::Show(bool status)
 			ViewActor				();
 			m_view_actor			= false;
 		}
-		InventoryUtilities::SendInfoToActor("ui\\ui_pda_map_local");
+		InventoryUtilities::SendInfoToActor("ui_pda_map_local");
 	}
 	HideCurHint();
 }
