@@ -760,7 +760,7 @@ LPCSTR CMainMenu::GetGSVer()
 		buff[0]		= 0;
 		buff2[0]	= 0;
 	}
-
+	strcat(buff2, "(1.5.10)");
 	return buff2;
 }
 

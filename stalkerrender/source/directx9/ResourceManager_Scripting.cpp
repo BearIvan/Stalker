@@ -195,9 +195,9 @@ void	CResourceManager::LS_Load			()
 	if (!strstr(GetCommandLine(), "-nojit")) {
 		luajit::open_lib(LSVM, LUA_JITLIBNAME, luaopen_jit);
 #ifndef DEBUG
-		put_function(LSVM, opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
+	/*	put_function(LSVM, opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
 		put_function(LSVM, opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
-		dojitopt(LSVM, "2");
+		dojitopt(LSVM, "2");*/
 #endif // #ifndef DEBUG
 	}
 

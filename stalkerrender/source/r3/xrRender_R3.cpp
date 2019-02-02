@@ -24,6 +24,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		DRender						= &DebugRenderImpl;
 #endif	//	DEBUG
 		FS.SubPath(TEXT("%cur_shaders%"));
+		FS.SubPath(TEXT("%shaders_cache%"));
 		FS.AppendPath(TEXT("%cur_shaders%"), ::Render->getShaderPath(), TEXT("%shaders%"), 0);
 		FS.AppendPath(TEXT("%shaders_cache%"), ::Render->getShaderPath(), TEXT("%user%"), 0);
 		FS.CreateDirectory(TEXT("%shaders_cache%"), 0);

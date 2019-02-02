@@ -792,7 +792,7 @@ LPCSTR CMainMenu::GetGSVer()
 	{
 		buff[0]	= 0;
 	}
-
+	strcat(buff, "(1.6.02)");
 	return buff;
 }
 

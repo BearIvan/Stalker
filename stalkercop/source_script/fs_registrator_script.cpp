@@ -242,7 +242,7 @@ inline void file_copy(BearCore::BearFileSystem*fs, const bchar*old_file, const b
 
 inline int file_length(BearCore::BearFileSystem*fs, const bchar*file)
 {
-	return BearCore::BearFileManager::FileSize(file);
+	return BearCore::BearFileManager::GetFileSize(file);
 }
 
 struct FS_File

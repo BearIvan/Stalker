@@ -27,6 +27,8 @@
 #include <locale.h>
 #include "Device_Logo.h"
 #include "xrSash.h"
+#include "Modloader.h"
+
 #include "securom_api.h"
 Device_Logo LogoWindow1; 
 //---------------------------------------------------------------------
@@ -190,6 +192,7 @@ void InitEngine()
 {
     Engine.Initialize();
     while (!g_bIntroFinished) Sleep(100);
+	Modloader::Destroy();
     Device.Initialize();
     CheckCopyProtection();
 }
@@ -705,7 +708,12 @@ extern void setup_luabind_allocator();
 // forward declaration for Parental Control checks
 BOOL IsPCAccessAllowed();
 #endif // DEDICATED_SERVER
-#include "Modloader.h"
+
+
+void FatalErrorCallBack()
+{
+	DestroyWindow(Device.m_hWnd);
+}
 
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
                           HINSTANCE hPrevInstance,
@@ -714,14 +722,38 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 {
 
 
-
+	Device.Destroy();
 #ifdef DEDICATED_SERVER
     Debug._initialize(true);
 #else // DEDICATED_SERVER
     Debug._initialize(false);
 #endif // DEDICATED_SERVER
-	BearCore::Initialize(TEXT("stalker"), TEXT(""), TEXT(""));
-	
+	BearCore::Initialize(TEXT("stalker"), TEXT(""));
+#ifdef NO_MULTI_INSTANCES
+#define STALKER_PRESENCE_MUTEX "Local\\STALKER"
+
+	HANDLE hCheckPresenceMutex = INVALID_HANDLE_VALUE;
+	hCheckPresenceMutex = OpenMutex(READ_CONTROL, FALSE, STALKER_PRESENCE_MUTEX);
+	if (hCheckPresenceMutex == NULL)
+	{
+		// New mutex
+		hCheckPresenceMutex = CreateMutex(NULL, FALSE, STALKER_PRESENCE_MUTEX);
+		if (hCheckPresenceMutex == NULL)
+			// Shit happens
+			return 2;
+	}
+	else
+	{
+		// Already running
+		CloseHandle(hCheckPresenceMutex);
+		return 1;
+	}
+#endif
+	BearCore::BearLog::Printf(TEXT("S.T.A.L.K.E.R. build %s"), *BearCore::BearLog::GetBuild(start_year, start_month, start_day));
+
+	BearCore::BearDebug::SetCallBack(FatalErrorCallBack);
+
+
 	BearCore::BearStringPath FSFilePath;
 	BearCore::BearFileManager::GetApplicationPath(FSFilePath);
 
@@ -736,6 +768,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	BEAR_ERRORMESSAGE(BearCore::FS->LoadFromFile(FSFilePath, BearCore::BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
 #define FS (*BearCore::FS)
 
+	FS.SetPackage(TEXT("%main%"), TEXT("TheBearProject"));
+
 	FS.CreateDirectory(TEXT("%mods_soc14%"), 0);
 	FS.CreateDirectory(TEXT("%mods_soc16%"), 0);
 	FS.CreateDirectory(TEXT("%mods_cs%"), 0);
@@ -743,8 +777,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 
 	if (!Modloader::Run())
 	{
+		Modloader::Destroy();
 		BearCore::bear_delete(gameVersionController);
-	
 		BearCore::Destroy();
 		return 0;
 	}
@@ -752,6 +786,14 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	FS.CreateDirectory(TEXT("%user%"), 0);
 	FS.CreateDirectory(TEXT("%logs%"), 0);
 	FS.CreateDirectory(TEXT("%saves%"), 0);
+
+
+	{
+		BearCore::BearStringPath path;
+		FS.UpdatePath(TEXT("%logs%"), 0, path);
+		BearCore::BearFileManager::PathCombine(path, TEXT("engine.log"));
+		BearCore::BearLog::SetFile(path);
+	}
 
     if (!IsDebuggerPresent())
 	{
@@ -793,26 +835,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     }
 
     // Check for another instance
-#ifdef NO_MULTI_INSTANCES
-#define STALKER_PRESENCE_MUTEX "Local\\STALKER-COP"
 
-    HANDLE hCheckPresenceMutex = INVALID_HANDLE_VALUE;
-    hCheckPresenceMutex = OpenMutex(READ_CONTROL, FALSE, STALKER_PRESENCE_MUTEX);
-    if (hCheckPresenceMutex == NULL)
-    {
-        // New mutex
-        hCheckPresenceMutex = CreateMutex(NULL, FALSE, STALKER_PRESENCE_MUTEX);
-        if (hCheckPresenceMutex == NULL)
-            // Shit happens
-            return 2;
-    }
-    else
-    {
-        // Already running
-        CloseHandle(hCheckPresenceMutex);
-        return 1;
-    }
-#endif
 #else // DEDICATED_SERVER
     g_dedicated_server = true;
 #endif // DEDICATED_SERVER
@@ -845,7 +868,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 
     // g_temporary_stuff = &trivial_encryptor::decode;
 
-    compute_build_id();
+    //compute_build_id();
 	string_path fsgame = TEXT("fssoc.ltx");
 	switch (gameVersionController->getGame())
 	{
@@ -928,7 +951,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         //. InitInput ( );
         Engine.External.Initialize();
         Console->Execute("stat_memory");
-
+	
         Startup();
         xrCore::Destroy();
 

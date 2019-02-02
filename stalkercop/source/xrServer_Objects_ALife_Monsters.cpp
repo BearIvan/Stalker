@@ -2152,9 +2152,7 @@ extern void ErrorLog(LPCSTR caMessage);
 CALifeSmartTerrainTask* CSE_ALifeOnlineOfflineGroup::get_current_task	()
 {
 	ErrorLog("FATAL NOT CALL");
-#ifdef DEBUG
 	return 0;
-#endif // #ifdef DEBUG
 }
 #endif // #ifdef XRGAME_EXPORTS
 

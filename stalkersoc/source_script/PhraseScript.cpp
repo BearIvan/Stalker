@@ -9,6 +9,7 @@
 #include "ai_debug.h"
 #include "ui/xrUIXmlParser.h"
 #include "actor.h"
+#include "api/XrGameVersionController.h"
 
 CPhraseScript::CPhraseScript	()
 {
@@ -142,7 +143,15 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO, LPCSTR dialog_id, LPCS
 		THROW(*Actions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Actions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase dialog script function", *Actions()[i]);
-		lua_function		(pSpeakerGO->lua_game_object(), dialog_id);
+		if (gameVersionController->getPath() == GameVersionController::SOC_1004)
+		{
+			int dialog_id_ = atoi(dialog_id);
+			lua_function(pSpeakerGO->lua_game_object(), dialog_id_);
+		}
+		else
+		{
+			lua_function(pSpeakerGO->lua_game_object(), dialog_id);
+		}
 	}
 	TransferInfo(smart_cast<const CInventoryOwner*>(pSpeakerGO));
 }
@@ -168,7 +177,18 @@ bool CPhraseScript::Precondition	(	const CGameObject* pSpeakerGO1,
 		THROW(*Preconditions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Preconditions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase precondition", *Preconditions()[i]);
-		predicate_result = lua_function	(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
+		if (gameVersionController->getPath() == GameVersionController::SOC_1004)
+		{
+			int dialog_id_ = atoi(dialog_id);
+			int phrase_id_ = atoi(phrase_id);
+			int next_phrase_id_ = atoi(next_phrase_id);
+			predicate_result = lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_, next_phrase_id_);
+		}
+		else
+		{
+			predicate_result = lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
+		}
+		
 		if(!predicate_result)
 		{
 		#ifdef DEBUG
@@ -192,7 +212,16 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO1, const CGameObject* pS
 		bool functor_exists = ai().script_engine().functor(*Actions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase dialog script function", *Actions()[i]);
 		try {
-			lua_function		(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id);
+			if (gameVersionController->getPath() == GameVersionController::SOC_1004)
+			{
+				int dialog_id_ = atoi(dialog_id);
+				int phrase_id_ = atoi(phrase_id);
+				lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_);
+			}
+			else
+			{
+				lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id);
+			}
 		} catch (...) {
 		}
 	}

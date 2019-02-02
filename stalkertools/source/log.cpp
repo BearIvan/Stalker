@@ -11,7 +11,7 @@
 extern BOOL LogExecCB = TRUE;
 static string_path logFName = "engine.log";
 static string_path log_file_name = "engine.log";
-static BOOL no_log = FALSE;
+static BOOL no_log = TRUE;
 #ifdef PROFILE_CRITICAL_SECTIONS
 static xrCriticalSection logCS(MUTEX_PROFILE_ID(log));
 #else // PROFILE_CRITICAL_SECTIONS
@@ -42,12 +42,14 @@ void FlushLog()
 
 void AddOne(const char* split)
 {
+	BearCore::BearLog::Printf(TEXT("%s"), split);
     if (!LogFile)
         return;
 
     logCS.Enter();
 
-#ifdef DEBUG
+	
+#if 0
     OutputDebugString(split);
     OutputDebugString("\n");
 #endif

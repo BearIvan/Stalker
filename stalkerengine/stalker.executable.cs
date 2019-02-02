@@ -48,9 +48,9 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalker_r3");
 		IncludeAutonomousProjects.Add("stalker_r4");
 		
-       /// IncludeAutonomousProjects.Add("stalkersoc");
-        ///IncludeAutonomousProjects.Add("stalkercs");
-        IncludeAutonomousProjects.Add("stalkercop");
+        IncludeAutonomousProjects.Add("stalkersoc");
+        IncludeAutonomousProjects.Add("stalkercs");
+		IncludeAutonomousProjects.Add("stalkercop");
         IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;
 		//ProjectsToDynamicLibrary = true;

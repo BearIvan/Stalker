@@ -687,6 +687,7 @@ public:
 	virtual void Execute(LPCSTR args)
 	{
 		Log("X-Ray 1.7.00");
+		R_ASSERT(0);
 
 	}
 };

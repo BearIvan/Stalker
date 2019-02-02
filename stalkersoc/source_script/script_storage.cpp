@@ -11,7 +11,8 @@
 #include "script_thread.h"
 #include <stdarg.h>
 #include "doug_lea_memory_allocator.h"
-
+#include "opt.lua.h"
+#include "opt_inline.lua.h"
 LPCSTR	file_header_old = "\
 local function script_name() \
 return \"%s\" \
@@ -118,6 +119,63 @@ static void *lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize) {
 		return Memory.mem_realloc(ptr, nsize);
 #endif // DEBUG_MEMORY_MANAGER
 }
+#ifndef DEBUG
+/* start optimizer */
+static void l_message(lua_State* state, const char *msg) {
+	Msg("! [LUA_JIT] %s", msg);
+}
+
+static int report(lua_State *L, int status) {
+	if (status && !lua_isnil(L, -1)) {
+		const char *msg = lua_tostring(L, -1);
+		if (msg == NULL) msg = "(error object is not a string)";
+		l_message(L, msg);
+		lua_pop(L, 1);
+	}
+	return status;
+}
+
+static int loadjitmodule(lua_State *L, const char *notfound) {
+	lua_getglobal(L, "require");
+	lua_pushliteral(L, "jit.");
+	lua_pushvalue(L, -3);
+	lua_concat(L, 2);
+	if (lua_pcall(L, 1, 1, 0)) {
+		const char *msg = lua_tostring(L, -1);
+		if (msg && !strncmp(msg, "module ", 7)) {
+			l_message(L, notfound);
+			return 1;
+		}
+		else
+			return report(L, 1);
+	}
+	lua_getfield(L, -1, "start");
+	lua_remove(L, -2);  /* drop module table */
+	return 0;
+}
+static int dojitopt(lua_State *L, const char *opt) {
+	lua_pushliteral(L, "opt");
+	if (loadjitmodule(L, "LuaJIT optimizer module not installed"))
+		return 1;
+	lua_remove(L, -2);  /* drop module name */
+	if (*opt) lua_pushstring(L, opt);
+	return report(L, lua_pcall(L, *opt ? 1 : 0, 0, 0));
+}
+/* ---- end of LuaJIT extensions */
+#endif // #ifndef DEBUG
+#ifndef DEBUG
+static void put_function(lua_State* state, u8 const* buffer, u32 const buffer_size, LPCSTR package_id)
+{
+	lua_getglobal(state, "package");
+	lua_pushstring(state, "preload");
+	lua_gettable(state, -2);
+
+	lua_pushstring(state, package_id);
+	luaL_loadbuffer(state, (char*)buffer, buffer_size, package_id);
+	lua_settable(state, -3);
+}
+#endif // #ifndef DEBUG
+
 void CScriptStorage::reinit	()
 {
 /*	if (m_virtual_machine)

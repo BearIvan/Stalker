@@ -621,6 +621,10 @@ CRenderTarget::CRenderTarget		()
 		HW.pBaseRT->GetDesc(&desc);
 		HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth, Device.dwHeight, desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
 	}
+	else
+	{
+		pFB = 0;
+	}
 	// 
 	dwWidth		= Device.dwWidth;
 	dwHeight	= Device.dwHeight;
@@ -687,8 +691,10 @@ CRenderTarget::~CRenderTarget	()
 	accum_spot_geom_destroy		();
 	accum_omnip_geom_destroy	();
 	accum_point_geom_destroy	();
-	accum_volumetric_geom_destroy();
-
+	if (gameVersionController->getGame() != GameVersionController::SOC)
+	{
+		accum_volumetric_geom_destroy();
+	}
 	// Blenders
 	xr_delete					(b_combine				);
 	xr_delete					(b_luminance			);

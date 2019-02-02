@@ -75,7 +75,7 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 #ifdef DEBUG
 	Msg							("* Game %s is successfully saved to file '%s' (%d bytes compressed to %d)",m_save_name, m_save_name,source_count,dest_count + 4);
 #else // DEBUG
-	Msg							("* Game %s is successfully saved to file '%s'",m_save_name,temp);
+	Msg							("* Game %s is successfully saved to file '%s'",m_save_name, m_save_name);
 #endif // DEBUG
 
 	if (!update_name)

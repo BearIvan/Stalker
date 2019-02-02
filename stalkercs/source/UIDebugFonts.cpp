@@ -10,7 +10,7 @@
 #include "UI/UIDebugFonts.h"
 #include "dinput.h"
 #include "hudmanager.h"
-
+#ifdef DEBUG
 
 CUIDebugFonts::CUIDebugFonts()
 {
@@ -69,3 +69,4 @@ void CUIDebugFonts::FillUpList(){
 	}
 
 }
+#endif

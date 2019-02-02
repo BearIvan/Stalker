@@ -58,7 +58,7 @@ static BOOL bException = FALSE;
 #ifdef DEBUG
 //# define USE_OWN_ERROR_MESSAGE_WINDOW
 #else // DEBUG
-# define USE_OWN_MINI_DUMP
+//# define USE_OWN_MINI_DUMP
 #endif // DEBUG
 
 XRCORE_API xrDebug Debug;
@@ -255,7 +255,7 @@ void xrDebug::backend(const char* expression, const char* description, const cha
     BT_SetUserMessage (assertion_info);
 # endif // USE_BUG_TRAP
 	FlushLog();
-    DEBUG_INVOKE;
+    BEAR_FATALERROR(false,TEXT("Внутринея ошибка движка!!!"));
 # endif // USE_OWN_ERROR_MESSAGE_WINDOW
 #endif
 

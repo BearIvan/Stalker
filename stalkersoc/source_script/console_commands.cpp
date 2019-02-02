@@ -463,15 +463,11 @@ public:
 		_s->wnd()->SetText			(save_name);
 
 		strcat					(S,".dds");
-		BearCore::BearStringPath		S1;
-		FS.UpdatePath("%saves%", 0, S1);
-		BearCore::BearString::Contact(S1, BEAR_PATH);
-		BearCore::BearString::Contact(S1, S);
 		
 #ifdef DEBUG
 		timer.Start				();
 #endif
-		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);
+		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S);
 
 #ifdef DEBUG
 		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);

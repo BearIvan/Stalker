@@ -1,8 +1,15 @@
 #include "stdafx.h"
 #include "api/XrGameVersionController.h"
+BearCore::BearThread*SplashTread = 0;
+extern int32 SplashStatus;
+extern BearCore::BearMutex SplashMutex;
+extern int32 UpdateThread();
 bool Modloader::Run()
 {
-	BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx11"));
+	if (!BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx11")))
+	{
+		BEAR_ERRORMESSAGE(BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx10")), TEXT("Yе подерживается минимальная версия directx 10!!"));
+	}
 	bint ok = 0;
 	{
 		
@@ -47,7 +54,7 @@ bool Modloader::Run()
 					break;
 				}
 			}
-			viewport.ClearColor(BearCore::BearColor::Black);
+			viewport.ClearColor(BearCore::BearColor::BearColor(uint8(30),30,30));
 			mainform.Update(0);
 			mainform.Draw(0);
 			viewport.Swap();
@@ -76,6 +83,25 @@ bool Modloader::Run()
 		}
 		ok = mainform.Ok;
 	}
+	if (ok == 1)
+	{
+		SplashTread = BearCore::bear_new<BearCore::BearThread>(UpdateThread);
+		SplashTread->Join(TEXT("Splash"));
+	}
+	return ok>=1;
+}
+
+void  Modloader::Destroy()
+{
+	if (SplashTread)
+	{
+		{
+			BearCore::BearMutexLock lock(SplashMutex);
+			SplashStatus = 0;
+
+		}
+		SplashTread->Wait();
+		BearCore::bear_delete(SplashTread);
+	}
 	BearGraphics::BearRenderInterface::Destroy();
-	return ok;
 }

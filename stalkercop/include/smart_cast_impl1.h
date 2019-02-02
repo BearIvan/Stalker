@@ -9,7 +9,7 @@
 #pragma once
 
 #include "tools/_type_traits.h"
-#include "object_type_traits.h"
+#include "engine/object_type_traits.h"
 
 #ifdef DEBUG
 	void add_smart_cast_stats		(LPCSTR,LPCSTR);

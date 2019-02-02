@@ -1474,7 +1474,7 @@ HRESULT	CRender::shader_compile			(
 	FS.AppendPath(TEXT("%cur_shaders_cache%"), path, TEXT("%shaders_cache%"), 0);
 
 	FS.GetFiles(m_file_set, "%shaders%", "*");
-
+	sh_name[len] = 0;
 	string_path temp_file_name, file_name;
 	if (!match_shader_id(name, sh_name, m_file_set, temp_file_name)) {
 		xr_strcpy(file_name, sh_name);
@@ -1486,7 +1486,7 @@ HRESULT	CRender::shader_compile			(
 	if (FS.ExistFile("%cur_shaders_cache%", file_name))
 	{
 		IReader* file = XRayBearReader::Create(FS.Read("%cur_shaders_cache%", file_name));
-
+		//BearCore::BearLog::Printf(TEXT("r4 load file %s"), file_name);
 		if (file->length()>4)
 		{
 			u32 crc = 0;
@@ -1523,6 +1523,7 @@ HRESULT	CRender::shader_compile			(
 		if (SUCCEEDED(_result))
 		{
 			FS.CreateDirectory("%cur_shaders_cache%", 0);
+			//BearCore::BearLog::Printf(TEXT("r4 file %s"), file_name);
 			IWriter* file = XRayBearWriter::Create(FS.Write("%cur_shaders_cache%", file_name, 0));
 
 			boost::crc_32_type		processor;

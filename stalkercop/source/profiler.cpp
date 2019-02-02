@@ -31,7 +31,7 @@ void add_profile_portion				(LPCSTR id, const u64 &time)
 	profiler().add_profile_portion	(temp);
 }
 #endif // PROFILE_CRITICAL_SECTIONS
-
+#ifdef DEBUG
 CProfiler	*g_profiler			= 0;
 LPCSTR		indent				= "  ";
 char		white_character		= '.';
@@ -270,3 +270,4 @@ void CProfiler::add_profile_portion	(const CProfileResultPortion &profile_portio
 	InterlockedExchange			(&critical_section_counter,0);
 #endif // PROFILE_CRITICAL_SECTIONS
 }
+#endif

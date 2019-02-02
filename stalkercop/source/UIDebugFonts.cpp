@@ -2,7 +2,7 @@
 #include "ui\uiDebugFonts.h"
 #include "uiDialogHolder.h"
 #include "dinput.h"
-
+#ifdef DEBUG
 
 CUIDebugFonts::CUIDebugFonts()
 {
@@ -61,3 +61,4 @@ void CUIDebugFonts::FillUpList(){
 	}
 
 }
+#endif

@@ -86,7 +86,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 #endif
 				if(hr==D3D_OK)
 				{
-					IWriter*			fs = XRayBearWriter::Create(name);
+					IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%saves%"), name,0));
 					if (fs)				
 					{
 						fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
@@ -316,7 +316,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
 				if(hr!=D3D_OK)		goto _end_;
 				
-				IWriter*			fs		=XRayBearWriter::Create(name); 
+				IWriter*			fs		=XRayBearWriter::Create(FS.Write(TEXT("%saves%"), name, 0));
 				if (fs)				{
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
 					XRayBearWriter::Destroy(fs);
