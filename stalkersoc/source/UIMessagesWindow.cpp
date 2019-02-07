@@ -50,7 +50,7 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height){
 	m_pGameLog = xr_new<CUIGameLog>();m_pGameLog->SetAutoDelete(true);
 	m_pGameLog->Show(true);
 	AttachChild(m_pGameLog);
-	if ( IsGameTypeSingle() )
+	if ( IsGameTypeSingle()&&Game().Type()!=GAME_COOP )
 	{
 		CUIXmlInit::InitScrollView(xml, "sp_log_list", 0, m_pGameLog);
 	}

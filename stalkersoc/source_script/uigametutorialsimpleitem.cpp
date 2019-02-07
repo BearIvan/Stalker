@@ -7,13 +7,14 @@
 #include "engine/xr_input.h"
 #include "xr_level_controller.h"
 #include "UIGameSp.h"
+#include "UIGameCp.h"
 #include "HUDManager.h"
 #include "level.h"
 #include "ui\UIPdaWnd.h"
 #include "ui\UIInventoryWnd.h"
 #include "ui\UITalkWnd.h"
 #include "ui\UICarBodyWnd.h"
-
+#include "game_cl_base.h"
 extern ENGINE_API BOOL bShowPauseString;
 
 //-----------------------------------------------------------------------------
@@ -140,20 +141,41 @@ void CUISequenceSimpleItem::Update			()
 	}
 	
 	if (g_pGameLevel){
-	CUIGameSP* ui_game_sp	= smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* ui_game_cp = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
 
-	if(ui_game_sp)
-	{
-		if(!m_pda_section || 0 == xr_strlen(m_pda_section) )
-			if ( ui_game_sp->PdaMenu->IsShown()			||
-				ui_game_sp->InventoryMenu->IsShown()	||
-				ui_game_sp->TalkMenu->IsShown()			||
-				ui_game_sp->UICarBodyMenu->IsShown()	||
-				ui_game_sp->UIChangeLevelWnd->IsShown()			)
-				m_UIWindow->Show						(false);
-			else
-				m_UIWindow->Show						(true);
+			if (ui_game_cp)
+			{
+				if (!m_pda_section || 0 == xr_strlen(m_pda_section))
+					if (ui_game_cp->PdaMenu->IsShown() ||
+						ui_game_cp->InventoryMenu->IsShown() ||
+						ui_game_cp->TalkMenu->IsShown() ||
+						ui_game_cp->UICarBodyMenu->IsShown() ||
+						ui_game_cp->UIChangeLevelWnd->IsShown())
+						m_UIWindow->Show(false);
+					else
+						m_UIWindow->Show(true);
+			}
 		}
+		else
+		{
+			CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+
+			if (ui_game_sp)
+			{
+				if (!m_pda_section || 0 == xr_strlen(m_pda_section))
+					if (ui_game_sp->PdaMenu->IsShown() ||
+						ui_game_sp->InventoryMenu->IsShown() ||
+						ui_game_sp->TalkMenu->IsShown() ||
+						ui_game_sp->UICarBodyMenu->IsShown() ||
+						ui_game_sp->UIChangeLevelWnd->IsShown())
+						m_UIWindow->Show(false);
+					else
+						m_UIWindow->Show(true);
+			}
+		}
+	
 	}
 }
 
@@ -179,39 +201,91 @@ void CUISequenceSimpleItem::Start()
 
 	if (m_sound._handle())		m_sound.play(NULL, sm_2D);
 
-	if (g_pGameLevel){
-			bool bShowPda			= false;
-			CUIGameSP* ui_game_sp	= smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-			if(!stricmp(m_pda_section,"pda_contacts")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptContacts);
-				bShowPda = true;
-			}else{
-			if(!stricmp(m_pda_section,"pda_map")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptMap);
-				bShowPda = true;
-			}else if(!stricmp(m_pda_section,"pda_quests")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptQuests);
-				bShowPda = true;
-			}else if(!stricmp(m_pda_section,"pda_diary")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptDiary);
-				bShowPda = true;
-			}else if(!stricmp(m_pda_section,"pda_ranking")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptRanking);
-				bShowPda = true;
-			}else if(!stricmp(m_pda_section,"pda_statistics")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptActorStatistic);
-				bShowPda = true;
-			}else if(!stricmp(m_pda_section,"pda_encyclopedia")){
-				ui_game_sp->PdaMenu->SetActiveSubdialog(eptEncyclopedia);
+
+	if (g_pGameLevel)
+	{
+		bool bShowPda = false;
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* ui_game_cp = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (!stricmp(m_pda_section, "pda_contacts")) {
+				ui_game_cp->PdaMenu->SetActiveSubdialog(eptContacts);
 				bShowPda = true;
 			}
+			else {
+				if (!stricmp(m_pda_section, "pda_map")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptMap);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_quests")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptQuests);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_diary")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptDiary);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_ranking")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptRanking);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_statistics")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptActorStatistic);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_encyclopedia")) {
+					ui_game_cp->PdaMenu->SetActiveSubdialog(eptEncyclopedia);
+					bShowPda = true;
+				}
+			}
+			if (ui_game_cp)
+			{
+				if ((!ui_game_cp->PdaMenu->IsShown() && bShowPda) ||
+					(ui_game_cp->PdaMenu->IsShown() && !bShowPda))
+					HUD().GetUI()->StartStopMenu(ui_game_cp->PdaMenu, true);
+			}
 		}
-		if(ui_game_sp)
+		else
 		{
-		if( (!ui_game_sp->PdaMenu->IsShown() && bShowPda) || 
-			(ui_game_sp->PdaMenu->IsShown() && !bShowPda))
-			HUD().GetUI()->StartStopMenu			(ui_game_sp->PdaMenu,true);
+			CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (!stricmp(m_pda_section, "pda_contacts")) {
+				ui_game_sp->PdaMenu->SetActiveSubdialog(eptContacts);
+				bShowPda = true;
+			}
+			else {
+				if (!stricmp(m_pda_section, "pda_map")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptMap);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_quests")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptQuests);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_diary")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptDiary);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_ranking")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptRanking);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_statistics")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptActorStatistic);
+					bShowPda = true;
+				}
+				else if (!stricmp(m_pda_section, "pda_encyclopedia")) {
+					ui_game_sp->PdaMenu->SetActiveSubdialog(eptEncyclopedia);
+					bShowPda = true;
+				}
+			}
+			if (ui_game_sp)
+			{
+				if ((!ui_game_sp->PdaMenu->IsShown() && bShowPda) ||
+					(ui_game_sp->PdaMenu->IsShown() && !bShowPda))
+					HUD().GetUI()->StartStopMenu(ui_game_sp->PdaMenu, true);
+			}
 		}
+
 	}
 }
 
@@ -233,9 +307,19 @@ bool CUISequenceSimpleItem::Stop			(bool bForce)
 		Device.Pause			(FALSE, FALSE, TRUE, "simpleitem_stop");
 
 	if (g_pGameLevel){
-		CUIGameSP* ui_game_sp	= smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if( ui_game_sp && ui_game_sp->PdaMenu->IsShown() ) 
-			HUD().GetUI()->StartStopMenu			(ui_game_sp->PdaMenu, true);
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* ui_game_cp = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (ui_game_cp && ui_game_cp->PdaMenu->IsShown())
+				HUD().GetUI()->StartStopMenu(ui_game_cp->PdaMenu, true);
+		}
+		else
+		{
+			CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (ui_game_sp && ui_game_sp->PdaMenu->IsShown())
+				HUD().GetUI()->StartStopMenu(ui_game_sp->PdaMenu, true);
+		}
+	
 	}
 	inherited::Stop				();
 	return true;

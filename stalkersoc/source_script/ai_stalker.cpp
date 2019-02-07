@@ -344,7 +344,7 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 
 	if (!CObjectHandler::net_Spawn(DC) || !inherited::net_Spawn(DC))
 		return						(FALSE);
-	
+	if (IsClientCoop())return (TRUE);
 	set_money						(tpHuman->m_dwMoney, false);
 
 #ifdef DEBUG_MEMORY_MANAGER
@@ -685,7 +685,7 @@ void CAI_Stalker::UpdateCL()
 	m_pPhysics_support->in_UpdateCL	();
 	STOP_PROFILE
 
-	if (g_Alive()) {
+		if (g_Alive() && !IsClientCoop()) {
 		START_PROFILE("stalker/client_update/sight_manager")
 		VERIFY						(!m_pPhysicsShell);
 		try {
@@ -695,7 +695,7 @@ void CAI_Stalker::UpdateCL()
 			sight().setup			(CSightAction(SightManager::eSightTypeCurrentDirection));
 			sight().update			();
 		}
-
+	
 		Exec_Look					(client_update_fdelta());
 		STOP_PROFILE
 
@@ -748,6 +748,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 	// Queue shrink
 	VERIFY				(_valid(Position()));
 	u32	dwTimeCL		= Level().timeServer()-NET_Latency;
+	if (IsClientCoop())return;
 	VERIFY				(!NET.empty());
 	while ((NET.size()>2) && (NET[1].dwTimeStamp<dwTimeCL)) NET.pop_front();
 
@@ -962,7 +963,7 @@ const MonsterSpace::SBoneRotation &CAI_Stalker::head_orientation	() const
 void CAI_Stalker::net_Relcase				(CObject*	 O)
 {
 	inherited::net_Relcase				(O);
-
+	if (IsClientCoop())return;
 	sight().remove_links				(O);
 
 	if (!g_Alive())

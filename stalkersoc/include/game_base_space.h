@@ -10,7 +10,7 @@ enum EGameTypes
 	GAME_CS								= 5,
 	GAME_TEAMDEATHMATCH					= 6,
 	GAME_ARTEFACTHUNT					= 7,
-
+	GAME_COOP                           = 8,
 	//identifiers in range [100...254] are registered for script game type
 	GAME_DUMMY							= 255	// temporary game type
 };

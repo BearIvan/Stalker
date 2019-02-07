@@ -8,7 +8,7 @@
 #include "engine/igame_persistent.h"
 #include "PhysicsGamePars.h"
 #include "ai_space.h"
-
+#include "game_cl_base.h"
 extern	pureFrame*				g_pNetProcessor;
 
 BOOL CLevel::net_Start_client	( LPCSTR options )
@@ -57,8 +57,11 @@ bool	CLevel::net_start_client3				()
 		if(psNET_direct_connect)
 		{
 			level_name	= ai().get_alife() ? *name() : Server->level_name( Server->GetConnectOptions() ).c_str();
-		}else
-			level_name	= ai().get_alife() ? *name() : net_SessionName	();
+		}
+		else
+		{
+			level_name = ai().get_alife() ? *name() : net_SessionName();
+		}
 
 		// Determine internal level-ID
 		int						level_id = pApp->Level_ID(level_name,"1.0",true);

@@ -473,13 +473,22 @@ void remove_complex_effector(int id)
 #include "postprocessanimator.h"
 void add_pp_effector(LPCSTR fn, int id, bool cyclic)
 {
+	if (Game().Type() == GAME_COOP)
+	{
+		if (!g_actor)return;
+	}
 	CPostprocessAnimator* pp		= xr_new<CPostprocessAnimator>(id, cyclic);
 	pp->Load						(fn);
+
 	Actor()->Cameras().AddPPEffector	(pp);
 }
 
 void remove_pp_effector(int id)
 {
+	if (Game().Type() == GAME_COOP)
+	{
+		if (!g_actor)return;
+	}
 	CPostprocessAnimator*	pp	= smart_cast<CPostprocessAnimator*>(Actor()->Cameras().GetPPEffector((EEffectorPPType)id));
 
 	if(pp) pp->Stop(1.0f);
@@ -488,6 +497,10 @@ void remove_pp_effector(int id)
 
 void set_pp_effector_factor(int id, float f, float f_sp)
 {
+	if (Game().Type() == GAME_COOP)
+	{
+		if (!g_actor)return;
+	}
 	CPostprocessAnimator*	pp	= smart_cast<CPostprocessAnimator*>(Actor()->Cameras().GetPPEffector((EEffectorPPType)id));
 
 	if(pp) pp->SetDesiredFactor(f,f_sp);
@@ -495,6 +508,10 @@ void set_pp_effector_factor(int id, float f, float f_sp)
 
 void set_pp_effector_factor2(int id, float f)
 {
+	if (Game().Type() == GAME_COOP)
+	{
+		if (!g_actor)return;
+	}
 	CPostprocessAnimator*	pp	= smart_cast<CPostprocessAnimator*>(Actor()->Cameras().GetPPEffector((EEffectorPPType)id));
 
 	if(pp) pp->SetCurrentFactor(f);
@@ -522,6 +539,11 @@ void g_change_community_goodwill(LPCSTR _community, int _entity_id, int val)
 	 CHARACTER_COMMUNITY	c;
 	 c.set					(_community);
 	RELATION_REGISTRY().ChangeCommunityGoodwill(c.index(), u16(_entity_id), val);
+}
+
+bool is_server()
+{
+	return Level().Server;
 }
 
 #pragma optimize("s",on)
@@ -613,7 +635,10 @@ void CLevel::script_register(lua_State *L)
 		def("add_complex_effector",				&add_complex_effector),
 		def("remove_complex_effector",			&remove_complex_effector),
 		
-		def("game_id",							&GameID)
+		def("game_id",							&GameID),
+
+		def("is_server",&is_server)
+	
 	],
 	
 	module(L,"actor_stats")

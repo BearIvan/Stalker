@@ -646,7 +646,7 @@ bool CMainMenu::IsCDKeyIsValid()
 	GetCDKey(CDKey);
 
 #ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
+	 return true;
 #endif
 
 	int GameID = 0;

@@ -28,10 +28,11 @@ void CAI_PhraseDialogManager::ReceivePhrase (DIALOG_SHARED_PTR& phrase_dialog)
 	CPhraseDialogManager::ReceivePhrase(phrase_dialog);
 }
 #include "uigamesp.h"
-#include "hudmanager.h"
+#include "uigamecp.h"
+#include "hudmanager.h"1
 #include "level.h"
 #include "ui/UItalkWnd.h"
-
+#include "game_cl_base.h"
 void CAI_PhraseDialogManager::AnswerPhrase (DIALOG_SHARED_PTR& phrase_dialog)
 {
 	CInventoryOwner* pInvOwner		= smart_cast<CInventoryOwner*>(this);
@@ -69,9 +70,16 @@ void CAI_PhraseDialogManager::AnswerPhrase (DIALOG_SHARED_PTR& phrase_dialog)
 		phrase_num = phrases[Random.randI(0, phrases.size())];
 
 		shared_str phrase_id = phrase_dialog->PhraseList()[phrase_num]->GetID();
-		
-		CUIGameSP* pGameSP				= smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		pGameSP->TalkMenu->AddAnswer	(phrase_dialog->GetPhraseText(phrase_id), pInvOwner->Name());
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			pGameCP->TalkMenu->AddAnswer(phrase_dialog->GetPhraseText(phrase_id), pInvOwner->Name());
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			pGameSP->TalkMenu->AddAnswer(phrase_dialog->GetPhraseText(phrase_id), pInvOwner->Name());
+		}
 
 		CPhraseDialogManager::SayPhrase(phrase_dialog, phrase_id);
 	}

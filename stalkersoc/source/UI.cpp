@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "HUDManager.h"
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 #include "actor.h"
 #include "level.h"
 #include "game_cl_base.h"
@@ -101,13 +102,26 @@ bool CUI::Render()
 		}
 		else
 		{  //hack - draw messagess wnd in scope mode
-			CUIGameSP* gSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-			if (gSP){
-				if (!gSP->PdaMenu->GetVisible())
+			if (Game().Type() == GAME_COOP)
+			{
+				CUIGameCP* gCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+				if (gCP) {
+					if (!gCP->PdaMenu->GetVisible())
+						m_pMessagesWnd->Draw();
+				}
+				else
 					m_pMessagesWnd->Draw();
 			}
 			else
-				m_pMessagesWnd->Draw();
+			{
+				CUIGameSP* gSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+				if (gSP) {
+					if (!gSP->PdaMenu->GetVisible())
+						m_pMessagesWnd->Draw();
+				}
+				else
+					m_pMessagesWnd->Draw();
+			}
 		}	
 	}
 	else

@@ -4,15 +4,17 @@
 #include "ui/xrUIXmlParser.h"
 #include "GameTask.h"
 #include "Level.h"
+#include "game_cl_base.h"
 #include "map_manager.h"
 #include "map_location.h"
 #include "HUDManager.h"
 #include "actor.h"
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 #include "ui/UIPDAWnd.h"
 #include "encyclopedia_article.h"
 #include "ui/UIEventsWnd.h"
-
+#include "Level.h"
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include <malloc.h>
@@ -119,9 +121,18 @@ CGameTask*	CGameTaskManager::GiveGameTaskToActor(CGameTask* t, u32 timeToComplet
 
 	//установить флажок необходимости прочтения тасков в PDA
 	if(HUD().GetUI()){
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if(pGameSP) 
-			pGameSP->PdaMenu->PdaContentsChanged	(pda_section::quests);
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (pGameCP)
+				pGameCP->PdaMenu->PdaContentsChanged(pda_section::quests);
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (pGameSP)
+				pGameSP->PdaMenu->PdaContentsChanged(pda_section::quests);
+		}
 	}
 	if(true /*t->m_ID!="user_task"*/)
 		t->Objective(0).ChangeStateCallback();
@@ -166,10 +177,19 @@ void CGameTaskManager::SetTaskState(CGameTask* t, u16 objective_num, ETaskState 
 	if(0 == objective_num && eTaskStateCompleted == state || eTaskStateFail == state)
 		t->m_FinishTime = Level().GetGameTime();
 
-
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(pGameSP) {
-		pGameSP->PdaMenu->PdaContentsChanged	(pda_section::quests);
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (pGameCP) {
+			pGameCP->PdaMenu->PdaContentsChanged(pda_section::quests);
+		}
+	}
+	else
+	{
+		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (pGameSP) {
+			pGameSP->PdaMenu->PdaContentsChanged(pda_section::quests);
+		}
 	}
 
 }

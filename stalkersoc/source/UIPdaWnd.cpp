@@ -95,7 +95,7 @@ void CUIPdaWnd::Init()
 	UIMapWnd				= xr_new<CUIMapWnd>();
 	UIMapWnd->Init			("pda_map.xml","map_wnd");
 
-	if( IsGameTypeSingle() )
+	if( IsGameTypeSingle() ||IsGameTypeCoop())
 	{
 		// Oкно коммуникaции
 		UIPdaContactsWnd		= xr_new<CUIPdaContactsWnd>();

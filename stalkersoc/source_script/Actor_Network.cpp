@@ -56,7 +56,7 @@ CActor*		g_actor						= NULL;
 CActor*			Actor()	
 {	
 	VERIFY		(g_actor); 
-	if (GameID() != GAME_SINGLE) 
+	if (GameID() != GAME_SINGLE&& GameID() != GAME_COOP)
 		VERIFY	(g_actor == Level().CurrentControlEntity());
 	return		(g_actor); 
 };
@@ -514,6 +514,10 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	
 	if(	TRUE == E->s_flags.test(M_SPAWN_OBJECT_LOCAL) && TRUE == E->s_flags.is(M_SPAWN_OBJECT_ASPLAYER))
 		g_actor = this;
+	if (Game().Type() == GAME_COOP)
+	{
+		//g_actor = this;
+	}
 
 	VERIFY(m_pActorEffector == NULL);
 	m_pActorEffector = xr_new<CCameraManager>(false);

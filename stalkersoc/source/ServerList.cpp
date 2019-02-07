@@ -471,8 +471,8 @@ void CServerList::ConnectToSelected()
 		Msg("! Direct connection to this server is not available -> its behind firewall");
 		return;
 	}
-
-	if (xr_strcmp(item->GetInfo()->info.version, MainMenu()->GetGSVer()))
+	static string256	buff;
+	if (xr_strcmp(item->GetInfo()->info.version, MainMenu()->GetGS()->GetGameVersion(buff)))
 	{
 		MainMenu()->SetErrorDialog(CMainMenu::ErrDifferentVersion);
 		return;

@@ -20,7 +20,8 @@
 #include "alife_registry_container.h"
 #include "xrserver.h"
 #include "level_graph.h"
-
+#include "Level.h"
+#include "game_cl_base.h"
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include <malloc.h>
@@ -85,14 +86,14 @@ void CALifeSimulatorBase::reload			(LPCSTR section)
 	m_registry_container		= xr_new<CALifeRegistryContainer>	();
 	m_initialized				= true;
 }
-
+extern bool GAlifeCOOP ;
 CSE_Abstract *CALifeSimulatorBase::spawn_item	(LPCSTR section, const Fvector &position, u32 level_vertex_id, GameGraph::_GRAPH_ID game_vertex_id, u16 parent_id, bool registration)
 {
 	CSE_Abstract				*abstract = F_entity_Create(section);
 	R_ASSERT3					(abstract,"Cannot find item with section",section);
 
 	abstract->s_name			= section;
-	abstract->s_gameid			= u8(GAME_SINGLE); // GameID()
+	abstract->s_gameid			= GAlifeCOOP ?u8(GAME_COOP): u8(GAME_SINGLE); // GameID()
 	abstract->s_RP				= 0xff;
 	abstract->ID				= server().PerformIDgen(0xffff);
 	abstract->ID_Parent			= parent_id;

@@ -40,8 +40,8 @@ ObjectFactory::SERVER_BASE_CLASS *CSObjectItemClientServer::server_object	(LPCST
 #undef CSObjectItemClientServer
 
 #ifndef NO_XR_GAME
-#	define TEMPLATE_SPECIALIZATION template <typename _client_type_single, typename _client_type_mp, typename _server_type_single, typename _server_type_mp>
-#	define CSObjectItemClientServerSingleMp CObjectItemClientServerSingleMp<_client_type_single,_client_type_mp,_server_type_single,_server_type_mp>
+#	define TEMPLATE_SPECIALIZATION template <typename _client_type_single, typename _client_type_mp,typename _client_type_cp, typename _server_type_single, typename _server_type_mp, typename _server_type_cp>
+#	define CSObjectItemClientServerSingleMp CObjectItemClientServerSingleMp<_client_type_single,_client_type_mp,_client_type_cp,_server_type_single,_server_type_mp,_server_type_cp>
 
 	TEMPLATE_SPECIALIZATION
 	IC	CSObjectItemClientServerSingleMp::CObjectItemClientServerSingleMp				(const CLASS_ID &clsid, LPCSTR script_clsid) :
@@ -52,10 +52,19 @@ ObjectFactory::SERVER_BASE_CLASS *CSObjectItemClientServer::server_object	(LPCST
 	TEMPLATE_SPECIALIZATION
 	ObjectFactory::CLIENT_BASE_CLASS *CSObjectItemClientServerSingleMp::client_object	() const
 	{
-		ObjectFactory::CLIENT_BASE_CLASS	*result = 
-			IsGameTypeSingle() ?
-			xr_new<_client_type_single>() :
-			xr_new<_client_type_mp>();
+		ObjectFactory::CLIENT_BASE_CLASS	*result = 0;
+		if (IsGameTypeSingle())
+		{
+			result = xr_new<_client_type_single>();
+		}
+		else if (IsGameTypeCoop())
+		{
+			result = xr_new<_client_type_cp>();
+		}
+		else
+		{
+			return xr_new<_client_type_mp>();;
+		}
 		
 		return								(result->_construct());
 	}
@@ -63,11 +72,19 @@ ObjectFactory::SERVER_BASE_CLASS *CSObjectItemClientServer::server_object	(LPCST
 	TEMPLATE_SPECIALIZATION
 	ObjectFactory::SERVER_BASE_CLASS *CSObjectItemClientServerSingleMp::server_object	(LPCSTR section) const
 	{
-		ObjectFactory::SERVER_BASE_CLASS	*result = 
-			IsGameTypeSingle() ?
-			xr_new<_server_type_single>(section) :
-			xr_new<_server_type_mp>(section);
-
+		ObjectFactory::SERVER_BASE_CLASS	*result = 0;
+		if (IsGameTypeSingle())
+		{
+			result = xr_new<_server_type_single>(section);
+		}
+		else if (IsGameTypeCoop())
+		{
+			result = xr_new<_server_type_cp>(section);
+		}
+		else
+		{
+			return xr_new<_server_type_mp>(section);;
+		}	
 		result								= result->init();
 		R_ASSERT							(result);
 		return								(result);

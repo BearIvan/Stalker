@@ -710,7 +710,7 @@ void CActor::Die(CObject* who)
 			{
 				if((*I).m_pIItem)
 				{
-					if (IsGameTypeSingle())
+					if (IsGameTypeSingle()||IsGameTypeCoop())
 						(*I).m_pIItem->SetDropManual(TRUE);
 					else
 					{
@@ -737,7 +737,7 @@ void CActor::Die(CObject* who)
 		while (!l_blist.empty())	
 			inventory().Ruck(l_blist.front());
 
-		if (!IsGameTypeSingle())
+		if (!IsGameTypeSingle()&&!IsGameTypeCoop())
 		{
 			//if we are on server and actor has PDA - destroy PDA
 			TIItemContainer &l_rlist	= inventory().m_ruck;

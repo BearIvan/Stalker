@@ -38,7 +38,7 @@ void CPHActorCharacter::Create(dVector3 sizes)
 {
 	if(b_exist) return;
 	inherited::Create(sizes);
-	if(!IsGameTypeSingle())
+	if(!IsGameTypeSingle()&&!IsGameTypeCoop())
 	{
 		ClearRestrictors();
 	}
@@ -234,7 +234,7 @@ void CPHActorCharacter::InitContact(dContact* c,bool &do_collide,u16 material_id
 	SGameMtl*	material_2=GMLib.GetMaterialByIdx(material_idx_2);
 	if((material_1&&material_1->Flags.test(SGameMtl::flActorObstacle))||(material_2&&material_2->Flags.test(SGameMtl::flActorObstacle)))
 		do_collide=true;
-	if(IsGameTypeSingle())
+	if(IsGameTypeSingle()||IsGameTypeCoop())
 	{
 	
 		if(b_restrictor)

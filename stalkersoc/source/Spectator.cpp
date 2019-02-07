@@ -240,7 +240,7 @@ void CSpectator::IR_OnKeyboardHold(int cmd)
 			vmove.mad( right, -Device.fTimeDelta*Accel_mul );
 			}break;
 		}
-		if (cam_active != eacFreeFly || (pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly) || (PS && PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))))
+		if (cam_active != eacFreeFly || (!pMPGame ||pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly) || (PS && PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))))
 			XFORM().c.add( vmove );
 	}
 }

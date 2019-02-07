@@ -282,7 +282,7 @@ void CEntityAlive::Hit(SHit* pHDS)
 	//-------------------------------------------
 	inherited::Hit(&HDS);
 
-	if (g_Alive()&&IsGameTypeSingle()) {
+	if (g_Alive()&&(IsGameTypeSingle()||IsGameTypeCoop())) {
 		CEntityAlive* EA = smart_cast<CEntityAlive*>(HDS.who);
 		if(EA && EA->g_Alive() && EA->ID() != ID())
 		{

@@ -150,7 +150,7 @@ void CUIMainIngameWnd::Init()
 	UIZoneMap->Init				();
 	UIZoneMap->SetScale			(DEFAULT_MAP_SCALE);
 
-	if(IsGameTypeSingle())
+	if(IsGameTypeSingle()||IsGameTypeCoop())
 	{
 		xml_init.InitStatic					(uiXml, "static_pda_online", 0, &UIPdaOnline);
 		UIZoneMap->Background().AttachChild	(&UIPdaOnline);
@@ -180,7 +180,7 @@ void CUIMainIngameWnd::Init()
 	AttachChild					(m_UIIcons);
 
 	// Загружаем иконки 
-	if(IsGameTypeSingle())
+	if(IsGameTypeSingle()||IsGameTypeCoop())
 	{
 		xml_init.InitStatic		(uiXml, "starvation_static", 0, &UIStarvationIcon);
 		UIStarvationIcon.Show	(false);
@@ -251,7 +251,7 @@ void CUIMainIngameWnd::Init()
 	AttachChild								(&UIMotionIcon);
 	UIMotionIcon.Init						();
 
-	if(IsGameTypeSingle())
+	if(IsGameTypeSingle()||IsGameTypeCoop())
 	{
 		m_artefactPanel->InitFromXML		(uiXml, "artefact_panel", 0);
 		this->AttachChild					(m_artefactPanel);	
@@ -283,7 +283,7 @@ void CUIMainIngameWnd::Draw()
 		UIStaticDiskIO.SetColor	(color_rgba(255,255,255,alpha));
 	}
 
-	if(!IsGameTypeSingle())
+	if(!IsGameTypeSingle()||IsGameTypeCoop())
 	{
 		float		luminocity = smart_cast<CGameObject*>(Level().CurrentEntity())->ROS()->get_luminocity();
 		float		power = log(luminocity > .001f ? luminocity : .001f)*(1.f/*luminocity_factor*/);
@@ -371,7 +371,7 @@ void CUIMainIngameWnd::Update()
 		return;
 	}
 
-	if( !(Device.dwFrame%30) && IsGameTypeSingle() )
+	if( !(Device.dwFrame%30) &&( IsGameTypeSingle() ||IsGameTypeCoop()))
 	{
 			string256				text_str;
 			CPda* _pda	= m_pActor->GetPDA();

@@ -1046,6 +1046,18 @@ bool	IsGameTypeSingle()
 	return g_pGamePersistent->GameType()==GAME_SINGLE || g_pGamePersistent->GameType()==GAME_ANY;
 }
 
+bool	IsGameTypeCoop()
+{
+	return g_pGamePersistent->GameType() == GAME_COOP;
+}
+bool	IsClientCoop()
+{
+	return g_pGamePersistent->GameType() == GAME_COOP && !Level().IsServer();
+}
+bool	IsServerCoop()
+{
+	return g_pGamePersistent->GameType() == GAME_COOP && Level().IsServer();
+}
 #ifdef BATTLEYE
 
 bool CLevel::TestLoadBEClient()

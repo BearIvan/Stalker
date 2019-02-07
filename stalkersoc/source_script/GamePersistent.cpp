@@ -180,17 +180,19 @@ void CGamePersistent::UpdateGameType			()
 	//  [7/11/2005]
 	if (!xr_strcmp(m_game_params.m_game_type, "single")) m_game_params.m_e_game_type = eGameIDSingle;
 	else
-		if (!xr_strcmp(m_game_params.m_game_type, "deathmatch")) m_game_params.m_e_game_type = eGameIDDeathmatch;
+		if (!xr_strcmp(m_game_params.m_game_type, "deathmatch")) m_game_params.m_e_game_type =static_cast<EGameIDs>(  GAME_DEATHMATCH);
 		else
-			if (!xr_strcmp(m_game_params.m_game_type, "teamdeathmatch")) m_game_params.m_e_game_type = eGameIDTeamDeathmatch;
+			if (!xr_strcmp(m_game_params.m_game_type, "teamdeathmatch")) m_game_params.m_e_game_type = static_cast<EGameIDs>(GAME_TEAMDEATHMATCH);
 			else
-				if (!xr_strcmp(m_game_params.m_game_type, "artefacthunt")) m_game_params.m_e_game_type = eGameIDArtefactHunt;
-				else m_game_params.m_e_game_type = eGameIDNoGame;
+				if (!xr_strcmp(m_game_params.m_game_type, "artefacthunt")) m_game_params.m_e_game_type = static_cast<EGameIDs>(GAME_ARTEFACTHUNT);
+				else if (!xr_strcmp(m_game_params.m_game_type, "coop")) m_game_params.m_e_game_type = static_cast<EGameIDs>(GAME_COOP);
+					 else m_game_params.m_e_game_type = eGameIDNoGame;
 	//  [7/11/2005]
 
 	if(	m_game_params.m_e_game_type == GAME_DEATHMATCH ||
 		m_game_params.m_e_game_type == GAME_TEAMDEATHMATCH ||
-		m_game_params.m_e_game_type == GAME_ARTEFACTHUNT
+		m_game_params.m_e_game_type == GAME_ARTEFACTHUNT ||
+		m_game_params.m_e_game_type == GAME_COOP
 		)
 	g_current_keygroup = _mp;
 	else
@@ -419,6 +421,7 @@ void CGamePersistent::OnFrame	()
 }
 
 #include "game_sv_single.h"
+#include "coop/game_sv_coop.h"
 #include "xrServer.h"
 
 void CGamePersistent::OnEvent(EVENT E, u64 P1, u64 P2)
@@ -431,9 +434,19 @@ void CGamePersistent::OnEvent(EVENT E, u64 P1, u64 P2)
 		LPSTR		saved_name	= (LPSTR)(P1);
 
 		Level().remove_objects	();
-		game_sv_Single			*game = smart_cast<game_sv_Single*>(Level().Server->game);
-		R_ASSERT				(game);
-		game->restart_simulator	(saved_name);
+		if (Level().Server->game->Type() == GAME_COOP)
+		{
+			game_sv_Coop			*game = smart_cast<game_sv_Coop*>(Level().Server->game);
+			R_ASSERT(game);
+			game->restart_simulator(saved_name);
+		}
+		else
+		{
+			game_sv_Single			*game = smart_cast<game_sv_Single*>(Level().Server->game);
+			R_ASSERT(game);
+			game->restart_simulator(saved_name);
+		}
+
 		xr_free					(saved_name);
 		return;
 	}else

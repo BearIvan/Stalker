@@ -19,6 +19,7 @@
 #include "engine/xr_collide_form.h"
 #include "HudManager.h"
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 
 xr_vector<CLevelChanger*>	g_lchangers;
 
@@ -106,6 +107,7 @@ void CLevelChanger::shedule_Update(u32 dt)
 }
 #include "patrol_path.h"
 #include "patrol_path_storage.h"
+#include "game_cl_base.h"
 void CLevelChanger::feel_touch_new	(CObject *tpObject)
 {
 	CActor*			l_tpActor = smart_cast<CActor*>(tpObject);
@@ -125,9 +127,19 @@ void CLevelChanger::feel_touch_new	(CObject *tpObject)
 	}
 	Fvector			p,r;
 	bool			b = get_reject_pos(p,r);
-	CUIGameSP		*pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if (pGameSP)
-        pGameSP->ChangeLevel	(m_game_vertex_id,m_level_vertex_id,m_position,m_angles,p,r,b);
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP		*pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (pGameCP)
+			pGameCP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b);
+	}
+	else
+	{
+		CUIGameSP		*pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (pGameSP)
+			pGameSP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b);
+	}
+	
 
 	m_entrance_time	= Device.fTimeGlobal;
 }
@@ -175,11 +187,23 @@ void CLevelChanger::update_actor_invitation()
 		VERIFY			(l_tpActor);
 
 		if(m_entrance_time+5.0f < Device.fTimeGlobal){
-			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-			Fvector p,r;
-			bool b = get_reject_pos(p,r);
-			if(pGameSP)pGameSP->ChangeLevel(m_game_vertex_id,m_level_vertex_id,m_position,m_angles,p,r,b);
-			m_entrance_time		= Device.fTimeGlobal;
+			if (Game().Type() == GAME_COOP)
+			{
+				CUIGameCP* pGameSP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+				Fvector p, r;
+				bool b = get_reject_pos(p, r);
+				if (pGameSP)pGameSP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b);
+				m_entrance_time = Device.fTimeGlobal;
+			}
+			else
+			{
+				CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+				Fvector p, r;
+				bool b = get_reject_pos(p, r);
+				if (pGameSP)pGameSP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b);
+				m_entrance_time = Device.fTimeGlobal;
+			}
+		
 		}
 	}
 }

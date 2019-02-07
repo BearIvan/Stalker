@@ -197,8 +197,8 @@ BOOL CEntity::net_Spawn		(CSE_Abstract* DC)
 				id_Team = monster_community.team();
 		}
 	}
-
-	if (g_Alive() && IsGameTypeSingle()) {
+//!!!!!!!
+	if (g_Alive() && (IsGameTypeSingle()||IsServerCoop())) {
 		m_registered_member		= true;
 		Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group()).register_member(this);
 		++Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group()).m_dwAliveCount;

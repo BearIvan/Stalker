@@ -14,6 +14,7 @@
 #include "level.h"
 #include "date_time.h"
 #include "uigamesp.h"
+#include "uigamecp.h"
 #include "hudmanager.h"
 #include "restricted_object.h"
 #include "script_engine.h"
@@ -63,11 +64,22 @@ void  CScriptGameObject::AddIconedTalkMessage		(LPCSTR text, LPCSTR texture_name
 
 void _AddIconedTalkMessage(LPCSTR text, LPCSTR texture_name, const Frect& tex_rect, LPCSTR templ_name)
 {
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(!pGameSP) return;
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (!pGameCP) return;
 
-	if(pGameSP->TalkMenu->IsShown())
-		pGameSP->TalkMenu->AddIconedMessage(text, texture_name, tex_rect, templ_name?templ_name:"iconed_answer_item" );
+		if (pGameCP->TalkMenu->IsShown())
+			pGameCP->TalkMenu->AddIconedMessage(text, texture_name, tex_rect, templ_name ? templ_name : "iconed_answer_item");
+	}
+	else
+	{
+		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (!pGameSP) return;
+
+		if (pGameSP->TalkMenu->IsShown())
+			pGameSP->TalkMenu->AddIconedMessage(text, texture_name, tex_rect, templ_name ? templ_name : "iconed_answer_item");
+	}
 }
 bool _give_news	(LPCSTR news, LPCSTR texture_name, const Frect& tex_rect, int delay, int show_time);
 

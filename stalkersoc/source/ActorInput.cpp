@@ -12,6 +12,7 @@
 #include "Car.h"
 #include "HudManager.h"
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 #include "inventory.h"
 #include "level.h"
 #include "game_cl_base.h"
@@ -339,9 +340,19 @@ void CActor::ActorUse()
 	
 	if(m_pInvBoxWeLookingAt && m_pInvBoxWeLookingAt->nonscript_usable())
 	{
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if(pGameSP) pGameSP->StartCarBody(this, m_pInvBoxWeLookingAt );
-		return;
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (pGameCP) pGameCP->StartCarBody(this, m_pInvBoxWeLookingAt);
+			return;
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (pGameSP) pGameSP->StartCarBody(this, m_pInvBoxWeLookingAt);
+			return;
+		}
+	
 	}
 
 	if(!m_pUsableObject||m_pUsableObject->nonscript_usable())
@@ -362,9 +373,19 @@ void CActor::ActorUse()
 				//обыск трупа
 				else  if(!Level().IR_GetKeyState(DIK_LSHIFT))
 				{
-					//только если находимся в режиме single
-					CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-					if(pGameSP)pGameSP->StartCarBody(this, m_pPersonWeLookingAt );
+					if (Game().Type() == GAME_COOP)
+					{
+						//только если находимся в режиме single
+						CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+						if (pGameCP)pGameCP->StartCarBody(this, m_pPersonWeLookingAt);
+					}
+					else
+					{
+						//только если находимся в режиме single
+						CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+						if (pGameSP)pGameSP->StartCarBody(this, m_pPersonWeLookingAt);
+					}
+			
 				}
 			}
 		}

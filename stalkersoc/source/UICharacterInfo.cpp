@@ -21,7 +21,8 @@
 #include "alife_object_registry.h"
 #include "xrServer.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-
+#include "game_cl_base.h"
+#include "script_engine.h"
 using namespace InventoryUtilities;
 
 CSE_ALifeTraderAbstract* ch_info_get_from_id (u16 id)
@@ -29,7 +30,14 @@ CSE_ALifeTraderAbstract* ch_info_get_from_id (u16 id)
 	if( ai().get_alife() && ai().get_game_graph() )
 	{
 		return	smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(id));
-	}else{
+	}
+	else 
+	{
+		if (Game().Type() == GAME_COOP&&!Level().Server)
+		{
+			ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "COOP:Клиет:Нельзя юзать сервер!!!");
+
+		}
 		return	smart_cast<CSE_ALifeTraderAbstract*>(Level().Server->game->get_entity_from_eid(id));
 	}
 }

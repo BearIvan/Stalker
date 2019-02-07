@@ -947,28 +947,20 @@ void IPureServer::Print_Banned_Addreses	()
 	Msg("- ----banned ip list end-------");
 }
 
-void IPureServer::BannedList_Save	()
+void IPureServer::BannedList_Save()
 {
-	BEAR_ASSERT(false);
-	/*string_path					temp;
-	FS.update_path				(temp,"$app_data_root$", GetBannedListName());
-	
-	CInifile					ini(temp,FALSE,FALSE,TRUE);
-	
-	for	(u32 it=0; it<BannedAddresses.size(); it++)
+	CInifile					ini(TEXT("%user%"), GetBannedListName(), FALSE, FALSE, TRUE);
+
+	for (u32 it = 0; it < BannedAddresses.size(); it++)
 	{
-		IBannedClient* cl	= BannedAddresses[it];
-		cl->Save			(ini);
-	};*/
+		IBannedClient* cl = BannedAddresses[it];
+		cl->Save(ini);
+	};
 }
 
 void IPureServer::BannedList_Load()
 {
-	BEAR_ASSERT(false);
-	/*string_path					temp;
-	FS.update_path				(temp,"$app_data_root$", GetBannedListName());
-	
-	CInifile					ini(temp);
+	CInifile					ini(TEXT("%user%"), GetBannedListName());
 
 	CInifile::RootIt it			= ini.sections().begin();
 	CInifile::RootIt it_e		= ini.sections().end();
@@ -979,7 +971,7 @@ void IPureServer::BannedList_Load()
 		IBannedClient* Cl			= xr_new<IBannedClient>();
 		Cl->Load					(ini, sect_name);
 		BannedAddresses.push_back	(Cl);
-	}*/
+	}
 }
 
 void IPureServer::IpList_Load()

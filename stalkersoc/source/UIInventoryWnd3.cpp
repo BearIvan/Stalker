@@ -94,7 +94,7 @@ void CUIInventoryWnd::ActivatePropertiesBox()
 			UIPropertiesBox.AddItem("st_detach_silencer",  NULL, INVENTORY_DETACH_SILENCER_ADDON);
 		b_show			= true;
 		}
-		if(smart_cast<CWeaponMagazined*>(pWeapon) && IsGameTypeSingle())
+		if(smart_cast<CWeaponMagazined*>(pWeapon) &&( IsGameTypeSingle()||IsGameTypeCoop()))
 		{
 			bool b = (0!=pWeapon->GetAmmoElapsed());
 

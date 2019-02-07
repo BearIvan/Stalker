@@ -31,7 +31,7 @@ public:
 };
 
 #ifndef NO_XR_GAME
-	template <typename _client_type_single, typename _client_type_mp, typename _server_type_single, typename _server_type_mp>
+	template <typename _client_type_single, typename _client_type_mp, typename _client_type_cp , typename _server_type_single, typename _server_type_mp, typename _server_type_cp>
 	class CObjectItemClientServerSingleMp : public CObjectItemAbstract {
 	typedef CObjectItemAbstract	inherited;
 	public:

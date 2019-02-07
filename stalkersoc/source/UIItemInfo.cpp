@@ -14,7 +14,7 @@
 #include "PhysicsShellHolder.h"
 #include "ui/UIWpnParams.h"
 #include "ui/ui_af_params.h"
-
+#include "Level.h"
 CUIItemInfo::CUIItemInfo()
 {
 	UIItemImageSize.set			(0.0f,0.0f);
@@ -146,7 +146,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 		sprintf_s				(str, "%3.2f kg", pInvItem->Weight());
 		UIWeight->SetText	(str);
 	}
-	if( UICost && IsGameTypeSingle() )
+	if( UICost &&( IsGameTypeSingle()||IsGameTypeCoop() ))
 	{
 		sprintf_s				(str, "%d RU", pInvItem->Cost());		// will be owerwritten in multiplayer
 		UICost->SetText		(str);

@@ -377,6 +377,7 @@ xr_token game_types[]={
 	{ "counterstrike",	GAME_CS			},
 	{ "teamdeathmatch",	GAME_TEAMDEATHMATCH },
 	{ "artefacthunt",	GAME_ARTEFACTHUNT },
+	{ "coop",	GAME_COOP },
 	{ 0,				0				}
 };
 

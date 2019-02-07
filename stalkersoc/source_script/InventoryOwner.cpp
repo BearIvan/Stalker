@@ -115,7 +115,7 @@ BOOL CInventoryOwner::net_Spawn		(CSE_Abstract* DC)
 	if(!pThis) return FALSE;
 	CSE_Abstract* E	= (CSE_Abstract*)(DC);
 
-	if ( IsGameTypeSingle() )
+	if ( IsGameTypeSingle()||IsGameTypeCoop() )
 	{
 		CSE_ALifeTraderAbstract* pTrader = NULL;
 		if(E) pTrader = smart_cast<CSE_ALifeTraderAbstract*>(E);
@@ -262,8 +262,10 @@ void CInventoryOwner::StartTalk(CInventoryOwner* talk_partner, bool start_trade)
 		GetTrade()->StartTrade(talk_partner);
 }
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 #include "HUDmanager.h"
 #include "ui\UITalkWnd.h"
+#include "game_cl_base.h"
 
 void CInventoryOwner::StopTalk()
 {
@@ -271,10 +273,18 @@ void CInventoryOwner::StopTalk()
 	m_bTalking				= false;
 
 	GetTrade()->StopTrade	();
-
-	CUIGameSP* ui_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(ui_sp && ui_sp->TalkMenu->IsShown())
-		ui_sp->TalkMenu->Stop();
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP* ui_sp = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (ui_sp && ui_sp->TalkMenu->IsShown())
+			ui_sp->TalkMenu->Stop();
+	}
+	else
+	{
+		CUIGameSP* ui_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (ui_sp && ui_sp->TalkMenu->IsShown())
+			ui_sp->TalkMenu->Stop();
+	}
 }
 
 bool CInventoryOwner::IsTalking()

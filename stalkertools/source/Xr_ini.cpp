@@ -482,21 +482,31 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
 
 bool CInifile::save_as(LPCSTR new_fname)
 {
-
-    // save if needed
-    if (new_fname && new_fname[0])
-        xr_strcpy(m_file_name, sizeof(m_file_name), new_fname);
-
-    R_ASSERT(m_file_name&&m_file_name[0]);
-	auto fs = BearCore::bear_new<BearCore::BearFileStream>();
-	if (!fs->Open(new_fname, fs->M_Write))
+	if (new_fname)
 	{
-		BearCore::bear_free(fs);
-	}
-	IWriter*F = XRayBearWriter::Create(fs);
 
-    save_as(*F);
-	XRayBearWriter::Destroy(F);
+
+		// save if needed
+		if (new_fname && new_fname[0])
+			xr_strcpy(m_file_name, sizeof(m_file_name), new_fname);
+
+		R_ASSERT(m_file_name&&m_file_name[0]);
+		auto fs = BearCore::bear_new<BearCore::BearFileStream>();
+		if (!fs->Open(new_fname, fs->M_Write))
+		{
+			BearCore::bear_free(fs);
+		}
+		IWriter*F = XRayBearWriter::Create(fs);
+
+		save_as(*F);
+		XRayBearWriter::Destroy(F);
+	}
+	else
+	{
+		IWriter*F = XRayBearWriter::Create(FS.Write(TEXT("%user%"), m_file_name,0));
+		save_as(*F);
+		XRayBearWriter::Destroy(F);
+	}
     return (true);
 }
 

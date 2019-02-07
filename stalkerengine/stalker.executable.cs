@@ -45,12 +45,12 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
         IncludeAutonomousProjects.Add("stalker_r2");
-		IncludeAutonomousProjects.Add("stalker_r3");
-		IncludeAutonomousProjects.Add("stalker_r4");
+		//IncludeAutonomousProjects.Add("stalker_r3");
+		//IncludeAutonomousProjects.Add("stalker_r4");
 		
         IncludeAutonomousProjects.Add("stalkersoc");
-        IncludeAutonomousProjects.Add("stalkercs");
-		IncludeAutonomousProjects.Add("stalkercop");
+      //  IncludeAutonomousProjects.Add("stalkercs");
+		//IncludeAutonomousProjects.Add("stalkercop");
         IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;
 		//ProjectsToDynamicLibrary = true;

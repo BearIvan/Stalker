@@ -2,6 +2,7 @@
 #include "actor.h"
 #include "customdetector.h"
 #include "uigamesp.h"
+#include "uigamecp.h"
 #include "hudmanager.h"
 #include "weapon.h"
 #include "artifact.h"
@@ -60,24 +61,47 @@ void CActor::OnEvent		(NET_Packet& P, u16 type)
 				O->H_SetParent(smart_cast<CObject*>(this));
 
 				inventory().Take(_GO, false, true);
-
-				CUIGameSP* pGameSP = NULL;
-				CUI* ui = HUD().GetUI();
-				if( ui&&ui->UIGame() )
+				if (Game().Type() == GAME_COOP)
 				{
-					pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-					if (Level().CurrentViewEntity() == this)
-							HUD().GetUI()->UIGame()->ReInitShownUI();
-				};
-				
-				//добавить отсоединенный аддон в инвентарь
-				if(pGameSP)
-				{
-					if(pGameSP->MainInputReceiver() == pGameSP->InventoryMenu)
+					CUIGameCP* pGameCP = NULL;
+					CUI* ui = HUD().GetUI();
+					if (ui&&ui->UIGame())
 					{
-						pGameSP->InventoryMenu->AddItemToBag(smart_cast<CInventoryItem*>(O));
+						pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+						if (Level().CurrentViewEntity() == this)
+							HUD().GetUI()->UIGame()->ReInitShownUI();
+					};
+
+					//добавить отсоединенный аддон в инвентарь
+					if (pGameCP)
+					{
+						if (pGameCP->MainInputReceiver() == pGameCP->InventoryMenu)
+						{
+							pGameCP->InventoryMenu->AddItemToBag(smart_cast<CInventoryItem*>(O));
+						}
 					}
 				}
+				else
+				{
+					CUIGameSP* pGameSP = NULL;
+					CUI* ui = HUD().GetUI();
+					if (ui&&ui->UIGame())
+					{
+						pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+						if (Level().CurrentViewEntity() == this)
+							HUD().GetUI()->UIGame()->ReInitShownUI();
+					};
+
+					//добавить отсоединенный аддон в инвентарь
+					if (pGameSP)
+					{
+						if (pGameSP->MainInputReceiver() == pGameSP->InventoryMenu)
+						{
+							pGameSP->InventoryMenu->AddItemToBag(smart_cast<CInventoryItem*>(O));
+						}
+					}
+				}
+				
 				
 				SelectBestWeapon(O);
 			} 

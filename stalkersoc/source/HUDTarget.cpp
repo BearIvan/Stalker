@@ -157,7 +157,7 @@ void CHUDTarget::Render()
 			CEntityAlive*	pCurEnt = smart_cast<CEntityAlive*>	(Level().CurrentEntity());
 			PIItem			l_pI	= smart_cast<PIItem>		(RQ.O);
 
-			if (IsGameTypeSingle())
+			if (IsGameTypeSingle()||IsGameTypeCoop())
 			{
 				CInventoryOwner* our_inv_owner		= smart_cast<CInventoryOwner*>(pCurEnt);
 				if (E && E->g_Alive() && !E->cast_base_monster())

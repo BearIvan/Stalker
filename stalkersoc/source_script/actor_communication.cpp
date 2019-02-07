@@ -1,6 +1,7 @@
 #include "pch_script.h"
 #include "actor.h"
 #include "UIGameSP.h"
+#include "UIGameCP.h"
 #include "UI.h"
 #include "PDA.h"
 #include "HUDManager.h"
@@ -67,16 +68,33 @@ void CActor::AddEncyclopediaArticle	 (const CInfoPortion* info_portion) const
 		callback(GameObject::eArticleInfo)(lua_game_object(), g, n, _atype);
 
 		if( HUD().GetUI() ){
-			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-			pda_section::part p = pda_section::encyclopedia;
-			switch (article.data()->articleType){
+			if (Game().Type() == GAME_COOP)
+			{
+				CUIGameCP* pGameSP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+				pda_section::part p = pda_section::encyclopedia;
+				switch (article.data()->articleType) {
 				case ARTICLE_DATA::eEncyclopediaArticle:	p = pda_section::encyclopedia;	break;
 				case ARTICLE_DATA::eJournalArticle:			p = pda_section::journal;		break;
 				case ARTICLE_DATA::eInfoArticle:			p = pda_section::info;			break;
 				case ARTICLE_DATA::eTaskArticle:			p = pda_section::quests;		break;
 				default: NODEFAULT;
-			};
-			pGameSP->PdaMenu->PdaContentsChanged			(p);
+				};
+				pGameSP->PdaMenu->PdaContentsChanged(p);
+			}
+			else
+			{
+				CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+				pda_section::part p = pda_section::encyclopedia;
+				switch (article.data()->articleType) {
+				case ARTICLE_DATA::eEncyclopediaArticle:	p = pda_section::encyclopedia;	break;
+				case ARTICLE_DATA::eJournalArticle:			p = pda_section::journal;		break;
+				case ARTICLE_DATA::eInfoArticle:			p = pda_section::info;			break;
+				case ARTICLE_DATA::eTaskArticle:			p = pda_section::quests;		break;
+				default: NODEFAULT;
+				};
+				pGameSP->PdaMenu->PdaContentsChanged(p);
+			}
+			
 		}
 
 	}
@@ -106,9 +124,19 @@ void  CActor::AddGameNews			 (GAME_NEWS_DATA& news_data)
 
 	if(HUD().GetUI()){
 		HUD().GetUI()->UIMainIngameWnd->ReceiveNews(&news_data);
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if(pGameSP) 
-			pGameSP->PdaMenu->PdaContentsChanged	(pda_section::news);
+		if(Game().Type()==GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (pGameCP)
+				pGameCP->PdaMenu->PdaContentsChanged(pda_section::news);
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (pGameSP)
+				pGameSP->PdaMenu->PdaContentsChanged(pda_section::news);
+		}
+
 	}
 }
 
@@ -129,13 +157,27 @@ bool CActor::OnReceiveInfo(shared_str info_id) const
 	if(!HUD().GetUI())
 		return false;
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(!pGameSP) return false;
-
-	if(pGameSP->TalkMenu->IsShown())
+	if (Game().Type() == GAME_COOP)
 	{
-		pGameSP->TalkMenu->NeedUpdateQuestions();
+		CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (!pGameCP) return false;
+
+		if (pGameCP->TalkMenu->IsShown())
+		{
+			pGameCP->TalkMenu->NeedUpdateQuestions();
+		}
 	}
+	else
+	{
+		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (!pGameSP) return false;
+
+		if (pGameSP->TalkMenu->IsShown())
+		{
+			pGameSP->TalkMenu->NeedUpdateQuestions();
+		}
+	}
+
 
 
 	return true;
@@ -150,22 +192,45 @@ void CActor::OnDisableInfo(shared_str info_id) const
 		return;
 
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(!pGameSP) return;
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (!pGameCP) return;
 
-	if(pGameSP->TalkMenu->IsShown())
-		pGameSP->TalkMenu->NeedUpdateQuestions();
+		if (pGameCP->TalkMenu->IsShown())
+			pGameCP->TalkMenu->NeedUpdateQuestions();
+	}
+	else
+	{
+		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (!pGameSP) return;
+
+		if (pGameSP->TalkMenu->IsShown())
+			pGameSP->TalkMenu->NeedUpdateQuestions();
+	}
+	
 }
 
 void  CActor::ReceivePhrase		(DIALOG_SHARED_PTR& phrase_dialog)
 {
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-	if(!pGameSP) return;
+	if (Game().Type() == GAME_COOP)
+	{
+		CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+		if (!pGameCP) return;
 
-	if(pGameSP->TalkMenu->IsShown())
-		pGameSP->TalkMenu->NeedUpdateQuestions();
+		if (pGameCP->TalkMenu->IsShown())
+			pGameCP->TalkMenu->NeedUpdateQuestions();
+	}
+	else
+	{
+		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (!pGameSP) return;
 
+		if (pGameSP->TalkMenu->IsShown())
+			pGameSP->TalkMenu->NeedUpdateQuestions();
+
+	}
 	CPhraseDialogManager::ReceivePhrase(phrase_dialog);
 }
 
@@ -214,12 +279,25 @@ void CActor::RunTalkDialog(CInventoryOwner* talk_partner)
 	{	
 		StartTalk(talk_partner);
 		//только если находимся в режиме single
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if(pGameSP)
+		if (Game().Type() == GAME_COOP)
 		{
-			if(pGameSP->MainInputReceiver())
-				Game().StartStopMenu(pGameSP->MainInputReceiver(),true);
-			pGameSP->StartTalk();
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (pGameCP)
+			{
+				if (pGameCP->MainInputReceiver())
+					Game().StartStopMenu(pGameCP->MainInputReceiver(), true);
+				pGameCP->StartTalk();
+			}
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (pGameSP)
+			{
+				if (pGameSP->MainInputReceiver())
+					Game().StartStopMenu(pGameSP->MainInputReceiver(), true);
+				pGameSP->StartTalk();
+			}
 		}
 	}
 }
@@ -254,7 +332,7 @@ void CActor::UpdateContact		(u16 contact_id)
 */
 void CActor::NewPdaContact		(CInventoryOwner* pInvOwner)
 {	
-	if(!IsGameTypeSingle()) return;
+	if(!IsGameTypeSingle()&&!IsGameTypeCoop()) return;
 
 	bool b_alive = !!(smart_cast<CEntityAlive*>(pInvOwner))->g_Alive();
 	HUD().GetUI()->UIMainIngameWnd->AnimateContacts(b_alive);
@@ -262,10 +340,20 @@ void CActor::NewPdaContact		(CInventoryOwner* pInvOwner)
 	Level().MapManager().AddRelationLocation		( pInvOwner );
 
 	if( HUD().GetUI() ){
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
 
-		if(pGameSP)
-			pGameSP->PdaMenu->PdaContentsChanged	(pda_section::contacts);
+			if (pGameCP)
+				pGameCP->PdaMenu->PdaContentsChanged(pda_section::contacts);
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+
+			if (pGameSP)
+				pGameSP->PdaMenu->PdaContentsChanged(pda_section::contacts);
+		}
 	}
 }
 
@@ -282,9 +370,19 @@ void CActor::LostPdaContact		(CInventoryOwner* pInvOwner)
 	};
 
 	if( HUD().GetUI() ){
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-		if(pGameSP){
-			pGameSP->PdaMenu->PdaContentsChanged	(pda_section::contacts);
+		if (Game().Type() == GAME_COOP)
+		{
+			CUIGameCP* pGameCP = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
+			if (pGameCP) {
+				pGameCP->PdaMenu->PdaContentsChanged(pda_section::contacts);
+			}
+		}
+		else
+		{
+			CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
+			if (pGameSP) {
+				pGameSP->PdaMenu->PdaContentsChanged(pda_section::contacts);
+			}
 		}
 	}
 

@@ -46,8 +46,8 @@ CALifeSimulator::CALifeSimulator		(xrServer *server, shared_str *command_line) :
 	
 	R_ASSERT2					(
 		xr_strlen(p.m_game_or_spawn) && 
-		!xr_strcmp(p.m_alife,"alife") && 
-		!xr_strcmp(p.m_game_type,"single"),
+		!xr_strcmp(p.m_alife,"alife") &&
+		(!xr_strcmp(p.m_game_type,"single") || !xr_strcmp(p.m_game_type, "coop")),
 		"Invalid server options!"
 	);
 	

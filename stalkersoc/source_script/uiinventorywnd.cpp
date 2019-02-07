@@ -290,7 +290,7 @@ void CUIInventoryWnd::Show()
 	InitInventory			();
 	inherited::Show			();
 
-	if (!IsGameTypeSingle())
+	if (!IsGameTypeSingle()&&!IsGameTypeCoop())
 	{
 		CActor *pActor = smart_cast<CActor*>(Level().CurrentEntity());
 		if(!pActor) return;
@@ -337,7 +337,7 @@ void CUIInventoryWnd::Hide()
 		m_iCurrentActiveSlot = NO_ACTIVE_SLOT;
 	}
 
-	if (!IsGameTypeSingle())
+	if (!IsGameTypeSingle()&&!IsGameTypeCoop())
 	{
 		CActor *pActor		= smart_cast<CActor*>(Level().CurrentEntity());
 		if(!pActor)			return;
