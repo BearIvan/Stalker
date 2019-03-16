@@ -17,9 +17,16 @@ bool Modloader::Run()
 		MainForm mainform;
 		
 
-		BearGraphics::BearRenderInterface::AttachRenderTargetView(0, viewport);
+		BearGraphics::BearRenderInterface::AttachRenderTargetView(
+			viewport);
 		BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
-
+		BearGraphics::BearDepthStencilStateRef  DepthStencilState;
+		{
+			BearGraphics::BearDepthStencilStateInitializer Initializer;
+			Initializer.DepthEnable = false;
+			DepthStencilState = BearGraphics::BearDepthStencilStateRef(Initializer);
+		}
+		BearGraphics::BearRenderInterface::SetDepthStencilState(DepthStencilState, 0);
 		while (viewport.Update()&& mainform.Ok==-1)
 		{
 
@@ -104,4 +111,9 @@ void  Modloader::Destroy()
 		BearCore::bear_delete(SplashTread);
 	}
 	BearGraphics::BearRenderInterface::Destroy();
+}
+BearCore::BearString1024 GNameMod = TEXT("");
+const bchar * Modloader::GetNameMod()
+{
+	return GNameMod;
 }

@@ -128,6 +128,6 @@ void CUICursor::SetUICursorPosition(Fvector2 pos)
 	p.x			= iFloor(vPos.x / (UI_BASE_WIDTH/(float)Device.dwWidth));
 	p.y			= iFloor(vPos.y / (UI_BASE_HEIGHT/(float)Device.dwHeight));
 	if (m_b_use_win_cursor)
-		ClientToScreen(Device.m_hWnd, (LPPOINT)&p);
+		ClientToScreen(Device.GetWindow().GetWindowHandle(), (LPPOINT)&p);
 	SetCursorPos(p.x, p.y);
 }

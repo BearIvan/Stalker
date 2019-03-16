@@ -61,28 +61,44 @@ ENGINE_API bool is_enough_address_space_available()
 
 void CEngineAPI::InitializeNotDedicated()
 {
-    SECUROM_MARKER_HIGH_SECURITY_ON(2)
+	SECUROM_MARKER_HIGH_SECURITY_ON(2)
 
+		if (psDeviceFlags.test(rsR5))
+		{
+			// try to initialize R4
+			Log("Loading DLL:", TEXT("stalker_r5"));
 
-    if (psDeviceFlags.test(rsR4))
-    {
-        // try to initialize R4
+			if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r5")))
+			{
+				Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
+				psDeviceFlags.set(rsR2, TRUE);
+			}
+			else
+			{
+				g_current_renderer = 5;
+				bRender = true;
+			}
+		}
+	if (psDeviceFlags.test(rsR4))
+	{
+		// try to initialize R4
 		Log("Loading DLL:", TEXT("stalker_r4"));
 
-        if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
-        {
-            Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
-            psDeviceFlags.set(rsR2, TRUE);
-        }
+		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
+		{
+			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
+			psDeviceFlags.set(rsR2, TRUE);
+		}
 		else
 		{
+			g_current_renderer = 4;
 			bRender = true;
 		}
-    }
+	}
 
-    if (psDeviceFlags.test(rsR3))
-    {
-        // try to initialize R3
+	if (psDeviceFlags.test(rsR3))
+	{
+		// try to initialize R3
 		Log("Loading DLL:", TEXT("stalker_r3"));
 		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r3")))
 		{
@@ -94,13 +110,14 @@ void CEngineAPI::InitializeNotDedicated()
 			g_current_renderer = 3;
 			bRender = true;
 		}
-    }
+	}
 
-    if (psDeviceFlags.test(rsR2))
-    {
-        // try to initialize R2
-        psDeviceFlags.set(rsR4, FALSE);
-        psDeviceFlags.set(rsR3, FALSE);
+	if (psDeviceFlags.test(rsR2))
+	{
+		// try to initialize R2
+		psDeviceFlags.set(rsR5, FALSE);
+		psDeviceFlags.set(rsR4, FALSE);
+		psDeviceFlags.set(rsR3, FALSE);
 		Log("Loading DLL:", TEXT("stalker_r2"));
 		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r2")))
 		{
@@ -111,8 +128,8 @@ void CEngineAPI::InitializeNotDedicated()
 			g_current_renderer = 2;
 			bRender = true;
 		}
-    }
-    SECUROM_MARKER_HIGH_SECURITY_OFF(2)
+	}
+	SECUROM_MARKER_HIGH_SECURITY_OFF(2)
 }
 #endif // DEDICATED_SERVER
 
@@ -129,6 +146,7 @@ void CEngineAPI::Initialize(void)
     if (!bRender)
     {
         // try to load R1
+		psDeviceFlags.set(rsR5, FALSE);
         psDeviceFlags.set(rsR4, FALSE);
         psDeviceFlags.set(rsR3, FALSE);
         psDeviceFlags.set(rsR2, FALSE);
@@ -197,6 +215,7 @@ void CEngineAPI::Destroy(void)
 	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r2"));
 	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r3"));
 	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
+	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r5"));
 
     pCreate = 0;
     pDestroy = 0;
@@ -229,7 +248,7 @@ void CEngineAPI::CreateRendererList()
     bool bSupports_r2_5 = false;
     bool bSupports_r3 = false;
     bool bSupports_r4 = false;
-
+	bool bSupports_r5 = true;
 
     if (strstr(GetCommandLine(), "-perfhud_hack"))
     {
@@ -259,6 +278,12 @@ void CEngineAPI::CreateRendererList()
 			SupportsDX11Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r4"), TEXT("SupportsDX11Rendering"));
 			bSupports_r4 = test_rendering();
 			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
+		}
+		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r5")))
+		{
+			SupportsDX11Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r5"), TEXT("SupportsBearRendering"));
+			bSupports_r5 = test_rendering();
+			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r5"));
 		}
         // try to initialize R2
       /*  Log("Loading DLL:", r2_name);
@@ -308,54 +333,66 @@ void CEngineAPI::CreateRendererList()
     xr_vector<LPCSTR> _tmp;
     u32 i = 0;
     bool bBreakLoop = false;
-    for (; i < 6; ++i)
+
+    for (; i < 7; ++i)
     {
+	
         switch (i)
         {
-        case 1:
+		case 1:
+			if (!bSupports_r5)
+				bBreakLoop = true;
+			break;
+        case 2:
             if (!bSupports_r2)
                 bBreakLoop = true;
             break;
-        case 3: //"renderer_r2.5"
+        case 4: //"renderer_r2.5"
             if (!bSupports_r2_5)
                 bBreakLoop = true;
             break;
-        case 4: //"renderer_r_dx10"
+        case 5: //"renderer_r_dx10"
             if (!bSupports_r3)
                 bBreakLoop = true;
             break;
-        case 5: //"renderer_r_dx11"
+        case 6: //"renderer_r_dx11"
             if (!bSupports_r4)
                 bBreakLoop = true;
             break;
+	
         default:
             ;
         }
 
-        if (bBreakLoop) break;
+        if (bBreakLoop) continue;
 
         _tmp.push_back(NULL);
         LPCSTR val = NULL;
         switch (i)
         {
+
         case 0:
             val = "renderer_r1";
             break;
-        case 1:
+		case 1:
+			val = "renderer_r5";
+			break; // -)
+        case 2:
             val = "renderer_r2a";
             break;
-        case 2:
+        case 3:
             val = "renderer_r2";
             break;
-        case 3:
+        case 4:
             val = "renderer_r2.5";
             break;
-        case 4:
+        case 5:
             val = "renderer_r3";
             break; // -)
-        case 5:
+        case 6:
             val = "renderer_r4";
             break; // -)
+
         }
         if (bBreakLoop) break;
         _tmp.back() = xr_strdup(val);

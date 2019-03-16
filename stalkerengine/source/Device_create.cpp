@@ -186,18 +186,20 @@ PROTECT_API void CRenderDevice::Create()
 
     fFOV = 90.f;
     fASPECT = 1.f;
+	GetWindow().Resize(psCurrentVidMode[0], psCurrentVidMode[1]);
+	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
     m_pRender->Create(
-        m_hWnd,
-        dwWidth,
-        dwHeight,
-        fWidth_2,
-        fHeight_2,
+		GetWindow(),
 #ifdef INGAME_EDITOR
         editor() ? false :
 #endif // #ifdef INGAME_EDITOR
         true
     );
 
+	dwWidth = GetWindow().GetSize().x;
+	dwHeight = GetWindow().GetSize().y;
+	fWidth_2 = GetWindow().GetSizeFloat().x / 2;
+	fHeight_2 = GetWindow().GetSizeFloat().y / 2;
   /*  string_path fname;
     FS.update_path(fname, "$game_data$", );
 	*/

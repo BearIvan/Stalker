@@ -8,6 +8,7 @@
 
 //class ENGINE_API CResourceManager;
 //class ENGINE_API CGammaControl;
+#include "BearUI.hpp"
 #include "tools/xrCore.h"
 #include "api/StalkerAPI.h"
 #include "engine.h"
@@ -97,7 +98,13 @@ public:
     CRegistrator <pureFrame > seqFrame;
     CRegistrator <pureScreenResolutionChanged> seqResolutionChanged;
 
-    HWND m_hWnd;
+	inline  BearUI::BearViewport&GetWindow()
+	{
+		BEAR_ASSERT(window);
+		return *window;
+	}
+
+    BearUI::BearViewport* window;
     // CStats* Statistic;
 
 };
@@ -220,7 +227,7 @@ public:
         ,mt_csLeave(MUTEX_PROFILE_ID(CRenderDevice::mt_csLeave))
 #endif // #ifdef PROFILE_CRITICAL_SECTIONS
     {
-        m_hWnd = NULL;
+        window = NULL;
         b_is_Active = FALSE;
         b_is_Ready = FALSE;
         Timer.Start();

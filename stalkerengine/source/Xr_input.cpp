@@ -140,7 +140,7 @@ HRESULT CInput::CreateInputDevice(LPDIRECTINPUTDEVICE8* device, GUID guidDevice,
     if (!Device.editor())
 #endif // #ifdef INGAME_EDITOR
     {
-        HRESULT _hr = (*device)->SetCooperativeLevel(RDEVICE.m_hWnd, dwFlags);
+        HRESULT _hr = (*device)->SetCooperativeLevel(Device.GetWindow().GetWindowHandle(), dwFlags);
         if (FAILED(_hr) && (_hr == E_NOTIMPL)) Msg("! INPUT: Can't set coop level. Emulation???");
         else R_CHK(_hr);
     }
@@ -260,7 +260,7 @@ void CInput::KeyUpdate()
 
 #ifndef _EDITOR
     if (b_alt_tab)
-        SendMessage(Device.m_hWnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+        SendMessage(Device.GetWindow().GetWindowHandle(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
 #endif
     /*
     #ifndef _EDITOR
@@ -616,7 +616,7 @@ void CInput::acquire(const bool& exclusive)
 #ifdef INGAME_EDITOR
         Device.editor() ? Device.editor()->main_handle() :
 #endif // #ifdef INGAME_EDITOR
-        RDEVICE.m_hWnd,
+		Device.GetWindow().GetWindowHandle(),
         (exclusive ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND
     );
     pKeyboard->Acquire();
@@ -625,7 +625,7 @@ void CInput::acquire(const bool& exclusive)
 #ifdef INGAME_EDITOR
         Device.editor() ? Device.editor()->main_handle() :
 #endif // #ifdef INGAME_EDITOR
-        RDEVICE.m_hWnd,
+		Device.GetWindow().GetWindowHandle(),
         (exclusive ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND | DISCL_NOWINKEY
     );
     pMouse->Acquire();

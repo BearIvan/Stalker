@@ -24,7 +24,7 @@ int32 UpdateThread()
 	texture.Create(image);
 	BearUI::BearViewport viewport(image.GetSize().x, image.GetSize().y, false, BearUI::BearViewport::TW_POPUP | BearUI::BearViewport::TW_WIHTOUT_CLOSED);
 	SplashForm splash(texture);
-	BearGraphics::BearRenderInterface::AttachRenderTargetView(0, viewport);
+	BearGraphics::BearRenderInterface::AttachRenderTargetView( viewport);
 	BearGraphics::BearRenderInterface::SetViewport(0, 0, image.GetSize().x, image.GetSize().y);
 	if (SplashStatus < 0)return 0;
 	SplashMutex.Unlock();

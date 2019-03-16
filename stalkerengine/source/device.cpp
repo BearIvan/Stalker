@@ -145,7 +145,7 @@ void CRenderDevice::End(void)
             if (g_pGamePersistent->GameType() == 1)//haCk
             {
                 WINDOWINFO wi;
-                GetWindowInfo(m_hWnd, &wi);
+                GetWindowInfo(GetWindow().GetWindowHandle(), &wi);
                 if (wi.dwWindowStatus != WS_ACTIVECAPTION)
                     Pause(TRUE, TRUE, TRUE, "application start");
             }
@@ -376,7 +376,8 @@ void CRenderDevice::message_loop_editor()
     xr_delete(m_engine);
 }
 #endif // #ifdef INGAME_EDITOR
-
+u32 app_inactive_time = 0;
+u32 app_inactive_time_start = 0;
 void CRenderDevice::message_loop()
 {
 #ifdef INGAME_EDITOR
@@ -386,20 +387,42 @@ void CRenderDevice::message_loop()
         return;
     }
 #endif // #ifdef INGAME_EDITOR
+	
 
-    MSG msg;
-    PeekMessage(&msg, NULL, 0U, 0U, PM_NOREMOVE);
-    while (msg.message != WM_QUIT)
-    {
-        if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-            continue;
-        }
+	Device.b_is_Active = true;
+	while (GetWindow().Update())
+	{
+		BearUI::BearEventViewport e;
+		while (GetWindow().GetEvent(e))
+		{
+			switch (e.Type)
+			{
+			case BearUI::BearEventViewportType::EVT_Deactive:
+				if (Device.b_is_Active == true)
+				{
+					Device.b_is_Active = false;
+					app_inactive_time_start = TimerMM.GetElapsed_ms();
+					Device.seqAppDeactivate.Process(rp_AppDeactivate);
+				}
+				
+				break;
+			case BearUI::BearEventViewportType::EVT_Active:
+				if (Device.b_is_Active == false)
+				{
+					Device.b_is_Active = true;
+					Device.seqAppActivate.Process(rp_AppActivate);
+					app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;;
+				}
+				
+				break;
+			default:
+				break;
+			}
+		};
+		on_idle();
+	}
 
-        on_idle();
-    }
+
 }
 
 void CRenderDevice::Run()
@@ -447,8 +470,7 @@ void CRenderDevice::Run()
     // DeleteCriticalSection (&mt_csLeave);
 }
 
-u32 app_inactive_time = 0;
-u32 app_inactive_time_start = 0;
+
 
 void ProcessLoading(RP_FUNC* f);
 void CRenderDevice::FrameMove()

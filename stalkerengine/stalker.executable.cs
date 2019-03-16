@@ -9,6 +9,7 @@ public class stalker :Executable
         PCHFile =Path.Combine(ProjectPath,"source","stdafx.cpp");
 		PCHIncludeFile="stdafx.h";
 		
+		Projects.Public.Add("bear_ui");
 		
 		Projects.Public.Add("stalkertools");
 		Projects.Public.Add("stalkerlua");
@@ -19,7 +20,8 @@ public class stalker :Executable
 		Projects.Private.Add("stalkermodloader");
 		Projects.Private.Add("directx");
 		Projects.Public.Add("stalkernetserver");
-
+		
+		Projects.Private.Add("discord_api");
 
 
         IncludeInProject.Public.Add("stalkercpu_pipe");
@@ -45,6 +47,7 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
         IncludeAutonomousProjects.Add("stalker_r2");
+		IncludeAutonomousProjects.Add("stalker_r5");
 		//IncludeAutonomousProjects.Add("stalker_r3");
 		//IncludeAutonomousProjects.Add("stalker_r4");
 		
@@ -57,7 +60,7 @@ public class stalker :Executable
 	}	
 	public override void StartBuild()
 	{
-		BearBuildTool.Config.Global.ANSI=true;
+		BearBuildTool.Config.Global.UNICODE=false;
 		BearBuildTool.Config.Global.WithoutWarning=true;
 	}
 } 

@@ -33,7 +33,7 @@ void CTextConsole::CreateConsoleWnd()
     HINSTANCE hInstance = (HINSTANCE)GetModuleHandle(0);
     //----------------------------------
     RECT cRc;
-    GetClientRect(*m_pMainWnd, &cRc);
+    GetClientRect(m_pMainWnd, &cRc);
     INT lX = cRc.left;
     INT lY = cRc.top;
     INT lWidth = cRc.right - cRc.left;
@@ -61,7 +61,7 @@ void CTextConsole::CreateConsoleWnd()
     // Create the render window
     m_hConsoleWnd = CreateWindow(wndclass, "XRAY Text Console", dwWindowStyle,
                                  lX, lY,
-                                 lWidth, lHeight, *m_pMainWnd,
+                                 lWidth, lHeight, m_pMainWnd,
                                  0, hInstance, 0L);
     //---------------------------------------------------------------------------
     R_ASSERT2(m_hConsoleWnd, "Unable to Create TextConsole Window!");
@@ -156,7 +156,7 @@ void CTextConsole::Initialize()
 {
     inherited::Initialize();
 
-    m_pMainWnd = &Device.m_hWnd;
+    m_pMainWnd = Device.GetWindow().GetWindowHandle();
     m_dwLastUpdateTime = Device.dwTimeGlobal;
     m_last_time = Device.dwTimeGlobal;
 

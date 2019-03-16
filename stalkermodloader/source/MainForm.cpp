@@ -91,7 +91,7 @@ void MainForm::UpdateMods()
 	lbMods.Items.insert(lbMods.Items.end(), mods.begin(), mods.end());
 	lbMods.Reset();
 }
-
+extern BearCore::BearString1024 GNameMod;
 void MainForm::cbBtOk()
 {
 	if (lbMods.SelectItem > 0)
@@ -120,7 +120,9 @@ void MainForm::cbBtOk()
 			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), cbGames.Items[0]);
 			break;
 		}
+
 		BearCore::BearLog::Printf(TEXT("Мод:[%s]"), *lbMods.Items[lbMods.SelectItem]);
+		if(lbMods.SelectItem)BearCore::BearString::Copy(GNameMod, *lbMods.Items[lbMods.SelectItem]);
 		if (FS.ExistDirectory(PathToMods, path_mods))
 		{
 			FS.AppendPath(TEXT("%content%"), path_mods, PathToMods, 1000);

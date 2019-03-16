@@ -8,7 +8,7 @@ private:
     typedef CConsole inherited;
 
 private:
-    HWND* m_pMainWnd;
+    HWND m_pMainWnd;
 
     HWND m_hConsoleWnd;
     void CreateConsoleWnd();

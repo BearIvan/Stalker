@@ -45,8 +45,9 @@ PROTECT_API void CRenderDevice::Initialize()
         initialize_editor();
 #endif // #ifdef INGAME_EDITOR
 
+	window = BearCore::bear_new<BearUI::BearViewport>();
     // Unless a substitute hWnd has been specified, create a window to render into
-    if (m_hWnd == NULL)
+   /* if (m_hWnd == NULL)
     {
         const char* wndclass = "_XRAY_1.5";
 
@@ -71,7 +72,7 @@ PROTECT_API void CRenderDevice::Initialize()
         // Create the render window
         m_hWnd = CreateWindowEx(WS_EX_TOPMOST,
                                 wndclass, "S.T.A.L.K.E.R.", m_dwWindowStyle,
-                                /*rc.left, rc.top, */CW_USEDEFAULT, CW_USEDEFAULT,
+                                rc.left, rc.top, CW_USEDEFAULT, CW_USEDEFAULT,
                                 (rc.right - rc.left), (rc.bottom - rc.top), 0L,
                                 0, hInstance, 0L);
     }
@@ -80,7 +81,7 @@ PROTECT_API void CRenderDevice::Initialize()
     m_dwWindowStyle = GetWindowLong(m_hWnd, GWL_STYLE);
     GetWindowRect(m_hWnd, &m_rcWindowBounds);
     GetClientRect(m_hWnd, &m_rcWindowClient);
-
+	*/
     /*
     if (strstr(lpCmdLine,"-gpu_sw")!=NULL) HW.Caps.bForceGPU_SW = TRUE;
     else HW.Caps.bForceGPU_SW = FALSE;

@@ -1,7 +1,10 @@
 #ifndef RenderDeviceRender_included
 #define RenderDeviceRender_included
 #pragma once
-
+namespace BearUI
+{
+	class BearViewport;
+}
 class IRenderDeviceRender
 {
 public:
@@ -26,11 +29,11 @@ public:
 	virtual void	OnDeviceDestroy( BOOL bKeepTextures) = 0;
 	virtual void	ValidateHW() = 0;
 	virtual void	DestroyHW() = 0;
-	virtual void	Reset( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2) = 0;
+	virtual void	Reset( BearUI::BearViewport&window/*, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2*/) = 0;
 	//	Init
 	virtual void	SetupStates() = 0;
 	virtual void	OnDeviceCreate(LPCSTR shName) = 0;
-	virtual void	Create( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2, bool ) = 0;
+	virtual void	Create(BearUI::BearViewport&window,bool /*, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2, bool */) = 0;
 	virtual void	SetupGPU( BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF) = 0;
 	//	Overdraw
 	virtual void	overdrawBegin() = 0;

@@ -50,6 +50,7 @@ void CRenderDevice::Destroy(void)
     RenderFactory->DestroyRenderDeviceRender(m_pRender);
     m_pRender = 0;
     xr_delete(Statistic);
+	BearCore::bear_delete(window);
 }
 
 #include "IGame_Level.h"
@@ -69,8 +70,15 @@ void CRenderDevice::Reset(bool precache)
 
         //. g_pGamePersistent->Environment().OnDeviceDestroy();
     }
+	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
+	m_pRender->Reset(
+		GetWindow()
+	);
 
-    m_pRender->Reset(m_hWnd, dwWidth, dwHeight, fWidth_2, fHeight_2);
+	dwWidth = GetWindow().GetSize().x;
+	dwHeight = GetWindow().GetSize().y;
+	fWidth_2 = GetWindow().GetSizeFloat().x / 2;
+	fHeight_2 = GetWindow().GetSizeFloat().y / 2;
 
     if (g_pGamePersistent)
     {

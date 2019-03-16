@@ -30,7 +30,10 @@
 #include "Modloader.h"
 
 #include "securom_api.h"
-Device_Logo LogoWindow1; 
+Device_Logo LogoWindow1;
+#include "XRayDiscordAPI.h"
+
+XRayDiscordAPI*DiscordAPI = 0;
 //---------------------------------------------------------------------
 ENGINE_API CInifile* pGameIni = NULL;
 BOOL g_bIntroFinished = FALSE;
@@ -379,7 +382,7 @@ void Startup()
 
     // Initialize APP
     //#ifndef DEDICATED_SERVER
-    ShowWindow(Device.m_hWnd, SW_SHOWNORMAL);
+    ShowWindow(Device.GetWindow().GetWindowHandle(), SW_SHOWNORMAL);
     Device.Create();
     //#endif
     LALib.OnCreate();
@@ -394,7 +397,9 @@ void Startup()
     // Main cycle
     CheckCopyProtection();
     Memory.mem_usage();
+	DiscordAPI = BearCore::bear_new<XRayDiscordAPI>();
     Device.Run();
+	BearCore::bear_delete(DiscordAPI);
 
     // Destroy APP
     xr_delete(g_SpatialSpacePhysic);
@@ -712,7 +717,7 @@ BOOL IsPCAccessAllowed();
 
 void FatalErrorCallBack()
 {
-	DestroyWindow(Device.m_hWnd);
+	DestroyWindow(Device.GetWindow().GetWindowHandle());
 }
 
 int APIENTRY WinMain_impl(HINSTANCE hInstance,

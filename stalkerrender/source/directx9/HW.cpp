@@ -231,7 +231,7 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
 	
 #ifndef _EDITOR
 	if (!g_dedicated_server)
-		bWindowed			= !psDeviceFlags.is(rsFullscreen);
+		bWindowed = !psDeviceFlags.is(rsFullscreen);
 #else
 	bWindowed				= 1;
 #endif        
@@ -341,7 +341,7 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
 	P.MultiSampleQuality	= 0;
 
 	// Windoze
-    P.SwapEffect			= bWindowed?D3DSWAPEFFECT_COPY:D3DSWAPEFFECT_DISCARD;
+    P.SwapEffect			= D3DSWAPEFFECT_FLIP;
 	P.hDeviceWindow			= m_hWnd;
     P.Windowed				= bWindowed;
 
@@ -537,7 +537,7 @@ void	CHW::updateWindowProps	(HWND m_hWnd)
 
 	u32		dwWindowStyle			= 0;
 	// Set window properties depending on what mode were in.
-	if (bWindowed)		{
+	/*if (bWindowed)		{
 		if (m_move_window) {
             dwWindowStyle = WS_BORDER | WS_VISIBLE;
             if (!strstr(GetCommandLine(), "-no_dialog_header"))
@@ -578,14 +578,14 @@ void	CHW::updateWindowProps	(HWND m_hWnd)
 	{
 		SetWindowLong			( m_hWnd, GWL_STYLE, dwWindowStyle=(WS_POPUP|WS_VISIBLE) );
 		SetWindowLong			( m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-	}
+	}*/
 
 #ifndef _EDITOR
-	if (!g_dedicated_server)
+/*	if (!g_dedicated_server)
 	{
 		ShowCursor	(FALSE);
 		SetForegroundWindow( m_hWnd );
-	}
+	}*/
 #endif
 }
 

@@ -16,7 +16,9 @@ public class stalkercdb :Project
 		AddSourceFiles(Path.Combine(ProjectPath,"source"));
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 		Include.Private.Add(Path.Combine(ProjectPath,"include","cdb"));
-		
+		  
+		 IncludeInProject.Public.Add("bear_graphics");
+		IncludeInProject.Public.Add("bear_ui");
 		IncludeInProject.Private.Add("stalker");
         IncludeInProject.Private.Add("stalkercpu_pipe");
 		IncludeInProject.Private.Add("stalkersound");

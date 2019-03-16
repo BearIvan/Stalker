@@ -54,7 +54,7 @@ void dxRenderDeviceRender::DestroyHW()
 	HW.DestroyDevice			();
 }
 
-void  dxRenderDeviceRender::Reset( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2)
+void  dxRenderDeviceRender::Reset(BearUI::BearViewport&window)
 {
 #ifdef DEBUG
 	_SHOW_REF("*ref -CRenderDevice::ResetTotal: DeviceREF:",HW.pDevice);
@@ -62,18 +62,8 @@ void  dxRenderDeviceRender::Reset( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float
 
 	Resources->reset_begin	();
 	Memory.mem_compact		();
-	HW.Reset				(hWnd);
+	HW.Reset				(window.GetWindowHandle());
 
-#if defined(USE_DX10) || defined(USE_DX11)
-	dwWidth					= HW.m_ChainDesc.BufferDesc.Width;
-	dwHeight				= HW.m_ChainDesc.BufferDesc.Height;
-#else	//	USE_DX10
-	dwWidth					= HW.DevPP.BackBufferWidth;
-	dwHeight				= HW.DevPP.BackBufferHeight;
-#endif	//	USE_DX10
-
-	fWidth_2				= float(dwWidth/2);
-	fHeight_2				= float(dwHeight/2);
 	Resources->reset_end	();
 
 #ifdef DEBUG
@@ -149,18 +139,9 @@ void dxRenderDeviceRender::OnDeviceCreate(LPCSTR shName)
 //#endif
 }
 
-void dxRenderDeviceRender::Create( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float &fWidth_2, float &fHeight_2, bool move_window)
+void dxRenderDeviceRender::Create(BearUI::BearViewport&window, bool move_window)
 {
-	HW.CreateDevice		(hWnd, move_window);
-#if defined(USE_DX10) || defined(USE_DX11)
-	dwWidth					= HW.m_ChainDesc.BufferDesc.Width;
-	dwHeight				= HW.m_ChainDesc.BufferDesc.Height;
-#else	//	USE_DX10
-	dwWidth					= HW.DevPP.BackBufferWidth;
-	dwHeight				= HW.DevPP.BackBufferHeight;
-#endif	//	USE_DX10
-	fWidth_2			= float(dwWidth/2)			;
-	fHeight_2			= float(dwHeight/2)			;
+	HW.CreateDevice		(window.GetWindowHandle(), move_window);
 	Resources			= xr_new<CResourceManager>		();
 }
 
@@ -344,7 +325,9 @@ void dxRenderDeviceRender::End()
 #else	//	USE_DX10
 	CHK_DX				(HW.pDevice->EndScene());
 
-	HW.pDevice->Present( NULL, NULL, NULL, NULL );
+	//HW.pDevice->Present( NULL, NULL, NULL, NULL );
+	HRESULT _hr		= HW.pDevice->Present( NULL, NULL, NULL, NULL );
+	BEAR_ASSERT(SUCCEEDED(_hr));
 #endif	//	USE_DX10
 	//HRESULT _hr		= HW.pDevice->Present( NULL, NULL, NULL, NULL );
 	//if				(D3DERR_DEVICELOST==_hr)	return;			// we will handle this later

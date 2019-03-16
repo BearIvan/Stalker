@@ -14,7 +14,8 @@ public class stalkercpu_pipe :Project
 		IncludeInProject.Private.Add("stalkercdb");
 		IncludeInProject.Private.Add("stalkersound");
 		Projects.Private.Add("stalkerrender");
-		
+				 IncludeInProject.Public.Add("bear_graphics");
+		IncludeInProject.Public.Add("bear_ui");
 		AddSourceFiles(Path.Combine(ProjectPath,"source"));
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 	}
