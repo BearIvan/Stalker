@@ -261,8 +261,8 @@ void CRenderDevice::on_idle()
             g_SASH.StartBenchmark();
 
         FrameMove();
-		if(b_is_Active)
-		SetCursorPos(size_screen_x / 2, size_screen_y / 2);
+		/*if(b_is_Active)
+			SetCursorPos(size_screen_x / 2, size_screen_y / 2);*/
     }
 
     // Precache

@@ -195,7 +195,10 @@ PROTECT_API void CRenderDevice::Create()
 #endif // #ifdef INGAME_EDITOR
         true
     );
+#ifdef WINDOWS
 
+	ShowCursor(FALSE);
+#endif
 	dwWidth = GetWindow().GetSize().x;
 	dwHeight = GetWindow().GetSize().y;
 	fWidth_2 = GetWindow().GetSizeFloat().x / 2;

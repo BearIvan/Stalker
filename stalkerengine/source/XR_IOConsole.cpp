@@ -125,14 +125,17 @@ bool CConsole::is_mark(Console_mark type)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+void CConsole::InitEditor()
+{
+	m_editor = xr_new<text_editor::line_editor>((u32)CONSOLE_BUF_SIZE);
+}
 CConsole::CConsole()
     :m_hShader_back(NULL)
 {
-    m_editor = xr_new<text_editor::line_editor>((u32)CONSOLE_BUF_SIZE);
+	m_editor = 0;
     m_cmd_history_max = cmd_history_max;
     m_disable_tips = false;
-    Register_callbacks();
+   
     Device.seqResolutionChanged.Add(this);
 }
 

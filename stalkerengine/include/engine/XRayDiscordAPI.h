@@ -14,5 +14,6 @@ protected:
 	static void SpectateGame(const char* spectateSecret);
 	static void JoinRequest (const DiscordUser* request);
 private:
+	bool m_update;
 	int64_t m_StartTime;
 };

@@ -24,6 +24,8 @@
 
 #include "engine/object_broker.h"
 
+#include "api/XrGameVersionController.h"
+
 //#define DEMO_BUILD
 
 string128	ErrMsgBoxTemplate	[]	= {
@@ -754,7 +756,7 @@ LPCSTR CMainMenu::GetGSVer()
 	static string256	buff2;
 	if(m_pGameSpyFull)
 	{
-		strcpy_s(buff2, m_pGameSpyFull->GetGameVersion(buff));
+		strcpy_s(buff2,ENGINE_VERSION);
 	}else
 	{
 		buff[0]		= 0;

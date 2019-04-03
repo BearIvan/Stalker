@@ -57,7 +57,7 @@ MainForm::MainForm() :BearUI(1000, 600), Ok(-1), btVK(TEXT("https://vk.com/isobo
 	PushItem(&btTwitter);
 	PushItem(&btFacebook);
 	PushItem(&lbSalf);
-	PushItem(&btYandexM);
+	//PushItem(&btYandexM);
 
 
 	UpdateMods();

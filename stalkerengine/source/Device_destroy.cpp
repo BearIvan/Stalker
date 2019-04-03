@@ -30,7 +30,7 @@ void CRenderDevice::Destroy(void)
     m_pRender->ValidateHW();
 
     _Destroy(FALSE);
-
+	BearCore::bear_delete(window);
     // real destroy
     m_pRender->DestroyHW();
 
@@ -50,7 +50,7 @@ void CRenderDevice::Destroy(void)
     RenderFactory->DestroyRenderDeviceRender(m_pRender);
     m_pRender = 0;
     xr_delete(Statistic);
-	BearCore::bear_delete(window);
+	
 }
 
 #include "IGame_Level.h"
@@ -70,6 +70,7 @@ void CRenderDevice::Reset(bool precache)
 
         //. g_pGamePersistent->Environment().OnDeviceDestroy();
     }
+	GetWindow().Resize(psCurrentVidMode[0], psCurrentVidMode[1]);
 	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
 	m_pRender->Reset(
 		GetWindow()

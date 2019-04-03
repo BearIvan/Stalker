@@ -691,7 +691,7 @@ LPCSTR CMainMenu::GetGSVer()
 	static string256	buff2;
 	if(m_pGameSpyFull)
 	{
-		strcpy(buff2, m_pGameSpyFull->GetGameVersion(buff));
+		strcpy(buff2, ENGINE_VERSION);
 	}else
 	{
 		buff[0]		= 0;

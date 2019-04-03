@@ -34,6 +34,7 @@
 #include "stats_submitter.h"
 #include "atlas_submit_queue.h"
 
+#include "api/XrGameVersionController.h"
 //#define DEMO_BUILD
 
 string128	ErrMsgBoxTemplate	[]	= {
@@ -787,7 +788,7 @@ LPCSTR CMainMenu::GetGSVer()
 	static string256	buff;
 	if(m_pGameSpyFull)
 	{
-		xr_strcpy(buff, m_pGameSpyFull->GetGameVersion());
+		xr_strcpy(buff, ENGINE_VERSION);
 	}else
 	{
 		buff[0]	= 0;

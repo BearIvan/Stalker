@@ -166,8 +166,9 @@ protected:
     void DrawBackgrounds(bool bGame);
     void DrawRect(Frect const& r, u32 color);
     void OutFont(LPCSTR text, float& pos_y);
+public:
     void Register_callbacks();
-
+	void InitEditor();
 protected:
     void xr_stdcall Prev_log();
     void xr_stdcall Next_log();

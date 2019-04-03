@@ -196,7 +196,7 @@ void InitEngine()
     Engine.Initialize();
     while (!g_bIntroFinished) Sleep(100);
 	Modloader::Destroy();
-    Device.Initialize();
+  
     CheckCopyProtection();
 }
 
@@ -911,11 +911,10 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 
         FPU::m24r();
         InitEngine();
+		InitConsole();
+        
 
-        InitInput();
-
-        InitConsole();
-
+  
         Engine.External.CreateRendererList();
 
 
@@ -955,6 +954,12 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #endif
         //. InitInput ( );
         Engine.External.Initialize();
+		Device.Initialize();
+		
+		InitInput();
+
+		Console->InitEditor();
+		Console->Register_callbacks();
         Console->Execute("stat_memory");
 	
         Startup();
