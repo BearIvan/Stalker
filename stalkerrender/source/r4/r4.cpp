@@ -1472,8 +1472,8 @@ HRESULT	CRender::shader_compile			(
 	xr_strcat(path, extension);
 	FS.SubPath(TEXT("%cur_shaders_cache%"));
 	FS.AppendPath(TEXT("%cur_shaders_cache%"), path, TEXT("%shaders_cache%"), 0);
-
-	FS.GetFiles(m_file_set, "%shaders%", "*");
+	m_file_set.clear();
+	//FS.GetFiles(m_file_set, "%cur_shaders%", "*");
 	sh_name[len] = 0;
 	string_path temp_file_name, file_name;
 	if (!match_shader_id(name, sh_name, m_file_set, temp_file_name)) {

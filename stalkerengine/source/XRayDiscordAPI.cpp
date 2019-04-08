@@ -2,9 +2,9 @@
 #include "XRayDiscordAPI.h"
 #include "discord/discord_rpc.h"
 #include "api/XrGameVersionController.h"
-#ifdef DEBUG
+//#ifdef DEBUG
 #define NO_DISCORD
-#endif
+//#endif
 XRayDiscordAPI::XRayDiscordAPI()
 {
 #ifndef NO_DISCORD 
@@ -62,7 +62,7 @@ void XRayDiscordAPI::OnFrame()
 	discordPresence.startTimestamp = m_StartTime;
 	discordPresence.endTimestamp = 0;
 
-	discordPresence.largeImageText = "Version 1.8.00 RC1";
+	discordPresence.largeImageText = ENGINE_VERSION;
 	discordPresence.smallImageText = "";
 	discordPresence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
 	discordPresence.partySize = 0;

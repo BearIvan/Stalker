@@ -717,7 +717,7 @@ BOOL IsPCAccessAllowed();
 
 void FatalErrorCallBack()
 {
-	DestroyWindow(Device.GetWindow().GetWindowHandle());
+	BearCore::bear_delete(Device.window);
 }
 
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
