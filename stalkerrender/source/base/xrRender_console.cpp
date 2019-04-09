@@ -691,7 +691,7 @@ void		xrRender_initconsole	()
 		ps_r2_dhemi_scale = 1.f;				// 1.5f
 		ps_r2_slight_fade = 1.f;				// 1.f
 		ps_r2_gloss_factor = 1.0f;
-		ps_r2_sun_lumscale_hemi = 0.5f;
+	//	ps_r2_sun_lumscale_hemi = 0.5f;
 	}
 	else if (gameVersionController->getGame() != GameVersionController::COP)
 	{

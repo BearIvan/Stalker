@@ -389,31 +389,32 @@ void	CBlender_Compile::SetMapping	()
 {
 	// matrices
 	r_Constant				("m_W",				&binder_w);
-	r_Constant				("m_invW",			&binder_invw);
+	if(gameVersionController->getGame()!=GameVersionController::SOC)r_Constant				("m_invW",			&binder_invw);
 	r_Constant				("m_V",				&binder_v);
 	r_Constant				("m_P",				&binder_p);
 	r_Constant				("m_WV",			&binder_wv);
 	r_Constant				("m_VP",			&binder_vp);
 	r_Constant				("m_WVP",			&binder_wvp);
+	if (gameVersionController->getGame() != GameVersionController::SOC)
+	{
+		r_Constant("m_xform_v", &tree_binder_m_xform_v);
+		r_Constant("m_xform", &tree_binder_m_xform);
+		r_Constant("consts", &tree_binder_consts);
+		r_Constant("wave", &tree_binder_wave);
+		r_Constant("wind", &tree_binder_wind);
+		r_Constant("c_scale", &tree_binder_c_scale);
+		r_Constant("c_bias", &tree_binder_c_bias);
+		r_Constant("c_sun", &tree_binder_c_sun);
 
-	r_Constant				("m_xform_v",		&tree_binder_m_xform_v);
-	r_Constant				("m_xform",			&tree_binder_m_xform);
-	r_Constant				("consts",			&tree_binder_consts);
-	r_Constant				("wave",			&tree_binder_wave);
-	r_Constant				("wind",			&tree_binder_wind);
-	r_Constant				("c_scale",			&tree_binder_c_scale);
-	r_Constant				("c_bias",			&tree_binder_c_bias);
-	r_Constant				("c_sun",			&tree_binder_c_sun);
+		//hemi cube
+		r_Constant("L_material", &binder_material);
+		r_Constant("hemi_cube_pos_faces", &binder_hemi_cube_pos_faces);
+		r_Constant("hemi_cube_neg_faces", &binder_hemi_cube_neg_faces);
 
-	//hemi cube
-	r_Constant				("L_material",			&binder_material);
-	r_Constant				("hemi_cube_pos_faces",			&binder_hemi_cube_pos_faces);
-	r_Constant				("hemi_cube_neg_faces",			&binder_hemi_cube_neg_faces);
-
-	//	Igor	temp solution for the texgen functionality in the shader
-	r_Constant				("m_texgen",			&binder_texgen);
-	r_Constant				("mVPTexgen",			&binder_VPtexgen);
-
+		//	Igor	temp solution for the texgen functionality in the shader
+		r_Constant("m_texgen", &binder_texgen);
+		r_Constant("mVPTexgen", &binder_VPtexgen);
+	}
 #ifndef _EDITOR
 	// fog-params
 	r_Constant				("fog_plane",		&binder_fog_plane);
@@ -437,15 +438,23 @@ void	CBlender_Compile::SetMapping	()
 	r_Constant				("L_hemi_color",	&binder_hemi_color);
 	r_Constant				("L_ambient",		&binder_amb_color);
 #endif
-	r_Constant				("screen_res",		&binder_screen_res);
+	if (gameVersionController->getGame() != GameVersionController::SOC)	r_Constant				("screen_res",		&binder_screen_res);
 
 	// detail
 	//if (bDetail	&& detail_scaler)
 	//	Igor: bDetail can be overridden by no_detail_texture option.
 	//	But shader can be deatiled implicitly, so try to set this parameter
 	//	anyway.
-	if (detail_scaler)
-		r_Constant			("dt_params",		detail_scaler);
+	if (gameVersionController->getGame() != GameVersionController::SOC)
+	{
+		if (detail_scaler)
+			r_Constant("dt_params", detail_scaler);
+	}
+	else
+	{
+		if (detail_scaler)
+			r_Constant("dt_params", detail_scaler);
+	}
 
 	// other common
 	for (u32 it=0; it<DEV->v_constant_setup.size(); it++)

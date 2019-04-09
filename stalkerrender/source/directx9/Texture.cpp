@@ -313,10 +313,10 @@ _DDS:
 	{
 		// Load and get header
 		D3DXIMAGE_INFO			IMG;
-		if (FS.ExistFile("%textures%", fname, ".dds"))
+		if (FS.ExistPath("%level%") && FS.ExistFile("%level%", fname, ".dds"))
 		{
 
-			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+			S = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname, ".dds"));
 #ifdef DEBUG
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG
@@ -329,10 +329,10 @@ _DDS:
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG
 		}
-		else if (FS.ExistPath("%level%")&&FS.ExistFile("%level%", fname, ".dds"))
+		else if (FS.ExistFile("%textures%", fname, ".dds"))
 		{
 
-			S = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname, ".dds"));
+			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
 #ifdef DEBUG
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG

@@ -149,7 +149,7 @@ void CDetailManager::Load		()
 	bwdithermap		(2,dither);
 
 	// Hardware specific optimizations
-	if (UseVS())	hw_Load		();
+	if (UseVS()||gameVersionController->getGame()==GameVersionController::SOC)	hw_Load		();
 	else			soft_Load	();
 
 	// swing desc
