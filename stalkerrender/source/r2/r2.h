@@ -22,6 +22,8 @@
 #include "Engine/irenderable.h"
 #include "Engine/fmesh.h"
 
+#include "api/XrGameVersionController.h"
+
 
 class dxRender_Visual;
 
@@ -204,13 +206,20 @@ public:
 #ifdef	DEBUG
 		if (ps_r2_ls_flags.test(R2FLAG_GLOBALMATERIAL))	mtl=ps_r2_gmaterial;
 #endif
+
+
 		RCache.hemi.set_material (o_hemi,o_sun,0,(mtl+.5f)/4.f);
-		RCache.hemi.set_pos_faces(o_hemi_cube[CROS_impl::CUBE_FACE_POS_X],
-								  o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y],
-								  o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);
-		RCache.hemi.set_neg_faces	(o_hemi_cube[CROS_impl::CUBE_FACE_NEG_X],
-								 o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Y],
-								 o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Z]);
+
+		if (gameVersionController->getGame() != GameVersionController::SOC)
+		{
+			RCache.hemi.set_pos_faces(o_hemi_cube[CROS_impl::CUBE_FACE_POS_X],
+				o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y],
+				o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);
+			RCache.hemi.set_neg_faces(o_hemi_cube[CROS_impl::CUBE_FACE_NEG_X],
+				o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Y],
+				o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Z]);
+		}
+
 	}
 
 public:

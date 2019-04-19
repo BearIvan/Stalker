@@ -90,7 +90,7 @@ void	smapvis::flushoccq	()
 		// next time we will not get this caster, so 'test_current' remains the same
 		invisible.push_back	(testQ_V);
 		test_count			--;
-		if (gameVersionController->getGame() == GameVersionController::SOC)
+		if (0)
 		{
 			testQ_V = 0;
 		}

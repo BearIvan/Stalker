@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "api/XrGameVersionController.h"
 #pragma hdrstop
 
 #include "r_backend_hemi.h"
@@ -26,6 +27,13 @@ void	R_hemi::set_neg_faces		(float negx, float negy, float negz)
 
 void	R_hemi::set_material		(float x, float y, float z, float w)
 {
-	if (c_material) RCache.set_c(c_material, x, y, z, w);
+	if (gameVersionController->getGame() == GameVersionController::SOC)
+	{
+		RCache.set_c("L_material", x, y, z, w);
+	}
+	else
+	{
+		if (c_material) RCache.set_c(c_material, x, y, z, w);
+	}
 }
 

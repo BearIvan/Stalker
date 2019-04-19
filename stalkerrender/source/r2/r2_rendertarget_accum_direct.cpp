@@ -247,6 +247,7 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 
 		//	Igor: draw volumetric here
 		//if (ps_r2_ls_flags.test(R2FLAG_SUN_SHAFTS))
+		if(gameVersionController->getGame()!=GameVersionController::SOC)
 		if ( RImplementation.o.advancedpp&&(ps_r_sun_shafts>0))
 			accum_direct_volumetric	(sub_phase, Offset, m_shadow);
 	}

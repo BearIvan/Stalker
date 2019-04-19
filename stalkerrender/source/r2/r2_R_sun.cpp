@@ -765,7 +765,7 @@ void CRender::render_sun				()
 	int  (*facetable)[6][4] = &facetable_cop;
 	if (gameVersionController->getGame() == GameVersionController::SOC)
 	{
-		facetable = &facetable_soc;
+		//facetable = &facetable_soc;
 	}
 
 	// calculate view-frustum bounds in world space
@@ -1233,7 +1233,7 @@ void CRender::render_sun_near	()
 	int(*facetable)[6][4] = &facetable_cop;
 	if (gameVersionController->getGame() == GameVersionController::SOC)
 	{
-		facetable = &facetable_soc;
+		//facetable = &facetable_soc;
 	}
 	light*			fuckingsun			= (light*)Lights.sun_adapted._get()	;
 	D3DXMATRIX		m_LightViewProj		;
@@ -1402,6 +1402,7 @@ void CRender::render_sun_near	()
 	}
 
 	// Begin SMAP-render
+	if(0)//!!!
 	{
 		bool	bSpecialFull					= mapNormalPasses[1][0].size() || mapMatrixPasses[1][0].size() || mapSorted.size();
 		VERIFY									(!bSpecialFull);

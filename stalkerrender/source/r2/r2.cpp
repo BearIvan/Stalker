@@ -1014,7 +1014,7 @@ HRESULT	CRender::shader_compile			(
 		xr_strcpy(file_name, temp_file_name);
 	}
 
-	if (FS.ExistFile("%cur_shaders_cache%", file_name))
+	if (FS.ExistFile("%cur_shaders_cache%", file_name)&&strstr(GetCommandLine(),"-shader_clear")==0)
 	{
 		IReader* file = XRayBearReader::Create(FS.Read("%cur_shaders_cache%", file_name));
 		if (file->length()>4)
