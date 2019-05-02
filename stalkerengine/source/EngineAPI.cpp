@@ -34,7 +34,7 @@ CEngineAPI::~CEngineAPI()
     {
         for (int i = 0; vid_quality_token[i].name; i++)
         {
-            xr_free(vid_quality_token[i].name);
+        //    xr_free(vid_quality_token[i].name);
         }
         xr_free(vid_quality_token);
         vid_quality_token = NULL;
@@ -248,7 +248,7 @@ void CEngineAPI::CreateRendererList()
     bool bSupports_r2_5 = false;
     bool bSupports_r3 = false;
     bool bSupports_r4 = false;
-	bool bSupports_r5 = true;
+	bool bSupports_r5 = false;
 
     if (strstr(GetCommandLine(), "-perfhud_hack"))
     {
@@ -329,91 +329,82 @@ void CEngineAPI::CreateRendererList()
     }
 
     bRender = 0;
-
-    xr_vector<LPCSTR> _tmp;
-    u32 i = 0;
-    bool bBreakLoop = false;
-
-    for (; i < 7; ++i)
-    {
-	
-        switch (i)
-        {
+	vid_quality_token = xr_alloc<xr_token>(8);
+	bsize cnt = 0;
+	for (bsize  i =0; i < 7; ++i)
+	{
+		switch (i)
+		{
 		case 1:
-			if (!bSupports_r5)
-				bBreakLoop = true;
+			if (!bSupports_r5||true)
+				continue;
 			break;
-        case 2:
-            if (!bSupports_r2)
-                bBreakLoop = true;
-            break;
-        case 4: //"renderer_r2.5"
-            if (!bSupports_r2_5)
-                bBreakLoop = true;
-            break;
-        case 5: //"renderer_r_dx10"
-            if (!bSupports_r3)
-                bBreakLoop = true;
-            break;
-        case 6: //"renderer_r_dx11"
-            if (!bSupports_r4)
-                bBreakLoop = true;
-            break;
-	
-        default:
-            ;
-        }
+		case 2:
+			if (!bSupports_r2)
+				continue;
+			break;
+		case 4: //"renderer_r2.5"
+			if (!bSupports_r2_5 || gameVersionController->getGame() == GameVersionController::SOC)
+				continue;
+			break;
+		case 5: //"renderer_r_dx10"
+			if (!bSupports_r3 || gameVersionController->getGame() == GameVersionController::SOC)
+				continue;
+			break;
+		case 6: //"renderer_r_dx11"
+			if (!bSupports_r4||gameVersionController->getGame()==GameVersionController::CS || gameVersionController->getGame() == GameVersionController::SOC)
+				continue;
+			break;
 
-        if (bBreakLoop) continue;
+		default:
+			;
+		}
 
-        _tmp.push_back(NULL);
-        LPCSTR val = NULL;
-        switch (i)
-        {
+		LPCSTR val = NULL;
+		switch (i)
+		{
 
-        case 0:
-            val = "renderer_r1";
-            break;
+		case 0:
+			val = "renderer_r1";
+			break;
 		case 1:
 			val = "renderer_r5";
 			break; // -)
-        case 2:
-            val = "renderer_r2a";
-            break;
-        case 3:
-            val = "renderer_r2";
-            break;
-        case 4:
-            val = "renderer_r2.5";
-            break;
-        case 5:
-            val = "renderer_r3";
-            break; // -)
-        case 6:
-            val = "renderer_r4";
-            break; // -)
+		case 2:
+			val = "renderer_r2a";
+			break;
+		case 3:
+			val = "renderer_r2";
+			break;
+		case 4:
+			val = "renderer_r2.5";
+			break;
+		case 5:
+			val = "renderer_r3";
+			break; // -)
+		case 6:
+			val = "renderer_r4";
+			break; // -)
 
-        }
-        if (bBreakLoop) break;
-        _tmp.back() = xr_strdup(val);
-    }
-    u32 _cnt = _tmp.size() + 1;
-    vid_quality_token = xr_alloc<xr_token>(_cnt);
+		}
 
-    vid_quality_token[_cnt - 1].id = -1;
-    vid_quality_token[_cnt - 1].name = NULL;
+		vid_quality_token[cnt].id = i;
+		vid_quality_token[cnt].name = val;
+		cnt++;
+#ifdef DEBUG
+		Msg("[%s]", val);
+#endif // DEBUG
+	}
+
+	vid_quality_token[cnt].id = -1;
+	vid_quality_token[cnt].name = NULL;
+
+
 
 #ifdef DEBUG
-    Msg("Available render modes[%d]:", _tmp.size());
+    Msg("Available render modes[%d]:", cnt);
 #endif // DEBUG
-    for (u32 i = 0; i < _tmp.size(); ++i)
-    {
-        vid_quality_token[i].id = i;
-        vid_quality_token[i].name = _tmp[i];
-#ifdef DEBUG
-        Msg("[%s]", _tmp[i]);
-#endif // DEBUG
-    }
+
 
     /*
     if(vid_quality_token != NULL) return;

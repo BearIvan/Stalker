@@ -1,6 +1,6 @@
 #pragma once
 #include "StalkerAPI.h"
-#define ENGINE_VERSION  "1.7.01_RC1"
+extern XRAPI_API const char*	ENGINE_VERSION;
 class XRAPI_API GameVersionController
 {
 public:

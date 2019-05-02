@@ -742,7 +742,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
 	u32		dwWindowStyle			= 0;
 	// Set window properties depending on what mode were in.
-	if (bWindowed)		{
+	/*if (bWindowed)		{
 		if (m_move_window) {
             dwWindowStyle = WS_BORDER | WS_VISIBLE;
             if (!strstr(GetCommandLine(), "-no_dialog_header"))
@@ -785,7 +785,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 	}
 
 	ShowCursor	(FALSE);
-	SetForegroundWindow( m_hWnd );
+	SetForegroundWindow( m_hWnd );*/
 }
 
 

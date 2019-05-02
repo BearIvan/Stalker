@@ -70,16 +70,17 @@ void CRenderDevice::Reset(bool precache)
 
         //. g_pGamePersistent->Environment().OnDeviceDestroy();
     }
-	GetWindow().Resize(psCurrentVidMode[0], psCurrentVidMode[1]);
-	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
-	m_pRender->Reset(
-		GetWindow()
-	);
 
+
+	GetWindow().Resize(psCurrentVidMode[0], psCurrentVidMode[1]);
 	dwWidth = GetWindow().GetSize().x;
 	dwHeight = GetWindow().GetSize().y;
 	fWidth_2 = GetWindow().GetSizeFloat().x / 2;
 	fHeight_2 = GetWindow().GetSizeFloat().y / 2;
+	m_pRender->Reset(
+		GetWindow()
+	);
+	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
 
     if (g_pGamePersistent)
     {
@@ -90,6 +91,8 @@ void CRenderDevice::Reset(bool precache)
         ENV.bNeed_re_create_env = TRUE;
 		else     ENV_SOC.bNeed_re_create_env = TRUE;
     }
+
+
     _SetupStates();
     if (precache)
         PreCache(20, true, false);

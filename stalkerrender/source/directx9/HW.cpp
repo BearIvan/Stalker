@@ -64,6 +64,10 @@ void CHW::Reset		(HWND hwnd)
 		bWindowed		= !psDeviceFlags.is	(rsFullscreen);
 
 	selectResolution		(DevPP.BackBufferWidth, DevPP.BackBufferHeight, bWindowed);
+/*	Device.dwWidth = DevPP.BackBufferWidth;
+	Device.dwHeight = DevPP.BackBufferHeight;
+	Device.fWidth_2 = Device.dwWidth / 2.f;
+	Device.fHeight_2 = Device.dwHeight / 2.f;*/
 	// Windoze
 	DevPP.SwapEffect			= bWindowed?D3DSWAPEFFECT_COPY:D3DSWAPEFFECT_DISCARD;
 	DevPP.Windowed				= bWindowed;
@@ -330,6 +334,10 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
 #ifndef _EDITOR
 	selectResolution	(P.BackBufferWidth, P.BackBufferHeight, bWindowed);
 #endif
+/*	Device.dwWidth = P.BackBufferWidth;
+	Device.dwHeight = P.BackBufferHeight;
+	Device.fWidth_2 = Device.dwWidth / 2.f;
+	Device.fHeight_2 = Device.dwHeight / 2.f;*/
 // Back buffer
 //.	P.BackBufferWidth		= dwWidth;
 //. P.BackBufferHeight		= dwHeight;
@@ -578,15 +586,15 @@ void	CHW::updateWindowProps	(HWND m_hWnd)
 	{
 		SetWindowLong			( m_hWnd, GWL_STYLE, dwWindowStyle=(WS_POPUP|WS_VISIBLE) );
 		SetWindowLong			( m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-	}*/
+	}
 
 #ifndef _EDITOR
-/*	if (!g_dedicated_server)
+	if (!g_dedicated_server)
 	{
 		ShowCursor	(FALSE);
 		SetForegroundWindow( m_hWnd );
-	}*/
-#endif
+	}
+#endif*/
 }
 
 

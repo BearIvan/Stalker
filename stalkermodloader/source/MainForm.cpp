@@ -105,15 +105,15 @@ void MainForm::cbBtOk()
 		switch (path)
 		{
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
 			PathToMods = TEXT("%mods_soc16%");
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
 			PathToMods = TEXT("%mods_cs%");
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[3]);
 			PathToMods = TEXT("%mods_cop%");
 			break;
 		default:
