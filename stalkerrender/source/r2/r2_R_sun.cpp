@@ -640,7 +640,7 @@ Fvector3(*wform_impl)(Fmatrix& m, Fvector3 const& v) = 0;
 Fvector3		wform	(Fmatrix& m, Fvector3 const& v)
 {
 	if (wform_impl)return wform_impl(m, v);
-	if (gameVersionController->getPath() == GameVersionController::SOC)
+	if (gameVersionController->getGame() == GameVersionController::SOC)
 	{
 		wform_impl = &wform_soc;
 	}
@@ -1317,7 +1317,7 @@ void CRender::render_sun_near	()
 		mdir_View.build_camera_dir	(L_pos,L_dir,L_up);
 
 		// projection: box
-		if (gameVersionController->getPath() == GameVersionController::SOC)
+		if (gameVersionController->getGame() == GameVersionController::SOC)
 		{
 			//	Original
 			float	_D = ps_r2_sun_near;

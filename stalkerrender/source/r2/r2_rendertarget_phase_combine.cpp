@@ -231,7 +231,7 @@ void	CRenderTarget::phase_combine	()
 
 		RCache.set_c("env_color", envclr);
 		RCache.set_c("fog_color", fogclr);
-		if (gameVersionController->getPath() != GameVersionController::SOC)
+		if (gameVersionController->getGame() != GameVersionController::SOC)
 		{
 
 			RCache.set_c("ssao_params", fSSAONoise, fSSAOKernelSize, 0.0f, 0.0f);
@@ -245,7 +245,7 @@ void	CRenderTarget::phase_combine	()
 		RCache.set_CullMode				(CULL_CCW);
 		RCache.set_Stencil				(FALSE);
 		RCache.set_ColorWriteEnable		();
-		if (gameVersionController->getPath() == GameVersionController::SOC)
+		if (gameVersionController->getGame() == GameVersionController::SOC)
 		{
 			ENV_SOC.RenderClouds	();
 		}
@@ -255,7 +255,7 @@ void	CRenderTarget::phase_combine	()
 
 	//	Igor: for volumetric lights
 	//	combine light volume here
-	if (m_bHasActiveVolumetric&&gameVersionController->getPath() != GameVersionController::SOC)
+	if (m_bHasActiveVolumetric&&gameVersionController->getGame() != GameVersionController::SOC)
 		phase_combine_volumetric();
 
 	// Perform blooming filter and distortion if needed

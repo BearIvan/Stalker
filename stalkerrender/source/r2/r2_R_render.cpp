@@ -359,8 +359,8 @@ void CRender::Render		()
 	//******* Main render :: PART-1 (second)
 	if (split_the_scene_to_minimize_wait)	{
 		// skybox can be drawn here
-		if (0)
-		{
+/*		if (0)
+		{*/
 			Target->u_setrt		( Target->rt_Generic_0,	Target->rt_Generic_1,0,HW.pBaseZB );
 			RCache.set_CullMode	( CULL_NONE );
 			RCache.set_Stencil	( FALSE		);
@@ -378,7 +378,7 @@ void CRender::Render		()
 				ENV_SOC.RenderSky();
 			}
 			CHK_DX(HW.pDevice->SetRenderState			( D3DRS_ZENABLE,	TRUE				));
-		}
+	/*	}*/
 
 		// level
 		Target->phase_scene_begin				();
