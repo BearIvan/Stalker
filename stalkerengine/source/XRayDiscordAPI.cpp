@@ -2,8 +2,9 @@
 #include "XRayDiscordAPI.h"
 #include "discord/discord_rpc.h"
 #include "api/XrGameVersionController.h"
+#include "Modloader.h"
 //#ifdef DEBUG
-#define NO_DISCORD
+#undef NO_DISCORD
 //#endif
 XRayDiscordAPI::XRayDiscordAPI()
 {
@@ -41,33 +42,39 @@ void XRayDiscordAPI::OnFrame()
 	{
 	case GameVersionController::Path::SOC_1004:
 		discordPresence.details = "Shadow of Chernobyl";
-		discordPresence.largeImageKey = "general";
+		discordPresence.largeImageKey = "icon1";
+		discordPresence.state = "Original 1.0.04";
 		break;
 	case GameVersionController::Path::SOC_1007:
 		discordPresence.details = "Shadow of Chernobyl";
-		discordPresence.largeImageKey = "general";
+		discordPresence.largeImageKey = "icon1";
+		discordPresence.state = "Original 1.0.06";
 		break;
 	case GameVersionController::Path::CS_1510:
 		discordPresence.details = "Clear sky";
-		discordPresence.largeImageKey = "icon_cs";
+		discordPresence.largeImageKey = "icon2";
+		discordPresence.state = "Original 1.5.10";
 		break;
 	case GameVersionController::Path::COP_1602:
 		discordPresence.details = "Call of Pripyat";
-		discordPresence.largeImageKey = "icon_cop";
+		discordPresence.largeImageKey = "icon3";
+		discordPresence.state = "Original 1.6.02";
 		break;
 
 	default:
 		break;
 	}
-	discordPresence.startTimestamp = m_StartTime;
-	discordPresence.endTimestamp = 0;
+	static BearCore::BearStringAnsi64 state;
+	if (Modloader::GetNameMod()[0])
+	{
+		BearCore::BearString::Copy(state, "Mod:");
+		BearCore::BearString::Contact(state, Modloader::GetNameMod());
+		discordPresence.state = state;
+	}
 
+	discordPresence.startTimestamp = m_StartTime;
 	discordPresence.largeImageText = ENGINE_VERSION;
-	discordPresence.smallImageText = "";
 	discordPresence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
-	discordPresence.partySize = 0;
-	discordPresence.partyMax = 0;
-	discordPresence.joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM=";
 	Discord_UpdatePresence(&discordPresence);
 #endif
 }

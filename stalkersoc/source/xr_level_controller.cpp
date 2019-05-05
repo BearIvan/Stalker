@@ -505,9 +505,7 @@ public:
 //.		Console->Execute("cfg_load default_controls.ltx");
 
 		BearCore::BearStringPath _cfg;
-		string_path				cmd;
-		FS.Update			("%config%","default_controls.ltx", _cfg);
-		strconcat				(sizeof(cmd),cmd,"cfg_load", " ", _cfg);
+		string_path				cmd;		strconcat				(sizeof(cmd),cmd,"cfg_load", " ", "default_controls.ltx");
 		Console->Execute		(cmd);
 	}
 };

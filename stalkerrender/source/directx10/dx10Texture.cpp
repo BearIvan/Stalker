@@ -333,23 +333,8 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 	}
 _DDS:
 	{
-		if (FS.ExistFile("%textures%", fname, ".dds"))
-		{
 
-			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
-#ifdef DEBUG
-			Msg("* Loaded: %s[%d]", fname, S->length());
-#endif // DEBUG
-		}
-		else if (FS.ExistFile("%saves%", fname, ".dds"))
-		{
-
-			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
-#ifdef DEBUG
-			Msg("* Loaded: %s[%d]", fname, S->length());
-#endif // DEBUG
-		}
-		else if (FS.ExistPath("%level%") && FS.ExistFile("%level%", fname, ".dds"))
+		if (FS.ExistPath("%level%") && FS.ExistFile("%level%", fname, ".dds"))
 		{
 
 			S = XRayBearReader::Create(FS.Read(TEXT("%level%"), fname, ".dds"));
@@ -357,7 +342,24 @@ _DDS:
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG
 		}
-		else
+		else if (FS.ExistFile("%textures%", fname, ".dds"))
+		{
+
+			S = XRayBearReader::Create(FS.Read(TEXT("%textures%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
+		}
+	 else if (FS.ExistFile("%saves%", fname, ".dds"))
+		{
+
+			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
+		}
+		
+	 else
 		{
 #ifdef DEBUG
 			Msg("*Error,don't found Texture:[%s]", fname);

@@ -186,7 +186,6 @@ void CShootingObject::StartParticles (CParticlesObject*& pParticles, LPCSTR part
 									 const Fvector& pos, const  Fvector& vel, bool auto_remove_flag)
 {
 	if(!particles_name) return;
-
 	if(pParticles != NULL) 
 	{
 		UpdateParticles(pParticles, pos, vel);

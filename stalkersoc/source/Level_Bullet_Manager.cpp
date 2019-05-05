@@ -409,7 +409,7 @@ void CBulletManager::Render	()
 		Fvector center;
 		center.mad				(bullet->pos, bullet->dir,  -length*.5f);
 	//	tracers.Render			(verts, bullet->pos, center, bullet->dir, length, width, bullet->m_u8ColorID);
-		tracers.Render(bullet->pos, center, center, length, width, bullet->m_u8ColorID, bullet->speed, bActor);
+		tracers.Render(bullet->pos, center, bullet->dir, length, width, bullet->m_u8ColorID, bullet->speed, bActor);
 	}
 
 

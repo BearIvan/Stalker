@@ -15,6 +15,7 @@ public class stalkersound :Project
 
 		Projects.Private.Add("stalkertools");
 		Projects.Private.Add("stalkercdb");
+		Projects.Private.Add("stalkerapi");
 		Projects.Private.Add("openal");
 		Projects.Private.Add("directx");
 		LibrariesStatic.Public.Add("dsound.lib");

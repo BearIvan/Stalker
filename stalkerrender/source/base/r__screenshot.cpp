@@ -166,7 +166,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 #else
 				CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_JPG, &saved, 0));
 #endif
-				IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%$screenshots$"), name,0));
+				IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%screenshots%"), name,0));
 				fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
 				XRayBearWriter::Destroy(fs);
 				_RELEASE			(saved);
@@ -181,7 +181,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_BMP, &saved, 0));
 					//		CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
 #endif
-					IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%$screenshots$"), name, 0));
+					IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%screenshots%"), name, 0));
 					fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
 					XRayBearWriter::Destroy(fs);
 					_RELEASE			(saved);

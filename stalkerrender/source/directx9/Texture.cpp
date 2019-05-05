@@ -321,14 +321,6 @@ _DDS:
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG
 		}
-		else if (FS.ExistFile("%saves%", fname, ".dds"))
-		{
-
-			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
-#ifdef DEBUG
-			Msg("* Loaded: %s[%d]", fname, S->length());
-#endif // DEBUG
-		}
 		else if (FS.ExistFile("%textures%", fname, ".dds"))
 		{
 
@@ -337,6 +329,15 @@ _DDS:
 			Msg("* Loaded: %s[%d]", fname, S->length());
 #endif // DEBUG
 		}
+		else if (FS.ExistFile("%saves%", fname, ".dds"))
+		{
+
+			S = XRayBearReader::Create(FS.Read(TEXT("%saves%"), fname, ".dds"));
+#ifdef DEBUG
+			Msg("* Loaded: %s[%d]", fname, S->length());
+#endif // DEBUG
+		}
+		
 		else
 		{
 #ifdef DEBUG

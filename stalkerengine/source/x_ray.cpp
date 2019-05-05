@@ -791,7 +791,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	FS.CreateDirectory(TEXT("%user%"), 0);
 	FS.CreateDirectory(TEXT("%logs%"), 0);
 	FS.CreateDirectory(TEXT("%saves%"), 0);
-
+	FS.CreateDirectory(TEXT("%screenshots%"), 0);
 
 	{
 		BearCore::BearStringPath path;

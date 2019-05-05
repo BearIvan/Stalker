@@ -215,20 +215,8 @@ public:
 	// sse
 	ICF BOOL		_box_sse	(const Fvector& bCenter, const Fvector& bExtents, float&  dist )
 	{
-		aabb_t		box;
-	/*
-		box.min.sub (bCenter,bExtents);	box.min.pad = 0;
-		box.max.add	(bCenter,bExtents); box.max.pad = 0;
-	*/
-		__m128 CN = _mm_unpacklo_ps( _mm_load_ss( (float*) &bCenter.x ) , _mm_load_ss( (float*) &bCenter.y ) );
-		CN = _mm_movelh_ps( CN , _mm_load_ss( (float*) &bCenter.z ) );
-		__m128 EX = _mm_unpacklo_ps( _mm_load_ss( (float*) &bExtents.x ) , _mm_load_ss( (float*) &bExtents.y ) );
-		EX = _mm_movelh_ps( EX , _mm_load_ss( (float*) &bExtents.z ) );
-
-		_mm_store_ps( (float*) &box.min , _mm_sub_ps( CN , EX ) );
-		_mm_store_ps( (float*) &box.max , _mm_add_ps( CN , EX ) );
-
-        return 		isect_sse	(box,ray,dist);
+		BEAR_ASSERT(false);
+		return false;
 	}
 	
 	IC bool			_tri		(u32* p, float& u, float& v, float& range)
@@ -364,7 +352,7 @@ void	COLLIDER::ray_query	(const MODEL *m_def, const Fvector& r_start,  const Fve
 	const AABBNoLeafNode* N = T->GetNodes();
 	r_clear					();
 	
-	if (CPU::ID.feature&_CPU_FEATURE_SSE)	{
+	if (0)	{
 		// SSE
 		// Binary dispatcher
 		if (ray_mode&OPT_CULL)		{

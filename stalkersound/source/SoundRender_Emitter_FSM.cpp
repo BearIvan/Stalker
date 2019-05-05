@@ -4,7 +4,7 @@
 #include "SoundRender_Emitter.h"
 #include "SoundRender_Core.h"
 #include "SoundRender_Source.h"
-
+#include "api/XrGameVersionController.h"
 XRSOUND_API extern float psSoundCull;
 
 inline u32 calc_cursor(const float& fTimeStarted, float& fTime, const float& fTimeTotal, const WAVEFORMATEX& wfx)
@@ -25,6 +25,8 @@ void CSoundRender_Emitter::update(float dt)
 {
 	float fTime			= SoundRender->fTimer_Value;
 	float fDeltaTime	= SoundRender->fTimer_Delta;
+
+
 
 	VERIFY2(!!(owner_data) || (!(owner_data)&&(m_current_state==stStopped)),"owner");
 	VERIFY2(owner_data?*(int*)(&owner_data->feedback):1,"owner");
@@ -156,6 +158,7 @@ void CSoundRender_Emitter::update(float dt)
 			if (target)
 			{
 				SoundRender->i_stop			(this);
+
 				m_current_state				= stSimulatingLooped;
 			}
 			fTimeStarted					+= fDeltaTime;
@@ -206,8 +209,12 @@ void CSoundRender_Emitter::update(float dt)
 	bMoved									= FALSE;
 	if (m_current_state != stStopped)
 	{
-		if (fTime	>=	fTimeToPropagade)		
-			Event_Propagade					();
+		if (fTime >= fTimeToPropagade)
+		{
+			
+			
+			Event_Propagade();
+		}
 	}else 
 	if (owner_data)	
 	{
@@ -245,7 +252,17 @@ BOOL CSoundRender_Emitter::update_culling(float dt)
 		fade_volume			+=	dt*10.f*fade_scale;
 
 		// Update occlusion
-		float occ			= (owner_data->g_type== (0x08000000u| 0x00000080))?1.0f:SoundRender->get_occlusion	(p_source.position,.2f,occluder);
+		float occ = 0;
+		
+		if (gameVersionController->getGame() == GameVersionController::SOC)
+		{
+			occ= SoundRender->get_occlusion(p_source.position, .2f, occluder);;
+		}
+		else
+		{
+			occ = (owner_data->g_type == (0x08000000u | 0x00000080)) ? 1.0f : SoundRender->get_occlusion(p_source.position, .2f, occluder);;
+		}
+		
 		volume_lerp			(occluder_volume,occ,1.f,dt);
 		clamp				(occluder_volume,0.f,1.f);
 	}
