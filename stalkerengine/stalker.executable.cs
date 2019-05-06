@@ -56,6 +56,7 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercop");
         IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;
+        ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
 		//ProjectsToDynamicLibrary = true;
 	}	
 	public override void StartBuild()
