@@ -1149,7 +1149,7 @@ const char* TiXmlElement::Parse(TiXmlDocument* document, const char* p, TiXmlPar
 			if ( !p || !*p )
 			{
 				if ( document ) document->SetError( TIXML_ERROR_PARSING_ELEMENT, pErr, data, encoding );
-				delete attrib;
+				xr_delete( attrib);
 				return 0;
 			}
 
@@ -1162,7 +1162,7 @@ const char* TiXmlElement::Parse(TiXmlDocument* document, const char* p, TiXmlPar
 			if ( node )
 			{
 				node->SetValue( attrib->Value() );
-				delete attrib;
+				xr_delete(attrib);
 				return 0;
 			}
 
@@ -1205,10 +1205,10 @@ const char* TiXmlElement::ReadValue( const char* p, TiXmlParsingData* data, TiXm
 				p = textNode->Parse(document, pWithWhiteSpace, data, encoding );
 			}
 
-			if ( !textNode->Blank() )
-				LinkEndChild( textNode );
+			if (!textNode->Blank())
+				LinkEndChild(textNode);
 			else
-				delete textNode;
+				xr_delete(textNode);
 		} 
 		else 
 		{

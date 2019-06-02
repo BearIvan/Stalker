@@ -26,6 +26,7 @@ GameVersionController::Game GameVersionController::getGame() const
 	default:
 		break;
 	}
+	return Game::NGame;
 }
 
 GameVersionController::Path GameVersionController::getPath() const

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-LPSTR _TrimLeft(LPSTR str)
+LPSTR XrTrims::_TrimLeft(LPSTR str)
 {
     LPSTR p = str;
     while (*p && (u8(*p) <= u8(' '))) p++;
@@ -15,7 +15,7 @@ LPSTR _TrimLeft(LPSTR str)
     return str;
 }
 
-LPSTR _TrimRight(LPSTR str)
+LPSTR XrTrims::_TrimRight(LPSTR str)
 {
     LPSTR p = str + xr_strlen(str);
     while ((p != str) && (u8(*p) <= u8(' '))) p--;
@@ -23,14 +23,14 @@ LPSTR _TrimRight(LPSTR str)
     return str;
 }
 
-LPSTR _Trim(LPSTR str)
+LPSTR XrTrims::_Trim(LPSTR str)
 {
     _TrimLeft(str);
     _TrimRight(str);
     return str;
 }
 
-LPCSTR _SetPos(LPCSTR src, u32 pos, char separator)
+LPCSTR XrTrims::_SetPos(LPCSTR src, u32 pos, char separator)
 {
     LPCSTR res = src;
     u32 p = 0;
@@ -42,7 +42,7 @@ LPCSTR _SetPos(LPCSTR src, u32 pos, char separator)
     return res;
 }
 
-LPCSTR _CopyVal(LPCSTR src, LPSTR dst, char separator)
+LPCSTR XrTrims::_CopyVal(LPCSTR src, LPSTR dst, char separator)
 {
     LPCSTR p;
     size_t n;
@@ -53,7 +53,7 @@ LPCSTR _CopyVal(LPCSTR src, LPSTR dst, char separator)
     return dst;
 }
 
-int _GetItemCount(LPCSTR src, char separator)
+int XrTrims::_GetItemCount(LPCSTR src, char separator)
 {
     u32 cnt = 0;
     if (src&&src[0])
@@ -72,7 +72,7 @@ int _GetItemCount(LPCSTR src, char separator)
     return cnt;
 }
 
-LPSTR _GetItem(LPCSTR src, int index, LPSTR dst, u32 const dst_size, char separator, LPCSTR def, bool trim)
+LPSTR XrTrims::_GetItem(LPCSTR src, int index, LPSTR dst, u32 const dst_size, char separator, LPCSTR def, bool trim)
 {
     LPCSTR ptr;
     ptr = _SetPos(src, index, separator);
@@ -82,7 +82,7 @@ LPSTR _GetItem(LPCSTR src, int index, LPSTR dst, u32 const dst_size, char separa
     return dst;
 }
 
-LPSTR _GetItems(LPCSTR src, int idx_start, int idx_end, LPSTR dst, char separator)
+LPSTR XrTrims::_GetItems(LPCSTR src, int idx_start, int idx_end, LPSTR dst, char separator)
 {
     LPSTR n = dst;
     int level = 0;
@@ -97,7 +97,7 @@ LPSTR _GetItems(LPCSTR src, int idx_start, int idx_end, LPSTR dst, char separato
     return dst;
 }
 
-u32 _ParseItem(LPCSTR src, xr_token* token_list)
+u32 XrTrims::_ParseItem(LPCSTR src, xr_token* token_list)
 {
     for (int i = 0; token_list[i].name; i++)
         if (!stricmp(src, token_list[i].name))
@@ -105,14 +105,14 @@ u32 _ParseItem(LPCSTR src, xr_token* token_list)
     return u32(-1);
 }
 
-u32 _ParseItem(LPSTR src, int ind, xr_token* token_list)
+u32 XrTrims::_ParseItem(LPSTR src, int ind, xr_token* token_list)
 {
     char dst[128];
     _GetItem(src, ind, dst);
     return _ParseItem(dst, token_list);
 }
 
-LPSTR _ReplaceItems(LPCSTR src, int idx_start, int idx_end, LPCSTR new_items, LPSTR dst, char separator)
+LPSTR XrTrims::_ReplaceItems(LPCSTR src, int idx_start, int idx_end, LPCSTR new_items, LPSTR dst, char separator)
 {
     LPSTR n = dst;
     int level = 0;
@@ -138,7 +138,7 @@ LPSTR _ReplaceItems(LPCSTR src, int idx_start, int idx_end, LPCSTR new_items, LP
     return dst;
 }
 
-LPSTR _ReplaceItem(LPCSTR src, int index, LPCSTR new_item, LPSTR dst, char separator)
+LPSTR XrTrims::_ReplaceItem(LPCSTR src, int index, LPCSTR new_item, LPSTR dst, char separator)
 {
     LPSTR n = dst;
     int level = 0;
@@ -164,7 +164,7 @@ LPSTR _ReplaceItem(LPCSTR src, int index, LPCSTR new_item, LPSTR dst, char separ
     return dst;
 }
 
-LPSTR _ChangeSymbol(LPSTR name, char src, char dest)
+LPSTR XrTrims::_ChangeSymbol(LPSTR name, char src, char dest)
 {
     char* sTmpName = name;
     while (sTmpName[0])
@@ -175,7 +175,7 @@ LPSTR _ChangeSymbol(LPSTR name, char src, char dest)
     return name;
 }
 
-xr_string& _ChangeSymbol(xr_string& name, char src, char dest)
+xr_string& XrTrims::_ChangeSymbol(xr_string& name, char src, char dest)
 {
     for (xr_string::iterator it = name.begin(); it != name.end(); it++)
         if (*it == src) *it = xr_string::value_type(dest);
@@ -345,7 +345,7 @@ float StrTimeToFloatTime(LPCSTR buf, bool _h, bool _m, bool _s, bool _ms)
 }
 #endif
 
-void _SequenceToList(LPSTRVec& lst, LPCSTR in, char separator)
+void XrTrims::_SequenceToList(LPSTRVec& lst, LPCSTR in, char separator)
 {
     int t_cnt = _GetItemCount(in, separator);
     string1024 T;
@@ -357,7 +357,7 @@ void _SequenceToList(LPSTRVec& lst, LPCSTR in, char separator)
     }
 }
 
-void _SequenceToList(RStringVec& lst, LPCSTR in, char separator)
+void XrTrims::_SequenceToList(RStringVec& lst, LPCSTR in, char separator)
 {
     lst.clear();
     int t_cnt = _GetItemCount(in, separator);
@@ -370,7 +370,7 @@ void _SequenceToList(RStringVec& lst, LPCSTR in, char separator)
     }
 }
 
-void _SequenceToList(SStringVec& lst, LPCSTR in, char separator)
+void XrTrims::_SequenceToList(SStringVec& lst, LPCSTR in, char separator)
 {
     lst.clear();
     int t_cnt = _GetItemCount(in, separator);
@@ -383,7 +383,7 @@ void _SequenceToList(SStringVec& lst, LPCSTR in, char separator)
     }
 }
 
-xr_string _ListToSequence(const SStringVec& lst)
+xr_string XrTrims::_ListToSequence(const SStringVec& lst)
 {
     static xr_string out;
     out = "";
@@ -419,14 +419,14 @@ xr_string& _TrimRight(xr_string& str)
     return str;
 }
 
-xr_string& _Trim(xr_string& str)
+xr_string& XrTrims::_Trim(xr_string& str)
 {
     _TrimLeft(str);
     _TrimRight(str);
     return str;
 }
 
-LPCSTR _CopyVal(LPCSTR src, xr_string& dst, char separator)
+LPCSTR XrTrims::_CopyVal(LPCSTR src, xr_string& dst, char separator)
 {
     LPCSTR p;
     ptrdiff_t n;
@@ -437,7 +437,7 @@ LPCSTR _CopyVal(LPCSTR src, xr_string& dst, char separator)
     return dst.c_str();
 }
 
-LPCSTR _GetItem(LPCSTR src, int index, xr_string& dst, char separator, LPCSTR def, bool trim)
+LPCSTR XrTrims::_GetItem(LPCSTR src, int index, xr_string& dst, char separator, LPCSTR def, bool trim)
 {
     LPCSTR ptr;
     ptr = _SetPos(src, index, separator);
@@ -447,7 +447,7 @@ LPCSTR _GetItem(LPCSTR src, int index, xr_string& dst, char separator, LPCSTR de
     return dst.c_str();
 }
 
-shared_str _ListToSequence(const RStringVec& lst)
+shared_str XrTrims::_ListToSequence(const RStringVec& lst)
 {
     xr_string out;
     if (lst.size())

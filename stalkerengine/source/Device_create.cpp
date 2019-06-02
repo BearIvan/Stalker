@@ -112,7 +112,7 @@ dwFrame = 0;
 
 void CRenderDevice::_Create(LPCSTR shName)
 {
-    Memory.mem_compact();
+//    Memory.mem_compact();
 
     // after creation
     b_is_Ready = TRUE;

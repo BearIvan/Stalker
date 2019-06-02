@@ -4,8 +4,10 @@ using System;
 public class stalkernetserver :Project
 {
 	public stalkernetserver(string ProjectPath)
-	{
-		Defines.Private.Add("XR_NETSERVER_EXPORTS");
+    {
+        PCHFile = Path.Combine(ProjectPath, "source", "stdafx.cpp");
+        PCHIncludeFile = "stdafx.h";
+        Defines.Private.Add("XR_NETSERVER_EXPORTS");
 		Include.Private.Add(Path.Combine(ProjectPath,"include","netserver"));
 		AddSourceFiles(Path.Combine(ProjectPath,"source"));
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));

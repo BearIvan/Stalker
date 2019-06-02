@@ -8,8 +8,8 @@ ButtonLink::ButtonLink(const bchar*link, const bchar*texture):Link(link)
 	BEAR_ASSERT( img.LoadDDSFromStream(**FS.Read(TEXT("%textures%"), texture, TEXT(".dds"))));
 	UIImage.Texture.Clear();
 	UIImage.Texture.Create(img);
-	UIImage.Rect.x1 = img.GetSize().x;
-	UIImage.Rect.y1 = img.GetSize().y;
+	UIImage.Rect.x1 =static_cast<float>( img.GetSize().x);
+	UIImage.Rect.y1 = static_cast<float>(img.GetSize().y);
 }
 
 ButtonLink::~ButtonLink()

@@ -65,21 +65,21 @@ XRCORE_API xrDebug Debug;
 
 static bool error_after_dialog = false;
 
-extern void BuildStackTrace();
-extern char g_stackTrace[100][4096];
-extern int g_stackTraceCount;
+//extern void BuildStackTrace();
+//extern char g_stackTrace[100][4096];
+//extern int g_stackTraceCount;
 
 void LogStackTrace(LPCSTR header)
 {
     if (!shared_str_initialized)
         return;
 
-    BuildStackTrace();
+   // BuildStackTrace();
 
     Msg("%s", header);
 
-    for (int i = 1; i < g_stackTraceCount; ++i)
-        Msg("%s", g_stackTrace[i]);
+  /*  for (int i = 1; i < g_stackTraceCount; ++i)
+        Msg("%s", g_stackTrace[i]);*/
 }
 
 void xrDebug::gather_info(const char* expression, const char* description, const char* argument0, const char* argument1, const char* file, int line, const char* function, LPSTR assertion_info, u32 const assertion_info_size)
@@ -156,9 +156,9 @@ void xrDebug::gather_info(const char* expression, const char* description, const
         buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "stack trace:%s%s", endline, endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
 
-        BuildStackTrace();
+       // BuildStackTrace();
 
-        for (int i = 2; i < g_stackTraceCount; ++i)
+       /* for (int i = 2; i < g_stackTraceCount; ++i)
         {
             if (shared_str_initialized)
                 Msg("%s", g_stackTrace[i]);
@@ -166,7 +166,7 @@ void xrDebug::gather_info(const char* expression, const char* description, const
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
             buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", g_stackTrace[i], endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
-        }
+        }*/
 
         if (shared_str_initialized)
             FlushLog();
@@ -340,11 +340,11 @@ int out_of_memory_handler(size_t size)
         g_full_memory_stats_callback();
     else
     {
-        Memory.mem_compact();
-        size_t process_heap = Memory.mem_usage();
+//        Memory.mem_compact();
+//        size_t process_heap = Memory.mem_usage();
         int eco_strings = (int)g_pStringContainer->stat_economy();
         int eco_smem = (int)g_pSharedMemoryContainer->stat_economy();
-        Msg("* [x-ray]: process heap[%u K]", process_heap / 1024, process_heap / 1024);
+    //    Msg("* [x-ray]: process heap[%u K]", process_heap / 1024, process_heap / 1024);
         Msg("* [x-ray]: economy: strings[%d K], smem[%d K]", eco_strings / 1024, eco_smem);
     }
 
@@ -634,7 +634,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
     if (!error_after_dialog && !strstr(GetCommandLine(), "-no_call_stack_assert"))
     {
         CONTEXT save = *pExceptionInfo->ContextRecord;
-        BuildStackTrace(pExceptionInfo);
+        //BuildStackTrace(pExceptionInfo);
         *pExceptionInfo->ContextRecord = save;
 
         if (shared_str_initialized)
@@ -646,7 +646,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
         }
 
         string4096 buffer;
-        for (int i = 0; i < g_stackTraceCount; ++i)
+      /*  for (int i = 0; i < g_stackTraceCount; ++i)
         {
             if (shared_str_initialized)
                 Msg("%s", g_stackTrace[i]);
@@ -655,7 +655,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
             if (!IsDebuggerPresent())
                 os_clipboard::update_clipboard(buffer);
 #endif // #ifdef DEBUG
-        }
+        }*/
 
         if (*error_message)
         {

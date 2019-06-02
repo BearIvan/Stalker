@@ -159,7 +159,7 @@ void WeaponUsageStatistic::Clear()
 	aPlayersStatistic.clear		();
 	m_Requests.clear			();
 	m_dwLastRequestSenderID		= 0;
-	
+	 
 	ZeroMemory					(m_dwTotalPlayersAliveTime, sizeof(m_dwTotalPlayersAliveTime));
 	ZeroMemory					(m_dwTotalPlayersMoneyRound, sizeof(m_dwTotalPlayersMoneyRound));
 	ZeroMemory					(m_dwTotalNumRespawns, sizeof(m_dwTotalNumRespawns));

@@ -672,7 +672,7 @@ void rotation_principal_axis_to_deriv_matrix(char axis, float angle, Matrix m)
     ZeroMemory(m,sizeof(Matrix));
     cos_a = _cos(angle);
     sin_a = _sin(angle);
-    
+     
     switch (axis)
     {
     case 'x':

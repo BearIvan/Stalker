@@ -11,7 +11,7 @@
 void* FileDownload(LPCSTR fn, u32* pdwSize = NULL);
 void FileCompress(const char* fn, const char* sign, void* data, u32 size);
 void* FileDecompress(const char* fn, const char* sign, u32* size = NULL);
-
+/*
 class CFileWriter : public IWriter
 {
 private:
@@ -24,18 +24,21 @@ public:
         VerifyPath(*fName);
         if (exclusive)
         {
+			if (BearCore::BearFileManager::FileExists(*fName))
+			{
+				return;
+			}
+			else
+			{
+				fopen_s(&hf,*fName, "wb");
+			}
             int handle = _sopen(*fName,_O_WRONLY|_O_TRUNC|_O_CREAT|_O_BINARY,SH_DENYWR);
-#ifdef _EDITOR
-            if (handle==-1)
-                Msg("!Can't create file: '%s'. Error: '%s'.", *fName, _sys_errlist[errno]);
-#endif
-            hf = _fdopen(handle, "wb");
         }
         else
         {
-            hf = fopen(*fName, "wb");
+			fopen_s(&hf, *fName, "wb");
             if (hf == 0)
-                Msg("!Can't write file: '%s'. Error: '%s'.", *fName, _sys_errlist[errno]);
+                Msg("!Can't write file: '%s.", *fName);
         }
     }
 
@@ -78,7 +81,7 @@ public:
     virtual bool valid() { return (0 != hf); }
     virtual void flush() { if (hf) fflush(hf); };
 };
-
+*/
 // It automatically frees memory after destruction
 class CTempReader : public IReader
 {

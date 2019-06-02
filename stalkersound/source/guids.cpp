@@ -1,6 +1,6 @@
 #pragma hdrstop
-#include "stdafx.h"
 #define INITGUID 
+#include "stdafx.h"
 #include <dsound.h>
 #include <eax/eax.h>
 

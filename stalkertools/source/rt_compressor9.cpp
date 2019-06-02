@@ -28,7 +28,7 @@ rtc9_initialize()
 
     VERIFY(lzo_init() == LZO_E_OK);
 
-    string_path file_name;
+   // string_path file_name;
 
   /*  FS.update_path(file_name, "$game_config$", "mp\\lzo-dict.bin");
 

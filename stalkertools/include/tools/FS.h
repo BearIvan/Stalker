@@ -3,6 +3,12 @@
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4661)
+#endif
+
 #define CFS_CompressMark (1ul << 31ul)
 #define CFS_HeaderChunkID (666)
 
@@ -212,7 +218,7 @@ public:
     // Set file pointer to start of chunk data (0 for root chunk)
     IC void rewind() { impl().seek(0); }
 
-    u32 find_chunk(u32 ID, BOOL* bCompressed);
+	IC u32 find_chunk(u32 ID, BOOL* bCompressed); /*{ return u32(-1); }*/
 
     IC BOOL r_chunk(u32 ID, void* dest) // чтение XR Chunk'ов (4b-ID,4b-size,??b-data)
     {
@@ -313,3 +319,7 @@ public:
 private:
 	typedef IReaderBase<IReader> inherited;
 };
+#include "FS_impl.h"
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

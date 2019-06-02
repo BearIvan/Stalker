@@ -21,6 +21,6 @@ public class stalkertools :Project
 		
 		Projects.Private.Add("directx");
 		LibrariesStatic.Private.Add("dxerr.lib");
-		Projects.Private.Add("blackbox");
+		//Projects.Private.Add("blackbox");
 	}
 } 

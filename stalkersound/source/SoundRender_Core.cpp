@@ -235,7 +235,7 @@ void CSoundRender_Core::set_geometry_env(IReader* I)
 	
 	u8*	_data			= (u8*)xr_malloc(geom_ch->length());
 	
-	Memory.mem_copy		(_data, geom_ch->pointer(), geom_ch->length() );
+	BearCore::bear_copy	(_data, geom_ch->pointer(), geom_ch->length() );
 
 	IReader* geom		= xr_new<IReader>(_data, geom_ch->length(), 0);
 	
@@ -491,7 +491,7 @@ void CSoundRender_Core::i_eax_listener_set	(CSound_environment* _E)
     i_eax_set(&DSPROPSETID_EAX_ListenerProperties, deferred | DSPROPERTY_EAXLISTENER_AIRABSORPTIONHF, 		&ep.flAirAbsorptionHF,		sizeof(float));
     i_eax_set(&DSPROPSETID_EAX_ListenerProperties, deferred | DSPROPERTY_EAXLISTENER_FLAGS, 				&ep.dwFlags,				sizeof(DWORD));
 }
-
+ 
 void CSoundRender_Core::i_eax_listener_get	(CSound_environment* _E)
 {
 	VERIFY(bEAX);

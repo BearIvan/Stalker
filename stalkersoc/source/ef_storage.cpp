@@ -12,7 +12,7 @@
 #include "ef_pattern.h"
 
 CEF_Storage::CEF_Storage()
-{	
+{	 
 	ZeroMemory							(m_fpaBaseFunctions,sizeof(m_fpaBaseFunctions));
 	
 	m_fpaBaseFunctions[0]				= m_pfDistance				= xr_new<CDistanceFunction>				(this);

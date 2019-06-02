@@ -130,9 +130,9 @@ class CCC_MemStats : public IConsole_Command
 public:
 	CCC_MemStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = TRUE; };
 	virtual void Execute(LPCSTR args) {
-		Memory.mem_compact		();
+		//Memory.mem_compact		();
 	//	u32		_crt_heap		= mem_usage_impl((HANDLE)_get_heap_handle(),0,0);
-		size_t	_process_heap = ::Memory.mem_usage();
+		//size_t	_process_heap = ::Memory.mem_usage();
 #ifdef SEVERAL_ALLOCATORS
 		u32		_game_lua		= game_lua_memory_usage();
 		u32		_engine_lua		=0;// engine_lua_memory_usage();
@@ -144,14 +144,14 @@ public:
 		
 		if (Device.m_pRender) Device.m_pRender->ResourcesGetMemoryUsage(m_base, c_base, m_lmaps, c_lmaps);
 		
-		log_vminfo	();
+	//	log_vminfo	();
 		
 		Msg		("* [ D3D ]: textures[%d K]", (m_base+m_lmaps)/1024);
 
 #ifndef SEVERAL_ALLOCATORS
 		Msg		("* [x-ray]:  process heap[%d K]",_process_heap/1024);
 #else // SEVERAL_ALLOCATORS
-		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], engine lua[%d K], render[%d K]",0,_process_heap/1024,_game_lua/1024,_engine_lua/1024,_render/1024);
+		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], engine lua[%d K], render[%d K]",0,-1,_game_lua/1024,_engine_lua/1024,_render/1024);
 #endif // SEVERAL_ALLOCATORS
 
 		Msg		("* [x-ray]: economy: strings[%d K], smem[%d K]",_eco_strings/1024,_eco_smem);

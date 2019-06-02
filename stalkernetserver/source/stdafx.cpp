@@ -3,4 +3,4 @@
 
 #include "stdafx.h"
 
-#pragma comment(lib,	"dxguid.lib"			)
+ 

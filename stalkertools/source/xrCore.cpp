@@ -8,7 +8,10 @@
 #include "xrCore.h"
 
 #pragma comment(lib,"winmm.lib")
+#pragma warning(push)
+#pragma warning(disable:4996)
 auto __vsnprintf = _vsnprintf;
+#pragma warning(pop)
 #ifdef DEBUG
 # include <malloc.h>
 #endif // DEBUG
@@ -32,18 +35,18 @@ string64 xrCore::CompName;
 u32 xrCore::dwFrame=0;
 
 
-
+bool shared_str_initialized = false;
 
 void xrCore::Initialize(LogCallback cb)
 {
-
+	if (init_counter)return;
 	DWORD sz_user = sizeof(UserName);
 	GetUserName(UserName, &sz_user);
 
 	DWORD sz_comp = sizeof(CompName);
 	GetComputerName(CompName, &sz_comp);
 
-	Memory._initialize( TRUE );
+	//Memory._initialize( TRUE );
 
 	DUMP_PHASE;
 
@@ -57,6 +60,10 @@ void xrCore::Initialize(LogCallback cb)
 	_initialize_cpu();
 	CInifile::Initialize();
 	init_counter++;
+
+	g_pStringContainer = xr_new<str_container>();
+	g_pSharedMemoryContainer = xr_new<smem_container>();
+	shared_str_initialized = true;
 }
 
 #ifndef _EDITOR
@@ -78,7 +85,10 @@ void xrCore::Destroy()
 			xr_delete(trained_model);
 		}
 #endif
-		Memory._destroy();
+		shared_str_initialized = false;
+		xr_delete(g_pStringContainer);
+		xr_delete(g_pSharedMemoryContainer);
+		//Memory._destroy();
 	}
 }
 

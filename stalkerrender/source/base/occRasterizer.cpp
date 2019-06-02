@@ -64,12 +64,17 @@ occRasterizer::~occRasterizer	()
 	
 }
 
-void occRasterizer::clear		()
+void occRasterizer::clear()
 {
-	u32 size			= occ_dim*occ_dim;
-	float f				= 1.f;
-	Memory.mem_fill32	(bufFrame,0,size);
-	Memory.mem_fill32	(bufDepth,*LPDWORD(&f),size);
+	//u32 size = occ_dim * occ_dim;
+	float f = 1.f;
+	BearCore::bear_fill(bufFrame);
+
+	for (bsize i = 0; i < 68; i++)
+		for (bsize a = 0; a < 68; a++)
+		{
+			bufDepth[i][a] = 1.f;
+		}
 }
 
 IC BOOL shared(occTri* T1, occTri* T2)

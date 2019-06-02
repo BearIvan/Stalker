@@ -61,7 +61,7 @@ void  dxRenderDeviceRender::Reset(BearUI::BearViewport&window)
 #endif // DEBUG	
 
 	Resources->reset_begin	();
-	Memory.mem_compact		();
+//	Memory.mem_compact		();
 	HW.Reset				(window.GetWindowHandle());
 
 	Resources->reset_end	();
@@ -316,7 +316,7 @@ void dxRenderDeviceRender::End()
 	if (HW.Caps.SceneMode)	overdrawEnd();
 
 	RCache.OnFrameEnd	();
-	Memory.dbg_check		();
+//	Memory.dbg_check		();
 
 	DoAsyncScreenshot();
 

@@ -314,7 +314,7 @@ struct THREAD_STARTUP
     thread_t* entry;
     char* name;
     void* args;
-};
+};/*
 void __cdecl thread_entry(void* _params)
 {
     // initialize
@@ -327,17 +327,22 @@ void __cdecl thread_entry(void* _params)
 
     // call
     entry(arglist);
-}
-
+}*/
+BearCore::BearVector<  BearCore::BearThread*> *m_threads=0;
 void thread_spawn(thread_t* entry, const char* name, unsigned stack, void* arglist)
 {
     Debug._initialize(false);
-
-    THREAD_STARTUP* startup = xr_new<THREAD_STARTUP>();
+	if (m_threads == 0)
+	{
+		m_threads = BearCore::bear_new< BearCore::BearVector<  BearCore::BearThread*>>();
+	}
+	m_threads->push_back(new BearCore::BearThread(entry, arglist));
+	(*m_threads).back()->Join(name);
+   /* THREAD_STARTUP* startup = xr_new<THREAD_STARTUP>();
     startup->entry = entry;
     startup->name = (char*)name;
     startup->args = arglist;
-    _beginthread(thread_entry, stack, startup);
+    _beginthread(thread_entry, stack, startup);*/
 }
 
 void spline1(float t, Fvector* p, Fvector* ret)

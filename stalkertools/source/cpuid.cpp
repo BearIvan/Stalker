@@ -30,6 +30,7 @@ int _cpuid ( _processor_info *pinfo )
 
 int _cpuid ( _processor_info *pinfo )
 {	
+	
 	unsigned int lpid_width , mlpp;
 	#ifdef _CPUID_DEBUG
 		unsigned int mlpc , mcc;

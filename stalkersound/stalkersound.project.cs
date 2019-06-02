@@ -5,8 +5,8 @@ public class stalkersound :Project
 {
 	public stalkersound(string ProjectPath)
 	{
-		PCHFile=Path.Combine(ProjectPath,"source","stdafx.cpp");
-		PCHIncludeFile="stdafx.h";
+		//PCHFile=Path.Combine(ProjectPath,"source","stdafx.cpp");
+		//PCHIncludeFile="stdafx.h";
 		Defines.Private.Add("XRSOUND_EXPORTS");
 		AddSourceFiles(Path.Combine(ProjectPath,"source"));
 		

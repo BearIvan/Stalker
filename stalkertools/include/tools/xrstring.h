@@ -94,7 +94,7 @@ public:
         string4096 buf;
         va_list p;
         va_start(p, format);
-        int vs_sz = _vsnprintf(buf, sizeof(buf) - 1, format, p);
+        int vs_sz = _vsnprintf_s(buf, sizeof(buf) - 1, format, p);
         buf[sizeof(buf) - 1] = 0;
         va_end(p);
         if (vs_sz) _set(buf);
@@ -125,6 +125,7 @@ IC int xr_strcmp(const shared_str& a, const shared_str& b)
     if (a.equal(b)) return 0;
     else return xr_strcmp(*a, *b);
 }
+IC bchar*xr_strdup(const bchar*str) { return BearCore::BearString::Duplicate(str); }
 IC void xr_strlwr(xr_string& src) { for (xr_string::iterator it = src.begin(); it != src.end(); it++) *it = xr_string::value_type(tolower(*it)); }
 IC void xr_strlwr(shared_str& src) { if (*src) { LPSTR lp = xr_strdup(*src); xr_strlwr(lp); src = lp; xr_free(lp); } }
 

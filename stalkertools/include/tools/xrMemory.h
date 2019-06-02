@@ -1,147 +1,129 @@
-#ifndef xrMemoryH
-#define xrMemoryH
 #pragma once
 
-#include "memory_monitor.h"
-
-#ifdef USE_MEMORY_MONITOR
-# define DEBUG_MEMORY_NAME
-#endif // USE_MEMORY_MONITOR
-
-#ifndef M_BORLAND
-# if 0//def DEBUG
-# define DEBUG_MEMORY_MANAGER
-# endif // DEBUG
-#endif // M_BORLAND
-
-#ifdef DEBUG_MEMORY_MANAGER
-XRCORE_API extern BOOL g_bMEMO;
-# ifndef DEBUG_MEMORY_NAME
-# define DEBUG_MEMORY_NAME
-# endif // DEBUG_MEMORY_NAME
-extern XRCORE_API void dump_phase ();
-# define DUMP_PHASE do {dump_phase();} while (0)
-#else // DEBUG_MEMORY_MANAGER
 # define DUMP_PHASE do {} while (0)
-#endif // DEBUG_MEMORY_MANAGER
 
-#include "xrMemory_pso.h"
-#include "xrMemory_POOL.h"
+#undef CopyMemory
+#define CopyMemory(a,b,c) memcpy(a,b,c) 
 
-class XRCORE_API xrMemory
-{
-public:
-    struct mdbg
-    {
-        void* _p;
-        size_t _size;
-        const char* _name;
-        u32 _dummy;
-    };
-public:
-    xrMemory();
-    void _initialize(BOOL _debug_mode = FALSE);
-    void _destroy();
-
-#ifdef DEBUG_MEMORY_MANAGER
-    BOOL debug_mode;
-    xrCriticalSection debug_cs;
-    std::vector<mdbg> debug_info;
-    u32 debug_info_update;
-    u32 stat_strcmp ;
-    u32 stat_strdock ;
-#endif // DEBUG_MEMORY_MANAGER
-
-    u32 stat_calls;
-    s32 stat_counter;
-public:
-    void dbg_register(void* _p, size_t _size, const char* _name);
-    void dbg_unregister(void* _p);
-    void dbg_check();
-
-    size_t mem_usage();
-    void mem_compact();
-    void mem_counter_set(u32 _val) { stat_counter = _val; }
-    u32 mem_counter_get() { return stat_counter; }
-
-#ifdef DEBUG_MEMORY_NAME
-    void mem_statistic(LPCSTR fn);
-    void* mem_alloc(size_t size, const char* _name);
-    void* mem_realloc(void* p, size_t size, const char* _name);
-#else // DEBUG_MEMORY_NAME
-    void* mem_alloc (size_t size );
-    void* mem_realloc (void* p, size_t size );
-#endif // DEBUG_MEMORY_NAME
-    void mem_free(void* p);
-
-    pso_MemCopy* mem_copy;
-    pso_MemFill* mem_fill;
-    pso_MemFill32* mem_fill32;
-};
-
-extern XRCORE_API xrMemory Memory;
+#undef FillMemory
+#define FillMemory(a,b,c)  BearCore::bear_fill(reinterpret_cast<void*>(a),b,c);
 
 #undef ZeroMemory
-#undef CopyMemory
-#undef FillMemory
-#define ZeroMemory(a,b) Memory.mem_fill(a,0,b)
-#define CopyMemory(a,b,c) memcpy(a,b,c) //. CopyMemory(a,b,c)
-#define FillMemory(a,b,c) Memory.mem_fill(a,c,b)
-
-// delete
-#ifdef __BORLANDC__
-#include "xrMemory_subst_borland.h"
-#else
-#include "xrMemory_subst_msvc.h"
-#endif
-
-// generic "C"-like allocations/deallocations
-#ifdef DEBUG_MEMORY_NAME
-#include "typeinfo.h"
+#define ZeroMemory(a,b) BearCore::bear_fill(reinterpret_cast<void*>(a),b);
 
 template <class T>
-IC T* xr_alloc(u32 count) { return (T*)Memory.mem_alloc(count*sizeof(T), typeid(T).name()); }
+IC T* xr_new()
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T();
+}
+// new(1)
+template <class T, class P1>
+IC T* xr_new(const P1& p1)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1);
+}
+// new(2)
+template <class T, class P1, class P2>
+IC T* xr_new(const P1& p1, const P2& p2)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2);
+}
+// new(3)
+template <class T, class P1, class P2, class P3>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3);
+}
+// new(4)
+template <class T, class P1, class P2, class P3, class P4>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4);
+}
+// new(5)
+template <class T, class P1, class P2, class P3, class P4, class P5>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p5)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4, p5);
+}
+// new(6)
+template <class T, class P1, class P2, class P3, class P4, class P5, class P6>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p5, const P6& p6)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4, p5, p6);
+}
+// new(7)
+template <class T, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p5, const P6& p6, const P7& p7)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4, p5, p6, p7);
+}
+// new(8)
+template <class T, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p5, const P6& p6, const P7& p7, const P8& p8)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4, p5, p6, p7, p8);
+}
+// new(9)
+template <class T, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9>
+IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p5, const P6& p6, const P7& p7, const P8& p8, const P8& p9)
+{
+	T* ptr = (T*)BearCore::BearMemory::Malloc(sizeof(T), "XRAY");
+	return new (ptr)T(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+}
+template <bool _is_pm, typename T>
+struct xr_special_free
+{
+	IC void operator()(T*& ptr)
+	{
+		void* _real_ptr = dynamic_cast<void*>(ptr);
+		ptr->~T();
+		BearCore::BearMemory::Free(_real_ptr);
+	}
+};
+
+template <typename T>
+struct xr_special_free < false, T >
+{
+	IC void operator()(T*& ptr)
+	{
+		ptr->~T();
+		BearCore::BearMemory::Free(ptr);
+	}
+};
+
 template <class T>
-IC void xr_free(T*& P) { if (P) { Memory.mem_free((void*)P); P = NULL; }; }
-IC void* xr_malloc(size_t size) { return Memory.mem_alloc(size, "xr_malloc"); }
-IC void* xr_realloc(void* P, size_t size) { return Memory.mem_realloc(P, size, "xr_realloc"); }
-#else // DEBUG_MEMORY_NAME
+IC void xr_delete(T*& ptr)
+{
+	if (ptr)
+	{
+		xr_special_free<is_polymorphic<T>::result, T>()(ptr);
+		ptr = NULL;
+	}
+}
 template <class T>
-IC T* xr_alloc (u32 count) { return (T*)Memory.mem_alloc(count*sizeof(T)); }
+IC void xr_delete(T* const& ptr)
+{
+	if (ptr)
+	{
+		xr_special_free<is_polymorphic<T>::result, T>(ptr);
+		((T*&)ptr) = NULL;
+	}
+}
 template <class T>
-IC void xr_free (T*& P) { if (P) { Memory.mem_free((void*)P); P=NULL; }; }
-IC void* xr_malloc (size_t size) { return Memory.mem_alloc(size); }
-IC void* xr_realloc (void* P, size_t size) { return Memory.mem_realloc(P,size); }
-#endif // DEBUG_MEMORY_NAME
-
-XRCORE_API char* xr_strdup(const char* string);
-
-#ifdef DEBUG_MEMORY_NAME
-// Global new/delete override
-# if !(defined(__BORLANDC__) || defined(NO_XRNEW))
-IC void* operator new (size_t size) {return Memory.mem_alloc(size ? size : 1, "C++ NEW");}
-IC void operator delete (void* p) { xr_free(p); }
-IC void* operator new[](size_t size) { return Memory.mem_alloc(size ? size : 1, "C++ NEW"); }
-IC void operator delete[](void* p) { xr_free(p); }
-# endif
-#else // DEBUG_MEMORY_NAME
-# if !(defined(__BORLANDC__) || defined(NO_XRNEW))
-IC void* operator new (size_t size) { return Memory.mem_alloc(size?size:1); }
-IC void operator delete (void* p) { xr_free(p); }
-IC void* operator new[] (size_t size) { return Memory.mem_alloc(size?size:1); }
-IC void operator delete[] (void* p) { xr_free(p); }
-# endif
-#endif // DEBUG_MEMORY_MANAGER
+IC T* xr_alloc (bsize count) { return (T*)BearCore::BearMemory::Malloc(count*sizeof(T),"XRAY"); }
+template <class T>
+IC void xr_free (T*& P) { if (P) { BearCore::BearMemory::Free((void*)P); P=NULL; }; }
+IC void* xr_malloc(size_t size) { return BearCore::BearMemory::Malloc(size, "XRAY"); }
+IC void* xr_realloc (void* P, size_t size) { return  BearCore::BearMemory::Realloc(P,size, "XRAY"); }
 
 
-// POOL-ing
-const u32 mem_pools_count = 54;
-const u32 mem_pools_ebase = 16;
-const u32 mem_generic = mem_pools_count + 1;
-extern MEMPOOL mem_pools[mem_pools_count];
-extern BOOL mem_initialized;
-
-XRCORE_API void vminfo(size_t* _free, size_t* reserved, size_t* committed);
-XRCORE_API void log_vminfo();
-
-#endif // xrMemoryH

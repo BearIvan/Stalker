@@ -17,7 +17,7 @@ void CRenderDevice::_Destroy(BOOL bKeepTextures)
     //Resources->OnDeviceDestroy (bKeepTextures);
     //RCache.OnDeviceDestroy ();
 
-    Memory.mem_compact();
+//    Memory.mem_compact();
 }
 
 void CRenderDevice::Destroy(void)
@@ -100,7 +100,7 @@ void CRenderDevice::Reset(bool precache)
     Msg("*** RESET [%d ms]", tm_end - tm_start);
 
     // TODO: Remove this! It may hide crash
-    Memory.mem_compact();
+//    Memory.mem_compact();
 
 #ifndef DEDICATED_SERVER
   //  ShowCursor(FALSE);

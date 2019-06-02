@@ -10,8 +10,9 @@
 #include <string.h>
 
 #define ldblib_c
+#ifndef LUA_LIB
 #define LUA_LIB
-
+#endif
 #include <lua/lua.h>
 
 #include <lua/lauxlib.h>

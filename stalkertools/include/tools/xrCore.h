@@ -1,7 +1,6 @@
-#ifndef xrCoreH
-#define xrCoreH
-#pragma once
 
+#pragma once
+#include "BearCore.hpp"
 #ifndef DEBUG
 # define MASTER_GOLD
 #endif // DEBUG
@@ -25,8 +24,6 @@
 # define BENCH_SEC_SCRAMBLEMEMBER1
 # define BENCH_SEC_SCRAMBLEMEMBER2
 #endif // BENCHMARK_BUILD
-
-#pragma warning(disable:4996)
 
 #if (defined(_DEBUG) || defined(MIXED) || defined(DEBUG)) && !defined(FORCE_NO_EXCEPTIONS)
 // "debug" or "mixed"
@@ -293,7 +290,7 @@ public:
 
 // ********************************************** The Core definition
 
-#include "BearCore.hpp"
+
 #include "XrayToBearCore.h"
 class XRCORE_API xrCore
 {
@@ -311,7 +308,4 @@ public:
 #define _BGCL 
 
 extern XRCORE_API xrCore Core;
-
-
-#endif
 

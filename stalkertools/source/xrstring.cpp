@@ -177,10 +177,8 @@ str_value* str_container::dock(str_c value)
        )
     {
 
-        result = (str_value*)Memory.mem_alloc(HEADER + s_len_with_zero
-#ifdef DEBUG_MEMORY_NAME
+        result = (str_value*)BearCore::BearMemory::Malloc(HEADER + s_len_with_zero
                                               , "storage: sstring"
-#endif // DEBUG_MEMORY_NAME
                                              );
 
 #ifdef DEBUG

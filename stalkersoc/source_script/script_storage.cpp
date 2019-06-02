@@ -108,16 +108,11 @@ CScriptStorage::~CScriptStorage		()
 static void *lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize) {
 	(void)ud;
 	(void)osize;
-	if (nsize == 0) {
-		xr_free(ptr);
-		return	NULL;
+	if (!nsize) {
+		BearCore::BearMemory::Free(ptr);
+		return					0;
 	}
-	else
-#ifdef DEBUG_MEMORY_NAME
-		return Memory.mem_realloc(ptr, nsize, "LUA");
-#else // DEBUG_MEMORY_MANAGER
-		return Memory.mem_realloc(ptr, nsize);
-#endif // DEBUG_MEMORY_MANAGER
+	return BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
 }
 #ifndef DEBUG
 /* start optimizer */

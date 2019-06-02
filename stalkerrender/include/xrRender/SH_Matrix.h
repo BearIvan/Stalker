@@ -32,7 +32,7 @@ public:
 
 	CMatrix			()
 	{
-		Memory.mem_fill	(this,0,sizeof(CMatrix));
+		BearCore::bear_fill(*this);
 	}
 
 	IC void			tc_trans	(Fmatrix& T, float u, float v)
