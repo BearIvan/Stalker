@@ -186,7 +186,7 @@ void CWeaponKnife::MakeShot(Fvector const & pos, Fvector const & dir, float cons
 	cartridge.param_s.kHit			= k_hit;
 //.	cartridge.param_s.kCritical		= 1.0f;
 	cartridge.param_s.kImpulse		= 1.0f;
-	cartridge.param_s.kAP			= EPS_L;
+	cartridge.param_s.kAP			= XrMath::EPS_L;
 	cartridge.m_flags.set			(CCartridge::cfTracer, FALSE);
 	cartridge.m_flags.set			(CCartridge::cfRicochet, FALSE);
 	cartridge.param_s.fWallmarkSize	= fWallmarkSize;
@@ -350,38 +350,38 @@ void CWeaponKnife::LoadFireParams(LPCSTR section)
 	s_sHitPower_2			= pSettings->r_string_wb	(section, "hit_power_2" );
 	s_sHitPowerCritical_2	= pSettings->r_string_wb	(section, "hit_power_critical_2" );
 	
-	fvHitPower_2[egdMaster]			= (float)atof(_GetItem(*s_sHitPower_2,0,buffer));//первый параметр - это хит для уровня игры мастер
-	fvHitPowerCritical_2[egdMaster]	= (float)atof(_GetItem(*s_sHitPowerCritical_2,0,buffer));//первый параметр - это хит для уровня игры мастер
+	fvHitPower_2[egdMaster]			= (float)atof(XrTrims::GetItem(*s_sHitPower_2,0,buffer));//первый параметр - это хит для уровня игры мастер
+	fvHitPowerCritical_2[egdMaster]	= (float)atof(XrTrims::GetItem(*s_sHitPowerCritical_2,0,buffer));//первый параметр - это хит для уровня игры мастер
 
 	fvHitPower_2[egdNovice] = fvHitPower_2[egdStalker] = fvHitPower_2[egdVeteran] = fvHitPower_2[egdMaster];//изначально параметры для других уровней сложности такие же
 	fvHitPowerCritical_2[egdNovice] = fvHitPowerCritical_2[egdStalker] = fvHitPowerCritical_2[egdVeteran] = fvHitPowerCritical_2[egdMaster];//изначально параметры для других уровней сложности такие же
 
-	int num_game_diff_param=_GetItemCount(*s_sHitPower_2);//узнаём колличество параметров для хитов
+	int num_game_diff_param=XrTrims::GetItemCount(*s_sHitPower_2);//узнаём колличество параметров для хитов
 	if (num_game_diff_param>1)//если задан второй параметр хита
 	{
-		fvHitPower_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPower_2,1,buffer));//то вычитываем его для уровня ветерана
+		fvHitPower_2[egdVeteran] = (float)atof(XrTrims::GetItem(*s_sHitPower_2,1,buffer));//то вычитываем его для уровня ветерана
 	}
 	if (num_game_diff_param>2)//если задан третий параметр хита
 	{
-		fvHitPower_2[egdStalker] = (float)atof(_GetItem(*s_sHitPower_2,2,buffer));//то вычитываем его для уровня сталкера
+		fvHitPower_2[egdStalker] = (float)atof(XrTrims::GetItem(*s_sHitPower_2,2,buffer));//то вычитываем его для уровня сталкера
 	}
 	if (num_game_diff_param>3)//если задан четвёртый параметр хита
 	{
-		fvHitPower_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPower_2,3,buffer));//то вычитываем его для уровня новичка
+		fvHitPower_2[egdNovice]  = (float)atof(XrTrims::GetItem(*s_sHitPower_2,3,buffer));//то вычитываем его для уровня новичка
 	}
 
-	num_game_diff_param=_GetItemCount(*s_sHitPowerCritical_2);//узнаём колличество параметров
+	num_game_diff_param=XrTrims::GetItemCount(*s_sHitPowerCritical_2);//узнаём колличество параметров
 	if (num_game_diff_param>1)//если задан второй параметр хита
 	{
-		fvHitPowerCritical_2[egdVeteran] = (float)atof(_GetItem(*s_sHitPowerCritical_2,1,buffer));//то вычитываем его для уровня ветерана
+		fvHitPowerCritical_2[egdVeteran] = (float)atof(XrTrims::GetItem(*s_sHitPowerCritical_2,1,buffer));//то вычитываем его для уровня ветерана
 	}
 	if (num_game_diff_param>2)//если задан третий параметр хита
 	{
-		fvHitPowerCritical_2[egdStalker] = (float)atof(_GetItem(*s_sHitPowerCritical_2,2,buffer));//то вычитываем его для уровня сталкера
+		fvHitPowerCritical_2[egdStalker] = (float)atof(XrTrims::GetItem(*s_sHitPowerCritical_2,2,buffer));//то вычитываем его для уровня сталкера
 	}
 	if (num_game_diff_param>3)//если задан четвёртый параметр хита
 	{
-		fvHitPowerCritical_2[egdNovice]  = (float)atof(_GetItem(*s_sHitPowerCritical_2,3,buffer));//то вычитываем его для уровня новичка
+		fvHitPowerCritical_2[egdNovice]  = (float)atof(XrTrims::GetItem(*s_sHitPowerCritical_2,3,buffer));//то вычитываем его для уровня новичка
 	}
 
 	fHitImpulse_2		= pSettings->r_float	(section, "hit_impulse_2" );
@@ -445,7 +445,7 @@ void CWeaponKnife::OnRender()
 
 static bool intersect	( Fsphere const& bone, Fsphere const& query )
 {
-	return			bone.P.distance_to_sqr(query.P) < _sqr(bone.R + query.R);
+	return			bone.P.distance_to_sqr(query.P) < XrMath::sqr(bone.R + query.R);
 }
 
 static bool intersect	( Fobb bone, Fsphere const& query )
@@ -472,18 +472,18 @@ static bool intersect	( Fcylinder const& bone, Fsphere const& query )
 	Fvector const bone2query	= Fvector().sub( query.P, bone.m_center );
 	float const axe_projection	= bone2query.dotproduct(bone.m_direction);
 	float const half_height		= bone.m_height/2.f;
-	if ( _abs(axe_projection) > half_height + query.R )
+	if ( XrMath::abs(axe_projection) > half_height + query.R )
 		return					false;
 
-	VERIFY						( bone2query.square_magnitude() >= _sqr(axe_projection) );
-	float const axe_projection2_sqr	= bone2query.square_magnitude() - _sqr(axe_projection);
-	if ( axe_projection2_sqr > _sqr(bone.m_radius + query.R) )
+	VERIFY						( bone2query.square_magnitude() >= XrMath::sqr(axe_projection) );
+	float const axe_projection2_sqr	= bone2query.square_magnitude() - XrMath::sqr(axe_projection);
+	if ( axe_projection2_sqr > XrMath::sqr(bone.m_radius + query.R) )
 		return					false;
 
-	if ( _abs(axe_projection) <= half_height )
+	if ( XrMath::abs(axe_projection) <= half_height )
 		return					true;
 
-	if ( axe_projection2_sqr <= _sqr(bone.m_radius) )
+	if ( axe_projection2_sqr <= XrMath::sqr(bone.m_radius) )
 		return					true;
 
 	Fvector const center_direction		= Fvector(bone.m_direction).mul( axe_projection >= 0.f ? 1.f : -1.f);
@@ -491,11 +491,11 @@ static bool intersect	( Fcylinder const& bone, Fsphere const& query )
 	Fvector const circle2sphere			= Fvector().sub( query.P, circle_center );
 	float const distance2plane			= circle2sphere.dotproduct( center_direction );
 	VERIFY								( distance2plane > 0.f );
-	VERIFY								( _sqr(query.R) >= _sqr(distance2plane) );
-	float const circle_radius			= _sqrt( _sqr(query.R) - _sqr(distance2plane) );
+	VERIFY								( XrMath::sqr(query.R) >= XrMath::sqr(distance2plane) );
+	float const circle_radius			= XrMath::sqrt( XrMath::sqr(query.R) - XrMath::sqr(distance2plane) );
 	Fvector const sphere_circle_center	= Fvector(query.P).mad(center_direction,-distance2plane);
 	float const distance2center_sqr		= circle_center.distance_to_sqr(sphere_circle_center);
-	return								distance2center_sqr <= _sqr( bone.m_radius + circle_radius );
+	return								distance2center_sqr <= XrMath::sqr( bone.m_radius + circle_radius );
 }
 
 void CWeaponKnife::GetVictimPos(CEntityAlive* victim, Fvector & pos_dest)

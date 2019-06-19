@@ -76,8 +76,8 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 	m_UIMainScrollH					= xr_new<CUIScrollBar>(); m_UIMainScrollH->SetAutoDelete(true);
 	m_UIMainScrollH->Init			(r.left, r.bottom + SCROLLBARS_SHIFT, r.right - r.left, true, "pda");
 	m_UIMainScrollH->SetWindowName	("scroll_h");
-	m_UIMainScrollH->SetStepSize	(_max(1,iFloor(m_UILevelFrame->GetWidth()/10)));
-	m_UIMainScrollH->SetPageSize	(iFloor(m_UILevelFrame->GetWidth()));
+	m_UIMainScrollH->SetStepSize	(XrMath::max(1,XrMath::iFloor(m_UILevelFrame->GetWidth()/10)));
+	m_UIMainScrollH->SetPageSize	(XrMath::iFloor(m_UILevelFrame->GetWidth()));
 	m_UIMainFrame->AttachChild		(m_UIMainScrollH);
 	Register						(m_UIMainScrollH);
 	AddCallback						("scroll_h",SCROLLBAR_HSCROLL,CUIWndCallback::void_function(this,&CUIMapWnd::OnScrollH));
@@ -85,8 +85,8 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 	m_UIMainScrollV					= xr_new<CUIScrollBar>(); m_UIMainScrollV->SetAutoDelete(true);
 	m_UIMainScrollV->Init			(r.right + SCROLLBARS_SHIFT, r.top, m_UIMainScrollH->GetWndRect().bottom - r.top , false, "pda");
 	m_UIMainScrollV->SetWindowName	("scroll_v");
-	m_UIMainScrollV->SetStepSize	(_max(1,iFloor(m_UILevelFrame->GetHeight()/10)));
-	m_UIMainScrollV->SetPageSize	(iFloor(m_UILevelFrame->GetHeight()));
+	m_UIMainScrollV->SetStepSize	(XrMath::max(1,XrMath::iFloor(m_UILevelFrame->GetHeight()/10)));
+	m_UIMainScrollV->SetPageSize	(XrMath::iFloor(m_UILevelFrame->GetHeight()));
 	m_UIMainFrame->AttachChild		(m_UIMainScrollV);
 	Register						(m_UIMainScrollV);
 	AddCallback						("scroll_v",SCROLLBAR_VSCROLL,CUIWndCallback::void_function(this,&CUIMapWnd::OnScrollV));
@@ -330,7 +330,7 @@ void CUIMapWnd::SetTargetMap			(CUICustomMap* m, const Fvector2& pos, bool bZoom
 		m_tgtCenter.div					(gm->GetCurrentZoom());
  	}else{
 
-		if(bZoomIn && fsimilar(GlobalMap()->GetCurrentZoom(), GlobalMap()->GetMinZoom(),EPS_L ))
+		if(bZoomIn && XrMath::fsimilar(GlobalMap()->GetCurrentZoom(), GlobalMap()->GetMinZoom(),XrMath::EPS_L ))
 			SetZoom(GlobalMap()->GetMaxZoom());
 
 		m_tgtCenter						= m->ConvertRealToLocalNoTransform(pos);
@@ -462,7 +462,7 @@ bool CUIMapWnd::OnMouse(float x, float y, EUIMessages mouse_action)
 			if(b_zoom_in)					SetZoom(GetZoom()*1.5f);
 			else							SetZoom(GetZoom()/1.5f);
 
-			if(!fsimilar(_prev_zoom, GetZoom()))
+			if(!XrMath::fsimilar(_prev_zoom, GetZoom()))
 			{
 				m_tgtCenter						= cursor_pos;
 				Fvector2 _p;					gm->GetAbsolutePos(_p);
@@ -504,11 +504,11 @@ u16 CUIMapWnd::GetIdxByName			(const shared_str& map_name)
 void CUIMapWnd::UpdateScroll()
 {
 	Fvector2 w_pos					= GlobalMap()->GetWndPos();
-	m_UIMainScrollV->SetRange		(0,iFloor(GlobalMap()->GetHeight()));
-	m_UIMainScrollH->SetRange		(0,iFloor(GlobalMap()->GetWidth()));
+	m_UIMainScrollV->SetRange		(0,XrMath::iFloor(GlobalMap()->GetHeight()));
+	m_UIMainScrollH->SetRange		(0,XrMath::iFloor(GlobalMap()->GetWidth()));
 
-	m_UIMainScrollV->SetScrollPos	(iFloor(-w_pos.y));
-	m_UIMainScrollH->SetScrollPos	(iFloor(-w_pos.x));
+	m_UIMainScrollV->SetScrollPos	(XrMath::iFloor(-w_pos.y));
+	m_UIMainScrollH->SetScrollPos	(XrMath::iFloor(-w_pos.x));
 }
 
 
@@ -542,7 +542,7 @@ void CUIMapWnd::SetZoom	( float value)
 {
 //	float _prev_zoom = m_currentZoom;
 	m_currentZoom	= value;
-	clamp		(m_currentZoom, GlobalMap()->GetMinZoom(), GlobalMap()->GetMaxZoom());
+	XrMath::clamp		(m_currentZoom, GlobalMap()->GetMinZoom(), GlobalMap()->GetMaxZoom());
 }
 
 

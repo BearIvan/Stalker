@@ -472,10 +472,10 @@ Fbox get_bounding_volume()
 
 void iterate_sounds					(LPCSTR prefix, u32 max_count, const CScriptCallbackEx<void> &callback)
 {
-	for (int j=0, N = _GetItemCount(prefix); j<N; ++j) {
+	for (int j=0, N = XrTrims::GetItemCount(prefix); j<N; ++j) {
 		string_path					s;
 		LPSTR						S = (LPSTR)&s;
-		_GetItem					(prefix,j,s);
+		XrTrims::GetItem					(prefix,j,s);
 		if (FS.ExistFile("%sounds%",S,".ogg"))
 			callback				(prefix);
 
@@ -539,7 +539,7 @@ float get_snd_volume()
 void set_snd_volume(float v)
 {
 	psSoundVFactor = v;
-	clamp(psSoundVFactor,0.0f,1.0f);
+	XrMath::clamp(psSoundVFactor,0.0f,1.0f);
 }
 #include "actor_statistic_mgr.h"
 void add_actor_points(LPCSTR sect, LPCSTR detail_key, int cnt, int pts)

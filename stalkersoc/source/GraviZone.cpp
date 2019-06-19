@@ -151,7 +151,7 @@ void CBaseGraviZone ::Affect(SZoneObjectInfo* O)
 	float dist = throw_in_dir.magnitude();
 	float dist_to_radius = dist/Radius();
 
-	if(!fis_zero(dist))
+	if(!XrMath::fis_zero(dist))
 	{
 		throw_in_dir.mul(1.f/dist);
 	}
@@ -224,7 +224,7 @@ void CBaseGraviZone ::	AffectThrow(SZoneObjectInfo* O, CPhysicsShellHolder* GO,c
 	float power = Power(dist);//Power(GO->Position().distance_to(zone_center));
 	float impulse = m_fHitImpulseScale*power*GO->GetMass();
 
-	//if(fis_zero(dist))
+	//if(XrMath::fis_zero(dist))
 	//{
 	//	impulse = 0.f;
 	//	throw_in_dir.set(0,1,0);

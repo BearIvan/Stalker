@@ -56,7 +56,7 @@ void CMonsterSquad::Attack_AssignTargetDir(ENTITY_VEC &members, CEntity *enemy)
 	std::sort(members.begin(), members.end(), sort_predicate(enemy));
 	if (members.empty()) return;
 
-	float delta_yaw = PI_MUL_2 / members.size();
+	float delta_yaw = XrMath::PI_MUL_2 / members.size();
 
 	// обработать ближний элемент
 	first.pE		= members.back();
@@ -70,7 +70,7 @@ void CMonsterSquad::Attack_AssignTargetDir(ENTITY_VEC &members, CEntity *enemy)
 	if (!members.empty()) {
 		last.pE			= members[0];
 		last.p_from		= last.pE->Position();
-		last.yaw		= PI;
+		last.yaw		= XrMath::M_PI;
 		members.erase	(members.begin());
 
 		lines.push_back(last);
@@ -102,11 +102,11 @@ void CMonsterSquad::Attack_AssignTargetDir(ENTITY_VEC &members, CEntity *enemy)
 
 		bool b_add_left = false;
 
-		if (angle_normalize_signed(h2 - h1) > 0)  {		// right
-			if ((next_right_yaw < PI) && !fsimilar(next_right_yaw, PI, PI/60.f)) b_add_left = false;
+		if (XrMath::angle_normalize_signed(h2 - h1) > 0)  {		// right
+			if ((next_right_yaw < XrMath::M_PI) && !XrMath::fsimilar(next_right_yaw, XrMath::M_PI, XrMath::M_PI/60.f)) b_add_left = false;
 			else b_add_left = true;
 		} else {										// left
-			if ((next_left_yaw < PI) && !fsimilar(next_left_yaw, PI, PI/60.f)) b_add_left = true;
+			if ((next_left_yaw < XrMath::M_PI) && !XrMath::fsimilar(next_left_yaw, XrMath::M_PI, XrMath::M_PI/60.f)) b_add_left = true;
 			else b_add_left = false;
 		}
 

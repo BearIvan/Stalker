@@ -132,12 +132,12 @@ void CStalkerActionReachWounded::execute					()
 	}
 
 //	CObject									*processor = Level().Objects.net_Find(processor_id);
-//	if (processor && processor->Position().distance_to_sqr(object().Position()) < _sqr(3.f)) {
+//	if (processor && processor->Position().distance_to_sqr(object().Position()) < XrMath::sqr(3.f)) {
 //		object().movement().set_movement_type	(eMovementTypeStand);
 //		return;
 //	}
 
-	if (object().Position().distance_to_sqr(mem_object.m_object_params.m_position) < _sqr(3.f)) {
+	if (object().Position().distance_to_sqr(mem_object.m_object_params.m_position) < XrMath::sqr(3.f)) {
 		object().movement().set_movement_type	(eMovementTypeStand);
 		return;
 	}
@@ -174,7 +174,7 @@ void CStalkerActionAimWounded::initialize				()
 		object().movement().set_movement_type	(eMovementTypeWalk);
 
 //	m_speed									= object().movement().m_head.speed;
-//	object().movement().danger_head_speed	(PI_DIV_4);
+//	object().movement().danger_head_speed	(XrMath::PI_DIV_4);
 }
 
 void CStalkerActionAimWounded::execute					()
@@ -191,10 +191,10 @@ void CStalkerActionAimWounded::execute					()
 		return;
 
 	const SBoneRotation		&head = object().movement().m_head;
-	if (!fsimilar(head.current.yaw,head.target.yaw))
+	if (!XrMath::fsimilar(head.current.yaw,head.target.yaw))
 		return;
 
-	if (!fsimilar(head.current.pitch,head.target.pitch))
+	if (!XrMath::fsimilar(head.current.pitch,head.target.pitch))
 		return;
 
 	if (!object().memory().visual().visible_now(object().memory().enemy().selected()))

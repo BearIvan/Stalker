@@ -40,7 +40,7 @@ bool CStateMonsterMoveToPointAbstract::check_completion()
 		if (time_state_started + data.action.time_out < Device.dwTimeGlobal) return true;
 	} 
 	
-	bool real_path_end = ((fis_zero(data.completion_dist)) ? (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) : true);
+	bool real_path_end = ((XrMath::fis_zero(data.completion_dist)) ? (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) : true);
 	if (object->control().path_builder().is_path_end(data.completion_dist) && real_path_end) return true;
 
 	return false;
@@ -103,7 +103,7 @@ bool CStateMonsterMoveToPointExAbstract::check_completion()
 
 	Fvector const self_pos		=	object->Position();
 	float const dist_to_target	=	data.point.distance_to_xz(self_pos);
-	float const completion_dist	=	_max(data.completion_dist, ai().level_graph().header().cell_size());
+	float const completion_dist	=	XrMath::max(data.completion_dist, ai().level_graph().header().cell_size());
 
 	if ( Device.dwTimeGlobal < time_state_started + 200 )
 	{
@@ -111,7 +111,7 @@ bool CStateMonsterMoveToPointExAbstract::check_completion()
 			return					false;
 	}
 
-	bool const real_path_end	=	fis_zero(data.completion_dist) ? 
+	bool const real_path_end	=	XrMath::fis_zero(data.completion_dist) ? 
 									dist_to_target < ai().level_graph().header().cell_size() 
 									: true;
 

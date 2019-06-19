@@ -91,10 +91,10 @@ void CActor::net_Export	(NET_Packet& P)					// export to server
 	Fvector				p = Position();
 	P.w_vec3			(p);//Position());
 
-	P.w_float /*w_angle8*/			(angle_normalize(r_model_yaw)); //Device.vCameraDirection.getH());//
-	P.w_float /*w_angle8*/			(angle_normalize(unaffected_r_torso.yaw));//(r_torso.yaw);
-	P.w_float /*w_angle8*/			(angle_normalize(unaffected_r_torso.pitch));//(r_torso.pitch);
-	P.w_float /*w_angle8*/			(angle_normalize(unaffected_r_torso.roll));//(r_torso.roll);
+	P.w_float /*w_angle8*/			(XrMath::angle_normalize(r_model_yaw)); //Device.vCameraDirection.getH());//
+	P.w_float /*w_angle8*/			(XrMath::angle_normalize(unaffected_r_torso.yaw));//(r_torso.yaw);
+	P.w_float /*w_angle8*/			(XrMath::angle_normalize(unaffected_r_torso.pitch));//(r_torso.pitch);
+	P.w_float /*w_angle8*/			(XrMath::angle_normalize(unaffected_r_torso.roll));//(r_torso.roll);
 	P.w_u8				(u8(g_Team()));
 	P.w_u8				(u8(g_Squad()));
 	P.w_u8				(u8(g_Group()));
@@ -167,9 +167,9 @@ static void r_vec_q8(NET_Packet& P,Fvector& vec,const Fvector& min,const Fvector
 	P.r_float_q8(vec.y,min.y,max.y);
 	P.r_float_q8(vec.z,min.z,max.z);
 
-	clamp(vec.x,min.x,max.x);
-	clamp(vec.y,min.y,max.y);
-	clamp(vec.z,min.z,max.z);
+	XrMath::clamp(vec.x,min.x,max.x);
+	XrMath::clamp(vec.y,min.y,max.y);
+	XrMath::clamp(vec.z,min.z,max.z);
 }
 static void w_qt_q8(NET_Packet& P,const Fquaternion& q)
 {
@@ -201,7 +201,7 @@ static void r_qt_q8(NET_Packet& P,Fquaternion& q)
 	//P.r_float_q8(q.z,-1.f,1.f);
 	//float w2=1.f-q.x*q.x-q.y*q.y-q.z*q.z;
 	//w2=w2<0.f ? 0.f : w2;
-	//q.w=_sqrt(w2);
+	//q.w=XrMath::sqrt(w2);
 	/////////////////////////////////////////////////////
 	///////////////////////////////////////////////////
 	P.r_float_q8(q.x,-1.f,1.f);
@@ -209,10 +209,10 @@ static void r_qt_q8(NET_Packet& P,Fquaternion& q)
 	P.r_float_q8(q.z,-1.f,1.f);
 	P.r_float_q8(q.w,-1.f,1.f);
 
-	clamp(q.x,-1.f,1.f);
-	clamp(q.y,-1.f,1.f);
-	clamp(q.z,-1.f,1.f);
-	clamp(q.w,-1.f,1.f);
+	XrMath::clamp(q.x,-1.f,1.f);
+	XrMath::clamp(q.y,-1.f,1.f);
+	XrMath::clamp(q.z,-1.f,1.f);
+	XrMath::clamp(q.w,-1.f,1.f);
 }
 
 #define F_MAX         3.402823466e+38F
@@ -316,7 +316,7 @@ void		CActor::net_Import_Base				( NET_Packet& P)
 	P.r_float /*r_angle8*/			(N.o_model		);
 	P.r_float /*r_angle8*/			(N.o_torso.yaw	); 
 	P.r_float /*r_angle8*/			(N.o_torso.pitch);
-	P.r_float /*r_angle8*/			(N.o_torso.roll	); if (N.o_torso.roll > PI) N.o_torso.roll -= PI_MUL_2;
+	P.r_float /*r_angle8*/			(N.o_torso.roll	); if (N.o_torso.roll > XrMath::M_PI) N.o_torso.roll -= XrMath::PI_MUL_2;
 	id_Team				= P.r_u8();
 	id_Squad			= P.r_u8();
 	id_Group			= P.r_u8();
@@ -879,10 +879,10 @@ void ACTOR_DEFS::net_update::lerp(ACTOR_DEFS::net_update& A, ACTOR_DEFS::net_upd
 {
 //	float invf		= 1.f-f;
 //	// 
-//	o_model			= angle_lerp	(A.o_model,B.o_model,		f);
-//	o_torso.yaw		= angle_lerp	(A.o_torso.yaw,B.o_torso.yaw,f);
-//	o_torso.pitch	= angle_lerp	(A.o_torso.pitch,B.o_torso.pitch,f);
-//	o_torso.roll	= angle_lerp	(A.o_torso.roll,B.o_torso.roll,f);
+//	o_model			= XrMath::angle_lerp	(A.o_model,B.o_model,		f);
+//	o_torso.yaw		= XrMath::angle_lerp	(A.o_torso.yaw,B.o_torso.yaw,f);
+//	o_torso.pitch	= XrMath::angle_lerp	(A.o_torso.pitch,B.o_torso.pitch,f);
+//	o_torso.roll	= XrMath::angle_lerp	(A.o_torso.roll,B.o_torso.roll,f);
 //	p_pos.lerp		(A.p_pos,B.p_pos,f);
 //	p_accel			= (f<0.5f)?A.p_accel:B.p_accel;
 //	p_velocity.lerp	(A.p_velocity,B.p_velocity,f);
@@ -912,12 +912,12 @@ void CActor::PH_B_CrPr		()	// actions & operations before physic correction-pred
 			InterpData* pIStart = &IStart;			
 			pIStart->Pos				= Position();
 			pIStart->Vel				= character_physics_support()->movement()->GetVelocity();
-			pIStart->o_model			= angle_normalize(r_model_yaw);
-			pIStart->o_torso.yaw		= angle_normalize(unaffected_r_torso.yaw);
-			pIStart->o_torso.pitch		= angle_normalize(unaffected_r_torso.pitch);
-			pIStart->o_torso.roll		= angle_normalize(unaffected_r_torso.roll);
-			if (pIStart->o_torso.roll > PI)
-					pIStart->o_torso.roll	-= PI_MUL_2;
+			pIStart->o_model			= XrMath::angle_normalize(r_model_yaw);
+			pIStart->o_torso.yaw		= XrMath::angle_normalize(unaffected_r_torso.yaw);
+			pIStart->o_torso.pitch		= XrMath::angle_normalize(unaffected_r_torso.pitch);
+			pIStart->o_torso.roll		= XrMath::angle_normalize(unaffected_r_torso.roll);
+			if (pIStart->o_torso.roll > XrMath::M_PI)
+					pIStart->o_torso.roll	-= XrMath::PI_MUL_2;
 		}
 		///////////////////////////////////////////////
 		CPHSynchronize* pSyncObj = NULL;
@@ -1055,7 +1055,7 @@ void	CActor::CalculateInterpolationParams()
 	pIEnd->o_torso.pitch	= pIRec->o_torso.pitch	;	
 	pIEnd->o_torso.roll		= pIRec->o_torso.roll	;	
 	/////////////////////////////////////////////////////////////////////
-//	Msg("from %f, to %f", IStart.o_torso.yaw/PI*180.0f, IEnd.o_torso.yaw/PI*180.0f);
+//	Msg("from %f, to %f", IStart.o_torso.yaw/XrMath::M_PI*180.0f, IEnd.o_torso.yaw/XrMath::M_PI*180.0f);
 	/////////////////////////////////////////////////////////////////////
 	Fvector SP0, SP1, SP2, SP3;
 	Fvector HP0, HP1, HP2, HP3;
@@ -1224,10 +1224,10 @@ void CActor::make_Interpolation	()
 			
 			VERIFY2								(_valid(renderable.xform),*cName());
 
-//			r_model_yaw		= angle_lerp	(IStart.o_model,IEnd.o_model,		factor);			
-			unaffected_r_torso.yaw		= angle_lerp	(IStart.o_torso.yaw,IEnd.o_torso.yaw,factor);
-			unaffected_r_torso.pitch	= angle_lerp	(IStart.o_torso.pitch,IEnd.o_torso.pitch,factor);
-			unaffected_r_torso.roll		= angle_lerp	(IStart.o_torso.roll,IEnd.o_torso.roll,factor);
+//			r_model_yaw		= XrMath::angle_lerp	(IStart.o_model,IEnd.o_model,		factor);			
+			unaffected_r_torso.yaw		= XrMath::angle_lerp	(IStart.o_torso.yaw,IEnd.o_torso.yaw,factor);
+			unaffected_r_torso.pitch	= XrMath::angle_lerp	(IStart.o_torso.pitch,IEnd.o_torso.pitch,factor);
+			unaffected_r_torso.roll		= XrMath::angle_lerp	(IStart.o_torso.roll,IEnd.o_torso.roll,factor);
 
 			for (u32 k=0; k<3; k++)
 			{

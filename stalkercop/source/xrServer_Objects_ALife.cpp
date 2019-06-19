@@ -1207,8 +1207,8 @@ void CSE_ALifeObjectPhysic::UPDATE_Write	(NET_Packet	&tNetPacket)
 		);
 
 	if (State.enabled)									num_items.mask |= inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
 	//if (anim_use)										num_items.mask |= animated;
 
 	tNetPacket.w_u8					(num_items.common);
@@ -1312,7 +1312,7 @@ CSE_ALifeObjectHangingLamp::CSE_ALifeObjectHangingLamp(LPCSTR caSection) : CSE_A
 	m_virtual_size				= 0.1f;
 	m_ambient_radius			= 10.f;
     m_ambient_power				= 0.1f;
-    spot_cone_angle				= deg2rad(120.f);
+    spot_cone_angle				= XrMath::deg2rad(120.f);
     glow_radius					= 0.7f;
 	m_volumetric_quality		= 1.0f;
 	m_volumetric_intensity		= 1.0f;
@@ -1484,7 +1484,7 @@ void CSE_ALifeObjectHangingLamp::FillProps	(LPCSTR pref, PropItemVec& values)
 	PHelper().CreateChoose		(values, PrepareKey(pref,*s_name,"Light\\Main\\Bone"),			&light_main_bone,	smSkeletonBones,0,(void*)visual()->get_visual());
 	if (flags.is(flTypeSpot))
 	{
-		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	deg2rad(1.f), deg2rad(120.f));
+		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	XrMath::deg2rad(1.f), XrMath::deg2rad(120.f));
 //		PHelper().CreateFlag16	(values, PrepareKey(pref,*s_name,"Light\\Main\\Volumetric"),	&flags,			flVolumetric);
 		P=PHelper().CreateFlag16	(values, PrepareKey(pref,*s_name,"Flags\\Volumetric"),	&flags,			flVolumetric);
 		P->OnChangeEvent.bind	(this,&CSE_ALifeObjectHangingLamp::OnChangeFlag);

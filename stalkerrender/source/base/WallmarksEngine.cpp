@@ -99,7 +99,7 @@ void		CWallmarksEngine::static_wm_destroy		(CWallmarksEngine::static_wallmark*	W
 void		CWallmarksEngine::static_wm_render		(CWallmarksEngine::static_wallmark*	W, FVF::LIT* &V)
 {
 	float		a		= 1-(W->ttl/ps_r__WallmarkTTL);
-	int			aC		= iFloor	( a * 255.f);	clamp	(aC,0,255);
+	int			aC		= XrMath::iFloor	( a * 255.f);	XrMath::clamp	(aC,0,255);
 	u32			C		= color_rgba(128,128,128,aC);
 	FVF::LIT*	S		= &*W->verts.begin	();
 	FVF::LIT*	E		= &*W->verts.end	();
@@ -175,7 +175,7 @@ void CWallmarksEngine::BuildMatrix	(Fmatrix &mView, float invsz, const Fvector& 
     Fvector				at,up,right,y;
 	at.sub				(from,sml_normal);
 	y.set				(0,1,0);
-	if (_abs(sml_normal.y)>.99f) y.set(1,0,0);
+	if (XrMath::abs(sml_normal.y)>.99f) y.set(1,0,0);
 	right.crossproduct	(y,sml_normal);
 	up.crossproduct		(sml_normal,right);
 	mView.build_camera	(from,at,up);
@@ -219,7 +219,7 @@ void CWallmarksEngine::AddWallmark_internal	(CDB::TRI* pTri, const Fvector* pVer
 	// build 3D ortho-frustum
 	Fmatrix				mView,mRot;
 	BuildMatrix			(mView,1/sz,contact_point);
-	mRot.rotateZ		(::Random.randF(deg2rad(-20.f),deg2rad(20.f)));
+	mRot.rotateZ		(::Random.randF(XrMath::deg2rad(-20.f),XrMath::deg2rad(20.f)));
 	mView.mulA_43		(mRot);
 	sml_clipper.CreateFromMatrix	(mView,FRUSTUM_P_LRTB);
 
@@ -276,7 +276,7 @@ void CWallmarksEngine::AddWallmark_internal	(CDB::TRI* pTri, const Fvector* pVer
 void CWallmarksEngine::AddStaticWallmark	(CDB::TRI* pTri, const Fvector* pVerts, const Fvector &contact_point, ref_shader hShader, float sz)
 {
 	// optimization cheat: don't allow wallmarks more than 100 m from viewer/actor
-	if (contact_point.distance_to_sqr(Device.vCameraPosition) > _sqr(100.f))	
+	if (contact_point.distance_to_sqr(Device.vCameraPosition) > XrMath::sqr(100.f))	
 		return;
 
 	// Physics may add wallmarks in parallel with rendering
@@ -289,9 +289,9 @@ void CWallmarksEngine::AddSkeletonWallmark	(const Fmatrix* xf, CKinematics* obj,
 {	
 	if( 0==g_r || ::RImplementation.phase != CRender::PHASE_NORMAL)				return;
 	// optimization cheat: don't allow wallmarks more than 50 m from viewer/actor
-	if (xf->c.distance_to_sqr(Device.vCameraPosition) > _sqr(50.f))				return;
+	if (xf->c.distance_to_sqr(Device.vCameraPosition) > XrMath::sqr(50.f))				return;
 
-	VERIFY					(obj&&xf&&(size>EPS_L));
+	VERIFY					(obj&&xf&&(size>XrMath::EPS_L));
 	lock.Enter				();
 	obj->AddWallmark		(xf,start,dir,sh,size);
 	lock.Leave				();
@@ -387,7 +387,7 @@ void CWallmarksEngine::Render()
 			} else {
 				W->ttl	-= Device.fTimeDelta;
 			}
-			if (W->ttl<=EPS){	
+			if (W->ttl<=XrMath::EPS){	
 				static_wm_destroy	(W);
 				*w_it				= slot->static_items.back();
 				slot->static_items.pop_back();

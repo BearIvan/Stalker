@@ -5,8 +5,8 @@ void	CRenderTarget::u_calc_tc_noise		(Fvector2& p0, Fvector2& p1)
 {
 	CTexture*	T					= RCache.get_ActiveTexture	(2);
 	VERIFY2		(T, "Texture #3 in noise shader should be setted up");
-	u32			tw					= iCeil(float(T->get_Width	())*param_noise_scale+EPS_S);
-	u32			th					= iCeil(float(T->get_Height ())*param_noise_scale+EPS_S);
+	u32			tw					= XrMath::iCeil(float(T->get_Width	())*param_noise_scale+XrMath::EPS_S);
+	u32			th					= XrMath::iCeil(float(T->get_Height ())*param_noise_scale+XrMath::EPS_S);
 	VERIFY2		(tw && th, "Noise scale can't be zero in any way");
 
 	// calculate shift from FPSes
@@ -64,9 +64,9 @@ BOOL CRenderTarget::u_need_PP	()
 
 	bool	_cbase	= false;
 	{
-		int		_r	= color_get_R(param_color_base)	; _r=_abs(_r-int(0x7f));
-		int		_g	= color_get_G(param_color_base)	; _g=_abs(_g-int(0x7f));
-		int		_b	= color_get_B(param_color_base)	; _b=_abs(_b-int(0x7f));
+		int		_r	= color_get_R(param_color_base)	; _r=XrMath::abs(_r-int(0x7f));
+		int		_g	= color_get_G(param_color_base)	; _g=XrMath::abs(_g-int(0x7f));
+		int		_b	= color_get_B(param_color_base)	; _b=XrMath::abs(_b-int(0x7f));
 		if (_r>2 || _g>2 || _b>2)	_cbase	= true	;
 	}
 	bool	_cadd	= false;
@@ -75,9 +75,9 @@ BOOL CRenderTarget::u_need_PP	()
 		//int		_g	= color_get_G(param_color_add)	;
 		//int		_b	= color_get_B(param_color_add)	;
 		//if (_r>2 || _g>2 || _b>2)	_cadd	= true	;
-		int		_r	= _abs((int)(param_color_add.x*255));
-		int		_g	= _abs((int)(param_color_add.y*255));
-		int		_b	= _abs((int)(param_color_add.z*255));
+		int		_r	= XrMath::abs((int)(param_color_add.x*255));
+		int		_g	= XrMath::abs((int)(param_color_add.y*255));
+		int		_b	= XrMath::abs((int)(param_color_add.z*255));
 		if (_r>2 || _g>2 || _b>2)	_cadd	= true	;
 	}
 	return _blur || _gray || _noise || _dual || _cbase || _cadd || u_need_CM(); 
@@ -94,7 +94,7 @@ struct TL_2c3uv		{
 	u32			color1	;
 	Fvector2	uv	[3]	;
 	IC void	set	(float x, float y, u32 c0, u32 c1, float u0, float v0, float u1, float v1, float u2, float v2)	{	
-		p.set	(x,y,EPS_S,1.f); 
+		p.set	(x,y,XrMath::EPS_S,1.f); 
 		color0 = c0; 
 		color1 = c1;
 		uv[0].set(u0,v0); 
@@ -122,8 +122,8 @@ void CRenderTarget::phase_pp		()
 		RCache.set_Element	(s_postprocess_msaa->E[bCMap ? 4 : 0]);
 	}
 
-	int		gblend		= clampr		(iFloor((1-param_gray)*255.f),0,255);
-	int		nblend		= clampr		(iFloor((1-param_noise)*255.f),0,255);
+	int		gblend		= XrMath::clampr		(XrMath::iFloor((1-param_gray)*255.f),0,255);
+	int		nblend		= XrMath::clampr		(XrMath::iFloor((1-param_noise)*255.f),0,255);
 	u32					p_color			= subst_alpha		(param_color_base,nblend);
 	u32					p_gray			= subst_alpha		(param_color_gray,gblend);
 	Fvector				p_brightness	= param_color_add	;

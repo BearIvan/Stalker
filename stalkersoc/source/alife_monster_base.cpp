@@ -22,7 +22,7 @@ void CSE_ALifeMonsterBase::on_spawn				()
 	LPCSTR						item_section = pSettings->r_string(s_name,"Spawn_Inventory_Item_Section");
 	float						spawn_probability = pSettings->r_float(s_name,"Spawn_Inventory_Item_Probability");
 	float						probability = randF();
-	if ((probability >= spawn_probability) && !fsimilar(spawn_probability,1.f))
+	if ((probability >= spawn_probability) && !XrMath::fsimilar(spawn_probability,1.f))
 		return;
 
 	alife().spawn_item(item_section,o_Position,m_tNodeID,m_tGraphID,ID)->ID_Parent = ID;

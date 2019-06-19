@@ -40,9 +40,9 @@ bool CScriptGameObject::is_body_turning		() const
 
 	CAI_Stalker			*stalker = smart_cast<CAI_Stalker*>(monster);
 	if (!stalker)
-		return			(!fis_zero(angle_difference(monster->movement().body_orientation().target.yaw,monster->movement().body_orientation().current.yaw)));
+		return			(!XrMath::fis_zero(XrMath::angle_difference(monster->movement().body_orientation().target.yaw,monster->movement().body_orientation().current.yaw)));
 	else
-		return			(!fis_zero(angle_difference(stalker->movement().head_orientation().target.yaw,stalker->movement().head_orientation().current.yaw)) || !fis_zero(angle_difference(monster->movement().body_orientation().target.yaw,monster->movement().body_orientation().current.yaw)));
+		return			(!XrMath::fis_zero(XrMath::angle_difference(stalker->movement().head_orientation().target.yaw,stalker->movement().head_orientation().current.yaw)) || !XrMath::fis_zero(XrMath::angle_difference(monster->movement().body_orientation().target.yaw,monster->movement().body_orientation().current.yaw)));
 }
 
 ////////////////////////////////////////////////////////////////////////////

@@ -55,7 +55,7 @@ void CUIGameLog::AddChatMessage(LPCSTR msg, LPCSTR author)
 	LPSTR fullLine;
 	STRCONCAT(fullLine, author, " ", msg);
 
-	_TrimRight(fullLine);
+	XrTrims::TrimRight(fullLine);
     
 	CUITextWnd* pItem			= xr_new<CUITextWnd>();
 	pItem->SetTextComplexMode	(true);

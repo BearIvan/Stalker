@@ -39,7 +39,7 @@ void CActor::cam_SetLadder()
 	g_LadderOrient			();
 	float yaw				= (-XFORM().k.getH());
 	float &cam_yaw			= C->yaw;
-	float delta_yaw			= angle_difference_signed(yaw,cam_yaw);
+	float delta_yaw			= XrMath::angle_difference_signed(yaw,cam_yaw);
 
 	if(-f_Ladder_cam_limit<delta_yaw&&f_Ladder_cam_limit>delta_yaw)
 	{
@@ -59,7 +59,7 @@ void CActor::camUpdateLadder(float dt)
 	float yaw				= (-XFORM().k.getH());
 
 	float & cam_yaw			= cameras[eacFirstEye]->yaw;
-	float delta				= angle_difference_signed(yaw,cam_yaw);
+	float delta				= XrMath::angle_difference_signed(yaw,cam_yaw);
 
 	if(-0.05f<delta&&0.05f>delta)
 	{
@@ -70,7 +70,7 @@ void CActor::camUpdateLadder(float dt)
 		cameras[eacFirstEye]->lim_yaw[1]	= hi;
 		cameras[eacFirstEye]->bClampYaw		= true;
 	}else{
-		cam_yaw								+= delta * _min(dt*10.f,1.f) ;
+		cam_yaw								+= delta * XrMath::min(dt*10.f,1.f) ;
 	}
 
 	CElevatorState* es = character_physics_support()->movement()->ElevatorState();
@@ -78,9 +78,9 @@ void CActor::camUpdateLadder(float dt)
 	{
 		float &cam_pitch					= cameras[eacFirstEye]->pitch;
 		const float ldown_pitch				= cameras[eacFirstEye]->lim_pitch.y;
-		float delta							= angle_difference_signed(ldown_pitch,cam_pitch);
+		float delta							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
 		if(delta>0.f)
-			cam_pitch						+= delta* _min(dt*10.f,1.f) ;
+			cam_pitch						+= delta* XrMath::min(dt*10.f,1.f) ;
 	}
 }
 
@@ -100,16 +100,16 @@ float CActor::CameraHeight()
 
 IC float viewport_near(float& w, float& h)
 {
-	w = 2.f*VIEWPORT_NEAR*tan(deg2rad(Device.fFOV)/2.f);
+	w = 2.f*VIEWPORT_NEAR*tan(XrMath::deg2rad(Device.fFOV)/2.f);
 	h = w*Device.fASPECT;
-	float	c	= _sqrt					(w*w + h*h);
-	return	_max(_max(VIEWPORT_NEAR,_max(w,h)),c);
+	float	c	= XrMath::sqrt					(w*w + h*h);
+	return	XrMath::max(XrMath::max(VIEWPORT_NEAR,XrMath::max(w,h)),c);
 }
 
 ICF void calc_point(Fvector& pt, float radius, float depth, float alpha)
 {
-	pt.x	= radius*_sin(alpha);
-	pt.y	= radius+radius*_cos(alpha);
+	pt.x	= radius*XrMath::sin(alpha);
+	pt.y	= radius+radius*XrMath::cos(alpha);
 	pt.z	= depth;
 }
 ICF void calc_gl_point(Fvector& pt, const Fmatrix& xform, float radius, float angle )
@@ -175,7 +175,7 @@ void	dbg_draw_viewport( const T &cam_info, float _viewport_near )
 #endif
 IC void get_box_mat( Fmatrix33	&mat, float alpha, const SRotation	&r_torso  )
 {
-	float dZ			= ((PI_DIV_2-((PI+alpha)/2)));
+	float dZ			= ((XrMath::PI_DIV_2-((XrMath::M_PI+alpha)/2)));
 	Fmatrix				xformR;
 	xformR.setXYZ		(-r_torso.pitch,r_torso.yaw,-dZ);
 	mat.i				= xformR.i;
@@ -218,7 +218,7 @@ IC void get_cam_oob(  Fvector &bd, Fmatrix	&mat, const Fmatrix &xform, const SRo
 }
 void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 {
-		if (!fis_zero(r_torso_tgt_roll))
+		if (!XrMath::fis_zero(r_torso_tgt_roll))
 		{
 		
 			float w,h;
@@ -247,11 +247,11 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 				calc_gl_point	( pt, xform, radius, alpha );
 				if (test_point(pt, mat, ext))
 				{
-					da = PI / 1000.f;
-					if (!fis_zero(r_torso.roll))
-						da *= r_torso.roll / _abs(r_torso.roll);
+					da = XrMath::M_PI / 1000.f;
+					if (!XrMath::fis_zero(r_torso.roll))
+						da *= r_torso.roll / XrMath::abs(r_torso.roll);
 					float angle = 0.f;
-					for (; _abs(angle) < _abs(alpha); angle += da)
+					for (; XrMath::abs(angle) < XrMath::abs(alpha); angle += da)
 					{
 						Fvector				pt;
 						calc_gl_point(pt, xform, radius, angle);
@@ -290,12 +290,12 @@ void CActor::cam_Update(float dt, float fFOV)
 		cam_Lookout( xform, point.y  );
 
 
-	if (!fis_zero(r_torso.roll))
+	if (!XrMath::fis_zero(r_torso.roll))
 	{
 		float radius		= point.y*0.5f;
 		float valid_angle	= r_torso.roll/2.f;
 		calc_point			(point,radius,0,valid_angle);
-		dangle.z			= (PI_DIV_2-((PI+valid_angle)/2));
+		dangle.z			= (XrMath::PI_DIV_2-((XrMath::M_PI+valid_angle)/2));
 	}
 
 	float flCurrentPlayerY	= xform.c.y;
@@ -369,15 +369,15 @@ void CActor::update_camera (CCameraShotEffector* effector)
 	if (pACam->bClampPitch)
 	{
 		while (pACam->pitch < pACam->lim_pitch[0])
-			pACam->pitch += PI_MUL_2;
+			pACam->pitch += XrMath::PI_MUL_2;
 		while (pACam->pitch > pACam->lim_pitch[1])
-			pACam->pitch -= PI_MUL_2;
+			pACam->pitch -= XrMath::PI_MUL_2;
 	}
 
 	effector->ChangeHP( &(pACam->pitch), &(pACam->yaw) );
 
-	if (pACam->bClampYaw)	clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
-	if (pACam->bClampPitch)	clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
+	if (pACam->bClampYaw)	XrMath::clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
+	if (pACam->bClampPitch)	XrMath::clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
 
 	if (effector && !effector->IsActive())
 	{

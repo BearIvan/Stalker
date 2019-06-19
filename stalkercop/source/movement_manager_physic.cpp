@@ -32,7 +32,7 @@
 float CMovementManager::speed				(CPHMovementControl *movement_control) const
 {
 	VERIFY					(movement_control);
-	if (fis_zero(m_speed))
+	if (XrMath::fis_zero(m_speed))
 		return				(0.f);
 
 	if (movement_control->IsCharacterEnabled())
@@ -64,7 +64,7 @@ void dump_collision_hit(CPHMovementControl *movement_control)
 void CMovementManager::apply_collision_hit	(CPHMovementControl *movement_control)
 {
 	VERIFY(movement_control);
-	if (object().g_Alive()&&!fsimilar(0.f,movement_control->gcontact_HealthLost))
+	if (object().g_Alive()&&!XrMath::fsimilar(0.f,movement_control->gcontact_HealthLost))
 	{
 
 #ifdef	DEBUG
@@ -108,7 +108,7 @@ bool CMovementManager::move_along_path		() const
 	if (detail().curr_travel_point_index() >= detail().path().size() - 1)
 		return			(false);
 
-	if (fis_zero(old_desirable_speed()))
+	if (XrMath::fis_zero(old_desirable_speed()))
 		return			(false);
 
 	return				(true);
@@ -233,7 +233,7 @@ void CMovementManager::move_along_path		(CPHMovementControl *movement_control, F
 	if(!movement_control->CharacterExist())
 		return;
 
-	if (time_delta < EPS) return;
+	if (time_delta < XrMath::EPS) return;
 
 	float				desirable_speed		=	old_desirable_speed();				// желаемая скорость объекта
 	float				desirable_dist		=	desirable_speed * time_delta;
@@ -261,7 +261,7 @@ void CMovementManager::move_along_path		(CPHMovementControl *movement_control, F
 		on_travel_point_change	(detail().m_current_travel_point);
 	detail().m_current_travel_point	= current_travel_point;
 
-	if (dist_to_target < EPS_L) {
+	if (dist_to_target < XrMath::EPS_L) {
 #pragma todo("Dima to ? : is this correct?")
 		if(current_travel_point + 1 < detail().path().size())
 			detail().m_current_travel_point = current_travel_point + 1;

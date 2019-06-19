@@ -72,7 +72,7 @@ bool CAI_Stalker::useful		(const CItemManager *manager, const CGameObject *objec
 float CAI_Stalker::evaluate		(const CItemManager *manager, const CGameObject *object) const
 {
 	float				distance = Position().distance_to_sqr(object->Position());
-	distance			= !fis_zero(distance) ? distance : EPS_L;
+	distance			= !XrMath::fis_zero(distance) ? distance : XrMath::EPS_L;
 	return				(distance);
 }
 

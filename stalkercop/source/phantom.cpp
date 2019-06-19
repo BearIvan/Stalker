@@ -60,9 +60,9 @@ BOOL CPhantom::net_Spawn(CSE_Abstract* DC)
 	LPCSTR vis_name = OBJ->get_visual();
 	if (!(vis_name&&vis_name[0])){
 		LPCSTR visuals	= pSettings->r_string(cNameSect(),"visuals");
-		u32 cnt			= _GetItemCount(visuals);
+		u32 cnt			= XrTrims::GetItemCount(visuals);
 		string256 tmp;
-		OBJ->set_visual	(_GetItem(visuals,Random.randI(cnt),tmp));
+		OBJ->set_visual	(XrTrims::GetItem(visuals,Random.randI(cnt),tmp));
 		// inform server
 		NET_Packet		P;
 		u_EventGen		(P, GE_CHANGE_VISUAL, OBJ->ID);
@@ -145,7 +145,7 @@ void CPhantom::SwitchToState_internal(EState new_state)
 			Fvector vE,vP;
 			m_enemy->Center		(vE);
 			Center				(vP);
-			if (vP.distance_to_sqr(vE)<_sqr(Radius())){ 
+			if (vP.distance_to_sqr(vE)<XrMath::sqr(Radius())){ 
 				// hit enemy
 				PsyHit			(m_enemy,fContactHit);
 			}
@@ -207,7 +207,7 @@ void CPhantom::OnFlyState()
 		Fvector vE,vP;
 		m_enemy->Center		(vE);
 		Center				(vP);
-		if (vP.distance_to_sqr(vE)<_sqr(Radius()+m_enemy->Radius())){
+		if (vP.distance_to_sqr(vE)<XrMath::sqr(Radius()+m_enemy->Radius())){
 			SwitchToState	(stContact);
 			float power = 1000.0f;
 			float impulse = 100.0f;
@@ -289,8 +289,8 @@ void CPhantom::UpdatePosition(const Fvector& tgt_pos)
 	tgt_dir.sub		(tgt_pos,Position());
 	tgt_dir.getHP	(tgt_h,tgt_p);
 
-	angle_lerp		(vHP.x,tgt_h,fASpeed,Device.fTimeDelta);
-	angle_lerp		(vHP.y,tgt_p,fASpeed,Device.fTimeDelta);
+	XrMath::angle_lerp		(vHP.x,tgt_h,fASpeed,Device.fTimeDelta);
+	XrMath::angle_lerp		(vHP.y,tgt_p,fASpeed,Device.fTimeDelta);
 
 	cur_dir.setHP	(vHP.x,vHP.y);
 

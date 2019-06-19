@@ -2,12 +2,12 @@
 
 IC	bool CCustomMonster::angle_lerp_bounds(float &a, float b, float c, float d)
 {
-	if (c*d >= angle_difference(a,b)) {
+	if (c*d >= XrMath::angle_difference(a,b)) {
 		a = b;
 		return(true);
 	}
 	
-	angle_lerp(a,b,c,d);
+	XrMath::angle_lerp(a,b,c,d);
 
 	return(false);
 };
@@ -15,7 +15,7 @@ IC	bool CCustomMonster::angle_lerp_bounds(float &a, float b, float c, float d)
 IC void CCustomMonster::vfNormalizeSafe(Fvector& Vector)
 {
 	float fMagnitude = Vector.magnitude(); 
-	if (fMagnitude > EPS_L) {
+	if (fMagnitude > XrMath::EPS_L) {
 		Vector.x /= fMagnitude;
 		Vector.y /= fMagnitude;
 		Vector.z /= fMagnitude;
@@ -29,7 +29,7 @@ IC void CCustomMonster::vfNormalizeSafe(Fvector& Vector)
 
 ICF	bool left_angle(float y1, float y2)
 {
-	return			(_sin(y1)*_cos(y2) - _sin(y2)*_cos(y1) <= 0.f);
+	return			(XrMath::sin(y1)*XrMath::cos(y2) - XrMath::sin(y2)*XrMath::cos(y1) <= 0.f);
 }
 
 IC	CMemoryManager &CCustomMonster::memory		() const

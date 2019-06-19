@@ -4,7 +4,7 @@
 #include "physics/IPHWorld.h"
 #include "ai_debug_variables.h"
 
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/XrVector3d2.h"
 
 
 static void trajectory_get_position			(Fvector &result, const Fvector &start_position, const Fvector &velocity, const Fvector &gravity, const float &time)
@@ -16,7 +16,7 @@ static void trajectory_get_position			(Fvector &result, const Fvector &start_pos
 		time
 	).mad(
 		gravity,
-		_sqr(time)*.5f
+		XrMath::sqr(time)*.5f
 	);
 }
 
@@ -52,7 +52,7 @@ static float trajectory_pick_error				(
 	start_to_max_error.mul	(1.f/magnitude);
 	Fvector					start_to_target = Fvector().sub(target,start).normalize();
 	float					cosine_alpha = start_to_max_error.dotproduct(start_to_target);
-	float					sine_alpha = _sqrt(1.f - _sqr(cosine_alpha));
+	float					sine_alpha = XrMath::sqrt(1.f - XrMath::sqr(cosine_alpha));
 	return					(magnitude*sine_alpha);
 }
 
@@ -68,7 +68,7 @@ static float trajectory_select_pick_time			(
 	float					low = start_low;
 	float					check_time = high;
 	float					time_epsilon = .1f / velocity.magnitude();
-	while (!fsimilar(low, high, time_epsilon)) {
+	while (!XrMath::fsimilar(low, high, time_epsilon)) {
 		float				distance = trajectory_pick_error(start_low, check_time, start, velocity, gravity);
 		
 		if (distance < epsilon)
@@ -141,7 +141,7 @@ bool trajectory_check_collision (float 							low,
 		Fvector const box_z_axis	=	start_to_target;
 		Fvector box_y_axis;
 		Fvector box_x_axis;
-		if ( _abs(box_z_axis.x) > epsilon || _abs(box_z_axis.z) > epsilon ) {
+		if ( XrMath::abs(box_z_axis.x) > epsilon || XrMath::abs(box_z_axis.z) > epsilon ) {
 
 			Fvector const down			=	{ 0, -1, 0 };
 			Fvector							box_x_axis;
@@ -215,13 +215,13 @@ bool trajectory_intersects_geometry	(float							trajectory_time,
 			trajectory_select_pick_time(low, high, trajectory_start, trajectory_start, gravity, epsilon);
 
 		if (!trajectory_check_collision(low, time, trajectory_start, trajectory_velocity, gravity, self_object, ignored_object, collide_position, temp_rq_results, box_size, out_trajectory_picks, out_collide_tris)) {
-			if (fsimilar(time,high) && collide_position.similar(trajectory_end,.2f))
+			if (XrMath::fsimilar(time,high) && collide_position.similar(trajectory_end,.2f))
 				break;
 
 			return				true;
 		}
 
-		if (fsimilar(time,high))
+		if (XrMath::fsimilar(time,high))
 			break;
 
 		low					= time;

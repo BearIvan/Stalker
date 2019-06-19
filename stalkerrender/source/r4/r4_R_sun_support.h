@@ -52,7 +52,7 @@ public:
 	{
 		translation.set( 0.f, 0.f, 0.f );
 
-		if( fis_zero( 1-abs(view_ray.D.dotproduct( light_ray.D )), EPS_S) )
+		if( XrMath::fis_zero( 1-abs(view_ray.D.dotproduct( light_ray.D )), XrMath::EPS_S) )
 			return;
 
  		// compute planes for each polygon.
@@ -68,7 +68,7 @@ public:
 		for( u32 i = 0; i < LIGHT_CUBOIDSIDEPOLYS_COUNT; i++ )
 		{
 			float tmp_dot = view_ray.D.dotproduct(light_cuboid_polys[i].plane.n);
-			if( tmp_dot <= EPS_L )
+			if( tmp_dot <= XrMath::EPS_L )
 				continue;
 
 			align_planes[align_planes_count] = i;
@@ -93,7 +93,7 @@ public:
 				Fvector tmp_point = view_frustum_rays[i].P;
 					
 				tmp_dist = light_cuboid_polys[align_planes[p]].plane.classify( tmp_point );
-				min_dist = _min( tmp_dist, min_dist );
+				min_dist = XrMath::min( tmp_dist, min_dist );
 			}
 
 			Fvector shift = light_cuboid_polys[align_planes[p]].plane.n;
@@ -133,7 +133,7 @@ public:
 				}
 			}
 
-			if( fis_zero( max_mag ) )
+			if( XrMath::fis_zero( max_mag ) )
 				continue;
 
 			VERIFY ( max_mag <= 1.f );
@@ -154,7 +154,7 @@ public:
 			tmp_vector.crossproduct( view_frustum_rays[i].D, light_ray.D );
 
 			// check if the vectors are parallel
-			if( fis_zero( tmp_vector.square_magnitude(), EPS) )
+			if( XrMath::fis_zero( tmp_vector.square_magnitude(), XrMath::EPS) )
 				continue;
 			
 			Fplane tmp_plane;
@@ -181,7 +181,7 @@ public:
 	
 			float max_dist = -1000;
 			for( u32 i = 0; i< view_frustum_rays.size(); ++i )
-				max_dist = _max( plane.classify( view_frustum_rays[i].P ), max_dist);
+				max_dist = XrMath::max( plane.classify( view_frustum_rays[i].P ), max_dist);
 
 			for( u32 i = 0; i< view_frustum_rays.size(); ++i )
 			{
@@ -222,7 +222,7 @@ public:
 				else
 					light_cuboid_polys[p].plane.intersectRayDist( view_frustum_rays[i].P, view_frustum_rays[i].D, dist);
 
-				if( dist > EPS_L &&  dist < min_dist )
+				if( dist > XrMath::EPS_L &&  dist < min_dist )
 					min_dist = dist;
 			}
 
@@ -242,7 +242,7 @@ public:
 			tmp_pt.mad(  view_frustum_rays[j].D, mad_factor );
 			tmp_dist = plane.classify( tmp_pt );
 
-			if( fis_zero(tmp_dist, EPS_L))
+			if( XrMath::fis_zero(tmp_dist, XrMath::EPS_L))
 				continue;
 
 			if( !oriented )

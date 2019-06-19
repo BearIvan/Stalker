@@ -92,7 +92,7 @@ void CLight_DB::Load			(IReader *fs)
 		light*	fake		= Create();
 		fake->set_type		(IRender_Light::SPOT);
 		fake->set_color		(1,1,1);
-		fake->set_cone		(deg2rad(60.f));
+		fake->set_cone		(XrMath::deg2rad(60.f));
 		fake->set_direction	(D);
 		fake->set_position	(P);
 		fake->set_range		(3.f);

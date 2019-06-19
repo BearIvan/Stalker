@@ -43,7 +43,7 @@ void CUIPdaKillMessage::Init(KillMessageStruct& msg){
 			InitIcon(m_ext_info,	x, msg.m_ext_info);
 
 	Fvector2 sz		= GetWndSize();
-	sz.x			= _max(sz.x, x+m_ext_info.GetWidth());
+	sz.x			= XrMath::max(sz.x, x+m_ext_info.GetWidth());
 	SetWndSize		(sz);
 }
 

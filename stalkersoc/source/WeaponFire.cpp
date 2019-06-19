@@ -27,7 +27,7 @@ float _nrand(float sigma)
 	float y;
 	do{
 		y = -logf(Random.randF());
-	}while(Random.randF() > expf(-_sqr(y - 1.0f)*0.5f));
+	}while(Random.randF() > expf(-XrMath::sqr(y - 1.0f)*0.5f));
 	if(rand() & 0x1)	return y * sigma * ONE_OVER_SIGMA_EXP;
 	else				return -y * sigma * ONE_OVER_SIGMA_EXP;
 }
@@ -35,13 +35,13 @@ float _nrand(float sigma)
 void random_dir(Fvector& tgt_dir, const Fvector& src_dir, float dispersion)
 {
 	float sigma			= dispersion/3.f;
-	float alpha			= clampr		(_nrand(sigma),-dispersion,dispersion);
-	float theta			= Random.randF	(0,PI);
+	float alpha			= XrMath::clampr		(_nrand(sigma),-dispersion,dispersion);
+	float theta			= Random.randF	(0,XrMath::M_PI);
 	float r 			= tan			(alpha);
 	Fvector 			U,V,T;
 	Fvector::generate_orthonormal_basis	(src_dir,U,V);
-	U.mul				(r*_sin(theta));
-	V.mul				(r*_cos(theta));
+	U.mul				(r*XrMath::sin(theta));
+	V.mul				(r*XrMath::cos(theta));
 	T.add				(U,V);
 	tgt_dir.add			(src_dir,T).normalize();
 }

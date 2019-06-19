@@ -75,7 +75,7 @@ animation_movement_controller::~animation_movement_controller( )
 
 IC bool is_blending_in( CBlend &b)
 {
-	return b.blend_state() == CBlend::eAccrue && b.blendPower - EPS > b.blendAmount;
+	return b.blend_state() == CBlend::eAccrue && b.blendPower - XrMath::EPS > b.blendAmount;
 
 }
 
@@ -119,7 +119,7 @@ void	animation_movement_controller::GetInitalPositionBlenSpeed	( )
 	//m_pKinematicsC->Bone_GetAnimPos( m1, root, u8(-1), true );
 	animation_root_position( m1 );
 	m_control_blend->timeCurrent+=Device.fTimeDelta;
-	clamp(m_control_blend->timeCurrent,0.f,m_control_blend->timeTotal);
+	XrMath::clamp(m_control_blend->timeCurrent,0.f,m_control_blend->timeTotal);
 	Fmatrix m0;
 	//m_pKinematicsC->Bone_GetAnimPos( m0, root, u8(-1), true );
 	animation_root_position( m0 );
@@ -333,7 +333,7 @@ void	animation_movement_controller::NewBlend	( CBlend* B, const Fmatrix &new_mat
 	else if (local_animation)
 	{
 		float blend_time = m_control_blend->timeCurrent;
-		m_control_blend->timeCurrent = m_control_blend->timeTotal - SAMPLE_SPF;//(SAMPLE_SPF+EPS);
+		m_control_blend->timeCurrent = m_control_blend->timeTotal - SAMPLE_SPF;//(SAMPLE_SPF+XrMath::EPS);
 		Fmatrix root;
 		animation_root_position( root );
 		m_startObjXForm.mulB_43	( root );
@@ -357,7 +357,7 @@ void	animation_movement_controller::NewBlend	( CBlend* B, const Fmatrix &new_mat
 void	animation_movement_controller::DBG_verify_position_not_chaged() const
 {
 #ifdef	DEBUG
-	VERIFY( !IsActive()||inital_position_blending || cmp_matrix( DBG_previous_position, m_pObjXForm, EPS, EPS ) );
+	VERIFY( !IsActive()||inital_position_blending || cmp_matrix( DBG_previous_position, m_pObjXForm, XrMath::EPS, XrMath::EPS ) );
 #endif
 }
 void animation_movement_controller::RootBoneCallback( CBoneInstance* B )

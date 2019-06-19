@@ -203,7 +203,7 @@ void CAI_Dog::reinit()
 
 	if(CCustomMonster::use_simplified_visual())	return;
 	
-	com_man().add_rotation_jump_data("1","2","3","4", PI_DIV_2);
+	com_man().add_rotation_jump_data("1","2","3","4", XrMath::PI_DIV_2);
 	com_man().add_rotation_jump_data("5","6","7","8", deg(179));
 	//com_man().add_melee_jump_data("5","jump_right_0");
 	//com_man().add_rotation_jump_data("stand_jump_left_0","stand_jump_left_0",

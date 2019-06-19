@@ -6,9 +6,9 @@ class ik_pick_query
 {
 public:
 	ik_pick_query		( ): _point( ik_foot_geom::none ),
-						 _pos( Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ) ),
-						 _dir( Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ) ),
-						 _range( -FLT_MAX )
+						 _pos( Fvector().set( -flt_max, -flt_max, -flt_max ) ),
+						 _dir( Fvector().set( -flt_max, -flt_max, -flt_max ) ),
+						 _range( -flt_max )
 	{}
 
 	ik_pick_query(
@@ -27,7 +27,7 @@ bool is_valid() const
 		if( point() != ik_foot_geom::none  )
 		{
 			VERIFY( range() >= 0.f );
-			VERIFY( fsimilar( dir().magnitude(), 1.f ) );
+			VERIFY( XrMath::fsimilar( dir().magnitude(), 1.f ) );
 			return true;
 		}
 		return false;
@@ -42,7 +42,7 @@ IC	bool is_equal( const ik_pick_query &q ) const
 		//VERIFY( is_valid() );
 		return	is_valid()						&&
 				q.point() == point()			&&
-				fsimilar( q.range(), range() )	&&
+				XrMath::fsimilar( q.range(), range() )	&&
 				q.pos().similar( pos() )		&&
 				q.dir().similar( dir() )
 				;

@@ -292,10 +292,10 @@ void CGamePersistent::WeathersUpdate()
 					ref_sound& snd					= ch.get_rnd_sound();
 
 					Fvector	pos;
-					float	angle		= ::Random.randF(PI_MUL_2);
-					pos.x				= _cos(angle);
+					float	angle		= ::Random.randF(XrMath::PI_MUL_2);
+					pos.x				= XrMath::cos(angle);
 					pos.y				= 0;
-					pos.z				= _sin(angle);
+					pos.z				= XrMath::sin(angle);
 					pos.normalize		().mul(ch.get_rnd_sound_dist()).add(Device.vCameraPosition);
 					pos.y				+= 10.f;
 					snd.play_at_pos		(0,pos);
@@ -306,7 +306,7 @@ void CGamePersistent::WeathersUpdate()
 #endif // DEBUG
 
 					VERIFY							(snd._handle());
-					u32 _length_ms					= iFloor(snd.get_length_sec()*1000.0f);
+					u32 _length_ms					= XrMath::iFloor(snd.get_length_sec()*1000.0f);
 					ambient_sound_next_time[idx]	= Device.dwTimeGlobal + _length_ms + ch.get_rnd_sound_time();
 //					Msg("- Playing ambient sound channel [%s] file[%s]",ch.m_load_section.c_str(),snd._handle()->file_name());
 				}
@@ -319,10 +319,10 @@ void CGamePersistent::WeathersUpdate()
 				if (snd)
 				{
 					Fvector	pos;
-					float	angle		= ::Random.randF(PI_MUL_2);
-					pos.x				= _cos(angle);
+					float	angle		= ::Random.randF(XrMath::PI_MUL_2);
+					pos.x				= XrMath::cos(angle);
 					pos.y				= 0;
-					pos.z				= _sin(angle);
+					pos.z				= XrMath::sin(angle);
 					pos.normalize		().mul(env_amb->get_rnd_sound_dist()).add(Device.vCameraPosition);
 					pos.y				+= 10.f;
 					snd->play_at_pos	(0,pos);
@@ -594,8 +594,8 @@ void CGamePersistent::OnFrame	()
 
 			// Start _new level + demo
 			Engine.Event.Defer	("KERNEL:disconnect");
-			Engine.Event.Defer	("KERNEL:start",size_t(xr_strdup(_Trim(o_server))),size_t(xr_strdup(_Trim(o_client))));
-			Engine.Event.Defer	("GAME:demo",	size_t(xr_strdup(_Trim(o_demo))), u64(o_time));
+			Engine.Event.Defer	("KERNEL:start",size_t(xr_strdup(XrTrims::Trim(o_server))),size_t(xr_strdup(XrTrims::Trim(o_client))));
+			Engine.Event.Defer	("GAME:demo",	size_t(xr_strdup(XrTrims::Trim(o_demo))), u64(o_time));
 			uTime2Change		= 0xffffffff;	// Block changer until Event received
 		}
 	}
@@ -779,9 +779,9 @@ void CGamePersistent::UpdateDof()
 	diff.sub			(m_dof[0], m_dof[2]);
 	diff.mul			(td/0.2f); //0.2 sec
 	m_dof[1].add		(diff);
-	(m_dof[0].x<m_dof[2].x)?clamp(m_dof[1].x,m_dof[0].x,m_dof[2].x):clamp(m_dof[1].x,m_dof[2].x,m_dof[0].x);
-	(m_dof[0].y<m_dof[2].y)?clamp(m_dof[1].y,m_dof[0].y,m_dof[2].y):clamp(m_dof[1].y,m_dof[2].y,m_dof[0].y);
-	(m_dof[0].z<m_dof[2].z)?clamp(m_dof[1].z,m_dof[0].z,m_dof[2].z):clamp(m_dof[1].z,m_dof[2].z,m_dof[0].z);
+	(m_dof[0].x<m_dof[2].x)?XrMath::clamp(m_dof[1].x,m_dof[0].x,m_dof[2].x):XrMath::clamp(m_dof[1].x,m_dof[2].x,m_dof[0].x);
+	(m_dof[0].y<m_dof[2].y)?XrMath::clamp(m_dof[1].y,m_dof[0].y,m_dof[2].y):XrMath::clamp(m_dof[1].y,m_dof[2].y,m_dof[0].y);
+	(m_dof[0].z<m_dof[2].z)?XrMath::clamp(m_dof[1].z,m_dof[0].z,m_dof[2].z):XrMath::clamp(m_dof[1].z,m_dof[2].z,m_dof[0].z);
 }
 
 #include "ui\uimainingamewnd.h"

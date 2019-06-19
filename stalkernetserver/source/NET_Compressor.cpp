@@ -541,7 +541,7 @@ void NET_Compressor::DumpStats(bool brief)
 		unlucky_hits	+= it->second.unlucky_attempts;
 		if(!brief)
 		{
-			Msg	("size[%d] count[%d] unlucky[%d] avg_c[%d]",it->first, it->second.hit_count, it->second.unlucky_attempts, iFloor(float(it->second.compressed_size)/float(it->second.hit_count)) );
+			Msg	("size[%d] count[%d] unlucky[%d] avg_c[%d]",it->first, it->second.hit_count, it->second.unlucky_attempts, XrMath::iFloor(float(it->second.compressed_size)/float(it->second.hit_count)) );
 		}
 	}
 	Msg("total   [%d]",	total_hits);

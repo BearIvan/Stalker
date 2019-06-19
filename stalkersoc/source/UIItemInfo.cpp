@@ -156,7 +156,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 	{
 		float cond							= pInvItem->GetConditionToShow();
 		UICondProgresBar->Show				(true);
-		UICondProgresBar->SetProgressPos	( cond*100.0f+1.0f-EPS );
+		UICondProgresBar->SetProgressPos	( cond*100.0f+1.0f-XrMath::EPS );
 	}
 
 	if(UIDesc)
@@ -201,8 +201,8 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 			v_r.x2 /= 1.328f;
 
 		UIItemImage->GetUIStaticItem().SetRect	(v_r);
-		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x));
-		UIItemImage->SetHeight					(_min(v_r.height(),	UIItemImageSize.y));
+		UIItemImage->SetWidth					(XrMath::min(v_r.width(),	UIItemImageSize.x));
+		UIItemImage->SetHeight					(XrMath::min(v_r.height(),	UIItemImageSize.y));
 	}
 }
 

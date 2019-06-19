@@ -252,7 +252,7 @@ void ui_actor_state_item::set_text( float value )
 		return;
 	}
 	int v = (int)( value * m_magnitude + 0.49f );// m_magnitude=100
-	clamp( v, 0, 99 );
+	XrMath::clamp( v, 0, 99 );
 	string32 text_res;
 	sprintf_s( text_res, sizeof(text_res), "%d", v );
 	m_static->SetText( text_res );

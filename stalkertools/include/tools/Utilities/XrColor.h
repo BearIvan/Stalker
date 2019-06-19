@@ -6,10 +6,10 @@ ICF u32 color_argb(u32 a, u32 r, u32 g, u32 b) { return ((a & 0xff) << 24) | ((r
 ICF u32 color_rgba(u32 r, u32 g, u32 b, u32 a) { return color_argb(a, r, g, b); }
 ICF u32 color_argb_f(f32 a, f32 r, f32 g, f32 b)
 {
-    s32 _r = clampr(iFloor(r*255.f), 0, 255);
-    s32 _g = clampr(iFloor(g*255.f), 0, 255);
-    s32 _b = clampr(iFloor(b*255.f), 0, 255);
-    s32 _a = clampr(iFloor(a*255.f), 0, 255);
+    s32 _r = XrMath::clampr(XrMath::iFloor(r*255.f), 0, 255);
+    s32 _g = XrMath::clampr(XrMath::iFloor(g*255.f), 0, 255);
+    s32 _b = XrMath::clampr(XrMath::iFloor(b*255.f), 0, 255);
+    s32 _a = XrMath::clampr(XrMath::iFloor(a*255.f), 0, 255);
     return color_argb(_a, _r, _g, _b);
 }
 ICF u32 color_rgba_f(f32 r, f32 g, f32 b, f32 a) { return color_argb_f(a, r, g, b); }
@@ -206,7 +206,7 @@ public:
     // magnitude
     IC T magnitude_rgb(void) const
     {
-        return _sqrt(magnitude_sqr_rgb());
+        return XrMath::sqrt(magnitude_sqr_rgb());
     }
     IC T intensity(void) const
     {
@@ -244,8 +244,8 @@ public:
             return lerp(c1, c2, t*2.f);
         }
     }
-    IC BOOL similar_rgba(SelfCRef v, T E = EPS_L) const { return _abs(r - v.r) < E && _abs(g - v.g) < E && _abs(b - v.b) < E && _abs(a - v.a) < E; };
-    IC BOOL similar_rgb(SelfCRef v, T E = EPS_L) const { return _abs(r - v.r) < E && _abs(g - v.g) < E && _abs(b - v.b) < E; };
+    IC BOOL similar_rgba(SelfCRef v, T E = XrMath::EPS_L) const { return XrMath::abs(r - v.r) < E &&XrMath::abs(g - v.g) < E &&XrMath::abs(b - v.b) < E && XrMath::abs(a - v.a) < E; };
+    IC BOOL similar_rgb(SelfCRef v, T E = XrMath::EPS_L) const { return XrMath::abs(r - v.r) < E && XrMath::abs(g - v.g) < E && XrMath::abs(b - v.b) < E; };
 };
 
 

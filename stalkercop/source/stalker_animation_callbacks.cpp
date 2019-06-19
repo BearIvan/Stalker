@@ -40,9 +40,9 @@ static void	_BCL callback_rotation		(CBoneInstance* bone)
 
 	Fvector							angles;
 	effector.GetDeltaAngle			(angles);
-	angles.x						= angle_normalize_signed(angles.x);
-	angles.y						= angle_normalize_signed(angles.y);
-	angles.z						= angle_normalize_signed(angles.z);
+	angles.x						= XrMath::angle_normalize_signed(angles.x);
+	angles.y						= XrMath::angle_normalize_signed(angles.y);
+	angles.z						= XrMath::angle_normalize_signed(angles.z);
 
 	if (object->movement().current_params().cover())
 		angles.mul					(0.f);

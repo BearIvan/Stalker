@@ -127,13 +127,13 @@ IC	void CCoverEvaluatorCloseToEnemy::setup		(const Fvector &enemy_position, floa
 //	m_actuality				= m_actuality && m_enemy_position.similar(enemy_position,10.f);
 	m_enemy_position		= enemy_position;
 
-	m_actuality				= m_actuality && fsimilar(m_deviation,deviation);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_deviation,deviation);
 	m_deviation				= deviation;
 	
-	m_actuality				= m_actuality && fsimilar(m_min_distance,min_enemy_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_min_distance,min_enemy_distance);
 	m_min_distance			= min_enemy_distance;
 
-	m_actuality				= m_actuality && fsimilar(m_max_distance,max_enemy_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_max_distance,max_enemy_distance);
 	m_max_distance			= max_enemy_distance;
 }
 
@@ -180,7 +180,7 @@ IC	CCoverEvaluatorSafe::CCoverEvaluatorSafe	(CRestrictedObject *object) : inheri
 IC	void CCoverEvaluatorSafe::setup		(float min_distance)
 {
 	inherited::setup		();
-	m_actuality				= m_actuality && fsimilar(m_min_distance,min_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_min_distance,min_distance);
 	m_min_distance			= min_distance;
 }
 

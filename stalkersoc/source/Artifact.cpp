@@ -549,7 +549,7 @@ void SArtefactActivation::ChangeEffects()
 		m_af->CParticlesPlayer::StartParticles(	state_def.m_particle,
 												dir,
 												m_af->ID(),
-												iFloor(state_def.m_time*1000) );
+												XrMath::iFloor(state_def.m_time*1000) );
 	};
 	if(state_def.m_animation.size()){
 		IKinematicsAnimated	*K=smart_cast<IKinematicsAnimated*>(m_af->Visual());
@@ -572,10 +572,10 @@ void SArtefactActivation::SpawnAnomaly()
 	VERIFY(!ph_world->Processing());
 	string128 tmp;
 	LPCSTR str			= pSettings->r_string("artefact_spawn_zones",*m_af->cNameSect());
-	VERIFY3(3==_GetItemCount(str),"Bad record format in artefact_spawn_zones",str);
-	float zone_radius	= (float)atof(_GetItem(str,1,tmp));
-	float zone_power	= (float)atof(_GetItem(str,2,tmp));
-	LPCSTR zone_sect	= _GetItem(str,0,tmp); //must be last call of _GetItem... (LPCSTR !!!)
+	VERIFY3(3==XrTrims::GetItemCount(str),"Bad record format in artefact_spawn_zones",str);
+	float zone_radius	= (float)atof(XrTrims::GetItem(str,1,tmp));
+	float zone_power	= (float)atof(XrTrims::GetItem(str,2,tmp));
+	LPCSTR zone_sect	= XrTrims::GetItem(str,0,tmp); //must be last call of XrTrims::GetItem... (LPCSTR !!!)
 
 		Fvector pos;
 		m_af->Center(pos);
@@ -623,22 +623,22 @@ shared_str clear_brackets(LPCSTR src)
 void SArtefactActivation::SStateDef::Load(LPCSTR section, LPCSTR name)
 {
 	LPCSTR str = pSettings->r_string(section,name);
-	VERIFY(_GetItemCount(str)==8);
+	VERIFY(XrTrims::GetItemCount(str)==8);
 
 
 	string128 tmp;
 
-	m_time			= (float)atof(		_GetItem(str,0,tmp) );
+	m_time			= (float)atof(		XrTrims::GetItem(str,0,tmp) );
 	
-	m_snd			= clear_brackets(	_GetItem(str,1,tmp) )	;
+	m_snd			= clear_brackets(	XrTrims::GetItem(str,1,tmp) )	;
 
-	m_light_color.r = (float)atof(		_GetItem(str,2,tmp) );
-	m_light_color.g = (float)atof(		_GetItem(str,3,tmp) );
-	m_light_color.b = (float)atof(		_GetItem(str,4,tmp) );
+	m_light_color.r = (float)atof(		XrTrims::GetItem(str,2,tmp) );
+	m_light_color.g = (float)atof(		XrTrims::GetItem(str,3,tmp) );
+	m_light_color.b = (float)atof(		XrTrims::GetItem(str,4,tmp) );
 
-	m_light_range	= (float)atof(		_GetItem(str,5,tmp) );
+	m_light_range	= (float)atof(		XrTrims::GetItem(str,5,tmp) );
 
-	m_particle		= clear_brackets(	_GetItem(str,6,tmp) );
-	m_animation		= clear_brackets(	_GetItem(str,7,tmp) );
+	m_particle		= clear_brackets(	XrTrims::GetItem(str,6,tmp) );
+	m_animation		= clear_brackets(	XrTrims::GetItem(str,7,tmp) );
 
 }

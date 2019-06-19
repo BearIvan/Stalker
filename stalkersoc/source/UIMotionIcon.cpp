@@ -89,13 +89,13 @@ void CUIMotionIcon::SetPower(float Pos)
 
 void CUIMotionIcon::SetNoise(float Pos)
 {
-	Pos	= clampr(Pos, m_noise_progress.GetRange_min(), m_noise_progress.GetRange_max());
+	Pos	= XrMath::clampr(Pos, m_noise_progress.GetRange_min(), m_noise_progress.GetRange_max());
 	m_noise_progress.SetProgressPos(Pos);
 }
 
 void CUIMotionIcon::SetLuminosity(float Pos)
 {
-	Pos						= clampr(Pos, m_luminosity_progress.GetRange_min(), m_luminosity_progress.GetRange_max());
+	Pos						= XrMath::clampr(Pos, m_luminosity_progress.GetRange_min(), m_luminosity_progress.GetRange_max());
 	m_luminosity			= Pos;
 }
 
@@ -117,13 +117,13 @@ void CUIMotionIcon::Update()
 		float len					= m_noise_progress.GetRange_max()-m_noise_progress.GetRange_min();
 		float cur_pos				= m_luminosity_progress.GetProgressPos();
 		if(cur_pos!=m_luminosity){
-			float _diff = _abs(m_luminosity-cur_pos);
+			float _diff = XrMath::abs(m_luminosity-cur_pos);
 			if(m_luminosity>cur_pos){
-				cur_pos				+= _min(len*Device.fTimeDelta, _diff);
+				cur_pos				+= XrMath::min(len*Device.fTimeDelta, _diff);
 			}else{
-				cur_pos				-= _min(len*Device.fTimeDelta, _diff);
+				cur_pos				-= XrMath::min(len*Device.fTimeDelta, _diff);
 			}
-			clamp(cur_pos, m_noise_progress.GetRange_min(), m_noise_progress.GetRange_max());
+			XrMath::clamp(cur_pos, m_noise_progress.GetRange_min(), m_noise_progress.GetRange_max());
 			m_luminosity_progress.SetProgressPos(cur_pos);
 		}
 	}
@@ -146,7 +146,7 @@ void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 		v.id					= who_id;
 		v.value					= value;
 	}
-	else if( fis_zero(value) )
+	else if( XrMath::fis_zero(value) )
 	{
 		if (it!=m_npc_visibility.end())
 			m_npc_visibility.erase	(it);

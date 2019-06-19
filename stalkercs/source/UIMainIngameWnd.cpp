@@ -193,13 +193,13 @@ void CUIMainIngameWnd::Init()
 	{
 		// „итаем данные порогов дл€ каждого индикатора
 		shared_str cfgRecord = pSettings->r_string("main_ingame_indicators_thresholds", *warningStrings[static_cast<int>(j) - 1]);
-		u32 count = _GetItemCount(*cfgRecord);
+		u32 count = XrTrims::GetItemCount(*cfgRecord);
 
 		char	singleThreshold[8];
 		float	f = 0;
 		for (u32 k = 0; k < count; ++k)
 		{
-			_GetItem(*cfgRecord, k, singleThreshold);
+			XrTrims::GetItem(*cfgRecord, k, singleThreshold);
 			sscanf(singleThreshold, "%f", &f);
 
 			m_Thresholds[j].push_back(f);
@@ -244,7 +244,7 @@ void CUIMainIngameWnd::Draw()
 
 	if ((UIStaticDiskIO_start_time+1.0f) < Device.fTimeGlobal)	UIStaticDiskIO.Show(false); 
 	else {
-		u32		alpha			= clampr(iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
+		u32		alpha			= XrMath::clampr(XrMath::iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
 		UIStaticDiskIO.Show		( true  ); 
 		UIStaticDiskIO.SetColor	(color_rgba(255,255,255,alpha));
 	}
@@ -258,11 +258,11 @@ void CUIMainIngameWnd::Draw()
 
 		static float cur_lum = luminocity;
 		cur_lum = luminocity*0.01f + cur_lum*0.99f;
-		UIMotionIcon.SetLuminosity((s16)iFloor(cur_lum*100.0f));
+		UIMotionIcon.SetLuminosity((s16)XrMath::iFloor(cur_lum*100.0f));
 	}
 	if ( !m_pActor || !m_pActor->g_Alive() ) return;
 
-	UIMotionIcon.SetNoise((s16)(0xffff&iFloor(m_pActor->m_snd_noise*100.0f)));
+	UIMotionIcon.SetNoise((s16)(0xffff&XrMath::iFloor(m_pActor->m_snd_noise*100.0f)));
 
 	CUIWindow::Draw();
 
@@ -394,13 +394,13 @@ void CUIMainIngameWnd::Update()
 					CWeapon* pWeapon = smart_cast<CWeapon*>( item );
 					if ( pWeapon )
 					{
-						value = _max( 0.0f, 1.0f - pWeapon->GetConditionToShow() );
+						value = XrMath::max( 0.0f, 1.0f - pWeapon->GetConditionToShow() );
 					}
 				}
 				break;
 			}
 		/*case ewiStarvation:
-			value =  _max( 0.0f, 1.0f - m_pActor->conditions().GetSatiety() );
+			value =  XrMath::max( 0.0f, 1.0f - m_pActor->conditions().GetSatiety() );
 			break;
 		*/
 		/*case ewiPsyHealth:
@@ -430,8 +430,8 @@ void CUIMainIngameWnd::Update()
 		if ( rit != m_Thresholds[i].rend() )
 		{
 			float v = *rit;
-			SetWarningIconColor(i, color_argb(0xFF, clampr<u32>(static_cast<u32>(255 * ((v - min) / (max - min) * 2)), 0, 255), 
-				clampr<u32>(static_cast<u32>(255 * (2.0f - (v - min) / (max - min) * 2)), 0, 255), 0));
+			SetWarningIconColor(i, color_argb(0xFF, XrMath::clampr<u32>(static_cast<u32>(255 * ((v - min) / (max - min) * 2)), 0, 255), 
+				XrMath::clampr<u32>(static_cast<u32>(255 * (2.0f - (v - min) / (max - min) * 2)), 0, 255), 0));
 		}
 		else
 		{

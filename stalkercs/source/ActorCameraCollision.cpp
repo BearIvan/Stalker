@@ -269,7 +269,7 @@ void	collide_camera( CCameraBase & camera, float _viewport_near  )
 	VERIFY( box );
 	Fvector old_box_size; Fmatrix old_form; 
 	get_old_camera_box( old_box_size, old_form, roote, box );
-	if( clamp_change( old_form, xform, EPS,EPS,EPS,EPS) &&  Fvector().sub( old_box_size, box_size ).magnitude() < EPS )
+	if( clamp_change( old_form, xform, XrMath::EPS,XrMath::EPS,XrMath::EPS,XrMath::EPS) &&  Fvector().sub( old_box_size, box_size ).magnitude() < XrMath::EPS )
 		return;
 	set_camera_collision( box_size, xform, roote, box );
 #ifdef	DEBUG

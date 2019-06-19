@@ -83,7 +83,7 @@ void CInvisibility::frame_update()
 	if (!m_manual) {
 		if (m_active)	m_energy -= m_speed * Device.fTimeDelta;
 		else			m_energy += m_speed * Device.fTimeDelta;
-		clamp			(m_energy,0.f,1.f);
+		XrMath::clamp			(m_energy,0.f,1.f);
 	}
 }
 

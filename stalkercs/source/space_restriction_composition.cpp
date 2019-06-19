@@ -74,7 +74,7 @@ bool CSpaceRestrictionComposition::inside					(const Fsphere &sphere)
 
 void CSpaceRestrictionComposition::initialize	()
 {
-	u32							n = _GetItemCount(*m_space_restrictors);
+	u32							n = XrTrims::GetItemCount(*m_space_restrictors);
 	VERIFY						(n);
 	if (n == 1) {
 #ifdef DEBUG		
@@ -87,14 +87,14 @@ void CSpaceRestrictionComposition::initialize	()
 	string256					element;
 
 	for (u32 i=0; i<n ;++i)
-		if (!m_space_restriction_holder->restriction(_GetItem(*m_space_restrictors,i,element))->initialized())
+		if (!m_space_restriction_holder->restriction(XrTrims::GetItem(*m_space_restrictors,i,element))->initialized())
 			return;
 
 	Fsphere						*spheres = (Fsphere*)_alloca(n*sizeof(Fsphere));
 	for (u32 i=0; i<n ;++i) {
 		SpaceRestrictionHolder::CBaseRestrictionPtr	restriction = 
 			m_space_restriction_holder->restriction(
-				_GetItem(
+				XrTrims::GetItem(
 					*m_space_restrictors,
 					i,
 					element
@@ -116,21 +116,21 @@ void CSpaceRestrictionComposition::initialize	()
 	temp.max.z					= spheres[0].P.z + spheres[0].R;
 
 	for (u32 i=1; i<n; ++i) {
-		temp.min.x				= _min(temp.min.x,spheres[i].P.x - spheres[i].R);
-		temp.min.y				= _min(temp.min.y,spheres[i].P.y - spheres[i].R);
-		temp.min.z				= _min(temp.min.z,spheres[i].P.z - spheres[i].R);
-		temp.max.x				= _max(temp.max.x,spheres[i].P.x + spheres[i].R);
-		temp.max.y				= _max(temp.max.y,spheres[i].P.y + spheres[i].R);
-		temp.max.z				= _max(temp.max.z,spheres[i].P.z + spheres[i].R);
+		temp.min.x				= XrMath::min(temp.min.x,spheres[i].P.x - spheres[i].R);
+		temp.min.y				= XrMath::min(temp.min.y,spheres[i].P.y - spheres[i].R);
+		temp.min.z				= XrMath::min(temp.min.z,spheres[i].P.z - spheres[i].R);
+		temp.max.x				= XrMath::max(temp.max.x,spheres[i].P.x + spheres[i].R);
+		temp.max.y				= XrMath::max(temp.max.y,spheres[i].P.y + spheres[i].R);
+		temp.max.z				= XrMath::max(temp.max.z,spheres[i].P.z + spheres[i].R);
 	}
 
 	m_sphere.P.mad				(temp.min,temp.max,.5f);
 	m_sphere.R					= m_sphere.P.distance_to(spheres[0].P) + spheres[0].R;
 
 	for (u32 i=1; i<n ;++i)
-		m_sphere.R				= _max(m_sphere.R,m_sphere.P.distance_to(spheres[i].P) + spheres[i].R);
+		m_sphere.R				= XrMath::max(m_sphere.R,m_sphere.P.distance_to(spheres[i].P) + spheres[i].R);
 
-	m_sphere.R					+= EPS_L;
+	m_sphere.R					+= XrMath::EPS_L;
 
 	m_initialized				= true;
 
@@ -213,7 +213,7 @@ Fsphere CSpaceRestrictionComposition::sphere	() const
 #ifdef DEBUG
 void CSpaceRestrictionComposition::check_restrictor_type()
 {
-	if (_GetItemCount(*m_space_restrictors) == 1)
+	if (XrTrims::GetItemCount(*m_space_restrictors) == 1)
 		return;
 
 	if (!ai().get_alife())

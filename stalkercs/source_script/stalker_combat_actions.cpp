@@ -458,7 +458,7 @@ void CStalkerActionTakeCover::initialize		()
 #ifndef SILENT_COMBAT
 	if (object().memory().enemy().selected()->human_being()) {
 		if (object().agent_manager().member().can_cry_noninfo_phrase())
-			if (object().Position().distance_to_sqr(object().memory().enemy().selected()->Position()) < _sqr(10.f))
+			if (object().Position().distance_to_sqr(object().memory().enemy().selected()->Position()) < XrMath::sqr(10.f))
 				if (object().memory().visual().visible_now(object().memory().enemy().selected()) && object().agent_manager().member().group_behaviour())
 					object().sound().play		(eStalkerSoundBackup,0,0,6000,4000);
 	}
@@ -918,7 +918,7 @@ void CStalkerActionHideFromGrenade::execute					()
 		}
 		else {
 			if (!m_object->memory().visual().visible_now(object().memory().enemy().selected())) {
-				if (position.distance_to_sqr(object().Position()) < _sqr(5.f))
+				if (position.distance_to_sqr(object().Position()) < XrMath::sqr(5.f))
 					object().sight().setup			(CSightAction(SightManager::eSightTypePathDirection,true,true));
 				else
 					object().sight().setup			(CSightAction(SightManager::eSightTypePosition,mem_object.m_object_params.m_position,true));
@@ -1205,7 +1205,7 @@ void CStalkerCombatActionThrowGrenade::execute				()
 	Fvector const head_direction			= Fvector().setHP( -object().movement().m_head.current.yaw, -object().movement().m_head.current.pitch );
 	float const cos_alpha					= head_direction.dotproduct(enemy_direction);
 
-	if ( _abs(acosf(cos_alpha)) >= PI_DIV_8 )
+	if ( XrMath::abs(acosf(cos_alpha)) >= XrMath::PI_DIV_8 )
 		return;
 
 	object().throw_target					(enemy_position, const_cast<CEntityAlive*>(enemy));

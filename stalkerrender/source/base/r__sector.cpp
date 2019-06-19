@@ -97,7 +97,7 @@ void	CPortal::Setup	(Fvector* V, int vcnt, CSector* face, CSector* back)
 	for (int i=2; i<vcnt; i++) {
 		T.mknormal_non_normalized		(poly[0],poly[i-1],poly[i]);
 		float		m	= T.magnitude	();
-		if (m>EPS_S)	{
+		if (m>XrMath::EPS_S)	{
 			N.add		(T.div(m))	;
 			_cnt		++			;
 		}
@@ -108,7 +108,7 @@ void	CPortal::Setup	(Fvector* V, int vcnt, CSector* face, CSector* back)
 	FPU::m24r	();
 
 	/*
-	if (_abs(1-P.n.magnitude())<EPS)
+	if (XrMath::abs(1-P.n.magnitude())<XrMath::EPS)
 	Debug.fatal		(DEBUG_INFO,"Degenerated portal found at {%3.2f,%3.2f,%3.2f}.",VPUSH(poly[0]));
 	*/
 }
@@ -163,8 +163,8 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 			float R				=	PORTAL->S.R	;
 			float distSQ		=	dir2portal.square_magnitude();
 			float ssa			=	R*R/distSQ;
-			dir2portal.div		(_sqrt(distSQ));
-			ssa					*=	_abs(PORTAL->P.n.dotproduct(dir2portal));
+			dir2portal.div		(XrMath::sqrt(distSQ));
+			ssa					*=	XrMath::abs(PORTAL->P.n.dotproduct(dir2portal));
 			if (ssa<r_ssaDISCARD)	continue;
 
 			if (PortalTraverser.i_options&CPortalTraverser::VQ_FADE)	{
@@ -204,7 +204,7 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 				if (t.z < depth)	depth		= t.z;
 			}
 			// Msg	("bb(%s): (%f,%f)-(%f,%f), d=%f", PORTAL->bDualRender?"true":"false",bb.min.x, bb.min.y, bb.max.x, bb.max.y,depth);
-			if (depth<EPS)	{
+			if (depth<XrMath::EPS)	{
 				scissor	= R_scissor;
 
 				// Cull by HOM (slower algo)

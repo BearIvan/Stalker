@@ -35,7 +35,7 @@ ALife::EMeetActionType CSE_ALifeAnomalousZone::tfGetActionType(CSE_ALifeSchedula
 
 bool CSE_ALifeAnomalousZone::bfActive()
 {
-	return						(false/*fis_zero(m_maxPower,EPS_L)*/ || !interactive());
+	return						(false/*XrMath::fis_zero(m_maxPower,XrMath::EPS_L)*/ || !interactive());
 }
 
 CSE_ALifeDynamicObject *CSE_ALifeAnomalousZone::tpfGetBestDetector()
@@ -68,7 +68,7 @@ void CSE_ALifeAnomalousZone::spawn_artefacts				()
 		m_maxPower			= randF(m_min_start_power,m_max_start_power);
 
 	LPCSTR					artefacts = pSettings->r_string(name(),"artefacts");
-	u32						n = _GetItemCount(artefacts);
+	u32						n = XrTrims::GetItemCount(artefacts);
 	VERIFY2					(!(n % 2),"Invalid parameters count in line artefacts for anomalous zone");
 	n						>>= 1;
 	
@@ -81,8 +81,8 @@ void CSE_ALifeAnomalousZone::spawn_artefacts				()
 
 	for (u32 i=0; i<n; ++i) {
 		string256			temp0, temp1;
-		_GetItem			( artefacts, 2*i + 0, temp0 );
-		_GetItem			( artefacts, 2*i + 1, temp1 );
+		XrTrims::GetItem			( artefacts, 2*i + 0, temp0 );
+		XrTrims::GetItem			( artefacts, 2*i + 1, temp1 );
 		weights.push_back	(
 			std::make_pair(
 				temp0,

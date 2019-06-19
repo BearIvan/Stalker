@@ -345,7 +345,7 @@ void LoadStrings(CharInfoStrings *container, LPCSTR section, LPCSTR field)
 	R_ASSERT(container);
 
 	LPCSTR				cfgRecord	= pSettings->r_string(section, field);
-	u32					count		= _GetItemCount(cfgRecord);
+	u32					count		= XrTrims::GetItemCount(cfgRecord);
 	R_ASSERT3			(count%2, "there're must be an odd number of elements", field);
 	string64			singleThreshold;
 	ZeroMemory			(singleThreshold, sizeof(singleThreshold));
@@ -354,10 +354,10 @@ void LoadStrings(CharInfoStrings *container, LPCSTR section, LPCSTR field)
 
 	for (u32 k = 0; k < count; k += 2)
 	{
-		_GetItem(cfgRecord, k, singleThreshold);
+		XrTrims::GetItem(cfgRecord, k, singleThreshold);
 		id.second = singleThreshold;
 
-		_GetItem(cfgRecord, k + 1, singleThreshold);
+		XrTrims::GetItem(cfgRecord, k + 1, singleThreshold);
 		if(k+1!=count)
 			sscanf(singleThreshold, "%i", &upBoundThreshold);
 		else

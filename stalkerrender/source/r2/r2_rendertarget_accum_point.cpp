@@ -21,14 +21,14 @@ void CRenderTarget::accum_point		(light* L)
 		if (GameVersionController::SOC != gameVersionController->getGame())
 		{
 			Device.mProject.build_projection(
-				deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+				XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 				Device.fASPECT, VIEWPORT_NEAR,
 				ENV.CurrentEnv->far_plane);
 		}
 		else
 		{
 			Device.mProject.build_projection(
-				deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+				XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 				Device.fASPECT, VIEWPORT_NEAR,
 				ENV_SOC.CurrentEnv.far_plane);
 		}

@@ -121,7 +121,7 @@ public:
     {
         if (SubGraphID >= subgraphs.size()) return;
 
-        clamp(d, mn, mx);
+		XrMath::clamp(d, mn, mx);
 
         SubGraphVecIt it = subgraphs.begin() + SubGraphID;
         it->elements.push_back(SElement(d, clr));

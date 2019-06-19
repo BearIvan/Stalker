@@ -47,11 +47,11 @@ bool CTrade::CanTrade()
 
 	pThis.base->Direction().getHP(yaw,pitch);
 	pPartner.base->Direction().getHP(yaw2,pitch2);
-	yaw = angle_normalize(yaw);
-	yaw2 = angle_normalize(yaw2);
+	yaw = XrMath::angle_normalize(yaw);
+	yaw2 = XrMath::angle_normalize(yaw2);
 
-	float Res = rad2deg(_abs(yaw - yaw2) < PI ? _abs(yaw - yaw2) : 
-								 PI_MUL_2 - _abs(yaw - yaw2));
+	float Res = XrMath::rad2deg(XrMath::abs(yaw - yaw2) < XrMath::M_PI ? XrMath::abs(yaw - yaw2) : 
+								 XrMath::PI_MUL_2 - XrMath::abs(yaw - yaw2));
 	if (Res < 165.f || Res > 195.f) 
 	{
 		RemovePartner();
@@ -174,7 +174,7 @@ u32	CTrade::GetItemPrice(PIItem pItem, bool b_buying)
 	else
 		relation_factor		= float(attitude + 1000.f)/2000.f;
 
-	clamp					(relation_factor,0.f,1.f);
+	XrMath::clamp					(relation_factor,0.f,1.f);
 
 	const SInventoryOwner	*_partner = 0;
 	bool					buying = true;
@@ -221,10 +221,10 @@ u32	CTrade::GetItemPrice(PIItem pItem, bool b_buying)
 			)*
 			relation_factor;
 
-	clamp					(
+	XrMath::clamp					(
 		action_factor,
-		_min(trade_factors.enemy_factor(),trade_factors.friend_factor()),
-		_max(trade_factors.enemy_factor(),trade_factors.friend_factor())
+		XrMath::min(trade_factors.enemy_factor(),trade_factors.friend_factor()),
+		XrMath::max(trade_factors.enemy_factor(),trade_factors.friend_factor())
 	);
 	
 	// computing deficit_factor
@@ -236,7 +236,7 @@ u32	CTrade::GetItemPrice(PIItem pItem, bool b_buying)
 
 	// total price calculation
 	u32						result = 
-		iFloor	(
+		XrMath::iFloor	(
 			base_cost*
 			condition_factor*
 			action_factor*

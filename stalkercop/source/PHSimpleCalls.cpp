@@ -35,7 +35,7 @@ void CPHCallOnStepCondition::set_steps_interval(u64 steps)
 }
 void CPHCallOnStepCondition::set_time_interval(float time)
 {
-		set_steps_interval(iCeil(time/fixed_step));
+		set_steps_interval(XrMath::iCeil(time/fixed_step));
 }
 void CPHCallOnStepCondition::set_time_interval(u32 time)
 {

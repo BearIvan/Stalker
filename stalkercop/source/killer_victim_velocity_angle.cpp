@@ -25,7 +25,7 @@ void killer_victim_angle::reset_game()
 
 u32 const killer_victim_angle::get_u32_param()
 {
-	return u32(acosf(m_killer_victim_angle_cos) * (180.f/PI));
+	return u32(acosf(m_killer_victim_angle_cos) * (180.f/XrMath::M_PI));
 }
 
 void killer_victim_angle::OnPlayerKilled(u16 killer_id,
@@ -57,18 +57,18 @@ void killer_victim_angle::OnPlayerKilled(u16 killer_id,
 		return;
 
 	victim_velocity = tmp_movc->GetVelocity();
-	if (victim_velocity.square_magnitude() < EPS)
+	if (victim_velocity.square_magnitude() < XrMath::EPS)
 		return;
 
 	Fvector cam_pos, cam_norm;
 	killer_actor->cam_Active()->Get		(cam_pos, killer_dir, cam_norm);
-	if (killer_dir.square_magnitude() < EPS)
+	if (killer_dir.square_magnitude() < XrMath::EPS)
 		return;
 	
 	killer_dir.normalize		();
 	victim_velocity.normalize	();
 	
-	m_killer_victim_angle_cos	= _abs(killer_dir.dotproduct(victim_velocity));
+	m_killer_victim_angle_cos	= XrMath::abs(killer_dir.dotproduct(victim_velocity));
 	//Msg("* Killer victim angle cos: %1.3f", m_killer_victim_angle_cos);
 	//Msg("* Killer victim angle: %d", get_u32_param());
 }

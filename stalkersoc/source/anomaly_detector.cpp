@@ -75,8 +75,8 @@ void CAnomalyDetector::update_schedule()
 IC	bool CSpaceRestrictionManager::restriction_presented(shared_str restrictions, shared_str restriction) const
 {
 	string4096					m_temp;
-	for (u32 i = 0, n = _GetItemCount(*restrictions); i < n; ++i)
-		if (!xr_strcmp(restriction, _GetItem(*restrictions, i, m_temp)))
+	for (u32 i = 0, n = XrTrims::GetItemCount(*restrictions); i < n; ++i)
+		if (!xr_strcmp(restriction, XrTrims::GetItem(*restrictions, i, m_temp)))
 			return				(true);
 	return						(false);
 }

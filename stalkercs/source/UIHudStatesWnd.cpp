@@ -342,7 +342,7 @@ void CUIHudStatesWnd::SetAmmoIcon( const shared_str& sect_name )
 void CUIHudStatesWnd::UpdateZones()
 {
 	//float actor_radia = m_actor->conditions().GetRadiation() * m_actor_radia_factor;
-	//m_radia_hit = _max( m_zone_cur_power[it_rad], actor_radia );
+	//m_radia_hit = XrMath::max( m_zone_cur_power[it_rad], actor_radia );
 
 	CActor* actor = smart_cast<CActor*>( Level().CurrentViewEntity() );
 	if ( !actor )
@@ -355,7 +355,7 @@ void CUIHudStatesWnd::UpdateZones()
 	float zone_max_power = actor->conditions().GetZoneMaxPower(ALife::infl_rad);
 	float power          = actor->conditions().GetInjuriousMaterialDamage();
 	power = power / zone_max_power;
-	clamp( power, 0.0f, 1.1f );
+	XrMath::clamp( power, 0.0f, 1.1f );
 	if ( m_zone_cur_power[ALife::infl_rad] < power )
 	{
 		m_zone_cur_power[ALife::infl_rad] = power;
@@ -371,7 +371,7 @@ void CUIHudStatesWnd::UpdateZones()
 	m_arrow_shadow->SetPos( m_arrow->GetPos() );
 
 	power = actor->conditions().GetPsy();
-	clamp( power, 0.0f, 1.1f );
+	XrMath::clamp( power, 0.0f, 1.1f );
 	if ( m_zone_cur_power[ALife::infl_psi] < power )
 	{
 		m_zone_cur_power[ALife::infl_psi] = power;
@@ -424,14 +424,14 @@ void CUIHudStatesWnd::UpdateZones()
 		float dist_to_zone	= 0.0f;
 		float rad_zone		= 0.0f;
 		pZone->CalcDistanceTo( P, dist_to_zone, rad_zone );
-		clamp( dist_to_zone, 0.0f, flt_max * 0.5f );
+		XrMath::clamp( dist_to_zone, 0.0f, flt_max * 0.5f );
 		
 		float fRelPow = ( dist_to_zone / (rad_zone + (z_type==ALife::infl_max_count)? 5.0f : m_zone_feel_radius[z_type] + 0.1f) ) - 0.1f;
 
 		zone_max_power = actor->conditions().GetZoneMaxPower(z_type);
 		power = pZone->Power( dist_to_zone );
 		power = power / zone_max_power;
-		clamp( power, 0.0f, 1.1f );
+		XrMath::clamp( power, 0.0f, 1.1f );
 
 		if ( (z_type!=ALife::infl_max_count) && (m_zone_cur_power[z_type] < power) ) //max
 		{
@@ -447,7 +447,7 @@ void CUIHudStatesWnd::UpdateZones()
 				fRelPow *= ( 2.5f - 2.0f * power ); // звук зависит от силы зоны
 			}
 		}
-		clamp( fRelPow, 0.0f, 1.0f );
+		XrMath::clamp( fRelPow, 0.0f, 1.0f );
 
 		//определить текущую частоту срабатывания сигнала
 		zone_info.cur_period = zone_type->freq.x + (zone_type->freq.y - zone_type->freq.x) * (fRelPow * fRelPow);
@@ -498,7 +498,7 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 	float max_power = actor->conditions().GetZoneMaxPower( hit_type );
 	protect = protect / max_power; // = 0..1
 
-	if ( hit_power < EPS )
+	if ( hit_power < XrMath::EPS )
 	{
 		m_indik[type]->SetColor( c_white );
 		SwitchLA( false, type );

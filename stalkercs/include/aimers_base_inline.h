@@ -46,7 +46,7 @@ inline void aimers::base::fill_bones	(
 		for (u16 i=0; i<MAX_PARTS; ++i) {
 			CBlend* const blend			= m_animated.LL_PlayCycle( i, m_animation_id, 0, 0, 0, channel_id );
 			if (blend)
-				blend->timeCurrent		= m_animation_start ? 0.f : ( blend->timeTotal - (SAMPLE_SPF + EPS) );
+				blend->timeCurrent		= m_animation_start ? 0.f : ( blend->timeTotal - (SAMPLE_SPF + XrMath::EPS) );
 		}
 	}
 

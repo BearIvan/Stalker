@@ -12,7 +12,7 @@ static const float	sink_offset			= -(max_distance-source_offset);
 static const float	drop_length			= 5.f;
 static const float	drop_width			= 0.30f;
 static const float	drop_angle			= 3.0f;
-static const float	drop_max_angle		= deg2rad(10.f);
+static const float	drop_max_angle		= XrMath::deg2rad(10.f);
 static const float	drop_max_wind_vel	= 20.0f;
 static const float	drop_speed_min		= 40.f;
 static const float	drop_speed_max		= 80.f;
@@ -62,16 +62,16 @@ void dxRainRender::Render(CEffect_Rain &owner)
 		factor = ENV.CurrentEnv->rain_density;
 		f_rain_color = ENV.CurrentEnv->rain_color;
 	}
-	if (factor<EPS_L)			return;
+	if (factor<XrMath::EPS_L)			return;
 
-  	u32 desired_items			= iFloor	(0.5f*(1.f+factor)*float(max_desired_items));
+  	u32 desired_items			= XrMath::iFloor	(0.5f*(1.f+factor)*float(max_desired_items));
 	// visual
 	float		factor_visual	= factor/2.f+.5f;
 
 	u32			u_rain_color	= color_rgba_f(f_rain_color.x,f_rain_color.y,f_rain_color.z,factor_visual);
 
 	// born _new_ if needed
-	float	b_radius_wrap_sqr	= _sqr((source_radius+.5f));
+	float	b_radius_wrap_sqr	= XrMath::sqr((source_radius+.5f));
 	if (owner.items.size()<desired_items)	{
 		// owner.items.reserve		(desired_items);
 		while (owner.items.size()<desired_items)	{
@@ -109,7 +109,7 @@ void dxRainRender::Render(CEffect_Rain &owner)
 		Fvector	wdir;	wdir.set(one.P.x-vEye.x,0,one.P.z-vEye.z);
 		float	wlen	= wdir.square_magnitude();
 		if (wlen>b_radius_wrap_sqr)	{
-			wlen		= _sqrt(wlen);
+			wlen		= XrMath::sqrt(wlen);
 			//.			Device.Statistic->TEST3.Begin();
 			if ((one.P.y-vEye.y)<sink_offset){
 				// need born
@@ -123,15 +123,15 @@ void dxRainRender::Render(CEffect_Rain &owner)
 					float dist_sqr	= one.P.distance_to_sqr(src_p);
 					float height	= max_distance;
 					if (owner.RayPick(src_p,one.D,height,collide::rqtBoth)){	
-						if (_sqr(height)<=dist_sqr){ 
+						if (XrMath::sqr(height)<=dist_sqr){ 
 							one.invalidate	();								// need born
 							//							Log("1");
 						}else{	
-							owner.RenewItem	(one,height-_sqrt(dist_sqr),TRUE);		// fly to point
+							owner.RenewItem	(one,height-XrMath::sqrt(dist_sqr),TRUE);		// fly to point
 							//							Log("2",height-dist);
 						}
 					}else{
-						owner.RenewItem		(one,max_distance-_sqrt(dist_sqr),FALSE);		// fly ...
+						owner.RenewItem		(one,max_distance-XrMath::sqrt(dist_sqr),FALSE);		// fly ...
 						//						Log("3",1.5f*b_height-dist);
 					}
 				}else{

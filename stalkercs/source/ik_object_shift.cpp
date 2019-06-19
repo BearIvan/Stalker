@@ -22,7 +22,7 @@ void object_shift::	dbg_draw			( const Fmatrix	&current_pos, const extrapolation
 
 	float time = taget_time - time_global;
 	float time_passed = time_global - current_time;
-	if(fis_zero(time))
+	if(XrMath::fis_zero(time))
 		return;
 
 	float time_quant = ( time ) / nb_points;
@@ -79,7 +79,7 @@ bool square_equation(float a, float b, float c, float &x0, float &x1 )// returns
 	float d = b*b - 4.f * a * c;
 	if( d<0.f )
 		return false;
-	float srt_d_2a	= 0.5f * _sqrt( d )/a ;
+	float srt_d_2a	= 0.5f * XrMath::sqrt( d )/a ;
 	float b_2a		= 0.5f * b/a;
 	x0 = -b_2a - srt_d_2a;
 	x1 = -b_2a + srt_d_2a;
@@ -89,7 +89,7 @@ void	object_shift::set_taget		( float taget_, float time )
 {
 	if( b_freeze )
 			return;
-	//if( fsimilar(taget, taget_) )
+	//if( XrMath::fsimilar(taget, taget_) )
 	//	return;
 	taget = taget_;
 	
@@ -97,13 +97,13 @@ void	object_shift::set_taget		( float taget_, float time )
 	
 
 
-	if( fis_zero( taget_-shift( time_global + time ) ) )
+	if( XrMath::fis_zero( taget_-shift( time_global + time ) ) )
 	{
 		taget_time		= time_global + time ;
 		return ;
 	}
 
-	if( time < EPS_S)
+	if( time < XrMath::EPS_S)
 		time = Device.fTimeDelta;
 
 	current			= shift();
@@ -131,8 +131,8 @@ void	object_shift::set_taget		( float taget_, float time )
 	if( square_equation( aaccel/2.f, accel, speed, x0, x1 ) )
 	{
 		if( 
-			( ( x0 > 0.f && x0 < time - EPS_S ) && _abs( delta_shift( x0 ) ) > 2.f * x ) ||
-			( ( x1 > 0.f && x1 < time - EPS_S ) && _abs( delta_shift( x1 ) ) > 2.f * x )
+			( ( x0 > 0.f && x0 < time - XrMath::EPS_S ) && XrMath::abs( delta_shift( x0 ) ) > 2.f * x ) ||
+			( ( x1 > 0.f && x1 < time - XrMath::EPS_S ) && XrMath::abs( delta_shift( x1 ) ) > 2.f * x )
 			)
 		{
 			aaccel	= 0.f;

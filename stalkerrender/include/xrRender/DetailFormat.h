@@ -8,8 +8,8 @@
 #define DETAIL_SLOT_SIZE	2.f
 #define DETAIL_SLOT_SIZE_2	DETAIL_SLOT_SIZE*0.5f
  
-//	int s_x	= iFloor			(EYE.x/slot_size+.5f)+offs_x;		// [0...size_x)
-//	int s_z	= iFloor			(EYE.z/slot_size+.5f)+offs_z;		// [0...size_z)
+//	int s_x	= XrMath::iFloor			(EYE.x/slot_size+.5f)+offs_x;		// [0...size_x)
+//	int s_z	= XrMath::iFloor			(EYE.z/slot_size+.5f)+offs_z;		// [0...size_z)
 
 
 /*
@@ -92,14 +92,14 @@ public:
 public:
 	void			w_y		(float base, float height)				
 	{	
-		s32	_base	= iFloor((base + 200)/.2f);			clamp(_base,	0,4095);	y_base		= _base;
+		s32	_base	= XrMath::iFloor((base + 200)/.2f);			XrMath::clamp(_base,	0,4095);	y_base		= _base;
 		f32 _error	= base - r_ybase();
-		s32	_height = iCeil ((height+_error) / .1f);	clamp(_height,	0,255);		y_height	= _height;
+		s32	_height = XrMath::iCeil ((height+_error) / .1f);	XrMath::clamp(_height,	0,255);		y_height	= _height;
 	}
 
 	float			r_ybase		()						{	return float(y_base)*.2f - 200.f;								}
 	float			r_yheight	()						{	return float(y_height)*.1f;									}
-	u32				w_qclr		(float v, u32 range)	{	s32 _v = iFloor(v * float(range)); clamp(_v,0,s32(range)); return _v; };
+	u32				w_qclr		(float v, u32 range)	{	s32 _v = XrMath::iFloor(v * float(range)); XrMath::clamp(_v,0,s32(range)); return _v; };
 	float			r_qclr		(u32 v,   u32 range)	{	return float(v)/float(range); }
 
 //	static void		verify		()						{	VERIFY(16==sizeof(DetailSlot));	}

@@ -54,10 +54,10 @@ void CWeaponMagazinedWGrenade::Load	(LPCSTR section)
 	if (S && S[0]) 
 	{
 		string128		_ammoItem;
-		int				count		= _GetItemCount	(S);
+		int				count		= XrTrims::GetItemCount	(S);
 		for (int it=0; it<count; ++it)	
 		{
-			_GetItem				(S,it,_ammoItem);
+			XrTrims::GetItem				(S,it,_ammoItem);
 			m_ammoTypes2.push_back	(_ammoItem);
 		}
 		m_ammoName2 = pSettings->r_string(*m_ammoTypes2[0],"inv_name_short");
@@ -804,10 +804,10 @@ bool CWeaponMagazinedWGrenade::install_upgrade_ammo_class	( LPCSTR section, bool
 	{
 		xr_vector<shared_str>& ammo_types	= m_bGrenadeMode ? m_ammoTypes2 : m_ammoTypes;
 		ammo_types.clear					(); 
-		for ( int i = 0, count = _GetItemCount( str ); i < count; ++i )	
+		for ( int i = 0, count = XrTrims::GetItemCount( str ); i < count; ++i )	
 		{
 			string128						ammo_item;
-			_GetItem						( str, i, ammo_item );
+			XrTrims::GetItem						( str, i, ammo_item );
 			ammo_types.push_back			( ammo_item );
 		}
 
@@ -832,10 +832,10 @@ bool CWeaponMagazinedWGrenade::install_upgrade_impl( LPCSTR section, bool test )
 	{
 		xr_vector<shared_str>& ammo_types	= !m_bGrenadeMode ? m_ammoTypes2 : m_ammoTypes;
 		ammo_types.clear					(); 
-		for ( int i = 0, count = _GetItemCount( str ); i < count; ++i )	
+		for ( int i = 0, count = XrTrims::GetItemCount( str ); i < count; ++i )	
 		{
 			string128						ammo_item;
-			_GetItem						( str, i, ammo_item );
+			XrTrims::GetItem						( str, i, ammo_item );
 			ammo_types.push_back			( ammo_item );
 		}
 

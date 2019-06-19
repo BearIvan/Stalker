@@ -33,7 +33,7 @@ void CPHCallOnStepCondition::set_steps_interval(u64 steps)
 }
 void CPHCallOnStepCondition::set_time_interval(float time)
 {
-		set_steps_interval(iCeil(time/fixed_step));
+		set_steps_interval(XrMath::iCeil(time/fixed_step));
 }
 void CPHCallOnStepCondition::set_time_interval(u32 time)
 {
@@ -85,7 +85,7 @@ CPHReqComparerHasShell::CPHReqComparerHasShell(CPhysicsShell	*shell)
 //CPHTimeCondition::CPHTimeCondition(float time)
 //{
 //	///if (dTime < m_frame_time*1000) return 0;
-//	u32 res = iCeil((float(dTime) - m_frame_time*1000) / (fixed_step*1000));
+//	u32 res = XrMath::iCeil((float(dTime) - m_frame_time*1000) / (fixed_step*1000));
 //	m_step=
 //}
 

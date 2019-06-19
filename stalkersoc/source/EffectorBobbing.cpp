@@ -53,7 +53,7 @@ BOOL CEffectorBobbing::Process		(Fvector &p, Fvector &d, Fvector &n, float& /**f
 		if (fReminderFactor>0.f)	fReminderFactor -= SPEED_REMINDER*Device.fTimeDelta;
 		else						fReminderFactor = 0.f;
 	}
-	if (!fsimilar(fReminderFactor,0)){
+	if (!XrMath::fsimilar(fReminderFactor,0)){
 		Fmatrix		M;
 		M.identity	();
 		M.j.set		(n);
@@ -83,8 +83,8 @@ BOOL CEffectorBobbing::Process		(Fvector &p, Fvector &d, Fvector &n, float& /**f
 			ST	= m_fSpeedWalk*fTime*k;
 		}
 	
-		float _sinA	= _abs(_sin(ST)*A)*fReminderFactor;
-		float _cosA	= _cos(ST)*A*fReminderFactor;
+		float _sinA	= XrMath::abs(XrMath::sin(ST)*A)*fReminderFactor;
+		float _cosA	= XrMath::cos(ST)*A*fReminderFactor;
 
 		p.y			+=	_sinA;
 		dangle.x	=	_cosA;

@@ -64,7 +64,7 @@ bool CControlThreaten::check_start_conditions()
 	const CEntityAlive *enemy				= m_object->EnemyMan.get_enemy();
 	if (!enemy)	return false;
 	// check if faced enemy
-	if (!m_man->direction().is_face_target(enemy, PI_DIV_6)) return false;
+	if (!m_man->direction().is_face_target(enemy, XrMath::PI_DIV_6)) return false;
 	
 	return true;
 }

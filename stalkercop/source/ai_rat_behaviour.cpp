@@ -25,7 +25,7 @@ void CAI_Rat::update_home_position	()
 	if (ID() != leader->ID())	{
 		CAI_Rat					*rat_leader = smart_cast<CAI_Rat*>(leader);
 		VERIFY					(rat_leader);
-		if (m_home_position.distance_to(rat_leader->m_home_position) > EPS_L)
+		if (m_home_position.distance_to(rat_leader->m_home_position) > XrMath::EPS_L)
 			add_active_member	(true);
 
 		m_home_position			= rat_leader->m_home_position;

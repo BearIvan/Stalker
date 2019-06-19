@@ -55,7 +55,7 @@ void CAI_Rat::fire	(bool const &bFire)
 void CAI_Rat::movement_type	(float const &fSpeed)
 {
 //	StandUp();
-	m_bMoving = _abs(fSpeed) > EPS_L;
+	m_bMoving = XrMath::abs(fSpeed) > XrMath::EPS_L;
 	m_fSpeed = m_fCurSpeed = fSpeed;
 }
 
@@ -69,11 +69,11 @@ void CAI_Rat::select_speed	()
 	tTemp2					= XFORM().k;
 	tTemp2.normalize_safe	();
 	float					fAngle = tTemp1.dotproduct(tTemp2);
-	clamp					(fAngle,-.99999f,.99999f);
+	XrMath::clamp					(fAngle,-.99999f,.99999f);
 	fAngle					= acosf(fAngle);
 	
-	if (_abs(m_fSpeed - m_fMinSpeed) <= EPS_L)	{
-		if (fAngle >= 2*PI_DIV_3) {
+	if (XrMath::abs(m_fSpeed - m_fMinSpeed) <= XrMath::EPS_L)	{
+		if (fAngle >= 2*XrMath::PI_DIV_3) {
 			m_fSpeed = 0;
 			m_fASpeed = m_fNullASpeed;
 			movement().m_body.target.yaw = -y;
@@ -85,14 +85,14 @@ void CAI_Rat::select_speed	()
 		}
 	}
 	else
-		if (_abs(m_fSpeed - m_fMaxSpeed) <= EPS_L)	{
-			if (fAngle >= 2*PI_DIV_3) {
+		if (XrMath::abs(m_fSpeed - m_fMaxSpeed) <= XrMath::EPS_L)	{
+			if (fAngle >= 2*XrMath::PI_DIV_3) {
 				m_fSpeed = 0;
 				m_fASpeed = m_fNullASpeed;
 				movement().m_body.target.yaw = -y;
 			}
 			else
-				if (fAngle >= PI_DIV_2) {
+				if (fAngle >= XrMath::PI_DIV_2) {
 					m_fSpeed = m_fMinSpeed;
 					m_fASpeed = m_fMinASpeed;
 				}
@@ -102,19 +102,19 @@ void CAI_Rat::select_speed	()
 				}
 		}
 		else
-			if (_abs(m_fSpeed - m_fAttackSpeed) <= EPS_L)	{
-//				if (fAngle >= 2*PI_DIV_3) {
+			if (XrMath::abs(m_fSpeed - m_fAttackSpeed) <= XrMath::EPS_L)	{
+//				if (fAngle >= 2*XrMath::PI_DIV_3) {
 //					m_fSpeed = 0;
 //					m_fASpeed = m_fNullASpeed;
 //					movement().m_body.target.yaw = -y;
 //				}
 //				else
-					if (fAngle >= PI_DIV_2) {
+					if (fAngle >= XrMath::PI_DIV_2) {
 						m_fSpeed = m_fMinSpeed;
 						m_fASpeed = m_fMinASpeed;
 					}
 					else
-						if (fAngle >= PI_DIV_4) {
+						if (fAngle >= XrMath::PI_DIV_4) {
 							m_fSpeed = m_fMaxSpeed;
 							m_fASpeed = m_fMaxASpeed;
 						}
@@ -136,7 +136,7 @@ void CAI_Rat::select_speed	()
 	tTemp1.mad(tTemp2,1*m_fSpeed*m_fTimeUpdateDelta);
 	if (bfCheckIfOutsideAIMap(tTemp1)) {
 		tTemp1 = Position();
-		if (_abs(m_fSpeed - m_fAttackSpeed) < EPS_L) {
+		if (XrMath::abs(m_fSpeed - m_fAttackSpeed) < XrMath::EPS_L) {
 			tTemp1.mad(tTemp2,1*m_fMaxSpeed*m_fTimeUpdateDelta);
 			if (bfCheckIfOutsideAIMap(tTemp1)) {
 				m_fSpeed = m_fMinSpeed;
@@ -158,7 +158,7 @@ void CAI_Rat::select_speed	()
 void CAI_Rat::make_turn()
 {
 	m_fSpeed			= m_fCurSpeed = 0.f;
-	if (m_bFiring && (angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) < PI_DIV_6)) {
+	if (m_bFiring && (XrMath::angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) < XrMath::PI_DIV_6)) {
 //		movement().m_body.speed	= 0.f;
 		return;
 	}
@@ -166,7 +166,7 @@ void CAI_Rat::make_turn()
 //	Msg					("%6d : Rat %s, %f -> %f [%f]",Device.dwTimeGlobal,*cName(),movement().m_body.current.pitch,movement().m_body.target.pitch,get_custom_pitch_speed(0.f));
 
 	m_turning			= true;
-	movement().m_body.speed		= PI_MUL_2;
+	movement().m_body.speed		= XrMath::PI_MUL_2;
 
 	Fvector				tSavedPosition = Position();
 	m_tHPB.x			= -movement().m_body.current.yaw;
@@ -296,7 +296,7 @@ Fvector CAI_Rat::calc_position()
 	//movement().m_body.target.pitch = -pitch;
 	m_newPitch = -pitch;
 
-	m_tHPB.x			= angle_normalize_signed(m_tHPB.x);
+	m_tHPB.x			= XrMath::angle_normalize_signed(m_tHPB.x);
 	m_tHPB.y			= -movement().m_body.current.pitch;
 	return tSavedPosition.mad	(tDirection,m_fSpeed*m_fTimeUpdateDelta);
 }
@@ -328,12 +328,12 @@ void CAI_Rat::move	(bool bCanAdjustSpeed, bool bStraightForward)
 	if (bCanAdjustSpeed)
 		select_speed	();
 
-	if ((angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) > PI_DIV_6)){
+	if ((XrMath::angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) > XrMath::PI_DIV_6)){
 		make_turn	();
 		return;
 	}
 
-	if (fis_zero(m_fSpeed))
+	if (XrMath::fis_zero(m_fSpeed))
 		return;
 
 	m_fCurSpeed		= m_fSpeed;
@@ -352,17 +352,17 @@ void CAI_Rat::move	(bool bCanAdjustSpeed, bool bStraightForward)
 		m_bNoWay		= false;
 	}
 	else {
-		m_fSafeSpeed	= m_fSpeed = EPS_S;
+		m_fSafeSpeed	= m_fSpeed = XrMath::EPS_S;
 		m_bNoWay		= true;
 		m_tHPB			= tSafeHPB;
 		set_position(tSavedPosition);
 		movement().m_body.target	= tSavedTorsoTarget;
 		m_fDHeading		= fSavedDHeading;
 	}
-	if (m_bNoWay && (!m_turning || (angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < EPS_L))) {
+	if (m_bNoWay && (!m_turning || (XrMath::angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < XrMath::EPS_L))) {
 		if ((Device.dwTimeGlobal - m_previous_query_time > TIME_TO_RETURN) || (!m_previous_query_time)) {
-			movement().m_body.target.yaw = movement().m_body.current.yaw + PI;
-			movement().m_body.target.yaw = angle_normalize(movement().m_body.target.yaw);
+			movement().m_body.target.yaw = movement().m_body.current.yaw + XrMath::M_PI;
+			movement().m_body.target.yaw = XrMath::angle_normalize(movement().m_body.target.yaw);
 			Fvector tTemp;
 			tTemp.setHP(-movement().m_body.target.yaw ,-movement().m_body.target.pitch);
 			if (m_bStraightForward)
@@ -528,7 +528,7 @@ void CAI_Rat::draw_way()
 		P1 = ai().level_graph().vertex_position(vertex->data().level_vertex_id());
 		vertex = m_path->vertex(i);
 		P2 = ai().level_graph().vertex_position(vertex->data().level_vertex_id());
-		if (!fis_zero(P1.distance_to_sqr(P2),EPS_L))
+		if (!XrMath::fis_zero(P1.distance_to_sqr(P2),XrMath::EPS_L))
 			Level().debug_renderer().draw_line			(Fidentity,P1,P2,D3DCOLOR_XRGB(0,0,255));
 		m_sphere.identity();
 		m_sphere.scale(0.25, 0.25, 0.25);
@@ -541,7 +541,7 @@ void CAI_Rat::draw_way()
 	P1 = ai().level_graph().vertex_position(vertex->data().level_vertex_id());
 	vertex = m_path->vertex(m_path->vertex_count() - 1);
 	P2 = ai().level_graph().vertex_position(vertex->data().level_vertex_id());
-	if (!fis_zero(P1.distance_to_sqr(P2),EPS_L))
+	if (!XrMath::fis_zero(P1.distance_to_sqr(P2),XrMath::EPS_L))
 		Level().debug_renderer().draw_line			(Fidentity,P1,P2,D3DCOLOR_XRGB(0,0,255));
 	m_sphere.identity();
 	m_sphere.scale(0.25, 0.25, 0.25);

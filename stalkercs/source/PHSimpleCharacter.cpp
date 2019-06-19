@@ -52,7 +52,7 @@ bool test_sides(const Fvector &center,const Fvector &side_dir,const Fvector &fv_
 		//////////////////////////////////////////////tri norm
 		float fvn=cast_fv(tri.norm).dotproduct(fv_dir);float sg_fvn= sgn(fvn);
 		float sdn=cast_fv(tri.norm).dotproduct(side_dir);float sg_sdn= sgn(sdn);
-		if(sg_fvn*fvn*box.z+sg_sdn*sdn*box.x+_abs(tri.norm[1])*box.y>_abs(dist))return false;
+		if(sg_fvn*fvn*box.z+sg_sdn*sdn*box.x+XrMath::abs(tri.norm[1])*box.y>XrMath::abs(dist))return false;
 	}
 	{
 	
@@ -116,7 +116,7 @@ bool test_sides(const Fvector &center,const Fvector &side_dir,const Fvector &fv_
 		float sg_dist=sgn(dist);
 		if(sgn(ov_prg-c_prg)!=sg_dist)
 		{
-			if(_abs(fv_dir.dotproduct(crs))*box.z+_abs(side_dir.dotproduct(crs))*box.x<sg_dist*dist) return false;
+			if(XrMath::abs(fv_dir.dotproduct(crs))*box.z+XrMath::abs(side_dir.dotproduct(crs))*box.x<sg_dist*dist) return false;
 		}
 	}
 	return true;
@@ -124,7 +124,7 @@ bool test_sides(const Fvector &center,const Fvector &side_dir,const Fvector &fv_
 }
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////class//CPHSimpleCharacter////////////////////
-CPHSimpleCharacter::CPHSimpleCharacter():	m_last_environment_update ( Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ) ),
+CPHSimpleCharacter::CPHSimpleCharacter():	m_last_environment_update ( Fvector().set( -flt_max, -flt_max, -flt_max ) ),
 	m_last_picked_material ( GAMEMTL_NONE_IDX )
 {
 
@@ -200,11 +200,11 @@ void CPHSimpleCharacter::TestPathCallback(bool& do_colide,bool bo1,dContact& c,S
 
 void CPHSimpleCharacter::SetBox(const dVector3 &sizes)
 {
-	m_radius=_min(sizes[0],sizes[2])/2.f;
+	m_radius=XrMath::min(sizes[0],sizes[2])/2.f;
 	m_cyl_hight=sizes[1]-2.f*m_radius;
 	if (m_cyl_hight<0.f) m_cyl_hight=0.01f;
 	const dReal k=1.20f;
-	dReal doun=m_radius*_sqrt(1.f-1.f/k/k)/2.f;
+	dReal doun=m_radius*XrMath::sqrt(1.f-1.f/k/k)/2.f;
 	//m_geom_shell=dCreateCylinder(0,m_radius/k,m_cyl_hight+doun);
 	dGeomCylinderSetParams(m_geom_shell,m_radius/k,m_cyl_hight+doun);
 	//m_wheel=dCreateSphere(0,m_radius);
@@ -242,14 +242,14 @@ void CPHSimpleCharacter::Create(dVector3 sizes){
 	m_creation_step		=	ph_world->m_steps_num;
 	////////////////////////////////////////////////////////
 
-	m_radius=_min(sizes[0],sizes[2])/2.f;
+	m_radius=XrMath::min(sizes[0],sizes[2])/2.f;
 	m_current_object_radius=m_radius;
 	m_cyl_hight=sizes[1]-2.f*m_radius;
 	if (m_cyl_hight<0.f) m_cyl_hight=0.01f;
 
 	b_exist=true;
 	const dReal k=1.20f;
-	dReal doun=m_radius*_sqrt(1.f-1.f/k/k)/2.f;
+	dReal doun=m_radius*XrMath::sqrt(1.f-1.f/k/k)/2.f;
 
 	m_geom_shell=dCreateCylinder(0,m_radius/k,m_cyl_hight+doun);
 
@@ -346,7 +346,7 @@ void CPHSimpleCharacter::Create(dVector3 sizes){
 	m_last_move.set(0,0,0)	;
 	CPHCollideValidator::SetCharacterClass(*this);
 	m_collision_damage_info.Construct();
-	m_last_environment_update = Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX );
+	m_last_environment_update = Fvector().set( -flt_max, -flt_max, -flt_max );
 	m_last_picked_material = GAMEMTL_NONE_IDX;
 }
 void CPHSimpleCharacter::SwitchOFFInitContact()
@@ -533,12 +533,12 @@ void CPHSimpleCharacter::PhDataUpdate(dReal /**step/**/){
 
 	dMass mass;
 	const float		*linear_velocity		=dBodyGetLinearVel(m_body);
-	dReal			linear_velocity_mag		=_sqrt(dDOT(linear_velocity,linear_velocity));
+	dReal			linear_velocity_mag		=XrMath::sqrt(dDOT(linear_velocity,linear_velocity));
 	dBodyGetMass(m_body,&mass);
 	dReal l_air=linear_velocity_mag*default_k_l;//force/velocity !!!
 	if(l_air>mass.mass/fixed_step) l_air=mass.mass/fixed_step;//validate
 	
-	if(!fis_zero(l_air))
+	if(!XrMath::fis_zero(l_air))
 		dBodyAddForce(
 		m_body,
 		-linear_velocity[0]*l_air,
@@ -655,7 +655,7 @@ void CPHSimpleCharacter::PhTune(dReal step){
 //			!b_external_impulse										
 			/*&& 
 			dSqrt(velocity[0]*velocity[0]+velocity[2]*velocity[2])<5.*/||
-			fis_zero(linear_vel_smag)								 ||
+			XrMath::fis_zero(linear_vel_smag)								 ||
 			m_elevator_state.ClimbingState()
 			)
 		) 
@@ -753,7 +753,7 @@ void CPHSimpleCharacter::PhTune(dReal step){
 		dVector3 dif={current_pos[0]-m_jump_depart_position[0],
 			current_pos[1]-m_jump_depart_position[1],
 			current_pos[2]-m_jump_depart_position[2]};
-		dReal amag =_sqrt(m_acceleration.x*m_acceleration.x+m_acceleration.z*m_acceleration.z);
+		dReal amag =XrMath::sqrt(m_acceleration.x*m_acceleration.x+m_acceleration.z*m_acceleration.z);
 		if(amag>0.f)
 			if(dif[0]*m_acceleration.x/amag+dif[2]*m_acceleration.z/amag<0.3f)
 			{
@@ -957,7 +957,7 @@ void CPHSimpleCharacter::SetAcceleration(Fvector accel){
 	if(!b_exist) return;
 
 	if(!dBodyIsEnabled(	m_body))
-		if(!fsimilar(0.f,accel.magnitude()))
+		if(!XrMath::fsimilar(0.f,accel.magnitude()))
 			Enable();
 	m_acceleration=accel;
 }
@@ -970,7 +970,7 @@ void CPHSimpleCharacter::ApplyAcceleration()
 {
 
 	dVectorSetZero(m_control_force);
-	//if(m_max_velocity<EPS) return;
+	//if(m_max_velocity<XrMath::EPS) return;
 	dMass m;
 	dBodyGetMass(m_body,&m);
 
@@ -1114,7 +1114,7 @@ void CPHSimpleCharacter::SetVelocity(Fvector vel)
 	float sq_mag=vel.square_magnitude();
 	if(sq_mag>default_l_limit*default_l_limit)
 	{
-		float mag=_sqrt(sq_mag);
+		float mag=XrMath::sqrt(sq_mag);
 		vel.mul(default_l_limit/mag);
 #ifdef DEBUG
 		Msg("set velocity magnitude is too large %f",mag);
@@ -1228,7 +1228,7 @@ void CPHSimpleCharacter::SafeAndLimitVelocity()
 	const float		*linear_velocity		=dBodyGetLinearVel(m_body);
 	if(dV_valid(linear_velocity))
 	{	
-		dReal mag=_sqrt(linear_velocity[0]*linear_velocity[0]+linear_velocity[1]*linear_velocity[1]+linear_velocity[2]*linear_velocity[2]);//;
+		dReal mag=XrMath::sqrt(linear_velocity[0]*linear_velocity[0]+linear_velocity[1]*linear_velocity[1]+linear_velocity[2]*linear_velocity[2]);//;
 		//limit velocity
 		dReal l_limit;
 		if(is_control&&!b_lose_control) 
@@ -1240,12 +1240,12 @@ void CPHSimpleCharacter::SafeAndLimitVelocity()
 		{
 			float sq_mag=m_acceleration.square_magnitude();
 			float ll_limit=m_ext_imulse.dotproduct(cast_fv(linear_velocity))*10.f/fixed_step;
-			if(sq_mag>EPS_L)
+			if(sq_mag>XrMath::EPS_L)
 			{
-				Fvector acc;acc.set(Fvector().mul(m_acceleration,1.f/_sqrt(sq_mag)));
+				Fvector acc;acc.set(Fvector().mul(m_acceleration,1.f/XrMath::sqrt(sq_mag)));
 				Fvector vll;vll.mul(cast_fv(linear_velocity),1.f/mag);
 				float mxa=vll.dotproduct(acc);
-				if(mxa*ll_limit>l_limit&&!fis_zero(mxa)){
+				if(mxa*ll_limit>l_limit&&!XrMath::fis_zero(mxa)){
 					ll_limit=l_limit/mxa;
 				}
 		
@@ -1257,7 +1257,7 @@ void CPHSimpleCharacter::SafeAndLimitVelocity()
 		m_mean_y=m_mean_y*0.9999f+linear_velocity[1]*0.0001f;
 		if(mag>l_limit)
 		{	//CutVelocity(m_l_limit,m_w_limit);
-			if(!fis_zero(l_limit))
+			if(!XrMath::fis_zero(l_limit))
 			{
 			
 				dReal f=mag/l_limit;
@@ -1400,7 +1400,7 @@ u16 CPHSimpleCharacter::RetriveContactBone()
 	u16 contact_bone	=	0;
 	CObject* object		=	smart_cast<CObject*>(m_phys_ref_object);
 	VERIFY	(object)	;
-	VERIFY							(!fis_zero(Q.dir.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(Q.dir.square_magnitude()));
 	if (g_pGameLevel->ObjectSpace.RayQuery(RQR,object->collidable.model,Q))	{
 		collide::rq_result* R = RQR.r_begin()	;
 		contact_bone=(u16)R->element			;
@@ -1855,7 +1855,7 @@ bool	CPHSimpleCharacter::	UpdateRestrictionType(CPHCharacter* ach)
 		//if(!state)Disable();
 		return true;
 	}
-	u16 num_steps=2*(u16)iCeil(restrictor_depth/resolve_depth);
+	u16 num_steps=2*(u16)XrMath::iCeil(restrictor_depth/resolve_depth);
 	for(u16 i=0;num_steps>i;++i)
 	{
 		//Calculate(Fvector().set(0,0,0),Fvector().set(1,0,0),0,0,0,0);
@@ -1913,21 +1913,21 @@ IC bool valide_res( u16& res_material_idx, const collide::rq_result	&R )
 
 bool PickMaterial( u16& res_material_idx, const Fvector &pos_, const Fvector &dir_,float range_, CObject* ignore_object )
 {
-	Fvector pos = pos_; pos.y+=EPS_L;
+	Fvector pos = pos_; pos.y+=XrMath::EPS_L;
 	Fvector dir = dir_;
 	float range = range_;
 	collide::rq_result	R;
 	res_material_idx = GAMEMTL_NONE_IDX;
 	while( g_pGameLevel->ObjectSpace.RayPick( pos, dir, range, collide::rqtBoth, R, ignore_object ) )
 	{
-		float r_range = R.range + EPS_L;
+		float r_range = R.range + XrMath::EPS_L;
 		Fvector next_pos	= pos.mad( dir, r_range ) ;
 		float	next_range	= range - r_range;
 		if( valide_res( res_material_idx, R ) )
 			return true;
 		range	= next_range;
 		pos		= next_pos;
-		if( range < EPS_L )
+		if( range < XrMath::EPS_L )
 			return false;
 	}
 	return false;

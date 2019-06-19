@@ -100,8 +100,8 @@ void CAI_Space::load				(LPCSTR level_name)
 	unload					(true);
 
 #ifdef DEBUG
-	Memory.mem_compact		();
-	u32						mem_usage = Memory.mem_usage();
+/*	Memory.mem_compact		();
+	u32						mem_usage = Memory.mem_usage();*/
 	CTimer					timer;
 	timer.Start				();
 #endif
@@ -113,8 +113,8 @@ void CAI_Space::load				(LPCSTR level_name)
 	R_ASSERT2				(cross_table().header().level_guid() == level_graph().header().guid(), "cross_table doesn't correspond to the AI-map");
 	R_ASSERT2				(cross_table().header().game_guid() == game_graph().header().guid(), "graph doesn't correspond to the cross table");
 	m_graph_engine			= xr_new<CGraphEngine>(
-		_max(
-			game_graph().header().vertex_count(),
+		XrMath::max(
+		u32(	game_graph().header().vertex_count()),
 			level_graph().header().vertex_count()
 		)
 	);
@@ -134,7 +134,7 @@ void CAI_Space::load				(LPCSTR level_name)
 	m_doors_manager			= xr_new<::doors::manager>( ai().level_graph().header().box() );
 
 #ifdef DEBUG
-	Msg						("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)",timer.GetElapsed_sec(),float(Memory.mem_usage() - mem_usage)/1048576.0);
+	Msg						("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)",timer.GetElapsed_sec(),float(0.1f)/1048576.0);
 #endif
 }
 

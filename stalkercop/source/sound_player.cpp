@@ -225,7 +225,7 @@ void CSoundPlayer::play				(u32 internal_type, u32 max_start_time, u32 min_start
 	if (max_stop_time)
 		random_time				= (max_stop_time > min_stop_time) ? random(max_stop_time - min_stop_time) + min_stop_time : max_stop_time;
 
-	sound_single.m_stop_time	= sound_single.m_start_time + iFloor(sound_single.m_sound->get_length_sec()*1000.0f) + random_time;
+	sound_single.m_stop_time	= sound_single.m_start_time + XrMath::iFloor(sound_single.m_sound->get_length_sec()*1000.0f) + random_time;
 	m_playing_sounds.push_back	(sound_single);
 	
 	if (Device.dwTimeGlobal >= m_playing_sounds.back().m_start_time)
@@ -245,10 +245,10 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 
 	seed								(u32(CPU::QPC() & 0xffffffff));
 	m_sounds.clear						();
-	for (int j=0, N = _GetItemCount(*params.m_sound_prefix); j<N; ++j) {
+	for (int j=0, N = XrTrims::GetItemCount(*params.m_sound_prefix); j<N; ++j) {
 		string_path						fn, s, temp;
 		LPSTR							S = (LPSTR)&s;
-		_GetItem						(*params.m_sound_prefix,j,temp);
+		XrTrims::GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
 		if (FS.ExistFile("%sounds%",S,".ogg")) {
 			ref_sound					*temp = add(params.m_type,S);

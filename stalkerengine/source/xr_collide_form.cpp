@@ -87,7 +87,7 @@ IC bool RAYvsOBB(const Fmatrix& IM, const Fvector& b_hsize, const Fvector& S, co
         float d = PL.distance_to_sqr(SL);
         if (d < R*R)
         {
-            R = _sqrt(d);
+            R = XrMath::sqrt(d);
             VERIFY(R >= 0.f);
             return true;
         }
@@ -152,7 +152,7 @@ void CCF_Skeleton::BuildState()
         Fmatrix ME, T, TW;
         const Fmatrix& Mbone = K->LL_GetTransform(I->elem_id);
 
-        VERIFY2(DET(Mbone)>EPS, (make_string("0 scale bone matrix, %d \n", I->elem_id) + dbg_object_full_dump_string(owner)).c_str());
+        VERIFY2(DET(Mbone)> XrMath::EPS, (make_string("0 scale bone matrix, %d \n", I->elem_id) + dbg_object_full_dump_string(owner)).c_str());
 
         switch (I->type)
         {
@@ -386,7 +386,7 @@ BOOL CCF_Shape::_RayQuery(const collide::ray_defs& Q, collide::rq_results& R)
                 float d = P.distance_to_sqr(dS);
                 if (d < range*range)
                 {
-                    range = _sqrt(d);
+                    range = XrMath::sqrt(d);
                     bHIT = TRUE;
                     R.append_result(owner, range, el, Q.flags&CDB::OPT_ONLYNEAREST);
                     if (Q.flags&CDB::OPT_ONLYFIRST) return TRUE;

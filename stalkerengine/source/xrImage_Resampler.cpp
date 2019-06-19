@@ -148,7 +148,7 @@ float B_spline_filter(float t) /* box (*) box (*) box (*) box */
 float sinc(float x)
 {
     x *= 3.1415926f;
-    if (x != 0) return(_sin(x) / x);
+    if (x != 0) return(XrMath::sin(x) / x);
     return(1.0);
 }
 float Lanczos3_filter(float t)
@@ -205,7 +205,7 @@ struct CLIST
 
 u32 CC(float a)
 {
-    int p = iFloor(float(a) + .5f);
+    int p = XrMath::iFloor(float(a) + .5f);
     if (p < 0) return 0;
     else if (p>255) return 255;
     return p;

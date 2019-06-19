@@ -102,12 +102,12 @@ float CControlMovementBase::get_velocity_from_path()
 		next_point_velocity_index = detail.path()[detail.curr_travel_point_index() + 1].velocity;
 
 	const CDetailPathManager::STravelParams &current_velocity	= detail.velocity(cur_point_velocity_index);
-	if (fis_zero(current_velocity.linear_velocity) && (next_point_velocity_index != u32(-1))) {
+	if (XrMath::fis_zero(current_velocity.linear_velocity) && (next_point_velocity_index != u32(-1))) {
 		const CDetailPathManager::STravelParams &next_velocity	= detail.velocity(next_point_velocity_index);
-		velocity							= _abs(next_velocity.linear_velocity);
+		velocity							= XrMath::abs(next_velocity.linear_velocity);
 		m_object->dir().set_heading_speed	(next_velocity.real_angular_velocity);
 	} else {
-		velocity							= _abs(current_velocity.linear_velocity);
+		velocity							= XrMath::abs(current_velocity.linear_velocity);
 		m_object->dir().set_heading_speed	(current_velocity.real_angular_velocity);
 	}
 

@@ -29,12 +29,12 @@ void CPurchaseList::process	(CInifile &ini_file, LPCSTR section, CInventoryOwner
 		VERIFY3				((*I).second.size(),"PurchaseList : cannot handle lines in section without values",section);
 
 		string256			temp0, temp1;
-		THROW3				(_GetItemCount(*(*I).second) == 2,"Invalid parameters in section",section);
+		THROW3				(XrTrims::GetItemCount(*(*I).second) == 2,"Invalid parameters in section",section);
 		process				(
 			game_object,
 			(*I).first,
-			atoi(_GetItem(*(*I).second,0,temp0)),
-			(float)atof(_GetItem(*(*I).second,1,temp1))
+			atoi(XrTrims::GetItem(*(*I).second,0,temp0)),
+			(float)atof(XrTrims::GetItem(*(*I).second,1,temp1))
 		);
 	}
 }
@@ -42,7 +42,7 @@ void CPurchaseList::process	(CInifile &ini_file, LPCSTR section, CInventoryOwner
 void CPurchaseList::process	(const CGameObject &owner, const shared_str &name, const u32 &count, const float &probability)
 {
 	VERIFY3					(count,"Invalid count for section in the purchase list",*name);
-	VERIFY3					(!fis_zero(probability,EPS_S),"Invalid probability for section in the purchase list",*name);
+	VERIFY3					(!XrMath::fis_zero(probability,XrMath::EPS_S),"Invalid probability for section in the purchase list",*name);
 
 	const Fvector			&position = owner.Position();
 	const u32				&level_vertex_id = owner.ai_location().level_vertex_id();
@@ -64,7 +64,7 @@ void CPurchaseList::process	(const CGameObject &owner, const shared_str &name, c
 			name,
 			(float)count*probability
 			/
-			_max((float)j,min_deficit_factor)
+			XrMath::max((float)j,min_deficit_factor)
 		)
 	);
 }

@@ -44,9 +44,9 @@ void SBoneProtections::reload(const shared_str& bone_sect, IKinematics* kinemati
 	CInifile::Sect	&protections = pSettings->r_section(bone_sect);
 	for (CInifile::SectCIt i=protections.Data.begin(); protections.Data.end() != i; ++i) {
 		string256 buffer;
-		float Koeff = (float)atof( _GetItem(*(*i).second, 0, buffer) );
-		float Armour = (float)atof( _GetItem(*(*i).second, 1, buffer) );
-		BOOL BonePassBullet = (BOOL) (atoi( _GetItem(*(*i).second, 2, buffer) )>0.5f);
+		float Koeff = (float)atof( XrTrims::GetItem(*(*i).second, 0, buffer) );
+		float Armour = (float)atof( XrTrims::GetItem(*(*i).second, 1, buffer) );
+		BOOL BonePassBullet = (BOOL) (atoi( XrTrims::GetItem(*(*i).second, 2, buffer) )>0.5f);
 		
 		BoneProtection	BP;
 		BP.koeff = Koeff;

@@ -23,7 +23,7 @@ void CStateGroupAttackRunAbstract::initialize()
 
 	// interception
 	m_intercept_tick = Device.dwTimeGlobal;
-	m_intercept.setHP(::Random.randF(M_PI*2.f), 0);
+	m_intercept.setHP(::Random.randF(XrMath::M_PI*2.f), 0);
 	m_intercept.normalize_safe();
 	if ( !m_intercept.magnitude() )
 	{
@@ -73,7 +73,7 @@ void CStateGroupAttackRunAbstract::execute()
  	{
  		m_intercept_tick   = Device.dwTimeGlobal;
  		m_intercept_length = 2000 + (rand()%4000);
- 		m_intercept.setHP(::Random.randF(M_PI*2.f), 0);
+ 		m_intercept.setHP(::Random.randF(XrMath::M_PI*2.f), 0);
  		m_intercept.normalize_safe();
 		if ( !magnitude(m_intercept) )
 		{
@@ -126,7 +126,7 @@ void CStateGroupAttackRunAbstract::execute()
 	const float angle = self2enemy_dist > epsilon ? 
 						0.5f*prediction_time*magnitude(m_predicted_vel) / self2enemy_dist : 0;
  
- 	h_angle = angle_normalize( h_angle + (predicted_left ? +1 : -1)*angle );
+ 	h_angle = XrMath::angle_normalize( h_angle + (predicted_left ? +1 : -1)*angle );
  
  	const Fvector radial_prediction = self_pos + 
  		                              Fvector().setHP(h_angle, p_angle).normalize_safe()*self2enemy_dist;

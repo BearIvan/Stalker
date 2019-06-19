@@ -84,7 +84,7 @@ BOOL CPGDef::Load(IReader& F)
             (*it)->m_Flags.assign	(F.r_u32());
 			
 			if(!dont_calc_timelimit)
-				m_fTimeLimit	= _max(m_fTimeLimit, (*it)->m_Time1);
+				m_fTimeLimit	= XrMath::max(m_fTimeLimit, (*it)->m_Time1);
         }
     }
     return TRUE;
@@ -477,7 +477,7 @@ void CParticleGroup::OnFrame(u32 u_dt)
 		}
 	} else {
 		vis.box.set			(m_InitialPosition,m_InitialPosition);
-		vis.box.grow		(EPS_L);
+		vis.box.grow		(XrMath::EPS_L);
 		vis.box.getsphere	(vis.sphere.P,vis.sphere.R);
 	}
 }

@@ -221,7 +221,7 @@ void CUILogsWnd::PerformWork()
 {
 	if(!m_news_in_queue.empty())
 	{
-		u32 count = _min(30, m_news_in_queue.size());
+		u32 count = XrMath::min(u32(30), m_news_in_queue.size());
 //.		u32 count = m_news_in_queue.size();
 		for(u32 i=0; i<count;++i)
 		{
@@ -239,7 +239,7 @@ void CUILogsWnd::PerformWork()
 
 		if(cnt<1000)
 		{
-			for(s32 i=0; i<_min(10,1000-cnt); ++i)
+			for(s32 i=0; i<XrMath::min(10,1000-cnt); ++i)
 				m_items_cache.push_back(CreateItem());
 		}
 	}*/

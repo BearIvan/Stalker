@@ -76,7 +76,7 @@ void CCustomOutfit::Load(LPCSTR section)
 	if ( pSettings->line_exist(section, "power_loss") )
 	{
 		m_fPowerLoss = pSettings->r_float(section, "power_loss");
-		clamp( m_fPowerLoss, 0.0f, 1.0f );
+		XrMath::clamp( m_fPowerLoss, 0.0f, 1.0f );
 	}
 	else
 	{
@@ -99,7 +99,7 @@ void CCustomOutfit::Load(LPCSTR section)
 
 	m_full_icon_name	= pSettings->r_string( section, "full_icon_name" );
 	m_artefact_count 	= READ_IF_EXISTS( pSettings, r_u32, section, "artefact_count", 0 );
-	clamp( m_artefact_count, (u32)0, (u32)5 );
+	XrMath::clamp( m_artefact_count, (u32)0, (u32)5 );
 
 	if ( pSettings->line_exist( cNameSect(), "bones_koeff_protection") )
 	{
@@ -146,7 +146,7 @@ float CCustomOutfit::HitThroughArmor( float hit_power, s16 element, float ap, bo
 	float NewHitPower = hit_power;
 	float BoneArmor = m_boneProtection->getBoneArmor(element)*GetCondition();
 
-	if( ap > EPS && ap > BoneArmor )
+	if( ap > XrMath::EPS && ap > BoneArmor )
 	{
 		//пуля пробила бронь
 		float d_ap = ap - BoneArmor;
@@ -317,10 +317,10 @@ bool CCustomOutfit::install_upgrade_impl( LPCSTR section, bool test )
 	result |= process_if_exists( section, "bleeding_restore_speed",  &CInifile::r_float, m_fBleedingRestoreSpeed,  test );
 
 	result |= process_if_exists( section, "power_loss", &CInifile::r_float, m_fPowerLoss, test );
-	clamp( m_fPowerLoss, 0.0f, 1.0f );
+	XrMath::clamp( m_fPowerLoss, 0.0f, 1.0f );
 
 	result |= process_if_exists( section, "artefact_count", &CInifile::r_u32, m_artefact_count, test );
-	clamp( m_artefact_count, (u32)0, (u32)5 );
+	XrMath::clamp( m_artefact_count, (u32)0, (u32)5 );
 
 	return result;
 }

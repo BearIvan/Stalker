@@ -47,7 +47,7 @@ public:
 
         T fInv, fA, fB, fC, fDiscr, fRoot, fT, fT0, fT1, fTmp0, fTmp1;
 
-        if (_abs(kD.z) >= 1.0f - fEpsilon)
+        if (XrMath::abs(kD.z) >= 1.0f - fEpsilon)
         {
             // line is parallel to cylinder axis
             if (kP.x*kP.x + kP.y*kP.y <= fRadiusSqr)
@@ -65,10 +65,10 @@ public:
             }
         }
 
-        if (_abs(kD.z) <= fEpsilon)
+        if (XrMath::abs(kD.z) <= fEpsilon)
         {
             // line is perpendicular to axis of cylinder
-            if (_abs(kP.z) > fHalfHeight)
+            if (XrMath::abs(kP.z) > fHalfHeight)
             {
                 // line is outside the planar caps of cylinder
                 return 0;
@@ -85,7 +85,7 @@ public:
             }
             else if (fDiscr > 0.0f)
             {
-                fRoot = _sqrt(fDiscr);
+                fRoot = XrMath::sqrt(fDiscr);
                 fTmp0 = fInvDLength / fA;
                 afT[0] = (-fB - fRoot)*fTmp0;
                 afT[1] = (-fB + fRoot)*fTmp0;
@@ -146,7 +146,7 @@ public:
         }
         else if (fDiscr > 0.0f)
         {
-            fRoot = _sqrt(fDiscr);
+            fRoot = XrMath::sqrt(fDiscr);
             fInv = 1.0f / fA;
             fT = (-fB - fRoot)*fInv;
             if (fT0 <= fT1)

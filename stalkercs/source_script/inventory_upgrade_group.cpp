@@ -35,9 +35,9 @@ void Group::construct( const shared_str& group_id, UpgradeBase& parent_upgrade, 
 
 	u32 const buffer_size = (xr_strlen(upgrades_str) + 1) * sizeof(char);
 	PSTR	temp = (PSTR)_alloca(buffer_size);
-	for ( int n = _GetItemCount(upgrades_str), i = 0; i < n; ++i )
+	for ( int n = XrTrims::GetItemCount(upgrades_str), i = 0; i < n; ++i )
 	{
-		UpgradeBase* upgrade_p = (UpgradeBase*)manager_r.add_upgrade( _GetItem( upgrades_str, i, temp, buffer_size), *this );
+		UpgradeBase* upgrade_p = (UpgradeBase*)manager_r.add_upgrade( XrTrims::GetItem( upgrades_str, i, temp, buffer_size), *this );
 		m_included_upgrades.push_back( upgrade_p );
 	}
 }

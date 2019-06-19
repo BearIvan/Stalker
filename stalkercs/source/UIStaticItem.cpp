@@ -75,8 +75,8 @@ void CUIStaticItem::Render()
 	Fvector2					f_len;
 	UI()->ClientToScreenScaled	(f_len, iVisRect.x2, iVisRect.y2 );
 
-	int tile_x					= fis_zero(iRem.x)?iTile.x:iTile.x+1;
-	int tile_y					= fis_zero(iRem.y)?iTile.y:iTile.y+1;
+	int tile_x					= XrMath::fis_zero(iRem.x)?iTile.x:iTile.x+1;
+	int tile_y					= XrMath::fis_zero(iRem.y)?iTile.y:iTile.y+1;
 	if (! (tile_x>0 && tile_y>0) )		return;
 	
 	// render

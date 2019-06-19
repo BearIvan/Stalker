@@ -56,7 +56,7 @@ void CActor::g_cl_ValidateMState(float dt, u32 mstate_wf)
 	if (character_physics_support()->movement()->gcontact_Was){
 		if (mstate_real&mcFall){
 			if (character_physics_support()->movement()->GetContactSpeed()>4.f){
-				if (fis_zero(character_physics_support()->movement()->gcontact_HealthLost)){	
+				if (XrMath::fis_zero(character_physics_support()->movement()->gcontact_HealthLost)){	
 					m_fLandingTime	= s_fLandingTime1;
 					mstate_real		|= mcLanding;
 				}else{
@@ -240,12 +240,12 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector &vControlAccel, float &Ju
 			BOOL	bAccelerated		= isActorAccelerated(mstate_real, IsZoomAimingMode())&&CanAccelerate();
 
 			// correct "mstate_real" if opposite keys pressed
-			if (_abs(vControlAccel.z)<EPS)	mstate_real &= ~(mcFwd+mcBack		);
-			if (_abs(vControlAccel.x)<EPS)	mstate_real &= ~(mcLStrafe+mcRStrafe);
+			if (XrMath::abs(vControlAccel.z)<XrMath::EPS)	mstate_real &= ~(mcFwd+mcBack		);
+			if (XrMath::abs(vControlAccel.x)<XrMath::EPS)	mstate_real &= ~(mcLStrafe+mcRStrafe);
 
 			// normalize and analyze crouch and run
 			float	scale			= vControlAccel.magnitude();
-			if(scale>EPS)	
+			if(scale>XrMath::EPS)	
 			{
 				scale	=	m_fWalkAccel/scale;
 				if (bAccelerated)
@@ -273,11 +273,11 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector &vControlAccel, float &Ju
 
 				vControlAccel.mul			(scale);
 				cam_eff_factor				= scale;
-			}//scale>EPS
+			}//scale>XrMath::EPS
 		}//(mstate_real&mcAnyMove)
 	}//peOnGround || peAtWall
 
-	if(IsGameTypeSingle() && cam_eff_factor>EPS)
+	if(IsGameTypeSingle() && cam_eff_factor>XrMath::EPS)
 	{
 	LPCSTR state_anm				= NULL;
 
@@ -330,17 +330,17 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector &vControlAccel, float &Ju
 
 #define ACTOR_ANIM_SECT "actor_animation"
 
-#define ACTOR_LLOOKOUT_ANGLE	PI_DIV_4
-#define ACTOR_RLOOKOUT_ANGLE	PI_DIV_4
+#define ACTOR_LLOOKOUT_ANGLE	XrMath::PI_DIV_4
+#define ACTOR_RLOOKOUT_ANGLE	XrMath::PI_DIV_4
 
 void CActor::g_Orientate	(u32 mstate_rl, float dt)
 {
-	static float fwd_l_strafe_yaw	= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"fwd_l_strafe_yaw"));
-	static float back_l_strafe_yaw	= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"back_l_strafe_yaw"));
-	static float fwd_r_strafe_yaw	= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"fwd_r_strafe_yaw"));
-	static float back_r_strafe_yaw	= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"back_r_strafe_yaw"));
-	static float l_strafe_yaw		= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"l_strafe_yaw"));
-	static float r_strafe_yaw		= deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"r_strafe_yaw"));
+	static float fwd_l_strafe_yaw	= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"fwd_l_strafe_yaw"));
+	static float back_l_strafe_yaw	= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"back_l_strafe_yaw"));
+	static float fwd_r_strafe_yaw	= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"fwd_r_strafe_yaw"));
+	static float back_r_strafe_yaw	= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"back_r_strafe_yaw"));
+	static float l_strafe_yaw		= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"l_strafe_yaw"));
+	static float r_strafe_yaw		= XrMath::deg2rad(pSettings->r_float(ACTOR_ANIM_SECT,	"r_strafe_yaw"));
 
 	if(!g_Alive())return;
 	// visual effect of "fwd+strafe" like motion
@@ -352,27 +352,27 @@ void CActor::g_Orientate	(u32 mstate_rl, float dt)
 	switch(mstate_rl&mcAnyMove)
 	{
 	case mcFwd+mcLStrafe:
-		calc_yaw = +fwd_l_strafe_yaw;//+PI_DIV_4; 
+		calc_yaw = +fwd_l_strafe_yaw;//+XrMath::PI_DIV_4; 
 		break;
 	case mcBack+mcRStrafe:
-		calc_yaw = +back_r_strafe_yaw;//+PI_DIV_4; 
+		calc_yaw = +back_r_strafe_yaw;//+XrMath::PI_DIV_4; 
 		break;
 	case mcFwd+mcRStrafe:
-		calc_yaw = -fwd_r_strafe_yaw;//-PI_DIV_4; 
+		calc_yaw = -fwd_r_strafe_yaw;//-XrMath::PI_DIV_4; 
 		break;
 	case mcBack+mcLStrafe: 
-		calc_yaw = -back_l_strafe_yaw;//-PI_DIV_4; 
+		calc_yaw = -back_l_strafe_yaw;//-XrMath::PI_DIV_4; 
 		break;
 	case mcLStrafe:
-		calc_yaw = +l_strafe_yaw;//+PI_DIV_3-EPS_L; 
+		calc_yaw = +l_strafe_yaw;//+XrMath::PI_DIV_3-XrMath::EPS_L; 
 		break;
 	case mcRStrafe:
-		calc_yaw = -r_strafe_yaw;//-PI_DIV_4+EPS_L; 
+		calc_yaw = -r_strafe_yaw;//-XrMath::PI_DIV_4+XrMath::EPS_L; 
 		break;
 	}
 
 	// lerp angle for "effect" and capture torso data from camera
-	angle_lerp		(r_model_yaw_delta,calc_yaw,PI_MUL_4,dt);
+	XrMath::angle_lerp		(r_model_yaw_delta,calc_yaw,XrMath::PI_MUL_4,dt);
 
 	// build matrix
 	Fmatrix mXFORM;
@@ -391,19 +391,19 @@ void CActor::g_Orientate	(u32 mstate_rl, float dt)
 		if( (mstate_rl&mcLLookout) && (mstate_rl&mcRLookout) )
 			tgt_roll	= 0.0f;
 	}
-	if (!fsimilar(tgt_roll,r_torso_tgt_roll,EPS)){
-		angle_lerp		(r_torso_tgt_roll,tgt_roll,PI_MUL_2,dt);
-		r_torso_tgt_roll= angle_normalize_signed(r_torso_tgt_roll);
+	if (!XrMath::fsimilar(tgt_roll,r_torso_tgt_roll,XrMath::EPS)){
+		XrMath::angle_lerp		(r_torso_tgt_roll,tgt_roll,XrMath::PI_MUL_2,dt);
+		r_torso_tgt_roll= XrMath::angle_normalize_signed(r_torso_tgt_roll);
 	}
 }
 bool CActor::g_LadderOrient()
 {
 	Fvector leader_norm;
 	character_physics_support()->movement()->GroundNormal(leader_norm);
-	if(_abs(leader_norm.y)>M_SQRT1_2) return false;
+	if(XrMath::abs(leader_norm.y)>XrMath::M_SQRT1_2) return false;
 	//leader_norm.y=0.f;
 	float mag=leader_norm.magnitude();
-	if(mag<EPS_L) return false;
+	if(mag<XrMath::EPS_L) return false;
 	leader_norm.div(mag);
 	leader_norm.invert();
 	Fmatrix M;M.set(Fidentity);
@@ -421,14 +421,14 @@ bool CActor::g_LadderOrient()
 	//Fvector angles1,angles2,angles3;
 	//XFORM().getHPB(angles1.x,angles1.y,angles1.z);
 	//M.getHPB(angles2.x,angles2.y,angles2.z);
-	////angle_lerp(angles3.x,angles1.x,angles2.x,dt);
-	////angle_lerp(angles3.y,angles1.y,angles2.y,dt);
-	////angle_lerp(angles3.z,angles1.z,angles2.z,dt);
+	////XrMath::angle_lerp(angles3.x,angles1.x,angles2.x,dt);
+	////XrMath::angle_lerp(angles3.y,angles1.y,angles2.y,dt);
+	////XrMath::angle_lerp(angles3.z,angles1.z,angles2.z,dt);
 
 	//angles3.lerp(angles1,angles2,dt);
-	////angle_lerp(angles3.y,angles1.y,angles2.y,dt);
-	////angle_lerp(angles3.z,angles1.z,angles2.z,dt);
-	//angle_lerp(angles3.x,angles1.x,angles2.x,dt);
+	////XrMath::angle_lerp(angles3.y,angles1.y,angles2.y,dt);
+	////XrMath::angle_lerp(angles3.z,angles1.z,angles2.z,dt);
+	//XrMath::angle_lerp(angles3.x,angles1.x,angles2.x,dt);
 	//XFORM().setHPB(angles3.x,angles3.y,angles3.z);
 	Fvector position;
 	position.set(Position());
@@ -470,21 +470,21 @@ void CActor::g_cl_Orientate	(u32 mstate_rl, float dt)
 	
 	// если есть движение - выровнять модель по камере
 	if (mstate_rl&mcAnyMove)	{
-		r_model_yaw		= angle_normalize(r_torso.yaw);
+		r_model_yaw		= XrMath::angle_normalize(r_torso.yaw);
 		mstate_real		&=~mcTurn;
 	} else {
 		// if camera rotated more than 45 degrees - align model with it
-		float ty = angle_normalize(r_torso.yaw);
-		if (_abs(r_model_yaw-ty)>PI_DIV_4)	{
+		float ty = XrMath::angle_normalize(r_torso.yaw);
+		if (XrMath::abs(r_model_yaw-ty)>XrMath::PI_DIV_4)	{
 			r_model_yaw_dest = ty;
 			// 
 			mstate_real	|= mcTurn;
 		}
-		if (_abs(r_model_yaw-r_model_yaw_dest)<EPS_L){
+		if (XrMath::abs(r_model_yaw-r_model_yaw_dest)<XrMath::EPS_L){
 			mstate_real	&=~mcTurn;
 		}
 		if (mstate_rl&mcTurn){
-			angle_lerp	(r_model_yaw,r_model_yaw_dest,PI_MUL_2,dt);
+			XrMath::angle_lerp	(r_model_yaw,r_model_yaw_dest,XrMath::PI_MUL_2,dt);
 		}
 	}
 }

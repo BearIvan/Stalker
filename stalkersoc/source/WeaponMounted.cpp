@@ -63,9 +63,9 @@ void	CWeaponMounted::Load(LPCSTR section)
 
 	//подбрасывание камеры во время отдачи
 	camMaxAngle			= pSettings->r_float		(section,"cam_max_angle"	); 
-	camMaxAngle			= deg2rad					(camMaxAngle);
+	camMaxAngle			= XrMath::deg2rad					(camMaxAngle);
 	camRelaxSpeed		= pSettings->r_float		(section,"cam_relax_speed"	); 
-	camRelaxSpeed		= deg2rad					(camRelaxSpeed);
+	camRelaxSpeed		= XrMath::deg2rad					(camRelaxSpeed);
 
 }
 
@@ -176,11 +176,11 @@ void	CWeaponMounted::OnMouseMove			(int dx, int dy)
 	float scale		= (C->f_fov/g_fov)*psMouseSens * psMouseSensScale/50.f;
 	if (dx){
 		float d		= float(dx)*scale;
-		C->Move		((d<0)?kLEFT:kRIGHT, _abs(d));
+		C->Move		((d<0)?kLEFT:kRIGHT, XrMath::abs(d));
 	}
 	if (dy){
 		float d		= ((psMouseInvert.test(1))?-1:1)*float(dy)*scale*3.f/4.f;
-		C->Move		((d>0)?kUP:kDOWN, _abs(d));
+		C->Move		((d>0)?kUP:kDOWN, XrMath::abs(d));
 	}
 }
 void	CWeaponMounted::OnKeyboardPress		(int dik)
@@ -345,8 +345,8 @@ void CWeaponMounted::UpdateFire()
 		OnShot();
 		fTime += fTimeToFire;
 	}else{
-		angle_lerp		(m_dAngle.x,0.f,5.f,Device.fTimeDelta);
-		angle_lerp		(m_dAngle.y,0.f,5.f,Device.fTimeDelta);
+		XrMath::angle_lerp		(m_dAngle.x,0.f,5.f,Device.fTimeDelta);
+		XrMath::angle_lerp		(m_dAngle.y,0.f,5.f,Device.fTimeDelta);
 	}
 }
 

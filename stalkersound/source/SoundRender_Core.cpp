@@ -461,14 +461,14 @@ void CSoundRender_Core::i_eax_listener_set	(CSound_environment* _E)
 	VERIFY(bEAX);
     CSoundRender_Environment* E = static_cast<CSoundRender_Environment*>(_E);
     EAXLISTENERPROPERTIES 		ep;
-    ep.lRoom					= iFloor(E->Room)				;	// room effect level at low frequencies
-    ep.lRoomHF					= iFloor(E->RoomHF)				;   // room effect high-frequency level re. low frequency level
+    ep.lRoom					=  XrMath::iFloor(E->Room)				;	// room effect level at low frequencies
+    ep.lRoomHF					=  XrMath::iFloor(E->RoomHF)				;   // room effect high-frequency level re. low frequency level
     ep.flRoomRolloffFactor		= E->RoomRolloffFactor			;   // like DS3D flRolloffFactor but for room effect
     ep.flDecayTime				= E->DecayTime					;   // reverberation decay time at low frequencies
     ep.flDecayHFRatio			= E->DecayHFRatio				;   // high-frequency to low-frequency decay time ratio
-    ep.lReflections				= iFloor(E->Reflections)		;   // early reflections level relative to room effect
+    ep.lReflections				=  XrMath::iFloor(E->Reflections)		;   // early reflections level relative to room effect
     ep.flReflectionsDelay		= E->ReflectionsDelay			;   // initial reflection delay time
-    ep.lReverb					= iFloor(E->Reverb)	 			;   // late reverberation level relative to room effect
+    ep.lReverb					=  XrMath::iFloor(E->Reverb)	 			;   // late reverberation level relative to room effect
     ep.flReverbDelay			= E->ReverbDelay				;   // late reverberation delay time relative to initial reflection
     ep.dwEnvironment			= EAXLISTENER_DEFAULTENVIRONMENT;  	// sets all listener properties
     ep.flEnvironmentSize		= E->EnvironmentSize			;  	// environment size in meters

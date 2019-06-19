@@ -52,7 +52,7 @@ void car_memory::camera					(
 	direction		= m_view_direction;
 	normal			= m_view_normal;
 
-	field_of_view	= deg2rad(m_fov_deg);
+	field_of_view	= XrMath::deg2rad(m_fov_deg);
 	aspect_ratio	= m_aspect;
 	near_plane		= .1f;
 	far_plane		= m_far_plane;

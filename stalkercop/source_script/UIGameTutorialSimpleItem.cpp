@@ -171,7 +171,7 @@ void CUISequenceSimpleItem::OnRender()
 
 float CUISequenceSimpleItem::current_factor()
 {
-	if(m_time_start < 0.0f || fis_zero(m_time_length))
+	if(m_time_start < 0.0f || XrMath::fis_zero(m_time_length))
 		return 0.0f;
 	else
 		return ((Device.dwTimeContinual/1000.0f)-m_time_start) / m_time_length;
@@ -188,7 +188,7 @@ void CUISequenceSimpleItem::Update()
 	for(;_I!=_E;++_I)
 	{
 		SSubItem& s					= *_I;
-		bool bPlaying				= (gt>(_start+s.m_start-EPS))&&(gt<(_start+s.m_start+s.m_length+EPS));
+		bool bPlaying				= (gt>(_start+s.m_start-XrMath::EPS))&&(gt<(_start+s.m_start+s.m_length+XrMath::EPS));
 		
 		if (true==bPlaying&&(false==s.m_visible))			
 			s.Start	();

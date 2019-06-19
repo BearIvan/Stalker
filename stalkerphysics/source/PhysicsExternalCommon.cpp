@@ -24,6 +24,6 @@ bool ContactShotMarkGetEffectPars(dContactGeom* c, dxGeomUserData* &data, float 
 	dMass m;
 	dBodyGetMass(b,&m);
 	dBodyGetPointVel(b,c->pos[0],c->pos[1],c->pos[2],vel);
-	vel_cret=_abs(dDOT(vel,c->normal))* _sqrt(m.mass);
+	vel_cret=XrMath::abs(dDOT(vel,c->normal))* XrMath::sqrt(m.mass);
 	return true;
 }

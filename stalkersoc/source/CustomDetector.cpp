@@ -146,7 +146,7 @@ void CCustomDetector::UpdateCL()
 		if(dist_to_zone<0) dist_to_zone = 0;
 		
 		float fRelPow = 1.f - dist_to_zone / m_fRadius;
-		clamp(fRelPow, 0.f, 1.f);
+		XrMath::clamp(fRelPow, 0.f, 1.f);
 
 		//определить текущую частоту срабатывания сигнала
 		zone_info.cur_freq = zone_type.min_freq + 

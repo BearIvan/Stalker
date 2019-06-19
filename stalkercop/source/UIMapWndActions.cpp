@@ -167,18 +167,18 @@ void CMapActionZoomControl::initialize	()
 void CMapActionZoomControl::init_internal()
 {
 	float dist					= m_object->GlobalMap()->CalcOpenRect(m_object->m_tgtCenter,m_desiredMapRect,m_targetZoom);
-	bool bMove					= !fis_zero(dist,EPS_L);
-	bool bZoom					= !fsimilar(m_targetZoom, m_object->GlobalMap()->GetCurrentZoom().x, EPS_L);
+	bool bMove					= !XrMath::fis_zero(dist,XrMath::EPS_L);
+	bool bZoom					= !XrMath::fsimilar(m_targetZoom, m_object->GlobalMap()->GetCurrentZoom().x, XrMath::EPS_L);
 	m_endMovingTime				= Device.fTimeGlobal;
-	if (bZoom&&bMove)			m_endMovingTime += _max(map_zoom_time,dist/map_resize_speed);
+	if (bZoom&&bMove)			m_endMovingTime += XrMath::max(map_zoom_time,dist/map_resize_speed);
 	else if (bZoom)				m_endMovingTime += map_zoom_time;
-	else if (bMove)				m_endMovingTime += _max(dist/map_resize_speed, min_move_time);
+	else if (bMove)				m_endMovingTime += XrMath::max(dist/map_resize_speed, min_move_time);
 }
 
 void CMapActionZoomControl::update_target_state()
 {
 	float cur_map_zoom			= m_object->GetZoom();
-	if(!fsimilar(cur_map_zoom,m_targetZoom))
+	if(!XrMath::fsimilar(cur_map_zoom,m_targetZoom))
 	{//re-init
 		m_targetZoom			= cur_map_zoom;
 		init_internal			();
@@ -198,7 +198,7 @@ void CMapActionZoomControl::execute		()
 	CUIGlobalMap* gm		= m_object->GlobalMap();
 	float gt				= Device.fTimeGlobal;
 	float time_to			= m_endMovingTime-gt;
-	float dt				= _min(Device.fTimeDelta,time_to);
+	float dt				= XrMath::min(Device.fTimeDelta,time_to);
 
 	if(m_endMovingTime > Device.fTimeGlobal)
 	{
@@ -281,7 +281,7 @@ bool CEvaluatorTargetMapShown::evaluate()
 bool CEvaluatorMapMinimized::evaluate	()
 {
 	if(m_storage->property(1)) return true;
-	bool res = !!fsimilar(m_object->GlobalMap()->GetCurrentZoom().x, m_object->GlobalMap()->GetMinZoom(), EPS_L );
+	bool res = !!XrMath::fsimilar(m_object->GlobalMap()->GetCurrentZoom().x, m_object->GlobalMap()->GetMinZoom(), XrMath::EPS_L );
 	return res;
 }
 

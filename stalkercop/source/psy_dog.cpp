@@ -245,7 +245,7 @@ void CPsyDogPhantom::Think()
 	//SVelocityParam &velocity_run = move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
 	//if (control().movement().real_velocity() < 2*velocity_run.velocity.linear/3) return;
 	if ( EnemyMan.get_enemy() )
-		if ( !control().direction().is_face_target(EnemyMan.get_enemy(), PI_DIV_6) ) return;
+		if ( !control().direction().is_face_target(EnemyMan.get_enemy(), XrMath::PI_DIV_6) ) return;
 
 	Fvector target;
 	target.mad(Position(),Direction(), 10.f);

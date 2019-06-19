@@ -14,7 +14,7 @@ void CPHContactBodyEffector::Init(dBodyID body,const dContact& contact,SGameMtl*
 }
 void CPHContactBodyEffector::Merge(const dContact& contact, SGameMtl* material)
 {
-	m_recip_flotation=_max(1.f-material->fFlotationFactor,m_recip_flotation);
+	m_recip_flotation=XrMath::max(1.f-material->fFlotationFactor,m_recip_flotation);
 	//m_contact.geom.normal[0]+=contact.geom.normal[0];
 	//m_contact.geom.normal[1]+=contact.geom.normal[1];
 	//m_contact.geom.normal[2]+=contact.geom.normal[2];
@@ -24,14 +24,14 @@ void CPHContactBodyEffector::Apply()
 {
 	const dReal*	linear_velocity				=dBodyGetLinearVel(m_body);
 	dReal			linear_velocity_smag		=dDOT(linear_velocity,linear_velocity);
-	dReal			linear_velocity_mag			=_sqrt(linear_velocity_smag);
+	dReal			linear_velocity_mag			=XrMath::sqrt(linear_velocity_smag);
 	dReal			effect						=10000.f*m_recip_flotation*m_recip_flotation;
 	dMass mass;
 	dBodyGetMass(m_body,&mass);
 	dReal l_air=linear_velocity_mag*effect;//force/velocity !!!
 	if(l_air>mass.mass/fixed_step) l_air=mass.mass/fixed_step;//validate
 	
-	if(!fis_zero(l_air))
+	if(!XrMath::fis_zero(l_air))
 	{
 		dVector3 force={
 						-linear_velocity[0]*l_air,

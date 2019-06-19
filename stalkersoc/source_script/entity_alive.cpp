@@ -99,11 +99,11 @@ void CEntityAlive::LoadBloodyWallmarks (LPCSTR section)
 	string256	tmp;
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 	
-	int cnt		=_GetItemCount(wallmarks_name);
+	int cnt		=XrTrims::GetItemCount(wallmarks_name);
 	
 //	ref_shader	s;
 	for (int k = 0; k<cnt; ++k)
-		(*m_pBloodMarksVector)->AppendMark(_GetItem(wallmarks_name, k, tmp));
+		(*m_pBloodMarksVector)->AppendMark(XrTrims::GetItem(wallmarks_name, k, tmp));
 
 
 	
@@ -116,10 +116,10 @@ void CEntityAlive::LoadBloodyWallmarks (LPCSTR section)
 
 	//капли крови с открытых ран
 	wallmarks_name = pSettings->r_string(section, "blood_drops");
-	cnt		=_GetItemCount(wallmarks_name);
+	cnt		=XrTrims::GetItemCount(wallmarks_name);
 
 	for (int k = 0; k<cnt; ++k)
-		(*m_pBloodDropsVector)->AppendMark(_GetItem(wallmarks_name, k, tmp));
+		(*m_pBloodDropsVector)->AppendMark(XrTrims::GetItem(wallmarks_name, k, tmp));
 
 
 	m_fStartBloodWoundSize  = pSettings->r_float(section, "start_blood_size");
@@ -146,12 +146,12 @@ void CEntityAlive::LoadFireParticles(LPCSTR section)
 	string256	tmp;
 	LPCSTR particles_name = pSettings->r_string(section, "fire_particles"); 
 
-	int cnt		=_GetItemCount(particles_name);
+	int cnt		=XrTrims::GetItemCount(particles_name);
 
 	shared_str	s;
 	for (int k=0; k<cnt; ++k)
 	{
-		s  = _GetItem(particles_name,k,tmp);
+		s  = XrTrims::GetItem(particles_name,k,tmp);
 		m_pFireParticlesVector->push_back	(s);
 	}
 
@@ -371,7 +371,7 @@ void CEntityAlive::BloodyWallmarks (float P, const Fvector &dir, s16 element,
 	float wallmark_size = m_fBloodMarkSizeMax;
 	wallmark_size *= (P/m_fNominalHit);
 	wallmark_size *= small_entity;
-	clamp(wallmark_size, m_fBloodMarkSizeMin, m_fBloodMarkSizeMax);
+	XrMath::clamp(wallmark_size, m_fBloodMarkSizeMin, m_fBloodMarkSizeMax);
 
 	VERIFY(m_pBloodMarksVector);
 	PlaceBloodWallmark(dir, start_pos, m_fBloodMarkDistance, 

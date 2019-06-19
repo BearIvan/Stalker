@@ -130,18 +130,18 @@ void CControllerAnimation::load()
 	m_torso[eTorsoRun]					= skeleton->ID_Cycle_Safe("new_torso_run_0");
 
 	add_path_rotation					(eLegsTypeRun, 0,				eLegsRun);
-	add_path_rotation					(eLegsTypeRun, PI,				eLegsBackRun);
-	add_path_rotation					(eLegsTypeRun, PI_DIV_4,		eLegsRunFwdLeft);
-	add_path_rotation					(eLegsTypeRun, -PI_DIV_4,		eLegsRunFwdRight);
-	add_path_rotation					(eLegsTypeRun, (PI - PI_DIV_4),	eLegsRunBkwdLeft);
-	add_path_rotation					(eLegsTypeRun, -(PI - PI_DIV_4),eLegsRunBkwdRight);
+	add_path_rotation					(eLegsTypeRun, XrMath::M_PI,				eLegsBackRun);
+	add_path_rotation					(eLegsTypeRun, XrMath::PI_DIV_4,		eLegsRunFwdLeft);
+	add_path_rotation					(eLegsTypeRun, -XrMath::PI_DIV_4,		eLegsRunFwdRight);
+	add_path_rotation					(eLegsTypeRun, (XrMath::M_PI - XrMath::PI_DIV_4),	eLegsRunBkwdLeft);
+	add_path_rotation					(eLegsTypeRun, -(XrMath::M_PI - XrMath::PI_DIV_4),eLegsRunBkwdRight);
 
 	add_path_rotation					(eLegsTypeStealMotion, 0,				eLegsStealFwd);
-	add_path_rotation					(eLegsTypeStealMotion, PI,				eLegsStealBkwd);
-	add_path_rotation					(eLegsTypeStealMotion, PI_DIV_4,		eLegsStealFwdLeft);
-	add_path_rotation					(eLegsTypeStealMotion, -PI_DIV_4,		eLegsStealFwdRight);
-	add_path_rotation					(eLegsTypeStealMotion, (PI - PI_DIV_4),	eLegsStealBkwdLeft);
-	add_path_rotation					(eLegsTypeStealMotion, -(PI - PI_DIV_4),eLegsStealBkwdRight);
+	add_path_rotation					(eLegsTypeStealMotion, XrMath::M_PI,				eLegsStealBkwd);
+	add_path_rotation					(eLegsTypeStealMotion, XrMath::PI_DIV_4,		eLegsStealFwdLeft);
+	add_path_rotation					(eLegsTypeStealMotion, -XrMath::PI_DIV_4,		eLegsStealFwdRight);
+	add_path_rotation					(eLegsTypeStealMotion, (XrMath::M_PI - XrMath::PI_DIV_4),	eLegsStealBkwdLeft);
+	add_path_rotation					(eLegsTypeStealMotion, -(XrMath::M_PI - XrMath::PI_DIV_4),eLegsStealBkwdRight);
 
 
 	// 1. link animation with action
@@ -192,15 +192,15 @@ void CControllerAnimation::select_velocity()
 void CControllerAnimation::set_path_direction()
 {
 	float cur_yaw = Fvector().sub(m_controller->custom_dir().get_head_look_point(), m_object->Position()).getH();
-	cur_yaw = angle_normalize(-cur_yaw);
+	cur_yaw = XrMath::angle_normalize(-cur_yaw);
 
 	float target_yaw = m_man->path_builder().detail().direction().getH();
-	target_yaw = angle_normalize(-target_yaw);
+	target_yaw = XrMath::angle_normalize(-target_yaw);
 
 	SPathRotations path_rot = get_path_rotation(cur_yaw);	
 
-	m_object->dir().set_heading(angle_normalize(target_yaw + path_rot.angle));
-	m_object->dir().set_heading_speed(PI);
+	m_object->dir().set_heading(XrMath::angle_normalize(target_yaw + path_rot.angle));
+	m_object->dir().set_heading_speed(XrMath::M_PI);
 }
 
 void CControllerAnimation::select_torso_animation()
@@ -264,19 +264,19 @@ void CControllerAnimation::select_legs_animation()
 CControllerAnimation::SPathRotations CControllerAnimation::get_path_rotation(float cur_yaw)
 {
 	float target_yaw = m_man->path_builder().detail().direction().getH();
-	target_yaw = angle_normalize(-target_yaw);
+	target_yaw = XrMath::angle_normalize(-target_yaw);
 
-	float	diff	= angle_difference(cur_yaw,target_yaw);
+	float	diff	= XrMath::angle_difference(cur_yaw,target_yaw);
 	if (from_right(target_yaw, cur_yaw)) diff = -diff;
 
-	diff = angle_normalize(diff);
+	diff = XrMath::angle_normalize(diff);
 
 	PATH_ROTATIONS_VEC_IT it_best = m_path_rotations[m_current_legs_action].begin();
 	float best_diff = flt_max;
 	for (PATH_ROTATIONS_VEC_IT it = m_path_rotations[m_current_legs_action].begin(); it != m_path_rotations[m_current_legs_action].end(); it++) {
-		float angle_diff = angle_normalize(it->angle);
+		float angle_diff = XrMath::angle_normalize(it->angle);
 
-		float cur_diff = angle_difference(angle_diff, diff);
+		float cur_diff = XrMath::angle_difference(angle_diff, diff);
 		if (cur_diff < best_diff) {
 			best_diff	= cur_diff;
 			it_best		= it;
@@ -323,13 +323,13 @@ void CControllerAnimation::set_path_params()
 
 		Fvector target_pos	= m_object->path().get_target_set();
 		Fvector dir			= Fvector().sub(target_pos, m_object->Position());
-		if (!fis_zero(dir.square_magnitude())) {
+		if (!XrMath::fis_zero(dir.square_magnitude())) {
 			
 			float target_yaw	= dir.getH();
-			target_yaw			= angle_normalize(-target_yaw);
+			target_yaw			= XrMath::angle_normalize(-target_yaw);
 			float cur_yaw		= m_man->direction().get_heading_current();
 			
-			if (angle_difference(target_yaw,cur_yaw) > PI_DIV_2)
+			if (XrMath::angle_difference(target_yaw,cur_yaw) > XrMath::PI_DIV_2)
 				looking_fwd = false;
 		}
 	

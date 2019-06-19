@@ -135,8 +135,8 @@ void dxApplicationRender::load_draw_internal(CApplication &owner)
 	for(u32 idx=0; idx<v_cnt+1; ++idx)
 	{
 		clr =					calc_progress_color						(idx,v_cnt,owner.load_stage,owner.max_load_stage);
-		pv->set					(back_coords.lt.x+pos_delta*idx+offs,	back_coords.rb.y+offs,	0+EPS_S, 1, clr, back_tex_coords.lt.x+tc_delta*idx,	back_tex_coords.rb.y);	pv++;
-		pv->set					(back_coords.lt.x+pos_delta*idx+offs,	back_coords.lt.y+offs,	0+EPS_S, 1, clr, back_tex_coords.lt.x+tc_delta*idx,	back_tex_coords.lt.y);	pv++;
+		pv->set					(back_coords.lt.x+pos_delta*idx+offs,	back_coords.rb.y+offs,	0+XrMath::EPS_S, 1, clr, back_tex_coords.lt.x+tc_delta*idx,	back_tex_coords.rb.y);	pv++;
+		pv->set					(back_coords.lt.x+pos_delta*idx+offs,	back_coords.lt.y+offs,	0+XrMath::EPS_S, 1, clr, back_tex_coords.lt.x+tc_delta*idx,	back_tex_coords.lt.y);	pv++;
 	}
 	VERIFY						(u32(pv-_pv)==2*(v_cnt+1));
 	RCache.Vertex.Unlock		(2*(v_cnt+1),ll_hGeom2.stride());
@@ -512,8 +512,8 @@ void dxApplicationRenderSOC::load_draw_internal(CApplication & owner)
 
 	for (u32 idx = 0; idx < v_cnt + 1; ++idx) {
 		clr = calc_progress_color_soc(idx, v_cnt, load_stage, max_load_stage);
-		pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.rb.y + offs, 0 + EPS_S, 1, clr, back_text_coords.lt.x + tc_delta * idx, back_text_coords.rb.y);	pv++;
-		pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.lt.y + offs, 0 + EPS_S, 1, clr, back_text_coords.lt.x + tc_delta * idx, back_text_coords.lt.y);	pv++;
+		pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.rb.y + offs, 0 + XrMath::EPS_S, 1, clr, back_text_coords.lt.x + tc_delta * idx, back_text_coords.rb.y);	pv++;
+		pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.lt.y + offs, 0 + XrMath::EPS_S, 1, clr, back_text_coords.lt.x + tc_delta * idx, back_text_coords.lt.y);	pv++;
 	}
 	VERIFY(u32(pv - _pv) == 2 * (v_cnt + 1));
 	RCache.Vertex.Unlock(2 * (v_cnt + 1), ll_hGeom2.stride());

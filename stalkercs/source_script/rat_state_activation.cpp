@@ -37,7 +37,7 @@ void CAI_Rat::activate_state_free_active()
 		}
 	}
 
-	if ((fis_zero(m_fSpeed) && (angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) < PI_DIV_6)))
+	if ((XrMath::fis_zero(m_fSpeed) && (XrMath::angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) < XrMath::PI_DIV_6)))
 		vfChooseNewSpeed();
 
 	vfUpdateTime(m_fTimeUpdateDelta);
@@ -161,7 +161,7 @@ void CAI_Rat::activate_state_eat()
 	direction.sub						(temp_position,Position());
 	float								y,p;
 	direction.getHP						(y,p);
-	if (a && angle_difference(y,-movement().m_body.current.yaw) < PI_DIV_6) {
+	if (a && XrMath::angle_difference(y,-movement().m_body.current.yaw) < XrMath::PI_DIV_6) {
 		m_fSpeed						= 0;
 		if (Device.dwTimeGlobal - m_previous_query_time > m_dwHitInterval) {
 			m_previous_query_time		= Device.dwTimeGlobal;

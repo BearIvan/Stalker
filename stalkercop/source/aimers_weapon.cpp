@@ -79,7 +79,7 @@ void weapon::compute_bone	(u32 const bone_id)
 	Fvector					pos,ypr;
 	pos						= pSettings->r_fvector3( m_weapon.cNameSect(),"position" );
 	ypr						= pSettings->r_fvector3( m_weapon.cNameSect(),"orientation" );
-	ypr.mul					(PI/180.f);
+	ypr.mul					(XrMath::M_PI/180.f);
 
 	Fmatrix					offset;
 	offset.setHPB			(ypr.x,ypr.y,ypr.z);
@@ -90,7 +90,7 @@ void weapon::compute_bone	(u32 const bone_id)
 	D.sub					(mL.c,mR.c);	
 
 	float const magnitude	= D.magnitude( );
-	if ( !fis_zero( magnitude ) )
+	if ( !XrMath::fis_zero( magnitude ) )
 		D.div				( magnitude );
 	else
 		D.set				( 0.f, 0.f, 1.f );

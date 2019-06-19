@@ -329,7 +329,7 @@ void CCharacterPhysicsSupport::in_shedule_Update( u32 DT )
 	LPSTR dbg_stalker_death_anim = sdbg_stalker_death_anim;
 	BOOL  b_death_anim_velocity = TRUE;
 #endif
-const float cmp_angle = M_PI/10.f;
+const float cmp_angle = XrMath::M_PI/10.f;
 const float cmp_ldisp = 0.1f;
 IC bool cmp(const Fmatrix &f0, const Fmatrix &f1 )
 {
@@ -352,25 +352,25 @@ bool is_similar(const Fmatrix &m0,const Fmatrix &m1,float param)
 	Fquaternion q;
 	q.set(tmp2);
 	q.get_axis_angle(ax,ang);
-	return _abs(ang)<M_PI/2.f;
+	return XrMath::abs(ang)<XrMath::M_PI/2.f;
 	/*
-	return  fsimilar(tmp2._11,1.f,param)&&
-			fsimilar(tmp2._22,1.f,param)&&
-			fsimilar(tmp2._33,1.f,param)&&
-			fsimilar(tmp2._41,0.f,param)&&
-			fsimilar(tmp2._42,0.f,param)&&
-			fsimilar(tmp2._43,0.f,param);
+	return  XrMath::fsimilar(tmp2._11,1.f,param)&&
+			XrMath::fsimilar(tmp2._22,1.f,param)&&
+			XrMath::fsimilar(tmp2._33,1.f,param)&&
+			XrMath::fsimilar(tmp2._41,0.f,param)&&
+			XrMath::fsimilar(tmp2._42,0.f,param)&&
+			XrMath::fsimilar(tmp2._43,0.f,param);
 			*/
 	/*
-			fsimilar(tmp2._12,0.f,param)&&
-			fsimilar(tmp2._13,0.f,param)&&
-			fsimilar(tmp2._21,0.f,param)&&
-			fsimilar(tmp2._23,0.f,param)&&
-			fsimilar(tmp2._31,0.f,param)&&
-			fsimilar(tmp2._32,0.f,param)&&
-			fsimilar(tmp2._41,0.f,param)&&
-			fsimilar(tmp2._42,0.f,param)&&
-			fsimilar(tmp2._43,0.f,param);
+			XrMath::fsimilar(tmp2._12,0.f,param)&&
+			XrMath::fsimilar(tmp2._13,0.f,param)&&
+			XrMath::fsimilar(tmp2._21,0.f,param)&&
+			XrMath::fsimilar(tmp2._23,0.f,param)&&
+			XrMath::fsimilar(tmp2._31,0.f,param)&&
+			XrMath::fsimilar(tmp2._32,0.f,param)&&
+			XrMath::fsimilar(tmp2._41,0.f,param)&&
+			XrMath::fsimilar(tmp2._42,0.f,param)&&
+			XrMath::fsimilar(tmp2._43,0.f,param);
 			*/
 }
 
@@ -420,7 +420,7 @@ void CCharacterPhysicsSupport::in_Hit(float P,Fvector &dir, CObject *who,s16 ele
 	if(m_EntityAlife.g_Alive()&&is_killing&&hit_type==ALife::eHitTypeExplosion&&P>70.f)
 		CPHDestroyable::Destroy();
 
-	if((!m_EntityAlife.g_Alive()||is_killing)&&!fis_zero(m_shot_up_factor)&&hit_type!=ALife::eHitTypeExplosion)
+	if((!m_EntityAlife.g_Alive()||is_killing)&&!XrMath::fis_zero(m_shot_up_factor)&&hit_type!=ALife::eHitTypeExplosion)
 	{
 		dir.y+=m_shot_up_factor;
 		dir.normalize();
@@ -593,7 +593,7 @@ void CCharacterPhysicsSupport::CollisionCorrectObjPos(const Fvector& start_from,
 	{
 		CPHCollideValidator::SetCharacterClassNotCollide(activation_shape);
 	}
-	activation_shape.Activate(vbox,1,1.f,M_PI/8.f);
+	activation_shape.Activate(vbox,1,1.f,XrMath::M_PI/8.f);
 	m_EntityAlife.Position().sub(activation_shape.Position(),shift);
 	activation_shape.Destroy();
 }
@@ -725,7 +725,7 @@ void CCharacterPhysicsSupport::ActivateShell			( CObject* who )
 	m_pPhysicsShell->set_CallbackData((void*)this);
 //
 
-	if(anim_mov_ctrl && anim_mov_blend && anim_mov_blend->blend_state() != CBlend::eFREE_SLOT &&  anim_mov_blend->timeCurrent + Device.fTimeDelta*anim_mov_blend->speed < anim_mov_blend->timeTotal-SAMPLE_SPF-EPS)//.
+	if(anim_mov_ctrl && anim_mov_blend && anim_mov_blend->blend_state() != CBlend::eFREE_SLOT &&  anim_mov_blend->timeCurrent + Device.fTimeDelta*anim_mov_blend->speed < anim_mov_blend->timeTotal-SAMPLE_SPF-XrMath::EPS)//.
 	{
 		const Fmatrix sv_xform = mXFORM;
 		mXFORM.set( start_xform );
@@ -849,7 +849,7 @@ void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 {
 		VERIFY(m_pPhysicsShell);
 		float ammount=disp.magnitude();
-		if(fis_zero(ammount,EPS_L))	return;
+		if(XrMath::fis_zero(ammount,XrMath::EPS_L))	return;
 		ph_world->Freeze();
 		bool g=m_pPhysicsShell->get_ApplyByGravity();
 		m_pPhysicsShell->set_ApplyByGravity(false);

@@ -1,8 +1,8 @@
-#ifndef WAVEFORM_H
-#define WAVEFORM_H
-#pragma once
 
+#pragma once
+#undef M_PI
 #pragma pack(push,4)
+
 struct WaveForm
 {
     enum EFunction
@@ -15,23 +15,23 @@ struct WaveForm
         fINVSAWTOOTH,
         fFORCE32 = u32(-1)
     };
-    IC float signf(float t) { return t / _abs(t); }
+    IC float signf(float t) { return t / XrMath::abs(t); }
     IC float Func(float t)
     {
         switch (F)
         {
-        case fCONSTANT:
+        case fCONSTANT: 
             return 0;
         case fSIN:
-            return _sin(t*PI_MUL_2);
+            return XrMath::sin(t*XrMath::PI_MUL_2);
         case fTRIANGLE:
-            return asinf(_sin((t - 0.25f)*PI_MUL_2)) / PI_DIV_2;
+            return asinf(XrMath::sin((t - 0.25f)*XrMath::PI_MUL_2)) / XrMath::PI_DIV_2;
         case fSQUARE:
-            return signf(_cos(t*PI));
+            return signf(XrMath::cos(t*XrMath::M_PI));
         case fSAWTOOTH:
-            return atanf(tanf((t + 0.5f)*PI)) / PI_DIV_2;
+            return atanf(tanf((t + 0.5f)*XrMath::M_PI)) / XrMath::PI_DIV_2;
         case fINVSAWTOOTH:
-            return -(atanf(tanf((t + 0.5f)*PI)) / PI_DIV_2);
+            return -(atanf(tanf((t + 0.5f)*XrMath::M_PI)) / XrMath::PI_DIV_2);
         }
         return 0.f;
     }
@@ -57,15 +57,14 @@ public:
 
     IC BOOL Similar(const WaveForm& W) const
     {
-        if (!fsimilar(arg[0], W.arg[0], EPS_L)) return FALSE;
-        if (!fsimilar(arg[1], W.arg[1], EPS_L)) return FALSE;
-        if (fis_zero(arg[1], EPS_L)) return TRUE;
+        if (!XrMath::fsimilar(arg[0], W.arg[0], XrMath::EPS_L)) return FALSE;
+        if (!XrMath::fsimilar(arg[1], W.arg[1], XrMath::EPS_L)) return FALSE;
+        if (XrMath::fis_zero(arg[1], XrMath::EPS_L)) return TRUE;
         if (F != W.F) return FALSE;
-        if (!fsimilar(arg[2], W.arg[2], EPS_L)) return FALSE;
-        if (!fsimilar(arg[3], W.arg[3], EPS_L)) return FALSE;
+        if (!XrMath::fsimilar(arg[2], W.arg[2], XrMath::EPS_L)) return FALSE;
+        if (!XrMath::fsimilar(arg[3], W.arg[3], XrMath::EPS_L)) return FALSE;
         return TRUE;
     }
 };
 
 #pragma pack(pop)
-#endif

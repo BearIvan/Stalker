@@ -24,8 +24,8 @@ void CStateGroupSquadMoveToRadiusExAbstract::execute()
 	if (squad && squad->SquadActive())
 	{
 		if (squad->get_index(object) != u8(-1)) {
-			float m_Angle = (PI - PI_DIV_2) / (squad->squad_alife_count() - 1) * (squad->get_index(object) - 1);
-			float m_Delta_Angle = Random.randF(PI_DIV_3 / (squad->squad_alife_count() - 1));
+			float m_Angle = (XrMath::M_PI - XrMath::PI_DIV_2) / (squad->squad_alife_count() - 1) * (squad->get_index(object) - 1);
+			float m_Delta_Angle = Random.randF(XrMath::PI_DIV_3 / (squad->squad_alife_count() - 1));
 			float m_heading, m_pitch;
 			Fvector m_enemy_position = object->EnemyMan.get_enemy()->Position();
 
@@ -34,7 +34,7 @@ void CStateGroupSquadMoveToRadiusExAbstract::execute()
 			to_direction.normalize_safe();
 
 			to_direction.getHP(m_heading, m_pitch);
-			m_heading = angle_normalize(m_heading - (PI - PI_DIV_3) / 2 + m_Angle + m_Delta_Angle);
+			m_heading = XrMath::angle_normalize(m_heading - (XrMath::M_PI - XrMath::PI_DIV_3) / 2 + m_Angle + m_Delta_Angle);
 			to_direction.setHP(m_heading, m_pitch);
 			data.point.x = m_enemy_position.x + data.completion_dist * to_direction.x;
 			data.point.y = m_enemy_position.y + data.completion_dist * to_direction.y;

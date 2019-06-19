@@ -283,7 +283,7 @@ void CCustomZone::Load(LPCSTR section)
 		m_fArtefactSpawnHeight = pSettings->r_float (section,	"artefact_spawn_height");
 
 		LPCSTR						l_caParameters = pSettings->r_string(section, "artefacts");
-		u16 m_wItemCount			= (u16)_GetItemCount(l_caParameters);
+		u16 m_wItemCount			= (u16)XrTrims::GetItemCount(l_caParameters);
 		R_ASSERT2					(!(m_wItemCount & 1),"Invalid number of parameters in string 'artefacts' in the 'system.ltx'!");
 		m_wItemCount				>>= 1;
 
@@ -296,12 +296,12 @@ void CCustomZone::Load(LPCSTR section)
 		for (u16 i=0; i<m_wItemCount; ++i) 
 		{
 			ARTEFACT_SPAWN& artefact_spawn = m_ArtefactSpawn[i];
-			artefact_spawn.section = _GetItem(l_caParameters,i << 1,l_caBuffer);
-			artefact_spawn.probability = (float)atof(_GetItem(l_caParameters,(i << 1) | 1,l_caBuffer));
+			artefact_spawn.section = XrTrims::GetItem(l_caParameters,i << 1,l_caBuffer);
+			artefact_spawn.probability = (float)atof(XrTrims::GetItem(l_caParameters,(i << 1) | 1,l_caBuffer));
 			total_probability += artefact_spawn.probability;
 		}
 
-		R_ASSERT3(!fis_zero(total_probability), "The probability of artefact spawn is zero!",*cName());
+		R_ASSERT3(!XrMath::fis_zero(total_probability), "The probability of artefact spawn is zero!",*cName());
 		//нормализировать вероятности
 		for(u16 i=0; i<m_ArtefactSpawn.size(); ++i)
 		{
@@ -827,7 +827,7 @@ void CCustomZone::PlayEntranceParticles(CGameObject* pObject)
 			Fmatrix xform;
 
 			Fvector dir;
-			if(fis_zero(vel.magnitude()))
+			if(XrMath::fis_zero(vel.magnitude()))
 				dir.set(0,1,0);
 			else
 			{
@@ -959,10 +959,10 @@ void CCustomZone::UpdateBlowoutLight	()
 	if(m_fLightTimeLeft>0)
 	{
 		m_fLightTimeLeft -= Device.fTimeDelta;
-		clamp(m_fLightTimeLeft,0.0f,m_fLightTime);
+		XrMath::clamp(m_fLightTimeLeft,0.0f,m_fLightTime);
 
 		float scale		= m_fLightTimeLeft/m_fLightTime;
-		scale			= powf(scale+EPS_L, 0.15f);
+		scale			= powf(scale+XrMath::EPS_L, 0.15f);
 		float r			= m_fLightRange*scale;
 		VERIFY(_valid(r));
 		m_pLight->set_color(m_LightColor.r*scale, 
@@ -1039,7 +1039,7 @@ void  CCustomZone::OnMove()
 
 		Fvector				vel;
 			
-		if(fis_zero(time_delta))
+		if(XrMath::fis_zero(time_delta))
 			vel = zero_vel;
 		else
 		{
@@ -1190,7 +1190,7 @@ void CCustomZone::SpawnArtefact()
 {
 	//вычислить согласно распределению вероятностей
 	//какой артефакт из списка ставить
-	float rnd = ::Random.randF(.0f,1.f-EPS_L);
+	float rnd = ::Random.randF(.0f,1.f-XrMath::EPS_L);
 	float prob_threshold = 0.f;
 	
 	std::size_t i=0;
@@ -1263,7 +1263,7 @@ void CCustomZone::StartWind()
 
 	m_bBlowoutWindActive = true;
 	m_fStoreWindPower =ENV_SOC.wind_strength_factor;
-	clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
+	XrMath::clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
 }
 
 void CCustomZone::StopWind()
@@ -1288,14 +1288,14 @@ void CCustomZone::UpdateWind()
 	ENV_SOC.wind_strength_factor = m_fBlowoutWindPowerMax + ( m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 								float(m_dwBlowoutWindTimePeak - (u32)m_iStateTime)/
 								float(m_dwBlowoutWindTimePeak - m_dwBlowoutWindTimeStart);
-		clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
+		XrMath::clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
 	}
 	else
 	{
 	ENV_SOC.wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 			float((u32)m_iStateTime - m_dwBlowoutWindTimePeak)/
 			float(m_dwBlowoutWindTimeEnd - m_dwBlowoutWindTimePeak);
-		clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
+		XrMath::clamp(ENV_SOC.wind_strength_factor, 0.f, 1.f);
 	}
 }
 

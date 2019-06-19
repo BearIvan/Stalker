@@ -23,7 +23,7 @@ ik_foot_collider::ik_foot_collider()
 {
 
 }
-static const Fplane		invalide_plane = { -FLT_MAX, -FLT_MAX, -FLT_MAX, -FLT_MAX };
+static const Fplane		invalide_plane = { -flt_max, -flt_max, -flt_max, -flt_max };
 
 
 struct ik_pick_result
@@ -31,11 +31,11 @@ struct ik_pick_result
 	ik_pick_result(ik_foot_geom::e_collide_point _point): 
 		p(invalide_plane),
 		point( _point ),
-		position( Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ) )
+		position( Fvector().set( -flt_max, -flt_max, -flt_max ) )
 	{
-		triangle[0] = Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX );
-		triangle[1] = Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX );
-		triangle[2] = Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX );
+		triangle[0] = Fvector().set( -flt_max, -flt_max, -flt_max );
+		triangle[1] = Fvector().set( -flt_max, -flt_max, -flt_max );
+		triangle[2] = Fvector().set( -flt_max, -flt_max, -flt_max );
 	}
 	Fplane	p;
 	Fvector triangle[3];
@@ -83,7 +83,7 @@ IC bool ignore_result( collide::rq_result	&R )
 IC void tri_plane(const Fvector &v0, const Fvector &v1, const Fvector &v2, Fplane &p )
 {
 	p.n.mknormal	( v0, v1, v2 );
-	VERIFY( !fis_zero( p.n.magnitude() ) );
+	VERIFY( !XrMath::fis_zero( p.n.magnitude() ) );
 	p.n.invert();
 	p.d = -p.n.dotproduct( v0 );
 }
@@ -113,14 +113,14 @@ IC bool	get_plane_static(  ik_pick_result &r, Fvector &next_pos, float &next_ran
 	next_range = pick_dist - R.range;
 	if( ignore_tri( *tri ) )
 	{
-		next_pos.add( Fvector().mul( pick_v, EPS_L  ) );
+		next_pos.add( Fvector().mul( pick_v, XrMath::EPS_L  ) );
 		float dot = pick_v.dotproduct( r.p.n );
 		if( 0.f < dot )
 		{
-			next_pos.add( Fvector().mul( r.p.n, EPS_L  ) );
+			next_pos.add( Fvector().mul( r.p.n, XrMath::EPS_L  ) );
 		}
-		//next_pos.add( Fvector().mul( r.p.n, EPS_L  ) );
-		next_range -= EPS_L;
+		//next_pos.add( Fvector().mul( r.p.n, XrMath::EPS_L  ) );
+		next_range -= XrMath::EPS_L;
 #ifdef DEBUG
 		float u, v, d;
 		VERIFY( !( CDB::TestRayTri( next_pos, pick_v, r.triangle, u, v, d , true ) && d > 0.f ) );
@@ -134,8 +134,8 @@ IC bool	get_plane_static(  ik_pick_result &r, Fvector &next_pos, float &next_ran
 IC bool	get_plane_dynamic(  ik_pick_result &r, Fvector &next_pos, float &next_range, const collide::rq_result	R, float pick_dist,const Fvector &pos, const Fvector &pick_v )
 {
 
-	next_pos.add( pos, Fvector( ).mul( pick_v, R.range + EPS_L ) );
-	next_range = pick_dist - R.range - EPS_L;
+	next_pos.add( pos, Fvector( ).mul( pick_v, R.range + XrMath::EPS_L ) );
+	next_range = pick_dist - R.range - XrMath::EPS_L;
 
 	if(ignore_object(R.O))
 		return false;
@@ -199,7 +199,7 @@ bool Pick( ik_pick_result &r, const ik_pick_query &q , CObject* ignore_object)
 
 		range	= next_range;
 		pos		= next_pos;
-		if( range < EPS )
+		if( range < XrMath::EPS )
 			break;
 	}
 
@@ -297,7 +297,7 @@ void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_ge
 /*
 	if( hill_collided )
 	{
-		if( !cld.collided || (r_hill.position.y - r_toe.position.y) > EPS )
+		if( !cld.collided || (r_hill.position.y - r_toe.position.y) > XrMath::EPS )
 		{
 			cld.m_plane = r_heel.p;
 			cld.m_collide_point = ik_foot_geom::heel;
@@ -336,7 +336,7 @@ void ik_foot_collider::collide( SIKCollideData &cld, const ik_foot_geom &foot_ge
 			return;
 	}
 
-	float hight = -FLT_MAX;
+	float hight = -flt_max;
 	ik_pick_result r = r_toe;
 
 	

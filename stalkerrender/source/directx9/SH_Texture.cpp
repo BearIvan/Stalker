@@ -254,7 +254,7 @@ void CTexture::Load		()
 			while (!_fs->eof())
 			{
 				_fs->r_string(buffer,sizeof(buffer));
-				_Trim		(buffer);
+				XrTrims::Trim		(buffer);
 				if (buffer[0])	
 				{
 					// Load another texture

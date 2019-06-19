@@ -57,7 +57,7 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 	FVF::LIT *pv		= (FVF::LIT*) RCache.Vertex.Lock(8,hGeom_gradient.stride(),VS_Offset);
 	// top
 	{
-		u32 c_val		= iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
+		u32 c_val		= XrMath::iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
 		u32 c			= color_rgba(c_val,c_val,c_val,c_val);
 		vecSx.mul		(Device.vCameraRight, 	owner.current->m_GradientTop->fRadius.x*owner.lightning_size);
 		vecSy.mul		(Device.vCameraTop, 	-owner.current->m_GradientTop->fRadius.y*owner.lightning_size);
@@ -68,7 +68,7 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 	}
 	// center
 	{
-		u32 c_val		= iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
+		u32 c_val		= XrMath::iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
 		u32 c			= color_rgba(c_val,c_val,c_val,c_val);
 		vecSx.mul		(Device.vCameraRight, 	owner.current->m_GradientCenter->fRadius.x*owner.lightning_size);
 		vecSy.mul		(Device.vCameraTop, 	-owner.current->m_GradientCenter->fRadius.y*owner.lightning_size);

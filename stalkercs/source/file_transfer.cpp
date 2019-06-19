@@ -102,7 +102,7 @@ void filetransfer_node::calculate_chunk_size(u32 peak_throughput, u32 current_th
 			current_throughput, peak_throughput, m_chunk_size);
 #endif
 	}
-	clamp(m_chunk_size, data_min_chunk_size, data_max_chunk_size);
+	XrMath::clamp(m_chunk_size, data_min_chunk_size, data_max_chunk_size);
 	m_last_peak_throughput			= peak_throughput;
 	m_last_chunksize_update_time	= Device.dwTimeGlobal;
 }

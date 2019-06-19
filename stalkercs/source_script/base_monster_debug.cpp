@@ -532,9 +532,9 @@ void   CBaseMonster::add_debug_info (debug::text_tree& root_s)
 	TextTree& visuals_s = perceptors_s.find_or_add("Visual");
 
 	float object_range, object_fov;
-	update_range_fov (object_range,object_fov,eye_range,deg2rad(eye_fov));
+	update_range_fov (object_range,object_fov,eye_range,XrMath::deg2rad(eye_fov));
 	visuals_s.add_line("Eye_Range", object_range);
-	visuals_s.add_line("FOV", rad2deg(object_fov));
+	visuals_s.add_line("FOV", XrMath::rad2deg(object_fov));
 
 	CActor* actor = smart_cast<CActor*>(Level().Objects.net_Find(0));
 	if ( !actor ) 
@@ -830,7 +830,7 @@ void   CBaseMonster::add_debug_info (debug::text_tree& root_s)
 		CDetailPathManager::STravelParams current_velocity = 
 			movement().detail().velocity(movement().detail().path()[movement().detail().curr_travel_point_index()].velocity);
 		detail_s.add_line("linear", current_velocity.linear_velocity);
-		detail_s.add_line("angular", rad2deg(current_velocity.real_angular_velocity));
+		detail_s.add_line("angular", XrMath::rad2deg(current_velocity.real_angular_velocity));
 		detail_s.add_line("speed(calc)", movement().speed());
 		detail_s.add_line("speed(physics)", movement().speed(character_physics_support()->movement()));
 	}

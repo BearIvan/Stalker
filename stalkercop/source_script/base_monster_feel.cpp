@@ -116,8 +116,8 @@ void CBaseMonster::HitEntity(const CEntity *pEntity, float fDamage, float impuls
 			float d = -h1 + hd.getH	();
 			s->wnd()->SetHeading	(d);
 			Fvector2 wnd_pos = s->wnd()->GetWndPos();
-			wnd_pos.y	+= 400.0f*_cos(d);
-			wnd_pos.x	+= 500.0f*_sin(d);
+			wnd_pos.y	+= 400.0f*XrMath::cos(d);
+			wnd_pos.x	+= 500.0f*XrMath::sin(d);
 			s->wnd()->SetWndPos(wnd_pos);
 
 			STOP_PROFILE;
@@ -125,7 +125,7 @@ void CBaseMonster::HitEntity(const CEntity *pEntity, float fDamage, float impuls
 			//SetAttackEffector			();
 			
 			float time_to_lock		= fDamage * MAX_LOCK_TIME;
-			clamp					(time_to_lock, 0.f, MAX_LOCK_TIME);
+			XrMath::clamp					(time_to_lock, 0.f, MAX_LOCK_TIME);
 			Actor()->lock_accel_for	(int(time_to_lock * 1000));
 
 			//////////////////////////////////////////////////////////////////////////
@@ -144,19 +144,19 @@ void CBaseMonster::HitEntity(const CEntity *pEntity, float fDamage, float impuls
 					cam_dir.normalize_safe		();
 					dir.normalize_safe			();
 
-					float ang_diff				= angle_difference	(cam_dir.getH(), dir.getH());
+					float ang_diff				= XrMath::angle_difference	(cam_dir.getH(), dir.getH());
 					Fvector						cp;
 					cp.crossproduct				(cam_dir,dir);
 					bool bUp					=(cp.y>0.0f);
 
 					Fvector cross;
 					cross.crossproduct			(cam_dir, dir);
-					VERIFY						(ang_diff>=0.0f && ang_diff<=PI);
+					VERIFY						(ang_diff>=0.0f && ang_diff<=XrMath::M_PI);
 
-					float _s1 = PI_DIV_8;
-					float _s2 = _s1+PI_DIV_4;
-					float _s3 = _s2+PI_DIV_4;
-					float _s4 = _s3+PI_DIV_4;
+					float _s1 = XrMath::PI_DIV_8;
+					float _s2 = _s1+XrMath::PI_DIV_4;
+					float _s3 = _s2+XrMath::PI_DIV_4;
+					float _s4 = _s3+XrMath::PI_DIV_4;
 
 					if(ang_diff<=_s1){
 						id = 2;
@@ -232,12 +232,12 @@ void CBaseMonster::HitSignal(float amount, Fvector& vLocalDir, CObject* who, s16
 	float yaw,pitch;
 	vLocalDir.getHP(yaw,pitch);
 	
-	yaw = angle_normalize(yaw);
+	yaw = XrMath::angle_normalize(yaw);
 	
 	EHitSide hit_side = eSideFront;
-	if ((yaw >= PI_DIV_4) && (yaw <= 3*PI_DIV_4)) hit_side = eSideLeft;
-	else if ((yaw >= 3 * PI_DIV_4) && (yaw <= 5*PI_DIV_4)) hit_side = eSideBack;
-	else if ((yaw >= 5 * PI_DIV_4) && (yaw <= 7*PI_DIV_4)) hit_side = eSideRight;
+	if ((yaw >= XrMath::PI_DIV_4) && (yaw <= 3*XrMath::PI_DIV_4)) hit_side = eSideLeft;
+	else if ((yaw >= 3 * XrMath::PI_DIV_4) && (yaw <= 5*XrMath::PI_DIV_4)) hit_side = eSideBack;
+	else if ((yaw >= 5 * XrMath::PI_DIV_4) && (yaw <= 7*XrMath::PI_DIV_4)) hit_side = eSideRight;
 
 	anim().FX_Play	(hit_side, 1.0f);
 

@@ -81,7 +81,7 @@ void CHelicopter::UpdateHeliParticles	()
 		Fmatrix xf;
 		Fmatrix& M = K->LL_GetTransform(u16(m_light_bone));
 		xf.mul		(XFORM(),M);
-		VERIFY(!fis_zero(DET(xf)));
+		VERIFY(!XrMath::fis_zero(DET(xf)));
 
 		m_light_render->set_rotation	(xf.k,xf.i);
 		m_light_render->set_position	(xf.c);
@@ -293,8 +293,8 @@ void CHelicopter::DieHelicopter()
 		LPCSTR bone;
 		
 		u16 bone_id;
-		for (u32 i=0, n=_GetItemCount(*m_death_bones_to_hide); i<n; ++i){
-			bone = _GetItem(*m_death_bones_to_hide,i,I);
+		for (u32 i=0, n=XrTrims::GetItemCount(*m_death_bones_to_hide); i<n; ++i){
+			bone = XrTrims::GetItem(*m_death_bones_to_hide,i,I);
 			bone_id		= K->LL_BoneID	(bone);
 			K->LL_SetBoneVisible(bone_id,FALSE,TRUE);
 		}
@@ -388,10 +388,10 @@ void CHelicopter::UseFireTrail(bool val)
 	m_enemy.bUseFireTrail = val;
 	if(val){
 		fireDispersionBase	= pSettings->r_float		(*cNameSect(),"fire_dispersion_null");
-		fireDispersionBase	= deg2rad					(fireDispersionBase);
+		fireDispersionBase	= XrMath::deg2rad					(fireDispersionBase);
 	}else{
 		fireDispersionBase	= pSettings->r_float		(*cNameSect(),"fire_dispersion_base");
-		fireDispersionBase	= deg2rad					(fireDispersionBase);
+		fireDispersionBase	= XrMath::deg2rad					(fireDispersionBase);
 	}
 }
 
@@ -442,7 +442,7 @@ void SHeliBodyState::load(IReader &input_packet)
 
 float t_xx (float V0, float V1, float a0, float a1, float d, float fSign)
 {
-	return (V1+_sqrt(V1*V1 - (a1/(a1-a0))*(V1*V1-V0*V0-2*a0*d) )*fSign )/a1;
+	return (V1+XrMath::sqrt(V1*V1 - (a1/(a1-a0))*(V1*V1-V0*V0-2*a0*d) )*fSign )/a1;
 }
 
 float t_1(float t10, float t11)
@@ -453,7 +453,7 @@ float t_1(float t10, float t11)
 		if(t11<0)
 			return t10;
 		else
-			return _min(t10,t11);
+			return XrMath::min(t10,t11);
 
 }
 

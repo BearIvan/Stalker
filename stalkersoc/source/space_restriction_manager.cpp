@@ -35,8 +35,8 @@ CSpaceRestrictionManager::~CSpaceRestrictionManager			()
 void show_restriction				(const shared_str &restrictions)
 {
 	string256						temp;
-	for (int i=0, n=_GetItemCount(*restrictions); i<n; ++i)
-		Msg							("     %s",_GetItem(*restrictions,i,temp));
+	for (int i=0, n=XrTrims::GetItemCount(*restrictions); i<n; ++i)
+		Msg							("     %s",XrTrims::GetItem(*restrictions,i,temp));
 }
 
 typedef intrusive_ptr<CSpaceRestriction,RestrictionSpace::CTimeIntrusiveBase> CRestrictionPtr;
@@ -193,8 +193,8 @@ u32	CSpaceRestrictionManager::accessible_nearest			(ALife::_OBJECT_ID id, const 
 IC	bool CSpaceRestrictionManager::restriction_presented	(shared_str restrictions, shared_str restriction) const
 {
 	string4096					m_temp;
-	for (u32 i=0, n=_GetItemCount(*restrictions); i<n; ++i)
-		if (!xr_strcmp(restriction,_GetItem(*restrictions,i,m_temp)))
+	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions); i<n; ++i)
+		if (!xr_strcmp(restriction,XrTrims::GetItem(*restrictions,i,m_temp)))
 			return				(true);
 	return						(false);
 }
@@ -204,8 +204,8 @@ IC	void CSpaceRestrictionManager::join_restrictions		(shared_str &restrictions, 
 	string4096					m_temp1;
 	string4096					m_temp2;
 	strcpy						(m_temp2,*restrictions);
-	for (u32 i=0, n=_GetItemCount(*update), count = xr_strlen(m_temp2); i<n; ++i)
-		if (!restriction_presented(m_temp2,_GetItem(*update,i,m_temp1))) {
+	for (u32 i=0, n=XrTrims::GetItemCount(*update), count = xr_strlen(m_temp2); i<n; ++i)
+		if (!restriction_presented(m_temp2,XrTrims::GetItem(*update,i,m_temp1))) {
 			if (count)
 				strcat			(m_temp2,",");
 			strcat				(m_temp2,m_temp1);
@@ -219,8 +219,8 @@ IC	void CSpaceRestrictionManager::difference_restrictions	(shared_str &restricti
 	string4096					m_temp1;
 	string4096					m_temp2;
 	strcpy						(m_temp2,"");
-	for (u32 i=0, n=_GetItemCount(*restrictions), count = 0; i<n; ++i)
-		if (!restriction_presented(update,_GetItem(*restrictions,i,m_temp1))) {
+	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions), count = 0; i<n; ++i)
+		if (!restriction_presented(update,XrTrims::GetItem(*restrictions,i,m_temp1))) {
 			if (count)
 				strcat			(m_temp2,",");
 			strcat				(m_temp2,m_temp1);

@@ -60,7 +60,7 @@ void CStateMonsterRestFunAbstract::execute()
 			
 			float			h,p;
 			dir.getHP		(h,p);
-			dir.setHP		(h, p + 5 * PI / 180);
+			dir.setHP		(h, p + 5 * XrMath::M_PI / 180);
 			dir.normalize	();
 			
 			// выполнить бросок

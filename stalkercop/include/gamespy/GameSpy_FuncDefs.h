@@ -15,7 +15,7 @@
 #include "GameSpy/sc/sc.h"
 
 #undef max
-
+#undef min
 extern "C" {
 
 #define GAMESPY_TFN_DECL(r, f, p) typedef DLL_API r __cdecl t_fn_xrGS_##f p

@@ -12,7 +12,7 @@ void CRenderTarget::draw_rain( light &RainSetup )
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 	// Common constants (light-related)
 	Fvector		L_dir;
@@ -33,17 +33,17 @@ void CRenderTarget::draw_rain( light &RainSetup )
 	{
 		// Fill vertex buffer
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-		pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-		pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-		pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-		pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+		pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+		pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 		RCache.set_Geometry			(g_combine);
 
 		// setup
 //		float	intensity			= 0.3f*fuckingsun->color.r + 0.48f*fuckingsun->color.g + 0.22f*fuckingsun->color.b;
 //		Fvector	dir					= L_dir;
-//		dir.normalize().mul	(- _sqrt(intensity+EPS));
+//		dir.normalize().mul	(- XrMath::sqrt(intensity+XrMath::EPS));
 //		RCache.set_Element			(s_accum_mask->E[SE_MASK_DIRECT]);		// masker
 //		RCache.set_c				("Ldynamic_dir",		dir.x,dir.y,dir.z,0		);
 

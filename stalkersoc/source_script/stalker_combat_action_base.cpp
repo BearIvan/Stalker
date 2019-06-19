@@ -23,7 +23,7 @@
 
 using namespace StalkerSpace;
 
-const float start_fire_angle_difference	= PI_DIV_8;
+const float start_fire_angle_difference	= XrMath::PI_DIV_8;
 
 CStalkerActionCombatBase::CStalkerActionCombatBase	(CAI_Stalker *object, LPCSTR action_name) :
 	inherited	(object,action_name)
@@ -59,7 +59,7 @@ void CStalkerActionCombatBase::fire					()
 	float								yaw,pitch;
 	direction.getHP						(yaw,pitch);
 	const MonsterSpace::SBoneRotation	&current_angles = object().movement().head_orientation();
-	if (angle_difference(-yaw,current_angles.current.yaw) > start_fire_angle_difference) {
+	if (XrMath::angle_difference(-yaw,current_angles.current.yaw) > start_fire_angle_difference) {
 		aim_ready						();
 		return;
 	}

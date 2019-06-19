@@ -57,7 +57,7 @@ void CTeleWhirlwind::draw_out_impact(Fvector& dir,float& val)
 	VERIFY2(m_saved_impacts.size(),"NO IMPACTS ADDED!");
 	dir.set(m_saved_impacts[0].force);
 	val=dir.magnitude();
-	if(!fis_zero(val))dir.mul(1.f/val);
+	if(!XrMath::fis_zero(val))dir.mul(1.f/val);
 	m_saved_impacts.erase(m_saved_impacts.begin());
 }
 
@@ -212,7 +212,7 @@ void		CTeleWhirlwindObject::		raise					(float step)
 
 			Fvector diff;
 			diff.sub(center,pos);
-			float mag=_sqrt(diff.x*diff.x+diff.z*diff.z);
+			float mag=XrMath::sqrt(diff.x*diff.x+diff.z*diff.z);
 			Fvector lc;lc.set(center);
 			if(mag>1.f)
 			{

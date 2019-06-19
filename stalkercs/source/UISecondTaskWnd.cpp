@@ -136,8 +136,8 @@ void UISecondTaskWnd::UpdateList()
 		}
 	}// for
 	//float h1 = m_list->GetWndPos().y + m_list->GetHeight() + 15.0f;
-	//h1 = _max( h1, 120.0f );
-	//h1 = _min( h1, m_orig_h );//_min
+	//h1 = XrMath::max( h1, 120.0f );
+	//h1 = XrMath::min( h1, m_orig_h );//XrMath::min
 	//SetHeight( m_orig_h );
 	//m_background->SetHeight( m_orig_h );
 }
@@ -253,7 +253,7 @@ void UISecondTaskItem::update_view()
 	m_name->SetTextST( m_task->m_Title.c_str() );
 	m_name->AdjustHeightToText();
 	float h1 = m_name->GetWndPos().y + m_name->GetHeight() + 10.0f;
-	h1 = _max( h1, GetHeight() );
+	h1 = XrMath::max( h1, GetHeight() );
 	SetHeight( h1 );
 
 	CGameTask* activ_task = Level().GameTaskManager().ActiveTask( eTaskTypeAdditional );

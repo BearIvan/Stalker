@@ -95,10 +95,10 @@ LPCSTR CUICDkey::AddHyphens(LPCSTR c){
 
 	for (int i = 0; i<sz; i++)
 	{
-		j = i + iFloor(i/4.0f);
+		j = i + XrMath::iFloor(i/4.0f);
 		buf[j] = c[i];		
 	}
-	buf[sz + iFloor(sz/4.0f)] = 0;
+	buf[sz + XrMath::iFloor(sz/4.0f)] = 0;
 
 	return buf;
 }
@@ -109,12 +109,12 @@ LPCSTR CUICDkey::DelHyphens(LPCSTR c){
 	int sz = xr_strlen(c);
 	int j = 0; 
 
-	for (int i = 0; i<sz - _min(iFloor(sz/4.0f),3); i++)
+	for (int i = 0; i<sz - XrMath::min(XrMath::iFloor(sz/4.0f),3); i++)
 	{
-		j = i + iFloor(i/4.0f);
+		j = i + XrMath::iFloor(i/4.0f);
 		buf[i] = c[j];		
 	}
-	buf[sz - _min(iFloor(sz/4.0f),3)] = 0;
+	buf[sz - XrMath::min(XrMath::iFloor(sz/4.0f),3)] = 0;
 
 	return buf;
 }

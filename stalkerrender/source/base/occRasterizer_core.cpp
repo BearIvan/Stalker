@@ -86,12 +86,12 @@ void i_scan		(int curY, float leftX, float lhx, float rightX, float rhx, float s
 	if (end_c<endR)			{endT	= endR;		endX	= end_c;	}
 	
 	// guard-banding and clipping
-	int minT		= iFloor(startT)-1, maxT = iCeil(endT)+1;
+	int minT		= XrMath::iFloor(startT)-1, maxT = XrMath::iCeil(endT)+1;
 	Vclamp			(minT,1,occ_dim-1);
 	Vclamp			(maxT,1,occ_dim-1);
 	if (minT >= maxT)		return;
 	
-	int minX		= iCeil(startX), maxX = iFloor(endX);
+	int minX		= XrMath::iCeil(startX), maxX = XrMath::iFloor(endX);
 	Vclamp			(minX,0,occ_dim);
 	Vclamp			(maxX,0,occ_dim);
 	int limLeft,limRight;
@@ -107,7 +107,7 @@ void i_scan		(int curY, float leftX, float lhx, float rightX, float rhx, float s
 
 	// Move to far my dz/5 to place the pixel at the center of face that it covers. 
 	// This will make sure that objects will not be clipped for just standing next to the home from outside.
-	Z				+= 0.5f*_abs(dZ);
+	Z				+= 0.5f*XrMath::abs(dZ);
 
 	// gain access to buffers
 	occTri** pFrame	= Raster.get_frame();
@@ -174,8 +174,8 @@ void i_test		( int x, int y)
 
 void i_edge		( int x1, int y1, int x2, int y2)
 {
-    int dx	= _abs(x2 - x1);
-    int dy	= _abs(y2 - y1);
+    int dx	= XrMath::abs(x2 - x1);
+    int dy	= XrMath::abs(y2 - y1);
 
     int sx = x2 >= x1 ? 1 : -1;
     int sy = y2 >= y1 ? 1 : -1;
@@ -221,12 +221,12 @@ IC void i_section	(int Sect, BOOL bMiddle)
 	float	E1[3], E2[3];
 
 	if (Sect == BOTTOM) { 
-		startY	= iCeil(currentA[1]); endY = iFloor(currentB[1])-1; 
+		startY	= XrMath::iCeil(currentA[1]); endY = XrMath::iFloor(currentB[1])-1; 
 		startp1 = startp2 = currentA;
 		if (bMiddle)	endY ++;
 		
 		// check 'endY' for out-of-triangle 
-		int test = iFloor(currentC[1]);
+		int test = XrMath::iFloor(currentC[1]);
 		if (endY   >=test) endY --;
 
 		// Find the edge differences
@@ -235,12 +235,12 @@ IC void i_section	(int Sect, BOOL bMiddle)
 		E1[2] = currentB[2]-currentA[2]; E2[2] = currentC[2]-currentA[2];
 	}
 	else { 
-		startY  = iCeil(currentB[1]); endY = iFloor(currentC[1]); 
+		startY  = XrMath::iCeil(currentB[1]); endY = XrMath::iFloor(currentC[1]); 
 		startp1 = currentA; startp2 = currentB;
 		if (bMiddle)	startY --;
 		
 		// check 'startY' for out-of-triangle 
-		int test = iCeil(currentA[1]);
+		int test = XrMath::iCeil(currentA[1]);
 		if (startY < test) startY ++;
 
 		// Find the edge differences
@@ -315,7 +315,7 @@ u32 occRasterizer::rasterize	(occTri* T)
 	i_order				(&(T->raster[0].x), &(T->raster[1].x),&(T->raster[2].x));
 
 	// Rasterize sections
-	if (currentB[1]-iFloor(currentB[1]) > .5f)	
+	if (currentB[1]-XrMath::iFloor(currentB[1]) > .5f)	
 	{
 		i_section_b1	();	// Rasterise First Section
 		i_section_t0	();	// Rasterise Second Section

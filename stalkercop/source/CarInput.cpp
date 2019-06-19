@@ -25,11 +25,11 @@ void	CCar::OnMouseMove(int dx, int dy)
 	float scale		= (C->f_fov/g_fov)*psMouseSens * psMouseSensScale/50.f;
 	if (dx){
 		float d		= float(dx)*scale;
-		C->Move		((d<0)?kLEFT:kRIGHT, _abs(d));
+		C->Move		((d<0)?kLEFT:kRIGHT, XrMath::abs(d));
 	}
 	if (dy){
 		float d		= ((psMouseInvert.test(1))?-1:1)*float(dy)*scale*3.f/4.f;
-		C->Move		((d>0)?kUP:kDOWN, _abs(d));
+		C->Move		((d>0)?kUP:kDOWN, XrMath::abs(d));
 	}
 }
 
@@ -50,8 +50,8 @@ bool CCar::bfAssignMovement(CScriptEntityAction *tpEntityAction)
 	if (!!(l_tInput & CScriptMovementAction::eInputKeyEngineOn))	StartEngine();
 	if (!!(l_tInput & CScriptMovementAction::eInputKeyEngineOff)) StopEngine();
 
-	//if (_abs(tpEntityAction->m_tMovementAction.m_fSpeed) > EPS_L)
-		//m_current_rpm = _abs(tpEntityAction->m_tMovementAction.m_fSpeed*m_current_gear_ratio);
+	//if (XrMath::abs(tpEntityAction->m_tMovementAction.m_fSpeed) > XrMath::EPS_L)
+		//m_current_rpm = XrMath::abs(tpEntityAction->m_tMovementAction.m_fSpeed*m_current_gear_ratio);
 
 	return	(true);
 }
@@ -185,8 +185,8 @@ void	CCar::OnKeyboardHold(int cmd)
 		break;
 */
 	}
-//	clamp(m_vCamDeltaHP.x, -PI_DIV_2,	PI_DIV_2);
-//	clamp(m_vCamDeltaHP.y, active_camera->lim_pitch.x,	active_camera->lim_pitch.y);
+//	XrMath::clamp(m_vCamDeltaHP.x, -XrMath::PI_DIV_2,	XrMath::PI_DIV_2);
+//	XrMath::clamp(m_vCamDeltaHP.y, active_camera->lim_pitch.x,	active_camera->lim_pitch.y);
 }
 void CCar::Action(u16 id, u32 flags)
 {

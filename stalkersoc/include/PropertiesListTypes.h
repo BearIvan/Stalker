@@ -2,7 +2,7 @@
 #ifndef PropertiesListTypesH
 #define PropertiesListTypesH
 
-#include "WaveForm.H"
+#include "engine/WaveForm.H"
 
 #ifdef __BORLANDC__            
 #	include "ElTree.hpp"
@@ -298,13 +298,13 @@ public:
     	OnBtnClickEvent	= 0;
     	btn_num			= -1;
     	xr_string 	v;
-        int cnt			=_GetItemCount(val.c_str()); 
+        int cnt			= XrTrims::GetItemCount(val.c_str());
         for (int k=0; k<cnt; ++k)
-        	value.push_back(_GetItem(val.c_str(),k,v));
+        	value.push_back(XrTrims::GetItem(val.c_str(),k,v));
     }
     virtual xr_string	GetDrawText		(TOnDrawTextEvent)
     {
-    	shared_str t	= _ListToSequence(value);
+    	shared_str t	= XrTrims::ListToSequence(value);
         return 			t.c_str()?t.c_str():"";
     }
     virtual	void		ResetValue		(){;}
@@ -446,14 +446,14 @@ public:
     };
 						NumericValue	(T* val, T mn, T mx, T increm, int decim):CustomValue<T>(val),lim_mn(mn),lim_mx(mx),inc(increm),dec(decim)
 	{
-    	clamp			(*val,lim_mn,lim_mx);
+    	XrMath::clamp			(*val,lim_mn,lim_mx);
         value			= val;
         init_value		= *value;
     };
     bool				ApplyValue		(const T& _val)
     {
     	T val			= _val;
-    	clamp			(val,lim_mn,lim_mx);
+    	XrMath::clamp			(val,lim_mn,lim_mx);
         return CustomValue<T>::ApplyValue(val);
     }
 	virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
@@ -482,9 +482,9 @@ IC bool operator == (const Fvector& A, const Fvector& B)
 {	return !!A.similar(B); }
 IC void clamp(Fvector& V, const Fvector& mn, const Fvector& mx)
 {
-    clamp(V.x,mn.x,mx.x);
-    clamp(V.y,mn.y,mx.y);
-    clamp(V.z,mn.z,mx.z);
+    XrMath::clamp(V.x,mn.x,mx.x);
+    XrMath::clamp(V.y,mn.y,mx.y);
+    XrMath::clamp(V.z,mn.z,mx.z);
 }
 IC xr_string draw_sprintf(xr_string& s, const Fvector& V, int dec)
 {

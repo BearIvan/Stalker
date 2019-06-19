@@ -42,7 +42,7 @@ ShaderElement*			CRender::rimp_select_sh_dynamic	(dxRender_Visual	*pVisual, floa
 	int		id	= SE_R2_SHADOW;
 	if	(CRender::PHASE_NORMAL == RImplementation.phase)
 	{
-		id = ((_sqrt(cdist_sq)-pVisual->vis.sphere.R)<r_dtex_range)?SE_R2_NORMAL_HQ:SE_R2_NORMAL_LQ;
+		id = ((XrMath::sqrt(cdist_sq)-pVisual->vis.sphere.R)<r_dtex_range)?SE_R2_NORMAL_HQ:SE_R2_NORMAL_LQ;
 	}
 	return pVisual->shader->E[id]._get();
 }
@@ -52,7 +52,7 @@ ShaderElement*			CRender::rimp_select_sh_static	(dxRender_Visual	*pVisual, float
 	int		id	= SE_R2_SHADOW;
 	if	(CRender::PHASE_NORMAL == RImplementation.phase)
 	{
-		id = ((_sqrt(cdist_sq)-pVisual->vis.sphere.R)<r_dtex_range)?SE_R2_NORMAL_HQ:SE_R2_NORMAL_LQ;
+		id = ((XrMath::sqrt(cdist_sq)-pVisual->vis.sphere.R)<r_dtex_range)?SE_R2_NORMAL_HQ:SE_R2_NORMAL_LQ;
 	}
 	return pVisual->shader->E[id]._get();
 }
@@ -72,7 +72,7 @@ static class cl_LOD		: public R_constant_setup
 
 static class cl_pos_decompress_params		: public R_constant_setup		{	virtual void setup	(R_constant* C)
 {
-	float VertTan =  -1.0f * tanf( deg2rad(Device.fFOV/2.0f ) );
+	float VertTan =  -1.0f * tanf( XrMath::deg2rad(Device.fFOV/2.0f ) );
 	float HorzTan =  - VertTan / Device.fASPECT;
 
 	RCache.set_c	( C, HorzTan, VertTan, ( 2.0f * HorzTan )/(float)Device.dwWidth, ( 2.0f * VertTan ) /(float)Device.dwHeight );
@@ -590,7 +590,7 @@ void					CRender::add_Geometry			(IRenderVisual*		V )	{ add_Static((dxRender_Vis
 void					CRender::add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* verts)
 {
 	if (T->suppress_wm)	return;
-	VERIFY2							(_valid(P) && _valid(s) && T && verts && (s>EPS_L), "Invalid static wallmark params");
+	VERIFY2							(_valid(P) && _valid(s) && T && verts && (s>XrMath::EPS_L), "Invalid static wallmark params");
 	Wallmarks->AddStaticWallmark	(T,verts,P,&*S,s);
 }
 

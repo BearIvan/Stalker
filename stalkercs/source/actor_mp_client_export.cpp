@@ -57,10 +57,10 @@ void CActorMP::fill_state	(actor_mp_state &state)
 //		Msg							("force        : [%f][%f][%f]",State.force.x,State.force.y,State.force.z);
 //		Msg							("torque       : [%f][%f][%f]",State.torque.x,State.torque.y,State.torque.z);
 //		Msg							("acceleration : [%f][%f][%f]",NET_SavedAccel.x,NET_SavedAccel.y,NET_SavedAccel.z);
-		Msg							("model_yaw    : [%f]",angle_normalize(r_model_yaw));
-		Msg							("camera_yaw   : [%f]",angle_normalize(unaffected_r_torso.yaw));
-//		Msg							("camera_pitch : [%f]",angle_normalize(unaffected_r_torso.pitch));
-//		Msg							("camera_roll  : [%f]",angle_normalize(unaffected_r_torso.roll));
+		Msg							("model_yaw    : [%f]",XrMath::angle_normalize(r_model_yaw));
+		Msg							("camera_yaw   : [%f]",XrMath::angle_normalize(unaffected_r_torso.yaw));
+//		Msg							("camera_pitch : [%f]",XrMath::angle_normalize(unaffected_r_torso.pitch));
+//		Msg							("camera_roll  : [%f]",XrMath::angle_normalize(unaffected_r_torso.roll));
 //	}
 #endif // 0
 
@@ -75,10 +75,10 @@ void CActorMP::fill_state	(actor_mp_state &state)
 
 	state.logic_acceleration		= NET_SavedAccel;
 
-	state.model_yaw					= angle_normalize(r_model_yaw);
-	state.camera_yaw				= angle_normalize(unaffected_r_torso.yaw);
-	state.camera_pitch				= angle_normalize(unaffected_r_torso.pitch);
-	state.camera_roll				= angle_normalize(unaffected_r_torso.roll);
+	state.model_yaw					= XrMath::angle_normalize(r_model_yaw);
+	state.camera_yaw				= XrMath::angle_normalize(unaffected_r_torso.yaw);
+	state.camera_pitch				= XrMath::angle_normalize(unaffected_r_torso.pitch);
+	state.camera_roll				= XrMath::angle_normalize(unaffected_r_torso.roll);
 
 	state.time						= Level().timeServer();
 
@@ -86,7 +86,7 @@ void CActorMP::fill_state	(actor_mp_state &state)
 	state.body_state_flags			= mstate_real & 0x0000ffff;
 	state.health					= GetfHealth();
 	//because after packing to 1 byte, this value can be positive...
-	if (state.health < EPS)
+	if (state.health < XrMath::EPS)
 		state.health = 0;
 
 	state.radiation					= g_Radiation()/100.0f;

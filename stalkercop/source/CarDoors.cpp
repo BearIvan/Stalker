@@ -161,16 +161,16 @@ void CCar::SDoor::Init()
 	{
 		pos_open=1.f;
 		joint->GetLimits(closed_angle,opened_angle,0);
-		//	closed_angle+=2.f*M_PI/180.f;
-		//opened_angle-=4.f*M_PI/180.f;
+		//	closed_angle+=2.f*XrMath::M_PI/180.f;
+		//opened_angle-=4.f*XrMath::M_PI/180.f;
 		opened_angle-=opened_angle/4.f;
 	}
 	else
 	{
 		pos_open=-1.f;
 		joint->GetLimits(opened_angle,closed_angle,0);
-		opened_angle+=2.f*M_PI/180.f;
-		closed_angle-=2.f*M_PI/180.f;
+		opened_angle+=2.f*XrMath::M_PI/180.f;
+		closed_angle-=2.f*XrMath::M_PI/180.f;
 	}
 	Fvector shoulder;
 
@@ -660,7 +660,7 @@ void CCar::SDoor::Break()
 
 		v[0]+=0.1f;v[1]+=0.1f;v[2]+=0.1f;
 		//dNormalize3(v);
-		VERIFY( v.magnitude() > EPS_S );
+		VERIFY( v.magnitude() > XrMath::EPS_S );
 		v.normalize();
 		
 		//dJointSetHingeAxis(dj,v[0],v[1],v[2]);
@@ -675,9 +675,9 @@ void CCar::SDoor::Break()
 		float lo,hi;
 		joint->GetLimits(lo,hi,0);
 		if(pos_open>0.f)
-			joint->SetLimits(lo+M_PI/4.f,hi,0);
+			joint->SetLimits(lo+XrMath::M_PI/4.f,hi,0);
 		else
-			joint->SetLimits(lo,hi-M_PI/4.f,0);
+			joint->SetLimits(lo,hi-XrMath::M_PI/4.f,0);
 	}
 	//ApplyOpenTorque();
 	state=broken;
@@ -713,9 +713,9 @@ Fvector door_axis_in_door;
 inv_door_transform.transform_dir(door_axis_in_door,jaxis);
 float lo_ext,hi_ext,ext;
 
-if(_abs(door_axis_in_door.x)>_abs(door_axis_in_door.y))
+if(XrMath::abs(door_axis_in_door.x)>XrMath::abs(door_axis_in_door.y))
 {
-	if(_abs(door_axis_in_door.x)>_abs(door_axis_in_door.z))
+	if(XrMath::abs(door_axis_in_door.x)>XrMath::abs(door_axis_in_door.z))
 	{
 		//door axis aligned along x
 		door_plane_axes.y=0;		   //door axis is x (door_plane_axes.y stores door axis direction (i,j,k)=(0,1,2)
@@ -728,7 +728,7 @@ if(_abs(door_axis_in_door.x)>_abs(door_axis_in_door.y))
 
 		door->joint->PSecond_element()->get_Extensions(door_transform.k,janchor.dotproduct(door_transform.k),lo_ext,hi_ext);
 		ext=hi_ext-lo_ext;
-		if(_abs(ext)>_abs(door_axis_in_door.x))
+		if(XrMath::abs(ext)>XrMath::abs(door_axis_in_door.x))
 		{
 			door->door_plane_ext.x=ext;
 			door->door_plane_axes.x=2;
@@ -745,7 +745,7 @@ if(_abs(door_axis_in_door.x)>_abs(door_axis_in_door.y))
 
 		door->joint->PSecond_element()->get_Extensions(door_transform.i,janchor.dotproduct(door_transform.i),lo_ext,hi_ext);
 		ext=hi_ext-lo_ext;
-		if(_abs(ext)>door->door_plane_ext.y)
+		if(XrMath::abs(ext)>door->door_plane_ext.y)
 		{
 			//door_dir_sign=hi_ext>-lo_ext ? 1.f : -1.f;
 			//door->door_plane_ext.y=ext;

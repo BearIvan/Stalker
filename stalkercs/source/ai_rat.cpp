@@ -188,8 +188,8 @@ void CAI_Rat::Load(LPCSTR section)
 	m_fRetreatDistance				= pSettings->r_float (section,"RetreatDistance");
 	m_fAttackStraightDistance		= pSettings->r_float (section,"AttackStraightDistance");
 	m_fStableDistance				= pSettings->r_float (section,"StableDistance");
-	m_fWallMinTurnValue				= pSettings->r_float (section,"WallMinTurnValue")/180.f*PI;
-	m_fWallMaxTurnValue				= pSettings->r_float (section,"WallMaxTurnValue")/180.f*PI;
+	m_fWallMinTurnValue				= pSettings->r_float (section,"WallMinTurnValue")/180.f*XrMath::M_PI;
+	m_fWallMaxTurnValue				= pSettings->r_float (section,"WallMaxTurnValue")/180.f*XrMath::M_PI;
 
 	m_fAngleSpeed					= pSettings->r_float (section,"AngleSpeed");
 	m_fSafeGoalChangeDelta	 		= pSettings->r_float (section,"GoalChangeDelta");
@@ -205,10 +205,10 @@ void CAI_Rat::Load(LPCSTR section)
 	m_bCannibalism					= pSettings->r_bool  (section,"Cannibalism");
 	m_dwEatCorpseInterval			= pSettings->r_s32   (section,"EatCorpseInterval");
 
-	m_fNullASpeed					= pSettings->r_float (section,"AngularStandSpeed")/180.f*PI;//PI_MUL_2
-	m_fMinASpeed					= pSettings->r_float (section,"AngularMinSpeed")/180.f*PI;//PI_MUL_2
-	m_fMaxASpeed					= pSettings->r_float (section,"AngularMaxSpeed")/180.f*PI;//.2f
-	m_fAttackASpeed					= pSettings->r_float (section,"AngularAttackSpeed")/180.f*PI;//.15f;
+	m_fNullASpeed					= pSettings->r_float (section,"AngularStandSpeed")/180.f*XrMath::M_PI;//XrMath::PI_MUL_2
+	m_fMinASpeed					= pSettings->r_float (section,"AngularMinSpeed")/180.f*XrMath::M_PI;//XrMath::PI_MUL_2
+	m_fMaxASpeed					= pSettings->r_float (section,"AngularMaxSpeed")/180.f*XrMath::M_PI;//.2f
+	m_fAttackASpeed					= pSettings->r_float (section,"AngularAttackSpeed")/180.f*XrMath::M_PI;//.15f;
 
 	m_phMass						= pSettings->r_float (section,"corp_mass");
 	m_dwActiveScheduleMin			= shedule.t_min;
@@ -233,7 +233,7 @@ BOOL CAI_Rat::net_Spawn	(CSE_Abstract* DC)
 	// personal characteristics
 	movement().m_body.current.yaw	= movement().m_body.target.yaw	= -tpSE_Rat->o_torso.yaw;
 	movement().m_body.current.pitch	= movement().m_body.target.pitch	= 0;
-	movement().m_body.speed			= PI_MUL_2;
+	movement().m_body.speed			= XrMath::PI_MUL_2;
 
 	eye_fov							= tpSE_Rat->fEyeFov;
 	eye_range						= tpSE_Rat->fEyeRange;
@@ -256,7 +256,7 @@ BOOL CAI_Rat::net_Spawn	(CSE_Abstract* DC)
 	m_fHitPower						= tpSE_Rat->fHitPower;
 	m_dwHitInterval					= tpSE_Rat->u16HitInterval;
 	m_fAttackDistance				= tpSE_Rat->fAttackDistance;
-	m_fAttackAngle					= tpSE_Rat->fAttackAngle/180.f*PI;
+	m_fAttackAngle					= tpSE_Rat->fAttackAngle/180.f*XrMath::M_PI;
 	m_fAttackSuccessProbability		= tpSE_Rat->fAttackSuccessProbability;
 
 	//	m_tCurGP						= tpSE_Rat->m_tGraphID;
@@ -422,7 +422,7 @@ void CAI_Rat::CreateSkeleton(){
 	m_pPhysicsShell->add_Element(element);
 	m_pPhysicsShell->Activate(XFORM(),0,XFORM());
 	m_pPhysicsShell->set_PhysicsRefObject( this );
-	if(!fsimilar(0.f,m_saved_impulse)){
+	if(!XrMath::fsimilar(0.f,m_saved_impulse)){
 		m_pPhysicsShell->applyHit(m_saved_hit_position,m_saved_hit_dir,m_saved_impulse,0,m_saved_hit_type);
 	}
 	/*
@@ -671,20 +671,20 @@ void CAI_Rat::on_activate_physic_shell	()
 
 float CAI_Rat::get_custom_pitch_speed	(float def_speed)
 {
-	if (fsimilar(m_fSpeed,0.f))
-		return				(PI_DIV_6);
+	if (XrMath::fsimilar(m_fSpeed,0.f))
+		return				(XrMath::PI_DIV_6);
 	else
-		if (fsimilar(m_fSpeed,m_fMinSpeed))
-			return			(PI_DIV_4);
+		if (XrMath::fsimilar(m_fSpeed,m_fMinSpeed))
+			return			(XrMath::PI_DIV_4);
 		else
-			if (fsimilar(m_fSpeed,m_fMaxSpeed))
-				return		(PI_DIV_3);
+			if (XrMath::fsimilar(m_fSpeed,m_fMaxSpeed))
+				return		(XrMath::PI_DIV_3);
 			else
-				if (fsimilar(m_fSpeed,m_fAttackSpeed))
-					return	(PI_DIV_2);
+				if (XrMath::fsimilar(m_fSpeed,m_fAttackSpeed))
+					return	(XrMath::PI_DIV_2);
 
 	Debug.fatal				(DEBUG_INFO,"Impossible RAT speed!");
-	return					(PI_DIV_2);
+	return					(XrMath::PI_DIV_2);
 }
 
 BOOL CAI_Rat::renderable_ShadowReceive	()

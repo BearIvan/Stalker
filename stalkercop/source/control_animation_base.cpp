@@ -355,7 +355,7 @@ void CControlAnimationBase::FX_Play(EHitSide side, float amount)
 	SAnimItem *anim_it = m_anim_storage[cur_anim_info().get_motion()];
 	VERIFY(anim_it);
 
-	clamp(amount,0.f,1.f);
+	XrMath::clamp(amount,0.f,1.f);
 
 	shared_str	*p_str = 0;
 	switch (side) {
@@ -386,7 +386,7 @@ bool CControlAnimationBase::IsTurningCurAnim()
 	SAnimItem *item_it = m_anim_storage[cur_anim_info().get_motion()];
 	VERIFY2(item_it, make_string("animation not found in m_anim_storage!"));;
 
-	if (!fis_zero(item_it->velocity.velocity.angular_real)) return true;
+	if (!XrMath::fis_zero(item_it->velocity.velocity.angular_real)) return true;
 	return false;
 }
 
@@ -395,7 +395,7 @@ bool CControlAnimationBase::IsStandCurAnim()
 	SAnimItem *item_it = m_anim_storage[cur_anim_info().get_motion()];
 	VERIFY2(item_it, make_string("animation not found in m_anim_storage!"));;
 
-	if (fis_zero(item_it->velocity.velocity.linear)) return true;
+	if (XrMath::fis_zero(item_it->velocity.velocity.linear)) return true;
 	return false;
 }
 
@@ -463,7 +463,7 @@ void CControlAnimationBase::ValidateAnimation()
 {
 	SAnimItem *item_it = m_anim_storage[cur_anim_info().get_motion()];
 
-	bool is_moving_anim		= !fis_zero(item_it->velocity.velocity.linear);
+	bool is_moving_anim		= !XrMath::fis_zero(item_it->velocity.velocity.linear);
 	bool is_moving_on_path	= m_object->control().path_builder().is_moving_on_path();
 
 	if (is_moving_on_path && is_moving_anim) {
@@ -607,14 +607,14 @@ void CControlAnimationBase::check_hit(MotionID motion, float time_perc)
 	m_object->Direction().getHP(my_h,my_p);
 	d.getHP(h,p);
 	
-	float from	= angle_normalize(my_h + params.foh.from_yaw);
-	float to	= angle_normalize(my_h + params.foh.to_yaw);
+	float from	= XrMath::angle_normalize(my_h + params.foh.from_yaw);
+	float to	= XrMath::angle_normalize(my_h + params.foh.to_yaw);
 	
 	if (!is_angle_between(h, from, to)) 
 		should_hit = false;
 
-	from		= angle_normalize(my_p + params.foh.from_pitch);
-	to			= angle_normalize(my_p + params.foh.to_pitch);
+	from		= XrMath::angle_normalize(my_p + params.foh.from_pitch);
+	to			= XrMath::angle_normalize(my_p + params.foh.to_pitch);
 
 	if (!is_angle_between(p, from, to)) 
 		should_hit = false;
@@ -629,25 +629,25 @@ void parse_anim_params(LPCSTR val, SAAParam &anim)
 {
 	string16			cur_elem;
 
-	_GetItem	(val,0,cur_elem);		anim.time			= float(atof(cur_elem));
-	_GetItem	(val,1,cur_elem);		anim.hit_power		= float(atof(cur_elem));
-	_GetItem	(val,2,cur_elem);		anim.impulse		= float(atof(cur_elem));
-	_GetItem	(val,3,cur_elem);		anim.impulse_dir.x	= float(atof(cur_elem));
-	_GetItem	(val,4,cur_elem);		anim.impulse_dir.y	= float(atof(cur_elem));
-	_GetItem	(val,5,cur_elem);		anim.impulse_dir.z	= float(atof(cur_elem));
-	_GetItem	(val,6,cur_elem);		anim.foh.from_yaw	= float(atof(cur_elem));
-	_GetItem	(val,7,cur_elem);		anim.foh.to_yaw		= float(atof(cur_elem));
-	_GetItem	(val,8,cur_elem);		anim.foh.from_pitch	= float(atof(cur_elem));
-	_GetItem	(val,9,cur_elem);		anim.foh.to_pitch	= float(atof(cur_elem));
-	_GetItem	(val,10,cur_elem);		anim.dist			= float(atof(cur_elem));
+	XrTrims::GetItem	(val,0,cur_elem);		anim.time			= float(atof(cur_elem));
+	XrTrims::GetItem	(val,1,cur_elem);		anim.hit_power		= float(atof(cur_elem));
+	XrTrims::GetItem	(val,2,cur_elem);		anim.impulse		= float(atof(cur_elem));
+	XrTrims::GetItem	(val,3,cur_elem);		anim.impulse_dir.x	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,4,cur_elem);		anim.impulse_dir.y	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,5,cur_elem);		anim.impulse_dir.z	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,6,cur_elem);		anim.foh.from_yaw	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,7,cur_elem);		anim.foh.to_yaw		= float(atof(cur_elem));
+	XrTrims::GetItem	(val,8,cur_elem);		anim.foh.from_pitch	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,9,cur_elem);		anim.foh.to_pitch	= float(atof(cur_elem));
+	XrTrims::GetItem	(val,10,cur_elem);		anim.dist			= float(atof(cur_elem));
 
 	anim.impulse_dir.normalize();
 
-	float clamp_val = PI_DIV_2 - EPS_L;
-	clamp(anim.foh.from_yaw,	-clamp_val, clamp_val);
-	clamp(anim.foh.to_yaw,		-clamp_val, clamp_val);
-	clamp(anim.foh.from_pitch,	-clamp_val, clamp_val);
-	clamp(anim.foh.to_pitch,	-clamp_val, clamp_val);
+	float clamp_val = XrMath::PI_DIV_2 - XrMath::EPS_L;
+	XrMath::clamp(anim.foh.from_yaw,	-clamp_val, clamp_val);
+	XrMath::clamp(anim.foh.to_yaw,		-clamp_val, clamp_val);
+	XrMath::clamp(anim.foh.from_pitch,	-clamp_val, clamp_val);
+	XrMath::clamp(anim.foh.to_pitch,	-clamp_val, clamp_val);
 
 }
 
@@ -669,7 +669,7 @@ void CControlAnimationBase::AA_reload(LPCSTR section)
 		if (!anim.motion.valid())	continue;
 
 		// check if it is compound (if there is one item, mean it as a section)
-		if (_GetItemCount(val) == 1) {
+		if (XrTrims::GetItemCount(val) == 1) {
 			LPCSTR compound_section = val;
 			LPCSTR unused_line_name;
 

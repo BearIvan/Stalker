@@ -147,14 +147,14 @@ void CStalkerAnimationManager::play_legs					()
 		m_previous_speed	= (m_current_speed - m_previous_speed)*amount + m_previous_speed;
 	}
 
-	legs().play				(m_skeleton_animated,legs_play_callback,&object(),!fis_zero(m_current_speed),false);
+	legs().play				(m_skeleton_animated,legs_play_callback,&object(),!XrMath::fis_zero(m_current_speed),false);
 	
 	if (result && legs().blend()) {
 		float				amount = legs().blend()->blendAmount;
 		speed				= (m_current_speed - m_previous_speed)*amount + m_previous_speed;
 	}
 
-	if (fis_zero(speed))
+	if (XrMath::fis_zero(speed))
 		return;
 	
 	if (!legs().blend())

@@ -35,7 +35,7 @@ IC bool IsFreeRLimit( const IBoneData &bone_data, u8 limit_num )
 	//const SJointLimit&	limit		=	joint_data.limits[limit_num];
 	float lo = bone_data.lo_limit(limit_num);//limit.x;
 	float hi = bone_data.hi_limit(limit_num);//limit.y;
-	return !(hi-lo<M_PI*2.f);
+	return !(hi-lo<XrMath::M_PI*2.f);
 }
 
 IC void SetJointRLimit( CPhysicsJoint	&J, const IBoneData &bone_data, u8 limit_num, u8 axis_num )
@@ -110,7 +110,7 @@ IC CPhysicsJoint	*BuildWheelJoint( const IBoneData &bone_data, CPhysicsElement* 
 		J->SetAxisDirVsSecondElement(1,0,0,0);
 		J->SetAxisDirVsSecondElement(0,0,1,1);
 
-		//if(joint_data.limits[0].limit.y-joint_data.limits[0].limit.x<M_PI*2.f)
+		//if(joint_data.limits[0].limit.y-joint_data.limits[0].limit.x<XrMath::M_PI*2.f)
 		//{
 		//	J->SetLimits(joint_data.limits[0].limit.x,joint_data.limits[0].limit.y,0);	
 		//	J->SetAxisSDfactors(joint_data.limits[0].spring_factor,joint_data.limits[0].damping_factor,0);
@@ -130,7 +130,7 @@ IC CPhysicsJoint	*BuildSliderJoint( const IBoneData &bone_data, CPhysicsElement*
 		J->SetLimits(joint_data.limits[0].limit.x,joint_data.limits[0].limit.y,0);
 		J->SetAxisSDfactors(joint_data.limits[0].spring_factor,joint_data.limits[0].damping_factor,0);
 
-		//if(joint_data.limits[1].limit.y-joint_data.limits[1].limit.x<M_PI*2.f)
+		//if(joint_data.limits[1].limit.y-joint_data.limits[1].limit.x<XrMath::M_PI*2.f)
 		//{
 		//	J->SetLimits(joint_data.limits[1].limit.x,joint_data.limits[1].limit.y,1);
 		//	J->SetAxisSDfactors(joint_data.limits[1].spring_factor,joint_data.limits[1].damping_factor,1);
@@ -154,9 +154,9 @@ IC CPhysicsJoint	*BuildGenericJoint( const IBoneData &bone_data, CPhysicsElement
 	const SJointIKData& joint_data=bone_data.get_IK_data();
 
 	
-		bool	eqx=!!fsimilar(joint_data.limits[0].limit.x,joint_data.limits[0].limit.y),
-				eqy=!!fsimilar(joint_data.limits[1].limit.x,joint_data.limits[1].limit.y),
-				eqz=!!fsimilar(joint_data.limits[2].limit.x,joint_data.limits[2].limit.y);
+		bool	eqx=!!XrMath::fsimilar(joint_data.limits[0].limit.x,joint_data.limits[0].limit.y),
+				eqy=!!XrMath::fsimilar(joint_data.limits[1].limit.x,joint_data.limits[1].limit.y),
+				eqz=!!XrMath::fsimilar(joint_data.limits[2].limit.x,joint_data.limits[2].limit.y);
 
 		if(eqx)
 		{

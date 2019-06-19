@@ -31,7 +31,7 @@ IC	void stalker_movement_manager_base::add_velocity		(int mask, float linear, fl
 
 IC	bool stalker_movement_manager_base::turn_in_place			() const
 {
-	return						(!path_completed() && fis_zero(speed()) && (angle_difference(body_orientation().current.yaw,body_orientation().target.yaw) > EPS_L));
+	return						(!path_completed() && XrMath::fis_zero(speed()) && (XrMath::angle_difference(body_orientation().current.yaw,body_orientation().target.yaw) > XrMath::EPS_L));
 }
 
 IC	void stalker_movement_manager_base::set_body_state(EBodyState body_state)

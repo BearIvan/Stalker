@@ -179,11 +179,11 @@ bool CUIXmlInit::InitStatic(CUIXml& xml_doc, LPCSTR path,
 	pWnd->EnableHeading( (flag)?true:false);
 
 	float heading_angle = xml_doc.ReadAttribFlt(path, index, "heading_angle", 0.0f);
-	if ( !fis_zero( heading_angle ) )
+	if ( !XrMath::fis_zero( heading_angle ) )
 	{
 		pWnd->EnableHeading( true );
 		pWnd->SetConstHeading( true );
-		pWnd->SetHeading( deg2rad( heading_angle ) );
+		pWnd->SetHeading( XrMath::deg2rad( heading_angle ) );
 	}
 
 	LPCSTR str_flag				= xml_doc.ReadAttrib(path, index, "light_anim",		"");
@@ -650,7 +650,7 @@ bool CUIXmlInit::InitProgressShape(CUIXml& xml_doc, const char* path, int index,
 	
 	pWnd->m_blend		= ( xml_doc.ReadAttribInt(path, index, "blend", 1) == 1 )? true : false;
 	pWnd->m_angle_begin = xml_doc.ReadAttribFlt(path, index, "begin_angle", 0.0f);
-	pWnd->m_angle_end   = xml_doc.ReadAttribFlt(path, index, "end_angle", PI_MUL_2);
+	pWnd->m_angle_end   = xml_doc.ReadAttribFlt(path, index, "end_angle", XrMath::PI_MUL_2);
 	
     return true;
 }

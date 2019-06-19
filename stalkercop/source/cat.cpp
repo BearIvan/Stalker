@@ -116,13 +116,13 @@ void CCat::CheckSpecParams(u32 spec_params)
 		//float yaw, pitch;
 		//Fvector().sub(EnemyMan.get_enemy()->Position(), Position()).getHP(yaw,pitch);
 		//yaw *= -1;
-		//yaw = angle_normalize(yaw);
+		//yaw = XrMath::angle_normalize(yaw);
 
 		//EMotionAnim anim = eAnimJumpLeft;
 		//if (from_right(yaw,movement().m_body.current.yaw)) {
 		//	anim = eAnimJumpRight;
-		//	yaw = angle_normalize(yaw + PI / 20);	
-		//} else yaw = angle_normalize(yaw - PI / 20);
+		//	yaw = XrMath::angle_normalize(yaw + XrMath::M_PI / 20);	
+		//} else yaw = XrMath::angle_normalize(yaw - XrMath::M_PI / 20);
 
 		//anim().Seq_Add(anim);
 		//anim().Seq_Switch();
@@ -132,7 +132,7 @@ void CCat::CheckSpecParams(u32 spec_params)
 
 		//// calculate angular speed
 		//float new_angular_velocity; 
-		//float delta_yaw = angle_difference(yaw,movement().m_body.current.yaw);
+		//float delta_yaw = XrMath::angle_difference(yaw,movement().m_body.current.yaw);
 		//float time = anim().GetCurAnimTime();
 		//new_angular_velocity = delta_yaw / time; 
 

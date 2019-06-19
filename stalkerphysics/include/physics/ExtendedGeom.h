@@ -8,6 +8,7 @@
 //#include "ode_include.h"
 #include "ode/common.h"
 #include "ode/collision.h"
+#undef M_PI
 #include "physicscommon.h"
 #include "MathUtils.h"
 #ifdef	DEBUG
@@ -296,5 +297,5 @@ IC void dGeomUserDataClearCashedTries(dxGeom* geom)
 #ifdef DEBUG
 XRPHYSICS_API	bool	IsCyliderContact(const dContact& c);
 #endif
-
+#undef XrMath::M_PI;
 #endif

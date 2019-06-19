@@ -81,7 +81,7 @@ void CSoundRender_Emitter::Event_Propagade	()
 	VERIFY						(_valid(p_source.volume));
 	// Calculate range
 	float	clip				= p_source.max_ai_distance*p_source.volume;
-	float	range				= _min(p_source.max_ai_distance,clip);
+	float	range				= XrMath::min(p_source.max_ai_distance,clip);
 	if (range<0.1f)				return;
 
 	// Inform objects
@@ -106,7 +106,7 @@ u32	CSoundRender_Emitter::play_time	( )
 			m_current_state==stSimulating		|| 
 			m_current_state==stSimulatingLooped		
 	)
-		return iFloor((SoundRender->fTimer_Value-fTimeStarted)*1000.0f);
+		return XrMath::iFloor((SoundRender->fTimer_Value-fTimeStarted)*1000.0f);
 	else
 		return 0; 
 }

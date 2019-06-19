@@ -599,7 +599,7 @@ void SAnimParams::Update(float dt, float speed, bool loop)
         if (loop)
         {
             float len = max_t - min_t;
-            float k = float(iFloor((t_current - min_t) / len));
+            float k = float(XrMath::iFloor((t_current - min_t) / len));
             t_current = t_current - k*len;
         }
         else

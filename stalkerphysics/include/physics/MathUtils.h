@@ -26,7 +26,7 @@ IC const Fvector &cast_fv(const float* fp)
 
 IC  float	dXZMag(const float* v)
 {
-	return _sqrt(v[0]*v[0]+v[2]*v[2]);
+	return XrMath::sqrt(v[0]*v[0]+v[2]*v[2]);
 }
 IC float	dXZMag(const Fvector &v)
 {
@@ -38,7 +38,7 @@ IC	float	dXZDot(const float* v0,const float* v1)
 }
 IC	float	dXZDotNormalized(const Fvector& v0,const Fvector& v1)
 {
-	return (v0.x*v1.x+v0.z*v1.z)/_sqrt((v0.x*v0.x+v0.z*v0.z)*(v1.x*v1.x+v1.z*v1.z));
+	return (v0.x*v1.x+v0.z*v1.z)/XrMath::sqrt((v0.x*v0.x+v0.z*v0.z)*(v1.x*v1.x+v1.z*v1.z));
 }
 IC	float	dXZDotNormalized(const float* v0,const float* v1)
 {
@@ -165,14 +165,14 @@ IC	void twoq_2w(const Fquaternion& q1,const Fquaternion& q2,float dt,Fvector& w)
 	w.sub(v2);
 	w.add(v1);
 	float sinus_2=1.f-cosinus*cosinus,k=2.f/dt;
-	if(sinus_2>EPS)	k*=acos(cosinus)/_sqrt(sinus_2);
+	if(sinus_2>XrMath::EPS)	k*=acos(cosinus)/XrMath::sqrt(sinus_2);
 	w.mul(k);
 }
 
 IC float	to_mag_and_dir(const Fvector &in_v,Fvector &out_v)
 {
 	float mag=in_v.magnitude();
-	if(!fis_zero(mag))
+	if(!XrMath::fis_zero(mag))
 		out_v.mul(in_v,1.f/mag);
 	else
 		out_v.set(0.f,0.f,0.f);
@@ -226,9 +226,9 @@ IC void		restrict_vector_in_dir(Fvector& V,const Fvector& dir)
 }
 IC bool check_obb_sise(const Fobb& obb)
 {
-	return (!fis_zero(obb.m_halfsize.x,EPS_L)||
-		!fis_zero(obb.m_halfsize.y,EPS_L)||
-		!fis_zero(obb.m_halfsize.z,EPS_L)
+	return (!XrMath::fis_zero(obb.m_halfsize.x,XrMath::EPS_L)||
+		!XrMath::fis_zero(obb.m_halfsize.y,XrMath::EPS_L)||
+		!XrMath::fis_zero(obb.m_halfsize.z,XrMath::EPS_L)
 		);
 
 }
@@ -264,7 +264,7 @@ IC void TransferenceToThrowVel(Fvector &in_transference_out_vel,float time,float
 }
 IC float ThrowMinVelTime(const Fvector &transference,float gravity_accel)
 {
-	return _sqrt(2.f*transference.magnitude()/gravity_accel);
+	return XrMath::sqrt(2.f*transference.magnitude()/gravity_accel);
 }
 //returns num result, tgA result tangents of throw angle 
 IC u8 TransferenceAndThrowVelToTgA(const Fvector &transference,float throw_vel,float gravity_accel,Fvector2& tgA,float &s)
@@ -273,14 +273,14 @@ IC u8 TransferenceAndThrowVelToTgA(const Fvector &transference,float throw_vel,f
 	float sqv=throw_vel*throw_vel;
 	float sqD4=1.f-gravity_accel/(sqv*sqv)*(2.f*transference.y*sqv+gravity_accel*sqx);
 	if(sqD4<0.f) return 0;
-	s=_sqrt(sqx);
+	s=XrMath::sqrt(sqx);
 	float mlt=sqv/(gravity_accel*s);
 	if(sqD4==0.f) 
 	{
 		tgA.x=tgA.y=mlt;
 		return 1;
 	}
-	float D4=_sqrt(sqD4);
+	float D4=XrMath::sqrt(sqD4);
 	tgA.x=mlt*(1.f-D4);tgA.y=mlt*(1.f+D4);
 	return 2;
 }
@@ -386,12 +386,12 @@ const float				DET_CHECK_EPS =0.15f					;//scale -35%  !? ;)
 const float				DET_CHECK_FATAL_EPS =0.8f					;//scale -35%  !? ;)
 #define	DEBUGFATALERROR1_RMATRIX(M)	{\
 	float d=DET(M);\
-	if( !fsimilar(d,1.f,DET_CHECK_EPS) ){\
+	if( !XrMath::fsimilar(d,1.f,DET_CHECK_EPS) ){\
 		\
 		Msg("! matrix: %s ",get_string(M).c_str());	\
 		Msg("! determinant: %f ",d);	\
 		Msg("! Is not valid rotational matrix");\
-		DEBUGFATALERROR1(fsimilar(d,1.f,DET_CHECK_FATAL_EPS));\
+		DEBUGFATALERROR1(XrMath::fsimilar(d,1.f,DET_CHECK_FATAL_EPS));\
 	}};
 #else
 #define	DEBUGFATALERROR1_RMATRIX(M)	

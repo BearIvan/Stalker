@@ -102,8 +102,8 @@ void CUIFrameRect::UpdateSize()
 	ts.set			(_bk.x,_bk.y);
 	rem_x  			= fmod(size_top,ts.x);
 	rem_y  			= fmod(size_left,ts.y);
-	tile_x 			= iFloor(size_top/ts.x);	tile_x=_max(tile_x, 0);
-	tile_y 			= iFloor(size_left/ts.y);	tile_y=_max(tile_y, 0);
+	tile_x 			= XrMath::iFloor(size_top/ts.x);	tile_x=XrMath::max(tile_x, 0);
+	tile_y 			= XrMath::iFloor(size_left/ts.y);	tile_y=XrMath::max(tile_y, 0);
 
 	frame[fmBK].SetPos	(wnd_pos.x+_lt.x, wnd_pos.y+_lt.y);
 	frame[fmBK].SetTile	(tile_x,tile_y, rem_x,rem_y);
@@ -111,26 +111,26 @@ void CUIFrameRect::UpdateSize()
 	//Обрамление
 	ts.set				(_t.x,_t.y);
 	rem_x				= fmod(size_top,ts.x);
-	tile_x				= iFloor(size_top/ts.x); tile_x=_max(tile_x, 0);
+	tile_x				= XrMath::iFloor(size_top/ts.x); tile_x=XrMath::max(tile_x, 0);
 	frame[fmT].SetPos	(wnd_pos.x+_lt.x,wnd_pos.y);	
 	frame[fmT].SetTile	(tile_x,1,rem_x,0);
 
 	ts.set				(_b.x,_b.y);
 	rem_x				= fmod(size_bottom,ts.x);
-	tile_x				= iFloor(size_bottom/ts.x); tile_x=_max(tile_x, 0);
+	tile_x				= XrMath::iFloor(size_bottom/ts.x); tile_x=XrMath::max(tile_x, 0);
 	frame[fmB].SetPos	(wnd_pos.x+_lb.x,wnd_pos.y+m_wndSize.y-ts.y);	
 	frame[fmB].SetTile	(tile_x,1,rem_x,0);
 
 
 	ts.set				(_l.x,_l.y);
 	rem_y				= fmod(size_left,ts.y);
-	tile_y				= iFloor(size_left/ts.y); tile_y=_max(tile_y, 0);
+	tile_y				= XrMath::iFloor(size_left/ts.y); tile_y=XrMath::max(tile_y, 0);
 	frame[fmL].SetPos	(wnd_pos.x, wnd_pos.y+_lt.y);	
 	frame[fmL].SetTile	(1,tile_y,0,rem_y);
 
 	ts.set				(_r.x,_r.y);
 	rem_y				= fmod(size_right,ts.y);
-	tile_y				= iFloor(size_right/ts.y); tile_y=_max(tile_y, 0);
+	tile_y				= XrMath::iFloor(size_right/ts.y); tile_y=XrMath::max(tile_y, 0);
 	frame[fmR].SetPos	(wnd_pos.x+m_wndSize.x-ts.x,wnd_pos.y+_rt.y);	
 	frame[fmR].SetTile	(1,tile_y,0,rem_y);
 
@@ -155,7 +155,7 @@ void CUIFrameRect::SetWndPos(float x, float y)
 {
 	Fvector2 _old_pos = GetWndPos();
 	Fvector2 _new_pos = Fvector2().set(x,y);
-	if(_old_pos.similar(_new_pos,EPS,EPS))	return;
+	if(_old_pos.similar(_new_pos,XrMath::EPS,XrMath::EPS))	return;
 
 	CUISimpleWindow::SetWndPos		(_new_pos);
 	uFlags.set						(flValidSize, false);
@@ -174,7 +174,7 @@ void CUIFrameRect::SetWndRect(const Frect& rect){
 void CUIFrameRect::SetWndPos(const Fvector2& pos){
 
 //.	Fvector2 _old_pos = GetWndPos();
-//.	if(_old_pos.similar(pos,EPS,EPS))	return;
+//.	if(_old_pos.similar(pos,XrMath::EPS,XrMath::EPS))	return;
 
 	CUISimpleWindow::SetWndPos(pos);
 	uFlags.set(flValidSize, false);
@@ -194,7 +194,7 @@ void CUIFrameRect::Draw(float x, float y){
 	Fvector2 p = GetWndPos	();
 	float dx = p.x - x;
 	float dy = p.y - y;
-	if ( !fis_zero(dx) || !fis_zero(dy))
+	if ( !XrMath::fis_zero(dx) || !XrMath::fis_zero(dy))
 		SetWndPos(x, y);
 	
 	Draw();

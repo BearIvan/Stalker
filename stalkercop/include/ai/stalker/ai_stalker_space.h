@@ -8,7 +8,7 @@
 
 #pragma once
 
-#define	MAX_HEAD_TURN_ANGLE				(1.f*PI_DIV_4)
+#define	MAX_HEAD_TURN_ANGLE				(1.f*XrMath::PI_DIV_4)
 
 namespace StalkerSpace {
 	enum EStalkerSounds {

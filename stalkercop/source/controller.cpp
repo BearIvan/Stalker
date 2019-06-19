@@ -115,7 +115,7 @@ void CController::Load(LPCSTR section)
 	m_control_effector.ppi.noise.intensity	= pSettings->r_float(ppi_section,"noise_intensity");
 	m_control_effector.ppi.noise.grain		= pSettings->r_float(ppi_section,"noise_grain");
 	m_control_effector.ppi.noise.fps		= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(m_control_effector.ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_control_effector.ppi.noise.fps));
 
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &m_control_effector.ppi.color_base.r,	&m_control_effector.ppi.color_base.g,	&m_control_effector.ppi.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &m_control_effector.ppi.color_gray.r,	&m_control_effector.ppi.color_gray.g,	&m_control_effector.ppi.color_gray.b);
@@ -271,11 +271,11 @@ void CController::load_friend_community_overrides(LPCSTR section)
 	LPCSTR src = pSettings->r_string(section,"Friend_Community_Overrides");
 	
 	// parse src
-	int item_count = _GetItemCount(src);
+	int item_count = XrTrims::GetItemCount(src);
 	m_friend_community_overrides.resize(item_count);
 	for (int i=0; i<item_count; i++) {
 		string128	st;
-		_GetItem	(src,i,st);
+		XrTrims::GetItem	(src,i,st);
 		m_friend_community_overrides[i] = st;
 	}
 }
@@ -579,9 +579,9 @@ bool CController::can_psy_fire()
 
 	float cur_yaw = custom_dir().get_head_orientation().current.yaw;
 	float dir_yaw = Fvector().sub(EnemyMan.get_enemy()->Position(), Position()).getH();
-	dir_yaw		  = angle_normalize(-dir_yaw);
+	dir_yaw		  = XrMath::angle_normalize(-dir_yaw);
 
-	if ( angle_difference(cur_yaw, dir_yaw) > _pmt_psy_attack_min_angle )
+	if ( XrMath::angle_difference(cur_yaw, dir_yaw) > _pmt_psy_attack_min_angle )
 	{
 		return false;
 	}
@@ -782,8 +782,8 @@ void CController::debug_on_key(int key)
 		//DBG().level_info(this).add_item(P1,0.5f,COLOR_BLUE,0);
 	
 
-		//if (!fsimilar(P1.square_magnitude(),0.f) && 
-		//	!fsimilar(P2.square_magnitude(),0.f)) {
+		//if (!XrMath::fsimilar(P1.square_magnitude(),0.f) && 
+		//	!XrMath::fsimilar(P2.square_magnitude(),0.f)) {
 		//	const CCoverPoint *cover = CoverMan->find_cover(P1,P2,10.f,40.f);
 		//	if (cover) {
 		//		DBG().level_info(this).remove_item	(3);
@@ -798,8 +798,8 @@ void CController::debug_on_key(int key)
 		DBG().level_info(this).remove_item	(1);
 		DBG().level_info(this).add_item(P2,0.5f,COLOR_GREEN,1);
 
-		if (!fsimilar(P1.square_magnitude(),0.f) && 
-			!fsimilar(P2.square_magnitude(),0.f)) {
+		if (!XrMath::fsimilar(P1.square_magnitude(),0.f) && 
+			!XrMath::fsimilar(P2.square_magnitude(),0.f)) {
 			const CCoverPoint *cover = CoverMan->find_cover(P1,P2,10.f,40.f);
 			if (cover) {
 				DBG().level_info(this).remove_item	(3);

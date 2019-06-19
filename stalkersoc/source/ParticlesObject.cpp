@@ -40,7 +40,7 @@ void CParticlesObject::Init	(LPCSTR p_name, IRender_Sector* S, BOOL bAutoRemove)
 
 	if(time_limit > 0.f)
 	{
-		m_iLifeTime			= iFloor(time_limit*1000.f);
+		m_iLifeTime			= XrMath::iFloor(time_limit*1000.f);
 	}
 	else
 	{
@@ -95,8 +95,8 @@ void CParticlesObject::UpdateSpatial()
 			spatial_register		();
 		} else {
 			BOOL	bMove			= FALSE;
-			if		(!P.similar(spatial.sphere.P,EPS_L*10.f))		bMove	= TRUE;
-			if		(!fsimilar(R,spatial.sphere.R,0.15f))			bMove	= TRUE;
+			if		(!P.similar(spatial.sphere.P,XrMath::EPS_L*10.f))		bMove	= TRUE;
+			if		(!XrMath::fsimilar(R,spatial.sphere.R,0.15f))			bMove	= TRUE;
 			if		(bMove)			{
 				spatial.sphere.set	(P, R);
 				spatial_move		();

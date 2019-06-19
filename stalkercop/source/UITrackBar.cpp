@@ -53,12 +53,12 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
 			if(m_b_is_float)
 			{
 				m_f_val -= GetInvert()?-m_f_step:m_f_step;
-				clamp(m_f_val, m_f_min, m_f_max);
+				XrMath::clamp(m_f_val, m_f_min, m_f_max);
 			}
 			else
 			{
 				m_i_val -= GetInvert()?-m_i_step:m_i_step;
-				clamp(m_i_val, m_i_min, m_i_max);
+				XrMath::clamp(m_i_val, m_i_min, m_i_max);
 			}
 			GetMessageTarget()->SendMessage(this, BUTTON_CLICKED, NULL);
 			UpdatePos			();
@@ -70,12 +70,12 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
 			if(m_b_is_float)
 			{
 				m_f_val += GetInvert()?-m_f_step:m_f_step;
-				clamp(m_f_val, m_f_min, m_f_max);
+				XrMath::clamp(m_f_val, m_f_min, m_f_max);
 			}
 			else
 			{
 				m_i_val += GetInvert()?-m_i_step:m_i_step;
-				clamp(m_i_val, m_i_min, m_i_max);
+				XrMath::clamp(m_i_val, m_i_min, m_i_max);
 			}
 			GetMessageTarget()->SendMessage(this, BUTTON_CLICKED, NULL);
 			UpdatePos();
@@ -149,7 +149,7 @@ bool CUITrackBar::IsChangedOptValue() const
 {
 	if(m_b_is_float)
 	{
-		return !fsimilar(m_f_opt_backup_value, m_f_val); 
+		return !XrMath::fsimilar(m_f_opt_backup_value, m_f_val); 
 	}else
 	{
 		return (m_i_opt_backup_value != m_i_val);
@@ -182,7 +182,7 @@ void CUITrackBar::SetStep(float step)
 	if(m_b_is_float)
 		m_f_step	= step;
 	else
-		m_i_step	= iFloor(step);
+		m_i_step	= XrMath::iFloor(step);
 }
 
 void CUITrackBar::Enable(bool status)
@@ -228,7 +228,7 @@ void CUITrackBar::UpdatePosRelativeToMouse()
 	float _d	= (__fval-__fmin);
 	
 	float _v	= _d/__fstep;
-	int _vi		= iFloor(_v);
+	int _vi		= XrMath::iFloor(_v);
 	float _vf	= __fstep*_vi;
 	
 	if(_d-_vf>__fstep/2.0f)	
@@ -236,18 +236,18 @@ void CUITrackBar::UpdatePosRelativeToMouse()
 
 	__fval		= __fmin+_vf;
 	
-	clamp		(__fval, __fmin, __fmax);
+	XrMath::clamp		(__fval, __fmin, __fmax);
 
 	if(m_b_is_float)
 		m_f_val	= __fval;
 	else
-		m_i_val	= iFloor(__fval);
+		m_i_val	= XrMath::iFloor(__fval);
 	
 
 	bool b_ch = false;
 	if(m_b_is_float)
 	{
-		b_ch  = !fsimilar(_bkf, m_f_val); 
+		b_ch  = !XrMath::fsimilar(_bkf, m_f_val); 
 	}else
 	{
 		b_ch  =  (_bki != m_i_val);
@@ -295,7 +295,7 @@ void CUITrackBar::OnMessage(LPCSTR message)
 		if(m_b_is_float)
 			m_f_val = m_f_min + (m_f_max - m_f_min)/2.0f;
 		else
-			m_i_val = m_i_min + iFloor((m_i_max - m_i_min)/2.0f);
+			m_i_val = m_i_min + XrMath::iFloor((m_i_max - m_i_min)/2.0f);
 
 		UpdatePos();
 	}
@@ -319,7 +319,7 @@ void CUITrackBar::SetOptIBounds(int imin, int imax)
 	m_i_max					= imax;
 	if(m_i_val<m_i_min || m_i_val>m_i_max)
 	{
-		clamp					(m_i_val, m_i_min, m_i_max);
+		XrMath::clamp					(m_i_val, m_i_min, m_i_max);
 		OnChangedOptValue	();
 	}
 }
@@ -330,7 +330,7 @@ void CUITrackBar::SetOptFBounds(float fmin, float fmax)
 	m_f_max					= fmax;
 	if(m_i_val<m_i_min || m_i_val>m_i_max)
 	{
-		clamp				(m_f_val, m_f_min, m_f_max);
+		XrMath::clamp				(m_f_val, m_f_min, m_f_max);
 		OnChangedOptValue	();
 	}
 }

@@ -44,8 +44,8 @@ void CUIPdaKillMessage::Init(KillMessageStruct& msg){
 	m_killer_name.AdjustHeightToText();
 	m_victim_name.AdjustHeightToText();
 	float h = GetHeight();
-	h		= _max(h,m_killer_name.GetHeight());
-	h		= _max(h,m_victim_name.GetHeight());
+	h		= XrMath::max(h,m_killer_name.GetHeight());
+	h		= XrMath::max(h,m_victim_name.GetHeight());
 	SetHeight(h);
 
 }
@@ -67,7 +67,7 @@ float CUIPdaKillMessage::InitText(CUIStatic& refStatic, float x, PlayerInfo& inf
 	float __eps							= pFont->SizeOf_('o');//hack -(
 	UI()->ClientToScreenScaledWidth		(__eps);
 
-	clamp								(width, 0.0f, 120.0f);
+	XrMath::clamp								(width, 0.0f, 120.0f);
 	refStatic.Init						(x, 0/*y*/, width + __eps, height);
 //.	refStatic.SetElipsis				(CUIStatic::eepEnd, 0);
 	refStatic.SetText					(*info.m_name);

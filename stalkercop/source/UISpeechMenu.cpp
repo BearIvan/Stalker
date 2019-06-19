@@ -44,7 +44,7 @@ void CUISpeechMenu::InitList(LPCSTR section_name)
 		{
 			
             LPCSTR s				= pSettings->r_string(section_name, phrase);
-			_GetItem				(s,0,phrase);
+			XrTrims::GetItem				(s,0,phrase);
 			xr_sprintf				(str, "%d. %s",i+1, CStringTable().translate(phrase).c_str());
 
 			ADD_TEXT_TO_VIEW3		(str, pItem, m_pList);

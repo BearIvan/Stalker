@@ -160,7 +160,7 @@ void imotion_position::state_start( )
 		make_string( "can not use cyclic anim in death animth motion: %s", 
 		KA->LL_MotionDefName_dbg( B.motionID ).first ) 
 	);
-	time_to_end = B.timeTotal - (SAMPLE_SPF+EPS) - B.timeCurrent;
+	time_to_end = B.timeTotal - (SAMPLE_SPF+XrMath::EPS) - B.timeCurrent;
 	time_to_end/=B.speed;
 	shell->add_ObjectContactCallback( get_depth );
 	/*

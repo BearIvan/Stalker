@@ -24,7 +24,7 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 	FLOD*			firstV			= (FLOD*)lstLODs[0].pVisual;
 	ref_selement	cur_S			= firstV->shader->E[shid];
 	float			ssaRange		= r_ssaLOD_A - r_ssaLOD_B;
-	if (ssaRange<EPS_S)	ssaRange	= EPS_S;
+	if (ssaRange<XrMath::EPS_S)	ssaRange	= XrMath::EPS_S;
 
 	const u32	uiVertexPerImposter	= 4;
 	const u32	uiImpostersFit		= RCache.Vertex.GetSize()
@@ -36,7 +36,7 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 
 	for (u32 i=0; i<lstLODs.size(); i++)
 	{
-		const u32	iBatchSize	= _min( lstLODs.size()-i, uiImpostersFit);
+		const u32	iBatchSize	= XrMath::min( lstLODs.size()-i, uiImpostersFit);
 		int			cur_count	= 0;
 		u32			vOffset;
 		FLOD::_hw*	V			= (FLOD::_hw*)RCache.Vertex.Lock	(iBatchSize*uiVertexPerImposter,firstV->geom->vb_stride, vOffset);
@@ -55,8 +55,8 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 			// calculate alpha
 			float	ssaDiff					= P.ssa - r_ssaLOD_B;
 			float	scale					= ssaDiff/ssaRange	;
-			int		iA						= iFloor	((1-scale)*255.f);	
-			u32		uA						= u32		(clampr(iA,0,255));
+			int		iA						= XrMath::iFloor	((1-scale)*255.f);	
+			u32		uA						= u32		(XrMath::clampr(iA,0,255));
 
 			// calculate direction and shift
 			FLOD*							lodV		=	(FLOD*)P.pVisual;
@@ -79,8 +79,8 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 			// Now we have two "best" planes, calculate factor, and approx normal
 			float	fA = dot_best, fB = dot_next, fC = dot_next_2;
 			float	alpha	=	0.5f + 0.5f*(1-(fB-fC)/(fA-fC))	;
-			int		iF		=	iFloor		(alpha*255.5f)		;
-			u32		uF 		=	u32			(clampr	(iF,0,255))	;
+			int		iF		=	XrMath::iFloor		(alpha*255.5f)		;
+			u32		uF 		=	u32			(XrMath::clampr	(iF,0,255))	;
 
 			// Fill VB
 			FLOD::_face&	FA				= facets[id_best]	;

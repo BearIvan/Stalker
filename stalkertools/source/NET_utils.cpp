@@ -243,7 +243,7 @@ void NET_Packet::r_float_q16(float& A, float min, float max)
     u16 val;
     r_u16(val);
     A = (float(val)*(max - min)) / 65535.f + min; // floating-point-error possible
-    VERIFY((A >= min - EPS_S) && (A <= max + EPS_S));
+    VERIFY((A >= min - XrMath::EPS_S) && (A <= max + XrMath::EPS_S));
 }
 
 void NET_Packet::r_float_q8(float& A, float min, float max)
@@ -256,12 +256,12 @@ void NET_Packet::r_float_q8(float& A, float min, float max)
 
 void NET_Packet::r_angle16(float& A)
 {
-    r_float_q16(A, 0, PI_MUL_2);
+    r_float_q16(A, 0, XrMath::PI_MUL_2);
 }
 
 void NET_Packet::r_angle8(float& A)
 {
-    r_float_q8(A, 0, PI_MUL_2);
+    r_float_q8(A, 0, XrMath::PI_MUL_2);
 }
 
 void NET_Packet::r_dir(Fvector& A)

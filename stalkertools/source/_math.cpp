@@ -285,36 +285,7 @@ void _initialize_cpu_thread()
 #endif
 // threading API
 #pragma pack(push,8)
-struct THREAD_NAME
-{
-    DWORD dwType;
-    LPCSTR szName;
-    DWORD dwThreadID;
-    DWORD dwFlags;
-};
-void thread_name(const char* name)
-{
-    THREAD_NAME tn;
-    tn.dwType = 0x1000;
-    tn.szName = name;
-    tn.dwThreadID = DWORD(-1);
-    tn.dwFlags = 0;
-    __try
-    {
-        RaiseException(0x406D1388, 0, sizeof(tn) / sizeof(DWORD), (DWORD*)&tn);
-    }
-    __except (EXCEPTION_CONTINUE_EXECUTION)
-    {
-    }
-}
-#pragma pack(pop)
-
-struct THREAD_STARTUP
-{
-    thread_t* entry;
-    char* name;
-    void* args;
-};/*
+/*
 void __cdecl thread_entry(void* _params)
 {
     // initialize
@@ -328,22 +299,7 @@ void __cdecl thread_entry(void* _params)
     // call
     entry(arglist);
 }*/
-BearCore::BearVector<  BearCore::BearThread*> *m_threads=0;
-void thread_spawn(thread_t* entry, const char* name, unsigned stack, void* arglist)
-{
-    Debug._initialize(false);
-	if (m_threads == 0)
-	{
-		m_threads = BearCore::bear_new< BearCore::BearVector<  BearCore::BearThread*>>();
-	}
-	m_threads->push_back(new BearCore::BearThread(entry, arglist));
-	(*m_threads).back()->Join(name);
-   /* THREAD_STARTUP* startup = xr_new<THREAD_STARTUP>();
-    startup->entry = entry;
-    startup->name = (char*)name;
-    startup->args = arglist;
-    _beginthread(thread_entry, stack, startup);*/
-}
+
 
 void spline1(float t, Fvector* p, Fvector* ret)
 {

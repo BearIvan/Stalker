@@ -125,8 +125,8 @@ void CUIStaticItem::RenderInternal(float angle)
 	SZ.set								(vSize);
 
 
-	float cosA							= _cos(angle);
-	float sinA							= _sin(angle);
+	float cosA							= XrMath::cos(angle);
+	float sinA							= XrMath::sin(angle);
 
 	// Rotation
 	if( !uFlags.test(flValidHeadingPivot) )	

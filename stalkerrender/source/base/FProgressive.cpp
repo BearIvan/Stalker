@@ -72,7 +72,7 @@ void FProgressive::Render	(float LOD)
 #if RENDER!=R_R1
 	if (m_fast && RImplementation.phase==CRender::PHASE_SMAP)
 	{
-		int lod_id			= iFloor((1.f-clampr(LOD,0.f,1.f))*float(xSWI->count-1)+0.5f);
+		int lod_id			= XrMath::iFloor((1.f-XrMath::clampr(LOD,0.f,1.f))*float(xSWI->count-1)+0.5f);
 		VERIFY				(lod_id>=0 && lod_id<int(xSWI->count));
 		FSlideWindow& SW	= xSWI->sw[lod_id];
 		RCache.set_Geometry	(m_fast->rm_geom);
@@ -81,8 +81,8 @@ void FProgressive::Render	(float LOD)
 	} else {
 		int lod_id		= last_lod;
 		if (LOD>=0.f){
-			clamp			(LOD,0.f,1.f);
-			lod_id			= iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
+			XrMath::clamp			(LOD,0.f,1.f);
+			lod_id			= XrMath::iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
 			last_lod		= lod_id;
 		}
 		VERIFY				(lod_id>=0 && lod_id<int(nSWI.count));
@@ -94,8 +94,8 @@ void FProgressive::Render	(float LOD)
 #else
 	int lod_id		= last_lod;
 	if (LOD>=0.f){
-		clamp		(LOD,0.f,1.f);
-		lod_id		= iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
+		XrMath::clamp		(LOD,0.f,1.f);
+		lod_id		= XrMath::iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
 		last_lod	= lod_id;
 	}
 	VERIFY						(lod_id>=0 && lod_id<int(nSWI.count));

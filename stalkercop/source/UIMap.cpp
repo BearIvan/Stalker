@@ -93,8 +93,8 @@ void CUICustomMap::Init_internal(const shared_str& name, CInifile& pLtx, const s
 
 void rotation_(float x, float y, const float angle, float& x_, float& y_, float kx)
 {
-	float _sc 		= _cos(angle);
-	float _sn 		= _sin(angle);
+	float _sc 		= XrMath::cos(angle);
+	float _sn 		= XrMath::sin(angle);
 	x_				= x*_sc+y*_sn;
 	y_				= y*_sc-x*_sn;
 	x_				*= kx;
@@ -176,7 +176,7 @@ bool CUICustomMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2
 
 	f_intersect_point.mad(f_intersect_point,f_dir,item_radius );
 
-	pos.set( iFloor(f_intersect_point.x), iFloor(f_intersect_point.y) );
+	pos.set( XrMath::iFloor(f_intersect_point.x), XrMath::iFloor(f_intersect_point.y) );
 	return true;
 }
 
@@ -349,7 +349,7 @@ float CUIGlobalMap::CalcOpenRect(const Fvector2& center_point, Frect& map_desire
 	
 	// correct desired rect
 	map_desired_rect.sub		(delta_pos.x, delta_pos.y);
-	// clamp pos by vis rect
+	// XrMath::clamp pos by vis rect
 	const Frect& r				= map_desired_rect;
 	Fvector2 np					= r.lt;
 	if (r.x2<vis_w)	np.x		+= vis_w-r.x2;
@@ -430,7 +430,7 @@ void CUILevelMap::Init_internal	(const shared_str& name, CInifile& pLtx, const s
 	float kw = m_GlobalRect.width	()	/	BoundRect().width	();
 	float kh = m_GlobalRect.height	()	/	BoundRect().height	();
 
-	if(FALSE==fsimilar(kw,kh,EPS_L))
+	if(FALSE==XrMath::fsimilar(kw,kh,XrMath::EPS_L))
 	{
 		Msg(" --incorrect global rect definition for map [%s]  kw=%f kh=%f",*MapName(),kw,kh);
 		Msg(" --try x2=%f or  y2=%f",m_GlobalRect.x1+kh*BoundRect().width(), m_GlobalRect.y1+kw*BoundRect().height());
@@ -444,7 +444,7 @@ void CUILevelMap::UpdateSpots()
 {
 	DetachAll			();
 
-//.	if( fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(),MapWnd()->GlobalMap()->GetMinZoom(),EPS_L ) ) return;
+//.	if( XrMath::fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(),MapWnd()->GlobalMap()->GetMinZoom(),XrMath::EPS_L ) ) return;
 	
 	Frect				_r;
 	GetAbsoluteRect		(_r);
@@ -501,7 +501,7 @@ void CUILevelMap::Update()
 		VERIFY(m_dwFocusReceiveTime>=0);
 		if( Device.dwTimeGlobal>(m_dwFocusReceiveTime+500) )
 		{
-			if(fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom().x, MapWnd()->GlobalMap()->GetMinZoom(),EPS_L ))
+			if(XrMath::fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom().x, MapWnd()->GlobalMap()->GetMinZoom(),XrMath::EPS_L ))
 				MapWnd()->ShowHintStr(this, MapName().c_str());
 			else
 				MapWnd()->HideHint(this);
@@ -589,7 +589,7 @@ void  CUIMiniMap::Draw()
 	// clip poly
 	sPoly2D					S;
 	S.resize				(segments_count);
-	float segment_ang		= PI_MUL_2/segments_count;
+	float segment_ang		= XrMath::PI_MUL_2/segments_count;
 	float pt_radius			= WorkingArea().width()/2.0f;
 	Fvector2				center;
 	WorkingArea().getcenter	(center);
@@ -607,11 +607,11 @@ void  CUIMiniMap::Draw()
 	
 	for(u32 idx=0; idx<segments_count;++idx)
 	{
-		float cosPT			= _cos(segment_ang*idx + angle);
-		float sinPT			= _sin(segment_ang*idx + angle);
+		float cosPT			= XrMath::cos(segment_ang*idx + angle);
+		float sinPT			= XrMath::sin(segment_ang*idx + angle);
 
-		float cosTX			= _cos(segment_ang*idx);
-		float sinTX			= _sin(segment_ang*idx);
+		float cosTX			= XrMath::cos(segment_ang*idx);
+		float sinTX			= XrMath::sin(segment_ang*idx);
 
 		S[idx].pt.set		(pt_radius*cosPT*kx,		-pt_radius*sinPT);
 		S[idx].uv.set		(tt_radius*cosTX,			-tt_radius*sinTX*k_tt_height);
@@ -646,8 +646,8 @@ bool CUIMiniMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2& 
 	heading				= -direction.getH();
 
 	float kx			= UI().get_current_kx();
-	float cosPT			= _cos(heading);
-	float sinPT			= _sin(heading);
+	float cosPT			= XrMath::cos(heading);
+	float sinPT			= XrMath::sin(heading);
 	pos.set				(-map_radius*sinPT*kx,		-map_radius*cosPT);
 	pos.add				(clip_center);
 

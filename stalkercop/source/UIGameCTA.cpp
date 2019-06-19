@@ -935,11 +935,11 @@ void CUIGameCTA::LoadTeamDefaultPresetItems	(const shared_str& caSection)
 	string4096			DefItems;
 	// Читаем данные этого поля
 	xr_strcpy(DefItems, pSettings->r_string(caSection, "default_items"));
-	u32 count	= _GetItemCount(DefItems);
+	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(DefItems, i, ItemName);
+		XrTrims::GetItem(DefItems, i, ItemName);
 
 		u8 SlotID, ItemID;
 		m_pCurBuyMenu->GetWeaponIndexByName(ItemName, SlotID, ItemID);
@@ -1003,7 +1003,7 @@ void CUIGameCTA::LoadDefItemsForRank()
 		
 		string1024 wpnAmmos, BaseAmmoName;
 		xr_strcpy(wpnAmmos, pSettings->r_string(ItemName, "ammo_class"));
-		_GetItem(wpnAmmos, 0, BaseAmmoName);
+		XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 
 		u8 SlotID, ItemID;
 		m_pCurBuyMenu->GetWeaponIndexByName(BaseAmmoName, SlotID, ItemID);

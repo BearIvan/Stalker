@@ -54,18 +54,18 @@ void player_hud_motion_container::load(IKinematicsAnimated* model, const shared_
 			//base and alias name
 			pm->m_alias_name		= _b->first;
 			
-			if(_GetItemCount(anm.c_str())==1)
+			if(XrTrims::GetItemCount(anm.c_str())==1)
 			{
 				pm->m_base_name			= anm;
 				pm->m_additional_name	= anm;
 			}else
 			{
-				R_ASSERT2(_GetItemCount(anm.c_str())==2, anm.c_str());
+				R_ASSERT2(XrTrims::GetItemCount(anm.c_str())==2, anm.c_str());
 				string512				str_item;
-				_GetItem(anm.c_str(),0,str_item);
+				XrTrims::GetItem(anm.c_str(),0,str_item);
 				pm->m_base_name			= str_item;
 
-				_GetItem(anm.c_str(),1,str_item);
+				XrTrims::GetItem(anm.c_str(),1,str_item);
 				pm->m_additional_name	= str_item;
 			}
 
@@ -140,7 +140,7 @@ void attachable_hud_item::update(bool bForce)
 		m_measures.load(m_sect_name, m_model);
 
 	Fvector ypr						= m_measures.m_item_attach[1];
-	ypr.mul							(PI/180.f);
+	ypr.mul							(XrMath::M_PI/180.f);
 	m_attach_offset.setHPB			(ypr.x,ypr.y,ypr.z);
 	m_attach_offset.translate_over	(m_measures.m_item_attach[0]);
 
@@ -525,7 +525,7 @@ u32 player_hud::motion_length(const MotionID& M, const CMotionDef*& md, float sp
 	if (md->flags & esmStopAtEnd) 
 	{
 		CMotion*			motion		= m_model->LL_GetRootMotion(M);
-		return				iFloor( 0.5f + 1000.f*motion->GetLength() / (md->Dequantize(md->speed) * speed) );
+		return				XrMath::iFloor( 0.5f + 1000.f*motion->GetLength() / (md->Dequantize(md->speed) * speed) );
 	}
 	return					0;
 }
@@ -558,7 +558,7 @@ void player_hud::update(const Fmatrix& cam_trans)
 	update_additional				(trans);
 
 	Fvector ypr						= attach_rot();
-	ypr.mul							(PI/180.f);
+	ypr.mul							(XrMath::M_PI/180.f);
 	m_attach_offset.setHPB			(ypr.x,ypr.y,ypr.z);
 	m_attach_offset.translate_over	(attach_pos());
 	m_transform.mul					(trans, m_attach_offset);
@@ -627,10 +627,10 @@ void player_hud::update_inertion(Fmatrix& trans)
 		Fvector								diff_dir;
 		diff_dir.sub						(xform.k, st_last_dir);
 
-		// clamp by PI_DIV_2
+		// XrMath::clamp by XrMath::PI_DIV_2
 		Fvector last;						last.normalize_safe(st_last_dir);
 		float dot							= last.dotproduct(xform.k);
-		if (dot<EPS){
+		if (dot<XrMath::EPS){
 			Fvector v0;
 			v0.crossproduct					(st_last_dir,xform.k);
 			st_last_dir.crossproduct		(xform.k,v0);
@@ -642,7 +642,7 @@ void player_hud::update_inertion(Fmatrix& trans)
 		origin.mad							(diff_dir,ORIGIN_OFFSET);
 
 		// pitch compensation
-		float pitch							= angle_normalize_signed(xform.k.getP());
+		float pitch							= XrMath::angle_normalize_signed(xform.k.getP());
 		origin.mad							(xform.k,	-pitch * PITCH_OFFSET_D);
 		origin.mad							(xform.i,	-pitch * PITCH_OFFSET_R);
 		origin.mad							(xform.j,	-pitch * PITCH_OFFSET_N);

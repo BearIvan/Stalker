@@ -12,7 +12,7 @@
 #include "ai_debug.h"
 #include "movement_manager.h"
 
-#define MIN_TURN_ANGLE PI_DIV_6*.5f
+#define MIN_TURN_ANGLE XrMath::PI_DIV_6*.5f
 
 // animations
 void CAI_Rat::load_animations	()
@@ -64,7 +64,7 @@ void CAI_Rat::SelectAnimation(const Fvector& /**_view/**/, const Fvector& /**_mo
 		if (m_bFiring)
 			tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tpaAttack[2];
 		else
-			if (angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) <= MIN_TURN_ANGLE)
+			if (XrMath::angle_difference(movement().m_body.target.yaw,movement().m_body.current.yaw) <= MIN_TURN_ANGLE)
 				if (m_fSpeed < 0.2f) {
 					if (m_bStanding)
 						tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tpaIdle[1];
@@ -72,10 +72,10 @@ void CAI_Rat::SelectAnimation(const Fvector& /**_view/**/, const Fvector& /**_mo
 						tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tpaIdle[0];
 				}
 				else
-					if (_abs(m_fSpeed - m_fAttackSpeed) < EPS_L)
+					if (XrMath::abs(m_fSpeed - m_fAttackSpeed) < XrMath::EPS_L)
 						tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tRunAttack;
 					else
-						if (_abs(m_fSpeed - m_fMaxSpeed) < EPS_L)
+						if (XrMath::abs(m_fSpeed - m_fMaxSpeed) < XrMath::EPS_L)
 							tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tRun.fwd;
 						else
 							tpGlobalAnimation = m_tRatAnimations.tNormal.tGlobal.tWalk.fwd;

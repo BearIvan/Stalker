@@ -204,8 +204,8 @@ void CPHSkeleton::SaveNetState(NET_Packet& P)
 		if(p.z>max.z)max.z=p.z;
 	}
 
-	min.sub(2.f*EPS_L);
-	max.add(2.f*EPS_L);
+	min.sub(2.f*XrMath::EPS_L);
+	max.add(2.f*XrMath::EPS_L);
 
 	P.w_vec3(min);
 	P.w_vec3(max);
@@ -377,7 +377,7 @@ void CPHSkeleton::CopySpawnInit()
 void CPHSkeleton::SetAutoRemove(u32 time/*=CSE_PHSkeleton::existence_time*/)
 {
 	b_removing=true;
-	m_remove_time=Device.dwTimeGlobal+iFloor(time/phTimefactor);
+	m_remove_time=Device.dwTimeGlobal+XrMath::iFloor(time/phTimefactor);
 	SetNotNeedSave();
 	PPhysicsShellHolder()->SheduleRegister();
 }

@@ -47,7 +47,7 @@ void CUIEncyclopediaArticleWnd::SetArticle(CEncyclopediaArticle* article)
 		m_UIImage->SetWndSize			(article->data()->image.GetWndSize());
 
 		float img_x						= (GetWidth()-m_UIImage->GetWidth())/2.0f;
-		img_x							= _max(0.0f, img_x);
+		img_x							= XrMath::max(0.0f, img_x);
 		m_UIImage->SetWndPos			(Fvector2().set(img_x ,m_UIImage->GetWndPos().y) );
 	};
 	m_UIText->SetText					(*CStringTable().translate(article->data()->text.c_str()));

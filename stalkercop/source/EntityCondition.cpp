@@ -319,12 +319,12 @@ void CEntityCondition::UpdateCondition()
 	m_fDeltaCircumspection		= 0;
 	m_fDeltaEntityMorale		= 0;
 	float	l_health			= GetHealth() ;
-	clamp						(l_health,			MIN_HEALTH, max_health());
+	XrMath::clamp						(l_health,			MIN_HEALTH, max_health());
 	SetHealth					(l_health);
-	clamp						(m_fPower,			0.0f,		m_fPowerMax);
-	clamp						(m_fRadiation,		0.0f,		m_fRadiationMax);
-	clamp						(m_fEntityMorale,	0.0f,		m_fEntityMoraleMax);
-	clamp						(m_fPsyHealth,		0.0f,		m_fPsyHealthMax);
+	XrMath::clamp						(m_fPower,			0.0f,		m_fPowerMax);
+	XrMath::clamp						(m_fRadiation,		0.0f,		m_fRadiationMax);
+	XrMath::clamp						(m_fEntityMorale,	0.0f,		m_fEntityMoraleMax);
+	XrMath::clamp						(m_fPsyHealth,		0.0f,		m_fPsyHealthMax);
 }
 
 
@@ -523,7 +523,7 @@ float CEntityCondition::BleedingSpeed()
 void CEntityCondition::UpdateHealth()
 {
 	float bleeding_speed		= BleedingSpeed() * m_fDeltaTime * m_change_v.m_fV_Bleeding;
-	m_bIsBleeding				= fis_zero(bleeding_speed)?false:true;
+	m_bIsBleeding				= XrMath::fis_zero(bleeding_speed)?false:true;
 	m_fDeltaHealth				-= CanBeHarmed() ? bleeding_speed : 0;
 	m_fDeltaHealth				+= m_fDeltaTime * m_change_v.m_fV_HealthRestore;
 	
@@ -663,7 +663,7 @@ void SMedicineInfluenceValues::Load(const shared_str& sect)
 	fSatiety		= pSettings->r_float(sect.c_str(), "eat_satiety");
 	fRadiation		= pSettings->r_float(sect.c_str(), "eat_radiation");
 	fWoundsHeal		= pSettings->r_float(sect.c_str(), "wounds_heal_perc");
-	clamp			(fWoundsHeal, 0.f, 1.f);
+	XrMath::clamp			(fWoundsHeal, 0.f, 1.f);
 	fMaxPowerUp		= READ_IF_EXISTS	(pSettings,r_float,sect.c_str(),	"eat_max_power",0.0f);
 	fAlcohol		= READ_IF_EXISTS	(pSettings, r_float, sect.c_str(),	"eat_alcohol", 0.0f);
 	fTimeTotal		= READ_IF_EXISTS	(pSettings, r_float, sect.c_str(),	"apply_time_sec", -1.0f);

@@ -48,7 +48,7 @@ int SetBackTrajectoryCnt(const dReal* p,const dReal*last_pos,Triangle &neg_tri, 
 	Contacts->normal[2] = -(last_pos[2]-p[2]);
 
 	dReal sq_mag = dDOT(Contacts->normal,Contacts->normal);
-	if(sq_mag<EPS_S)
+	if(sq_mag<XrMath::EPS_S)
 	{
 		Contacts->normal[0] = 0; 
 		Contacts->normal[1]	= -1;

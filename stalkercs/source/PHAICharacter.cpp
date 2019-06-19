@@ -37,7 +37,7 @@ bool CPHAICharacter::TryPosition(Fvector pos,bool exact_state){
 	Fvector	displace;displace.sub(pos,current_pos);
 	float	disp_mag=displace.magnitude();
 	
-	if( fis_zero( disp_mag ) || fis_zero( Device.fTimeDelta ) ) 
+	if( XrMath::fis_zero( disp_mag ) || XrMath::fis_zero( Device.fTimeDelta ) ) 
 														return true ;
 	const	u32		max_steps = 15 ;
 	const	float	fmax_steps = float ( max_steps ) ;
@@ -48,7 +48,7 @@ bool CPHAICharacter::TryPosition(Fvector pos,bool exact_state){
 
 	float	parts = disp_mag / disp_pstep ;
 	fsteps_num = floor ( parts );
-	steps_num = iFloor ( parts );
+	steps_num = XrMath::iFloor ( parts );
 	if( steps_num > max_steps )
 	{
 		steps_num	= max_steps	;
@@ -86,7 +86,7 @@ bool CPHAICharacter::TryPosition(Fvector pos,bool exact_state){
 #if 0
 	Fvector	dif;dif .sub( pos, pos_new );
 	float	dif_m = dif.magnitude();
-	if(ret&&dif_m>EPS_L)
+	if(ret&&dif_m>XrMath::EPS_L)
 	{
 		Msg("dif vec %f,%f,%f \n",dif.x,dif.y,dif.z);
 		Msg("dif mag %f \n",dif_m);
@@ -121,12 +121,12 @@ void CPHAICharacter::BringToDesired(float time,float velocity,float force)
 	float dist=move.magnitude();
 
 	float vel;
-	if(dist>EPS_L*100.f)
+	if(dist>XrMath::EPS_L*100.f)
 	{
 		vel=dist/time;
 		move.mul(1.f/dist);
 	}
-	else if(dist>EPS_L*10.f)
+	else if(dist>XrMath::EPS_L*10.f)
 	{
 		vel=dist*dist*dist;
 		move.mul(1.f/dist);
@@ -137,10 +137,10 @@ void CPHAICharacter::BringToDesired(float time,float velocity,float force)
 		move.set(0,0,0);
 	}
 
-	if(vel>velocity)//&&velocity>EPS_L
+	if(vel>velocity)//&&velocity>XrMath::EPS_L
 		vel=velocity;
 
-	if(velocity<EPS_L/fixed_step) 
+	if(velocity<XrMath::EPS_L/fixed_step) 
 	{
 		vel=0.f;
 		move.set(0,0,0);

@@ -22,7 +22,7 @@
 #include "xr_level_controller.h"
 #include "weapon.h"
 
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/Xrvector3d2.h"
 #include "ai/monsters/control_direction_base.h"
 
 bool CBurer::can_scan = true;
@@ -488,7 +488,7 @@ void   CBurer::face_enemy ()
 	Fvector	const	self_pos		=	Position();
 	Fvector	const	self2enemy		=	enemy_pos - self_pos;
 	bool  	const 	good_aiming		=	angle_between_vectors(self2enemy, Direction()) 
-										< deg2rad(20.f);
+										< XrMath::deg2rad(20.f);
 
 	if ( !good_aiming )
 	{

@@ -93,7 +93,7 @@ protected:
 	float				m_factor;
 public:
 						CAnimatorCamLerpEffectorConst	();
-	void				SetFactor						(float v)		{m_factor=v; clamp(m_factor,0.0f,1.0f);}
+	void				SetFactor						(float v)		{m_factor=v; XrMath::clamp(m_factor,0.0f,1.0f);}
 	float	xr_stdcall	GetFactor						()				{return m_factor;}
 };
 

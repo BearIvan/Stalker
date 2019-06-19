@@ -142,7 +142,7 @@ void CPoltergeist::Load(LPCSTR section)
 float   CPoltergeist::get_post_process_factor () const
 {
 	float 	factor						=	m_current_detection_level / m_detection_success_level;
-	clamp									(factor, 0.f, 1.f);
+	XrMath::clamp									(factor, 0.f, 1.f);
 	return									factor;
 }
 

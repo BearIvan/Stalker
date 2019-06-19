@@ -23,7 +23,7 @@ void	points::init	( const Fmatrix &m )
 static void spline_coefs_linar( const point &p0, const point &p1,  pose &a0, pose &a1 )
 {
 	a1 = p0.pose();
-	if( p1.time() - p0.time()> EPS_S )
+	if( p1.time() - p0.time()> XrMath::EPS_S )
 		a1.invert().add( p1.pose() ).mul( 1.f/( p1.time() - p0.time() ) );// ( y0^(-1) * y1 ) * ( t1 - t0 )
 	else
 		a1.identity( );
@@ -51,7 +51,7 @@ void	points::extrapolate ( Fmatrix &m, float time ) const
 }
 
 pose::pose	( ):
-p( Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ) ),
+p( Fvector().set( -flt_max, -flt_max, -flt_max ) ),
 r( Fquaternion().set( 0, 0, 0, 0 ) )
 {
 	

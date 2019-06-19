@@ -238,7 +238,7 @@ BOOL CBaseMonster::net_Spawn (CSE_Abstract* DC)
 //
 //		if (se_monster->m_flags.is(CSE_ALifeMonsterBase::flNeedCheckSpawnItem)) {
 //			float prob = Random.randF();
-//			if ((prob < m_spawn_probability) || fsimilar(m_spawn_probability,1.f)) 
+//			if ((prob < m_spawn_probability) || XrMath::fsimilar(m_spawn_probability,1.f)) 
 //				se_monster->m_flags.set(CSE_ALifeMonsterBase::flSkipSpawnItem, FALSE);
 //
 //			se_monster->m_flags.set(CSE_ALifeMonsterBase::flNeedCheckSpawnItem, FALSE);
@@ -331,7 +331,7 @@ void CBaseMonster::settings_read(const CInifile *ini, LPCSTR section, SMonsterSe
 		READ_SETTINGS(data.m_attack_effector.ppi.noise.grain,		"noise_grain",		r_float, ini, ppi_section);
 		READ_SETTINGS(data.m_attack_effector.ppi.noise.fps,			"noise_fps",		r_float, ini, ppi_section);
 
-		VERIFY(!fis_zero(data.m_attack_effector.ppi.noise.fps));
+		VERIFY(!XrMath::fis_zero(data.m_attack_effector.ppi.noise.fps));
 
 		if (ini->line_exist(ppi_section,"color_base")) 
 			sscanf(ini->r_string(ppi_section,"color_base"),	"%f,%f,%f", &data.m_attack_effector.ppi.color_base.r, &data.m_attack_effector.ppi.color_base.g, &data.m_attack_effector.ppi.color_base.b);		

@@ -61,7 +61,7 @@ void dxLensFlareRender::Render(CLensFlare &owner, BOOL bSun, BOOL bFlares, BOOL 
 			_2render.push_back	(((dxFlareRender*)&*owner.m_Current->m_Source.m_pRender)-> hShader);
 		}
 	}
-	if (owner.fBlend>=EPS_L)
+	if (owner.fBlend>=XrMath::EPS_L)
 	{
 		if(bFlares){
 			vecDx.normalize		(owner.vecAxis);
@@ -86,7 +86,7 @@ void dxLensFlareRender::Render(CLensFlare &owner, BOOL bSun, BOOL bFlares, BOOL 
 			}
 		}
 		// gradient
-		if (bGradient&&(owner.fGradientValue>=EPS_L)){
+		if (bGradient&&(owner.fGradientValue>=XrMath::EPS_L)){
 			if (owner.m_Current->m_Flags.is(CLensFlareDescriptor::flGradient)){
 				vecSx.mul			(owner.vecX, owner.m_Current->m_Gradient.fRadius*owner.fGradientValue*fDistance);
 				vecSy.mul			(owner.vecY, owner.m_Current->m_Gradient.fRadius*owner.fGradientValue*fDistance);

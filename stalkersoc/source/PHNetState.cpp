@@ -19,9 +19,9 @@ static void r_vec_q8(src& P,Fvector& vec,const Fvector& min,const Fvector& max)
 	vec.y=P.r_float_q8(min.y,max.y);
 	vec.z=P.r_float_q8(min.z,max.z);
 
-	clamp(vec.x,min.x,max.x);
-	clamp(vec.y,min.y,max.y);
-	clamp(vec.z,min.z,max.z);
+	XrMath::clamp(vec.x,min.x,max.x);
+	XrMath::clamp(vec.y,min.y,max.y);
+	XrMath::clamp(vec.z,min.z,max.z);
 }
 static void w_qt_q8(NET_Packet& P,const Fquaternion& q)
 {
@@ -55,7 +55,7 @@ static void r_qt_q8(src& P,Fquaternion& q)
 	//P.r_float_q8(q.z,-1.f,1.f);
 	//float w2=1.f-q.x*q.x-q.y*q.y-q.z*q.z;
 	//w2=w2<0.f ? 0.f : w2;
-	//q.w=_sqrt(w2);
+	//q.w=XrMath::sqrt(w2);
 /////////////////////////////////////////////////////
 	///////////////////////////////////////////////////
 	q.x=P.r_float_q8(-1.f,1.f);
@@ -63,10 +63,10 @@ static void r_qt_q8(src& P,Fquaternion& q)
 	q.z=P.r_float_q8(-1.f,1.f);
 	q.w=P.r_float_q8(-1.f,1.f);
 
-	clamp(q.x,-1.f,1.f);
-	clamp(q.y,-1.f,1.f);
-	clamp(q.z,-1.f,1.f);
-	clamp(q.w,-1.f,1.f);
+	XrMath::clamp(q.x,-1.f,1.f);
+	XrMath::clamp(q.y,-1.f,1.f);
+	XrMath::clamp(q.z,-1.f,1.f);
+	XrMath::clamp(q.w,-1.f,1.f);
 }
 
 #ifdef XRGAME_EXPORTS
@@ -83,9 +83,9 @@ static void r_vec_q16(NET_Packet& P,Fvector& vec,const Fvector& min,const Fvecto
 	P.r_float_q16(vec.y,min.y,max.y);
 	P.r_float_q16(vec.z,min.z,max.z);
 	
-	//clamp(vec.x,min.x,max.x);
-	//clamp(vec.y,min.y,max.y);
-	//clamp(vec.z,min.z,max.z);
+	//XrMath::clamp(vec.x,min.x,max.x);
+	//XrMath::clamp(vec.y,min.y,max.y);
+	//XrMath::clamp(vec.z,min.z,max.z);
 }
 template<typename src>
 static void w_qt_q16(src& P,const Fquaternion& q)
@@ -111,17 +111,17 @@ static void r_qt_q16(NET_Packet& P,Fquaternion& q)
 	//P.r_float_q16(q.z,-1.f,1.f);
 	//float w2=1.f-q.x*q.x-q.y*q.y-q.z*q.z;
 	//w2=w2<0.f ? 0.f : w2;
-	//q.w=_sqrt(w2);
+	//q.w=XrMath::sqrt(w2);
 ///////////////////////////////////////////////////
 	P.r_float_q16(q.x,-1.f,1.f);
 	P.r_float_q16(q.y,-1.f,1.f);
 	P.r_float_q16(q.z,-1.f,1.f);
 	P.r_float_q16(q.w,-1.f,1.f);
 
-	//clamp(q.x,-1.f,1.f);
-	//clamp(q.y,-1.f,1.f);
-	//clamp(q.z,-1.f,1.f);
-	//clamp(q.w,-1.f,1.f);
+	//XrMath::clamp(q.x,-1.f,1.f);
+	//XrMath::clamp(q.y,-1.f,1.f);
+	//XrMath::clamp(q.z,-1.f,1.f);
+	//XrMath::clamp(q.w,-1.f,1.f);
 }
 #endif
 ///////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +190,7 @@ void SPHNetState::net_Save(NET_Packet &P,const Fvector& min,const Fvector& max)
 template<typename src>
 void SPHNetState::read(src &P,const Fvector& min,const Fvector& max)
 {
-VERIFY( !(fsimilar(min.x,max.x)&&fsimilar(min.y,max.y)&&fsimilar(min.z,max.z)) );
+VERIFY( !(XrMath::fsimilar(min.x,max.x)&&XrMath::fsimilar(min.y,max.y)&&XrMath::fsimilar(min.z,max.z)) );
 	linear_vel.set(0.f,0.f,0.f);
 	angular_vel.set(0.f,0.f,0.f);
 	force.set(0.f,0.f,0.f);
@@ -205,12 +205,12 @@ VERIFY( !(fsimilar(min.x,max.x)&&fsimilar(min.y,max.y)&&fsimilar(min.z,max.z)) )
 
 void SPHNetState::net_Load(NET_Packet &P,const Fvector& min,const Fvector& max)
 {
-VERIFY( !(fsimilar(min.x,max.x)&&fsimilar(min.y,max.y)&&fsimilar(min.z,max.z)) );
+VERIFY( !(XrMath::fsimilar(min.x,max.x)&&XrMath::fsimilar(min.y,max.y)&&XrMath::fsimilar(min.z,max.z)) );
 	read(P,min,max);
 }
 void SPHNetState::net_Load(IReader &P,const Fvector& min,const Fvector& max)
 {
-VERIFY( !(fsimilar(min.x,max.x)&&fsimilar(min.y,max.y)&&fsimilar(min.z,max.z)) );
+VERIFY( !(XrMath::fsimilar(min.x,max.x)&&XrMath::fsimilar(min.y,max.y)&&XrMath::fsimilar(min.z,max.z)) );
 	read(P,min,max);
 }
 SPHBonesData::SPHBonesData()
@@ -263,9 +263,9 @@ void SPHBonesData::net_Load(NET_Packet &P)
 	}
 }
 
-void SPHBonesData::set_min_max(const Fvector& _min, const Fvector& _max)
+void SPHBonesData::set_min_max(const Fvector& min_, const Fvector& max_)
 {
-	VERIFY( !_min.similar(_max) );
-	m_min = _min;
-	m_max = _max;
+	VERIFY( !min_.similar(max_) );
+	m_min = min_;
+	m_max = max_;
 }

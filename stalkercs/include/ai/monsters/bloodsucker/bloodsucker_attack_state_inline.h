@@ -341,7 +341,7 @@ bool   CStateMonsterBackstubEnemy<_Object>::check_completion ()
 		return true;
 	}
 
-	const bool real_path_end = fis_zero(data.completion_dist) ? 
+	const bool real_path_end = XrMath::fis_zero(data.completion_dist) ? 
 		   (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) : true;
 
 	if ( object->control().path_builder().is_path_end(data.completion_dist) && real_path_end ) 

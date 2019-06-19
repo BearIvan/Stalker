@@ -33,12 +33,12 @@ void CHUDCrosshair::Load		()
 void CHUDCrosshair::SetDispersion	(float disp)
 { 
 	Fvector4 r;
-	Fvector R			= { VIEWPORT_NEAR*_sin(disp), 0.f, VIEWPORT_NEAR };
+	Fvector R			= { VIEWPORT_NEAR*XrMath::sin(disp), 0.f, VIEWPORT_NEAR };
 	Device.mProject.transform	(r,R);
 
 	Fvector2		scr_size;
 	scr_size.set	(float(::Render->getTarget()->get_width()), float(::Render->getTarget()->get_height()));
-	float radius_pixels		= _abs(r.x)*scr_size.x/2.0f;
+	float radius_pixels		= XrMath::abs(r.x)*scr_size.x/2.0f;
 	target_radius		= radius_pixels; 
 }
 
@@ -46,12 +46,12 @@ void CHUDCrosshair::SetDispersion	(float disp)
 void CHUDCrosshair::SetFirstBulletDispertion(float fbdisp)
 {
 	Fvector4 r;
-	Fvector R			= { VIEWPORT_NEAR*_sin(fbdisp), 0.f, VIEWPORT_NEAR };
+	Fvector R			= { VIEWPORT_NEAR*XrMath::sin(fbdisp), 0.f, VIEWPORT_NEAR };
 	Device.mProject.transform	(r,R);
 
 	Fvector2		scr_size;
 	scr_size.set	(float(::Render->getTarget()->get_width()), float(::Render->getTarget()->get_height()));
-	fb_radius		= _abs(r.x)*scr_size.x/2.0f;
+	fb_radius		= XrMath::abs(r.x)*scr_size.x/2.0f;
 }
 
 BOOL	g_bDrawFirstBulletCrosshair = FALSE;
@@ -73,7 +73,7 @@ void CHUDCrosshair::OnRenderFirstBulletDispertion()
 	float min_radius				= min_radius_perc*scr_size.x;
 	float max_radius				= max_radius_perc*scr_size.x;
 
-	clamp							(target_radius , min_radius, max_radius);
+	XrMath::clamp							(target_radius , min_radius, max_radius);
 
 	float x_min						= min_radius + fb_radius;
 	float x_max						= x_min + cross_length;
@@ -121,7 +121,7 @@ void CHUDCrosshair::OnRender ()
 	float min_radius					= min_radius_perc*scr_size.x;
 	float max_radius					= max_radius_perc*scr_size.x;
 
-	clamp								(target_radius , min_radius, max_radius);
+	XrMath::clamp								(target_radius , min_radius, max_radius);
 
 	float x_min							= min_radius + radius;
 	float x_max							= x_min + cross_length;
@@ -152,7 +152,7 @@ void CHUDCrosshair::OnRender ()
 	UIRender->FlushPrimitive		();
 
 
-	if(!fsimilar(target_radius,radius))
+	if(!XrMath::fsimilar(target_radius,radius))
 	{
 		//here was crosshair innertion emulation
 		radius = target_radius;

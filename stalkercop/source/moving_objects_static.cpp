@@ -30,7 +30,7 @@ bool moving_objects::collided_static		(moving_object *object, const Fvector &des
 	float					radius = object->radius() + ai().level_graph().header().cell_size()*.5f;
 	float					linear_velocity = dest_position.distance_to(object->position())/time_to_check;
 	float					distance_to_check = time_to_check*linear_velocity;
-	u32						step_count = iFloor(distance_to_check/step_to_check + .5f);
+	u32						step_count = XrMath::iFloor(distance_to_check/step_to_check + .5f);
 	for (u32 i=0; i<step_count; ++i) {
 		if (!i) {
 			if (collided_static(object->position(),radius))
@@ -78,7 +78,7 @@ void moving_objects::fill_all_static		(moving_object *object, const Fvector &des
 	float					radius = object->radius() + ai().level_graph().header().cell_size()*.5f;
 	float					linear_velocity = dest_position.distance_to(object->position())/time_to_check;
 	float					distance_to_check = time_to_check*linear_velocity;
-	u32						step_count = iFloor(distance_to_check/step_to_check + .5f);
+	u32						step_count = XrMath::iFloor(distance_to_check/step_to_check + .5f);
 	for (u32 i=0; i<step_count; ++i) {
 		if (!i) {
 			fill_static		(object->static_query(),object->position(),radius);
@@ -145,7 +145,7 @@ void moving_objects::query_action_static	(moving_object *object, const Fvector &
 
 	fill_nearest_list		(
 		start_position,
-		dest_position.distance_to(start_position) + EPS,
+		dest_position.distance_to(start_position) + XrMath::EPS,
 		object
 	);
 
@@ -157,7 +157,7 @@ void moving_objects::query_action_static	(moving_object *object, const Fvector &
 
 	fill_nearest_list		(
 		start_position,
-		dest_position.distance_to(start_position) + additional_radius + EPS,
+		dest_position.distance_to(start_position) + additional_radius + XrMath::EPS,
 		object
 	);
 

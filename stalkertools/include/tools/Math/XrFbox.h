@@ -74,23 +74,23 @@ public:
 
         // Take the transformed min & axes and find _new_ extents
         // Using CPU code in the right place is faster...
-        if (negative(vx.x)) min.x += vx.x;
+        if ((vx.x)<0) min.x += vx.x;
         else max.x += vx.x;
-        if (negative(vx.y)) min.y += vx.y;
+        if ((vx.y) < 0) min.y += vx.y;
         else max.y += vx.y;
-        if (negative(vx.z)) min.z += vx.z;
+        if ((vx.z) < 0) min.z += vx.z;
         else max.z += vx.z;
-        if (negative(vy.x)) min.x += vy.x;
+        if ((vy.x) < 0) min.x += vy.x;
         else max.x += vy.x;
-        if (negative(vy.y)) min.y += vy.y;
+        if ((vy.y) < 0) min.y += vy.y;
         else max.y += vy.y;
-        if (negative(vy.z)) min.z += vy.z;
+        if ((vy.z) < 0) min.z += vy.z;
         else max.z += vy.z;
-        if (negative(vz.x)) min.x += vz.x;
+        if ((vz.x) < 0) min.x += vz.x;
         else max.x += vz.x;
-        if (negative(vz.y)) min.y += vz.y;
+        if ((vz.y) < 0) min.y += vz.y;
         else max.y += vz.y;
-        if (negative(vz.z)) min.z += vz.z;
+        if ((vz.z) < 0) min.z += vz.z;
         else max.z += vz.z;
         return *this;
     }
@@ -153,7 +153,7 @@ public:
         rvmin.sub(min, start);
         rvmax.sub(max, start);
 
-        if (!fis_zero(dir.x))
+        if (!XrMath::fis_zero(dir.x))
         {
             alpha = rvmin.x / dir.x;
             yt = alpha * dir.y;
@@ -173,7 +173,7 @@ public:
             }
         }
 
-        if (!fis_zero(dir.y))
+        if (!XrMath::fis_zero(dir.y))
         {
             alpha = rvmin.y / dir.y;
             xt = alpha * dir.x;
@@ -193,7 +193,7 @@ public:
             }
         }
 
-        if (!fis_zero(dir.z))
+        if (!XrMath::fis_zero(dir.z))
         {
             alpha = rvmin.z / dir.z;
             xt = alpha * dir.x;

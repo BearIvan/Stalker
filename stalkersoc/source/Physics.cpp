@@ -26,7 +26,7 @@ extern CPHWorld *ph_world;
 //union dInfBytes dInfinityValue = {{0,0,0x80,0x7f}};
 PhysicsStepTimeCallback		*physics_step_time_callback				= 0;
 
-const dReal 		default_w_limit									= 9.8174770f;//(M_PI/16.f/(fixed_step=0.02f));
+const dReal 		default_w_limit									= 9.8174770f;//(XrMath::M_PI/16.f/(fixed_step=0.02f));
 const dReal 		default_l_limit									= 150.f;//(3.f/fixed_step=0.02f);
 const dReal 		default_l_scale									= 1.01f;
 const dReal 		default_w_scale									= 1.01f;
@@ -224,8 +224,8 @@ IC static int CollideIntoGroup(dGeomID o1, dGeomID o2,dJointGroupID jointGroup,C
 		if(flags_1.test(SGameMtl::flBounceable)&&flags_2.test(SGameMtl::flBounceable))
 		{
 			surface.mode		|=	dContactBounce;
-			surface.bounce_vel	=	_max(material_1->fPHBounceStartVelocity,material_2->fPHBounceStartVelocity);
-			surface.bounce		=	_min(material_1->fPHBouncing,material_2->fPHBouncing);
+			surface.bounce_vel	=	XrMath::max(material_1->fPHBounceStartVelocity,material_2->fPHBounceStartVelocity);
+			surface.bounce		=	XrMath::min(material_1->fPHBouncing,material_2->fPHBouncing);
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		if(usr_data_2&&usr_data_2->object_callbacks){

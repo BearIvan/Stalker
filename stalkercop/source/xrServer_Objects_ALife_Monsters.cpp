@@ -51,13 +51,13 @@ void setup_location_types_section(GameGraph::TERRAIN_VECTOR &m_vertex_types, CIn
 	for ( ; I != E; ++I) {
 		LPCSTR						S = *(*I).first;
 		string16					I;
-		u32							N = _GetItemCount(S);
+		u32							N = XrTrims::GetItemCount(S);
 		
 		if (N != GameGraph::LOCATION_TYPE_COUNT)
 			continue;
 
 		for (u32 j=0; j<GameGraph::LOCATION_TYPE_COUNT; ++j)
-			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(_GetItem(S,j,I)));
+			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(XrTrims::GetItem(S,j,I)));
 		
 		m_vertex_types.push_back	(terrain_mask);
 	}
@@ -77,7 +77,7 @@ void setup_location_types_line(GameGraph::TERRAIN_VECTOR &m_vertex_types, LPCSTR
 	GameGraph::STerrainPlace		terrain_mask;
 	terrain_mask.tMask.resize		(GameGraph::LOCATION_TYPE_COUNT);
 	
-	u32								N = _GetItemCount(string)/GameGraph::LOCATION_TYPE_COUNT*GameGraph::LOCATION_TYPE_COUNT;
+	u32								N = XrTrims::GetItemCount(string)/GameGraph::LOCATION_TYPE_COUNT*GameGraph::LOCATION_TYPE_COUNT;
 	
 	if (!N) {
 		for (u32 j=0; j<GameGraph::LOCATION_TYPE_COUNT; ++j)
@@ -90,7 +90,7 @@ void setup_location_types_line(GameGraph::TERRAIN_VECTOR &m_vertex_types, LPCSTR
 
 	for (u32 i=0; i<N;) {
 		for (u32 j=0; j<GameGraph::LOCATION_TYPE_COUNT; ++j, ++i)
-			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(_GetItem(string,i,I)));
+			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(XrTrims::GetItem(string,i,I)));
 		m_vertex_types.push_back	(terrain_mask);
 	}
 }
@@ -331,9 +331,9 @@ shared_str CSE_ALifeTraderAbstract::specific_character()
 				if(spec_char.data()->m_bDefaultForCommunity)
 					m_DefaultCharacters.push_back(id);
 
-				if(char_info.data()->m_Rank == NO_RANK || _abs(spec_char.Rank() - char_info.data()->m_Rank)<RANK_DELTA)
+				if(char_info.data()->m_Rank == NO_RANK || XrMath::abs(spec_char.Rank() - char_info.data()->m_Rank)<RANK_DELTA)
 				{
-					if(char_info.data()->m_Reputation == NO_REPUTATION || _abs(spec_char.Reputation() - char_info.data()->m_Reputation)<REPUTATION_DELTA)
+					if(char_info.data()->m_Reputation == NO_REPUTATION || XrMath::abs(spec_char.Reputation() - char_info.data()->m_Reputation)<REPUTATION_DELTA)
 					{
 #ifdef XRGAME_EXPORTS
 						int* count = NULL;
@@ -1303,7 +1303,7 @@ void CSE_ALifeMonsterAbstract::FillProps		(LPCSTR pref, PropItemVec& items)
 
 bool CSE_ALifeMonsterAbstract::need_update	(CSE_ALifeDynamicObject *object)
 {
-	return						(CSE_ALifeSchedulable::need_update(object) && (get_health() > EPS_L));
+	return						(CSE_ALifeSchedulable::need_update(object) && (get_health() > XrMath::EPS_L));
 }
 #ifdef XRGAME_EXPORTS
 void CSE_ALifeMonsterAbstract::kill						()
@@ -1773,7 +1773,7 @@ void CSE_ALifeMonsterRat::FillProps			(LPCSTR pref, PropItemVec& items)
 
 bool CSE_ALifeMonsterRat::bfUseful		()
 {
-	return						(!smart_cast<CSE_ALifeGroupAbstract*>(this) && (get_health() <= EPS_L));
+	return						(!smart_cast<CSE_ALifeGroupAbstract*>(this) && (get_health() <= XrMath::EPS_L));
 }
 
 ////////////////////////////////////////////////////////////////////////////

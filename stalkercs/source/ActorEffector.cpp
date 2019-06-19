@@ -99,7 +99,7 @@ void AddEffector		(CActor* A, int type, const shared_str& sect_name, GET_KOEFF_F
 
 void AddEffector(CActor* A, int type, const shared_str& sect_name, float factor)
 {
-	clamp(factor, 0.001f, 1.5f);
+	XrMath::clamp(factor, 0.001f, 1.5f);
 	if(pSettings->line_exist(sect_name,"pp_eff_name")){
 		bool bCyclic						= !!pSettings->r_bool(sect_name,"pp_eff_cyclic");
 		CPostprocessAnimatorLerpConst* pp_anm= xr_new<CPostprocessAnimatorLerpConst>();
@@ -219,7 +219,7 @@ BOOL CAnimatorCamLerpEffector::ProcessCam(SCamEffectorInfo& info)
 	q_dst.set					(mr);
 
 	float	t					= m_func();
-	clamp						(t,0.0f,1.0f);
+	XrMath::clamp						(t,0.0f,1.0f);
 
 	VERIFY						(t>=0.f && t<=1.f);
 	q_res.slerp					(q_src, q_dst, t);
@@ -294,12 +294,12 @@ float SndShockEffector::GetFactor()
 	float f				= (m_end_time-Device.fTimeGlobal)/m_life_time;
 	
 	float ff =	f*m_life_time/8.0f;
-	return clampr(ff, 0.0f, 1.0f);
+	return XrMath::clampr(ff, 0.0f, 1.0f);
 }
 
 void SndShockEffector::Start(CActor* A, float snd_length, float power)
 {
-	clamp			(power, 0.1f, 1.5f);
+	XrMath::clamp			(power, 0.1f, 1.5f);
 	m_actor			= A;
 	m_snd_length	= snd_length;
 
@@ -331,9 +331,9 @@ void SndShockEffector::Update()
 
 //////////////////////////////////////////////////////////////////////////
 
-#define DELTA_ANGLE_X	0.5f * PI / 180
-#define DELTA_ANGLE_Y	0.5f * PI / 180
-#define DELTA_ANGLE_Z	0.5f * PI / 180
+#define DELTA_ANGLE_X	0.5f * XrMath::M_PI / 180
+#define DELTA_ANGLE_Y	0.5f * XrMath::M_PI / 180
+#define DELTA_ANGLE_Z	0.5f * XrMath::M_PI / 180
 #define ANGLE_SPEED		1.5f	
 
 CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector &src_pos, const Fvector &target_pos, float time)
@@ -341,7 +341,7 @@ CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type
 {
 	m_time_total			= time;
 	m_time_current			= 0;
-	m_dangle_target.set		(angle_normalize(Random.randFs(DELTA_ANGLE_X)),angle_normalize(Random.randFs(DELTA_ANGLE_Y)),angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
+	m_dangle_target.set		(XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_X)),XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Y)),XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
 	m_dangle_current.set	(0.f, 0.f, 0.f);
 	m_position_source		= src_pos;
 	m_direction.sub			(target_pos,src_pos);
@@ -364,16 +364,16 @@ BOOL CControllerPsyHitCamEffector::ProcessCam(SCamEffectorInfo& info)
 
 	//////////////////////////////////////////////////////////////////////////
 
-	if (angle_lerp(m_dangle_current.x, m_dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
-		m_dangle_target.x = angle_normalize(Random.randFs(DELTA_ANGLE_X));
+	if (XrMath::angle_lerp(m_dangle_current.x, m_dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
+		m_dangle_target.x = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_X));
 	}
 
-	if (angle_lerp(m_dangle_current.y, m_dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
-		m_dangle_target.y = angle_normalize(Random.randFs(DELTA_ANGLE_Y));
+	if (XrMath::angle_lerp(m_dangle_current.y, m_dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
+		m_dangle_target.y = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Y));
 	}
 
-	if (angle_lerp(m_dangle_current.z, m_dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
-		m_dangle_target.z = angle_normalize(Random.randFs(DELTA_ANGLE_Z));
+	if (XrMath::angle_lerp(m_dangle_current.z, m_dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
+		m_dangle_target.z = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Z));
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -408,10 +408,10 @@ BOOL CControllerPsyHitCamEffector::ProcessCam(SCamEffectorInfo& info)
 }
 bool similar_cam_info(const SCamEffectorInfo& c1, const SCamEffectorInfo& c2)
 {
-	return(	c1.p.similar(c2.p, EPS_L) &&
-			c1.d.similar(c2.d, EPS_L) &&
-			c1.n.similar(c2.n, EPS_L)	&&
-			c1.r.similar(c2.r, EPS_L)	);
+	return(	c1.p.similar(c2.p, XrMath::EPS_L) &&
+			c1.d.similar(c2.d, XrMath::EPS_L) &&
+			c1.n.similar(c2.n, XrMath::EPS_L)	&&
+			c1.r.similar(c2.r, XrMath::EPS_L)	);
 
 }
 void CActorCameraManager::UpdateCamEffectors()

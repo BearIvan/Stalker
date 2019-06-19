@@ -448,7 +448,7 @@ void game_cl_ArtefactHunt::shedule_Update			(u32 dt)
 					u32 CurTime = Level().timeServer();
 					u32 dTime;
 					if (s32(CurTime) > dReinforcementTime) dTime = 0;
-					else dTime = iCeil(float(dReinforcementTime - CurTime) / 1000);
+					else dTime = XrMath::iCeil(float(dReinforcementTime - CurTime) / 1000);
 							
 					string128 _buff;
 					m_game_ui->m_pReinforcementInidcator->SetText(itoa(dTime,_buff,10));

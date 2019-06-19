@@ -132,7 +132,7 @@ void CUISpinFlt::SaveOptValue()
 
 bool CUISpinFlt::IsChangedOptValue() const
 {
-    return !fsimilar		(m_fVal, m_opt_backup_value);
+    return !XrMath::fsimilar		(m_fVal, m_opt_backup_value);
 }
 
 void CUISpinFlt::InitSpin(Fvector2 pos, Fvector2 size)
@@ -144,14 +144,14 @@ void CUISpinFlt::InitSpin(Fvector2 pos, Fvector2 size)
 void CUISpinFlt::IncVal()
 {
 	m_fVal		+= m_fStep;
-	clamp		(m_fVal, m_fMin, m_fMax);
+	XrMath::clamp		(m_fVal, m_fMin, m_fMax);
 	SetValue	(m_fVal);
 }
 
 void CUISpinFlt::DecVal()
 {
 	m_fVal		-= m_fStep;
-	clamp		(m_fVal, m_fMin, m_fMax);
+	XrMath::clamp		(m_fVal, m_fMin, m_fMax);
 	SetValue	(m_fVal);
 }
 
@@ -183,5 +183,5 @@ bool CUISpinFlt::CanPressUp()
 
 bool CUISpinFlt::CanPressDown()
 {
-	return (m_fVal - m_fStep > m_fMin) || fsimilar(m_fVal-m_fStep, m_fMin);
+	return (m_fVal - m_fStep > m_fMin) || XrMath::fsimilar(m_fVal-m_fStep, m_fMin);
 }

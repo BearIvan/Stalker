@@ -394,8 +394,8 @@ void RearrangeTabButtons(CUITabControl* pTab, xr_vector<Fvector2>& vec_sign_plac
 		}
 
 		vec_sign_places[idx].set(pos);
-		vec_sign_places[idx].y	+= iFloor(((*it)->GetWndSize().y - sign_sz.y)/2.0f);
-		vec_sign_places[idx].y	= (float)iFloor(vec_sign_places[idx].y);
+		vec_sign_places[idx].y	+= XrMath::iFloor(((*it)->GetWndSize().y - sign_sz.y)/2.0f);
+		vec_sign_places[idx].y	= (float)XrMath::iFloor(vec_sign_places[idx].y);
 		pos.x					+= sign_sz.x;
 
 		(*it)->SetWndPos		(pos);

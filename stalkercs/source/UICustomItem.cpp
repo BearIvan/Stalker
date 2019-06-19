@@ -104,8 +104,8 @@ void CUICustomItem::Render(const Fvector2& pos_ns, u32 color, float angle)
 	SZ.set								(iVisRect.rb);
 
 
-	float cosA							= _cos(angle);
-	float sinA							= _sin(angle);
+	float cosA							= XrMath::cos(angle);
+	float sinA							= XrMath::sin(angle);
 
 	// Rotation
 	if( !uFlags.test(flValidHeadingPivot) )	

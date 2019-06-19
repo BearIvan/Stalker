@@ -104,7 +104,7 @@ IC CLevelGraph::ELineIntersections  CLevelGraph::intersect(
 	* same side of line 1, the line segments do not intersect.
 	*/
 
-	if ((r3*r4 > EPS) && !fis_zero(r3,EPS_L) && !fis_zero(r4,EPS_L))     return (LevelGraph::eLineIntersectionNone);
+	if ((r3*r4 > XrMath::EPS) && !XrMath::fis_zero(r3,XrMath::EPS_L) && !XrMath::fis_zero(r4,XrMath::EPS_L))     return (LevelGraph::eLineIntersectionNone);
 
 	/* Compute a2, b2, c2 */
 
@@ -122,16 +122,16 @@ IC CLevelGraph::ELineIntersections  CLevelGraph::intersect(
 	* not intersect.
 	*/
 
-	if ((r1*r2 > EPS) && !fis_zero(r1,EPS_L) && !fis_zero(r2,EPS_L))     return (LevelGraph::eLineIntersectionNone);
+	if ((r1*r2 > XrMath::EPS) && !XrMath::fis_zero(r1,XrMath::EPS_L) && !XrMath::fis_zero(r2,XrMath::EPS_L))     return (LevelGraph::eLineIntersectionNone);
 
 	// Check for equality
-	if (fis_zero(r1*r2) && fis_zero(r3*r4)) return LevelGraph::eLineIntersectionEqual;
+	if (XrMath::fis_zero(r1*r2) && XrMath::fis_zero(r3*r4)) return LevelGraph::eLineIntersectionEqual;
 
 	/* Line segments intersect: compute intersection point. 
 	*/
 
 	denom = a1 * b2 - a2 * b1;
-	if (fis_zero(denom)) return (LevelGraph::eLineIntersectionCollinear);
+	if (XrMath::fis_zero(denom)) return (LevelGraph::eLineIntersectionCollinear);
 
 	num = b1 * c2 - b2 * c1;
 	*x = num / denom;
@@ -189,7 +189,7 @@ IC CLevelGraph::ELineIntersections  CLevelGraph::intersect_no_check(
 	*/
 
 	// Check for equality
-	if (fis_zero(r1*r2) && fis_zero(r3*r4)) {
+	if (XrMath::fis_zero(r1*r2) && XrMath::fis_zero(r3*r4)) {
 		*x		= x4;
 		*y		= y4;
 		return	(LevelGraph::eLineIntersectionEqual);
@@ -199,7 +199,7 @@ IC CLevelGraph::ELineIntersections  CLevelGraph::intersect_no_check(
 	*/
 
 	denom = a1 * b2 - a2 * b1;
-	if (fis_zero(denom)) {
+	if (XrMath::fis_zero(denom)) {
 		*x		= x4;
 		*y		= y4;
 		return	(LevelGraph::eLineIntersectionEqual);
@@ -216,12 +216,12 @@ IC CLevelGraph::ELineIntersections  CLevelGraph::intersect_no_check(
 
 IC bool CLevelGraph::similar(const Fvector &tPoint0, const Fvector &tPoint1) const
 {
-	return((_abs(tPoint0.x - tPoint1.x) < EPS_L) && (_abs(tPoint0.z - tPoint1.z) < EPS_L));
+	return((XrMath::abs(tPoint0.x - tPoint1.x) < XrMath::EPS_L) && (XrMath::abs(tPoint0.z - tPoint1.z) < XrMath::EPS_L));
 }
 
 IC bool CLevelGraph::inside(const Fvector &tPoint, const CLevelGraph::SContour &tContour) const
 {
-	return((tContour.v1.x - EPS_L <= tPoint.x) && (tContour.v1.z - EPS_L <= tPoint.z) && (tContour.v3.x + EPS_L >= tPoint.x) && (tContour.v3.z + EPS_L >= tPoint.z));
+	return((tContour.v1.x - XrMath::EPS_L <= tPoint.x) && (tContour.v1.z - XrMath::EPS_L <= tPoint.z) && (tContour.v3.x + XrMath::EPS_L >= tPoint.x) && (tContour.v3.z + XrMath::EPS_L >= tPoint.z));
 }
 
 IC void CLevelGraph::intersect(SSegment &tSegment, const SContour &tContour0, const SContour &tContour1) const
@@ -441,10 +441,10 @@ IC bool CLevelGraph::intersect(Fvector& dst, const Fvector& v1, const Fvector& v
 	float		bary1 = (T.x-v1.x)/lx;
 	float		bary2 = (T.z-v1.z)/lz;
 
-	if (fis_zero(lx,EPS_L))
+	if (XrMath::fis_zero(lx,XrMath::EPS_L))
 		bary1	= bary2;
 
-	if (fis_zero(lz,EPS_L))
+	if (XrMath::fis_zero(lz,XrMath::EPS_L))
 		bary2	= bary1;
 
 	float		bary = (bary1+bary2)/2;
@@ -457,7 +457,7 @@ IC bool CLevelGraph::intersect(Fvector& dst, const Fvector& v1, const Fvector& v
 
 IC	float CLevelGraph::square(float a1, float b1, float fAlpha) const
 {
-	float a = 2*(b1 - a1)/PI, b = a1;	
+	float a = 2*(b1 - a1)/XrMath::M_PI, b = a1;	
 	return(fAlpha*fAlpha*fAlpha*a*a/6 + fAlpha*fAlpha*a*b/2 + fAlpha*b*b/2);
 }
 
@@ -466,27 +466,27 @@ IC	float CLevelGraph::square(float a1, float b1, float fAlpha) const
 
 IC	float CLevelGraph::compute_square(float fAngle, float fAngleOfView, float b1, float b0, float b3, float b2) const
 {
-	fAngle				= angle_normalize(fAngle - 0*PI_DIV_2);
+	fAngle				= XrMath::angle_normalize(fAngle - 0*XrMath::PI_DIV_2);
 
-	if (fAngle < PI_DIV_2)
+	if (fAngle < XrMath::PI_DIV_2)
 		;
 	else
-		if (fAngle < PI) {
-			fAngle		-= PI_DIV_2;
+		if (fAngle < XrMath::M_PI) {
+			fAngle		-= XrMath::PI_DIV_2;
 			b3			= b0;
 			b0			= b1;
 			b1			= b2;
 		}
 		else
-			if (fAngle < 3*PI_DIV_2) {
-				fAngle -= PI;
+			if (fAngle < 3*XrMath::PI_DIV_2) {
+				fAngle -= XrMath::M_PI;
 				b0		= b2;
 				float	bx = b1;
 				b1		= b3;
 				b3		= bx;
 			}
 			else {
-				fAngle -= 3*PI_DIV_2;
+				fAngle -= 3*XrMath::PI_DIV_2;
 				b1		= b0;
 				b0		= b3;
 				b3		= b2;
@@ -494,14 +494,14 @@ IC	float CLevelGraph::compute_square(float fAngle, float fAngleOfView, float b1,
 
 	float				fSquare;
 	
-	if (fAngle + fAngleOfView >= PI_DIV_2) {
-		fSquare			= square(b1,b2,fAngleOfView + fAngle - PI_DIV_2);
+	if (fAngle + fAngleOfView >= XrMath::PI_DIV_2) {
+		fSquare			= square(b1,b2,fAngleOfView + fAngle - XrMath::PI_DIV_2);
 		if (fAngle - fAngleOfView < 0) {
 			fSquare		+= square(b0,b1);
 			fSquare		+= square(b0,b3,fAngleOfView - fAngle);
 		}
 		else
-			fSquare		+= square(b1,b0,PI_DIV_2 - (fAngle - fAngleOfView));
+			fSquare		+= square(b1,b0,XrMath::PI_DIV_2 - (fAngle - fAngleOfView));
 	}
 	else {
 		fSquare			= square(b0,b1,fAngle + fAngleOfView);
@@ -649,10 +649,10 @@ template <class _predicate>
 float CLevelGraph::vertex_high_cover_angle(u32 vertex_id, float inc_angle, _predicate compare_predicate) const
 {
 	float best_angle	= 0.f;
-	float best_value	= compute_high_square(best_angle, PI_DIV_2, vertex_id);
+	float best_value	= compute_high_square(best_angle, XrMath::PI_DIV_2, vertex_id);
 
-	for (float angle = inc_angle; angle <= PI_MUL_2; angle += inc_angle) {
-		float cover = compute_high_square(angle, PI_DIV_2, vertex_id);
+	for (float angle = inc_angle; angle <= XrMath::PI_MUL_2; angle += inc_angle) {
+		float cover = compute_high_square(angle, XrMath::PI_DIV_2, vertex_id);
 		if (compare_predicate(cover,best_value)) {
 			best_value = cover;
 			best_angle = angle;
@@ -666,10 +666,10 @@ template <class _predicate>
 float CLevelGraph::vertex_low_cover_angle(u32 vertex_id, float inc_angle, _predicate compare_predicate) const
 {
 	float best_angle	= 0.f;
-	float best_value	= compute_low_square(best_angle, PI_DIV_2, vertex_id);
+	float best_value	= compute_low_square(best_angle, XrMath::PI_DIV_2, vertex_id);
 
-	for (float angle = inc_angle; angle <= PI_MUL_2; angle += inc_angle) {
-		float cover = compute_low_square(angle, PI_DIV_2, vertex_id);
+	for (float angle = inc_angle; angle <= XrMath::PI_MUL_2; angle += inc_angle) {
+		float cover = compute_low_square(angle, XrMath::PI_DIV_2, vertex_id);
 		if (compare_predicate(cover,best_value)) {
 			best_value = cover;
 			best_angle = angle;

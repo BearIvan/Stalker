@@ -88,8 +88,8 @@ void CUIProgressShape::Draw()
 	float		radius_tex			= tex_rect.width()/2.0f;
 
 	float		curr_angle			= 0.0f;
-	float		sin_a				= _sin(curr_angle);
-	float		cos_a				= _cos(curr_angle);
+	float		sin_a				= XrMath::sin(curr_angle);
+	float		cos_a				= XrMath::cos(curr_angle);
 	Fvector2	start_pos_pt,	prev_pos_pt;
 	Fvector2	start_tex_pt,	prev_tex_pt;
 	
@@ -118,12 +118,12 @@ void CUIProgressShape::Draw()
 
 
 		if(m_bClockwise)
-			curr_angle				-= PI_MUL_2/float(m_sectorCount);
+			curr_angle				-= XrMath::PI_MUL_2/float(m_sectorCount);
 		else
-			curr_angle				+= PI_MUL_2/float(m_sectorCount);
+			curr_angle				+= XrMath::PI_MUL_2/float(m_sectorCount);
 
-		sin_a						= _sin(curr_angle);
-		cos_a						= _cos(curr_angle);
+		sin_a						= XrMath::sin(curr_angle);
+		cos_a						= XrMath::cos(curr_angle);
 
 		_make_rot					(prev_pos_pt, start_pos_pt, sin_a, cos_a, curr_angle);
 		_make_rot					(prev_tex_pt, start_tex_pt, sin_a, cos_a, curr_angle);

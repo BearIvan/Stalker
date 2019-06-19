@@ -106,10 +106,10 @@ void CEntityAlive::LoadBloodyWallmarks (LPCSTR section)
 	string256	tmp;
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 	
-	int cnt		=_GetItemCount(wallmarks_name);
+	int cnt		=XrTrims::GetItemCount(wallmarks_name);
 	
 	for (int k=0; k<cnt; ++k)	
-		(*m_pBloodMarksVector)->AppendMark(_GetItem(wallmarks_name,k,tmp));
+		(*m_pBloodMarksVector)->AppendMark(XrTrims::GetItem(wallmarks_name,k,tmp));
 
 	
 	m_fBloodMarkSizeMin = pSettings->r_float(section, "min_size"); 
@@ -121,15 +121,15 @@ void CEntityAlive::LoadBloodyWallmarks (LPCSTR section)
 
 	//капли крови с открытых ран
 	wallmarks_name = pSettings->r_string(section, "blood_drops");
-	cnt		=_GetItemCount(wallmarks_name);
+	cnt		=XrTrims::GetItemCount(wallmarks_name);
 
 	for (int k=0; k<cnt; ++k)
-		(*m_pBloodDropsVector)->AppendMark(_GetItem(wallmarks_name,k,tmp));
+		(*m_pBloodDropsVector)->AppendMark(XrTrims::GetItem(wallmarks_name,k,tmp));
 
 	/*
 	for (int k=0; k<cnt; ++k)
 	{
-		s.create ("effects\\wallmark",_GetItem(wallmarks_name,k,tmp));
+		s.create ("effects\\wallmark",XrTrims::GetItem(wallmarks_name,k,tmp));
 		m_pBloodDropsVector->push_back	(s);
 	}
 	*/
@@ -159,12 +159,12 @@ void CEntityAlive::LoadFireParticles(LPCSTR section)
 	string256	tmp;
 	LPCSTR particles_name = pSettings->r_string(section, "fire_particles"); 
 
-	int cnt		=_GetItemCount(particles_name);
+	int cnt		=XrTrims::GetItemCount(particles_name);
 
 	shared_str	s;
 	for (int k=0; k<cnt; ++k)
 	{
-		s  = _GetItem(particles_name,k,tmp);
+		s  = XrTrims::GetItem(particles_name,k,tmp);
 		m_pFireParticlesVector->push_back	(s);
 	}
 
@@ -385,7 +385,7 @@ void CEntityAlive::BloodyWallmarks (float P, const Fvector &dir, s16 element,
 	float wallmark_size = m_fBloodMarkSizeMax;
 	wallmark_size *= (P/m_fNominalHit);
 	wallmark_size *= small_entity;
-	clamp(wallmark_size, m_fBloodMarkSizeMin, m_fBloodMarkSizeMax);
+	XrMath::clamp(wallmark_size, m_fBloodMarkSizeMin, m_fBloodMarkSizeMax);
 
 	VERIFY(m_pBloodMarksVector);
 	PlaceBloodWallmark(dir, start_pos, m_fBloodMarkDistance, 
@@ -822,11 +822,11 @@ void CEntityAlive::fill_hit_bone_surface_areas		( ) const
 				break;
 			}
 			case SBoneShape::stSphere : {
-				surface_area			= 4.f * PI * _sqr(shape.sphere.R);
+				surface_area			= 4.f * XrMath::M_PI * XrMath::sqr(shape.sphere.R);
 				break;
 			}
 			case SBoneShape::stCylinder : {
-				surface_area			= 2.f * PI * shape.cylinder.m_radius*( shape.cylinder.m_radius + shape.cylinder.m_height );
+				surface_area			= 2.f * XrMath::M_PI * shape.cylinder.m_radius*( shape.cylinder.m_radius + shape.cylinder.m_height );
 				break;
 			}
 			default :					NODEFAULT;
@@ -917,9 +917,9 @@ Fvector	CEntityAlive::get_new_local_point_on_mesh	( u16& bone_id ) const
 			break;
 		}
 		case SBoneShape::stCylinder : {
-			float const total_square	= (shape.cylinder.m_height + shape.cylinder.m_radius); // *2*PI*c_cylinder.m_radius
+			float const total_square	= (shape.cylinder.m_height + shape.cylinder.m_radius); // *2*XrMath::M_PI*c_cylinder.m_radius
 			float const random_value	= ::Random.randF(total_square);
-			float const angle			= ::Random.randF(2.f*PI);
+			float const angle			= ::Random.randF(2.f*XrMath::M_PI);
 
 			float const x				= shape.cylinder.m_direction.x;
 			float const y				= shape.cylinder.m_direction.y;

@@ -21,6 +21,9 @@ CRT::~CRT			()
 	DEV->_DeleteRT	(this);
 }
 
+IC	u32		btwLowestBitMask(u32 x) { return x & ~(x - 1); }
+IC	bool	btwIsPow2(u32 v) { return (btwLowestBitMask(v) == v); }
+
 void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 {
 	if (pSurface)	return;

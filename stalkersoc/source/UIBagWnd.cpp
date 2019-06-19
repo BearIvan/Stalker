@@ -172,11 +172,11 @@ bool CUIBagWnd::IsBlueTeamItem(CUICellItem* itm)
 
 		
 		strcpy			(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
-		u32 count		= _GetItemCount(wpnNames);
+		u32 count		= XrTrims::GetItemCount(wpnNames);
 		
 		for (u32 j = 0; j < count; ++j)
 		{
-			_GetItem	(wpnNames, j, wpnSingleName);
+			XrTrims::GetItem	(wpnNames, j, wpnSingleName);
 
 			if (0 == xr_strcmp(item,wpnSingleName))
 				return blue;
@@ -256,11 +256,11 @@ void CUIBagWnd::InitWpnSectStorage()
 		}
 
 		strcpy		(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
-		u32 count	= _GetItemCount(wpnNames);
+		u32 count	= XrTrims::GetItemCount(wpnNames);
 
 		for (u32 j = 0; j < count; ++j)
 		{
-			_GetItem				(wpnNames, j, wpnSingleName);
+			XrTrims::GetItem				(wpnNames, j, wpnSingleName);
 			wpnOneType.push_back	(wpnSingleName);
 		}
 

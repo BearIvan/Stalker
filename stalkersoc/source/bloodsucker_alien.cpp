@@ -52,7 +52,7 @@ BOOL CAlienEffectorPP::Process(SPPInfo& pp)
 {
 	inherited::Process(pp);
 
-	if (fsimilar(factor, target_factor)) {
+	if (XrMath::fsimilar(factor, target_factor)) {
 		target_factor = (target_factor > 0.5f) ? .3f : .6f;
 	}
 	
@@ -94,9 +94,9 @@ public:
 };
 
 
-#define DELTA_ANGLE_X		10 * PI / 180
-#define DELTA_ANGLE_Y		10 * PI / 180
-#define DELTA_ANGLE_Z		10 * PI / 180
+#define DELTA_ANGLE_X		10 * XrMath::M_PI / 180
+#define DELTA_ANGLE_Y		10 * XrMath::M_PI / 180
+#define DELTA_ANGLE_Z		10 * XrMath::M_PI / 180
 #define ANGLE_SPEED			0.2f	
 
 #define MIN_FOV				70.f
@@ -108,7 +108,7 @@ public:
 CAlienEffector::CAlienEffector(ECamEffectorType type, CAI_Bloodsucker *obj) :
 	inherited(type, flt_max)
 {
-	dangle_target.set		(angle_normalize(Random.randFs(DELTA_ANGLE_X)),angle_normalize(Random.randFs(DELTA_ANGLE_Y)),angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
+	dangle_target.set		(XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_X)),XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Y)),XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
 	dangle_current.set		(0.f, 0.f, 0.f);
 
 	monster					= obj;
@@ -132,16 +132,16 @@ BOOL CAlienEffector::Process(Fvector &p, Fvector &d, Fvector &n, float& fFov, fl
 
 
 	// set angle 
-	if (angle_lerp(dangle_current.x, dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
-		dangle_target.x = angle_normalize(Random.randFs(DELTA_ANGLE_X));
+	if (XrMath::angle_lerp(dangle_current.x, dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
+		dangle_target.x = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_X));
 	}
 
-	if (angle_lerp(dangle_current.y, dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
-		dangle_target.y = angle_normalize(Random.randFs(DELTA_ANGLE_Y));
+	if (XrMath::angle_lerp(dangle_current.y, dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
+		dangle_target.y = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Y));
 	}
 
-	if (angle_lerp(dangle_current.z, dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
-		dangle_target.z = angle_normalize(Random.randFs(DELTA_ANGLE_Z));
+	if (XrMath::angle_lerp(dangle_current.z, dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
+		dangle_target.z = XrMath::angle_normalize(Random.randFs(DELTA_ANGLE_Z));
 	}
 
 	// update inertion
@@ -150,7 +150,7 @@ BOOL CAlienEffector::Process(Fvector &p, Fvector &d, Fvector &n, float& fFov, fl
 	cur_matrix.c = get_head_position(monster);
 
 	float	rel_dist = m_prev_eye_matrix.c.distance_to(cur_matrix.c) / MAX_CAMERA_DIST;
-	clamp	(rel_dist, 0.f, 1.f);
+	XrMath::clamp	(rel_dist, 0.f, 1.f);
 
 	def_lerp(m_inertion, 1 - rel_dist, rel_dist, Device.fTimeDelta);
 
@@ -164,7 +164,7 @@ BOOL CAlienEffector::Process(Fvector &p, Fvector &d, Fvector &n, float& fFov, fl
 
 	//set fov
 	float	rel_speed = monster->m_fCurSpeed / 15.f;
-	clamp	(rel_speed,0.f,1.f);
+	XrMath::clamp	(rel_speed,0.f,1.f);
 
 	float	m_target_fov = MIN_FOV + (MAX_FOV-MIN_FOV) * rel_speed;
 	def_lerp(m_current_fov, m_target_fov, FOV_SPEED, Device.fTimeDelta);

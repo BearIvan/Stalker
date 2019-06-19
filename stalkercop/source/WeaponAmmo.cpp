@@ -237,7 +237,7 @@ u32 CWeaponAmmo::Cost() const
 {
 	u32 res = inherited::Cost();
 
-	res = iFloor(res*(float)m_boxCurr/(float)m_boxSize+0.5f);
+	res = XrMath::iFloor(res*(float)m_boxCurr/(float)m_boxSize+0.5f);
 
 	return res;
 }

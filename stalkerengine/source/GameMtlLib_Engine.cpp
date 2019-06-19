@@ -26,21 +26,21 @@ void DestroyPSs(PSVec& lst)
 void CreateSounds(SoundVec& lst, LPCSTR buf)
 {
     string128 tmp;
-    int cnt = _GetItemCount(buf);
+    int cnt = XrTrims::GetItemCount(buf);
     R_ASSERT(cnt <= GAMEMTL_SUBITEM_COUNT + 2);
     lst.resize(cnt);
     for (int k = 0; k < cnt; ++k)
-        lst[k].create(_GetItem(buf, k, tmp), st_Effect, sg_SourceType);
+        lst[k].create(XrTrims::GetItem(buf, k, tmp), st_Effect, sg_SourceType);
 }
 /*
 void CreateMarks(ShaderVec& lst, LPCSTR buf)
 {
 string256 tmp;
-int cnt =_GetItemCount(buf); R_ASSERT(cnt<=GAMEMTL_SUBITEM_COUNT);
+int cnt =XrTrims::GetItemCount(buf); R_ASSERT(cnt<=GAMEMTL_SUBITEM_COUNT);
 ref_shader s;
 for (int k=0; k<cnt; ++k)
 {
-s.create ("effects\\wallmark",_GetItem(buf,k,tmp));
+s.create ("effects\\wallmark",XrTrims::GetItem(buf,k,tmp));
 lst.push_back (s);
 }
 }
@@ -48,20 +48,20 @@ lst.push_back (s);
 void CreateMarks(IWallMarkArray* pMarks, LPCSTR buf)
 {
     string256 tmp;
-    int cnt = _GetItemCount(buf);
+    int cnt = XrTrims::GetItemCount(buf);
     R_ASSERT(cnt <= GAMEMTL_SUBITEM_COUNT);
     for (int k = 0; k < cnt; ++k)
-        pMarks->AppendMark(_GetItem(buf, k, tmp));
+        pMarks->AppendMark(XrTrims::GetItem(buf, k, tmp));
 }
 
 
 void CreatePSs(PSVec& lst, LPCSTR buf)
 {
     string256 tmp;
-    int cnt = _GetItemCount(buf);
+    int cnt = XrTrims::GetItemCount(buf);
     R_ASSERT(cnt <= GAMEMTL_SUBITEM_COUNT);
     for (int k = 0; k < cnt; ++k)
-        lst.push_back(_GetItem(buf, k, tmp));
+        lst.push_back(XrTrims::GetItem(buf, k, tmp));
 }
 
 SGameMtlPair::~SGameMtlPair()

@@ -38,10 +38,10 @@
 // Normalize an angle to the range -Pi..Pi
 //
 
-//static double angle_normalize_signed(double x)
+//static double XrMath::angle_normalize_signed(double x)
 //{
-//    while (x > M_PI)  x -= 2*M_PI;
-//    while (x < -M_PI) x += 2*M_PI;
+//    while (x > XrMath::M_PI)  x -= 2*XrMath::M_PI;
+//    while (x < -XrMath::M_PI) x += 2*XrMath::M_PI;
 //
 //    return x;
 //}
@@ -59,13 +59,13 @@ float angle_distance(float x, float y)
     unsigned int signy = y > 0.0;
     float dist; 
 
-    dist = _abs(x-y);
+    dist = XrMath::abs(x-y);
 
     // If angles are of opposite signs check whether clockwise
     // or anticlockwise distances are closer 
     if (signx != signy)
     {
-        float temp = (2*M_PI) - dist;
+        float temp = (2*XrMath::M_PI) - dist;
         if (temp < dist)
             dist = temp;
     }
@@ -86,7 +86,7 @@ int solve_trig1(float a, float b, float c, float theta[2])
     {
 	// temp is practically zero
  
-	if (_abs(temp / (_abs(a*a) + _abs(b*b) + _abs(c*c))) < 1e-6)
+	if (XrMath::abs(temp / (XrMath::abs(a*a) + XrMath::abs(b*b) + XrMath::abs(c*c))) < 1e-6)
 	{
 	    // printf("Special case\n");
 	    theta[0] = (float) (2*atan(-b/(-a-c)));
@@ -96,7 +96,7 @@ int solve_trig1(float a, float b, float c, float theta[2])
 	    return 0;
     }
 
-    temp  = (float) atan2((float)_sqrt(temp),(float) c);//.(float) c
+    temp  = (float) atan2((float)XrMath::sqrt(temp),(float) c);//.(float) c
     int num =  (!iszero(temp)) ? 2 : 1;
 
     // Calculate answer in radians
@@ -106,8 +106,8 @@ int solve_trig1(float a, float b, float c, float theta[2])
         theta[1] = theta[0] - temp;
         theta[0] += temp;
 
-	//theta[0] = angle_normalize_signed(theta[0]);
-	//theta[1] = angle_normalize_signed(theta[1]);
+	//theta[0] = XrMath::angle_normalize_signed(theta[0]);
+	//theta[1] = XrMath::angle_normalize_signed(theta[1]);
     }
     return num;
 }
@@ -133,10 +133,10 @@ float solve_trig2(float a, float b, float c, float d)
 //
 int myacos(float x, float solns[2])
 {
-    if (_abs(x) > 1)
+    if (XrMath::abs(x) > 1)
 	return 0;
 
-    solns[0] = angle_normalize_signed(acos(x));
+    solns[0] = XrMath::angle_normalize_signed(acos(x));
 
     if (iszero(solns[0]))
 	return 1;
@@ -151,18 +151,18 @@ int myacos(float x, float solns[2])
 //
 int myasin(float x, float solns[2])
 {
-    if (_abs(x) > 1)
+    if (XrMath::abs(x) > 1)
 	return 0;
 
-    solns[0] = (float)angle_normalize_signed(asin(x));
+    solns[0] = (float)XrMath::angle_normalize_signed(asin(x));
 
     if (iszero(solns[0]))
 	return 1;
     
     if (solns[0] > 0)
-	solns[1] = M_PI - solns[0];
+	solns[1] = XrMath::M_PI - solns[0];
     else 
-	solns[1] = -M_PI - solns[0];
+	solns[1] = -XrMath::M_PI - solns[0];
 
     return 2;
 }

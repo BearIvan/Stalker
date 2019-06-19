@@ -50,9 +50,9 @@ CALifeHumanBrain::CALifeHumanBrain			(object_type *object) : inherited(object)
 	m_cpMainWeaponPreferences.resize(4);
 
 #ifdef XRGAME_EXPORTS
-	m_cpEquipmentPreferences.resize	(iFloor(ai().ef_storage().m_pfEquipmentType->ffGetMaxResultValue() + .5f));
-	m_cpMainWeaponPreferences.resize(iFloor(ai().ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f));
-	R_ASSERT2						((iFloor(ai().ef_storage().m_pfEquipmentType->ffGetMaxResultValue() + .5f) == 5) && (iFloor(ai().ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f) == 4),"Recompile Level Editor and xrAI and rebuild file \"game.spawn\"!");
+	m_cpEquipmentPreferences.resize	(XrMath::iFloor(ai().ef_storage().m_pfEquipmentType->ffGetMaxResultValue() + .5f));
+	m_cpMainWeaponPreferences.resize(XrMath::iFloor(ai().ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f));
+	R_ASSERT2						((XrMath::iFloor(ai().ef_storage().m_pfEquipmentType->ffGetMaxResultValue() + .5f) == 5) && (XrMath::iFloor(ai().ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f) == 4),"Recompile Level Editor and xrAI and rebuild file \"game.spawn\"!");
 #endif
 
 	for (int i=0, n=m_cpEquipmentPreferences.size(); i<n; ++i)

@@ -43,6 +43,6 @@ void CMonsterMorale::update_schedule(u32 dt)
 
 	m_morale	+= cur_v * dt / 1000;
 
-	clamp		(m_morale, 0.f, 1.f);
+	XrMath::clamp		(m_morale, 0.f, 1.f);
 }
 

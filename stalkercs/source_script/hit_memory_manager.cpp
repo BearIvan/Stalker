@@ -105,7 +105,7 @@ void CHitMemoryManager::add					(float amount, const Fvector &vLocalDir, const C
 	if (who && (m_object->ID() == who->ID()))
 		return;
 
-	if (who && !fis_zero(amount)) {
+	if (who && !XrMath::fis_zero(amount)) {
 		m_last_hit_object_id	= who->ID();
 		m_last_hit_time			= Device.dwTimeGlobal;
 	}
@@ -149,7 +149,7 @@ void CHitMemoryManager::add					(float amount, const Fvector &vLocalDir, const C
 	}
 	else {
 		(*J).fill				(entity_alive,m_object,(!m_stalker ? (*J).m_squad_mask.get() : ((*J).m_squad_mask.get() | m_stalker->agent_manager().member().mask(m_stalker))));
-		(*J).m_amount			= _max(amount,(*J).m_amount);
+		(*J).m_amount			= XrMath::max(amount,(*J).m_amount);
 	}
 }
 

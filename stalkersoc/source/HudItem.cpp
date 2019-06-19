@@ -217,10 +217,10 @@ void CHudItem::UpdateHudInertion		(Fmatrix& hud_trans)
 		Fvector								diff_dir;
 		diff_dir.sub						(xform.k, m_last_dir);
 
-		// clamp by PI_DIV_2
+		// XrMath::clamp by XrMath::PI_DIV_2
 		Fvector last;						last.normalize_safe(m_last_dir);
 		float dot							= last.dotproduct(xform.k);
-		if (dot<EPS){
+		if (dot<XrMath::EPS){
 			Fvector v0;
 			v0.crossproduct			(m_last_dir,xform.k);
 			m_last_dir.crossproduct	(xform.k,v0);
@@ -232,7 +232,7 @@ void CHudItem::UpdateHudInertion		(Fmatrix& hud_trans)
 		origin.mad		(diff_dir,ORIGIN_OFFSET);
 
 		// pitch compensation
-		float pitch		= angle_normalize_signed(xform.k.getP());
+		float pitch		= XrMath::angle_normalize_signed(xform.k.getP());
 		origin.mad		(xform.k,	-pitch * PITCH_OFFSET_D);
 		origin.mad		(xform.i,	-pitch * PITCH_OFFSET_R);
 		origin.mad		(xform.j,	-pitch * PITCH_OFFSET_N);

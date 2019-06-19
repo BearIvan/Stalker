@@ -65,10 +65,10 @@ void CSE_ALifeMonsterAbstract::update								()
 		if (move_offline() && (m_tNextGraphID != m_tGraphID)) {
 			ALife::_TIME_ID				tCurTime = ai().alife().time_manager().game_time();
 			m_fDistanceFromPoint		+= float(tCurTime - m_tTimeID)/1000.f/ai().alife().time_manager().normal_time_factor()*m_fCurSpeed;
-			if (m_fDistanceToPoint - m_fDistanceFromPoint < EPS_L) {
+			if (m_fDistanceToPoint - m_fDistanceFromPoint < XrMath::EPS_L) {
 				bContinue = true;
-				if ((m_fDistanceFromPoint - m_fDistanceToPoint > EPS_L) && (m_fCurSpeed > EPS_L))
-					m_tTimeID			= tCurTime - ALife::_TIME_ID(iFloor((m_fDistanceFromPoint - m_fDistanceToPoint)*1000.f/m_fCurSpeed));
+				if ((m_fDistanceFromPoint - m_fDistanceToPoint > XrMath::EPS_L) && (m_fCurSpeed > XrMath::EPS_L))
+					m_tTimeID			= tCurTime - ALife::_TIME_ID(XrMath::iFloor((m_fDistanceFromPoint - m_fDistanceToPoint)*1000.f/m_fCurSpeed));
 				m_fDistanceToPoint		= m_fDistanceFromPoint	= 0.0f;
 				m_tPrevGraphID			= m_tGraphID;
 				alife().graph().change	(this,m_tGraphID,m_tNextGraphID);
@@ -177,7 +177,7 @@ ALife::EMeetActionType	CSE_ALifeMonsterAbstract::tfGetActionType(CSE_ALifeSchedu
 bool CSE_ALifeMonsterAbstract::bfActive()
 {
 	CSE_ALifeGroupAbstract		*l_tpALifeGroupAbstract = smart_cast<CSE_ALifeGroupAbstract*>(this);
-	return						(/**/interactive() && /**/((l_tpALifeGroupAbstract && (l_tpALifeGroupAbstract->m_wCount > 0)) || (!l_tpALifeGroupAbstract && (get_health() > EPS_L))));
+	return						(/**/interactive() && /**/((l_tpALifeGroupAbstract && (l_tpALifeGroupAbstract->m_wCount > 0)) || (!l_tpALifeGroupAbstract && (get_health() > XrMath::EPS_L))));
 }
 
 CSE_ALifeDynamicObject *CSE_ALifeMonsterAbstract::tpfGetBestDetector()
@@ -205,7 +205,7 @@ void CSE_ALifeMonsterAbstract::vfCheckForPopulationChanges	()
 		ai().ef_storage().alife().member() = this;
 		l_tpALifeGroupAbstract->m_tNextBirthTime = l_tTimeID + ALife::_TIME_ID(ai().ef_storage().m_pfBirthSpeed->ffGetValue()*24*60*60*1000);
 		if (randF(100) < ai().ef_storage().m_pfBirthProbability->ffGetValue()) {
-			u32					l_dwBornCount = iFloor(float(l_tpALifeGroupAbstract->m_wCount)*randF(.5f,1.5f)*ai().ef_storage().m_pfBirthPercentage->ffGetValue()/100.f + .5f);
+			u32					l_dwBornCount = XrMath::iFloor(float(l_tpALifeGroupAbstract->m_wCount)*randF(.5f,1.5f)*ai().ef_storage().m_pfBirthPercentage->ffGetValue()/100.f + .5f);
 			if (l_dwBornCount) {
 				l_tpALifeGroupAbstract->m_tpMembers.resize(l_tpALifeGroupAbstract->m_wCount + l_dwBornCount);
 				ALife::OBJECT_IT	I = l_tpALifeGroupAbstract->m_tpMembers.begin() + l_tpALifeGroupAbstract->m_wCount;

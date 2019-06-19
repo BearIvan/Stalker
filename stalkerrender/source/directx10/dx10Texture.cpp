@@ -81,7 +81,7 @@ u32 calc_texture_size(int lod, u32 mip_cnt, u32 orig_size)
 		--_lod;
 		res		-= res/1.333f;
 	}
-	return iFloor	(res);
+	return XrMath::iFloor	(res);
 }
 
 const float		_BUMPHEIGH = 8.f;

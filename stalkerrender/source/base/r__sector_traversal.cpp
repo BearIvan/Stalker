@@ -128,7 +128,7 @@ void CPortalTraverser::fade_render	()
 		float						_ssa = fp.second;
 		float		ssaDiff = _ssa - r_ssaLOD_B;
 		float		ssaScale = ssaDiff / ssaRange;
-		int			iA = iFloor((1 - ssaScale)*255.5f);	clamp(iA, 0, 255);
+		int			iA = XrMath::iFloor((1 - ssaScale)*255.5f);	XrMath::clamp(iA, 0, 255);
 		u32							_clr = subst_alpha(_ambient, u32(iA));
 
 		// fill polys
@@ -169,11 +169,11 @@ void CPortalTraverser::dbg_draw		()
 		bb.min.y			= (1-bb.min.y) * 2 - 1;
 		bb.max.y			= (1-bb.max.y) * 2 - 1;
 
-		verts[0].set(bb.min.x,bb.min.y,EPS,0xffffffff);
-		verts[1].set(bb.max.x,bb.min.y,EPS,0xffffffff);
-		verts[2].set(bb.max.x,bb.max.y,EPS,0xffffffff);
-		verts[3].set(bb.min.x,bb.max.y,EPS,0xffffffff);
-		verts[4].set(bb.min.x,bb.min.y,EPS,0xffffffff);
+		verts[0].set(bb.min.x,bb.min.y,XrMath::EPS,0xffffffff);
+		verts[1].set(bb.max.x,bb.min.y,XrMath::EPS,0xffffffff);
+		verts[2].set(bb.max.x,bb.max.y,XrMath::EPS,0xffffffff);
+		verts[3].set(bb.min.x,bb.max.y,XrMath::EPS,0xffffffff);
+		verts[4].set(bb.min.x,bb.min.y,XrMath::EPS,0xffffffff);
 		RCache.dbg_Draw		(D3DPT_LINESTRIP,verts,4);
 	}
 }

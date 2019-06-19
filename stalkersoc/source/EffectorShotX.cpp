@@ -36,7 +36,7 @@ void CCameraShotEffectorX::Shot			(float angle)
 
 void	CCameraShotEffectorX::Clear				()
 {
-	fAngleVert	= -EPS_S;
+	fAngleVert	= -XrMath::EPS_S;
 	fAngleHorz	= 0.0f;
 };
 
@@ -50,15 +50,15 @@ void	CCameraShotEffectorX::UpdateActorCamera		(float dPitch, float dYaw)
 	if (pACam->bClampPitch)
 	{
 		while (pACam->pitch < pACam->lim_pitch[0])
-			pACam->pitch += PI_MUL_2;
+			pACam->pitch += XrMath::PI_MUL_2;
 		while (pACam->pitch > pACam->lim_pitch[1])
-			pACam->pitch -= PI_MUL_2;
+			pACam->pitch -= XrMath::PI_MUL_2;
 	};
 
 	pACam->pitch += dPitch;
 	pACam->yaw += dYaw;
 
-	if (pACam->bClampYaw)	clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
-	if (pACam->bClampPitch)	clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
+	if (pACam->bClampYaw)	XrMath::clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
+	if (pACam->bClampPitch)	XrMath::clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
 
 }

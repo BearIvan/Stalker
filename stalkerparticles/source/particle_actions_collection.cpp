@@ -243,8 +243,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect *effect, const float dt, float& tm_ma
 		break;
 	case PDDisc:
 		{
-			float r1Sqr = _sqr(position.radius1);
-			float r2Sqr = _sqr(position.radius2);
+			float r1Sqr = XrMath::sqr(position.radius1);
+			float r2Sqr = XrMath::sqr(position.radius2);
 			
 			// See which particles bounce.
 			for(u32 i = 0; i < effect->p_count; i++)
@@ -327,7 +327,7 @@ void PAPI::PAAvoid::Execute(ParticleEffect *effect, const float dt, float& tm_ma
 					continue; // I'm not heading toward it.
 				
 				// Compute length for second rejection test.
-				float t = v - _sqrt(disc);
+				float t = v - XrMath::sqrt(disc);
 				if(t < 0 || t > (vm * look_ahead))
 					continue;
 				
@@ -437,8 +437,8 @@ void PABounce::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 		break;
 	case PDDisc:
 		{
-			float r1Sqr = _sqr(position.radius1);
-			float r2Sqr = _sqr(position.radius2);
+			float r1Sqr = XrMath::sqr(position.radius1);
+			float r2Sqr = XrMath::sqr(position.radius2);
 			
 			// See which particles bounce.
 			for(u32 i = 0; i < effect->p_count; i++)
@@ -728,7 +728,7 @@ void PAExplosion::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 	float radius 		= velocity * age;
 	float magdt 		= magnitude * dt;
 	float oneOverSigma 	= 1.0f / stdev;
-	float inexp 		= -0.5f*_sqr(oneOverSigma);
+	float inexp 		= -0.5f*XrMath::sqr(oneOverSigma);
 	float outexp 		= ONEOVERSQRT2PI * oneOverSigma;
 	
 	for(u32 i = 0; i < effect->p_count; i++)
@@ -738,12 +738,12 @@ void PAExplosion::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 		// Figure direction to particle.
 		pVector dir		(m.pos - center);
 		float distSqr 	= dir.length2();
-		float dist 		= _sqrt(distSqr);
-		float DistFromWaveSqr = _sqr(radius - dist);
+		float dist 		= XrMath::sqrt(distSqr);
+		float DistFromWaveSqr = XrMath::sqr(radius - dist);
 		
 		float Gd 		= expf(DistFromWaveSqr * inexp) * outexp;
 		
-		m.vel 			+= dir * (Gd * magdt / ((dist+EPS) * (distSqr + epsilon)));
+		m.vel 			+= dir * (Gd * magdt / ((dist+ XrMath::EPS) * (distSqr + epsilon)));
 	}
 	
 	age += dt;
@@ -773,7 +773,7 @@ void PAFollow::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			if(tohimlenSqr < max_radiusSqr)
 			{
 				// Compute force exerted between the two bodies
-				m.vel += tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon)));
+				m.vel += tohim * (magdt / (XrMath::sqrt(tohimlenSqr) * (tohimlenSqr + epsilon)));
 			}
 		}
 	}
@@ -788,7 +788,7 @@ void PAFollow::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			float tohimlenSqr = tohim.length2();
 			
 			// Compute force exerted between the two bodies
-			m.vel += tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon)));
+			m.vel += tohim * (magdt / (XrMath::sqrt(tohimlenSqr) * (tohimlenSqr + epsilon)));
 		}
 	}
 }
@@ -813,12 +813,12 @@ void PAGravitate::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 				Particle &mj = effect->particles[j];
 				
 				pVector tohim(mj.pos - m.pos); // tohim = p1 - p0
-				float tohimlenSqr = tohim.length2()+EPS_S;
+				float tohimlenSqr = tohim.length2()+ XrMath::EPS_S;
 				
 				if(tohimlenSqr < max_radiusSqr)
 				{
 					// Compute force exerted between the two bodies
-					pVector acc(tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
+					pVector acc(tohim * (magdt / (XrMath::sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
 					
 					m.vel += acc;
 					mj.vel -= acc;
@@ -838,10 +838,10 @@ void PAGravitate::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 				Particle &mj = effect->particles[j];
 				
 				pVector tohim(mj.pos - m.pos); // tohim = p1 - p0
-				float tohimlenSqr = tohim.length2()+EPS_S;
+				float tohimlenSqr = tohim.length2()+ XrMath::EPS_S;
 				
 				// Compute force exerted between the two bodies
-				pVector acc(tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
+				pVector acc(tohim * (magdt / (XrMath::sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
 				
 				m.vel += acc;
 				mj.vel -= acc;
@@ -945,7 +945,7 @@ void PAScatter::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			if(rSqr < max_radiusSqr)
 			{
 				pVector accel;
-                accel = dir/_sqrt(rSqr);
+                accel = dir/XrMath::sqrt(rSqr);
                 
 //				acc.Generate(accel);
 				
@@ -968,7 +968,7 @@ void PAScatter::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			float rSqr = dir.length2();
 			
 			pVector accel;
-            accel = dir/_sqrt(rSqr);
+            accel = dir/XrMath::sqrt(rSqr);
 			
 			// Step velocity with acceleration
 			m.vel += accel * (magdt / (rSqr + epsilon));
@@ -1096,7 +1096,7 @@ void PAOrbitLine::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			
 			if(rSqr < max_radiusSqr)
 				// Step velocity with acceleration
-				m.vel += into * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
+				m.vel += into * (magdt / (XrMath::sqrt(rSqr) + (rSqr + epsilon)));
 		}
 	}
 	else
@@ -1119,7 +1119,7 @@ void PAOrbitLine::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			float rSqr = into.length2();
 			
 			// Step velocity with acceleration
-			m.vel += into * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
+			m.vel += into * (magdt / (XrMath::sqrt(rSqr) + (rSqr + epsilon)));
 		}
 	}
 }
@@ -1151,7 +1151,7 @@ void PAOrbitPoint::Execute(ParticleEffect *effect, const float dt, float& tm_max
 			
 			// Step velocity with acceleration
 			if(rSqr < max_radiusSqr)
-				m.vel += dir * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
+				m.vel += dir * (magdt / (XrMath::sqrt(rSqr) + (rSqr + epsilon)));
 		}
 	}
 	else
@@ -1169,7 +1169,7 @@ void PAOrbitPoint::Execute(ParticleEffect *effect, const float dt, float& tm_max
 			float rSqr = dir.length2();
 			
 			// Step velocity with acceleration
-			m.vel += dir * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
+			m.vel += dir * (magdt / (XrMath::sqrt(rSqr) + (rSqr + epsilon)));
 		}
 	}
 }
@@ -1439,12 +1439,12 @@ void PASpeedLimit::Execute(ParticleEffect *effect, const float dt, float& tm_max
 		float sSqr = m.vel.length2();
 		if(sSqr<min_sqr && sSqr)
 		{
-			float s = _sqrt(sSqr);
+			float s = XrMath::sqrt(sSqr);
 			m.vel *= (min_speed/s);
 		}
 		else if(sSqr>max_sqr)
 		{
-			float s = _sqrt(sSqr);
+			float s = XrMath::sqrt(sSqr);
 			m.vel *= (max_speed/s);
 		}
 	}
@@ -1496,13 +1496,13 @@ void PATargetRotate::Execute(ParticleEffect *effect, const float dt, float& tm_m
 {
 	float scaleFac = scale * dt;
 
-	float r = _abs(rot.x);
+	float r = XrMath::abs(rot.x);
 
 	for(u32 i = 0; i < effect->p_count; i++)
 	{
 		Particle &m = effect->particles[i];
 		float sign = m.rot.x >= 0.f ? scaleFac : -scaleFac;
-		float dif = ( r - _abs( m.rot.x ) ) * sign;
+		float dif = ( r - XrMath::abs( m.rot.x ) ) * sign;
 		m.rot.x	+= dif;
 	}
 }
@@ -1550,7 +1550,7 @@ void PAVortex::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			if(rSqr > max_radiusSqr)
 				continue;
 			
-			float r = _sqrt(rSqr);
+			float r = XrMath::sqrt(rSqr);
 			
 			// Compute normalized offset vector3.
 			pVector offnorm(offset / r);
@@ -1569,8 +1569,8 @@ void PAVortex::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			// Figure amount of rotation
 			// Resultant is (cos theta) u + (sin theta) v
 			float theta = magdt / (rSqr + epsilon);
-			float s = _sin(theta);
-			float c = _cos(theta);
+			float s = XrMath::sin(theta);
+			float c = XrMath::cos(theta);
 			
 			offset = (u * c + v * s + w) * r;
 			
@@ -1590,7 +1590,7 @@ void PAVortex::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			// Compute distance from particle to tip of vortex.
 			float rSqr = offset.length2();
 			
-			float r = _sqrt(rSqr);
+			float r = XrMath::sqrt(rSqr);
 			
 			// Compute normalized offset vector3.
 			pVector offnorm(offset / r);
@@ -1609,8 +1609,8 @@ void PAVortex::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			// Figure amount of rotation
 			// Resultant is (cos theta) u + (sin theta) v
 			float theta = magdt / (rSqr + epsilon);
-			float s = _sin(theta);
-			float c = _cos(theta);
+			float s = XrMath::sin(theta);
+			float c = XrMath::cos(theta);
 			
 			offset = (u * c + v * s + w) * r;
 			

@@ -111,7 +111,7 @@ void Upgrade::construct( const shared_str& upgrade_id, Group& parental_group, Ma
 	string256			buffer;
 	for(u8 i = 0; i < max_properties_count; i++)
 	{
-		shared_str prop	= _GetItem( properties.c_str(), i, buffer);
+		shared_str prop	= XrTrims::GetItem( properties.c_str(), i, buffer);
 		if(prop.size())
 		{
 			m_properties[i] = prop;

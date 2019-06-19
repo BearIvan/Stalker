@@ -118,7 +118,7 @@ void CStalkerActionDangerUnknownLookAround::execute							()
 	if (!object().memory().danger().selected())
 		return;
 
-	if (fsimilar(object().movement().body_orientation().target.yaw,object().movement().body_orientation().current.yaw))
+	if (XrMath::fsimilar(object().movement().body_orientation().target.yaw,object().movement().body_orientation().current.yaw))
 		object().sight().setup					(CSightAction(SightManager::eSightTypeCoverLookOver,true));
 	else
 		object().sight().setup					(CSightAction(SightManager::eSightTypeCover,true));

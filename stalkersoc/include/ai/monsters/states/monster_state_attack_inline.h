@@ -235,8 +235,8 @@ void CStateMonsterAttackAbstract::setup_substates()
 
 #define TIME_CHECK_BEHINDER 2000
 #define TIME_IN_BEHINDER	3000
-#define ANGLE_START_CHECK_BEHINDER		2 * PI_DIV_3
-#define ANGLE_CONTINUE_CHECK_BEHINDER	PI_DIV_2
+#define ANGLE_START_CHECK_BEHINDER		2 *XrMath::PI_DIV_3
+#define ANGLE_CONTINUE_CHECK_BEHINDER	XrMath::PI_DIV_2
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterAttackAbstract::check_behinder()

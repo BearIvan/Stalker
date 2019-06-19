@@ -29,9 +29,9 @@ SPPInfo& SPPInfo::add(const SPPInfo& ppi)
     duality.h += ppi.duality.h;
     duality.v += ppi.duality.v;
 
-    noise.intensity = _max(noise.intensity, ppi.noise.intensity);
-    noise.grain = _max(noise.grain, ppi.noise.grain);
-    noise.fps = _max(noise.fps, ppi.noise.fps);
+    noise.intensity = XrMath::max(noise.intensity, ppi.noise.intensity);
+    noise.grain = XrMath::max(noise.grain, ppi.noise.grain);
+    noise.fps = XrMath::max(noise.fps, ppi.noise.fps);
     color_base += ppi.color_base;
     color_gray += ppi.color_gray;
     color_add += ppi.color_add;
@@ -49,7 +49,7 @@ SPPInfo& SPPInfo::add(const SPPInfo& ppi)
             cm_influence = ppi.cm_influence;
             cm_interpolate = 0.0f;
         }
-        cm_influence = _max(cm_influence, ppi.cm_influence);
+        cm_influence = XrMath::max(cm_influence, ppi.cm_influence);
     }
     return *this;
 }
@@ -105,7 +105,7 @@ SPPInfo& SPPInfo::lerp(const SPPInfo& def, const SPPInfo& to, float factor)
 {
     VERIFY(_valid(factor));
     SPPInfo& pp = *this;
-    clamp(factor, 0.0f, 1.0f);
+    XrMath::clamp(factor, 0.0f, 1.0f);
 
     pp.duality.h += def.duality.h + (to.duality.h - def.duality.h) * factor;
     pp.duality.v += def.duality.v + (to.duality.v - def.duality.v) * factor;
@@ -326,7 +326,7 @@ void CCameraManager::Update(const Fvector& P, const Fvector& D, const Fvector& N
 
     float aspect = Device.fHeight_2 / Device.fWidth_2;
     float src = 10 * Device.fTimeDelta;
-    clamp(src, 0.f, 1.f);
+	XrMath::clamp(src, 0.f, 1.f);
     float dst = 1 - src;
     m_cam_info.fFov = m_cam_info.fFov*dst + fFOV_Dest*src;
     m_cam_info.fFar = m_cam_info.fFar*dst + fFAR_Dest*src;
@@ -420,7 +420,7 @@ void CCameraManager::UpdatePPEffectors()
         pp_affected = pp_identity;
     }
 
-    if (!positive(pp_affected.noise.grain))
+    if (pp_affected.noise.grain<0)
         pp_affected.noise.grain = pp_identity.noise.grain;
 
     pp_affected.validate("after applying pp");
@@ -441,7 +441,7 @@ void CCameraManager::ApplyDevice(float _viewport_near)
     // projection
     Device.fFOV = m_cam_info.fFov;
     Device.fASPECT = m_cam_info.fAspect;
-    Device.mProject.build_projection(deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
+    Device.mProject.build_projection(XrMath::deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
 
     if (g_pGamePersistent && g_pGamePersistent->m_pMainMenu->IsActive())
         ResetPP();
@@ -456,7 +456,7 @@ void CCameraManager::ApplyDevice(float _viewport_near)
         T->set_gray(pp_affected.gray);
         T->set_noise(pp_affected.noise.intensity);
 
-        clamp(pp_affected.noise.grain, EPS_L, 1000.0f);
+		XrMath::clamp(pp_affected.noise.grain, XrMath::EPS_L, 1000.0f);
 
         T->set_noise_scale(pp_affected.noise.grain);
 

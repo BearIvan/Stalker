@@ -43,7 +43,7 @@ ShaderElement*			CRender::rimp_select_sh_dynamic	(dxRender_Visual	*pVisual, floa
 ShaderElement*			CRender::rimp_select_sh_static	(dxRender_Visual	*pVisual, float cdist_sq)
 {
 	switch (phase)		{
-	case PHASE_NORMAL:	return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R)<44)?pVisual->shader->E[SE_R1_NORMAL_HQ]:pVisual->shader->E[SE_R1_NORMAL_LQ])._get();
+	case PHASE_NORMAL:	return (((XrMath::sqrt(cdist_sq) - pVisual->vis.sphere.R)<44)?pVisual->shader->E[SE_R1_NORMAL_HQ]:pVisual->shader->E[SE_R1_NORMAL_LQ])._get();
 	case PHASE_POINT:	return pVisual->shader->E[SE_R1_LPOINT]._get();
 	case PHASE_SPOT:	return pVisual->shader->E[SE_R1_LSPOT]._get();
 	default:			NODEFAULT;
@@ -223,7 +223,7 @@ void					CRender::add_Geometry			(IRenderVisual* V ){ add_Static((dxRender_Visua
 void					CRender::add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* verts)
 {
 	if (T->suppress_wm)	return;
-	VERIFY2							(_valid(P) && _valid(s) && T && verts && (s>EPS_L), "Invalid static wallmark params");
+	VERIFY2							(_valid(P) && _valid(s) && T && verts && (s>XrMath::EPS_L), "Invalid static wallmark params");
 	Wallmarks->AddStaticWallmark	(T,verts,P,&*S,s);
 }
 
@@ -354,15 +354,15 @@ void CRender::Calculate				()
 
 	// Transfer to global space to avoid deep pointer access
 	IRender_Target* T				=	getTarget	();
-	float	fov_factor				=	_sqr		(90.f / Device.fFOV);
-	g_fSCREEN						=	float(T->get_width()*T->get_height())*fov_factor*(EPS_S+ps_r__LOD);
-	r_ssaDISCARD					=	_sqr(ps_r__ssaDISCARD)		/g_fSCREEN;
-	r_ssaDONTSORT					=	_sqr(ps_r__ssaDONTSORT/3)	/g_fSCREEN;
-	r_ssaLOD_A						=	_sqr(ps_r1_ssaLOD_A/3)		/g_fSCREEN;
-	r_ssaLOD_B						=	_sqr(ps_r1_ssaLOD_B/3)		/g_fSCREEN;
-	r_ssaGLOD_start					=	_sqr(ps_r__GLOD_ssa_start/3)/g_fSCREEN;
-	r_ssaGLOD_end					=	_sqr(ps_r__GLOD_ssa_end/3)	/g_fSCREEN;
-	r_ssaHZBvsTEX					=	_sqr(ps_r__ssaHZBvsTEX/3)	/g_fSCREEN;
+	float	fov_factor				=	XrMath::sqr		(90.f / Device.fFOV);
+	g_fSCREEN						=	float(T->get_width()*T->get_height())*fov_factor*(XrMath::EPS_S+ps_r__LOD);
+	r_ssaDISCARD					=	XrMath::sqr(ps_r__ssaDISCARD)		/g_fSCREEN;
+	r_ssaDONTSORT					=	XrMath::sqr(ps_r__ssaDONTSORT/3)	/g_fSCREEN;
+	r_ssaLOD_A						=	XrMath::sqr(ps_r1_ssaLOD_A/3)		/g_fSCREEN;
+	r_ssaLOD_B						=	XrMath::sqr(ps_r1_ssaLOD_B/3)		/g_fSCREEN;
+	r_ssaGLOD_start					=	XrMath::sqr(ps_r__GLOD_ssa_start/3)/g_fSCREEN;
+	r_ssaGLOD_end					=	XrMath::sqr(ps_r__GLOD_ssa_end/3)	/g_fSCREEN;
+	r_ssaHZBvsTEX					=	XrMath::sqr(ps_r__ssaHZBvsTEX/3)	/g_fSCREEN;
 
 	// Frustum & HOM rendering
 	ViewBase.CreateFromMatrix		(Device.mFullTransform,FRUSTUM_P_LRTB|FRUSTUM_P_FAR);
@@ -373,7 +373,7 @@ void CRender::Calculate				()
 	phase							= PHASE_NORMAL;
 
 	// Detect camera-sector
-	if (!vLastCameraPos.similar(Device.vCameraPosition,EPS_S)) 
+	if (!vLastCameraPos.similar(Device.vCameraPosition,XrMath::EPS_S)) 
 	{
 		CSector* pSector		= (CSector*)detectSector(Device.vCameraPosition);
 		if (pSector && (pSector!=pLastSector))
@@ -387,7 +387,7 @@ void CRender::Calculate				()
 	// Check if camera is too near to some portal - if so force DualRender
 	if (rmPortals) 
 	{
-		Fvector box_radius;		box_radius.set(EPS_L*2,EPS_L*2,EPS_L*2);
+		Fvector box_radius;		box_radius.set(XrMath::EPS_L*2,XrMath::EPS_L*2,XrMath::EPS_L*2);
 		Sectors_xrc.box_options	(CDB::OPT_FULL_TEST);
 		Sectors_xrc.box_query	(rmPortals,Device.vCameraPosition,box_radius);
 		for (int K=0; K<Sectors_xrc.r_count(); K++)
@@ -662,10 +662,10 @@ void	CRender::ApplyBlur4		(FVF::TL4uv* pv, u32 w, u32 h, float k)
 	u32		_c					= 0xffffffff;
 
 	// Fill vertex buffer
-	pv->p.set(EPS,			float(_h+EPS),	EPS,1.f); pv->color=_c; pv->uv[0].set(p0.x-kw,p1.y-kh);pv->uv[1].set(p0.x+kw,p1.y+kh);pv->uv[2].set(p0.x+kw,p1.y-kh);pv->uv[3].set(p0.x-kw,p1.y+kh);pv++;
-	pv->p.set(EPS,			EPS,			EPS,1.f); pv->color=_c; pv->uv[0].set(p0.x-kw,p0.y-kh);pv->uv[1].set(p0.x+kw,p0.y+kh);pv->uv[2].set(p0.x+kw,p0.y-kh);pv->uv[3].set(p0.x-kw,p0.y+kh);pv++;
-	pv->p.set(float(_w+EPS),float(_h+EPS),	EPS,1.f); pv->color=_c; pv->uv[0].set(p1.x-kw,p1.y-kh);pv->uv[1].set(p1.x+kw,p1.y+kh);pv->uv[2].set(p1.x+kw,p1.y-kh);pv->uv[3].set(p1.x-kw,p1.y+kh);pv++;
-	pv->p.set(float(_w+EPS),EPS,			EPS,1.f); pv->color=_c; pv->uv[0].set(p1.x-kw,p0.y-kh);pv->uv[1].set(p1.x+kw,p0.y+kh);pv->uv[2].set(p1.x+kw,p0.y-kh);pv->uv[3].set(p1.x-kw,p0.y+kh);pv++;
+	pv->p.set(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->color=_c; pv->uv[0].set(p0.x-kw,p1.y-kh);pv->uv[1].set(p0.x+kw,p1.y+kh);pv->uv[2].set(p0.x+kw,p1.y-kh);pv->uv[3].set(p0.x-kw,p1.y+kh);pv++;
+	pv->p.set(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f); pv->color=_c; pv->uv[0].set(p0.x-kw,p0.y-kh);pv->uv[1].set(p0.x+kw,p0.y+kh);pv->uv[2].set(p0.x+kw,p0.y-kh);pv->uv[3].set(p0.x-kw,p0.y+kh);pv++;
+	pv->p.set(float(_w+XrMath::EPS),float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->color=_c; pv->uv[0].set(p1.x-kw,p1.y-kh);pv->uv[1].set(p1.x+kw,p1.y+kh);pv->uv[2].set(p1.x+kw,p1.y-kh);pv->uv[3].set(p1.x-kw,p1.y+kh);pv++;
+	pv->p.set(float(_w+XrMath::EPS),XrMath::EPS,			XrMath::EPS,1.f); pv->color=_c; pv->uv[0].set(p1.x-kw,p0.y-kh);pv->uv[1].set(p1.x+kw,p0.y+kh);pv->uv[2].set(p1.x+kw,p0.y-kh);pv->uv[3].set(p1.x-kw,p0.y+kh);pv++;
 }
 
 #include "engine/GameFont.h"

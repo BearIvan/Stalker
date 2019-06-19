@@ -284,12 +284,12 @@ void	CROS_impl::update(IRenderable* O)
 				float	f = D.sub(P, LP).magnitude();
 				if (g_pGameLevel->ObjectSpace.RayTest(LP, D.div(f), f, collide::rqtStatic, &I->cache, _object))	amount -= lt_dec;
 				else																						amount += lt_inc;
-				I->test += amount * dt;	clamp(I->test, -.5f, 1.f);
+				I->test += amount * dt;	XrMath::clamp(I->test, -.5f, 1.f);
 				I->energy = .9f*I->energy + .1f*I->test;
 
 				// 
 				float	E = I->energy * xrL->color.intensity();
-				if (E > EPS) {
+				if (E > XrMath::EPS) {
 					// Select light
 					lights.push_back(CROS_impl::Light());
 					CROS_impl::Light&	L = lights.back();
@@ -302,7 +302,7 @@ void	CROS_impl::update(IRenderable* O)
 
 			// Sun
 			float	E = sun_smooth * sun->color.intensity();
-			if (E > EPS) {
+			if (E > XrMath::EPS) {
 				// Select light
 				lights.push_back(CROS_impl::Light());
 				CROS_impl::Light&	L = lights.back();
@@ -330,7 +330,7 @@ void	CROS_impl::update(IRenderable* O)
 			for (u32 lit = 0; lit < lights.size(); lit++) {
 				float	d = lights[lit].source->position.distance_to(position);
 				float	r = lights[lit].source->range;
-				float	a = clampr(1.f - d / (r + EPS), 0.f, 1.f)*(lights[lit].source->flags.bStatic ? 1.f : 2.f);
+				float	a = XrMath::clampr(1.f - d / (r + XrMath::EPS), 0.f, 1.f)*(lights[lit].source->flags.bStatic ? 1.f : 2.f);
 				lacc.x += lights[lit].color.r*a;
 				lacc.y += lights[lit].color.g*a;
 				lacc.z += lights[lit].color.b*a;
@@ -403,7 +403,7 @@ void	CROS_impl::update(IRenderable* O)
 				accum_hemi(hemi_cube_light, dir, koef);
 #else
 				float	r = L->range;
-				float	a = clampr(1.f - d / (r + EPS), 0.f, 1.f)*(L->flags.bStatic ? 1.f : 2.f);
+				float	a = XrMath::clampr(1.f - d / (r + XrMath::EPS), 0.f, 1.f)*(L->flags.bStatic ? 1.f : 2.f);
 #endif
 				lacc.x += lights[lit].color.r*a;
 				lacc.y += lights[lit].color.g*a;
@@ -433,7 +433,7 @@ void	CROS_impl::update(IRenderable* O)
 		else 			accum.set(.1f, .1f, .1f);
 
 
-		//clamp(hemi_value, 0.0f, 1.0f); //Possibly can change hemi value
+		//XrMath::clamp(hemi_value, 0.0f, 1.0f); //Possibly can change hemi value
 		if (bFirstTime)
 		{
 			hemi_smooth = hemi_value;
@@ -524,7 +524,7 @@ void	CROS_impl::update_smooth	(IRenderable* O)
 #endif	//	RENDER!=R_R1
 
 	float	l_f				=	Device.fTimeDelta*ps_r2_lt_smooth;
-	clamp	(l_f,0.f,1.f)	;
+	XrMath::clamp	(l_f,0.f,1.f)	;
 	float	l_i				=	1.f-l_f							;
 	hemi_smooth				=	hemi_value*l_f + hemi_smooth*l_i;
 	sun_smooth				=	sun_value *l_f + sun_smooth *l_i;
@@ -560,7 +560,7 @@ void CROS_impl::calc_sky_hemi_value(Fvector& position, CObject* _object)
 	
 #if RENDER!=R_R1
 		sky_rays_uptodate	+= ps_r2_dhemi_count;
-		sky_rays_uptodate	= _min(sky_rays_uptodate, lt_hemisamples);
+		sky_rays_uptodate	= XrMath::min(sky_rays_uptodate, lt_hemisamples);
 #endif	//	RENDER!=R_R1
 
 		for (u32 it=0; it<(u32)ps_r2_dhemi_count;	it++)		{	// five samples per one frame
@@ -649,12 +649,12 @@ void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
 			float	f			=	D.sub(P,LP).magnitude();
 			if (g_pGameLevel->ObjectSpace.RayTest(LP,D.div(f),f,collide::rqtStatic,&I->cache,_object))	amount -=	lt_dec;
 			else																						amount +=	lt_inc;
-			I->test				+=	amount * dt;	clamp	(I->test,-.5f,1.f);
+			I->test				+=	amount * dt;	XrMath::clamp	(I->test,-.5f,1.f);
 			I->energy			=	.9f*I->energy + .1f*I->test;
 
 			// 
 			float	E			=	I->energy * xrL->color.intensity	();
-			if (E > EPS)		{
+			if (E > XrMath::EPS)		{
 				// Select light
 				lights.push_back			(CROS_impl::Light())		;
 				CROS_impl::Light&	L		= lights.back()				;
@@ -670,7 +670,7 @@ void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
 
 		// Sun
 		float	E			=	sun_smooth * sun->color.intensity	();
-		if (E > EPS)		{
+		if (E > XrMath::EPS)		{
 			// Select light
 			lights.push_back			(CROS_impl::Light())		;
 			CROS_impl::Light&	L		= lights.back()				;

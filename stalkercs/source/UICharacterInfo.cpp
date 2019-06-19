@@ -357,15 +357,15 @@ bool CUICharacterInfo::get_actor_community( shared_str* our, shared_str* enemy )
 	shared_str const& actor_team = Actor()->CharacterInfo().Community().id();
 
 	LPCSTR vs_teams  = pSettings->r_string( "actor_communities", actor_team.c_str() );
-	if ( _GetItemCount( vs_teams ) != 2 )
+	if ( XrTrims::GetItemCount( vs_teams ) != 2 )
 	{
 		return false;
 	}
 	u32   size_temp   = (xr_strlen(vs_teams) + 1) * sizeof(char);
 	PSTR  our_fract   = (PSTR)_alloca( size_temp );
 	PSTR  enemy_fract = (PSTR)_alloca( size_temp );
-	_GetItem( vs_teams, 0, our_fract , size_temp);
-	_GetItem( vs_teams, 1, enemy_fract , size_temp);
+	XrTrims::GetItem( vs_teams, 0, our_fract , size_temp);
+	XrTrims::GetItem( vs_teams, 1, enemy_fract , size_temp);
 
 	if ( xr_strlen(our_fract) == 0 || xr_strlen(enemy_fract) == 0 )
 	{

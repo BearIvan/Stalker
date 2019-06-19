@@ -43,7 +43,7 @@ protected:
 		for (u32 k = 0; k < count; k+= 1)
 		{
 			string64 buf;
-			LPCSTR id_str  = _GetItem(cfgRecord, k, buf);
+			LPCSTR id_str  = XrTrims::GetItem(cfgRecord, k, buf);
 			char* id_str_lwr = xr_strdup(id_str);
 			xr_strlwr(id_str_lwr);
 			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str));
@@ -58,10 +58,10 @@ protected:
 		for (u32 k = 0; k < count; k+= 2)
 		{
 			string64 buf, buf1;
-			LPCSTR id_str  = _GetItem(cfgRecord, k, buf);
+			LPCSTR id_str  = XrTrims::GetItem(cfgRecord, k, buf);
 			char* id_str_lwr = xr_strdup(id_str);
 			xr_strlwr(id_str_lwr);
-			LPCSTR rec1	   = _GetItem(cfgRecord, k + 1, buf1);
+			LPCSTR rec1	   = XrTrims::GetItem(cfgRecord, k + 1, buf1);
 			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str), rec1);
 			m_pItemDataVector->push_back(item_data);
 			xr_free(id_str_lwr);
@@ -169,7 +169,7 @@ typename void	CSINI_IdToIndex::InitInternal ()
 		VERIFY(line_name);
 
 		LPCSTR	cfgRecord	= pSettings->r_string(section_name, line_name); VERIFY(cfgRecord);
-		u32		count		= _GetItemCount(cfgRecord);
+		u32		count		= XrTrims::GetItemCount(cfgRecord);
 		LoadItemData<ITEM_REC_NUM>(count, cfgRecord);
 
 	}

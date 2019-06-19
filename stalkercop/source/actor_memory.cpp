@@ -43,7 +43,7 @@ void CActorMemory::camera					(
 {
 	CCameraBase		&camera = *m_actor->cam_Active();
 	camera.Get		(position,direction,normal);
-	field_of_view	= deg2rad(camera.f_fov);
+	field_of_view	= XrMath::deg2rad(camera.f_fov);
 	aspect_ratio	= camera.f_aspect;
 	near_plane		= .1f;
 	far_plane		= ENV.CurrentEnv->far_plane;

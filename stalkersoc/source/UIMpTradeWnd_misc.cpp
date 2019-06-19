@@ -20,11 +20,11 @@ bool CUIMpTradeWnd::OnKeyboard(int dik, EUIMessages keyboard_action)
 	if(keyboard_action==WINDOW_KEY_PRESSED && dik==DIK_NUMPAD7)
 	{
 		if(GetRank()>0)
-			SetRank( clampr(u32(GetRank()-1),u32(0),u32(4) ) );
+			SetRank( XrMath::clampr(u32(GetRank()-1),u32(0),u32(4) ) );
 	}
 	if(keyboard_action==WINDOW_KEY_PRESSED && dik==DIK_NUMPAD8)
 	{
-		SetRank( clampr(u32(GetRank()+1),u32(0),u32(4) ) );
+		SetRank( XrMath::clampr(u32(GetRank()+1),u32(0),u32(4) ) );
 	}
 #endif
 

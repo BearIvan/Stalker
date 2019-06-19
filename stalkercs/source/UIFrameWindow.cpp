@@ -140,13 +140,13 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 				  max(m_UIWndFrame.frame[CUIFrameRect::fmR].GetPosX(), parentAbsR.left);
 	rem_y		= fmod(size_y, ts.y);
 	rem_x		= fmod(size_x, ts.x);
-	tile_y		= iFloor(size_y / ts.y);
-	tile_x		= iFloor(size_x / ts.x);
+	tile_y		= XrMath::iFloor(size_y / ts.y);
+	tile_x		= XrMath::iFloor(size_x / ts.x);
 
 	if (tile_y < 0) tile_y = 0;
 	if (tile_x < 0) tile_x = 0;
-	set_positive(rem_x);
-	set_positive(rem_y);
+	rem_x = XrMath::abs(rem_x);
+	rem_y = XrMath::abs(rem_y);
 
 	m_UIWndFrame.frame[CUIFrameRect::fmR].SetTile(tile_x, tile_y, rem_x, rem_y);
 
@@ -177,14 +177,14 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 				  max(m_UIWndFrame.frame[CUIFrameRect::fmRB].GetPosY(), parentAbsR.top);
 	rem_x		= fmod(size_x, ts.x);
 	rem_y		= fmod(size_y, ts.y);
-	tile_x		= iFloor(float(size_x) / ts.x);
-	tile_y		= iFloor(float(size_y) / ts.y);
+	tile_x		= XrMath::iFloor(float(size_x) / ts.x);
+	tile_y		= XrMath::iFloor(float(size_y) / ts.y);
 
 	ClampMax_Zero(r);
 	if (tile_x < 0) tile_x = 0;
 	if (tile_y < 0) tile_y = 0;
-	set_positive(rem_x);
-	set_positive(rem_y);
+	rem_x = XrMath::abs(rem_x);
+	rem_y = XrMath::abs(rem_y);
 
 	m_UIWndFrame.frame[CUIFrameRect::fmB].SetTile	(tile_x, tile_y, rem_x, rem_y);
 
@@ -215,13 +215,13 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 				  max(m_UIWndFrame.frame[CUIFrameRect::fmL].GetPosX(), parentAbsR.left);
 	rem_x		= fmod(size_x, ts.x);
 	rem_y		= fmod(size_y, ts.y);
-	tile_y		= iFloor(float(size_y) / ts.y);
-	tile_x		= iFloor(float(size_x) / ts.y);
+	tile_y		= XrMath::iFloor(float(size_y) / ts.y);
+	tile_x		= XrMath::iFloor(float(size_x) / ts.y);
 
 	if (tile_y < 0) tile_y = 0;
 	if (tile_x < 0) tile_x = 0;
-	set_positive(rem_x);
-	set_positive(rem_y);
+	rem_x = XrMath::abs(rem_x);
+	rem_y = XrMath::abs(rem_y);
 
 	m_UIWndFrame.frame[CUIFrameRect::fmL].SetTile	(tile_x, tile_y, rem_x, rem_y);
 
@@ -252,8 +252,8 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 				  max(m_UIWndFrame.frame[CUIFrameRect::fmT].GetPosY(), parentAbsR.top);
 	rem_x		= fmod(size_x, ts.x);
 	rem_y		= fmod(size_y, ts.y);
-	tile_x		= iFloor(float(size_x) / ts.x);
-	tile_y		= iFloor(float(size_y) / ts.y);
+	tile_x		= XrMath::iFloor(float(size_x) / ts.x);
+	tile_y		= XrMath::iFloor(float(size_y) / ts.y);
 
 	if (tile_x < 0 || tile_y < 0)
 	{
@@ -278,8 +278,8 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 				  max(m_UIWndFrame.frame[CUIFrameRect::fmBK].GetPosY(), parentAbsR.top);
 	rem_x		= fmod(size_x, ts.x);
 	rem_y		= fmod(size_y, ts.y);
-	tile_x		= iFloor(float(size_x) / ts.x);
-	tile_y		= iFloor(float(size_y) / ts.y);
+	tile_x		= XrMath::iFloor(float(size_x) / ts.x);
+	tile_y		= XrMath::iFloor(float(size_y) / ts.y);
 
 	if (tile_y < 0 || tile_x < 0)
 	{
@@ -299,8 +299,8 @@ void CUIFrameWindow::FrameClip(const Frect parentAbsR)
 
 inline void CUIFrameWindow::ClampMax_Zero(Frect &r)
 {
-	clamp(r.x1, 0.0f, abs(r.x1));
-	clamp(r.x2, 0.0f, abs(r.x2));
-	clamp(r.y1, 0.0f, abs(r.y1));
-	clamp(r.y2, 0.0f, abs(r.y2));
+	XrMath::clamp(r.x1, 0.0f, abs(r.x1));
+	XrMath::clamp(r.x2, 0.0f, abs(r.x2));
+	XrMath::clamp(r.y1, 0.0f, abs(r.y1));
+	XrMath::clamp(r.y2, 0.0f, abs(r.y2));
 }

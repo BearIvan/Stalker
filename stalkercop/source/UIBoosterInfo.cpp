@@ -119,7 +119,7 @@ void CUIBoosterInfo::SetInfo( shared_str const& section )
 		if(pSettings->line_exist(section.c_str(), ef_boosters_section_names[i]))
 		{
 			val	= pSettings->r_float(section, ef_boosters_section_names[i]);
-			if(fis_zero(val))
+			if(XrMath::fis_zero(val))
 				continue;
 
 			EBoostParams type = (EBoostParams)i;
@@ -168,7 +168,7 @@ void CUIBoosterInfo::SetInfo( shared_str const& section )
 	if(pSettings->line_exist(section.c_str(), "eat_satiety"))
 	{
 		val	= pSettings->r_float(section, "eat_satiety");
-		if(!fis_zero(val))
+		if(!XrMath::fis_zero(val))
 		{
 			m_booster_satiety->SetValue(val);
 			pos.set(m_booster_satiety->GetWndPos());
@@ -193,7 +193,7 @@ void CUIBoosterInfo::SetInfo( shared_str const& section )
 	if(pSettings->line_exist(section.c_str(), "boost_time"))
 	{
 		val	= pSettings->r_float(section, "boost_time");
-		if(!fis_zero(val))
+		if(!XrMath::fis_zero(val))
 		{
 			m_booster_time->SetValue(val);
 			pos.set(m_booster_time->GetWndPos());

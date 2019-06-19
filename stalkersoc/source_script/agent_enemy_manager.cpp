@@ -212,7 +212,7 @@ void CAgentEnemyManager::assign_enemies			()
 			for ( ; J; J &= J - 1) {
 				K						= (J & (J - 1)) ^ J;
 				CAgentMemberManager::iterator	i = object().member().member(K);
-				if (!fsimilar((*i)->probability(),1.f))
+				if (!XrMath::fsimilar((*i)->probability(),1.f))
 					continue;
 
 				float					value = evaluate(&(*i)->object(),(*I).m_object);
@@ -314,7 +314,7 @@ void CAgentEnemyManager::permutate_enemies		()
 						// check if our effectiveness is near the same
 						float		my_to_his = evaluate(&(*I)->object(),m_enemies[(*j)->selected_enemy()].m_object);
 						float		his_to_my = evaluate(&(*j)->object(),m_enemies[(*I)->selected_enemy()].m_object);
-						if (!fsimilar(my_to_his,(*j)->probability()) || !fsimilar(his_to_my,(*I)->probability()))
+						if (!XrMath::fsimilar(my_to_his,(*j)->probability()) || !XrMath::fsimilar(his_to_my,(*I)->probability()))
 							continue;
 
 						exchange_enemies	(**I,**j);
@@ -442,7 +442,7 @@ void CAgentEnemyManager::assign_wounded			()
 				continue;
 
 			CAgentMemberManager::iterator	i = object().member().member(mask);
-			if ((*I).first->Position().distance_to_sqr((*i)->object().Position()) > _sqr(wounded_enemy_reached_distance))
+			if ((*I).first->Position().distance_to_sqr((*i)->object().Position()) > XrMath::sqr(wounded_enemy_reached_distance))
 				continue;
 
 			if (wounded_processor((*J).m_object) != ALife::_OBJECT_ID(-1))

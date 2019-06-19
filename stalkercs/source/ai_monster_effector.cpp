@@ -12,13 +12,13 @@ CMonsterEffector::CMonsterEffector(const SPPInfo &ppi, float life_time, float at
 	state		= ppi;
 	m_total		= life_time;
 	
-	m_attack	= ((fis_zero(attack_time)) ? 0.5f : attack_time);
-	m_release	= ((fis_zero(release_time)) ? 0.5f : release_time);
+	m_attack	= ((XrMath::fis_zero(attack_time)) ? 0.5f : attack_time);
+	m_release	= ((XrMath::fis_zero(release_time)) ? 0.5f : release_time);
 
 	m_spec_factor = spec_factor;
 
-	VERIFY(!fsimilar(m_release, 1.0f));
-	VERIFY(!fis_zero(m_attack));
+	VERIFY(!XrMath::fsimilar(m_release, 1.0f));
+	VERIFY(!XrMath::fis_zero(m_attack));
 }
 
 BOOL CMonsterEffector::Process(SPPInfo& pp)
@@ -36,7 +36,7 @@ BOOL CMonsterEffector::Process(SPPInfo& pp)
 	else 
 		factor = (1.0f - time_past_perc) / (1.0f - m_release);
 
-	clamp(factor,0.01f,1.0f);
+	XrMath::clamp(factor,0.01f,1.0f);
 
 	pp.lerp				(pp_identity, state, factor * m_spec_factor);
 	return TRUE;
@@ -74,14 +74,14 @@ BOOL CMonsterEffectorHit::ProcessCam(SCamEffectorInfo& info)
 	Mdef.i.crossproduct	(info.n,info.d);
 	Mdef.c.set			(info.p);
 
-	float period_all	= period_number * PI_MUL_2;		// макс. значение цикла
-	float cur_amp		= max_amp * (PI / 180) * time_left_perc;
+	float period_all	= period_number * XrMath::PI_MUL_2;		// макс. значение цикла
+	float cur_amp		= max_amp * (XrMath::M_PI / 180) * time_left_perc;
 
 	
 	Fvector dangle;
-	dangle.x = cur_amp/offset.x	* _sin(period_all/offset.x	* (1.0f - time_left_perc));
-	dangle.y = cur_amp/offset.y	* _cos(period_all/offset.y	* (1.0f - time_left_perc));
-	dangle.z = cur_amp/offset.z	* _sin(period_all/offset.z	* (1.0f - time_left_perc));
+	dangle.x = cur_amp/offset.x	* XrMath::sin(period_all/offset.x	* (1.0f - time_left_perc));
+	dangle.y = cur_amp/offset.y	* XrMath::cos(period_all/offset.y	* (1.0f - time_left_perc));
+	dangle.z = cur_amp/offset.z	* XrMath::sin(period_all/offset.z	* (1.0f - time_left_perc));
 
 	// Установить углы смещения
 	Fmatrix			R;

@@ -167,12 +167,12 @@ CEffect_Thunderbolt::CEffect_Thunderbolt()
     // params
 	if (gameVersionController->getGame() != gameVersionController->SOC)return;
 	p_var_alt = pSettings->r_fvector2("thunderbolt_common", "altitude");
-	p_var_alt.x = deg2rad(p_var_alt.x); p_var_alt.y = deg2rad(p_var_alt.y);
-	p_var_long = deg2rad(pSettings->r_float("thunderbolt_common", "delta_longitude"));
-	p_min_dist = _min(.95f, pSettings->r_float("thunderbolt_common", "min_dist_factor"));
-	p_tilt = deg2rad(pSettings->r_float("thunderbolt_common", "tilt"));
+	p_var_alt.x = XrMath::deg2rad(p_var_alt.x); p_var_alt.y = XrMath::deg2rad(p_var_alt.y);
+	p_var_long = XrMath::deg2rad(pSettings->r_float("thunderbolt_common", "delta_longitude"));
+	p_min_dist = XrMath::min(.95f, pSettings->r_float("thunderbolt_common", "min_dist_factor"));
+	p_tilt = XrMath::deg2rad(pSettings->r_float("thunderbolt_common", "tilt"));
 	p_second_prop = pSettings->r_float("thunderbolt_common", "second_propability");
-	clamp(p_second_prop, 0.f, 1.f);
+	XrMath::clamp(p_second_prop, 0.f, 1.f);
 	p_sky_color = pSettings->r_float("thunderbolt_common", "sky_color");
 	p_sun_color = pSettings->r_float("thunderbolt_common", "sun_color");
 	p_fog_color = pSettings->r_float("thunderbolt_common", "fog_color");
@@ -218,7 +218,7 @@ void CEffect_Thunderbolt::OnFrame(int id, float period, float duration)
 		fClr.set(float(color_get_R(uClr)) / 255.f, float(color_get_G(uClr) / 255.f), float(color_get_B(uClr) / 255.f));
 
 		lightning_phase = 1.5f*(current_time / life_time);
-		clamp(lightning_phase, 0.f, 1.f);
+		XrMath::clamp(lightning_phase, 0.f, 1.f);
 
 		ENV_SOC.CurrentEnv.sky_color.mad(fClr, p_sky_color);
 		ENV_SOC.CurrentEnv.sun_color.mad(fClr, p_sun_color);
@@ -297,7 +297,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
     current_direction.setHP(lng, alt);
     pos.mad(Device.vCameraPosition, current_direction, dist);
     dev.x = Random.randF(-environment.p_tilt, environment.p_tilt);
-    dev.y = Random.randF(0, PI_MUL_2);
+    dev.y = Random.randF(0, XrMath::PI_MUL_2);
     dev.z = Random.randF(-environment.p_tilt, environment.p_tilt);
     XF.setXYZi(dev);
 
@@ -316,7 +316,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
 
     if (next_v < environment.p_second_prop)
     {
-        next_lightning_time = Device.fTimeGlobal + lt + EPS_L;
+        next_lightning_time = Device.fTimeGlobal + lt + XrMath::EPS_L;
     }
     else
     {
@@ -347,7 +347,7 @@ void CEffect_Thunderbolt::Bolt(int id, float period, float lt)
 	current_direction.setHP(lng, alt);
 	pos.mad(Device.vCameraPosition, current_direction, dist);
 	dev.x = Random.randF(-p_tilt, p_tilt);
-	dev.y = Random.randF(0, PI_MUL_2);
+	dev.y = Random.randF(0, XrMath::PI_MUL_2);
 	dev.z = Random.randF(-p_tilt, p_tilt);
 	XF.setXYZi(dev);
 
@@ -365,7 +365,7 @@ void CEffect_Thunderbolt::Bolt(int id, float period, float lt)
 	float next_v = Random.randF();
 
 	if (next_v<p_second_prop) {
-		next_lightning_time = Device.fTimeGlobal + lt + EPS_L;
+		next_lightning_time = Device.fTimeGlobal + lt + XrMath::EPS_L;
 	}
 	else {
 		next_lightning_time = Device.fTimeGlobal + period + Random.randF(-period*0.3f, period*0.3f);
@@ -397,21 +397,21 @@ void CEffect_Thunderbolt::OnFrame(shared_str id, float period, float duration)
         int frame;
         u32 uClr = current->color_anim->CalculateRGB(current_time / life_time, frame);
         fClr.set(
-            clampr(float(color_get_R(uClr) / 255.f), 0.f, 1.f),
-            clampr(float(color_get_G(uClr) / 255.f), 0.f, 1.f),
-            clampr(float(color_get_B(uClr) / 255.f), 0.f, 1.f)
+			XrMath::clampr(float(color_get_R(uClr) / 255.f), 0.f, 1.f),
+			XrMath::clampr(float(color_get_G(uClr) / 255.f), 0.f, 1.f),
+			XrMath::clampr(float(color_get_B(uClr) / 255.f), 0.f, 1.f)
         );
 
         lightning_phase = 1.5f*(current_time / life_time);
-        clamp(lightning_phase, 0.f, 1.f);
+		XrMath::clamp(lightning_phase, 0.f, 1.f);
 
         CEnvironment& environment = ENV;
 
         Fvector& sky_color = environment.CurrentEnv->sky_color;
         sky_color.mad(fClr, environment.p_sky_color);
-        clamp(sky_color.x, 0.f, 1.f);
-        clamp(sky_color.y, 0.f, 1.f);
-        clamp(sky_color.z, 0.f, 1.f);
+		XrMath::clamp(sky_color.x, 0.f, 1.f);
+		XrMath::clamp(sky_color.y, 0.f, 1.f);
+		XrMath::clamp(sky_color.z, 0.f, 1.f);
 
         environment.CurrentEnv->sun_color.mad(fClr, environment.p_sun_color);
         environment.CurrentEnv->fog_color.mad(fClr, environment.p_fog_color);

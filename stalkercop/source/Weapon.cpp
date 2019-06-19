@@ -141,7 +141,7 @@ void CWeapon::UpdateXForm	()
 	Fvector					R,D,N;
 	D.sub					(mL.c,mR.c);	
 
-	if(fis_zero(D.magnitude())) {
+	if(XrMath::fis_zero(D.magnitude())) {
 		mRes.set			(E->XFORM());
 		mRes.c.set			(mR.c);
 	}
@@ -227,10 +227,10 @@ void CWeapon::Load		(LPCSTR section)
 	if (S && S[0]) 
 	{
 		string128		_ammoItem;
-		int				count		= _GetItemCount	(S);
+		int				count		= XrTrims::GetItemCount	(S);
 		for (int it=0; it<count; ++it)	
 		{
-			_GetItem				(S,it,_ammoItem);
+			XrTrims::GetItem				(S,it,_ammoItem);
 			m_ammoTypes.push_back	(_ammoItem);
 		}
 	}
@@ -250,44 +250,44 @@ void CWeapon::Load		(LPCSTR section)
 
 	float temp_f = 0.0f;
 	temp_f					= pSettings->r_float( section,"cam_relax_speed" );
-	cam_recoil.RelaxSpeed	= _abs( deg2rad( temp_f ) );
-	VERIFY( !fis_zero(cam_recoil.RelaxSpeed) );
-	if ( fis_zero(cam_recoil.RelaxSpeed) )
+	cam_recoil.RelaxSpeed	= XrMath::abs( XrMath::deg2rad( temp_f ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.RelaxSpeed) );
+	if ( XrMath::fis_zero(cam_recoil.RelaxSpeed) )
 	{
-		cam_recoil.RelaxSpeed = EPS_L;
+		cam_recoil.RelaxSpeed = XrMath::EPS_L;
 	}
 
 	cam_recoil.RelaxSpeed_AI = cam_recoil.RelaxSpeed;
 	if ( pSettings->line_exist( section, "cam_relax_speed_ai" ) )
 	{
 		temp_f						= pSettings->r_float( section, "cam_relax_speed_ai" );
-		cam_recoil.RelaxSpeed_AI	= _abs( deg2rad( temp_f ) );
-		VERIFY( !fis_zero(cam_recoil.RelaxSpeed_AI) );
-		if ( fis_zero(cam_recoil.RelaxSpeed_AI) )
+		cam_recoil.RelaxSpeed_AI	= XrMath::abs( XrMath::deg2rad( temp_f ) );
+		VERIFY( !XrMath::fis_zero(cam_recoil.RelaxSpeed_AI) );
+		if ( XrMath::fis_zero(cam_recoil.RelaxSpeed_AI) )
 		{
-			cam_recoil.RelaxSpeed_AI = EPS_L;
+			cam_recoil.RelaxSpeed_AI = XrMath::EPS_L;
 		}
 	}
 	temp_f						= pSettings->r_float( section, "cam_max_angle" );
-	cam_recoil.MaxAngleVert		= _abs( deg2rad( temp_f ) );
-	VERIFY( !fis_zero(cam_recoil.MaxAngleVert) );
-	if ( fis_zero(cam_recoil.MaxAngleVert) )
+	cam_recoil.MaxAngleVert		= XrMath::abs( XrMath::deg2rad( temp_f ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.MaxAngleVert) );
+	if ( XrMath::fis_zero(cam_recoil.MaxAngleVert) )
 	{
-		cam_recoil.MaxAngleVert = EPS;
+		cam_recoil.MaxAngleVert = XrMath::EPS;
 	}
 	
 	temp_f						= pSettings->r_float( section, "cam_max_angle_horz" );
-	cam_recoil.MaxAngleHorz		= _abs( deg2rad( temp_f ) );
-	VERIFY( !fis_zero(cam_recoil.MaxAngleHorz) );
-	if ( fis_zero(cam_recoil.MaxAngleHorz) )
+	cam_recoil.MaxAngleHorz		= XrMath::abs( XrMath::deg2rad( temp_f ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.MaxAngleHorz) );
+	if ( XrMath::fis_zero(cam_recoil.MaxAngleHorz) )
 	{
-		cam_recoil.MaxAngleHorz = EPS;
+		cam_recoil.MaxAngleHorz = XrMath::EPS;
 	}
 	
 	temp_f						= pSettings->r_float( section, "cam_step_angle_horz" );
-	cam_recoil.StepAngleHorz	= deg2rad( temp_f );
+	cam_recoil.StepAngleHorz	= XrMath::deg2rad( temp_f );
 	
-	cam_recoil.DispersionFrac	= _abs( READ_IF_EXISTS( pSettings, r_float, section, "cam_dispersion_frac", 0.7f ) );
+	cam_recoil.DispersionFrac	= XrMath::abs( READ_IF_EXISTS( pSettings, r_float, section, "cam_dispersion_frac", 0.7f ) );
 
 	//подбрасывание камеры во время отдачи в режиме zoom ==> ironsight or scope
 	//zoom_cam_recoil.Clone( cam_recoil ); ==== нельзя !!!!!!!!!!
@@ -304,45 +304,45 @@ void CWeapon::Load		(LPCSTR section)
 	
 	if ( pSettings->line_exist( section, "zoom_cam_relax_speed" ) )
 	{
-		zoom_cam_recoil.RelaxSpeed		= _abs( deg2rad( pSettings->r_float( section, "zoom_cam_relax_speed" ) ) );
-		VERIFY( !fis_zero(zoom_cam_recoil.RelaxSpeed) );
-		if ( fis_zero(zoom_cam_recoil.RelaxSpeed) )
+		zoom_cam_recoil.RelaxSpeed		= XrMath::abs( XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_relax_speed" ) ) );
+		VERIFY( !XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed) );
+		if ( XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed) )
 		{
-			zoom_cam_recoil.RelaxSpeed = EPS_L;
+			zoom_cam_recoil.RelaxSpeed = XrMath::EPS_L;
 		}
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_relax_speed_ai" ) )
 	{
-		zoom_cam_recoil.RelaxSpeed_AI	= _abs( deg2rad( pSettings->r_float( section,"zoom_cam_relax_speed_ai" ) ) ); 
-		VERIFY( !fis_zero(zoom_cam_recoil.RelaxSpeed_AI) );
-		if ( fis_zero(zoom_cam_recoil.RelaxSpeed_AI) )
+		zoom_cam_recoil.RelaxSpeed_AI	= XrMath::abs( XrMath::deg2rad( pSettings->r_float( section,"zoom_cam_relax_speed_ai" ) ) ); 
+		VERIFY( !XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed_AI) );
+		if ( XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed_AI) )
 		{
-			zoom_cam_recoil.RelaxSpeed_AI = EPS_L;
+			zoom_cam_recoil.RelaxSpeed_AI = XrMath::EPS_L;
 		}
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_max_angle" ) )
 	{
-		zoom_cam_recoil.MaxAngleVert	= _abs( deg2rad( pSettings->r_float( section, "zoom_cam_max_angle" ) ) );
-		VERIFY( !fis_zero(zoom_cam_recoil.MaxAngleVert) );
-		if ( fis_zero(zoom_cam_recoil.MaxAngleVert) )
+		zoom_cam_recoil.MaxAngleVert	= XrMath::abs( XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_max_angle" ) ) );
+		VERIFY( !XrMath::fis_zero(zoom_cam_recoil.MaxAngleVert) );
+		if ( XrMath::fis_zero(zoom_cam_recoil.MaxAngleVert) )
 		{
-			zoom_cam_recoil.MaxAngleVert = EPS;
+			zoom_cam_recoil.MaxAngleVert = XrMath::EPS;
 		}
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_max_angle_horz" ) )
 	{
-		zoom_cam_recoil.MaxAngleHorz	= _abs( deg2rad( pSettings->r_float( section, "zoom_cam_max_angle_horz" ) ) ); 
-		VERIFY( !fis_zero(zoom_cam_recoil.MaxAngleHorz) );
-		if ( fis_zero(zoom_cam_recoil.MaxAngleHorz) )
+		zoom_cam_recoil.MaxAngleHorz	= XrMath::abs( XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_max_angle_horz" ) ) ); 
+		VERIFY( !XrMath::fis_zero(zoom_cam_recoil.MaxAngleHorz) );
+		if ( XrMath::fis_zero(zoom_cam_recoil.MaxAngleHorz) )
 		{
-			zoom_cam_recoil.MaxAngleHorz = EPS;
+			zoom_cam_recoil.MaxAngleHorz = XrMath::EPS;
 		}
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_step_angle_horz" ) )	{
-		zoom_cam_recoil.StepAngleHorz	= deg2rad( pSettings->r_float( section, "zoom_cam_step_angle_horz" ) ); 
+		zoom_cam_recoil.StepAngleHorz	= XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_step_angle_horz" ) ); 
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_dispersion_frac" ) )	{
-		zoom_cam_recoil.DispersionFrac	= _abs( pSettings->r_float( section, "zoom_cam_dispersion_frac" ) );
+		zoom_cam_recoil.DispersionFrac	= XrMath::abs( pSettings->r_float( section, "zoom_cam_dispersion_frac" ) );
 	}
 
 	m_pdm.m_fPDM_disp_base			= pSettings->r_float( section, "PDM_disp_base"			);
@@ -397,10 +397,10 @@ void CWeapon::Load		(LPCSTR section)
 		if(pSettings->line_exist(section, "scopes_sect"))		
 		{
 			LPCSTR str = pSettings->r_string(section, "scopes_sect");
-			for(int i = 0, count = _GetItemCount(str); i < count; ++i )	
+			for(int i = 0, count = XrTrims::GetItemCount(str); i < count; ++i )	
 			{
 				string128						scope_section;
-				_GetItem						(str, i, scope_section);
+				XrTrims::GetItem						(str, i, scope_section);
 				m_scopes.push_back				(scope_section);
 			}
 		}
@@ -484,21 +484,21 @@ void CWeapon::Load		(LPCSTR section)
 
 void CWeapon::LoadFireParams		(LPCSTR section)
 {
-	cam_recoil.Dispersion = deg2rad( pSettings->r_float( section,"cam_dispersion" ) ); 
+	cam_recoil.Dispersion = XrMath::deg2rad( pSettings->r_float( section,"cam_dispersion" ) ); 
 	cam_recoil.DispersionInc = 0.0f;
 
 	if ( pSettings->line_exist( section, "cam_dispersion_inc" ) )	{
-		cam_recoil.DispersionInc = deg2rad( pSettings->r_float( section, "cam_dispersion_inc" ) ); 
+		cam_recoil.DispersionInc = XrMath::deg2rad( pSettings->r_float( section, "cam_dispersion_inc" ) ); 
 	}
 	
 	zoom_cam_recoil.Dispersion		= cam_recoil.Dispersion;
 	zoom_cam_recoil.DispersionInc	= cam_recoil.DispersionInc;
 
 	if ( pSettings->line_exist( section, "zoom_cam_dispersion" ) )	{
-		zoom_cam_recoil.Dispersion		= deg2rad( pSettings->r_float( section, "zoom_cam_dispersion" ) ); 
+		zoom_cam_recoil.Dispersion		= XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_dispersion" ) ); 
 	}
 	if ( pSettings->line_exist( section, "zoom_cam_dispersion_inc" ) )	{
-		zoom_cam_recoil.DispersionInc	= deg2rad( pSettings->r_float( section, "zoom_cam_dispersion_inc" ) ); 
+		zoom_cam_recoil.DispersionInc	= XrMath::deg2rad( pSettings->r_float( section, "zoom_cam_dispersion_inc" ) ); 
 	}
 
 	CShootingObject::LoadFireParams(section);
@@ -918,7 +918,7 @@ void CWeapon::UpdatePosition(const Fmatrix& trans)
 {
 	Position().set		(trans.c);
 	XFORM().mul			(trans,m_strapped_mode ? m_StrapOffset : m_Offset);
-	VERIFY				(!fis_zero(DET(renderable.xform)));
+	VERIFY				(!XrMath::fis_zero(DET(renderable.xform)));
 }
 
 
@@ -1165,7 +1165,7 @@ float CWeapon::GetConditionMisfireProbability() const
 			misfireStartCondition : 
 			(misfireStartCondition - misfireEndCondition))
 										  );
-	clamp(mis,0.0f,0.99f);
+	XrMath::clamp(mis,0.0f,0.99f);
 	return mis;
 }
 
@@ -1498,7 +1498,7 @@ void CWeapon::reload			(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"position");
 		ypr					= pSettings->r_fvector3		(section,"orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_Offset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_Offset.translate_over	(pos);
@@ -1509,7 +1509,7 @@ void CWeapon::reload			(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"strap_position");
 		ypr					= pSettings->r_fvector3		(section,"strap_orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_StrapOffset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_StrapOffset.translate_over	(pos);
@@ -1681,7 +1681,7 @@ void CWeapon::UpdateHudAdditonal		(Fmatrix& trans)
 		else
 			m_zoom_params.m_fZoomRotationFactor -= Device.fTimeDelta/m_zoom_params.m_fZoomRotateTime;
 
-		clamp(m_zoom_params.m_fZoomRotationFactor, 0.f, 1.f);
+		XrMath::clamp(m_zoom_params.m_fZoomRotationFactor, 0.f, 1.f);
 	}
 }
 
@@ -1859,7 +1859,7 @@ void CWeapon::OnStateSwitch	(u32 S)
 
 	//if(GetState()==eReload)
 	//{
-	//	if(H_Parent()==Level().CurrentEntity() && !fsimilar(m_zoom_params.m_ReloadDof.w,-1.0f))
+	//	if(H_Parent()==Level().CurrentEntity() && !XrMath::fsimilar(m_zoom_params.m_ReloadDof.w,-1.0f))
 	//	{
 	//		CActor* current_actor	= smart_cast<CActor*>(H_Parent());
 	//		if (current_actor)
@@ -1910,7 +1910,7 @@ void CWeapon::ZoomInc()
 	GetZoomData(m_zoom_params.m_fScopeZoomFactor, delta, min_zoom_factor);
 
 	float f					= GetZoomFactor()-delta;
-	clamp					(f,m_zoom_params.m_fScopeZoomFactor,min_zoom_factor);
+	XrMath::clamp					(f,m_zoom_params.m_fScopeZoomFactor,min_zoom_factor);
 	SetZoomFactor			( f );
 }
 
@@ -1922,7 +1922,7 @@ void CWeapon::ZoomDec()
 	GetZoomData(m_zoom_params.m_fScopeZoomFactor,delta,min_zoom_factor);
 
 	float f					= GetZoomFactor()+delta;
-	clamp					(f,m_zoom_params.m_fScopeZoomFactor,min_zoom_factor);
+	XrMath::clamp					(f,m_zoom_params.m_fScopeZoomFactor,min_zoom_factor);
 	SetZoomFactor			( f );
 
 }
@@ -1944,7 +1944,7 @@ u32 CWeapon::Cost() const
 		float w		= pSettings->r_float(m_ammoTypes[m_ammoType].c_str(),"cost");
 		float bs	= pSettings->r_float(m_ammoTypes[m_ammoType].c_str(),"box_size");
 
-		res			+= iFloor(w*(iAmmoElapsed/bs));
+		res			+= XrMath::iFloor(w*(iAmmoElapsed/bs));
 	}
 	return res;
 

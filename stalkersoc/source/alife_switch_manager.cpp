@@ -170,9 +170,9 @@ void CALifeSwitchManager::try_switch_online	(CSE_ALifeDynamicObject	*I)
 #ifdef DEBUG
 		if (psAI_Flags.test(aiALife)) {
 			CSE_ALifeCreatureAbstract	*l_tpALifeCreatureAbstract = smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent));
-			if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->fHealth < EPS_L))
+			if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->fHealth < XrMath::EPS_L))
 				Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->fHealth);
-			VERIFY2				(!l_tpALifeCreatureAbstract || (l_tpALifeCreatureAbstract->fHealth >= EPS_L),"Parent online, item offline...");
+			VERIFY2				(!l_tpALifeCreatureAbstract || (l_tpALifeCreatureAbstract->fHealth >= XrMath::EPS_L),"Parent online, item offline...");
 			if (objects().object(I->ID_Parent)->m_bOnline)
 				Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->fHealth);
 		}
@@ -208,10 +208,10 @@ void CALifeSwitchManager::try_switch_offline(CSE_ALifeDynamicObject	*I)
 #ifdef DEBUG
 		// checking if parent is online too
 		CSE_ALifeCreatureAbstract	*l_tpALifeCreatureAbstract = smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent));
-		if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->fHealth < EPS_L))
+		if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->fHealth < XrMath::EPS_L))
 			Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->fHealth);
 
-		VERIFY2				(!smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent)) || (smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent))->fHealth >= EPS_L),"Parent offline, item online...");
+		VERIFY2				(!smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent)) || (smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent))->fHealth >= XrMath::EPS_L),"Parent offline, item online...");
 
 		if (!objects().object(I->ID_Parent)->m_bOnline)
 			Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->fHealth);

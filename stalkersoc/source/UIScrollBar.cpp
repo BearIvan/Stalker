@@ -55,7 +55,7 @@ void CUIScrollBar::Init(float x, float y, float length, bool bIsHorizontal, LPCS
 		LPCSTR texture				= xml_doc.Read(_path, 0, "");
 		R_ASSERT					(texture);
 		CUITextureMaster::InitTexture(texture, m_StaticBackground);
-		m_ScrollWorkArea			= _max(0,iFloor(GetWidth()-2*height));
+		m_ScrollWorkArea			= XrMath::max(0,XrMath::iFloor(GetWidth()-2*height));
 	}else{
 		CUIWindow::Init				(x,y, height, length);
 
@@ -76,7 +76,7 @@ void CUIScrollBar::Init(float x, float y, float length, bool bIsHorizontal, LPCS
 		R_ASSERT					(texture);
 
 		CUITextureMaster::InitTexture(texture, m_StaticBackground);
-		m_ScrollWorkArea			= _max(0,iFloor(GetHeight()-2*height));
+		m_ScrollWorkArea			= XrMath::max(0,XrMath::iFloor(GetHeight()-2*height));
 	}	
 
 	UpdateScrollBar					();
@@ -132,20 +132,20 @@ void CUIScrollBar::UpdateScrollBar()
 		float box_sz				= float(m_ScrollWorkArea)*float(m_iPageSize ? m_iPageSize : 1)/float(m_iMaxPos-m_iMinPos);
 		if(m_bIsHorizontal){	
 			// set width
-			clamp					(box_sz,_min(GetHeight(),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth());
+			XrMath::clamp					(box_sz,XrMath::min(GetHeight(),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth());
 			m_ScrollBox->SetWidth	(box_sz);
 			m_ScrollBox->SetHeight	(GetHeight());
 			// set pos
-			int pos					= PosViewFromScroll(iFloor(m_ScrollBox->GetWidth()),iFloor(GetHeight()));
+			int pos					= PosViewFromScroll(XrMath::iFloor(m_ScrollBox->GetWidth()),XrMath::iFloor(GetHeight()));
 			m_ScrollBox->SetWndPos	(float(pos), m_ScrollBox->GetWndRect().top);
 			m_IncButton->SetWndPos	(GetWidth() - m_IncButton->GetWidth(), 0.0f);
 		}else{
 			// set height
-			clamp					(box_sz,_min(GetWidth(),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight());
+			XrMath::clamp					(box_sz,XrMath::min(GetWidth(),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight());
 			m_ScrollBox->SetHeight	(box_sz);
 			m_ScrollBox->SetWidth	(GetWidth());
 			// set pos
-			int pos				= PosViewFromScroll(iFloor(m_ScrollBox->GetHeight()),iFloor(GetWidth()));
+			int pos				= PosViewFromScroll(XrMath::iFloor(m_ScrollBox->GetHeight()),XrMath::iFloor(GetWidth()));
 			m_ScrollBox->SetWndPos	(m_ScrollBox->GetWndRect().left, float(pos));
 			m_IncButton->SetWndPos	(0.0f, GetHeight() - m_IncButton->GetHeight());
 		}
@@ -224,7 +224,7 @@ void CUIScrollBar::SetPosScrollFromView(float view_pos, float view_size, float v
 	int scroll_size	= ScrollSize();
 	float pos			= view_pos-view_offs;
 	float work_size	= m_ScrollWorkArea-view_size;
-	SetScrollPosClamped	(work_size?iFloor(((pos/work_size)*(scroll_size) + m_iMinPos)):0);
+	SetScrollPosClamped	(work_size?XrMath::iFloor(((pos/work_size)*(scroll_size) + m_iMinPos)):0);
 }
 
 int CUIScrollBar::PosViewFromScroll(int view_size, int view_offs)
@@ -328,7 +328,7 @@ void CUIScrollBar::Draw()
 			float size	= GetWidth() - m_DecButton->GetWidth() - m_IncButton->GetWidth();
 			float w		= m_StaticBackground->GetOriginalRect().width();
 
-			int tile	= iFloor(size/w);
+			int tile	= XrMath::iFloor(size/w);
 			float rem	= size - tile*w;
 
 			m_StaticBackground->SetTile(tile,1,rem,0.0f);
@@ -339,7 +339,7 @@ void CUIScrollBar::Draw()
 			float size	= GetHeight()- m_IncButton->GetHeight() - m_DecButton->GetHeight();
 			float h		= m_StaticBackground->GetOriginalRect().height();
 
-			int tile	= iFloor(size/h);
+			int tile	= XrMath::iFloor(size/h);
 			float rem	= size - tile*h;
 
 			m_StaticBackground->SetTile(1,tile,0.0f,rem);

@@ -20,7 +20,7 @@
 #include "CustomOutfit.h"
 
 static const float		TIME_2_HIDE					= 5.f;
-static const float		TORCH_INERTION_CLAMP		= PI_DIV_6;
+static const float		TORCH_INERTION_CLAMP		= XrMath::PI_DIV_6;
 static const float		TORCH_INERTION_SPEED_MAX	= 7.5f;
 static const float		TORCH_INERTION_SPEED_MIN	= 0.5f;
 static const Fvector	TORCH_OFFSET				= {-0.2f,+0.1f,-0.3f};
@@ -125,11 +125,11 @@ void CTorch::SwitchNightVision(bool vision_on)
 
 	LPCSTR disabled_names	= pSettings->r_string(cNameSect(),"disabled_maps");
 	LPCSTR curr_map			= *Level().name();
-	u32 cnt					= _GetItemCount(disabled_names);
+	u32 cnt					= XrTrims::GetItemCount(disabled_names);
 	bool b_allow			= true;
 	string512				tmp;
 	for(u32 i=0; i<cnt;++i){
-		_GetItem(disabled_names, i, tmp);
+		XrTrims::GetItem(disabled_names, i, tmp);
 		if(0==stricmp(tmp, curr_map)){
 			b_allow = false;
 			break;
@@ -179,7 +179,7 @@ void CTorch::UpdateSwitchNightVision   ()
 	else
 	{
 		m_NightVisionChargeTime			+= Device.fTimeDelta;
-		clamp(m_NightVisionChargeTime, 0.f, m_NightVisionRechargeTime);
+		XrMath::clamp(m_NightVisionChargeTime, 0.f, m_NightVisionRechargeTime);
 	}*/
 }
 
@@ -248,7 +248,7 @@ BOOL CTorch::net_Spawn(CSE_Abstract* DC)
 	light_omni->set_color	(clr_o);
 	light_omni->set_range	(range_o);
 
-	light_render->set_cone	(deg2rad(pUserData->r_float			("torch_definition","spot_angle")));
+	light_render->set_cone	(XrMath::deg2rad(pUserData->r_float			("torch_definition","spot_angle")));
 	light_render->set_texture(pUserData->r_string				("torch_definition","spot_texture"));
 
 	glow_render->set_texture(pUserData->r_string				("torch_definition","glow_texture"));
@@ -261,7 +261,7 @@ BOOL CTorch::net_Spawn(CSE_Abstract* DC)
 	
 	SwitchNightVision		(false);
 
-	m_delta_h				= PI_DIV_2-atan((range*0.5f)/_abs(TORCH_OFFSET.x));
+	m_delta_h				= XrMath::PI_DIV_2-atan((range*0.5f)/XrMath::abs(TORCH_OFFSET.x));
 
 	return					(TRUE);
 }
@@ -311,7 +311,7 @@ void CTorch::UpdateCL()
 		CActor*			actor = smart_cast<CActor*>(H_Parent());
 		if (actor)		smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones_Invalidate	();
 
-		if (H_Parent()->XFORM().c.distance_to_sqr(Device.vCameraPosition)<_sqr(OPTIMIZATION_DISTANCE) || GameID() != GAME_SINGLE) {
+		if (H_Parent()->XFORM().c.distance_to_sqr(Device.vCameraPosition)<XrMath::sqr(OPTIMIZATION_DISTANCE) || GameID() != GAME_SINGLE) {
 			// near camera
 			smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones	();
 			M.mul_43				(XFORM(),BI.mTransform);
@@ -324,8 +324,8 @@ void CTorch::UpdateCL()
 
 		if (actor) 
 		{
-			m_prev_hp.x		= angle_inertion_var(m_prev_hp.x,-actor->cam_FirstEye()->yaw,TORCH_INERTION_SPEED_MIN,TORCH_INERTION_SPEED_MAX,TORCH_INERTION_CLAMP,Device.fTimeDelta);
-			m_prev_hp.y		= angle_inertion_var(m_prev_hp.y,-actor->cam_FirstEye()->pitch,TORCH_INERTION_SPEED_MIN,TORCH_INERTION_SPEED_MAX,TORCH_INERTION_CLAMP,Device.fTimeDelta);
+			m_prev_hp.x		= XrMath::angle_inertion_var(m_prev_hp.x,-actor->cam_FirstEye()->yaw,TORCH_INERTION_SPEED_MIN,TORCH_INERTION_SPEED_MAX,TORCH_INERTION_CLAMP,Device.fTimeDelta);
+			m_prev_hp.y		= XrMath::angle_inertion_var(m_prev_hp.y,-actor->cam_FirstEye()->pitch,TORCH_INERTION_SPEED_MIN,TORCH_INERTION_SPEED_MAX,TORCH_INERTION_CLAMP,Device.fTimeDelta);
 
 			Fvector			dir,right,up;	
 			dir.setHP		(m_prev_hp.x+m_delta_h,m_prev_hp.y);

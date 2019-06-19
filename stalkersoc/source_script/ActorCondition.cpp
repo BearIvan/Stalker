@@ -131,7 +131,7 @@ void CActorCondition::UpdateCondition()
 				base_w += outfit->m_additional_weight2;
 */
 
-			k_max_power = 1.0f + _min(weight,base_w)/base_w + _max(0.0f, (weight-base_w)/10.0f);
+			k_max_power = 1.0f + XrMath::min(weight,base_w)/base_w + XrMath::max(0.0f, (weight-base_w)/10.0f);
 		}else
 			k_max_power = 1.0f;
 		
@@ -140,7 +140,7 @@ void CActorCondition::UpdateCondition()
 
 
 	m_fAlcohol		+= m_fV_Alcohol*m_fDeltaTime;
-	clamp			(m_fAlcohol,			0.0f,		1.0f);
+	XrMath::clamp			(m_fAlcohol,			0.0f,		1.0f);
 
 	if ( IsGameTypeSingle() )
 	{	
@@ -163,7 +163,7 @@ void CActorCondition::UpdateCondition()
 		if(!pSettings->section_exist(pp_sect_name))
 			strcpy_s			(pp_sect_name, "effector_psy_health");
 
-		if	( !fsimilar(GetPsyHealth(), 1.0f, 0.05f) )
+		if	( !XrMath::fsimilar(GetPsyHealth(), 1.0f, 0.05f) )
 		{
 			if(!ppe)
 			{
@@ -174,7 +174,7 @@ void CActorCondition::UpdateCondition()
 			if(ppe)
 				RemoveEffector(m_object,effPsyHealth);
 		}
-		if(fis_zero(GetPsyHealth()))
+		if(XrMath::fis_zero(GetPsyHealth()))
 			health() =0.0f;
 	};
 
@@ -198,7 +198,7 @@ void CActorCondition::UpdateSatiety()
 						k*
 						m_fDeltaTime;
 	
-		clamp			(m_fSatiety,		0.0f,		1.0f);
+		XrMath::clamp			(m_fSatiety,		0.0f,		1.0f);
 
 	}
 		
@@ -331,7 +331,7 @@ void CActorCondition::ChangeAlcohol	(float value)
 void CActorCondition::ChangeSatiety(float value)
 {
 	m_fSatiety += value;
-	clamp		(m_fSatiety, 0.0f, 1.0f);
+	XrMath::clamp		(m_fSatiety, 0.0f, 1.0f);
 }
 
 void CActorCondition::UpdateTutorialThresholds()

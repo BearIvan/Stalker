@@ -1393,8 +1393,8 @@ void game_cl_mp::LoadBonuses				()
 		pSettings->r_line("mp_bonus_money", i, &name, &line);
 		//-------------------------------------
 		string1024 tmp0, tmp1, IconStr;
-		_GetItem(line, 0, tmp0);
-		_GetItem(line, 1, tmp1);
+		XrTrims::GetItem(line, 0, tmp0);
+		XrTrims::GetItem(line, 1, tmp1);
 		if (strstr(name, "kill_in_row")) 
 		{
 			sprintf_s(tmp1, "%s Kill", tmp1);

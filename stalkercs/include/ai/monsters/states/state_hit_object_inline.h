@@ -6,7 +6,7 @@
 
 #define CStateMonsterHitObjectAbstract CStateMonsterHitObject<_Object>
 
-#define TEST_ANGLE			PI_DIV_6
+#define TEST_ANGLE			XrMath::PI_DIV_6
 #define TIME_OUT_STATE		1000
 #define TIME_POINTBREAK		500
 #define IMPULSE				20
@@ -63,13 +63,13 @@ bool CStateMonsterHitObjectAbstract::check_start_conditions()
 		object->Direction().getHP(my_h,my_p);
 		d.getHP(h,p);
 
-		float from	= angle_normalize(my_h - TEST_ANGLE);
-		float to	= angle_normalize(my_h + TEST_ANGLE);
+		float from	= XrMath::angle_normalize(my_h - TEST_ANGLE);
+		float to	= XrMath::angle_normalize(my_h + TEST_ANGLE);
 
 		if (!is_angle_between(h, from, to)) continue;
 
-		from	= angle_normalize(my_p - TEST_ANGLE);
-		to		= angle_normalize(my_p + TEST_ANGLE);
+		from	= XrMath::angle_normalize(my_p - TEST_ANGLE);
+		to		= XrMath::angle_normalize(my_p + TEST_ANGLE);
 
 		if (!is_angle_between(p, from, to)) continue;
 

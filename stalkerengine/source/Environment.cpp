@@ -160,12 +160,12 @@ m_ambients_config(0)
         FALSE
         );
     // params
-    p_var_alt = deg2rad(config->r_float("environment", "altitude"));
-    p_var_long = deg2rad(config->r_float("environment", "delta_longitude"));
-    p_min_dist = _min(.95f, config->r_float("environment", "min_dist_factor"));
-    p_tilt = deg2rad(config->r_float("environment", "tilt"));
+    p_var_alt = XrMath::deg2rad(config->r_float("environment", "altitude"));
+    p_var_long = XrMath::deg2rad(config->r_float("environment", "delta_longitude"));
+    p_min_dist = XrMath::min(.95f, config->r_float("environment", "min_dist_factor"));
+    p_tilt = XrMath::deg2rad(config->r_float("environment", "tilt"));
     p_second_prop = config->r_float("environment", "second_propability");
-    clamp(p_second_prop, 0.f, 1.f);
+	XrMath::clamp(p_second_prop, 0.f, 1.f);
     p_sky_color = config->r_float("environment", "sky_color");
     p_sun_color = config->r_float("environment", "sun_color");
     p_fog_color = config->r_float("environment", "fog_color");
@@ -227,7 +227,7 @@ float CEnvironment::TimeWeight(float val, float min_t, float max_t)
 	VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     float weight = 0.f;
     float length = TimeDiff(min_t, max_t);
-    if (!fis_zero(length, EPS))
+    if (!XrMath::fis_zero(length, XrMath::EPS))
     {
         if (min_t > max_t)
         {
@@ -237,7 +237,7 @@ float CEnvironment::TimeWeight(float val, float min_t, float max_t)
         {
             if ((val >= min_t) && (val <= max_t)) weight = TimeDiff(min_t, val) / length;
         }
-        clamp(weight, 0.f, 1.f);
+		XrMath::clamp(weight, 0.f, 1.f);
     }
     return weight;
 }
@@ -253,7 +253,7 @@ void CEnvironment::SetGameTime(float game_time, float time_factor)
 #ifndef _EDITOR
     if (m_paused)
     {
-        g_pGameLevel->SetEnvironmentGameTimeFactor(iFloor(fGameTime*1000.f), fTimeFactor);
+        g_pGameLevel->SetEnvironmentGameTimeFactor(XrMath::iFloor(fGameTime*1000.f), fTimeFactor);
         return;
     }
 #endif
@@ -334,7 +334,7 @@ bool CEnvironment::SetWeatherFX(shared_str name)
             current_length = Current[1]->exec_time - Current[0]->exec_time;
             current_weight = (fGameTime - Current[0]->exec_time) / current_length;
         }
-        clamp(current_weight, 0.f, 1.f);
+		XrMath::clamp(current_weight, 0.f, 1.f);
 
         std::sort(CurrentWeather->begin(), CurrentWeather->end(), sort_env_etl_pred);
         CEnvDescriptor* C0 = CurrentWeather->at(0);
@@ -557,7 +557,7 @@ void CEnvironment::OnFrame()
 #endif // #ifndef MASTER_GOLD
 
     PerlinNoise1D->SetFrequency(wind_gust_factor*MAX_NOISE_FREQ);
-    wind_strength_factor = clampr(PerlinNoise1D->GetContinious(Device.fTimeGlobal) + 0.5f, 0.f, 1.f);
+    wind_strength_factor = XrMath::clampr(PerlinNoise1D->GetContinious(Device.fTimeGlobal) + 0.5f, 0.f, 1.f);
 
     shared_str l_id = (current_weight < 0.5f) ? Current[0]->lens_flare_id : Current[1]->lens_flare_id;
     eff_LensFlare->OnFrame(l_id);
@@ -574,15 +574,15 @@ void CEnvironment::calculate_dynamic_sun_dir()
 	VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     float g = (360.0f / 365.25f)*(180.0f + fGameTime / DAY_LENGTH);
 
-    g = deg2rad(g);
+    g = XrMath::deg2rad(g);
 
     // Declination
-    float D = 0.396372f - 22.91327f*_cos(g) + 4.02543f*_sin(g) - 0.387205f*_cos(2 * g) +
-        0.051967f*_sin(2 * g) - 0.154527f*_cos(3 * g) + 0.084798f*_sin(3 * g);
+    float D = 0.396372f - 22.91327f*XrMath::cos(g) + 4.02543f*XrMath::sin(g) - 0.387205f*XrMath::cos(2 * g) +
+        0.051967f*XrMath::sin(2 * g) - 0.154527f*XrMath::cos(3 * g) + 0.084798f*XrMath::sin(3 * g);
 
     // Now calculate the time correction for solar angle:
-    float TC = 0.004297f + 0.107029f*_cos(g) - 1.837877f*_sin(g) - 0.837378f*_cos(2 * g) -
-        2.340475f*_sin(2 * g);
+    float TC = 0.004297f + 0.107029f*XrMath::cos(g) - 1.837877f*XrMath::sin(g) - 0.837378f*XrMath::cos(2 * g) -
+        2.340475f*XrMath::sin(2 * g);
 
     // IN degrees
     float Longitude = -30.4f;
@@ -595,35 +595,35 @@ void CEnvironment::calculate_dynamic_sun_dir()
 
     // IN degrees
     float const Latitude = 50.27f;
-    float const LatitudeR = deg2rad(Latitude);
+    float const LatitudeR = XrMath::deg2rad(Latitude);
 
     // Now we can calculate the Sun Zenith Angle (SZA):
-    float cosSZA = _sin(LatitudeR)
-        * _sin(deg2rad(D)) + _cos(LatitudeR)*
-        _cos(deg2rad(D)) * _cos(deg2rad(SHA));
+    float cosSZA = XrMath::sin(LatitudeR)
+        * XrMath::sin(XrMath::deg2rad(D)) + XrMath::cos(LatitudeR)*
+        XrMath::cos(XrMath::deg2rad(D)) * XrMath::cos(XrMath::deg2rad(SHA));
 
-    clamp(cosSZA, -1.0f, 1.0f);
+	XrMath::clamp(cosSZA, -1.0f, 1.0f);
 
     float SZA = acosf(cosSZA);
     float SEA = PI / 2 - SZA;
 
     // To finish we will calculate the Azimuth Angle (AZ):
     float cosAZ = 0.f;
-    float const sin_SZA = _sin(SZA);
-    float const cos_Latitude = _cos(LatitudeR);
+    float const sin_SZA = XrMath::sin(SZA);
+    float const cos_Latitude = XrMath::cos(LatitudeR);
     float const sin_SZA_X_cos_Latitude = sin_SZA*cos_Latitude;
-    if (!fis_zero(sin_SZA_X_cos_Latitude))
-        cosAZ = (_sin(deg2rad(D)) - _sin(LatitudeR)*_cos(SZA)) / sin_SZA_X_cos_Latitude;
+    if (!XrMath::fis_zero(sin_SZA_X_cos_Latitude))
+        cosAZ = (XrMath::sin(XrMath::deg2rad(D)) - XrMath::sin(LatitudeR)*XrMath::cos(SZA)) / sin_SZA_X_cos_Latitude;
 
-    clamp(cosAZ, -1.0f, 1.0f);
+	XrMath::clamp(cosAZ, -1.0f, 1.0f);
     float AZ = acosf(cosAZ);
 
-    const Fvector2 minAngle = Fvector2().set(deg2rad(1.0f), deg2rad(3.0f));
+    const Fvector2 minAngle = Fvector2().set(XrMath::deg2rad(1.0f), XrMath::deg2rad(3.0f));
 
     if (SEA < minAngle.x) SEA = minAngle.x;
 
     float fSunBlend = (SEA - minAngle.x) / (minAngle.y - minAngle.x);
-    clamp(fSunBlend, 0.0f, 1.0f);
+	XrMath::clamp(fSunBlend, 0.0f, 1.0f);
 
     SEA = -SEA;
 

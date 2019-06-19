@@ -242,10 +242,10 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 
 	seed								(u32(CPU::QPC() & 0xffffffff));
 	m_sounds.clear						();
-	for (int j=0, N = _GetItemCount(*params.m_sound_prefix); j<N; ++j) {
+	for (int j=0, N = XrTrims::GetItemCount(*params.m_sound_prefix); j<N; ++j) {
 		string_path						 s, temp;
 		LPSTR							S = (LPSTR)&s;
-		_GetItem						(*params.m_sound_prefix,j,temp);
+		XrTrims::GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
 		if (FS.ExistFile("%sounds%",S,".ogg")) {
 			ref_sound					*temp = add(params.m_type,S);

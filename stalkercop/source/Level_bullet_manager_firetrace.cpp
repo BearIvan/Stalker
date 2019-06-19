@@ -74,7 +74,7 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 								CWeapon				*weapon = smart_cast<CWeapon*>(weapon_object);
 								if (weapon) {
 									float fly_dist		= bullet->fly_dist+dist;
-									float dist_factor	= _min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
+									float dist_factor	= XrMath::min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
 									ahp					= dist_factor*weapon->hit_probability() + (1.f-dist_factor)*1.f;
 								}
 							}
@@ -91,7 +91,7 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 								if (weapon) {
 									game_difficulty_hit_probability = weapon->hit_probability();
 									float fly_dist	= bullet->fly_dist+dist;
-									dist_factor		= _min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
+									dist_factor		= XrMath::min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
 								}
 							}
 
@@ -103,7 +103,7 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 							if (i_stalker) {
 								hpf					= i_stalker->SpecificCharacter().hit_probability_factor();
 								float fly_dist		= bullet->fly_dist+dist;
-								float dist_factor	= _min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
+								float dist_factor	= XrMath::min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
 								ahp					= dist_factor*actor->HitProbability() + (1.f-dist_factor)*1.f;
 							}
 #endif
@@ -365,7 +365,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 			if ( skeleton->_ElementCenter( (u16)R.element,e_center ) )
 				hit_normal.sub							(end_point, e_center);
 			float len		= hit_normal.square_magnitude();
-			if ( !fis_zero(len) )	hit_normal.div		(_sqrt(len));
+			if ( !XrMath::fis_zero(len) )	hit_normal.div		(XrMath::sqrt(len));
 			else				hit_normal.invert	(bullet->dir);
 		}
 	}
@@ -418,7 +418,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 	float shoot_factor = 0.0f; //default >> пул€ Ќ≈ пробила материал!
 	float ap = bullet->armor_piercing;
 
-	if ( ap > EPS && ap >= mtl_ap )
+	if ( ap > XrMath::EPS && ap >= mtl_ap )
 	{
 		//пул€ пробила материал
 		shoot_factor = (( ap - mtl_ap ) / ap);
@@ -433,7 +433,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 	int bullet_state = 0;
 #endif
 
-	if ( fsimilar( mtl_ap, 0.0f ) )//≈сли материал полностью простреливаемый (кусты)
+	if ( XrMath::fsimilar( mtl_ap, 0.0f ) )//≈сли материал полностью простреливаемый (кусты)
 	{
 #ifdef DEBUG
 		bullet_state = 2;
@@ -441,7 +441,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 		return true;
 	}
 
-	if (bullet->flags.magnetic_beam && (shoot_factor > EPS))
+	if (bullet->flags.magnetic_beam && (shoot_factor > XrMath::EPS))
 	{
 #ifdef DEBUG
 		bullet_state = 2;
@@ -455,7 +455,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 	Fvector			new_dir;
 	new_dir.reflect	( bullet->dir,hit_normal );
 	Fvector			tgt_dir;
-	random_dir		( tgt_dir, new_dir, deg2rad( 10.0f ) );
+	random_dir		( tgt_dir, new_dir, XrMath::deg2rad( 10.0f ) );
 	float ricoshet_factor = bullet->dir.dotproduct( tgt_dir );
 
 	float f			= Random.randF( 0.5f, 0.8f ); //(0.5f,1.f);
@@ -463,8 +463,8 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 	{
 		// уменьшение скорости полета в зависимости от угла падени€ пули (чем пр€мее угол, тем больше потер€)
 		bullet->flags.allow_ricochet = 0;
-		float scale = 1.0f - _abs(bullet->dir.dotproduct(hit_normal)) * m_fCollisionEnergyMin;
-		clamp(scale, 0.0f, m_fCollisionEnergyMax);
+		float scale = 1.0f - XrMath::abs(bullet->dir.dotproduct(hit_normal)) * m_fCollisionEnergyMin;
+		XrMath::clamp(scale, 0.0f, m_fCollisionEnergyMax);
 		speed_scale = scale;
 
 		// вычисление рикошета, делаетс€ немного фейком, т.к. пул€ остаетс€ в точке столкновени€
@@ -477,7 +477,7 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 		bullet_state = 0;
 #endif		
 	}
-	else if ( shoot_factor < EPS )
+	else if ( shoot_factor < XrMath::EPS )
 	{
 		//застр€вание пули в материале
 		speed_scale = 0.0f;
@@ -490,10 +490,10 @@ bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fve
 		//пробивание материала
 		speed_scale = shoot_factor;//mtl->fShootFactor;
 		
-		bullet->bullet_pos.mad(bullet->bullet_pos,bullet->dir,EPS);//fake
+		bullet->bullet_pos.mad(bullet->bullet_pos,bullet->dir,XrMath::EPS);//fake
 		//ввести коэффициент случайности при простреливании
 		Fvector rand_normal;
-		rand_normal.random_dir(bullet->dir, deg2rad(2.0f), Random);
+		rand_normal.random_dir(bullet->dir, XrMath::deg2rad(2.0f), Random);
 		bullet->dir.set(rand_normal);
 #ifdef DEBUG
 		bullet_state = 2;

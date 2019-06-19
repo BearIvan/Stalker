@@ -88,7 +88,7 @@ void CStateBloodsuckerVampireExecuteAbstract::execute()
 	float const dist_to_enemy	=	magnitude(enemy_to_self);
 	float const vampire_dist	=	object->get_vampire_distance();
 
-	if ( angle_between_vectors(object->Direction(), enemy_to_self) < deg2rad(20.f) && 
+	if ( angle_between_vectors(object->Direction(), enemy_to_self) < XrMath::deg2rad(20.f) && 
 		 dist_to_enemy > vampire_dist )
 	{
 		object->set_action					(ACT_RUN);
@@ -171,7 +171,7 @@ bool CStateBloodsuckerVampireExecuteAbstract::check_start_conditions()
 		return false;
 
 	// проверить направление на врага
-	if ( !object->control().direction().is_face_target(enemy, PI_DIV_2) ) 
+	if ( !object->control().direction().is_face_target(enemy, XrMath::PI_DIV_2) ) 
 		return false;
 
 	if ( !object->WantVampire() ) 

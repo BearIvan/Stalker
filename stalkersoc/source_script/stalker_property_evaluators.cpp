@@ -329,7 +329,7 @@ _value_type CStalkerPropertyEvaluatorEnemyReached::evaluate	()
 	if (processor_id != object().ID())
 		return					(false);
 
-	return						((object().Position().distance_to_sqr(enemy->Position()) <= _sqr(wounded_enemy_reached_distance)));
+	return						((object().Position().distance_to_sqr(enemy->Position()) <= XrMath::sqr(wounded_enemy_reached_distance)));
 }
 
 //////////////////////////////////////////////////////////////////////////

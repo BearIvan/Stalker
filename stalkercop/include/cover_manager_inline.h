@@ -70,7 +70,7 @@ IC	const CCoverPoint *CCoverManager::best_cover				(const Fvector &position, flo
 	evaluator.initialize	(position);
 
 	if (last) {
-		if (position.distance_to_sqr(last->position()) < _sqr(3*radius)) {
+		if (position.distance_to_sqr(last->position()) < XrMath::sqr(3*radius)) {
 			if (evaluator.accessible(last->position()))
 				if (restrictor(last))
 					evaluator.evaluate	(last,restrictor.weight(last));
@@ -79,7 +79,7 @@ IC	const CCoverPoint *CCoverManager::best_cover				(const Fvector &position, flo
 
 	covers().nearest		(position,radius,m_nearest);
 	
-	float					radius_sqr = _sqr(radius);
+	float					radius_sqr = XrMath::sqr(radius);
 
 	xr_vector<CCoverPoint*>::const_iterator	I = m_nearest.begin();
 	xr_vector<CCoverPoint*>::const_iterator	E = m_nearest.end();
@@ -87,7 +87,7 @@ IC	const CCoverPoint *CCoverManager::best_cover				(const Fvector &position, flo
 		if (radius_sqr < position.distance_to_sqr((*I)->position()))
 			continue;
 
-		if (_abs(position.y - (*I)->position().y) > 3.f)
+		if (XrMath::abs(position.y - (*I)->position().y) > 3.f)
 			continue;
 
 		if (!evaluator.accessible((*I)->position()))

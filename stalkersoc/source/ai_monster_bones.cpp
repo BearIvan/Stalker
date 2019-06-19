@@ -14,27 +14,27 @@ void bonesBone::Set(CBoneInstance *b, u8 a, float ty, float cy, float r_s)
 	params.target_yaw	= ty; 
 	params.cur_yaw	= cy; 
 	params.r_speed	= r_s;
-	params.dist_yaw	= _abs(ty-cy);
+	params.dist_yaw	= XrMath::abs(ty-cy);
 }
 
 
 bool bonesBone::NeedTurn()
 {
-	if (!fsimilar(params.cur_yaw, params.target_yaw, EPS_L)) return true;
+	if (!XrMath::fsimilar(params.cur_yaw, params.target_yaw, XrMath::EPS_L)) return true;
 	return false;
 }
 
 void bonesBone::Turn(u32 dt)
 {
-	float PI_DIV_2m		= 8 * PI_DIV_6 / 3;		
+	float PI_DIV_2m		= 8 * XrMath::PI_DIV_6 / 3;		
 	float PIm			= PI_DIV_2m * 2;
 
-	float cur_speed = params.r_speed * _cos(PI_DIV_2m - PIm * _abs(params.target_yaw - params.cur_yaw) / params.dist_yaw);
+	float cur_speed = params.r_speed * XrMath::cos(PI_DIV_2m - PIm * XrMath::abs(params.target_yaw - params.cur_yaw) / params.dist_yaw);
 
 	float dy;
 	dy =  cur_speed * dt / 1000;  // учитываем милисек и радианную меры
 
-	if (_abs(params.target_yaw - params.cur_yaw) < dy) params.cur_yaw = params.target_yaw;
+	if (XrMath::abs(params.target_yaw - params.cur_yaw) < dy) params.cur_yaw = params.target_yaw;
 	else params.cur_yaw += ((params.target_yaw > params.cur_yaw) ? dy : -dy);
 
 }
@@ -90,7 +90,7 @@ void bonesManipulation::SetMotion(CBoneInstance *bone, u8 axis, float target_yaw
 
 	m_Bones[index].params.target_yaw	= target_yaw;
 	m_Bones[index].params.r_speed		= r_speed;
-	m_Bones[index].params.dist_yaw		= angle_difference(target_yaw,m_Bones[index].params.cur_yaw);
+	m_Bones[index].params.dist_yaw		= XrMath::angle_difference(target_yaw,m_Bones[index].params.cur_yaw);
 	if (t > freeze_time) freeze_time = t;
 
 	bActive				= true;
@@ -143,7 +143,7 @@ void bonesManipulation::Update(CBoneInstance *bone, u32 cur_time)
 			// установить у всех костей в m_Bone таргеты в 0
 			for (u32 i = 0; i<m_Bones.size(); ++i) {
 				m_Bones[i].params.target_yaw	= 0.f;
-				m_Bones[i].params.dist_yaw		= _abs(m_Bones[i].params.target_yaw - m_Bones[i].params.cur_yaw);
+				m_Bones[i].params.dist_yaw		= XrMath::abs(m_Bones[i].params.target_yaw - m_Bones[i].params.cur_yaw);
 			}
 			bActive = false;
 		} 

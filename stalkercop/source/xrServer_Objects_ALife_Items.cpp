@@ -153,8 +153,8 @@ void CSE_ALifeInventoryItem::UPDATE_Write	(NET_Packet &tNetPacket)
 		);
 
 	if (State.enabled)									num_items.mask |= inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
 	//if (anim_use)										num_items.mask |= animated;
 
 	tNetPacket.w_u8					(num_items.common);
@@ -394,7 +394,7 @@ BOOL CSE_ALifeItem::Net_Relevant			()
 	if (attached())
 		return					(FALSE);
 
-	if (!m_physics_disabled && !fis_zero(State.linear_vel.square_magnitude(),EPS_L))
+	if (!m_physics_disabled && !XrMath::fis_zero(State.linear_vel.square_magnitude(),XrMath::EPS_L))
 		return					(TRUE);
 
 #ifdef XRGAME_EXPORTS

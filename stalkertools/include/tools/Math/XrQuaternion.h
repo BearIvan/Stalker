@@ -162,7 +162,7 @@ private:
     }
     IC T _acos_(T x)
     {
-        return PI_DIV_2 - _asin_(x);
+        return XrMath::PI_DIV_2 - _asin_(x);
     }
 public:
     T x, y, z, w;
@@ -266,7 +266,7 @@ public:
     {
         T m, one_over_magnitude;
 
-        m = _sqrt(magnitude());
+        m = XrMath::sqrt(magnitude());
 
         if ((m < QZERO_TOLERANCE) && (m > -QZERO_TOLERANCE))
             return *this;
@@ -313,12 +313,12 @@ public:
     // makes unit rotation
     IC SelfRef rotationYawPitchRoll(T _x, T _y, T _z)
     {
-        T fSinYaw = _sin(_x*.5f);
-        T fCosYaw = _cos(_x*.5f);
-        T fSinPitch = _sin(_y*.5f);
-        T fCosPitch = _cos(_y*.5f);
-        T fSinRoll = _sin(_z*.5f);
-        T fCosRoll = _cos(_z*.5f);
+        T fSinYaw = XrMath::sin(_x*.5f);
+        T fCosYaw = XrMath::cos(_x*.5f);
+        T fSinPitch = XrMath::sin(_y*.5f);
+        T fCosPitch = XrMath::cos(_y*.5f);
+        T fSinRoll = XrMath::sin(_z*.5f);
+        T fCosRoll = XrMath::cos(_z*.5f);
 
         x = fSinRoll * fCosPitch * fCosYaw - fCosRoll * fSinPitch * fSinYaw;
         y = fCosRoll * fSinPitch * fCosYaw + fSinRoll * fCosPitch * fSinYaw;
@@ -338,8 +338,8 @@ public:
     {
         T sinTheta;
 
-        w = _cos(angle*0.5f);
-        sinTheta = _sin(angle*0.5f);
+        w = XrMath::cos(angle*0.5f);
+        sinTheta = XrMath::sin(angle*0.5f);
         x = sinTheta * axis.x;
         y = sinTheta * axis.y;
         z = sinTheta * axis.z;
@@ -352,8 +352,8 @@ public:
 
     IC BOOL get_axis_angle(Fvector& axis, T& angle)
     {
-        T s = _sqrt(x*x + y*y + z*z);
-        if (s > EPS_S)
+        T s = XrMath::sqrt(x*x + y*y + z*z);
+        if (s > XrMath::EPS_S)
         {
             T OneOverSinTheta = 1.f / s;
             axis.x = OneOverSinTheta * x;
@@ -396,13 +396,13 @@ public:
             sign = 1.f;
         }
 
-        if ((1.0f - cosom) > EPS)
+        if ((1.0f - cosom) > XrMath::EPS)
         {
             T omega = _acos_(cosom);
-            T i_sinom = 1.f / _sin(omega);
+            T i_sinom = 1.f / XrMath::sin(omega);
             T t_omega = tm*omega;
-            Scale0 = _sin(omega - t_omega) * i_sinom;
-            Scale1 = _sin(t_omega) * i_sinom;
+            Scale0 = XrMath::sin(omega - t_omega) * i_sinom;
+            Scale1 = XrMath::sin(t_omega) * i_sinom;
         }
         else
         {
@@ -443,8 +443,8 @@ public:
     IC SelfRef ln(SelfCRef Q)
     {
         T n = Q.x*Q.x + Q.y*Q.y + Q.z*Q.z;
-        T r = _sqrt(n);
-        T t = (r > EPS_S) ? atan2f(r, Q.w) / r : 0.f;
+        T r = XrMath::sqrt(n);
+        T t = (r > XrMath::EPS_S) ? atan2f(r, Q.w) / r : 0.f;
         x = t*Q.x;
         y = t*Q.y;
         z = t*Q.z;
@@ -453,13 +453,13 @@ public:
     }
     IC SelfRef exp(SelfCRef Q)
     {
-        T r = _sqrt(Q.x*Q.x + Q.y*Q.y + Q.z*Q.z);
+        T r = XrMath::sqrt(Q.x*Q.x + Q.y*Q.y + Q.z*Q.z);
         T et = expf(Q.w);
-        T s = (r >= EPS_S) ? et*_sin(r) / r : 0.f;
+        T s = (r >= XrMath::EPS_S) ? et*XrMath::sin(r) / r : 0.f;
         x = s*Q.x;
         y = s*Q.y;
         z = s*Q.z;
-        w = et*_cos(r);
+        w = et*XrMath::cos(r);
         return *this;
     }
 };

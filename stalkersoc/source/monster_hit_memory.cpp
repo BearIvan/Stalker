@@ -100,13 +100,13 @@ Fvector CMonsterHitMemory::get_last_hit_dir()
 		
 		switch (last_hit.side) {
 			case eSideBack:
-				h += PI;
+				h += XrMath::M_PI;
 				break;
 			case eSideLeft:
-				h += PI_DIV_2;
+				h += XrMath::PI_DIV_2;
 				break;
 			case eSideRight:
-				h -= PI_DIV_2;
+				h -= XrMath::PI_DIV_2;
 				break;
 		}
 

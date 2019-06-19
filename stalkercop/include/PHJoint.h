@@ -129,7 +129,7 @@ IC void own_axis(const Fmatrix& m,Fvector& axis){
 	if(k==0.f){
 		if(m._13==0.f) {axis.set(0.f,0.f,1.f);return;}
 		float k1=m._13/(1.f-m._11);
-		axis.z=_sqrt(1.f/(1.f+k1*k1));
+		axis.z=XrMath::sqrt(1.f/(1.f+k1*k1));
 		axis.x=axis.z*k1;
 		axis.y=0.f;
 		return;
@@ -137,7 +137,7 @@ IC void own_axis(const Fmatrix& m,Fvector& axis){
 
 	float k_zy=-(m._12*m._21-m._11*m._22+m._11+m._22-1.f)/k;
 	float k_xy=(m._12+m._13*k_zy)/(1.f-m._11);
-	axis.y=_sqrt(1.f/(k_zy*k_zy+k_xy*k_xy+1.f));
+	axis.y=XrMath::sqrt(1.f/(k_zy*k_zy+k_xy*k_xy+1.f));
 	axis.x=axis.y*k_xy;
 	axis.z=axis.y*k_zy;
 	return;
@@ -172,7 +172,7 @@ IC void own_axis_angle(const Fmatrix& m,Fvector& axis,float& angle){
 IC void axis_angleB(const Fmatrix& m, const Fvector& axis,float& angle){
 
 	Fvector ort1,ort2;
-	if(!(fis_zero(axis.z)&&fis_zero(axis.y))){
+	if(!(XrMath::fis_zero(axis.z)&&XrMath::fis_zero(axis.y))){
 		ort1.set(0.f,-axis.z,axis.y);
 		ort2.crossproduct(axis,ort1);
 	}
@@ -206,7 +206,7 @@ IC void axis_angleA(const Fmatrix& m, const Fvector& axis,float& angle){
 
 	Fvector ort1,ort2,axis_t;
 	m.transform_dir(axis_t,axis);
-	if(!(fis_zero(axis_t.z)&&fis_zero(axis_t.y))){
+	if(!(XrMath::fis_zero(axis_t.z)&&XrMath::fis_zero(axis_t.y))){
 		ort1.set(0.f,-axis_t.z,axis_t.y);
 		ort2.crossproduct(axis_t,ort1);
 	}
@@ -232,7 +232,7 @@ IC void axis_angleA(const Fmatrix& m, const Fvector& axis,float& angle){
 	float sinus=ort2.dotproduct(ort_r);
 	angle=acosf(cosinus);
 	if(sinus<0.f) angle= -angle;
-	//if(angle>M_PI) angle=angle-2.f*M_PI;
-	//if(angle<-M_PI) angle=angle+2.f*M_PI;
+	//if(angle>XrMath::M_PI) angle=angle-2.f*XrMath::M_PI;
+	//if(angle<-XrMath::M_PI) angle=angle+2.f*XrMath::M_PI;
 }
 #endif

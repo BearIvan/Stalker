@@ -34,7 +34,7 @@ void CPHShell::ExplosionHit(const Fvector& pos, const Fvector& dir, float val,co
 	EnableObject(0);
 	//Fvector local_pos;local_pos.set(0.f,0.f,0.f);
 	ELEMENT_I i=elements.begin(),e=elements.end();
-	float impulse=val/_sqrt(_sqrt((float)elements.size()));
+	float impulse=val/XrMath::sqrt(XrMath::sqrt((float)elements.size()));
 	for(;i!=e;i++)
 	{	
 		//Fvector max_area_dir;	
@@ -52,7 +52,7 @@ void CPHShell::ExplosionHit(const Fvector& pos, const Fvector& dir, float val,co
 			r_box.set(rad,rad,rad);
 			r_pos.random_point(r_box);
 			r_dir.random_dir();
-			if(!fis_zero(pos.magnitude(),EPS_L))
+			if(!XrMath::fis_zero(pos.magnitude(),XrMath::EPS_L))
 			{
 				r_dir.mul(0.5f);
 				r_dir.add(dir);

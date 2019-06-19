@@ -111,7 +111,7 @@ bool CUISpinFlt::IsChanged()
 {
 	float val, min, max;
 	GetOptFloatValue(val, min, max);
-    return !fsimilar		(m_fVal,val);
+    return !XrMath::fsimilar		(m_fVal,val);
 }
 
 void CUISpinFlt::Init(float x, float y, float width, float height)
@@ -148,7 +148,7 @@ void CUISpinFlt::OnBtnDownClick()
 
 void CUISpinFlt::SetValue()
 {
-	clamp					(m_fVal, m_fMin, m_fMax);
+	XrMath::clamp					(m_fVal, m_fMin, m_fMax);
 	string16				buff;
 	sprintf_s					(buff,"%.1f",m_fVal);
 	m_pLines->SetText		(buff); 
@@ -162,5 +162,5 @@ bool CUISpinFlt::CanPressUp()
 
 bool CUISpinFlt::CanPressDown()
 {
-	return (m_fVal - m_fStep > m_fMin) || fsimilar(m_fVal-m_fStep, m_fMin);
+	return (m_fVal - m_fStep > m_fMin) || XrMath::fsimilar(m_fVal-m_fStep, m_fMin);
 }

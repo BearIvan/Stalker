@@ -51,10 +51,10 @@ bool CDetailPathManager::valid			() const
 	bool					b = true;
 	b						= b && !m_path.empty();
 	if (m_state_patrol_path)
-		b					= b && (fis_zero(m_path[m_last_patrol_point].position.distance_to_xz_sqr(m_corrected_dest_position)));
+		b					= b && (XrMath::fis_zero(m_path[m_last_patrol_point].position.distance_to_xz_sqr(m_corrected_dest_position)));
 	else
-		b					= b && fis_zero(m_path.back().position.distance_to_xz_sqr(m_corrected_dest_position));
-//		b					= b && fis_zero(m_path.back().position.distance_to_xz_sqr(m_dest_position));
+		b					= b && XrMath::fis_zero(m_path.back().position.distance_to_xz_sqr(m_corrected_dest_position));
+//		b					= b && XrMath::fis_zero(m_path.back().position.distance_to_xz_sqr(m_dest_position));
 	return					(b);
 }
 
@@ -71,7 +71,7 @@ Fvector CDetailPathManager::direction() const
 	Fvector					direction;
 	direction.sub			(m_path[m_current_travel_point + 1].position, m_path[m_current_travel_point].position);
 
-	if (direction.square_magnitude() < EPS_L)
+	if (direction.square_magnitude() < XrMath::EPS_L)
 		direction.set		(0.f,0.f,1.f);
 	else
 		direction.normalize	();
@@ -86,7 +86,7 @@ bool CDetailPathManager::try_get_direction(Fvector& direction) const
 	
 	direction.sub			(m_path[m_current_travel_point + 1].position, m_path[m_current_travel_point].position);
 
-	if (direction.square_magnitude() < EPS_L)
+	if (direction.square_magnitude() < XrMath::EPS_L)
 		return				false;
 	else
 		direction.normalize	();

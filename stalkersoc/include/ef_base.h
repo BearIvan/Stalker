@@ -51,7 +51,7 @@ public:
 			if (fTemp >= m_fMaxResultValue)
 				return(dwDiscretizationValue - 1);
 			else
-				return(iFloor((fTemp - m_fMinResultValue)/(m_fMaxResultValue - m_fMinResultValue)*float(dwDiscretizationValue - 1) + .5f));
+				return(XrMath::iFloor((fTemp - m_fMinResultValue)/(m_fMaxResultValue - m_fMinResultValue)*float(dwDiscretizationValue - 1) + .5f));
 	}
 
 	IC		float	ffGetMaxResultValue()

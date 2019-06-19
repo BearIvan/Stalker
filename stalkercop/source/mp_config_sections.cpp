@@ -41,11 +41,11 @@ mp_config_sections::mp_config_sections() :
 	for (u32 i = 0; i < gcount; ++i)
 	{
 		pSettings->r_line	("mp_item_groups", i, &name, &line);
-		u32 itmcount		= _GetItemCount(line);
+		u32 itmcount		= XrTrims::GetItemCount(line);
 		string256			tmp_single_item;
 		for (u32 j = 0; j < itmcount; ++j)
 		{
-			m_mp_sections.push_back(_GetItem(line, j, tmp_single_item));
+			m_mp_sections.push_back(XrTrims::GetItem(line, j, tmp_single_item));
 		}
 	}
 	for (int i = 0; i < (sizeof(important_sections) / sizeof(char*)); ++i)

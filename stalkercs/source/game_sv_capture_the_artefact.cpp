@@ -993,7 +993,7 @@ bool game_sv_CaptureTheArtefact::LoadAnomaliesItems(
 	if (!anomaly_string)
 		return	false;
 
-	u32			items_count = _GetItemCount(anomaly_string);
+	u32			items_count = XrTrims::GetItemCount(anomaly_string);
 	if (!items_count)
 		return	false;
 
@@ -1001,7 +1001,7 @@ bool game_sv_CaptureTheArtefact::LoadAnomaliesItems(
 	u32 const buffer_size = (str_size + 1) * sizeof(char);
 	PSTR		temp_str = static_cast<PSTR>(_alloca(buffer_size));
 	for (u32 i = 0; i < items_count; ++i) {
-		_GetItem				(anomaly_string, i, temp_str, buffer_size);
+		XrTrims::GetItem				(anomaly_string, i, temp_str, buffer_size);
 		u16 anomaly_id			= GetMinUsedAnomalyID(temp_str);
 		if (anomaly_id)
 			destination.push_back	(std::make_pair(temp_str, anomaly_id));
@@ -1221,11 +1221,11 @@ void game_sv_CaptureTheArtefact::LoadSkinsForTeam(const shared_str& caSection, T
 
 	// Читаем данные этого поля
 	strcpy_s(Skins, pSettings->r_string(caSection, "skins"));
-	u32 count	= _GetItemCount(Skins);
+	u32 count	= XrTrims::GetItemCount(Skins);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(Skins, i, SkinSingleName);
+		XrTrims::GetItem(Skins, i, SkinSingleName);
 		pTeamSkins->push_back(SkinSingleName);
 	};
 }
@@ -1245,11 +1245,11 @@ void game_sv_CaptureTheArtefact::LoadDefItemsForTeam(const shared_str& caSection
 
 	// Читаем данные этого поля
 	strcpy_s(DefItems, pSettings->r_string(caSection, "default_items"));
-	u32 count	= _GetItemCount(DefItems);
+	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(DefItems, i, ItemName);
+		XrTrims::GetItem(DefItems, i, ItemName);
 		pDefItems->push_back(u16(m_strWeaponsData->GetItemIdx(ItemName)&0xffff));
 	};
 };
@@ -1318,7 +1318,7 @@ bool game_sv_CaptureTheArtefact::OnKillResult(KILL_RES KillResult, game_PlayerSt
 		{
 			pKiller->m_iRivalKills++;
 			pKiller->m_iKillsInRowCurr ++;
-			pKiller->m_iKillsInRowMax = _max(pKiller->m_iKillsInRowCurr,pKiller->m_iKillsInRowMax);
+			pKiller->m_iKillsInRowMax = XrMath::max(pKiller->m_iKillsInRowCurr,pKiller->m_iKillsInRowMax);
 			if (pTeam)
 			{
 				s32 ResMoney = pTeam->m_iM_KillRival;

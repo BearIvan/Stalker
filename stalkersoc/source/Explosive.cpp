@@ -217,7 +217,7 @@ float CExplosive::ExplosionEffect(collide::rq_results& storage, CExplosive*exp_o
 										return 1.f;
 	Fvector l_c, l_d;l_b1.get_CD(l_c,l_d);
 	float effective_volume=l_d.x*l_d.y*l_d.z;
-	float max_s=effective_volume/(_min(_min(l_d.x,l_d.y),l_d.z));
+	float max_s=effective_volume/(XrMath::min(XrMath::min(l_d.x,l_d.y),l_d.z));
 	if(blasted_obj->PPhysicsShell()&&blasted_obj->PPhysicsShell()->isActive())
 	{
 		float ph_volume=blasted_obj->PPhysicsShell()->getVolume();
@@ -247,7 +247,7 @@ float CExplosive::ExplosionEffect(collide::rq_results& storage, CExplosive*exp_o
 		Fvector l_dir; l_dir.sub(l_end_p,l_source_p);
 		float mag=l_dir.magnitude();
 		
-		if(fis_zero(mag)) return 1.f;
+		if(XrMath::fis_zero(mag)) return 1.f;
 
 		l_dir.mul(1.f/mag);
 #ifdef DEBUG
@@ -260,19 +260,19 @@ float CExplosive::ExplosionEffect(collide::rq_results& storage, CExplosive*exp_o
 #endif
 		
 #ifdef DEBUG
-		float l_S=effective_volume*(_abs(l_dir.dotproduct(obj_xform.i))/l_d.x+_abs(l_dir.dotproduct(obj_xform.j))/l_d.y+_abs(l_dir.dotproduct(obj_xform.k))/l_d.z);
-		float add_eff=_sqrt(l_S/max_s)*TestPassEffect(l_source_p,l_dir,mag,expl_radius,storage,blasted_obj);
+		float l_S=effective_volume*(XrMath::abs(l_dir.dotproduct(obj_xform.i))/l_d.x+XrMath::abs(l_dir.dotproduct(obj_xform.j))/l_d.y+XrMath::abs(l_dir.dotproduct(obj_xform.k))/l_d.z);
+		float add_eff=XrMath::sqrt(l_S/max_s)*TestPassEffect(l_source_p,l_dir,mag,expl_radius,storage,blasted_obj);
 		effect+=add_eff;
 		if(ph_dbg_draw_mask.test(phDbgDrawExplosions))
 		{
 			Msg("dist %f,effect R %f",mag,expl_radius);
 			Msg("test pass effect %f",add_eff);
-			Msg("S effect %f",_sqrt(l_S/max_s));
-			Msg("dist/overlap effect, %f",add_eff/_sqrt(l_S/max_s));
+			Msg("S effect %f",XrMath::sqrt(l_S/max_s));
+			Msg("dist/overlap effect, %f",add_eff/XrMath::sqrt(l_S/max_s));
 		}
 #else
-		float l_S=effective_volume*(_abs(l_dir.dotproduct(obj_xform.i))/l_d.x+_abs(l_dir.dotproduct(obj_xform.j))/l_d.y+_abs(l_dir.dotproduct(obj_xform.k))/l_d.z);
-		effect+=_sqrt(l_S/max_s)*TestPassEffect(l_source_p,l_dir,mag,expl_radius,storage,blasted_obj);
+		float l_S=effective_volume*(XrMath::abs(l_dir.dotproduct(obj_xform.i))/l_d.x+XrMath::abs(l_dir.dotproduct(obj_xform.j))/l_d.y+XrMath::abs(l_dir.dotproduct(obj_xform.k))/l_d.z);
+		effect+=XrMath::sqrt(l_S/max_s)*TestPassEffect(l_source_p,l_dir,mag,expl_radius,storage,blasted_obj);
 #endif
 
 	}
@@ -290,11 +290,11 @@ float CExplosive::TestPassEffect(const	Fvector	&source_p,	const	Fvector	&dir,flo
 	float sq_ef_radius=ef_radius*ef_radius;
 	float dist_factor	=		sq_ef_radius/(range*range*(exp_dist_extinction_factor-1.f)+sq_ef_radius);
 	float shoot_factor=1.f;
-	if(range>EPS_L)
+	if(range>XrMath::EPS_L)
 	{
-		VERIFY(!fis_zero(dir.square_magnitude()));
+		VERIFY(!XrMath::fis_zero(dir.square_magnitude()));
 		collide::ray_defs	RD		(source_p,dir,range,CDB::OPT_CULL,collide::rqtBoth);
-		VERIFY							(!fis_zero(RD.dir.square_magnitude()));
+		VERIFY							(!XrMath::fis_zero(RD.dir.square_magnitude()));
 #ifdef DEBUG
 		SExpQParams			ep		(source_p,dir);
 #else
@@ -675,9 +675,9 @@ void CExplosive::ExplodeWaveProcessObject(collide::rq_results& storage, CPhysics
 	
 		Fvector l_dir;l_dir.sub(l_goPos,m_vExplodePos);
 		
-		float rmag=_sqrt(m_fUpThrowFactor*m_fUpThrowFactor+1.f+2.f*m_fUpThrowFactor*l_dir.y);
+		float rmag=XrMath::sqrt(m_fUpThrowFactor*m_fUpThrowFactor+1.f+2.f*m_fUpThrowFactor*l_dir.y);
 		l_dir.y += m_fUpThrowFactor;
-		//rmag -модуль l_dir после l_dir.y += m_fUpThrowFactor, модуль=_sqrt(l_dir^2+y^2+2.*(l_dir,y)),y=(0,m_fUpThrowFactor,0) (до этого модуль l_dir =1)
+		//rmag -модуль l_dir после l_dir.y += m_fUpThrowFactor, модуль=XrMath::sqrt(l_dir^2+y^2+2.*(l_dir,y)),y=(0,m_fUpThrowFactor,0) (до этого модуль l_dir =1)
 		l_dir.mul(1.f/rmag);//перенормировка
  		NET_Packet		P;
 		SHit	HS;
@@ -739,7 +739,7 @@ void CExplosive::ActivateExplosionBox(const Fvector &size,Fvector &in_out_pos)
 	CPHActivationShape activation_shape;//Fvector start_box;m_PhysicMovementControl.Box().getsize(start_box);
 	activation_shape.Create(in_out_pos,size,self_obj);
 	dBodySetGravityMode(activation_shape.ODEBody(),0);
-	activation_shape.Activate(size,1,1.f,M_PI/8.f);
+	activation_shape.Activate(size,1,1.f,XrMath::M_PI/8.f);
 	in_out_pos.set(activation_shape.Position());
 	activation_shape.Size(m_vExplodeSize);
 	activation_shape.Destroy();

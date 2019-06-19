@@ -284,9 +284,9 @@ namespace CDB
 		VMscale.set		(bb.max.x-bb.min.x, bb.max.y-bb.min.y, bb.max.z-bb.min.z);
 		VMmin.set		(bb.min);
 		VMeps.set		(VMscale.x/clpMX/2,VMscale.y/clpMY/2,VMscale.z/clpMZ/2);
-		VMeps.x			= (VMeps.x<EPS_L)?VMeps.x:EPS_L;
-		VMeps.y			= (VMeps.y<EPS_L)?VMeps.y:EPS_L;
-		VMeps.z			= (VMeps.z<EPS_L)?VMeps.z:EPS_L;
+		VMeps.x			= (VMeps.x< XrMath::EPS_L)?VMeps.x: XrMath::EPS_L;
+		VMeps.y			= (VMeps.y< XrMath::EPS_L)?VMeps.y: XrMath::EPS_L;
+		VMeps.z			= (VMeps.z< XrMath::EPS_L)?VMeps.z: XrMath::EPS_L;
 
 		// Preallocate memory
 		verts.reserve	(apx_vertices);
@@ -335,12 +335,12 @@ namespace CDB
 		u32 P = 0xffffffff;
 
 		u32 ix,iy,iz;
-		ix = iFloor(float(V.x-VMmin.x)/VMscale.x*clpMX);
-		iy = iFloor(float(V.y-VMmin.y)/VMscale.y*clpMY);
-		iz = iFloor(float(V.z-VMmin.z)/VMscale.z*clpMZ);
+		ix = XrMath::iFloor(float(V.x-VMmin.x)/VMscale.x*clpMX);
+		iy = XrMath::iFloor(float(V.y-VMmin.y)/VMscale.y*clpMY);
+		iz = XrMath::iFloor(float(V.z-VMmin.z)/VMscale.z*clpMZ);
 
 		//		R_ASSERT(ix<=clpMX && iy<=clpMY && iz<=clpMZ);
-		clamp(ix,(u32)0,clpMX);	clamp(iy,(u32)0,clpMY);	clamp(iz,(u32)0,clpMZ);
+		XrMath::clamp(ix,(u32)0,clpMX);	XrMath::clamp(iy,(u32)0,clpMY);		XrMath::clamp(iz,(u32)0,clpMZ);
 
 		{
 			DWORDList* vl;
@@ -359,12 +359,12 @@ namespace CDB
 			VM[ix][iy][iz].push_back(P);
 
 			u32 ixE,iyE,izE;
-			ixE = iFloor(float(V.x+VMeps.x-VMmin.x)/VMscale.x*clpMX);
-			iyE = iFloor(float(V.y+VMeps.y-VMmin.y)/VMscale.y*clpMY);
-			izE = iFloor(float(V.z+VMeps.z-VMmin.z)/VMscale.z*clpMZ);
+			ixE = XrMath::iFloor(float(V.x+VMeps.x-VMmin.x)/VMscale.x*clpMX);
+			iyE = XrMath::iFloor(float(V.y+VMeps.y-VMmin.y)/VMscale.y*clpMY);
+			izE = XrMath::iFloor(float(V.z+VMeps.z-VMmin.z)/VMscale.z*clpMZ);
 
 			//			R_ASSERT(ixE<=clpMX && iyE<=clpMY && izE<=clpMZ);
-			clamp(ixE,(u32)0,clpMX);	clamp(iyE,(u32)0,clpMY);	clamp(izE,(u32)0,clpMZ);
+			XrMath::clamp(ixE,(u32)0,clpMX);	XrMath::clamp(iyE,(u32)0,clpMY);	XrMath::clamp(izE,(u32)0,clpMZ);
 
 			if (ixE!=ix)							VM[ixE][iy][iz].push_back	(P);
 			if (iyE!=iy)							VM[ix][iyE][iz].push_back	(P);

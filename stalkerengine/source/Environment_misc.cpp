@@ -39,7 +39,7 @@ float CEnvModifier::sum(CEnvModifier& M, Fvector3& view)
     if (_dist_sq >= (M.radius*M.radius))
         return 0;
 
-    float _att = 1 - _sqrt(_dist_sq) / M.radius; //[0..1];
+    float _att = 1 - XrMath::sqrt(_dist_sq) / M.radius; //[0..1];
     float _power = M.power*_att;
 
 
@@ -102,7 +102,7 @@ void CEnvAmbient::SSndChannel::load(CInifile& config, LPCSTR sect)
     R_ASSERT2(m_sound_dist.y > m_sound_dist.x, sect);
 
     LPCSTR snds = config.r_string(sect, "sounds");
-    u32 cnt = _GetItemCount(snds);
+    u32 cnt = XrTrims::GetItemCount(snds);
     string_path tmp;
     R_ASSERT3(cnt, "sounds empty", sect);
 
@@ -110,7 +110,7 @@ void CEnvAmbient::SSndChannel::load(CInifile& config, LPCSTR sect)
 
     for (u32 k = 0; k < cnt; ++k)
     {
-        _GetItem(snds, k, tmp);
+        XrTrims::GetItem(snds, k, tmp);
         m_sounds[k].create(tmp, st_Effect, sg_SourceType);
     }
 }
@@ -119,7 +119,7 @@ CEnvAmbient::SEffect* CEnvAmbient::create_effect(CInifile& config, LPCSTR id)
 {
  VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     SEffect* result = xr_new<SEffect>();
-    result->life_time = iFloor(config.r_float(id, "life_time")*1000.f);
+    result->life_time = XrMath::iFloor(config.r_float(id, "life_time")*1000.f);
     result->particles = config.r_string(id, "particles");
     VERIFY(result->particles.size());
     result->offset = config.r_fvector3(id, "offset");
@@ -131,7 +131,7 @@ CEnvAmbient::SEffect* CEnvAmbient::create_effect(CInifile& config, LPCSTR id)
     if (config.line_exist(id, "wind_blast_strength"))
     {
         result->wind_blast_strength = config.r_float(id, "wind_blast_strength");
-        result->wind_blast_direction.setHP(deg2rad(config.r_float(id, "wind_blast_longitude")), 0.f);
+        result->wind_blast_direction.setHP(XrMath::deg2rad(config.r_float(id, "wind_blast_longitude")), 0.f);
         result->wind_blast_in_time = config.r_float(id, "wind_blast_in_time");
         result->wind_blast_out_time = config.r_float(id, "wind_blast_out_time");
         return (result);
@@ -180,29 +180,29 @@ void CEnvAmbient::load(
 
     // sounds
     LPCSTR channels = ambients_config.r_string(sect, "sound_channels");
-    u32 cnt = _GetItemCount(channels);
+    u32 cnt = XrTrims::GetItemCount(channels);
     // R_ASSERT3 (cnt,"sound_channels empty", sect.c_str());
     m_sound_channels.resize(cnt);
 
     for (u32 i = 0; i < cnt; ++i)
-        m_sound_channels[i] = create_sound_channel(sound_channels_config, _GetItem(channels, i, tmp));
+        m_sound_channels[i] = create_sound_channel(sound_channels_config, XrTrims::GetItem(channels, i, tmp));
 
     // effects
     m_effect_period.set(
-        iFloor(
+		XrMath::iFloor(
         ambients_config.r_float(sect, "min_effect_period")*1000.f
         ),
-        iFloor(
+		XrMath::iFloor(
         ambients_config.r_float(sect, "max_effect_period")*1000.f
         )
         );
     LPCSTR effs = ambients_config.r_string(sect, "effects");
-    cnt = _GetItemCount(effs);
+    cnt = XrTrims::GetItemCount(effs);
     // R_ASSERT3 (cnt,"effects empty", sect.c_str());
 
     m_effects.resize(cnt);
     for (u32 k = 0; k < cnt; ++k)
-        m_effects[k] = create_effect(effects_config, _GetItem(effs, k, tmp));
+        m_effects[k] = create_effect(effects_config, XrTrims::GetItem(effs, k, tmp));
 
     R_ASSERT(!m_sound_channels.empty() || !m_effects.empty());
 }
@@ -274,24 +274,24 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config)
 
     sky_color = config.r_fvector3(m_identifier.c_str(), "sky_color");
 
-    if (config.line_exist(m_identifier.c_str(), "sky_rotation")) sky_rotation = deg2rad(config.r_float(m_identifier.c_str(), "sky_rotation"));
+    if (config.line_exist(m_identifier.c_str(), "sky_rotation")) sky_rotation = XrMath::deg2rad(config.r_float(m_identifier.c_str(), "sky_rotation"));
     else sky_rotation = 0;
     far_plane = config.r_float(m_identifier.c_str(), "far_plane");
     fog_color = config.r_fvector3(m_identifier.c_str(), "fog_color");
     fog_density = config.r_float(m_identifier.c_str(), "fog_density");
     fog_distance = config.r_float(m_identifier.c_str(), "fog_distance");
     rain_density = config.r_float(m_identifier.c_str(), "rain_density");
-    clamp(rain_density, 0.f, 1.f);
+	XrMath::clamp(rain_density, 0.f, 1.f);
     rain_color = config.r_fvector3(m_identifier.c_str(), "rain_color");
     wind_velocity = config.r_float(m_identifier.c_str(), "wind_velocity");
-    wind_direction = deg2rad(config.r_float(m_identifier.c_str(), "wind_direction"));
+    wind_direction = XrMath::deg2rad(config.r_float(m_identifier.c_str(), "wind_direction"));
     ambient = config.r_fvector3(m_identifier.c_str(), "ambient_color");
     hemi_color = config.r_fvector4(m_identifier.c_str(), "hemisphere_color");
     sun_color = config.r_fvector3(m_identifier.c_str(), "sun_color");
     // if (config.line_exist(m_identifier.c_str(),"sun_altitude"))
     sun_dir.setHP(
-        deg2rad(config.r_float(m_identifier.c_str(), "sun_altitude")),
-        deg2rad(config.r_float(m_identifier.c_str(), "sun_longitude"))
+		XrMath::deg2rad(config.r_float(m_identifier.c_str(), "sun_altitude")),
+		XrMath::deg2rad(config.r_float(m_identifier.c_str(), "sun_longitude"))
         );
     R_ASSERT(_valid(sun_dir));
     // else

@@ -246,7 +246,7 @@ static float get_distance											(
 			float const bf_af_magnitude	= bf_af.magnitude();
 			Fvector2 const as_af_dir	= Fvector2( as_af ).div( as_af_magnitude );
 			float const signed_distance	= as_af_dir.dotproduct(bf_af);
-			float const distance		= _sqrt( _sqr(bf_af_magnitude) + _sqr(signed_distance) );
+			float const distance		= XrMath::sqrt( XrMath::sqr(bf_af_magnitude) + XrMath::sqr(signed_distance) );
 			if ( distance >= safe_distance )
 				return					-1.f;
 

@@ -55,7 +55,7 @@ BOOL CActor::feel_touch_on_contact	(CObject *O)
 
 	Fsphere		sphere;
 	sphere.P	= Position();
-	sphere.R	= EPS_L;
+	sphere.R	= XrMath::EPS_L;
 	if (custom_zone->inside(sphere))
 		return	(TRUE);
 
@@ -102,7 +102,7 @@ BOOL CActor::CanPickItem(const CFrustum& frustum, const Fvector& from, CObject* 
 		if (frustum.testSphere_dirty(to,item->Radius())){
 			dir.div						(range);
 			collide::ray_defs			RD(from, dir, range, CDB::OPT_CULL, collide::rqtBoth);
-			VERIFY						(!fis_zero(RD.dir.square_magnitude()));
+			VERIFY						(!XrMath::fis_zero(RD.dir.square_magnitude()));
 			RQR.r_clear					();
 			Level().ObjectSpace.RayQuery(RQR,RD, info_trace_callback, &bOverlaped, NULL, item);
 		}
@@ -248,5 +248,5 @@ void CActor::PickupInfoDraw(CObject* object)
 void CActor::feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power)
 {
 	if(who == this)
-		m_snd_noise = _max(m_snd_noise,power);
+		m_snd_noise = XrMath::max(m_snd_noise,power);
 }

@@ -24,7 +24,7 @@ static const float sink_offset = -(max_distance - source_offset);
 static const float drop_length = 5.f;
 static const float drop_width = 0.30f;
 static const float drop_angle = 3.0f;
-static const float drop_max_angle = deg2rad(10.f);
+static const float drop_max_angle = XrMath::deg2rad(10.f);
 static const float drop_max_wind_vel = 20.0f;
 static const float drop_speed_min = 40.f;
 static const float drop_speed_max = 80.f;
@@ -76,27 +76,27 @@ void CEffect_Rain::Born(Item& dest, float radius)
 	if (gameVersionController->getGame() == gameVersionController->SOC) {
 		float gust = ENV_SOC.wind_strength_factor / 10.f;
 		float k = ENV_SOC.CurrentEnv.wind_velocity*gust / drop_max_wind_vel;
-		clamp(k, 0.f, 1.f);
-		float pitch = drop_max_angle*k - PI_DIV_2;
+		XrMath::clamp(k, 0.f, 1.f);
+		float pitch = drop_max_angle*k - XrMath::PI_DIV_2;
 		axis.setHP(ENV_SOC.CurrentEnv.wind_direction, pitch);
 	}
 	else
 	{
 		float gust = ENV.wind_strength_factor / 10.f;
 		float k = ENV.CurrentEnv->wind_velocity*gust / drop_max_wind_vel;
-		clamp(k, 0.f, 1.f);
-		float pitch = drop_max_angle*k - PI_DIV_2;
+		XrMath::clamp(k, 0.f, 1.f);
+		float pitch = drop_max_angle*k - XrMath::PI_DIV_2;
 		axis.setHP(ENV.CurrentEnv->wind_direction, pitch);
 	}
 
 
     Fvector& view = Device.vCameraPosition;
-    float angle = ::Random.randF(0, PI_MUL_2);
+    float angle = ::Random.randF(0, XrMath::PI_MUL_2);
     float dist = ::Random.randF();
-    dist = _sqrt(dist)*radius;
-    float x = dist*_cos(angle);
-    float z = dist*_sin(angle);
-    dest.D.random_dir(axis, deg2rad(drop_angle));
+    dist = XrMath::sqrt(dist)*radius;
+    float x = dist* XrMath::cos(angle);
+    float z = dist* XrMath::sin(angle);
+    dest.D.random_dir(axis, XrMath::deg2rad(drop_angle));
     dest.P.set(x + view.x - dest.D.x*source_offset, source_offset + view.y, z + view.z - dest.D.z*source_offset);
     // dest.P.set (x+view.x,height+view.y,z+view.z);
     dest.fSpeed = ::Random.randF(drop_speed_min, drop_speed_max);
@@ -124,14 +124,14 @@ void CEffect_Rain::RenewItem(Item& dest, float height, BOOL bHit)
     dest.uv_set = Random.randI(2);
     if (bHit)
     {
-        dest.dwTime_Life = Device.dwTimeGlobal + iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
-        dest.dwTime_Hit = Device.dwTimeGlobal + iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
+        dest.dwTime_Life = Device.dwTimeGlobal + XrMath::iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
+        dest.dwTime_Hit = Device.dwTimeGlobal + XrMath::iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
         dest.Phit.mad(dest.P, dest.D, height);
     }
     else
     {
-        dest.dwTime_Life = Device.dwTimeGlobal + iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
-        dest.dwTime_Hit = Device.dwTimeGlobal + iFloor(2 * 1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
+        dest.dwTime_Life = Device.dwTimeGlobal + XrMath::iFloor(1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
+        dest.dwTime_Hit = Device.dwTimeGlobal + XrMath::iFloor(2 * 1000.f*height / dest.fSpeed) - Device.dwTimeDelta;
         dest.Phit.set(dest.P);
     }
 }
@@ -161,15 +161,15 @@ void CEffect_Rain::OnFrame()
     {
         // hemi_factor = 1.f-2.0f*(0.3f-_min(_min(1.f,E->renderable_ROS()->get_luminocity_hemi()),0.3f));
         float* hemi_cube = E->renderable_ROS()->get_luminocity_hemi_cube();
-        float hemi_val = _max(hemi_cube[0], hemi_cube[1]);
-        hemi_val = _max(hemi_val, hemi_cube[2]);
-        hemi_val = _max(hemi_val, hemi_cube[3]);
-        hemi_val = _max(hemi_val, hemi_cube[5]);
+        float hemi_val = XrMath::max(hemi_cube[0], hemi_cube[1]);
+        hemi_val = XrMath::max(hemi_val, hemi_cube[2]);
+        hemi_val = XrMath::max(hemi_val, hemi_cube[3]);
+        hemi_val = XrMath::max(hemi_val, hemi_cube[5]);
 
         // float f = 0.9f*hemi_factor + 0.1f*hemi_val;
         float f = hemi_val;
         float t = Device.fTimeDelta;
-        clamp(t, 0.001f, 1.0f);
+        XrMath::clamp(t, 0.001f, 1.0f);
         hemi_factor = hemi_factor*(1.0f - t) + f*t;
     }
 #endif
@@ -177,14 +177,14 @@ void CEffect_Rain::OnFrame()
     switch (state)
     {
     case stIdle:
-        if (factor < EPS_L) return;
+        if (factor < XrMath::EPS_L) return;
         state = stWorking;
         snd_Ambient.play(0, sm_Looped);
         snd_Ambient.set_position(Fvector().set(0, 0, 0));
         snd_Ambient.set_range(source_offset, source_offset*2.f);
         break;
     case stWorking:
-        if (factor < EPS_L)
+        if (factor < XrMath::EPS_L)
         {
             state = stIdle;
             snd_Ambient.stop();
@@ -199,7 +199,7 @@ void CEffect_Rain::OnFrame()
         // Fvector sndP;
         // sndP.mad (Device.vCameraPosition,Fvector().set(0,1,0),source_offset);
         // snd_Ambient.set_position(sndP);
-        snd_Ambient.set_volume(_max(0.1f, factor) * hemi_factor);
+        snd_Ambient.set_volume(XrMath::max(0.1f, factor) * hemi_factor);
     }
 }
 
@@ -423,7 +423,7 @@ void CEffect_Rain::Hit(Fvector& pos)
     const Fsphere& bv_sphere = m_pRender->GetDropBounds();
 
     P->time = particles_time;
-    P->mXForm.rotateY(::Random.randF(PI_MUL_2));
+    P->mXForm.rotateY(::Random.randF(XrMath::PI_MUL_2));
     P->mXForm.translate_over(pos);
     P->mXForm.transform_tiny(P->bounds.P, bv_sphere.P);
     P->bounds.R = bv_sphere.R;

@@ -78,14 +78,14 @@ bool CAgentLocationManager::suitable	(CAI_Stalker *object, const CCoverPoint *lo
 			if (this->object().member().registered_in_combat(&(*I)->object()))
 				continue;
 
-			if ((*I)->object().Position().distance_to_sqr(location->position()) <= _sqr(5.f))
+			if ((*I)->object().Position().distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
 				return					(false);
 
 			continue;
 		}
 
 		// check if member cover is too close
-		if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= _sqr(5.f))
+		if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
 			// so member cover is too close
 //			if ((*I)->object().Position().distance_to_sqr(location->position()) <= object->Position().distance_to_sqr(location->position()))
 			// check if member to its cover is more close than we to our cover
@@ -97,7 +97,7 @@ bool CAgentLocationManager::suitable	(CAI_Stalker *object, const CCoverPoint *lo
 		CAgentEnemyManager::ENEMIES::const_iterator	I = this->object().enemy().enemies().begin();
 		CAgentEnemyManager::ENEMIES::const_iterator	E = this->object().enemy().enemies().end();
 		for ( ; I != E; ++I)
-			if ((*I).m_enemy_position.distance_to_sqr(location->position()) < _sqr(MIN_SUITABLE_ENEMY_DISTANCE))
+			if ((*I).m_enemy_position.distance_to_sqr(location->position()) < XrMath::sqr(MIN_SUITABLE_ENEMY_DISTANCE))
 				return				(false);
 	}
 
@@ -121,7 +121,7 @@ void CAgentLocationManager::make_suitable	(CAI_Stalker *object, const CCoverPoin
 			continue;
 
 		// check if member cover is too close
-		if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= _sqr(5.f)) {
+		if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= XrMath::sqr(5.f)) {
 //			Msg						("%6d : object [%s] disabled cover for object [%s]",Device.dwFrame,*object->cName(),*(*I)->object().cName());
 			(*I)->object().on_cover_blocked	((*I)->cover());
 			(*I)->cover						(0);

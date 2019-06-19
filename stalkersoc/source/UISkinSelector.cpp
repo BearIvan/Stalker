@@ -70,11 +70,11 @@ void CUISkinSelectorWnd::InitSkins(){
 
 	LPCSTR lst = pSettings->r_string(m_strSection,"skins");
 	string256	singleItem;
-	u32 count	= _GetItemCount(lst);
+	u32 count	= XrTrims::GetItemCount(lst);
 	R_ASSERT2(count,"no skins in this game");
 	for (u32 j = 0; j < count; ++j)
 	{
-		_GetItem(lst, j, singleItem);
+		XrTrims::GetItem(lst, j, singleItem);
 		m_skins.push_back(singleItem);
 		if (m_pExtraContentFilter->IsDataEnabled(singleItem))
 			m_skinsEnabled.push_back(j);

@@ -52,7 +52,7 @@ loophole::loophole	(luabind::object const &description) :
 	m_fov_position	= parse_fvector(description, "fov_position");
 
 	m_fov_direction	= parse_fvector(description, "fov_direction");
-	if (m_fov_direction.square_magnitude() < EPS_L) {
+	if (m_fov_direction.square_magnitude() < XrMath::EPS_L) {
 		Msg				("! fov direction for loophole %s is setup incorrectly", m_id.c_str());
 		m_fov_direction.set(0.f, 0.f, 1.f);
 	}
@@ -60,7 +60,7 @@ loophole::loophole	(luabind::object const &description) :
 		m_fov_direction.normalize	();
 
 	m_danger_fov_direction	= parse_fvector(description, "danger_fov_direction");
-	if (m_danger_fov_direction.square_magnitude() < EPS_L) {
+	if (m_danger_fov_direction.square_magnitude() < XrMath::EPS_L) {
 		Msg				("! danger fov direction for loophole %s is setup incorrectly", m_id.c_str());
 		m_danger_fov_direction.set(0.f, 0.f, 1.f);
 	}
@@ -69,7 +69,7 @@ loophole::loophole	(luabind::object const &description) :
 
 	m_enter_direction	= parse_fvector(description, "enter_direction");
 
-	if (m_enter_direction.square_magnitude() < EPS_L) {
+	if (m_enter_direction.square_magnitude() < XrMath::EPS_L) {
 		Msg				("! enter direction for loophole %s is setup incorrectly", m_id.c_str());
 		m_enter_direction.set(0.f, 0.f, 1.f);
 	}
@@ -103,8 +103,8 @@ loophole::loophole	(luabind::object const &description) :
 
 	fill_transitions(transitions);
 
-	m_fov			= deg2rad(parse_float(description, "fov", 0.f, 360.f));
-	m_danger_fov	= deg2rad(parse_float(description, "danger_fov", 0.f, 360.f));
+	m_fov			= XrMath::deg2rad(parse_float(description, "fov", 0.f, 360.f));
+	m_danger_fov	= XrMath::deg2rad(parse_float(description, "danger_fov", 0.f, 360.f));
 	m_range			= parse_float(description, "range", 0.f);
 }
 

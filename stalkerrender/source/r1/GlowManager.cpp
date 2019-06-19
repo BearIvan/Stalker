@@ -63,7 +63,7 @@ void	CGlow::set_direction	(const Fvector& D)	{
 	direction.normalize_safe	(D);
 };
 void	CGlow::set_radius		(float R)			{
-	if (fsimilar(radius,R))		return;
+	if (XrMath::fsimilar(radius,R))		return;
 	radius						= R;
 	spatial_move				();
 };
@@ -224,7 +224,7 @@ void CGlowManager::render_sw		()
 		G.dwFrame	=	'test';
 		Fvector		dir;
 		dir.sub		(G.spatial.sphere.P,start); float range = dir.magnitude();
-		if (range>EPS_S)	{
+		if (range>XrMath::EPS_S)	{
 			dir.div		(range);
 			G.bTestResult = g_pGameLevel->ObjectSpace.RayTest(start,dir,range,collide::rqtBoth,&G.RayCache,o_main);
 		}
@@ -294,19 +294,19 @@ void CGlowManager::render_selected()
 			Fvector	dir;
 			dir.sub			(Device.vCameraPosition,G.position);
 			dist_sq			= dir.square_magnitude();
-			if (G.direction.square_magnitude()>EPS)	{
-				dir.div			(_sqrt(dist_sq));
+			if (G.direction.square_magnitude()>XrMath::EPS)	{
+				dir.div			(XrMath::sqrt(dist_sq));
 				scale			= dir.dotproduct(G.direction);
 			}
 			if (G.fade*scale<=1.f)		continue;
 
 			// near fade
 			float dist_np	= NP.distance(G.position)-VIEWPORT_NEAR;
-			float snear		= dist_np/0.15f;	clamp	(snear,0.f,1.f);
+			float snear		= dist_np/0.15f;	XrMath::clamp	(snear,0.f,1.f);
 			scale			*=	snear;
 			if (G.fade*scale<=1.f)		continue;
 
-			u32 C			= iFloor(G.fade*scale*(1-(dist_sq/dlim2)));
+			u32 C			= XrMath::iFloor(G.fade*scale*(1-(dist_sq/dlim2)));
 			u32 clr			= color_rgba(C,C,C,C);
 			Fvector	gp		;
 					gp.mad	(G.position,dir,G.radius*scale);

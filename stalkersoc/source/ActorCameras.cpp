@@ -35,7 +35,7 @@ void CActor::cam_SetLadder()
 	g_LadderOrient			();
 	float yaw				= (-XFORM().k.getH());
 	float &cam_yaw			= C->yaw;
-	float delta_yaw			= angle_difference_signed(yaw,cam_yaw);
+	float delta_yaw			= XrMath::angle_difference_signed(yaw,cam_yaw);
 
 	if(-f_Ladder_cam_limit<delta_yaw&&f_Ladder_cam_limit>delta_yaw)
 	{
@@ -55,7 +55,7 @@ void CActor::camUpdateLadder(float dt)
 	float yaw				= (-XFORM().k.getH());
 
 	float & cam_yaw			= cameras[eacFirstEye]->yaw;
-	float delta				= angle_difference_signed(yaw,cam_yaw);
+	float delta				= XrMath::angle_difference_signed(yaw,cam_yaw);
 
 	if(-0.05f<delta&&0.05f>delta)
 	{
@@ -66,7 +66,7 @@ void CActor::camUpdateLadder(float dt)
 		cameras[eacFirstEye]->lim_yaw[1]	= hi;
 		cameras[eacFirstEye]->bClampYaw		= true;
 	}else{
-		cam_yaw								+= delta * _min(dt*10.f,1.f) ;
+		cam_yaw								+= delta * XrMath::min(dt*10.f,1.f) ;
 	}
 
 	CElevatorState* es = character_physics_support()->movement()->ElevatorState();
@@ -74,9 +74,9 @@ void CActor::camUpdateLadder(float dt)
 	{
 		float &cam_pitch					= cameras[eacFirstEye]->pitch;
 		const float ldown_pitch				= cameras[eacFirstEye]->lim_pitch.y;
-		float delta							= angle_difference_signed(ldown_pitch,cam_pitch);
+		float delta							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
 		if(delta>0.f)
-			cam_pitch						+= delta* _min(dt*10.f,1.f) ;
+			cam_pitch						+= delta* XrMath::min(dt*10.f,1.f) ;
 	}
 }
 
@@ -96,16 +96,16 @@ float CActor::CameraHeight()
 
 IC float viewport_near(float& w, float& h)
 {
-	w = 2.f*VIEWPORT_NEAR*tan(deg2rad(Device.fFOV)/2.f);
+	w = 2.f*VIEWPORT_NEAR*tan(XrMath::deg2rad(Device.fFOV)/2.f);
 	h = w*Device.fASPECT;
-	float	c	= _sqrt					(w*w + h*h);
-	return	_max(_max(VIEWPORT_NEAR,_max(w,h)),c);
+	float	c	= XrMath::sqrt					(w*w + h*h);
+	return	XrMath::max(XrMath::max(VIEWPORT_NEAR,XrMath::max(w,h)),c);
 }
 
 ICF void calc_point(Fvector& pt, float radius, float depth, float alpha)
 {
-	pt.x	= radius*_sin(alpha);
-	pt.y	= radius+radius*_cos(alpha);
+	pt.x	= radius*XrMath::sin(alpha);
+	pt.y	= radius+radius*XrMath::cos(alpha);
 	pt.z	= depth;
 }
 
@@ -146,11 +146,11 @@ void CActor::cam_Update(float dt, float fFOV)
 	// lookout
 	if (this == Level().CurrentControlEntity())
 	{
-		if (!fis_zero(r_torso_tgt_roll)){
+		if (!XrMath::fis_zero(r_torso_tgt_roll)){
 			Fvector src_pt,tgt_pt;
 			float radius		= point.y*0.5f;
 			float alpha			= r_torso_tgt_roll/2.f;
-			float dZ			= ((PI_DIV_2-((PI+alpha)/2)));
+			float dZ			= ((XrMath::PI_DIV_2-((XrMath::M_PI+alpha)/2)));
 			calc_point			(tgt_pt,radius,0,alpha);
 			src_pt.set			(0,tgt_pt.y,0);
 			// init valid angle
@@ -186,11 +186,11 @@ void CActor::cam_Update(float dt, float fFOV)
 				BOOL bIntersect	= FALSE;
 				Fvector	ext		= {w,h,VIEWPORT_NEAR/2};
 				if (test_point(xrc,xform,mat,ext,radius,alpha)){
-					da			= PI/1000.f;
-					if (!fis_zero(r_torso.roll))
-						da		*= r_torso.roll/_abs(r_torso.roll);
+					da			= XrMath::M_PI/1000.f;
+					if (!XrMath::fis_zero(r_torso.roll))
+						da		*= r_torso.roll/XrMath::abs(r_torso.roll);
 					float angle = 0.f;
-					for (; _abs(angle)<_abs(alpha); angle+=da)
+					for (; XrMath::abs(angle)<XrMath::abs(alpha); angle+=da)
 						if (test_point(xrc,xform,mat,ext,radius,angle)) { bIntersect=TRUE; break; } 
 						valid_angle	= bIntersect?angle:alpha;
 				} 
@@ -204,12 +204,12 @@ void CActor::cam_Update(float dt, float fFOV)
 			r_torso.roll = 0.f;
 		}
 	}
-	if (!fis_zero(r_torso.roll))
+	if (!XrMath::fis_zero(r_torso.roll))
 	{
 		float radius		= point.y*0.5f;
 		float valid_angle	= r_torso.roll/2.f;
 		calc_point			(point,radius,0,valid_angle);
-		dangle.z			= (PI_DIV_2-((PI+valid_angle)/2));
+		dangle.z			= (XrMath::PI_DIV_2-((XrMath::M_PI+valid_angle)/2));
 	}
 
 	float flCurrentPlayerY	= xform.c.y;
@@ -334,15 +334,15 @@ void CActor::update_camera (CCameraShotEffector* effector)
 	if (pACam->bClampPitch)
 	{
 		while (pACam->pitch < pACam->lim_pitch[0])
-			pACam->pitch += PI_MUL_2;
+			pACam->pitch += XrMath::PI_MUL_2;
 		while (pACam->pitch > pACam->lim_pitch[1])
-			pACam->pitch -= PI_MUL_2;
+			pACam->pitch -= XrMath::PI_MUL_2;
 	};
 
 	effector->ApplyLastAngles(&(pACam->pitch), &(pACam->yaw));
 
-	if (pACam->bClampYaw)	clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
-	if (pACam->bClampPitch)	clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
+	if (pACam->bClampYaw)	XrMath::clamp(pACam->yaw,pACam->lim_yaw[0],pACam->lim_yaw[1]);
+	if (pACam->bClampPitch)	XrMath::clamp(pACam->pitch,pACam->lim_pitch[0],pACam->lim_pitch[1]);
 }
 
 
@@ -377,7 +377,7 @@ void CActor::LoadShootingEffector (LPCSTR section)
 	m_pShootingEffector->ppi.noise.intensity	= pSettings->r_float(section,"noise_intensity");
 	m_pShootingEffector->ppi.noise.grain		= pSettings->r_float(section,"noise_grain");
 	m_pShootingEffector->ppi.noise.fps		= pSettings->r_float(section,"noise_fps");
-	VERIFY(!fis_zero(m_pShootingEffector->ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_pShootingEffector->ppi.noise.fps));
 
 	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_base.r, &m_pShootingEffector->ppi.color_base.g, &m_pShootingEffector->ppi.color_base.b);
 	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_gray.r, &m_pShootingEffector->ppi.color_gray.g, &m_pShootingEffector->ppi.color_gray.b);
@@ -401,7 +401,7 @@ void CActor::LoadSleepEffector	(LPCSTR section)
 	m_pSleepEffector->ppi.noise.intensity	= pSettings->r_float(section,"noise_intensity");
 	m_pSleepEffector->ppi.noise.grain		= pSettings->r_float(section,"noise_grain");
 	m_pSleepEffector->ppi.noise.fps			= pSettings->r_float(section,"noise_fps");
-	VERIFY(!fis_zero(m_pSleepEffector->ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_pSleepEffector->ppi.noise.fps));
 
 	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_base.r, &m_pSleepEffector->ppi.color_base.g, &m_pSleepEffector->ppi.color_base.b);
 	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_gray.r, &m_pSleepEffector->ppi.color_gray.g, &m_pSleepEffector->ppi.color_gray.b);

@@ -29,17 +29,17 @@ float u_P	(s16 v)
 }
 s16	q_P		(float v)
 {
-	int		_v	= clampr(iFloor(v*(32767.f/12.f)), -32768, 32767);
+	int		_v	= XrMath::clampr(XrMath::iFloor(v*(32767.f/12.f)), -32768, 32767);
 	return	s16	(_v);
 }
 u8	q_N		(float v)
 {
-	int		_v	= clampr(iFloor((v+1.f)*127.5f), 0, 255);
+	int		_v	= XrMath::clampr(XrMath::iFloor((v+1.f)*127.5f), 0, 255);
 	return	u8	(_v);
 }
 s16	q_tc	(float v)
 {
-	int		_v	= clampr(iFloor(v*(32767.f/16.f)), -32768, 32767);
+	int		_v	= XrMath::clampr(XrMath::iFloor(v*(32767.f/16.f)), -32768, 32767);
 	return	s16	(_v);
 }
 #ifdef _DEBUG
@@ -127,7 +127,7 @@ struct	vertHW_2W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(clampr(iFloor(w*255.f+.5f),0,255)));
+		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w*255.f+.5f),0,255)));
 		_T			= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), 0);
 		_B			= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), 0);
 		_tc_i[0]	= q_tc	(tc.x);
@@ -184,8 +184,8 @@ struct	vertHW_3W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(clampr(iFloor(w0*255.f+.5f),0,255)));
-		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(clampr(iFloor(w1*255.f+.5f),0,255)));
+		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
+		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
 		_B_i		= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(index2));
 		_tc_i[0]	= q_tc	(tc.x);
 		_tc_i[1]	= q_tc	(tc.y);
@@ -266,9 +266,9 @@ struct	vertHW_4W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(clampr(iFloor(w0*255.f+.5f),0,255)));
-		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(clampr(iFloor(w1*255.f+.5f),0,255)));
-		_B_w		= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(clampr(iFloor(w2*255.f+.5f),0,255)));
+		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
+		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
+		_B_w		= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(XrMath::clampr(XrMath::iFloor(w2*255.f+.5f),0,255)));
 		_tc[0]		= q_tc	(tc.x);
 		_tc[1]		= q_tc	(tc.y);
 		_i		= color_rgba( u8(index0), u8(index1), u8(index2), u8(index3));
@@ -354,8 +354,8 @@ void CSkeletonX_PM::Render	(float LOD)
 {
 	int lod_id				= inherited1::last_lod;
 	if (LOD>=0.f){
-		clamp				(LOD,0.f,1.f);
-		lod_id				= iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
+		XrMath::clamp				(LOD,0.f,1.f);
+		lod_id				= XrMath::iFloor((1.f-LOD)*float(nSWI.count-1)+0.5f);
 		inherited1::last_lod= lod_id;
 	}
 	VERIFY					(lod_id>=0 && lod_id<int(nSWI.count));
@@ -1118,7 +1118,7 @@ void CSkeletonX_ext::_FillVerticesHW1W(const Fmatrix& view, CSkeletonWallmark& w
 		Fvector test_normal;
 		test_normal.mknormal	(p[0],p[1],p[2]);
 		float cosa				= test_normal.dotproduct(normal);
-		if (cosa<EPS)			continue;
+		if (cosa<XrMath::EPS)			continue;
 		if (CDB::TestSphereTri(wm.ContactPoint(),size,p))
 		{
 			Fvector				UV;
@@ -1161,7 +1161,7 @@ void CSkeletonX_ext::_FillVerticesHW2W(const Fmatrix& view, CSkeletonWallmark& w
 		Fvector test_normal;
 		test_normal.mknormal	(p[0],p[1],p[2]);
 		float cosa				= test_normal.dotproduct(normal);
-		if (cosa<EPS)			continue;
+		if (cosa<XrMath::EPS)			continue;
 
 		if (CDB::TestSphereTri(wm.ContactPoint(),size,p))
 		{

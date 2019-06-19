@@ -231,7 +231,7 @@ public:
 		Msg("Client Objects : %d", CLObjNum);
 		Msg("Server Objects : %d", SVObjNum);
 
-		for (u32 CO= 0; CO<_max(CLObjNum, SVObjNum); CO++)
+		for (u32 CO= 0; CO<XrMath::max(CLObjNum, SVObjNum); CO++)
 		{
 			if (CO < CLObjNum && CO < SVObjNum)
 			{
@@ -1720,7 +1720,7 @@ public:
 
 class CCC_AuthCheck : public CCC_Integer {
 public:
-					CCC_AuthCheck	(LPCSTR N, int* V, int _min=0, int _max=999) :CCC_Integer(N,V,_min,_max){};
+					CCC_AuthCheck	(LPCSTR N, int* V, int min_=0, int max_=999) :CCC_Integer(N,V,min_,max_){};
 	  virtual void	Save			(IWriter *F)	{};
 };
 
@@ -1795,7 +1795,7 @@ public:
 };
 class CCC_SV_Integer : public CCC_Integer {
 public:
-	CCC_SV_Integer(LPCSTR N, int* V, int _min=0, int _max=999) :CCC_Integer(N,V,_min,_max)  {};
+	CCC_SV_Integer(LPCSTR N, int* V, int min_=0, int max_=999) :CCC_Integer(N,V,min_,max_)  {};
 
 	  virtual void	Execute	(LPCSTR args)
 	  {
@@ -1809,7 +1809,7 @@ public:
 
 class CCC_SV_Float : public CCC_Float {
 public:
-	CCC_SV_Float(LPCSTR N, float* V, float _min=0, float _max=1) : CCC_Float(N,V,_min,_max) {};
+	CCC_SV_Float(LPCSTR N, float* V, float min_=0, float max_=1) : CCC_Float(N,V,min_,max_) {};
 
 	  virtual void	Execute	(LPCSTR args)
 	  {

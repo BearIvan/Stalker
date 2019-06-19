@@ -73,7 +73,7 @@ void CLevelGraph::choose_point(const Fvector &start_point, const Fvector &finish
 		}
 		dwIntersect				= intersect(start_point.x,start_point.z,finish_point.x,finish_point.z,tCheckPoint1.x,tCheckPoint1.z,tCheckPoint2.x,tCheckPoint2.z,&tIntersectPoint.x,&tIntersectPoint.z);
 		if (dwIntersect == LevelGraph::eLineIntersectionIntersect) {
-			if (finish_point.distance_to_xz(tIntersectPoint) < finish_point.distance_to_xz(temp_point) + EPS_L) {
+			if (finish_point.distance_to_xz(tIntersectPoint) < finish_point.distance_to_xz(temp_point) + XrMath::EPS_L) {
 				temp_point = tIntersectPoint;
 				saved_index = node_id;
 			}
@@ -108,7 +108,7 @@ float CLevelGraph::check_position_in_direction(u32 start_vertex_id, const Fvecto
 	float					fCurDistance = 0.f, fDistance = start_position.distance_to_xz(finish_position);
 	u32						dwCurNode = start_vertex_id;
 
-	while (!inside(vertex(dwCurNode),finish_position) && (fCurDistance < (fDistance + EPS_L))) {
+	while (!inside(vertex(dwCurNode),finish_position) && (fCurDistance < (fDistance + XrMath::EPS_L))) {
 		begin				(dwCurNode,I,E);
 		saved_index			= -1;
 		contour				(_contour,dwCurNode);
@@ -127,7 +127,7 @@ float CLevelGraph::check_position_in_direction(u32 start_vertex_id, const Fvecto
 			return			(max_distance);
 	}
 
-	if (inside(vertex(dwCurNode),finish_position) && (_abs(vertex_plane_y(*vertex(dwCurNode),finish_position.x,finish_position.z) - finish_position.y) < .5f))
+	if (inside(vertex(dwCurNode),finish_position) && (XrMath::abs(vertex_plane_y(*vertex(dwCurNode),finish_position.x,finish_position.z) - finish_position.y) < .5f))
 		return				(start_point.distance_to_xz(finish_position));
 	else
 		return				(max_distance);
@@ -156,7 +156,7 @@ float CLevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector &s
 	float					fDistance = start_point.distance_to(finish_point), fCurDistance = 0.f;
 	u32						dwCurNode = start_vertex_id;
 
-	while (!inside(vertex(dwCurNode),finish_point) && (fCurDistance < (fDistance + EPS_L))) {
+	while (!inside(vertex(dwCurNode),finish_point) && (fCurDistance < (fDistance + XrMath::EPS_L))) {
 		begin				(dwCurNode,I,E);
 		saved_index			= -1;
 		contour				(_contour,dwCurNode);
@@ -191,7 +191,7 @@ float CLevelGraph::farthest_vertex_in_direction(u32 start_vertex_id, const Fvect
 	float					fDistance = start_point.distance_to(finish_point), fCurDistance = 0.f;
 	u32						dwCurNode = start_vertex_id;
 
-	while (!inside(vertex(dwCurNode),finish_point) && (fCurDistance < (fDistance + EPS_L))) {
+	while (!inside(vertex(dwCurNode),finish_point) && (fCurDistance < (fDistance + XrMath::EPS_L))) {
 		begin				(dwCurNode,I,E);
 		saved_index			= -1;
 		contour				(_contour,dwCurNode);
@@ -241,7 +241,7 @@ u32	 CLevelGraph::check_position_in_direction_slow	(u32 start_vertex_id, const F
 	Fvector2				temp;
 	unpack_xz				(vertex(start_vertex_id),temp.x,temp.y);
 
-	float					cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+	float					cur_sqr = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 	for (;;) {
 		const_iterator		I,E;
 		begin				(cur_vertex_id,I,E);
@@ -262,7 +262,7 @@ u32	 CLevelGraph::check_position_in_direction_slow	(u32 start_vertex_id, const F
 				Fvector2		temp;
 				temp.add		(box.min,box.max);
 				temp.mul		(.5f);
-				float			dist = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+				float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 				if (dist > cur_sqr)
 					continue;
 				
@@ -296,7 +296,7 @@ bool CLevelGraph::check_vertex_in_direction_slow	(u32 start_vertex_id, const Fve
 	Fvector2				temp;
 	unpack_xz				(vertex(start_vertex_id),temp.x,temp.y);
 
-	float					cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+	float					cur_sqr = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 	for (;;) {
 		const_iterator		I,E;
 		begin				(cur_vertex_id,I,E);
@@ -315,7 +315,7 @@ bool CLevelGraph::check_vertex_in_direction_slow	(u32 start_vertex_id, const Fve
 				Fvector2		temp;
 				temp.add		(box.min,box.max);
 				temp.mul		(.5f);
-				float			dist = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+				float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 				if (dist > cur_sqr)
 					continue;
 
@@ -374,7 +374,7 @@ bool CLevelGraph::create_straight_path(u32 start_vertex_id, const Fvector2 &star
 		tpaOutputNodes.push_back(start_vertex_id);
 	}
 
-	float					cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+	float					cur_sqr = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 	for (;;) {
 		const_iterator		I,E;
 		begin				(cur_vertex_id,I,E);
@@ -391,7 +391,7 @@ bool CLevelGraph::create_straight_path(u32 start_vertex_id, const Fvector2 &star
 				Fvector2		temp;
 				temp.add		(box.min,box.max);
 				temp.mul		(.5f);
-				float			dist = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+				float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 				if (dist > cur_sqr)
 					continue;
 
@@ -453,26 +453,26 @@ float CLevelGraph::cover_in_direction(float fAngle, float b1, float b0, float b3
 {
 	float fResult;
 	
-	if (fAngle < PI_DIV_2)
+	if (fAngle < XrMath::PI_DIV_2)
 		;
 	else
-		if (fAngle < PI) {
-			fAngle	-= PI_DIV_2;
+		if (fAngle < XrMath::M_PI) {
+			fAngle	-= XrMath::PI_DIV_2;
 			b0		= b1;
 			b1		= b2;
 		}
 		else
-			if (fAngle < 3*PI_DIV_2) {
-				fAngle -= PI;
+			if (fAngle < 3*XrMath::PI_DIV_2) {
+				fAngle -= XrMath::M_PI;
 				b0		= b2;
 				b1		= b3;
 			}
 			else {
-				fAngle -= 3*PI_DIV_2;
+				fAngle -= 3*XrMath::PI_DIV_2;
 				b1		= b0;
 				b0		= b3;
 			}
-	fResult = (b1 - b0)*fAngle/PI_DIV_2 + b0;
+	fResult = (b1 - b0)*fAngle/XrMath::PI_DIV_2 + b0;
 	return(fResult);
 }
 
@@ -492,7 +492,7 @@ bool CLevelGraph::neighbour_in_direction	(const Fvector &direction, u32 start_ve
 	Fvector2				temp;
 	unpack_xz				(vertex(start_vertex_id),temp.x,temp.y);
 
-	float					cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+	float					cur_sqr = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 	const_iterator			I,E;
 	begin					(cur_vertex_id,I,E);
 	for ( ; I != E; ++I) {
@@ -506,7 +506,7 @@ bool CLevelGraph::neighbour_in_direction	(const Fvector &direction, u32 start_ve
 			Fvector2		temp;
 			temp.add		(box.min,box.max);
 			temp.mul		(.5f);
-			float			dist = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+			float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 			if (dist > cur_sqr)
 				continue;
 			return			(true);

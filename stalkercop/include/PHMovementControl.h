@@ -177,7 +177,7 @@ public:
 	float				GetActVelInGoingDir			(){float r= GetActVelProj(GetPathDir());return r>0.f ? r : 0.f;}
 	float				GetXZActVelInGoingDir		(){
 															float r= dXZDot(GetPathDir(),vVelocity);
-															return r>EPS_L ? r : 0.f;
+															return r>XrMath::EPS_L ? r : 0.f;
 														}
 	void				GetSmoothedVelocity			(Fvector& v);
 	float				GetContactSpeed				()		{ return fContactSpeed; }

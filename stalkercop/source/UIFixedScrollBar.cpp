@@ -48,7 +48,7 @@ void CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR prof
 		strconcat(sizeof(_path),_path, profile, ":back");
 		CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground);
 
-		m_ScrollWorkArea = _max(0,iFloor(GetWidth()-2*height));
+		m_ScrollWorkArea = XrMath::max(0,XrMath::iFloor(GetWidth()-2*height));
 	}
 	else
 	{
@@ -66,7 +66,7 @@ void CUIFixedScrollBar::InitScrollBar(Fvector2 pos, bool horizontal, LPCSTR prof
 		strconcat(sizeof(_path),_path, profile, ":back_v");
 		CUIXmlInit::InitFrameLine(xml_doc, _path, 0, m_FrameBackground);
 
-		m_ScrollWorkArea = _max(0,iFloor(GetHeight()-2*width_v));
+		m_ScrollWorkArea = XrMath::max(0,XrMath::iFloor(GetHeight()-2*width_v));
 	}	
 	UpdateScrollBar();
 }
@@ -83,20 +83,20 @@ void CUIFixedScrollBar::UpdateScrollBar()
 			if(m_bIsHorizontal)
 			{
 				// set width
-				clamp(box_sz,_min(GetHeight(),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()-2*m_ScrollBoxOffset.x);
+				XrMath::clamp(box_sz,XrMath::min(GetHeight(),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()),GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()-2*m_ScrollBoxOffset.x);
 				m_ScrollBox->SetWidth(box_sz);
 				// set pos
-				int pos	= PosViewFromScroll(iFloor(box_sz),iFloor(GetHeight()));
+				int pos	= PosViewFromScroll(XrMath::iFloor(box_sz),XrMath::iFloor(GetHeight()));
 				m_ScrollBox->SetWndPos(Fvector2().set(float(pos), m_ScrollBox->GetWndRect().top));
 				m_IncButton->SetWndPos(Fvector2().set(GetWidth() - m_IncButton->GetWidth(), 0.0f));
 			}
 			else
 			{
 				// set height
-				clamp(box_sz,_min(GetWidth(),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()-2*m_ScrollBoxOffset.y);
+				XrMath::clamp(box_sz,XrMath::min(GetWidth(),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()),GetHeight()-m_IncButton->GetHeight() - m_DecButton->GetHeight()-2*m_ScrollBoxOffset.y);
 				m_ScrollBox->SetHeight(box_sz);
 				// set pos
-				int pos	= PosViewFromScroll(iFloor(box_sz),iFloor(GetWidth()));
+				int pos	= PosViewFromScroll(XrMath::iFloor(box_sz),XrMath::iFloor(GetWidth()));
 				m_ScrollBox->SetWndPos(Fvector2().set(m_ScrollBox->GetWndRect().left, float(pos)));
 				m_IncButton->SetWndPos(Fvector2().set(0.0f, GetHeight() - m_IncButton->GetHeight()));
 			}
@@ -301,7 +301,7 @@ void CUIFixedScrollBar::SetPosScrollFromView(float view_pos, float view_size, fl
 	int scroll_size	= ScrollSize();
 	float pos = view_pos-view_offs;
 	float work_size	= m_ScrollWorkArea-view_size;
-	m_iScrollPos = work_size?iFloor(((pos/work_size)*(scroll_size) + m_iMinPos)):0; 
-	clamp(m_iScrollPos,m_iMinPos,m_iMaxPos-m_iPageSize+1);
+	m_iScrollPos = work_size?XrMath::iFloor(((pos/work_size)*(scroll_size) + m_iMinPos)):0; 
+	XrMath::clamp(m_iScrollPos,m_iMinPos,m_iMaxPos-m_iPageSize+1);
 	UpdateScrollBar();
 }

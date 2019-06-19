@@ -93,7 +93,7 @@ void CPHWorld::SetStep(dReal s)
 	if(ph_world&&ph_world->Exist())
 	{
 		float	frame_time					=	Device.fTimeDelta;
-		u32		it_number					=	iFloor	(frame_time /fixed_step);
+		u32		it_number					=	XrMath::iFloor	(frame_time /fixed_step);
 		frame_time							-=	it_number*fixed_step;
 		ph_world->m_previous_frame_time		=	frame_time;
 		ph_world->m_frame_time				=	frame_time;
@@ -400,9 +400,9 @@ void CPHWorld::StepTouch()
 u32 CPHWorld::CalcNumSteps (u32 dTime)
 {
 	if (dTime < m_frame_time*1000) return 0;
-	u32 res = iCeil((float(dTime) - m_frame_time*1000) / (fixed_step*1000));
+	u32 res = XrMath::iCeil((float(dTime) - m_frame_time*1000) / (fixed_step*1000));
 //	if (dTime < fixed_step*1000) return 0;
-//	u32 res = iFloor((float(dTime) / 1000 / fixed_step)+0.5f);
+//	u32 res = XrMath::iFloor((float(dTime) / 1000 / fixed_step)+0.5f);
 	return res;
 };
 
@@ -434,7 +434,7 @@ void CPHWorld::FrameStep(dReal step)
 #endif
 	if(!(frame_time<fixed_step))
 	{
-		it_number				=	iFloor	(frame_time/fixed_step);
+		it_number				=	XrMath::iFloor	(frame_time/fixed_step);
 		frame_time				-=	it_number*fixed_step;
 		m_previous_frame_time	=	m_frame_time;
 		m_frame_time			=	frame_time;

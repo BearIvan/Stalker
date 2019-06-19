@@ -62,7 +62,7 @@ void CSimpleDetector::UpdateAf()
 	float dist				= min_dist;
 		
 	float fRelPow			= (dist/m_fAfDetectRadius);
-	clamp					(fRelPow, 0.f, 1.f);
+	XrMath::clamp					(fRelPow, 0.f, 1.f);
 
 	//определить текущую частоту срабатывания сигнала
 	af_info.cur_period = item_type->freq.x + 
@@ -109,7 +109,7 @@ void CUIArtefactDetectorSimple::Flash(bool bOn, float fRelPower)
 	if(bOn)
 	{
 		K->LL_SetBoneVisible(m_flash_bone, TRUE, TRUE);
-		m_turn_off_flash_time = Device.dwTimeGlobal+iFloor(fRelPower*1000.0f);
+		m_turn_off_flash_time = Device.dwTimeGlobal+XrMath::iFloor(fRelPower*1000.0f);
 	}else
 	{
 		K->LL_SetBoneVisible(m_flash_bone, FALSE, TRUE);

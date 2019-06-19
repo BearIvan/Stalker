@@ -142,7 +142,7 @@ void CMincer::AffectPullAlife(CEntityAlive* EA,const Fvector& throw_in_dir,float
 {
 	float power = Power(dist, Radius());
 	//Fvector dir;
-	//dir.random_dir(throw_in_dir,2.f*M_PI);
+	//dir.random_dir(throw_in_dir,2.f*XrMath::M_PI);
 	if(!smart_cast<CActor*>(EA))
 	{
 		Fvector pos_in_bone_space;

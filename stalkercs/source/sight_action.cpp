@@ -106,7 +106,7 @@ void CSightAction::remove_links					(CObject *object)
 
 bool CSightAction::target_reached				()
 {
-	return				(!!fsimilar(angle_normalize_signed(object().movement().m_head.target.yaw),angle_normalize_signed(object().movement().m_head.current.yaw)));
+	return				(!!XrMath::fsimilar(XrMath::angle_normalize_signed(object().movement().m_head.target.yaw),XrMath::angle_normalize_signed(object().movement().m_head.current.yaw)));
 }
 
 void CSightAction::execute_current_direction	()
@@ -182,7 +182,7 @@ void CSightAction::execute_object				()
 void CSightAction::execute_cover				()
 {
 	if (m_torso_look)
-		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),PI,m_path);
+		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),XrMath::M_PI,m_path);
 	else
 		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),m_path);
 #ifdef SIGHT_TEST
@@ -194,10 +194,10 @@ void CSightAction::execute_search				()
 {
 	m_torso_look					= false;
 	if (m_torso_look)
-		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),PI,m_path);
+		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),XrMath::M_PI,m_path);
 	else
 		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),m_path);
-	object().movement().m_head.target.pitch	= PI_DIV_4;
+	object().movement().m_head.target.pitch	= XrMath::PI_DIV_4;
 #ifdef SIGHT_TEST
 	Msg					("%6d %s",Device.dwTimeGlobal,m_torso_look ? "eSightTypeFireSearch" : "eSightTypeSearch");
 #endif
@@ -224,7 +224,7 @@ fall_back:
 				m_start_state_time	= Device.dwTimeGlobal;
 				m_stop_state_time	= 3500;
 				m_internal_state	= 1;
-				object().movement().m_head.target.yaw = m_cover_yaw + ::Random.randF(-PI_DIV_8,PI_DIV_8);
+				object().movement().m_head.target.yaw = m_cover_yaw + ::Random.randF(-XrMath::PI_DIV_8,XrMath::PI_DIV_8);
 			}
 			break;
 		}
@@ -265,7 +265,7 @@ bool CSightAction::change_head_speed			() const
 float CSightAction::head_speed					() const
 {
 	VERIFY	(SightManager::eSightTypeCoverLookOver == m_sight_type);
-	return	(PI_DIV_8*.5f);
+	return	(XrMath::PI_DIV_8*.5f);
 }
 
 void CSightAction::initialize_fire_object		()
@@ -329,7 +329,7 @@ void CSightAction::execute_fire_object			()
 			if (m_object->can_kill_enemy() && !m_object->can_kill_member())
 				break;
 
-			if (m_object_to_look->Position().distance_to_sqr(m_object->Position()) < _sqr(5.f))
+			if (m_object_to_look->Position().distance_to_sqr(m_object->Position()) < XrMath::sqr(5.f))
 				break;
 
 //			Msg							("%6d switch to mode 1", Device.dwTimeGlobal);
@@ -341,7 +341,7 @@ void CSightAction::execute_fire_object			()
 			break;
 		}
 		case 1 : {
-			if (m_object_to_look->Position().distance_to_sqr(m_object->Position()) > _sqr(5.f)) {
+			if (m_object_to_look->Position().distance_to_sqr(m_object->Position()) > XrMath::sqr(5.f)) {
 				if (!m_holder_start_position.similar(m_object->Position(),.05f)) {
 					m_vector3d			= m_object->sight().object_position();
 					m_already_switched	= false;

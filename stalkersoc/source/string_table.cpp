@@ -31,10 +31,10 @@ void CStringTable::Init		()
 	if (S && S[0]) 
 	{
 		string128	xml_file;
-		int			count = _GetItemCount	(S);
+		int			count = XrTrims::GetItemCount	(S);
 		for (int it=0; it<count; ++it)	
 		{
-			_GetItem	(S,it, xml_file);
+			XrTrims::GetItem	(S,it, xml_file);
 			Load		(xml_file);
 		}
 	}

@@ -40,7 +40,7 @@ void CUIAnimatedStatic::Update()
 	if (m_bParamsChanged && 0 != m_uFrameCount)
 	{
 		// Пересчитаем время одного кадра
-		oneFrameDuration = iCeil(m_uAnimationDuration / static_cast<float>(m_uFrameCount));
+		oneFrameDuration = XrMath::iCeil(m_uAnimationDuration / static_cast<float>(m_uFrameCount));
 
 		SetFrame(0);
 
@@ -138,13 +138,13 @@ void CUISleepStatic::Update()
 
 	Frect r = Frect().set((float)start_pixel, 0.0f, (float)end_pixel, 128.0f);
 	m_UIStaticItem.SetTextureRect(r);
-	m_UIStaticItem.SetSize(Fvector2().set(iFloor((end_pixel-start_pixel)*UI().get_current_kx()), 128));
+	m_UIStaticItem.SetSize(Fvector2().set(XrMath::iFloor((end_pixel-start_pixel)*UI().get_current_kx()), 128));
 	m_UIStaticItem.SetPos(pos.x, pos.y);
 	if(end_pixel2>0)
 	{
 		r.set((float)start_pixel2, 0.0f, (float)end_pixel2, 128.0f);
 		m_UIStaticItem2.SetTextureRect(r);
-		m_UIStaticItem2.SetSize(Fvector2().set(iFloor(end_pixel2*UI().get_current_kx()), 128));
+		m_UIStaticItem2.SetSize(Fvector2().set(XrMath::iFloor(end_pixel2*UI().get_current_kx()), 128));
 		m_UIStaticItem2.SetPos(m_UIStaticItem.GetPosX()+m_UIStaticItem.GetSize().x, m_UIStaticItem.GetPosY());
 	}
 	else

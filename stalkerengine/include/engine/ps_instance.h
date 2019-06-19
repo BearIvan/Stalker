@@ -34,7 +34,7 @@ public:
     virtual void PSI_destroy();
     IC BOOL PSI_alive() { return m_iLifeTime > 0; }
     IC BOOL PSI_IsAutomatic() { return m_bAutoRemove; }
-    IC void PSI_SetLifeTime(float life_time) { m_iLifeTime = iFloor(life_time * 1000); }
+    IC void PSI_SetLifeTime(float life_time) { m_iLifeTime = XrMath::iFloor(life_time * 1000); }
 
     virtual void Play(bool bHudMode) = 0;
     virtual BOOL Locked() { return FALSE; }

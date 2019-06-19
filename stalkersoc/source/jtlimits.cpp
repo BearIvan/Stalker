@@ -82,8 +82,8 @@ void SimpleJtLimit::init(int jt_type,
 
     psi.Reset(a,b,c);
     limits.Set(low,high);
-    sin_low = _sin(low);
-    sin_high = _sin(high); 
+    sin_low = XrMath::sin(low);
+    sin_high = XrMath::sin(high); 
 
     switch(jt_type)
     {
@@ -127,7 +127,7 @@ float SimpleJtLimit::theta1_d_aux(float v, float delta) const
 		theta1_d_aux(v - delta, delta * 10.0f)) / 2.0f;
     }
 
-    d = _sqrt(1-d*d);
+    d = XrMath::sqrt(1-d*d);
 
     return (type == SinJtLimit) ? (d_psi / d) : (-d_psi / d);
 }
@@ -155,19 +155,19 @@ int SimpleJtLimit::Solve(int family, float v, float sin_v,
     //    const float eps = 1e-5;
     int n=-1; 
 
-    v = angle_normalize(v);
+    v = XrMath::angle_normalize(v);
     if (type == SinJtLimit)
     {
 	if (family == 1)
 	{
 	    // Check if v is in range 0..pi/2 or 3pi/2..2pi
-	    if ((v > M_PI/2.0) && (v < 3*M_PI/2.0))
+	    if ((v > XrMath::M_PI/2.0) && (v < 3*XrMath::M_PI/2.0))
 		return 0;
 	}
 	else 
 	{
 	    // Check if v is in range pi/2..3*pi/2
-	    if ((v < M_PI / 2.0)  || (v > 3*M_PI/2.0))
+	    if ((v < XrMath::M_PI / 2.0)  || (v > 3*XrMath::M_PI/2.0))
 		return 0;
 	}
 	n = psi.solve(sin_v, solns);
@@ -186,7 +186,7 @@ int SimpleJtLimit::Discontinuity(int family, float x[2]) const
 	if (family == 2)
 	    n = 0;
 
-	// Discontinuity occurs when theta = 0 or 2*M_PI => sin(theta) = 0
+	// Discontinuity occurs when theta = 0 or 2*XrMath::M_PI => sin(theta) = 0
 	else
 	    n = psi.roots(x);
 
@@ -323,7 +323,7 @@ void SimpleJtLimit::PsiLimits(AngleIntList &psi1,
 	float y[4];
 	int   n;
 	float low = eps;
-	float high = 2*M_PI - eps;
+	float high = 2*XrMath::M_PI - eps;
 
 	y[0] = low;
 	n = Discontinuity(1, y+1); 
@@ -340,15 +340,15 @@ void SimpleJtLimit::PsiLimits(AngleIntList &psi1,
 		    continue; 
 #else
 		// Points are closer than 2 eps then interval is nonexistent
-		if (_abs(y[i]-y[i+1]) < 2*eps)
+		if (XrMath::abs(y[i]-y[i+1]) < 2*eps)
 		    continue; 
 #endif
 
-		clip(1, y[i]+eps, y[i+1]-eps, limits.Low(), 2*M_PI, psi1);
+		clip(1, y[i]+eps, y[i+1]-eps, limits.Low(), 2*XrMath::M_PI, psi1);
 		clip(1, y[i]+eps, y[i+1]-eps, 0, limits.High(), psi1);
 	    }
-	    clip(2, eps, 2*M_PI-eps, limits.Low(), 2*M_PI, psi2);
-	    clip(2, eps, 2*M_PI-eps, 0, limits.High(), psi2);
+	    clip(2, eps, 2*XrMath::M_PI-eps, limits.Low(), 2*XrMath::M_PI, psi2);
+	    clip(2, eps, 2*XrMath::M_PI-eps, 0, limits.High(), psi2);
 	}
 	else
 	{
@@ -359,13 +359,13 @@ void SimpleJtLimit::PsiLimits(AngleIntList &psi1,
 		    continue; 
 #else
 		// Points are closer than 2 eps then interval is nonexistent
-		if (_abs(y[i]-y[i+1]) < 2*eps)
+		if (XrMath::abs(y[i]-y[i+1]) < 2*eps)
 		    continue; 
 #endif
 		clip(1, y[i]+eps, y[i+1]-eps, limits.Low(), limits.High(), psi1);
 	    }
 
-	    clip(2, eps, 2*M_PI-eps, limits.Low(), limits.High(), psi2);
+	    clip(2, eps, 2*XrMath::M_PI-eps, limits.Low(), limits.High(), psi2);
 	}
     }
     else
@@ -377,19 +377,19 @@ inline float mytan(float v)
     const float eps = 1e-5f; 
     const float big_eps = 1e-4f;
 
-    if (equal(v,M_PI/2,eps))
+    if (equal(v,XrMath::M_PI/2,eps))
     {
-	if (v > M_PI/2)
-	    v = M_PI/2 + big_eps;
+	if (v > XrMath::M_PI/2)
+	    v = XrMath::M_PI/2 + big_eps;
 	else
-	    v = M_PI/2 - big_eps;
+	    v = XrMath::M_PI/2 - big_eps;
     }
-    else if (equal(v,3*M_PI/2, eps))
+    else if (equal(v,3*XrMath::M_PI/2, eps))
     {
-	if (v > 3*M_PI/2)
-	    v = 3*M_PI/2 + big_eps;
+	if (v > 3*XrMath::M_PI/2)
+	    v = 3*XrMath::M_PI/2 + big_eps;
 	else
-	    v = 3*M_PI/2 - big_eps;
+	    v = 3*XrMath::M_PI/2 - big_eps;
     }
     return tan(v);
 }
@@ -430,17 +430,17 @@ void ComplexJtLimit::init(int jt_type,
 //
 // Intervals where cos and sin are positive
 //
-static AngleInt PosSin(0,M_PI);
-static AngleInt PosCos(-M_PI/2,M_PI/2);
+static AngleInt PosSin(0,XrMath::M_PI);
+static AngleInt PosCos(-XrMath::M_PI/2,XrMath::M_PI/2);
  
 float ComplexJtLimit::theta1(float v) const
 {
-    return angle_normalize(atan2(sin_eq.eval(v), cos_eq.eval(v)));
+    return XrMath::angle_normalize(atan2(sin_eq.eval(v), cos_eq.eval(v)));
 }
 
 float ComplexJtLimit::theta2(float v) const
 {
-    return angle_normalize(atan2(-sin_eq.eval(v), -cos_eq.eval(v)));
+    return XrMath::angle_normalize(atan2(-sin_eq.eval(v), -cos_eq.eval(v)));
 }
 
 float ComplexJtLimit::theta(int family, float psi) const
@@ -581,10 +581,10 @@ int ComplexJtLimit::solve_aux(float v, float tan_v, float *solns) const
     int n;
 
     // Special cases are when cos_eq(psi) = 0 or sin_eq(psi) = 0
-    if (equal(v,M_PI/2,eps) || equal(v,3*M_PI/2,eps))
+    if (equal(v,XrMath::M_PI/2,eps) || equal(v,3*XrMath::M_PI/2,eps))
 	n = cos_eq.roots(solns);
 
-    else if (iszero(v,eps) || equal(v,M_PI,eps) || equal(v,2*M_PI,eps))
+    else if (iszero(v,eps) || equal(v,XrMath::M_PI,eps) || equal(v,2*XrMath::M_PI,eps))
 	n = sin_eq.roots(solns); 
 
     else 
@@ -637,10 +637,10 @@ int ComplexJtLimit::Solve(int family, float v, float tan_v, float psi[2]) const
 int angleequal(float x, float y, float eps)
 {
     // Handle case where x = 2*MPI, y = 0 or vice versa 
-    if (equal(x,2*M_PI,eps) &&  _abs(y) < eps)
+    if (equal(x,2*XrMath::M_PI,eps) &&  XrMath::abs(y) < eps)
 	return 1;
 
-    if (_abs(x) < eps && equal(y,2*M_PI,eps))
+    if (XrMath::abs(x) < eps && equal(y,2*XrMath::M_PI,eps))
 	return 1;
 
     return equal(x,y,eps); 
@@ -665,7 +665,7 @@ void ComplexJtLimit::Solve2(float v, float tan_v,
     for (int i = 0; i < n; i++)
     {
 	float t = theta(1, temp[i]); 
-	float t2 = angle_normalize(t + M_PI); 
+	float t2 = XrMath::angle_normalize(t + XrMath::M_PI); 
 
 	if (angleequal(t,v,1e-4f))
 	    psi_1[n1++] = temp[i];
@@ -695,7 +695,7 @@ void ComplexJtLimit::clip(float low,
     
     for (int i = 0; i < (n-1); i++)
     {
-	if (_abs(p[i]-p[i+1]) < 2*eps)
+	if (XrMath::abs(p[i]-p[i+1]) < 2*eps)
 	    continue; 
 
 	float t = theta(family, (p[i]+eps + p[i+1]-eps) / 2.0f);
@@ -734,7 +734,7 @@ void ComplexJtLimit::store_intersections(int n,
 }
 
 const float tan_0 = tan(eps/2.0f);
-const float tan_two_pi = (2*M_PI-eps/2.0f);
+const float tan_two_pi = (2*XrMath::M_PI-eps/2.0f);
 
 
 
@@ -759,16 +759,16 @@ void ComplexJtLimit::PsiLimits(int num_s,
     {
 	n  += sin_eq.roots(temp + n);
 	y[0]   = eps/2.0f;
-	y[n+1] = 2*M_PI - eps/2.0f;
+	y[n+1] = 2*XrMath::M_PI - eps/2.0f;
 	n += 2;
 
 	if (limits.Low() > limits.High())
 	{
-	    store_intersections(n, y, limits.Low(), 2*M_PI, 
+	    store_intersections(n, y, limits.Low(), 2*XrMath::M_PI, 
 				tan_low, tan_two_pi,
 				n1, p1, n2, p2);
-	    clip(limits.Low(), 2*M_PI, 1, n1, p1, psi1);
-	    clip(limits.Low(), 2*M_PI, 2, n2, p2, psi2);
+	    clip(limits.Low(), 2*XrMath::M_PI, 1, n1, p1, psi1);
+	    clip(limits.Low(), 2*XrMath::M_PI, 2, n2, p2, psi2);
 
 	    store_intersections(n, y, 0, limits.High(), 
 				tan_0, tan_high,

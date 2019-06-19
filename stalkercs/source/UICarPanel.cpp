@@ -44,7 +44,7 @@ void CUICarPanel::InitCarPanel(Fvector2 pos, Fvector2 size)
 void CUICarPanel::SetCarHealth(float value)
 {
 	float pos = value*100;
-	clamp(pos, 0.0f, 100.0f);
+	XrMath::clamp(pos, 0.0f, 100.0f);
 	UICarHealthBar.SetProgressPos(pos);
 }
 
@@ -52,7 +52,7 @@ void CUICarPanel::SetCarHealth(float value)
 
 void CUICarPanel::SetSpeed(float speed)
 {
-//	clamp(speed,0.f,1.f);
+//	XrMath::clamp(speed,0.f,1.f);
 //	UISpeedometer.SetValue(speed);
 }
 
@@ -60,6 +60,6 @@ void CUICarPanel::SetSpeed(float speed)
 
 void CUICarPanel::SetRPM(float rpm)
 {
-//	clamp(rpm,0.f,1.f);
+//	XrMath::clamp(rpm,0.f,1.f);
 //	UITachometer.SetValue(rpm);
 }

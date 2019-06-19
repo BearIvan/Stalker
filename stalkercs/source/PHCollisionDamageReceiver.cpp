@@ -65,7 +65,7 @@ void CPHCollisionDamageReceiver::CollisionCallback(bool& do_colide,bool bo1,dCon
 	}
 
 	float dfs=(material_self->fBounceDamageFactor+damager_material_factor);
-	if(fis_zero(dfs)) return;
+	if(XrMath::fis_zero(dfs)) return;
 	Fvector dir;dir.set(*(Fvector*)c.geom.normal);
 	Fvector pos;
 	pos.sub(*(Fvector*)c.geom.pos,*(Fvector*)dGeomGetPosition(bo1 ? c.geom.g1:c.geom.g2));//it is not true pos in bone space

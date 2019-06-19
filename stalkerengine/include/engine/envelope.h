@@ -51,15 +51,15 @@ struct st_Key
     st_Key() { ZeroMemory(this, sizeof(st_Key)); }
     IC bool equal(const st_Key& tgt)
     {
-        if (!fsimilar(value, tgt.value)) return false;
-        if (!fsimilar(shape, tgt.shape)) return false;
-        if (!fsimilar(tension, tgt.tension)) return false;
-        if (!fsimilar(continuity, tgt.continuity)) return false;
-        if (!fsimilar(bias, tgt.bias)) return false;
-        if (!fsimilar(param[0], tgt.param[0])) return false;
-        if (!fsimilar(param[1], tgt.param[1])) return false;
-        if (!fsimilar(param[2], tgt.param[2])) return false;
-        if (!fsimilar(param[3], tgt.param[3])) return false;
+        if (!XrMath::fsimilar(value, tgt.value)) return false;
+        if (!XrMath::fsimilar(shape, tgt.shape)) return false;
+        if (!XrMath::fsimilar(tension, tgt.tension)) return false;
+        if (!XrMath::fsimilar(continuity, tgt.continuity)) return false;
+        if (!XrMath::fsimilar(bias, tgt.bias)) return false;
+        if (!XrMath::fsimilar(param[0], tgt.param[0])) return false;
+        if (!XrMath::fsimilar(param[1], tgt.param[1])) return false;
+        if (!XrMath::fsimilar(param[2], tgt.param[2])) return false;
+        if (!XrMath::fsimilar(param[3], tgt.param[3])) return false;
         return true;
     }
     IC void Save(IWriter& F)

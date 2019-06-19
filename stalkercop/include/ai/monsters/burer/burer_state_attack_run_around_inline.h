@@ -50,7 +50,7 @@ void CStateBurerAttackRunAroundAbstract::initialize()
 TEMPLATE_SPECIALIZATION
 void CStateBurerAttackRunAroundAbstract::execute()
 {
-	if (!fis_zero(dest_direction.square_magnitude())) {
+	if (!XrMath::fis_zero(dest_direction.square_magnitude())) {
 		object->path().set_use_dest_orient		(true);
 		object->path().set_dest_direction		(dest_direction);
 	} else object->path().set_use_dest_orient	(false);

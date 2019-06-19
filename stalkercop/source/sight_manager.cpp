@@ -51,18 +51,18 @@ void CSightManager::reinit			()
 
 void CSightManager::reload			(LPCSTR section)
 {
-	m_max_left_angle			= deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_left_torso_angle",90.f));
-	m_max_right_angle			= deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_right_torso_angle",60.f));
+	m_max_left_angle			= XrMath::deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_left_torso_angle",90.f));
+	m_max_right_angle			= XrMath::deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_right_torso_angle",60.f));
 }
 
 void CSightManager::vfValidateAngleDependency(float x1, float &x2, float x3)
 {
-	float const _x2				= angle_normalize_signed(x2 - x1);
-	float const _x3				= angle_normalize_signed(x3 - x1);
+	float const _x2				= XrMath::angle_normalize_signed(x2 - x1);
+	float const _x3				= XrMath::angle_normalize_signed(x3 - x1);
 	if (_x2*_x3 >= 0.f)
 		return;
 	
-	if ( _abs(_x2) + _abs(_x3) <= PI )
+	if ( XrMath::abs(_x2) + XrMath::abs(_x3) <= XrMath::M_PI )
 		return;
 
 	x2							= x3;
@@ -72,9 +72,9 @@ void CSightManager::vfValidateAngleDependency(float x1, float &x2, float x3)
 BOOL g_ai_dbg_sight = 0;
 #endif // #ifdef DEBUG
 
-float g_ai_aim_min_speed = PI_DIV_8/2.f;
-float g_ai_aim_min_angle = PI_DIV_8/2.f;
-float g_ai_aim_max_angle = PI_DIV_4;
+float g_ai_aim_min_speed = XrMath::PI_DIV_8/2.f;
+float g_ai_aim_min_angle = XrMath::PI_DIV_8/2.f;
+float g_ai_aim_max_angle = XrMath::PI_DIV_4;
 BOOL  g_ai_aim_use_smooth_aim = 1;
 
 static inline float	select_speed	( float const distance, float const speed, float const min_speed, float const min_distance, float const max_distance )
@@ -110,16 +110,16 @@ void CSightManager::Exec_Look		(float time_delta)
 		body.target		= body.current;
 
 	// normalizing torso angles
-	body.current.yaw	= angle_normalize_signed	(body.current.yaw);
-	body.current.pitch	= angle_normalize_signed	(body.current.pitch);
-	body.target.yaw		= angle_normalize_signed	(body.target.yaw);
-	body.target.pitch	= angle_normalize_signed	(body.target.pitch);
+	body.current.yaw	= XrMath::angle_normalize_signed	(body.current.yaw);
+	body.current.pitch	= XrMath::angle_normalize_signed	(body.current.pitch);
+	body.target.yaw		= XrMath::angle_normalize_signed	(body.target.yaw);
+	body.target.pitch	= XrMath::angle_normalize_signed	(body.target.pitch);
 
 	// normalizing head angles
-	head.current.yaw	= angle_normalize_signed	(head.current.yaw);
-	head.current.pitch	= angle_normalize_signed	(head.current.pitch);
-	head.target.yaw		= angle_normalize_signed	(head.target.yaw);
-	head.target.pitch	= angle_normalize_signed	(head.target.pitch);
+	head.current.yaw	= XrMath::angle_normalize_signed	(head.current.yaw);
+	head.current.pitch	= XrMath::angle_normalize_signed	(head.current.pitch);
+	head.target.yaw		= XrMath::angle_normalize_signed	(head.target.yaw);
+	head.target.pitch	= XrMath::angle_normalize_signed	(head.target.pitch);
 
 	float				body_speed = body.speed;
 	if (current_action().change_body_speed())
@@ -140,14 +140,14 @@ void CSightManager::Exec_Look		(float time_delta)
 	//if ( !s_stats_graph ) {
 	//	s_stats_graph					= xr_new<CStatGraph>();
 	//	s_stats_graph->SetRect			(0, 1024-68, 1280, 68, 0xff000000, 0xff000000);
-	//	s_stats_graph->SetMinMax		(-PI, PI, 1000);
+	//	s_stats_graph->SetMinMax		(-XrMath::M_PI, XrMath::M_PI, 1000);
 	//	s_stats_graph->SetStyle			(CStatGraph::stBarLine);
 	//	s_stats_graph->AppendSubGraph	(CStatGraph::stCurve);
 	//	s_stats_graph->AppendSubGraph	(CStatGraph::stCurve);
 	//}
 
-	//s_stats_graph->AppendItem			( angle_normalize_signed(head.current.yaw),   0xff00ff00, 0 );
-	//s_stats_graph->AppendItem			( angle_normalize_signed(head.current.pitch), 0xffff0000, 1 );
+	//s_stats_graph->AppendItem			( XrMath::angle_normalize_signed(head.current.yaw),   0xff00ff00, 0 );
+	//s_stats_graph->AppendItem			( XrMath::angle_normalize_signed(head.current.pitch), 0xffff0000, 1 );
 
 #ifdef DEBUG
 	if ( g_ai_dbg_sight )
@@ -159,11 +159,11 @@ void CSightManager::Exec_Look		(float time_delta)
 		Msg							( "%6d [%s] after  body[%f]->[%f], head[%f]->[%f]", Device.dwTimeGlobal, object().cName().c_str(), body.current.yaw, body.target.yaw, head.current.yaw, head.target.yaw );
 #endif // #ifdef DEBUG
 
-	m_object->angle_lerp_bounds		(body.current.yaw, body.target.yaw, select_speed( angle_difference(body.current.yaw, body.target.yaw), body_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
-	m_object->angle_lerp_bounds		(body.current.pitch, body.target.pitch, select_speed( angle_difference(body.current.pitch, body.target.pitch), body_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
+	m_object->angle_lerp_bounds		(body.current.yaw, body.target.yaw, select_speed( XrMath::angle_difference(body.current.yaw, body.target.yaw), body_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
+	m_object->angle_lerp_bounds		(body.current.pitch, body.target.pitch, select_speed( XrMath::angle_difference(body.current.pitch, body.target.pitch), body_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
 
-	m_object->angle_lerp_bounds		(head.current.yaw, head.target.yaw, select_speed( angle_difference(head.current.yaw, head.target.yaw), head_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
-	m_object->angle_lerp_bounds		(head.current.pitch, head.target.pitch, select_speed( angle_difference(head.current.pitch, head.target.pitch), head_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
+	m_object->angle_lerp_bounds		(head.current.yaw, head.target.yaw, select_speed( XrMath::angle_difference(head.current.yaw, head.target.yaw), head_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
+	m_object->angle_lerp_bounds		(head.current.pitch, head.target.pitch, select_speed( XrMath::angle_difference(head.current.pitch, head.target.pitch), head_speed, g_ai_aim_min_speed, g_ai_aim_min_angle, g_ai_aim_max_angle ), time_delta);
 
 #ifdef DEBUG
 	if ( g_ai_dbg_sight )
@@ -172,12 +172,12 @@ void CSightManager::Exec_Look		(float time_delta)
 
 #ifdef SIGHT_DEBUG
 	// normalizing torso angles
-	body.current.yaw	= angle_normalize_signed	(body.current.yaw);
-	body.current.pitch	= angle_normalize_signed	(body.current.pitch);
+	body.current.yaw	= XrMath::angle_normalize_signed	(body.current.yaw);
+	body.current.pitch	= XrMath::angle_normalize_signed	(body.current.pitch);
 
 	// normalizing head angles
-	head.current.yaw	= angle_normalize_signed	(head.current.yaw);
-	head.current.pitch	= angle_normalize_signed	(head.current.pitch);
+	head.current.yaw	= XrMath::angle_normalize_signed	(head.current.yaw);
+	head.current.pitch	= XrMath::angle_normalize_signed	(head.current.pitch);
 
 	if ( object().cName() == "level_prefix_stalker" ) {
 		Msg				("[%6d][%s] AFTER  BODY [%f] -> [%f]",			Device.dwTimeGlobal, object().cName().c_str(),object().movement().m_body.current.yaw,object().movement().m_body.target.yaw);
@@ -200,7 +200,7 @@ void CSightManager::Exec_Look		(float time_delta)
 
 	Fmatrix&			m = m_object->XFORM();
 	float				h = -body.current.yaw;
-	float				_sh = _sin(h), _ch = _cos(h);
+	float				_sh = XrMath::sin(h), _ch = XrMath::cos(h);
 	m.i.set				( _ch,	0.f,	_sh); m._14_	= 0.f;
 	m.j.set				( 0.f,	1.f,	0.f); m._24_	= 0.f;
 	m.k.set				(-_sh,	0.f,	_ch); m._34_	= 0.f;
@@ -227,14 +227,14 @@ void CSightManager::update			()
 	if (!enabled())
 		return;
 
-	if (!fis_zero(object().movement().speed())) {
+	if (!XrMath::fis_zero(object().movement().speed())) {
 		m_turning_in_place	= false;
 		inherited::update	();
 		return;
 	}
 
 	if (!m_turning_in_place) {
-		if (angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.current.yaw) > (left_angle(-object().movement().m_head.current.yaw,-object().movement().m_body.current.yaw) ? m_max_left_angle : m_max_right_angle)) {
+		if (XrMath::angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.current.yaw) > (left_angle(-object().movement().m_head.current.yaw,-object().movement().m_body.current.yaw) ? m_max_left_angle : m_max_right_angle)) {
 			m_turning_in_place	= true;
 //			Msg				("%6d started turning in place",Device.dwTimeGlobal);
 			object().movement().m_body.target.yaw	= object().movement().m_head.current.yaw;
@@ -246,7 +246,7 @@ void CSightManager::update			()
 		return;
 	}
 
-	if (angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.target.yaw) > EPS_L) {
+	if (XrMath::angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.target.yaw) > XrMath::EPS_L) {
 //		object().movement().m_body.target.yaw	= object().movement().m_head.current.yaw;
 		object().movement().m_body.target.yaw	= object().movement().m_head.target.yaw;
 	}
@@ -623,9 +623,9 @@ void CSightManager::process_action					( float const time_delta )
 
 	Fvector const angles			= 
 		Fvector().set(
-			angle_normalize_signed	( -( head.current.pitch - body.current.pitch ) ),
-			angle_normalize_signed	( -( head.current.yaw   - body.current.yaw   ) ),
-			angle_normalize_signed	(    head.current.roll  - body.current.roll	 )
+			XrMath::angle_normalize_signed	( -( head.current.pitch - body.current.pitch ) ),
+			XrMath::angle_normalize_signed	( -( head.current.yaw   - body.current.yaw   ) ),
+			XrMath::angle_normalize_signed	(    head.current.roll  - body.current.roll	 )
 		);
 
 	m_current.m_head.m_rotation.setXYZ		( Fvector(angles).mul( m_current.m_head.m_factor ) );
@@ -692,7 +692,7 @@ void CSightManager::compute_aiming					(float const time_delta, float const angu
 			m_target.m_head.m_rotation		= Fidentity;
 
 			if (!forward_blend_callbacks && !backward_blend_callbacks) {
-				if (!fis_zero(time_delta))
+				if (!XrMath::fis_zero(time_delta))
 					slerp_rotations			(time_delta, angular_speed);
 
 				break;
@@ -749,7 +749,7 @@ void CSightManager::compute_aiming					(float const time_delta, float const angu
 			m_target.m_head.m_rotation		= aimer.get_bone(2);
 
 			if (!forward_blend_callbacks && !backward_blend_callbacks) {
-				if (!fis_zero(time_delta)) {
+				if (!XrMath::fis_zero(time_delta)) {
 #ifdef DEBUG
 					Msg						( "!animation movement controller wasn't created" );
 #endif // #ifdef DEBUG
@@ -772,8 +772,8 @@ void CSightManager::compute_aiming					(float const time_delta, float const angu
 
 static void slerp_rotations							(float const time_delta, float const angular_speed, Fmatrix& current, Fmatrix const& target)
 {
-	VERIFY						(!fis_zero(time_delta));
-	VERIFY						(!fis_zero(angular_speed));
+	VERIFY						(!XrMath::fis_zero(time_delta));
+	VERIFY						(!XrMath::fis_zero(angular_speed));
 
 	Fquaternion					left;
 	left.set					( current );
@@ -791,15 +791,15 @@ static void slerp_rotations							(float const time_delta, float const angular_s
 	float						angle;
 	difference.get_axis_angle	( axe, angle );
 
-	if (fis_zero(angle)) {
+	if (XrMath::fis_zero(angle)) {
 		current					= target;
 		return;
 	}
 
-	float const test_angle		= clampr(_abs(angle), EPS_L, PI);
+	float const test_angle		= XrMath::clampr(XrMath::abs(angle), XrMath::EPS_L, XrMath::M_PI);
 	float speed					= angular_speed;
-	float const test_speed		= PI/36.f;
-	float const min_speed		= PI/180.f;
+	float const test_speed		= XrMath::M_PI/36.f;
+	float const min_speed		= XrMath::M_PI/180.f;
 	if (angular_speed > test_speed) {
 		if (test_angle < test_speed) {
 			speed				=  test_angle;
@@ -808,8 +808,8 @@ static void slerp_rotations							(float const time_delta, float const angular_s
 		}
 	}
 
-	float const factor			= clampr(time_delta / ( angle/speed ), 0.f, 1.f);
-	if (fsimilar(1.f, factor)) {
+	float const factor			= XrMath::clampr(time_delta / ( angle/speed ), 0.f, 1.f);
+	if (XrMath::fsimilar(1.f, factor)) {
 		current					= target;
 		return;
 	}

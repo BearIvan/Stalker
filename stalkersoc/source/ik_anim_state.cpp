@@ -15,7 +15,7 @@ IC bool is_in( const motion_marks::interval &i, float v )
 
 bool blend_in( const CBlend &b, const motion_marks& marks )
 {
-	VERIFY					(!fis_zero(b.timeTotal));
+	VERIFY					(!XrMath::fis_zero(b.timeTotal));
 
 	float blend_time		= ( b.timeCurrent/b.timeTotal ) ;
 	blend_time				-= floor( blend_time );
@@ -29,7 +29,7 @@ void	ik_anim_state::update		( IKinematicsAnimated *K, const	CBlend *b, u16 i )
  //Andy	is_step = m && b && blend_in( *b, m->get_interval( i ) );
 	VERIFY( K );
 	is_step = false;
-	if( !b || b->blendAmount <  b->blendPower - EPS_L )
+	if( !b || b->blendAmount <  b->blendPower - XrMath::EPS_L )
 		return;
 	CMotionDef	&MD = *K->LL_GetMotionDef( b->motionID );
 

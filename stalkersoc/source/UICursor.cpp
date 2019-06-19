@@ -94,8 +94,8 @@ void CUICursor::UpdateCursorPosition(int _dx,int _dy)
 
 	vPos.x			= (float)p.x * (UI_BASE_WIDTH/(float)Device.dwWidth);
 	vPos.y			= (float)p.y * (UI_BASE_HEIGHT/(float)Device.dwHeight);
-	clamp			(vPos.x, 0.f, UI_BASE_WIDTH);
-	clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);*/
+	XrMath::clamp			(vPos.x, 0.f, UI_BASE_WIDTH);
+	XrMath::clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);*/
 	auto pos = Device.GetWindow().GetMousePosition();
 	Fvector2	p;
 	vPrevPos = vPos;
@@ -120,16 +120,16 @@ void CUICursor::UpdateCursorPosition(int _dx,int _dy)
 		vPos.x += _dx*sens;
 		vPos.y += _dy*sens;
 	}*/
-	clamp(vPos.x, 0.f, UI_BASE_WIDTH);
-	clamp(vPos.y, 0.f, UI_BASE_HEIGHT);
+	XrMath::clamp(vPos.x, 0.f, UI_BASE_WIDTH);
+	XrMath::clamp(vPos.y, 0.f, UI_BASE_HEIGHT);
 }
 
 void CUICursor::SetUICursorPosition(Fvector2 pos)
 {
 	vPos		= pos;/*
 	POINT		p;
-	p.x			= iFloor(vPos.x / (UI_BASE_WIDTH/(float)Device.dwWidth));
-	p.y			= iFloor(vPos.y / (UI_BASE_HEIGHT/(float)Device.dwHeight));
+	p.x			= XrMath::iFloor(vPos.x / (UI_BASE_WIDTH/(float)Device.dwWidth));
+	p.y			= XrMath::iFloor(vPos.y / (UI_BASE_HEIGHT/(float)Device.dwHeight));
 /*	if (m_b_use_win_cursor)
 		ClientToScreen(Device.GetWindow().GetWindowHandle(), (LPPOINT)&p);*/
 

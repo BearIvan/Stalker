@@ -9,7 +9,7 @@
 #ifndef STEERING_BEHAVIOUR_INCLUDED
 #define STEERING_BEHAVIOUR_INCLUDED
 
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/XrVector3d2.h"
 
 //----------------------------------------------------------
 // Steering Behaviour Namespace

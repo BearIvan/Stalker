@@ -64,7 +64,7 @@ void CStalkerAnimationManager::add_script_animation	(LPCSTR animation, bool hand
 //	);
 
 	Fmatrix							transform;
-	rotation.mul					(PI/180.f);
+	rotation.mul					(XrMath::M_PI/180.f);
 	transform.setXYZ				(rotation);
 	transform.c						= position;
 	m_script_animations.push_back	( CStalkerAnimationScript( motion, hand_usage, true, &transform, local_animation ) );

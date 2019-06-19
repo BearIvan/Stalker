@@ -130,7 +130,7 @@ void CUIArtefactDetectorElite::construct(CEliteDetector* p)
 	Fvector _map_attach_p				= pSettings->r_fvector3(m_parent->cNameSect(), "ui_p");
 	Fvector _map_attach_r				= pSettings->r_fvector3(m_parent->cNameSect(), "ui_r");
 	
-	_map_attach_r.mul					(PI/180.f);
+	_map_attach_r.mul					(XrMath::M_PI/180.f);
 	m_map_attach_offset.setHPB			(_map_attach_r.x, _map_attach_r.y, _map_attach_r.z);
 	m_map_attach_offset.translate_over	(_map_attach_p);
 }

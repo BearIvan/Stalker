@@ -375,7 +375,7 @@ _value_type CStalkerPropertyEvaluatorEnemyReached::evaluate	()
 	if (processor_id != object().ID())
 		return					(false);
 
-	return						((object().Position().distance_to_sqr(enemy->Position()) <= _sqr(wounded_enemy_reached_distance)));
+	return						((object().Position().distance_to_sqr(enemy->Position()) <= XrMath::sqr(wounded_enemy_reached_distance)));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -471,7 +471,7 @@ _value_type CStalkerPropertyEvaluatorShouldThrowGrenade::evaluate	()
 
 	Fvector const&				position = mem_object.m_object_params.m_position;
 	u32 const&					enemy_vertex_id = mem_object.m_object_params.m_level_vertex_id;
-	if (object().Position().distance_to_sqr(position) < _sqr(10.f))
+	if (object().Position().distance_to_sqr(position) < XrMath::sqr(10.f))
 		return					(false);
 
 	if (!object().agent_manager().member().can_throw_grenade(position))

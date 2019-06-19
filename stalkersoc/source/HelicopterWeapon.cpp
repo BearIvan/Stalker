@@ -100,7 +100,7 @@ void CHelicopter::OnShot		()
 	fire_dir = m_fire_dir;
 
 	float fire_trail_speed		= 15.0f;
-	clamp						(fire_trail_speed,GetCurrVelocity(),300.0f);
+	XrMath::clamp						(fire_trail_speed,GetCurrVelocity(),300.0f);
 	if(m_enemy.bUseFireTrail){
 		Fvector enemy_pos = m_enemy.destEnemyPos;
 
@@ -167,7 +167,7 @@ void CHelicopter::MGunFireStart()
 			if(ds>dl){
 				float half_trail = ds-dl;
 				m_enemy.fire_trail_length_curr = half_trail*2.0f;
-				clamp(m_enemy.fire_trail_length_curr,0.0f,m_enemy.fire_trail_length_des);
+				XrMath::clamp(m_enemy.fire_trail_length_curr,0.0f,m_enemy.fire_trail_length_des);
 //				Msg("Start fire. Desired length=%f, cur_length=%f",m_enemy.fire_trail_length_des,m_enemy.fire_trail_length_curr);
 			}else
 				m_enemy.fire_trail_length_curr	= m_enemy.fire_trail_length_des;
@@ -196,8 +196,8 @@ void CHelicopter::UpdateWeapons		()
 	};
 
 	// lerp angle
-	angle_lerp	(m_cur_rot.x, m_tgt_rot.x, PI, Device.fTimeDelta);
-	angle_lerp	(m_cur_rot.y, m_tgt_rot.y, PI, Device.fTimeDelta);
+	XrMath::angle_lerp	(m_cur_rot.x, m_tgt_rot.x, XrMath::M_PI, Device.fTimeDelta);
+	XrMath::angle_lerp	(m_cur_rot.y, m_tgt_rot.y, XrMath::M_PI, Device.fTimeDelta);
 	
 
 	if( isOnAttack() ){
@@ -263,21 +263,21 @@ void CHelicopter::UpdateMGunDir()
 	XFi.transform_tiny	(dep,m_enemy.destEnemyPos);
 	{// x angle
 		Fvector A_;		A_.sub(dep,m_bind_x);	m_i_bind_x_xform.transform_dir(A_); A_.normalize();
-		m_tgt_rot.x		= angle_normalize_signed(m_bind_rot.x-A_.getP());
+		m_tgt_rot.x		= XrMath::angle_normalize_signed(m_bind_rot.x-A_.getP());
 		float sv_x		= m_tgt_rot.x;
-		clamp			(m_tgt_rot.x,-m_lim_x_rot.y,-m_lim_x_rot.x);
-		if (!fsimilar(sv_x,m_tgt_rot.x,EPS_L)) m_allow_fire=FALSE;
+		XrMath::clamp			(m_tgt_rot.x,-m_lim_x_rot.y,-m_lim_x_rot.x);
+		if (!XrMath::fsimilar(sv_x,m_tgt_rot.x,XrMath::EPS_L)) m_allow_fire=FALSE;
 	}
 	{// y angle
 		Fvector A_;		A_.sub(dep,m_bind_y);	m_i_bind_y_xform.transform_dir(A_); A_.normalize();
-		m_tgt_rot.y		= angle_normalize_signed(m_bind_rot.y-A_.getH());
+		m_tgt_rot.y		= XrMath::angle_normalize_signed(m_bind_rot.y-A_.getH());
 		float sv_y		= m_tgt_rot.y;
-		clamp			(m_tgt_rot.y,-m_lim_y_rot.y,-m_lim_y_rot.x);
-		if (!fsimilar(sv_y,m_tgt_rot.y,EPS_L)) m_allow_fire=FALSE;
+		XrMath::clamp			(m_tgt_rot.y,-m_lim_y_rot.y,-m_lim_y_rot.x);
+		if (!XrMath::fsimilar(sv_y,m_tgt_rot.y,XrMath::EPS_L)) m_allow_fire=FALSE;
 	}
 	
-	if ((angle_difference(m_cur_rot.x,m_tgt_rot.x)>deg2rad(m_barrel_dir_tolerance))||
-		(angle_difference(m_cur_rot.y,m_tgt_rot.y)>deg2rad(m_barrel_dir_tolerance)))
+	if ((XrMath::angle_difference(m_cur_rot.x,m_tgt_rot.x)>XrMath::deg2rad(m_barrel_dir_tolerance))||
+		(XrMath::angle_difference(m_cur_rot.y,m_tgt_rot.y)>XrMath::deg2rad(m_barrel_dir_tolerance)))
 		m_allow_fire=FALSE;
 
 }

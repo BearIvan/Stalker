@@ -154,7 +154,7 @@ float   monster_aura::get_post_process_factor () const
 	VERIFY								(pp_highest_at != 0.f);
 
 	float 	factor					=	calculate() / m_pp_highest_at;
-	clamp								(factor, 0.f, 1.f);
+	XrMath::clamp								(factor, 0.f, 1.f);
 	return								factor;
 }
 

@@ -190,8 +190,8 @@ void draw_restrictions(const shared_str &restrictions, LPCSTR start_indent, LPCS
 {
 	HUD().Font().pFontStat->OutNext	("%s%s%s",start_indent,indent,header);
 	string256	temp;
-	for (u32 i=0, n=_GetItemCount(*restrictions); i<n; ++i)
-		HUD().Font().pFontStat->OutNext("%s%s%s%s",start_indent,indent,indent,_GetItem(*restrictions,i,temp));
+	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions); i<n; ++i)
+		HUD().Font().pFontStat->OutNext("%s%s%s%s",start_indent,indent,indent,XrTrims::GetItem(*restrictions,i,temp));
 }
 
 LPCSTR movement_type(const MonsterSpace::EMovementType &movement_type)
@@ -259,9 +259,9 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 	HUD().Font().pFontStat->OutNext	("%svisual",indent);
 	
 	float								object_range, object_fov;
-	update_range_fov					(object_range,object_fov,eye_range,deg2rad(eye_fov));
+	update_range_fov					(object_range,object_fov,eye_range,XrMath::deg2rad(eye_fov));
 	HUD().Font().pFontStat->OutNext	("%s%seye range   : %f",indent,indent,object_range);
-	HUD().Font().pFontStat->OutNext	("%s%sFOV         : %f",indent,indent,rad2deg(object_fov));
+	HUD().Font().pFontStat->OutNext	("%s%sFOV         : %f",indent,indent,XrMath::rad2deg(object_fov));
 	if (g_Alive()) {
 		HUD().Font().pFontStat->OutNext	("%s%sobjects     : %d",indent,indent,memory().visual().objects().size());
 		HUD().Font().pFontStat->OutNext	("%s%snot yet     : %d",indent,indent,memory().visual().not_yet_visible_objects().size());
@@ -270,7 +270,7 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 			HUD().Font().pFontStat->OutNext("%s%sactor       : visible",indent,indent);
 		else {
 			MemorySpace::CNotYetVisibleObject	*object = memory().visual().not_yet_visible_object(actor);
-			if (object && !fis_zero(object->m_value))
+			if (object && !XrMath::fis_zero(object->m_value))
 				HUD().Font().pFontStat->OutNext("%s%sactor       : not yet visible : %f",indent,indent,object->m_value);
 			else
 				HUD().Font().pFontStat->OutNext("%s%sactor       : not visible",indent,indent);
@@ -641,8 +641,8 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 		HUD().Font().pFontStat->OutNext	("%s%s%s%sposition  : [%f][%f][%f]",indent,indent,indent,indent,VPUSH(movement().detail().path()[movement().detail().curr_travel_point_index()].position));
 		CDetailPathManager::STravelParams	current_velocity = movement().detail().velocity(movement().detail().path()[movement().detail().curr_travel_point_index()].velocity);
 		HUD().Font().pFontStat->OutNext	("%s%s%s%slinear    : %f",    indent,indent,indent,indent,current_velocity.linear_velocity);
-		HUD().Font().pFontStat->OutNext	("%s%s%s%sangular   : %f deg",indent,indent,indent,indent,rad2deg(current_velocity.angular_velocity));
-		HUD().Font().pFontStat->OutNext	("%s%s%s%sangular(R): %f deg",indent,indent,indent,indent,rad2deg(current_velocity.real_angular_velocity));
+		HUD().Font().pFontStat->OutNext	("%s%s%s%sangular   : %f deg",indent,indent,indent,indent,XrMath::rad2deg(current_velocity.angular_velocity));
+		HUD().Font().pFontStat->OutNext	("%s%s%s%sangular(R): %f deg",indent,indent,indent,indent,XrMath::rad2deg(current_velocity.real_angular_velocity));
 		HUD().Font().pFontStat->OutNext	("%s%s%sspeed(calc)   : %f",indent,indent,indent,movement().speed());
 		HUD().Font().pFontStat->OutNext	("%s%s%sspeed(physics): %f",indent,indent,indent,movement().speed(character_physics_support()->movement()));
 	}
@@ -858,14 +858,14 @@ void CAI_Stalker::OnRender			()
 			float						best_value = -1.f;
 			u32 j = 0;
 			for (u32 i=0; i<36; ++i) {
-				float				value = ai().level_graph().cover_in_direction(float(10*i)/180.f*PI,v);
-				direction.setHP		(float(10*i)/180.f*PI,0);
+				float				value = ai().level_graph().cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+				direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
 				direction.normalize	();
 				direction.mul		(value*half_size);
 				direction.add		(position);
 				direction.y			= position.y;
 				Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-				value				= ai().level_graph().compute_square(float(10*i)/180.f*PI,PI/2.f,v);
+				value				= ai().level_graph().compute_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
 				if (value > best_value) {
 					best_value		= value;
 					j				= i;
@@ -884,8 +884,8 @@ void CAI_Stalker::OnRender			()
 			direction.set		(position.x,position.y,position.z - half_size*float(v->cover(3))/15.f);
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-			float				value = ai().level_graph().cover_in_direction(float(10*j)/180.f*PI,v);
-			direction.setHP		(float(10*j)/180.f*PI,0);
+			float				value = ai().level_graph().cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+			direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);
@@ -977,10 +977,10 @@ BOOL _ray_query_callback	(collide::rq_result& result, LPVOID params)
 
 void fill_points			(CCustomMonster *self, const Fvector &position, const Fvector &direction, float distance, collide::rq_results& rq_storage, COLLIDE_POINTS &points, float &pick_distance)
 {
-	VERIFY							(!fis_zero(direction.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(direction.square_magnitude()));
 
 	collide::ray_defs				ray_defs(position,direction,distance,CDB::OPT_CULL,collide::rqtBoth);
-	VERIFY							(!fis_zero(ray_defs.dir.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(ray_defs.dir.square_magnitude()));
 	
 	ray_query_param					params(self,self->memory().visual().transparency_threshold(),distance,position,direction,points);
 
@@ -1028,8 +1028,8 @@ void draw_visiblity_rays	(CCustomMonster *self, const CObject *object, collide::
 		pick_distance
 	);
 
-//	VERIFY					(fsimilar(pick_distance,distance));
-	if (fsimilar(pick_distance,distance) && !dest_position.similar(points.back()))
+//	VERIFY					(XrMath::fsimilar(pick_distance,distance));
+	if (XrMath::fsimilar(pick_distance,distance) && !dest_position.similar(points.back()))
 		points.push_back	(dest_position);
 
 	VERIFY					(points.size() > 1);

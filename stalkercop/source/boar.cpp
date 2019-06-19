@@ -114,7 +114,7 @@ void CAI_Boar::reinit()
 {
 	inherited::reinit();
 	if(CCustomMonster::use_simplified_visual())	return;
-	com_man().add_rotation_jump_data("stand_jump_left_0",0,"stand_jump_right_0",0, PI - PI_DIV_6, SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
+	com_man().add_rotation_jump_data("stand_jump_left_0",0,"stand_jump_right_0",0, XrMath::M_PI - XrMath::PI_DIV_6, SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
 }
 
 
@@ -141,7 +141,7 @@ BOOL CAI_Boar::net_Spawn (CSE_Abstract* DC)
 	}
 	
 	_cur_delta		= _target_delta = 0.f;
-	_velocity		= PI;
+	_velocity		= XrMath::M_PI;
 	look_at_enemy	= false;
 	return TRUE;
 }
@@ -152,13 +152,13 @@ void CAI_Boar::CheckSpecParams(u32 spec_params)
 	//	float yaw, pitch;
 	//	Fvector().sub(EnemyMan.get_enemy()->Position(), Position()).getHP(yaw,pitch);
 	//	yaw *= -1;
-	//	yaw = angle_normalize(yaw);
+	//	yaw = XrMath::angle_normalize(yaw);
 
 	//	EMotionAnim anim = eAnimJumpLeft;
 	//	if (from_right(yaw,movement().m_body.current.yaw)) {
 	//		anim = eAnimJumpRight;
-	//		yaw = angle_normalize(yaw + PI / 20);	
-	//	} else yaw = angle_normalize(yaw - PI / 20);
+	//		yaw = XrMath::angle_normalize(yaw + XrMath::M_PI / 20);	
+	//	} else yaw = XrMath::angle_normalize(yaw - XrMath::M_PI / 20);
 
 	//	anim().Seq_Add(anim);
 	//	anim().Seq_Switch();
@@ -167,7 +167,7 @@ void CAI_Boar::CheckSpecParams(u32 spec_params)
 
 	//	// calculate angular speed
 	//	float new_angular_velocity; 
-	//	float delta_yaw = angle_difference(yaw,movement().m_body.current.yaw);
+	//	float delta_yaw = XrMath::angle_difference(yaw,movement().m_body.current.yaw);
 	//	float time = anim().GetCurAnimTime();
 	//	new_angular_velocity = 2.5f * delta_yaw / time; 
 
@@ -185,5 +185,5 @@ void CAI_Boar::CheckSpecParams(u32 spec_params)
 void CAI_Boar::UpdateCL()
 {
 	inherited::UpdateCL();
-	angle_lerp(_cur_delta, _target_delta, _velocity, client_update_fdelta());
+	XrMath::angle_lerp(_cur_delta, _target_delta, _velocity, client_update_fdelta());
 }

@@ -602,7 +602,7 @@ void CHW::selectResolution( u32 &dwWidth, u32 &dwHeight, BOOL bWindowed )
 		string64					buff;
 		xr_sprintf					(buff,sizeof(buff),"%dx%d",psCurrentVidMode[0],psCurrentVidMode[1]);
 
-		if(_ParseItem(buff,vid_mode_token)==u32(-1)) //not found
+		if(XrTrims::ParseItem(buff,vid_mode_token)==u32(-1)) //not found
 		{ //select safe
 			xr_sprintf				(buff,sizeof(buff),"vid_mode %s",vid_mode_token[0].name);
 			Console->Execute		(buff);

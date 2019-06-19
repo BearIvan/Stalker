@@ -5,6 +5,7 @@
 #pragma warning(disable:4267)
 #include "ode/src/objects.h"
 #include "ode/src/joint.h"
+#undef M_PI
 #pragma warning(default:4995)
 #pragma warning(default:4267)
 #include "PhysicsCommon.h"

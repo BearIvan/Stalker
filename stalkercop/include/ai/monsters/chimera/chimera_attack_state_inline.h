@@ -10,7 +10,7 @@
 #endif
 
 float	const	num_scan_points				=	10;
-float	const	scan_angle					=	deg2rad(360.f) / num_scan_points;
+float	const	scan_angle					=	XrMath::deg2rad(360.f) / num_scan_points;
 
 template <class Object>
 ChimeraAttackState<Object>::ChimeraAttackState (Object *obj) : inherited(obj)
@@ -20,8 +20,8 @@ ChimeraAttackState<Object>::ChimeraAttackState (Object *obj) : inherited(obj)
 template <class Object>
 float   ChimeraAttackState<Object>::calculate_min_run_distance () const
 {
-	float	const	cos_half_scan_angle		=	_cos(scan_angle);
-	float	const	sin_half_scan_angle		=	_sin(scan_angle);
+	float	const	cos_half_scan_angle		=	XrMath::cos(scan_angle);
+	float	const	sin_half_scan_angle		=	XrMath::sin(scan_angle);
 
 	float	const	attack_radius			=	object->get_attack_params().attack_radius;
 
@@ -31,7 +31,7 @@ float   ChimeraAttackState<Object>::calculate_min_run_distance () const
 	float	const	jump_max_radius			=	object->com_man().get_jump_control()->get_max_distance();
 
 	VERIFY										(h < jump_max_radius);
-	float	const	min_run_part2			=	_sqrt(jump_max_radius*jump_max_radius - h*h);
+	float	const	min_run_part2			=	XrMath::sqrt(jump_max_radius*jump_max_radius - h*h);
 
 	return										min_run_part1 + min_run_part2;
 }
@@ -119,10 +119,10 @@ bool   ChimeraAttackState<Object>::jump (Fvector const& target, bool attack_jump
 {
 	// получить вектор направления и его мир угол
 	float dir_yaw							=	(target - object->Position()).getH();
-	dir_yaw									=	angle_normalize(-dir_yaw);
+	dir_yaw									=	XrMath::angle_normalize(-dir_yaw);
 	float yaw_current, yaw_target;
 	object->control().direction().get_heading	(yaw_current, yaw_target);
-	if ( angle_difference(yaw_current, dir_yaw) > 1.f )
+	if ( XrMath::angle_difference(yaw_current, dir_yaw) > 1.f )
 		return									false;
 
 	m_allow_jump							=	true;
@@ -185,7 +185,7 @@ bool   ChimeraAttackState<Object>::select_target_for_move ()
 		Fvector const 	enemy2self			=	-attack_radius * normalize(self2enemy) ;
 
 		float	const	move_scan_points	=	8;
-		float	const	move_scan_angle		=	deg2rad(360.f) / move_scan_points;
+		float	const	move_scan_angle		=	XrMath::deg2rad(360.f) / move_scan_points;
 		u32	index = 0;
 		for (	;		
 							index			<	move_scan_points; 
@@ -329,8 +329,8 @@ void   ChimeraAttackState<Object>::execute ()
 
 	Fvector	const		enemy_dir			=	normalize(enemy->Direction());
 	float				behind_angle_cos	=	dotproduct(self2enemy_norm, enemy_dir);
-	clamp										(behind_angle_cos, -1.f, +1.f);
-	bool  	const		behind_enemy		=	acosf(behind_angle_cos) < deg2rad(30.f);
+	XrMath::clamp										(behind_angle_cos, -1.f, +1.f);
+	bool  	const		behind_enemy		=	acosf(behind_angle_cos) < XrMath::deg2rad(30.f);
 	bool	const		can_attack_from_behind	=	behind_enemy && self2enemy_mag >= 6;
 
 	
@@ -366,7 +366,7 @@ void   ChimeraAttackState<Object>::execute ()
 		float	const	self2target_yaw		=	self2target_norm.getH();
 		float	const	self_dir_yaw		=	self_dir.getH();
 		
-		bool  	const 	good_aiming			=	_abs(self2target_yaw - self_dir_yaw) < deg2rad(20.f);
+		bool  	const 	good_aiming			=	XrMath::abs(self2target_yaw - self_dir_yaw) < XrMath::deg2rad(20.f);
 		bool	const	in_stealth			=	current_time() < m_stealth_end_tick && 
 												!object->EnemyMan.enemy_see_me_now ();
 		if ( !in_stealth )

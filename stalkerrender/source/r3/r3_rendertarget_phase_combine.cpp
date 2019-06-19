@@ -133,11 +133,11 @@ void	CRenderTarget::phase_combine	()
 		Fmatrix		m_v2w;			m_v2w.invert				(Device.mView		);
 		CEnvDescriptorMixer& envdesc= *GetEnv().CurrentEnv		;
 		const float minamb			= 0.001f;
-		Fvector4	ambclr			= { _max(envdesc.ambient.x*2,minamb),	_max(envdesc.ambient.y*2,minamb),			_max(envdesc.ambient.z*2,minamb),	0	};
+		Fvector4	ambclr			= { XrMath::max(envdesc.ambient.x*2,minamb),	XrMath::max(envdesc.ambient.y*2,minamb),			XrMath::max(envdesc.ambient.z*2,minamb),	0	};
 					ambclr.mul		(ps_r2_sun_lumscale_amb);
 
-//.		Fvector4	envclr			= { envdesc.sky_color.x*2+EPS,	envdesc.sky_color.y*2+EPS,	envdesc.sky_color.z*2+EPS,	envdesc.weight					};
-		Fvector4	envclr			= { envdesc.hemi_color.x*2+EPS,	envdesc.hemi_color.y*2+EPS,	envdesc.hemi_color.z*2+EPS,	envdesc.weight					};
+//.		Fvector4	envclr			= { envdesc.sky_color.x*2+XrMath::EPS,	envdesc.sky_color.y*2+XrMath::EPS,	envdesc.sky_color.z*2+XrMath::EPS,	envdesc.weight					};
+		Fvector4	envclr			= { envdesc.hemi_color.x*2+XrMath::EPS,	envdesc.hemi_color.y*2+XrMath::EPS,	envdesc.hemi_color.z*2+XrMath::EPS,	envdesc.weight					};
 
 		Fvector4	fogclr			= { envdesc.fog_color.x,	envdesc.fog_color.y,	envdesc.fog_color.z,		0	};
 					envclr.x		*= 2*ps_r2_sun_lumscale_hemi; 
@@ -146,12 +146,12 @@ void	CRenderTarget::phase_combine	()
 		Fvector4	sunclr,sundir;
 
 		float		fSSAONoise = 2.0f;
-					fSSAONoise *= tan(deg2rad(67.5f/2.0f));
-					fSSAONoise /= tan(deg2rad(Device.fFOV/2.0f));
+					fSSAONoise *= tan(XrMath::deg2rad(67.5f/2.0f));
+					fSSAONoise /= tan(XrMath::deg2rad(Device.fFOV/2.0f));
 
 		float		fSSAOKernelSize = 150.0f;
-					fSSAOKernelSize *= tan(deg2rad(67.5f/2.0f));
-					fSSAOKernelSize /= tan(deg2rad(Device.fFOV/2.0f));
+					fSSAOKernelSize *= tan(XrMath::deg2rad(67.5f/2.0f));
+					fSSAOKernelSize /= tan(XrMath::deg2rad(Device.fFOV/2.0f));
 
 
 		// sun-params
@@ -178,10 +178,10 @@ void	CRenderTarget::phase_combine	()
 
 		// Fill vertex buffer
 		Fvector4* pv				= (Fvector4*)	RCache.Vertex.Lock	(4,g_combine_VP->vb_stride,Offset);
-		//pv->set						(hclip(EPS,		_w),	hclip(_h+EPS,	_h),	p0.x, p1.y);	pv++;
-		//pv->set						(hclip(EPS,		_w),	hclip(EPS,		_h),	p0.x, p0.y);	pv++;
-		//pv->set						(hclip(_w+EPS,	_w),	hclip(_h+EPS,	_h),	p1.x, p1.y);	pv++;
-		//pv->set						(hclip(_w+EPS,	_w),	hclip(EPS,		_h),	p1.x, p0.y);	pv++;
+		//pv->set						(hclip(XrMath::EPS,		_w),	hclip(_h+XrMath::EPS,	_h),	p0.x, p1.y);	pv++;
+		//pv->set						(hclip(XrMath::EPS,		_w),	hclip(XrMath::EPS,		_h),	p0.x, p0.y);	pv++;
+		//pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(_h+XrMath::EPS,	_h),	p1.x, p1.y);	pv++;
+		//pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(XrMath::EPS,		_h),	p1.x, p0.y);	pv++;
 		pv->set						(-1,	1,	0, 1);	pv++;
 		pv->set						(-1,	-1,	0, 0);	pv++;
 		pv->set						(1,		1,	1, 1);	pv++;
@@ -394,10 +394,10 @@ void	CRenderTarget::phase_combine	()
 
 		// Fill vertex buffer
 		v_aa* pv					= (v_aa*) RCache.Vertex.Lock	(4,g_aa_AA->vb_stride,Offset);
-		pv->p.set(EPS,			float(_h+EPS),	EPS,1.f); pv->uv0.set(p0.x, p1.y);pv->uv1.set(p0.x-ddw,p1.y-ddh);pv->uv2.set(p0.x+ddw,p1.y+ddh);pv->uv3.set(p0.x+ddw,p1.y-ddh);pv->uv4.set(p0.x-ddw,p1.y+ddh);pv->uv5.set(p0.x-ddw,p1.y,p1.y,p0.x+ddw);pv->uv6.set(p0.x,p1.y-ddh,p1.y+ddh,p0.x);pv++;
-		pv->p.set(EPS,			EPS,			EPS,1.f); pv->uv0.set(p0.x, p0.y);pv->uv1.set(p0.x-ddw,p0.y-ddh);pv->uv2.set(p0.x+ddw,p0.y+ddh);pv->uv3.set(p0.x+ddw,p0.y-ddh);pv->uv4.set(p0.x-ddw,p0.y+ddh);pv->uv5.set(p0.x-ddw,p0.y,p0.y,p0.x+ddw);pv->uv6.set(p0.x,p0.y-ddh,p0.y+ddh,p0.x);pv++;
-		pv->p.set(float(_w+EPS),float(_h+EPS),	EPS,1.f); pv->uv0.set(p1.x, p1.y);pv->uv1.set(p1.x-ddw,p1.y-ddh);pv->uv2.set(p1.x+ddw,p1.y+ddh);pv->uv3.set(p1.x+ddw,p1.y-ddh);pv->uv4.set(p1.x-ddw,p1.y+ddh);pv->uv5.set(p1.x-ddw,p1.y,p1.y,p1.x+ddw);pv->uv6.set(p1.x,p1.y-ddh,p1.y+ddh,p1.x);pv++;
-		pv->p.set(float(_w+EPS),EPS,			EPS,1.f); pv->uv0.set(p1.x, p0.y);pv->uv1.set(p1.x-ddw,p0.y-ddh);pv->uv2.set(p1.x+ddw,p0.y+ddh);pv->uv3.set(p1.x+ddw,p0.y-ddh);pv->uv4.set(p1.x-ddw,p0.y+ddh);pv->uv5.set(p1.x-ddw,p0.y,p0.y,p1.x+ddw);pv->uv6.set(p1.x,p0.y-ddh,p0.y+ddh,p1.x);pv++;
+		pv->p.set(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p0.x, p1.y);pv->uv1.set(p0.x-ddw,p1.y-ddh);pv->uv2.set(p0.x+ddw,p1.y+ddh);pv->uv3.set(p0.x+ddw,p1.y-ddh);pv->uv4.set(p0.x-ddw,p1.y+ddh);pv->uv5.set(p0.x-ddw,p1.y,p1.y,p0.x+ddw);pv->uv6.set(p0.x,p1.y-ddh,p1.y+ddh,p0.x);pv++;
+		pv->p.set(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p0.x, p0.y);pv->uv1.set(p0.x-ddw,p0.y-ddh);pv->uv2.set(p0.x+ddw,p0.y+ddh);pv->uv3.set(p0.x+ddw,p0.y-ddh);pv->uv4.set(p0.x-ddw,p0.y+ddh);pv->uv5.set(p0.x-ddw,p0.y,p0.y,p0.x+ddw);pv->uv6.set(p0.x,p0.y-ddh,p0.y+ddh,p0.x);pv++;
+		pv->p.set(float(_w+XrMath::EPS),float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p1.x, p1.y);pv->uv1.set(p1.x-ddw,p1.y-ddh);pv->uv2.set(p1.x+ddw,p1.y+ddh);pv->uv3.set(p1.x+ddw,p1.y-ddh);pv->uv4.set(p1.x-ddw,p1.y+ddh);pv->uv5.set(p1.x-ddw,p1.y,p1.y,p1.x+ddw);pv->uv6.set(p1.x,p1.y-ddh,p1.y+ddh,p1.x);pv++;
+		pv->p.set(float(_w+XrMath::EPS),XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p1.x, p0.y);pv->uv1.set(p1.x-ddw,p0.y-ddh);pv->uv2.set(p1.x+ddw,p0.y+ddh);pv->uv3.set(p1.x+ddw,p0.y-ddh);pv->uv4.set(p1.x-ddw,p0.y+ddh);pv->uv5.set(p1.x-ddw,p0.y,p0.y,p1.x+ddw);pv->uv6.set(p1.x,p0.y-ddh,p0.y+ddh,p1.x);pv++;
 		RCache.Vertex.Unlock		(4,g_aa_AA->vb_stride);
 
 		//	Set up variable
@@ -465,7 +465,7 @@ void	CRenderTarget::phase_combine	()
 		zero.mul	(P.n,P.d);
 		
 		Fvector             L_dir,L_up=P.n,L_right;
-		L_dir.set           (0,0,1);                if (_abs(L_up.dotproduct(L_dir))>.99f)  L_dir.set(1,0,0);
+		L_dir.set           (0,0,1);                if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)  L_dir.set(1,0,0);
 		L_right.crossproduct(L_up,L_dir);           L_right.normalize       ();
 		L_dir.crossproduct  (L_right,L_up);         L_dir.normalize         ();
 
@@ -517,10 +517,10 @@ void	CRenderTarget::phase_combine	()
 
 			// Fill vertex buffer
 			FVF::TL* pv					= (FVF::TL*) RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-			pv->set						((IX+0)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p0.x, p1.y);	pv++;
-			pv->set						((IX+0)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p0.x, p0.y);	pv++;
-			pv->set						((IX+1)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p1.x, p1.y);	pv++;
-			pv->set						((IX+1)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p1.x, p0.y);	pv++;
+			pv->set						((IX+0)*_w+XrMath::EPS,	(IY+1)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p0.x, p1.y);	pv++;
+			pv->set						((IX+0)*_w+XrMath::EPS,	(IY+0)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p0.x, p0.y);	pv++;
+			pv->set						((IX+1)*_w+XrMath::EPS,	(IY+1)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p1.x, p1.y);	pv++;
+			pv->set						((IX+1)*_w+XrMath::EPS,	(IY+0)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p1.x, p0.y);	pv++;
 			RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 
 			// Draw COLOR
@@ -538,10 +538,10 @@ void	CRenderTarget::phase_combine	()
 
 			// Fill vertex buffer
 			FVF::TL* pv					= (FVF::TL*) RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-			pv->set						((IX+0)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p0.x, p1.y);	pv++;
-			pv->set						((IX+0)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p0.x, p0.y);	pv++;
-			pv->set						((IX+1)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p1.x, p1.y);	pv++;
-			pv->set						((IX+1)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p1.x, p0.y);	pv++;
+			pv->set						((IX+0)*_w+XrMath::EPS,	(IY+1)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p0.x, p1.y);	pv++;
+			pv->set						((IX+0)*_w+XrMath::EPS,	(IY+0)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p0.x, p0.y);	pv++;
+			pv->set						((IX+1)*_w+XrMath::EPS,	(IY+1)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p1.x, p1.y);	pv++;
+			pv->set						((IX+1)*_w+XrMath::EPS,	(IY+0)*_h+XrMath::EPS,	XrMath::EPS,	1.f, C, p1.x, p0.y);	pv++;
 			RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 
 			// Draw COLOR
@@ -595,11 +595,11 @@ void CRenderTarget::phase_combine_volumetric()
 			Fmatrix		m_v2w;			m_v2w.invert(Device.mView);
 			CEnvDescriptorMixer& envdesc = *GetEnv().CurrentEnv;
 			const float minamb = 0.001f;
-			Fvector4	ambclr = { _max(envdesc.ambient.x * 2,minamb),	_max(envdesc.ambient.y * 2,minamb),			_max(envdesc.ambient.z * 2,minamb),	0 };
+			Fvector4	ambclr = { XrMath::max(envdesc.ambient.x * 2,minamb),	XrMath::max(envdesc.ambient.y * 2,minamb),			XrMath::max(envdesc.ambient.z * 2,minamb),	0 };
 			ambclr.mul(ps_r2_sun_lumscale_amb);
 
-			//.		Fvector4	envclr			= { envdesc.sky_color.x*2+EPS,	envdesc.sky_color.y*2+EPS,	envdesc.sky_color.z*2+EPS,	envdesc.weight					};
-			Fvector4	envclr = { envdesc.hemi_color.x * 2 + EPS,	envdesc.hemi_color.y * 2 + EPS,	envdesc.hemi_color.z * 2 + EPS,	envdesc.weight };
+			//.		Fvector4	envclr			= { envdesc.sky_color.x*2+XrMath::EPS,	envdesc.sky_color.y*2+XrMath::EPS,	envdesc.sky_color.z*2+XrMath::EPS,	envdesc.weight					};
+			Fvector4	envclr = { envdesc.hemi_color.x * 2 + XrMath::EPS,	envdesc.hemi_color.y * 2 + XrMath::EPS,	envdesc.hemi_color.z * 2 + XrMath::EPS,	envdesc.weight };
 
 
 			Fvector4	fogclr = { envdesc.fog_color.x,	envdesc.fog_color.y,	envdesc.fog_color.z,		0 };

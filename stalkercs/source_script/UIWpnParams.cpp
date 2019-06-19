@@ -158,12 +158,12 @@ void CUIConditionParams::InitFromXml(CUIXml& xml_doc)
 
 void CUIConditionParams::SetInfo( CInventoryItem const* slot_item, CInventoryItem const& cur_item )
 {
-	float cur_value  = cur_item.GetConditionToShow() * 100.0f + 1.0f - EPS;
+	float cur_value  = cur_item.GetConditionToShow() * 100.0f + 1.0f - XrMath::EPS;
 	float slot_value = cur_value;
 
 	if ( slot_item && (slot_item != &cur_item) /*&& (cur_item.object().cNameSect()._get() == slot_item->object().cNameSect()._get())*/ )
 	{
-		slot_value = slot_item->GetConditionToShow() * 100.0f + 1.0f - EPS;
+		slot_value = slot_item->GetConditionToShow() * 100.0f + 1.0f - XrMath::EPS;
 	}
 	m_progress.SetTwoPos( cur_value, slot_value );
 }

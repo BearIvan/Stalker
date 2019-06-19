@@ -61,7 +61,7 @@ IC float	Area		(Fvector& v0, Fvector& v1, Fvector& v2)
 	float	e3 = v1.distance_to(v2);
 	
 	float	p  = (e1+e2+e3)/2.f;
-	return	_sqrt( p*(p-e1)*(p-e2)*(p-e3) );
+	return	XrMath::sqrt( p*(p-e1)*(p-e2)*(p-e3) );
 }
 
 void CHOM::Load			()
@@ -104,7 +104,7 @@ void CHOM::Load			()
 		rT.adjacent[2]	= (0xffffffff==adjacency[3*it+2])?((occTri*) (-1)):(m_pTris+adjacency[3*it+2]);
 		rT.flags		= clT.dummy;
 		rT.area			= Area	(v0,v1,v2);
-		if (rT.area<EPS_L)	{
+		if (rT.area<XrMath::EPS_L)	{
 			Msg	("! Invalid HOM triangle (%f,%f,%f)-(%f,%f,%f)-(%f,%f,%f)",VPUSH(v0),VPUSH(v1),VPUSH(v2));
 		}
 		rT.plane.build	(v0,v1,v2);
@@ -238,7 +238,7 @@ void CHOM::Render		(CFrustum& base)
 
 ICF	BOOL	xform_b0	(Fvector2& min, Fvector2& max, float& minz, Fmatrix& X, float _x, float _y, float _z)
 {
-	float z		= _x*X._13 + _y*X._23 + _z*X._33 + X._43;			if (z<EPS) return TRUE;
+	float z		= _x*X._13 + _y*X._23 + _z*X._33 + X._43;			if (z<XrMath::EPS) return TRUE;
 	float iw	= 1.f/(_x*X._14 + _y*X._24 + _z*X._34 + X._44);		
 	min.x=max.x	= (_x*X._11 + _y*X._21 + _z*X._31 + X._41)*iw;
 	min.y=max.y	= (_x*X._12 + _y*X._22 + _z*X._32 + X._42)*iw;	
@@ -248,7 +248,7 @@ ICF	BOOL	xform_b0	(Fvector2& min, Fvector2& max, float& minz, Fmatrix& X, float 
 ICF	BOOL	xform_b1	(Fvector2& min, Fvector2& max, float& minz, Fmatrix& X, float _x, float _y, float _z)
 {
 	float t;
-	float z		= _x*X._13 + _y*X._23 + _z*X._33 + X._43;		if (z<EPS)	return TRUE;
+	float z		= _x*X._13 + _y*X._23 + _z*X._33 + X._43;		if (z<XrMath::EPS)	return TRUE;
 	float iw	= 1.f/(_x*X._14 + _y*X._24 + _z*X._34 + X._44);
 	t 			= (_x*X._11 + _y*X._21 + _z*X._31 + X._41)*iw;	if (t<min.x) min.x=t; else if (t>max.x) max.x=t;
 	t			= (_x*X._12 + _y*X._22 + _z*X._32 + X._42)*iw;	if (t<min.y) min.y=t; else if (t>max.y) max.y=t;

@@ -13,7 +13,7 @@ void CDelayedActionFuse::SetTimer(float current_condition)
 	VERIFY(isInitialized()&&!isActive());
 	m_dafflags.set(flActive,TRUE);
 	ChangeCondition(m_fSpeedChangeCondition-current_condition);
-	VERIFY(!fis_zero(m_fTime)||m_dafflags.test(flNoConditionChange));
+	VERIFY(!XrMath::fis_zero(m_fTime)||m_dafflags.test(flNoConditionChange));
 	if(!m_dafflags.test(flNoConditionChange))m_fSpeedChangeCondition/=m_fTime;
 	//Msg("to_expl moment %f",m_fTime);
 	m_fTime+=Device.fTimeGlobal;//+current_condition/m_fSpeedChangeCondition;
@@ -32,7 +32,7 @@ void CDelayedActionFuse::Initialize(float time,float critical_condition)
 	if(isActive())		return;
 
 	VERIFY(time>=0.f&&critical_condition>=0.f);
-	if(!fis_zero(time))
+	if(!XrMath::fis_zero(time))
 	{
 		m_fSpeedChangeCondition=critical_condition;//time;
 		m_fTime=time;
@@ -41,7 +41,7 @@ void CDelayedActionFuse::Initialize(float time,float critical_condition)
 		m_fSpeedChangeCondition=0.f;
 		m_fTime=0.f;
 	}
-	if(fis_zero(m_fSpeedChangeCondition))m_dafflags.set(flNoConditionChange,TRUE);
+	if(XrMath::fis_zero(m_fSpeedChangeCondition))m_dafflags.set(flNoConditionChange,TRUE);
 	m_dafflags.set(flInitialized,TRUE);
 }
 bool CDelayedActionFuse::Update(float current_condition)

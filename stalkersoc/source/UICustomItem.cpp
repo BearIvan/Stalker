@@ -96,8 +96,8 @@ void CUICustomItem::Render( const Fvector2& pos_ns, u32 color, float angle)
 
 //	UI()->ClientToScreenScaled			(SZ, iVisRect.x2, iVisRect.y2);
 
-	float cosA							= _cos(angle);
-	float sinA							= _sin(angle);
+	float cosA							= XrMath::cos(angle);
+	float sinA							= XrMath::sin(angle);
 
 	// Rotation
 	if(!(uFlags&flValidHeadingPivot))	pivot.set(iVisRect.x2/2.f, iVisRect.y2/2.f);

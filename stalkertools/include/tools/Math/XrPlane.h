@@ -21,7 +21,7 @@ public:
     }
     IC BOOL similar(Self& P, T eps_n = EPS, T eps_d = EPS)
     {
-        return (n.similar(P.n, eps_n) && (_abs(d - P.d) < eps_d));
+        return (n.similar(P.n, eps_n) && (XrMath::abs(d - P.d) < eps_d));
     }
     ICF SelfRef build(const _vector3<T>& v1, const _vector3<T>& v2, const _vector3<T>& v3)
     {
@@ -45,7 +45,7 @@ public:
     }
     ICF SelfRef build_unit_normal(const _vector3<T>& _p, const _vector3<T>& _n)
     {
-        VERIFY(fsimilar(_n.magnitude(), 1, EPS));
+        VERIFY(XrMath::fsimilar(_n.magnitude(), 1, XrMath::EPS));
         d = -n.set(_n).dotproduct(_p);
         return *this;
     }
@@ -72,30 +72,30 @@ public:
     }
     IC T distance(const _vector3<T>& v)
     {
-        return _abs(classify(v));
+        return XrMath::abs(classify(v));
     }
     IC BOOL intersectRayDist(const _vector3<T>& P, const _vector3<T>& D, T& dist)
     {
         T numer = classify(P);
         T denom = n.dotproduct(D);
 
-        if (_abs(denom) < EPS_S) // normal is orthogonal to vector3, cant intersect
+        if (XrMath::abs(denom) < XrMath::EPS_S) // normal is orthogonal to vector3, cant intersect
             return FALSE;
 
         dist = -(numer / denom);
-        return ((dist > 0.f) || fis_zero(dist));
+        return ((dist > 0.f) || XrMath::fis_zero(dist));
     }
     ICF BOOL intersectRayPoint(const _vector3<T>& P, const _vector3<T>& D, _vector3<T>& dest)
     {
         T numer = classify(P);
         T denom = n.dotproduct(D);
 
-        if (_abs(denom) < EPS_S) return FALSE; // normal is orthogonal to vector3, cant intersect
+        if (XrMath::abs(denom) < XrMath::EPS_S) return FALSE; // normal is orthogonal to vector3, cant intersect
         else
         {
             float dist = -(numer / denom);
             dest.mad(P, D, dist);
-            return ((dist > 0.f) || fis_zero(dist));
+            return ((dist > 0.f) || XrMath::fis_zero(dist));
         }
     }
     IC BOOL intersect(
@@ -107,7 +107,7 @@ public:
 
         t.sub(v, u);
         denom = n.dotproduct(t);
-        if (_abs(denom) < EPS) return false; // they are parallel
+        if (XrMath::abs(denom) < XrMath::EPS) return false; // they are parallel
 
         dist = -(n.dotproduct(u) + d) / denom;
         if (dist < -EPS || dist > 1 + EPS) return false;
@@ -129,7 +129,7 @@ public:
             return false;
 
         t.sub(v, u);
-        isect.mad(u, t, dist1 / _abs(dist1 - dist2));
+        isect.mad(u, t, dist1 / XrMath::abs(dist1 - dist2));
 
         return true;
     }

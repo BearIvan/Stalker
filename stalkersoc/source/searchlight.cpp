@@ -46,8 +46,8 @@ void  CProjector::BoneCallbackY(CBoneInstance *B)
 {
 	CProjector	*P = static_cast<CProjector*>(B->Callback_Param);
 
-	float delta_yaw = angle_difference(P->_start.yaw,P->_current.yaw);
-	if (angle_normalize_signed(P->_start.yaw - P->_current.yaw) > 0) delta_yaw = -delta_yaw;
+	float delta_yaw = XrMath::angle_difference(P->_start.yaw,P->_current.yaw);
+	if (XrMath::angle_normalize_signed(P->_start.yaw - P->_current.yaw) > 0) delta_yaw = -delta_yaw;
 
 	Fmatrix M;
 	M.setHPB (-delta_yaw, 0.0, 0.0f);
@@ -76,7 +76,7 @@ BOOL CProjector::net_Spawn(CSE_Abstract* DC)
 	fBrightness				= clr.intensity();
 	light_render->set_color	(clr);
 	light_render->set_range	(pUserData->r_float					("projector_definition","range"));
-	light_render->set_cone	(deg2rad(pUserData->r_float			("projector_definition","spot_angle")));
+	light_render->set_cone	(XrMath::deg2rad(pUserData->r_float			("projector_definition","spot_angle")));
 	light_render->set_texture(pUserData->r_string				("projector_definition","spot_texture"));
 
 	glow_render->set_texture(pUserData->r_string				("projector_definition","glow_texture"));
@@ -165,8 +165,8 @@ void CProjector::UpdateCL	()
 	}
 
 	// Update searchlight 
-	angle_lerp(_current.yaw,	_target.yaw,	bone_x.velocity, Device.fTimeDelta);
-	angle_lerp(_current.pitch,	_target.pitch,	bone_y.velocity, Device.fTimeDelta);
+	XrMath::angle_lerp(_current.yaw,	_target.yaw,	bone_x.velocity, Device.fTimeDelta);
+	XrMath::angle_lerp(_current.pitch,	_target.pitch,	bone_y.velocity, Device.fTimeDelta);
 }
 
 
@@ -190,14 +190,14 @@ bool CProjector::bfAssignWatch(CScriptEntityAction *tpEntityAction)
 	(!l_tWatchAction.m_tpObjectToWatch) ?	SetTarget(l_tWatchAction.m_tTargetPoint) : 
 											SetTarget(l_tWatchAction.m_tpObjectToWatch->Position());
 
-	float delta_yaw		= angle_difference(_current.yaw,_target.yaw);
-	float delta_pitch	= angle_difference(_current.pitch,_target.pitch);
+	float delta_yaw		= XrMath::angle_difference(_current.yaw,_target.yaw);
+	float delta_pitch	= XrMath::angle_difference(_current.pitch,_target.pitch);
 
 	bone_x.velocity	= l_tWatchAction.vel_bone_x;
 	float time		= delta_yaw / bone_x.velocity;
-	bone_y.velocity	= (fis_zero(time,EPS_L)? l_tWatchAction.vel_bone_y : delta_pitch / time);
+	bone_y.velocity	= (XrMath::fis_zero(time,XrMath::EPS_L)? l_tWatchAction.vel_bone_y : delta_pitch / time);
 	
-	return false == (l_tWatchAction.m_bCompleted = ((delta_yaw < EPS_L) && (delta_pitch < EPS_L)));
+	return false == (l_tWatchAction.m_bCompleted = ((delta_yaw < XrMath::EPS_L) && (delta_pitch < XrMath::EPS_L)));
 }
 
 bool CProjector::bfAssignObject(CScriptEntityAction *tpEntityAction)
@@ -219,14 +219,14 @@ void CProjector::SetTarget(const Fvector &target_pos)
 	Fvector().sub(target_pos, Position()).getHP(th,tp);
 
 	float delta_h;
-	delta_h = angle_difference(th,_start.yaw);
+	delta_h = XrMath::angle_difference(th,_start.yaw);
 
-	if (angle_normalize_signed(th - _start.yaw) > 0) delta_h = -delta_h;
-	clamp(delta_h, -PI_DIV_2, PI_DIV_2);
+	if (XrMath::angle_normalize_signed(th - _start.yaw) > 0) delta_h = -delta_h;
+	XrMath::clamp(delta_h, -XrMath::PI_DIV_2, XrMath::PI_DIV_2);
 
-	_target.yaw = angle_normalize(_start.yaw + delta_h);
+	_target.yaw = XrMath::angle_normalize(_start.yaw + delta_h);
 
-	clamp(tp, -PI_DIV_2, PI_DIV_2);
+	XrMath::clamp(tp, -XrMath::PI_DIV_2, XrMath::PI_DIV_2);
 	_target.pitch = tp;
 }
 

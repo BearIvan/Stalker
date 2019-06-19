@@ -311,9 +311,9 @@ void CUIBuyWnd::OnBtnBulletBuy(int slot)
 		int n = 0;
 		if (pInput->iGetAsyncKeyState(DIK_LSHIFT))
 			n = 1;
-		if (_GetItemCount(itemsList.c_str())<2)
+		if (XrTrims::GetItemCount(itemsList.c_str())<2)
 			n = 0;
-		_GetItem(itemsList.c_str(), n, single_item);
+		XrTrims::GetItem(itemsList.c_str(), n, single_item);
 
 
 		CUICellItem* ammo = m_bag.GetItemBySectoin(single_item);
@@ -337,7 +337,7 @@ void CUIBuyWnd::OnBtnRifleGrenade()
 			string256	single_item;
 
 			itemsList	= pSettings->r_string(*wpn->cNameSect(), "grenade_class");
-			_GetItem	(*itemsList, 0, single_item);
+			XrTrims::GetItem	(*itemsList, 0, single_item);
 
 			CUICellItem* grenade = m_bag.GetItemBySectoin(single_item);
 			if (grenade && m_bag.CanBuy(grenade))
@@ -379,10 +379,10 @@ void CUIBuyWnd::Highlight(int slot)
 
 	itemsList		= pSettings->r_string(*iitem->object().cNameSect(), "ammo_class");
 		
-	int c			= _GetItemCount(itemsList.c_str());
+	int c			= XrTrims::GetItemCount(itemsList.c_str());
 	for (int i = 0; i<c; i++)
 	{
-        _GetItem				(itemsList.c_str(), i, single_item);
+        XrTrims::GetItem				(itemsList.c_str(), i, single_item);
 		m_bag.HightlightAmmo	(single_item);
 	}
 }
@@ -1364,10 +1364,10 @@ void CUIBuyWnd::SetSkin(u8 SkinID)
 {
 	LPCSTR skins		= pSettings->r_string(m_sectionName, "skins");
 
-	R_ASSERT			(_GetItemCount(skins) > SkinID);
+	R_ASSERT			(XrTrims::GetItemCount(skins) > SkinID);
 
 	string256			item;
-	_GetItem			(skins, SkinID, item);
+	XrTrims::GetItem			(skins, SkinID, item);
 
 	CUIOutfitDragDropList* lst = (CUIOutfitDragDropList*)m_list[MP_SLOT_OUTFIT];
 	lst->SetDefaultOutfit(item);

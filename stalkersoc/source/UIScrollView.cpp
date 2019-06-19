@@ -55,8 +55,8 @@ void CUIScrollView::Init				()
 		m_VScrollBar->Init			(GetWndSize().x, 0.0f, GetWndSize().y, false);
 	m_VScrollBar->SetWndPos			(m_VScrollBar->GetWndPos().x - m_VScrollBar->GetWndSize().x, m_VScrollBar->GetWndPos().y);
 	m_VScrollBar->SetWindowName		("scroll_v");
-	m_VScrollBar->SetStepSize		(_max(1,iFloor(GetHeight()/10)));
-	m_VScrollBar->SetPageSize		(iFloor(GetHeight()));
+	m_VScrollBar->SetStepSize		(XrMath::max(1,XrMath::iFloor(GetHeight()/10)));
+	m_VScrollBar->SetPageSize		(XrMath::iFloor(GetHeight()));
 	
 
 }
@@ -115,7 +115,7 @@ void CUIScrollView::RecalcSize			()
 			item_pos.y				+= m_vertInterval; 
 			pad_size.y				+= (*it)->GetWndSize().y;
 			pad_size.y				+= m_vertInterval;
-			pad_size.x				= _max(pad_size.x, (*it)->GetWndSize().x);
+			pad_size.x				= XrMath::max(pad_size.x, (*it)->GetWndSize().x);
 		}
 
 	}else{
@@ -126,7 +126,7 @@ void CUIScrollView::RecalcSize			()
 			item_pos.y				+= m_vertInterval; 
 			pad_size.y				+= (*it)->GetWndSize().y;
 			pad_size.y				+= m_vertInterval;
-			pad_size.x				= _max(pad_size.x, (*it)->GetWndSize().x);
+			pad_size.x				= XrMath::max(pad_size.x, (*it)->GetWndSize().x);
 		}
 	};
 
@@ -146,9 +146,9 @@ void CUIScrollView::UpdateScroll		()
 
 	Fvector2 w_pos					= m_pad->GetWndPos();
 	m_VScrollBar->SetHeight(GetHeight());
-	m_VScrollBar->SetRange		(0,iFloor(m_pad->GetHeight()*Scroll2ViewV()));
+	m_VScrollBar->SetRange		(0,XrMath::iFloor(m_pad->GetHeight()*Scroll2ViewV()));
 
-	m_VScrollBar->SetScrollPos	(iFloor(-w_pos.y));
+	m_VScrollBar->SetScrollPos	(XrMath::iFloor(-w_pos.y));
 }
 
 float CUIScrollView::Scroll2ViewV	(){
@@ -222,8 +222,8 @@ bool CUIScrollView::OnMouse(float x, float y, EUIMessages mouse_action)
 				curr_pad_pos.y				+= GetUICursor()->GetCursorPositionDelta().y;
 				
 				float max_pos = m_pad->GetHeight() - GetHeight();
-				max_pos							= _max(0.0f,max_pos);
-				clamp							(curr_pad_pos.y,-max_pos,0.0f);
+				max_pos							= XrMath::max(0.0f,max_pos);
+				XrMath::clamp							(curr_pad_pos.y,-max_pos,0.0f);
 				m_pad->SetWndPos				(curr_pad_pos);
 				UpdateScroll					();
 				return true;
@@ -249,7 +249,7 @@ int CUIScrollView::GetCurrentScrollPos()
 
 void CUIScrollView::SetScrollPos(int value)
 {
-	clamp(value,GetMinScrollPos(),GetMaxScrollPos());
+	XrMath::clamp(value,GetMinScrollPos(),GetMaxScrollPos());
 	m_VScrollBar->SetScrollPos(value);
 	OnScrollV(NULL,NULL);
 }

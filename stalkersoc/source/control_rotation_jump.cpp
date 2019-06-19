@@ -9,7 +9,7 @@
 
 #define ROTATION_JUMP_DELAY_MIN		3000
 #define ROTATION_JUMP_DELAY_MAX		5000
-#define CHECK_YAW					150 * PI / 180
+#define CHECK_YAW					150 * XrMath::M_PI / 180
 #define START_SPEED_DELTA			2.f
 
 void CControlRotationJump::reinit()
@@ -31,7 +31,7 @@ void CControlRotationJump::activate()
 	m_man->move_stop	(this);
 
 	float yaw			= Fvector().sub(m_object->EnemyMan.get_enemy()->Position(), m_object->Position()).getH();
-	m_right_side		=  m_man->direction().is_from_right(angle_normalize(-yaw));
+	m_right_side		=  m_man->direction().is_from_right(XrMath::angle_normalize(-yaw));
 	
 	//////////////////////////////////////////////////////////////////////////
 	if (m_data.flags.is(SControlRotationJumpData::eStopAtOnce)) 
@@ -68,7 +68,7 @@ bool CControlRotationJump::check_start_conditions()
 	if (m_man->direction().is_face_target(enemy_position, CHECK_YAW))	return false;
 	
 	SVelocityParam &velocity_run			= m_object->move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
-	if (!fsimilar(m_man->movement().velocity_current(), velocity_run.velocity.linear, START_SPEED_DELTA)) return false;
+	if (!XrMath::fsimilar(m_man->movement().velocity_current(), velocity_run.velocity.linear, START_SPEED_DELTA)) return false;
 	
 	return true;
 }
@@ -99,18 +99,18 @@ void CControlRotationJump::stop_at_once()
 		Fvector					dir_to_enemy;
 		dir_to_enemy.sub		(m_object->EnemyMan.get_enemy()->Position(), m_object->Position());
 		dir_to_enemy.normalize	();
-		target_yaw				= angle_normalize(-dir_to_enemy.getH());
+		target_yaw				= XrMath::angle_normalize(-dir_to_enemy.getH());
 	} else {
-		target_yaw				= angle_normalize(-m_object->Direction().getH() + (m_right_side ? m_data.turn_angle : -m_data.turn_angle));
+		target_yaw				= XrMath::angle_normalize(-m_object->Direction().getH() + (m_right_side ? m_data.turn_angle : -m_data.turn_angle));
 	}
 
 	ctrl_data_dir->heading.target_angle		= target_yaw;
 
 	float cur_yaw;
 	m_man->direction().get_heading			(cur_yaw, target_yaw);
-	ctrl_data_dir->heading.target_speed		= angle_difference(cur_yaw,target_yaw)/ m_time;
+	ctrl_data_dir->heading.target_speed		= XrMath::angle_difference(cur_yaw,target_yaw)/ m_time;
 	ctrl_data_dir->linear_dependency		= false;
-	VERIFY									(!fis_zero(ctrl_data_dir->heading.target_speed));
+	VERIFY									(!XrMath::fis_zero(ctrl_data_dir->heading.target_speed));
 
 	m_stage									= eStop;	
 
@@ -141,15 +141,15 @@ void CControlRotationJump::build_line_first()
 	SControlDirectionData					*ctrl_data_dir = (SControlDirectionData*)m_man->data(this, ControlCom::eControlDir); 
 	VERIFY									(ctrl_data_dir);	
 
-	float target_yaw						= angle_normalize(-m_object->Direction().getH() + (m_right_side ? m_data.turn_angle : -m_data.turn_angle));
+	float target_yaw						= XrMath::angle_normalize(-m_object->Direction().getH() + (m_right_side ? m_data.turn_angle : -m_data.turn_angle));
 	ctrl_data_dir->heading.target_angle		= target_yaw;
 	
 	float cur_yaw;
 	m_man->direction().get_heading			(cur_yaw, target_yaw);
-	ctrl_data_dir->heading.target_speed		= angle_difference(cur_yaw,target_yaw)/ m_time;
+	ctrl_data_dir->heading.target_speed		= XrMath::angle_difference(cur_yaw,target_yaw)/ m_time;
 	ctrl_data_dir->linear_dependency		= false;
 
-	VERIFY									(!fis_zero(ctrl_data_dir->heading.target_speed));
+	VERIFY									(!XrMath::fis_zero(ctrl_data_dir->heading.target_speed));
 	
 	u32 velocity_mask	= MonsterMovement::eVelocityParameterStand | MonsterMovement::eVelocityParameterRunNormal;
 	m_stage				= eStop;
@@ -170,7 +170,7 @@ void CControlRotationJump::build_line_first()
 		SControlMovementData		*ctrl_move = (SControlMovementData*)m_man->data(this, ControlCom::eControlMovement); 
 		VERIFY						(ctrl_move);
 		ctrl_move->velocity_target	= m_target_velocity;
-		ctrl_move->acc				= _abs(m_accel);
+		ctrl_move->acc				= XrMath::abs(m_accel);
 
 		// start new animation
 		SControlAnimationData		*ctrl_data = (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation); 
@@ -210,15 +210,15 @@ void CControlRotationJump::build_line_second()
 	dir_to_enemy.normalize	();
 	
 	float target_yaw						= dir_to_enemy.getH();
-	target_yaw								= angle_normalize(-target_yaw);
+	target_yaw								= XrMath::angle_normalize(-target_yaw);
 	ctrl_data_dir->heading.target_angle		= target_yaw;
 
 	float cur_yaw;
 	m_man->direction().get_heading			(cur_yaw, target_yaw);
-	ctrl_data_dir->heading.target_speed		= angle_difference(cur_yaw,target_yaw)/ m_time;
+	ctrl_data_dir->heading.target_speed		= XrMath::angle_difference(cur_yaw,target_yaw)/ m_time;
 	ctrl_data_dir->linear_dependency		= false;
 
-	VERIFY									(!fis_zero(ctrl_data_dir->heading.target_speed));
+	VERIFY									(!XrMath::fis_zero(ctrl_data_dir->heading.target_speed));
 	
 	
 	// Velocity mask

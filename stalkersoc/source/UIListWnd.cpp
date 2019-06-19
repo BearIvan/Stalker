@@ -72,7 +72,7 @@ void CUIListWnd::Init(float x, float y, float width, float height, float item_he
 	m_iFirstShownIndex = 0;
 
 	SetItemHeight(item_height);
-	m_iRowNum = iFloor(height/m_iItemHeight);
+	m_iRowNum = XrMath::iFloor(height/m_iItemHeight);
 
 
 	
@@ -88,8 +88,8 @@ void CUIListWnd::Init(float x, float y, float width, float height, float item_he
 
 /*
 	m_StaticActiveBackground.Init(ACTIVE_BACKGROUND,"hud\\default", 0,0,alNone);
-	m_StaticActiveBackground.SetTile(iFloor(m_iItemWidth/ACTIVE_BACKGROUND_WIDTH), 
-									 iFloor(m_iItemHeight/ACTIVE_BACKGROUND_HEIGHT),
+	m_StaticActiveBackground.SetTile(XrMath::iFloor(m_iItemWidth/ACTIVE_BACKGROUND_WIDTH), 
+									 XrMath::iFloor(m_iItemHeight/ACTIVE_BACKGROUND_HEIGHT),
 									 fmod(m_iItemWidth,float(ACTIVE_BACKGROUND_WIDTH)), 
 									 fmod(m_iItemHeight,float(ACTIVE_BACKGROUND_HEIGHT)));
 */
@@ -100,7 +100,7 @@ void CUIListWnd::Init(float x, float y, float width, float height, float item_he
 /*was made within plan of dinamic changing of appea*/
 void CUIListWnd::SetHeight(float height){
 	CUIWindow::SetHeight(height);
-	m_iRowNum = iFloor(height/m_iItemHeight);
+	m_iRowNum = XrMath::iFloor(height/m_iItemHeight);
 	m_ScrollBar->SetHeight(height);
 	this->UpdateList();
 	this->UpdateScrollBar();
@@ -112,8 +112,8 @@ void CUIListWnd::SetWidth(float width)
 {
 	inherited::SetWidth(width);
 /*
-	m_StaticActiveBackground.SetTile(iFloor(GetWidth()/ACTIVE_BACKGROUND_WIDTH), 
-									 iFloor(m_iItemHeight/ACTIVE_BACKGROUND_HEIGHT),
+	m_StaticActiveBackground.SetTile(XrMath::iFloor(GetWidth()/ACTIVE_BACKGROUND_WIDTH), 
+									 XrMath::iFloor(m_iItemHeight/ACTIVE_BACKGROUND_HEIGHT),
 									 fmod(GetWidth(),float(ACTIVE_BACKGROUND_WIDTH)), 
 									 fmod(float(m_iItemHeight),float(ACTIVE_BACKGROUND_HEIGHT))
 									 );
@@ -224,7 +224,7 @@ void CUIListWnd::UpdateList()
 	
 	//спрятать все элементы до участка 
 	//отображающейся в данный момент
-	for(int i=0; i<_min(m_ItemList.size(),m_iFirstShownIndex); ++i, ++it)
+	for(int i=0; i<XrMath::min(m_ItemList.size(),static_cast<bsize>(m_iFirstShownIndex)); ++i, ++it)
 	{
 		(*it)->Show(false);
 	}
@@ -232,7 +232,7 @@ void CUIListWnd::UpdateList()
 
 	//показать текущий список
 	for(int i=m_iFirstShownIndex;
-			i<_min(m_ItemList.size(),m_iFirstShownIndex + m_iRowNum+1);
+			i<XrMath::min(m_ItemList.size(),u32(m_iFirstShownIndex + m_iRowNum+1));
 			++i, ++it)
 	{
 		(*it)->SetWndRect((*it)->GetWndRect().left, m_bVertFlip?GetHeight()-(i-m_iFirstShownIndex)* m_iItemHeight-m_iItemHeight:(i-m_iFirstShownIndex)* m_iItemHeight, 
@@ -366,7 +366,7 @@ void CUIListWnd::DrawActiveBackFrame(const Frect& rect, CUIListItem * itm)
 	_pos.set		(rect.left, rect.top+(itm->GetIndex()-m_iFirstShownIndex)*GetItemHeight());
 	float _d		= GetItemHeight() - m_ActiveBackgroundFrame->GetHeight();
 	if(_d>0)
-		_pos.y		+= (float)iFloor(_d/2.0f);
+		_pos.y		+= (float)XrMath::iFloor(_d/2.0f);
 
 	m_ActiveBackgroundFrame->SetWndPos		(_pos);
 	float _w = GetWidth();
@@ -432,7 +432,7 @@ void CUIListWnd::SetItemWidth(float iItemWidth)
 void CUIListWnd::SetItemHeight(float iItemHeight)
 {
 	m_iItemHeight = iItemHeight;
-	m_iRowNum = iFloor(GetHeight()/iItemHeight);
+	m_iRowNum = XrMath::iFloor(GetHeight()/iItemHeight);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -554,7 +554,7 @@ void CUIListWnd::ScrollToPos(int position)
 	if (IsScrollBarEnabled())
 	{
 		int pos = position;
-		clamp(pos, m_ScrollBar->GetMinRange(), (m_ScrollBar->GetMaxRange() - m_ScrollBar->GetPageSize() + 1));
+		XrMath::clamp(pos, m_ScrollBar->GetMinRange(), (m_ScrollBar->GetMaxRange() - m_ScrollBar->GetPageSize() + 1));
 		m_ScrollBar->SetScrollPos(pos);
 		m_iFirstShownIndex = m_ScrollBar->GetScrollPos();
 		UpdateList();

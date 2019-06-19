@@ -96,12 +96,12 @@ ICF	const Fvector &CLevelGraph::vertex_position	(Fvector &dest_position, const C
 
 IC	const CLevelGraph::CPosition &CLevelGraph::vertex_position	(CLevelGraph::CPosition &dest_position, const Fvector &source_position) const
 {
-	VERIFY				(iFloor((source_position.z - header().box().min.z)/header().cell_size() + .5f) < (int)m_row_length);
-	int					pxz	= iFloor(((source_position.x - header().box().min.x)/header().cell_size() + .5f))*m_row_length + iFloor((source_position.z - header().box().min.z)/header().cell_size() + .5f);
-	int					py	= iFloor(65535.f*(source_position.y - header().box().min.y)/header().factor_y() + EPS_S);
+	VERIFY				(XrMath::iFloor((source_position.z - header().box().min.z)/header().cell_size() + .5f) < (int)m_row_length);
+	int					pxz	= XrMath::iFloor(((source_position.x - header().box().min.x)/header().cell_size() + .5f))*m_row_length + XrMath::iFloor((source_position.z - header().box().min.z)/header().cell_size() + .5f);
+	int					py	= XrMath::iFloor(65535.f*(source_position.y - header().box().min.y)/header().factor_y() + XrMath::EPS_S);
 	VERIFY				(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
 	dest_position.xz	(u32(pxz));
-	clamp				(py,0,65535);
+	XrMath::clamp				(py,0,65535);
 	dest_position.y		(u16(py));
 	return				(dest_position);
 }
@@ -165,7 +165,7 @@ IC bool CLevelGraph::inside				(const u32 vertex_id, const Fvector &position) co
 
 IC bool	CLevelGraph::inside				(const CLevelGraph::CVertex &vertex, const CLevelGraph::CPosition &_vertex_position, const float epsilon) const
 {
-	return				(inside(vertex,_vertex_position) && (_abs(vertex_position(vertex).y - vertex_position(_vertex_position).y) <= epsilon));
+	return				(inside(vertex,_vertex_position) && (XrMath::abs(vertex_position(vertex).y - vertex_position(_vertex_position).y) <= epsilon));
 }
 
 IC bool	CLevelGraph::inside				(const CLevelGraph::CVertex &vertex, const Fvector &position, const float epsilon) const
@@ -197,7 +197,7 @@ IC bool CLevelGraph::inside				(const u32 vertex_id, const Fvector &position, co
 
 IC bool	CLevelGraph::inside				(const u32 vertex_id,	const Fvector2 &position) const
 {
-	int					pxz	= iFloor(((position.x - header().box().min.x)/header().cell_size() + .5f))*m_row_length + iFloor((position.y - header().box().min.z)/header().cell_size() + .5f);
+	int					pxz	= XrMath::iFloor(((position.x - header().box().min.x)/header().cell_size() + .5f))*m_row_length + XrMath::iFloor((position.y - header().box().min.z)/header().cell_size() + .5f);
 	VERIFY				(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
 	bool				b = vertex(vertex_id)->position().xz() == u32(pxz);
 	return				(b);
@@ -427,7 +427,7 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 	}
 
 
-	float					cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+	float					cur_sqr = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 	for (;;) {
 		const_iterator		I,E;
 		begin				(cur_vertex_id,I,E);
@@ -444,7 +444,7 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 				Fvector2		temp;
 				temp.add		(box.min,box.max);
 				temp.mul		(.5f);
-				float			dist = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
+				float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
 				if ((dist > cur_sqr) && (dest_xz != v->position().xz()))
 					continue;
 
@@ -494,8 +494,8 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 				VERIFY			(_valid(tIntersectPoint.z));
 #endif
 
-				clamp			(tIntersectPoint.x,_min(next1.x,next2.x),_max(next1.x,next2.x));
-				clamp			(tIntersectPoint.z,_min(next1.y,next2.y),_max(next1.y,next2.y));
+				XrMath::clamp			(tIntersectPoint.x,XrMath::min(next1.x,next2.x),XrMath::max(next1.x,next2.x));
+				XrMath::clamp			(tIntersectPoint.z,XrMath::min(next1.y,next2.y),XrMath::max(next1.y,next2.y));
 				if (bAssignY)
 					tIntersectPoint.y = vertex_plane_y(vertex(cur_vertex_id),tIntersectPoint.x,tIntersectPoint.z);
 				path_node.set_position(tIntersectPoint);
@@ -568,10 +568,10 @@ IC	bool CLevelGraph::valid_vertex_position	(const Fvector &position) const
 	if ((position.x < header().box().min.x - header().cell_size()*.5f) || (position.x > header().box().max.x + header().cell_size()*.5f) || (position.z < header().box().min.z - header().cell_size()*.5f) || (position.z > header().box().max.z + header().cell_size()*.5f))
 		return			(false);
 
-	if (!(iFloor((position.z - header().box().min.z)/header().cell_size() + .5f) < (int)m_row_length))
+	if (!(XrMath::iFloor((position.z - header().box().min.z)/header().cell_size() + .5f) < (int)m_row_length))
 		return			(false);
 	
-	if (!(iFloor((position.x - header().box().min.x)/header().cell_size() + .5f) < (int)m_column_length))
+	if (!(XrMath::iFloor((position.x - header().box().min.x)/header().cell_size() + .5f) < (int)m_column_length))
 		return			(false);
 
 	return				((vertex_position(position).xz() < (1 << MAX_NODE_BIT_COUNT) - 1));

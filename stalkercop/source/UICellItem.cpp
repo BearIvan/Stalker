@@ -89,7 +89,7 @@ void CUICellItem::Update()
 	EnableHeading(m_pParentList->GetVerticalPlacement());
 	if(Heading())
 	{
-		SetHeading			( 90.0f * (PI/180.0f) );
+		SetHeading			( 90.0f * (XrMath::M_PI/180.0f) );
 		SetHeadingPivot		(Fvector2().set(0.0f,0.0f), Fvector2().set(0.0f,GetWndSize().y), true);
 	}else
 		ResetHeadingPivot	();
@@ -220,7 +220,7 @@ void CUICellItem::UpdateConditionProgressBar()
 			float y = itm_grid_size.y * (cell_size.y + cell_space.y) - m_pConditionState->GetHeight() - 2.f;
 
 			m_pConditionState->SetWndPos(Fvector2().set(x,y));
-			m_pConditionState->SetProgressPos(iCeil(itm->GetCondition()*13.0f)/13.0f);
+			m_pConditionState->SetProgressPos(XrMath::iCeil(itm->GetCondition()*13.0f)/13.0f);
 			m_pConditionState->Show(true);
 			return;
 		}

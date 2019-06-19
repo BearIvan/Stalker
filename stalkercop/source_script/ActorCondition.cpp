@@ -115,7 +115,7 @@ void CActorCondition::LoadCondition(LPCSTR entity_section)
 	m_fV_Alcohol				= pSettings->r_float(section,"alcohol_v");
 
 	m_fSatietyCritical			= pSettings->r_float(section,"satiety_critical");
-	clamp						(m_fSatietyCritical, 0.0f, 1.0f);
+	XrMath::clamp						(m_fSatietyCritical, 0.0f, 1.0f);
 	m_fV_Satiety				= pSettings->r_float(section,"satiety_v");		
 	m_fV_SatietyPower			= pSettings->r_float(section,"satiety_power_v");
 	m_fV_SatietyHealth			= pSettings->r_float(section,"satiety_health_v");
@@ -132,12 +132,12 @@ void CActorCondition::LoadCondition(LPCSTR entity_section)
 	m_max_wound_protection = READ_IF_EXISTS(pSettings,r_float,section,"max_wound_protection",1.0f);
 	m_max_fire_wound_protection = READ_IF_EXISTS(pSettings,r_float,section,"max_fire_wound_protection",1.0f);
 
-	VERIFY( !fis_zero(m_zone_max_power[ALife::infl_rad]) );
-	VERIFY( !fis_zero(m_zone_max_power[ALife::infl_fire]) );
-	VERIFY( !fis_zero(m_zone_max_power[ALife::infl_acid]) );
-	VERIFY( !fis_zero(m_zone_max_power[ALife::infl_psi]) );
-	VERIFY( !fis_zero(m_zone_max_power[ALife::infl_electra]) );
-	VERIFY( !fis_zero(m_max_power_restore_speed) );
+	VERIFY( !XrMath::fis_zero(m_zone_max_power[ALife::infl_rad]) );
+	VERIFY( !XrMath::fis_zero(m_zone_max_power[ALife::infl_fire]) );
+	VERIFY( !XrMath::fis_zero(m_zone_max_power[ALife::infl_acid]) );
+	VERIFY( !XrMath::fis_zero(m_zone_max_power[ALife::infl_psi]) );
+	VERIFY( !XrMath::fis_zero(m_zone_max_power[ALife::infl_electra]) );
+	VERIFY( !XrMath::fis_zero(m_max_power_restore_speed) );
 }
 
 float CActorCondition::GetZoneMaxPower( ALife::EInfluenceType type) const
@@ -184,7 +184,7 @@ void CActorCondition::UpdateCondition()
 		UpdateBoosters();
 
 		m_fAlcohol		+= m_fV_Alcohol*m_fDeltaTime;
-		clamp			(m_fAlcohol,			0.0f,		1.0f);
+		XrMath::clamp			(m_fAlcohol,			0.0f,		1.0f);
 		if(IsGameTypeSingle())
 		{
 			CEffectorCam* ce = Actor()->Cameras().GetCamEffector((ECamEffectorType)effAlcohol);
@@ -216,8 +216,8 @@ void CActorCondition::UpdateCondition()
 		float k_max_power = 1.0f;
 		if( true )
 		{
-			k_max_power = 1.0f + _min(cur_weight, base_weight) / base_weight
-				+ _max(0.0f, (cur_weight - base_weight) / 10.0f);
+			k_max_power = 1.0f + XrMath::min(cur_weight, base_weight) / base_weight
+				+ XrMath::max(0.0f, (cur_weight - base_weight) / 10.0f);
 		}
 		else
 		{
@@ -228,7 +228,7 @@ void CActorCondition::UpdateCondition()
 
 
 	m_fAlcohol		+= m_fV_Alcohol*m_fDeltaTime;
-	clamp			(m_fAlcohol,			0.0f,		1.0f);
+	XrMath::clamp			(m_fAlcohol,			0.0f,		1.0f);
 
 	if ( IsGameTypeSingle() )
 	{	
@@ -254,7 +254,7 @@ void CActorCondition::UpdateCondition()
 			if(!pSettings->section_exist(pp_sect_name))
 				xr_strcpy			(pp_sect_name, "effector_psy_health");
 
-			if	( !fsimilar(GetPsyHealth(), 1.0f, 0.05f) )
+			if	( !XrMath::fsimilar(GetPsyHealth(), 1.0f, 0.05f) )
 			{
 				if(!ppe)
 				{
@@ -266,7 +266,7 @@ void CActorCondition::UpdateCondition()
 					RemoveEffector(m_object,effPsyHealth);
 			}
 		}
-//-		if(fis_zero(GetPsyHealth()))
+//-		if(XrMath::fis_zero(GetPsyHealth()))
 //-			SetHealth( 0.0f );
 	};
 
@@ -323,7 +323,7 @@ void CActorCondition::AffectDamage_InjuriousMaterialAndMonstersInfluence()
 		return;
 	}
 
-	clamp( m_f_time_affected, tg - (one * 3), tg );
+	XrMath::clamp( m_f_time_affected, tg - (one * 3), tg );
 
 	float psy_influence					=	0;
 	float fire_influence				=	0;
@@ -369,7 +369,7 @@ void CActorCondition::AffectDamage_InjuriousMaterialAndMonstersInfluence()
 			float			damage	=	hits[i].value;
 			ALife::EHitType	type	=	hits[i].type;
 
-			if ( damage > EPS )
+			if ( damage > XrMath::EPS )
 			{
 				SHit HDS = SHit(damage, 
 //.								0.0f, 
@@ -409,7 +409,7 @@ void CActorCondition::SetZoneDanger( float danger, ALife::EInfluenceType type )
 {
 	VERIFY( type != ALife::infl_max_count );
 	m_zone_danger[type] = danger;
-	clamp( m_zone_danger[type], 0.0f, 1.0f );
+	XrMath::clamp( m_zone_danger[type], 0.0f, 1.0f );
 }
 
 float CActorCondition::GetZoneDanger() const
@@ -420,7 +420,7 @@ float CActorCondition::GetZoneDanger() const
 		sum += m_zone_danger[i];
 	}
 
-	clamp( sum, 0.0f, 1.5f );
+	XrMath::clamp( sum, 0.0f, 1.5f );
 	return sum;
 }
 
@@ -440,7 +440,7 @@ void CActorCondition::UpdateSatiety()
 	if(m_fSatiety>0)
 	{
 		m_fSatiety -= m_fV_Satiety*m_fDeltaTime;
-		clamp(m_fSatiety, 0.0f, 1.0f);
+		XrMath::clamp(m_fSatiety, 0.0f, 1.0f);
 	}
 		
 	float satiety_health_koef = (m_fSatiety-m_fSatietyCritical)/(m_fSatiety>=m_fSatietyCritical?1-m_fSatietyCritical:m_fSatietyCritical);
@@ -460,7 +460,7 @@ CWound* CActorCondition::ConditionHit(SHit* pHDS)
 void CActorCondition::PowerHit(float power, bool apply_outfit)
 {
 	m_fPower			-=	apply_outfit ? HitPowerEffect(power) : power;
-	clamp					(m_fPower, 0.f, 1.f);
+	XrMath::clamp					(m_fPower, 0.f, 1.f);
 }
 //weight - "удельный" вес от 0..1
 void CActorCondition::ConditionJump(float weight)
@@ -600,7 +600,7 @@ void CActorCondition::ChangeAlcohol	(float value)
 void CActorCondition::ChangeSatiety(float value)
 {
 	m_fSatiety += value;
-	clamp		(m_fSatiety, 0.0f, 1.0f);
+	XrMath::clamp		(m_fSatiety, 0.0f, 1.0f);
 }
 
 void CActorCondition::BoostParameters(const SBooster& B)
@@ -842,7 +842,7 @@ float CActorCondition::HitSlowmo(SHit* pHDS)
 	if(pHDS->hit_type==ALife::eHitTypeWound || pHDS->hit_type==ALife::eHitTypeStrike )
 	{
 		ret						= pHDS->damage();
-		clamp					(ret,0.0f,1.f);
+		XrMath::clamp					(ret,0.0f,1.f);
 	}else
 		ret						= 0.0f;
 

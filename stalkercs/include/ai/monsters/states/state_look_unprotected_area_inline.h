@@ -27,11 +27,11 @@ void CStateMonsterLookToUnprotectedAreaAbstract::initialize()
 	position = object->Position();
 	position.y += 0.3f;
 
-	float angle = ai().level_graph().vertex_high_cover_angle(object->ai_location().level_vertex_id(),PI_DIV_6,std::less<float>());
+	float angle = ai().level_graph().vertex_high_cover_angle(object->ai_location().level_vertex_id(),XrMath::PI_DIV_6,std::less<float>());
 
 	Fvector dir;
 	dir.set(1.f,0.f,0.f);
-	dir.setHP(angle+PI, 0.f);
+	dir.setHP(angle+XrMath::M_PI, 0.f);
 	dir.normalize();
 
 	target_point.mad(object->Position(),dir, 1.f);

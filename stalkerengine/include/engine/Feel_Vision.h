@@ -53,14 +53,14 @@ public:
     {
         R.clear();
         xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
-        for (; I != E; I++) if (positive(I->fuzzy)) R.push_back(I->O);
+        for (; I != E; I++) if (I->fuzzy>=0) R.push_back(I->O);
     }
     Fvector feel_vision_get_vispoint(CObject* _O)
     {
         xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
         for (; I != E; I++) if (_O == I->O)
         {
-            VERIFY(positive(I->fuzzy));
+            VERIFY(I->fuzzy>=0);
             return I->cp_LAST;
         }
         VERIFY2(0, "There is no such object in the potentially visible list");

@@ -95,16 +95,16 @@ void CRenderTarget::phase_bloom	()
 
 		// Fill vertex buffer
 		v_build* pv					= (v_build*) RCache.Vertex.Lock	(4,g_bloom_build->vb_stride,Offset);
-		pv->p.set	(EPS,			float(th+EPS),	EPS,1.f);	
+		pv->p.set	(XrMath::EPS,			float(th+XrMath::EPS),	XrMath::EPS,1.f);	
 		pv->uv0.set	(a_0.x,b_0.y);	pv->uv1.set	(a_1.x,b_1.y);	pv->uv2.set	(a_2.x,b_2.y);	pv->uv3.set	(a_3.x,b_3.y);
 		pv++;
-		pv->p.set	(EPS,			EPS,			EPS,1.f);	
+		pv->p.set	(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f);	
 		pv->uv0.set	(a_0.x,a_0.y);	pv->uv1.set	(a_1.x,a_1.y);	pv->uv2.set	(a_2.x,a_2.y);	pv->uv3.set	(a_3.x,a_3.y);
 		pv++;
-		pv->p.set	(float(tw+EPS),float(th+EPS),	EPS,1.f);	
+		pv->p.set	(float(tw+XrMath::EPS),float(th+XrMath::EPS),	XrMath::EPS,1.f);	
 		pv->uv0.set	(b_0.x,b_0.y);	pv->uv1.set	(b_1.x,b_1.y);	pv->uv2.set	(b_2.x,b_2.y);	pv->uv3.set	(b_3.x,b_3.y);
 		pv++;
-		pv->p.set	(float(tw+EPS),EPS,			EPS,1.f);	
+		pv->p.set	(float(tw+XrMath::EPS),XrMath::EPS,			XrMath::EPS,1.f);	
 		pv->uv0.set	(b_0.x,a_0.y);	pv->uv1.set	(b_1.x,a_1.y);	pv->uv2.set	(b_2.x,a_2.y);	pv->uv3.set	(b_3.x,a_3.y);
 		pv++;
 		RCache.Vertex.Unlock		(4,g_bloom_build->vb_stride);
@@ -132,10 +132,10 @@ void CRenderTarget::phase_bloom	()
 		Fvector2	p1;	p1.set		((_w+.5f)/_w, (_h+.5f)/_h );
 
 		v_build* pv					= (v_build*) RCache.Vertex.Lock	(4,g_bloom_build->vb_stride,Offset);
-		pv->p.set(EPS,			float(_h+EPS),	EPS,1.f); pv->uv0.set(p0.x-ddw,p1.y-ddh);pv->uv1.set(p0.x+ddw,p1.y+ddh);pv->uv2.set(p0.x+ddw,p1.y-ddh);pv->uv3.set(p0.x-ddw,p1.y+ddh);pv++;
-		pv->p.set(EPS,			EPS,			EPS,1.f); pv->uv0.set(p0.x-ddw,p0.y-ddh);pv->uv1.set(p0.x+ddw,p0.y+ddh);pv->uv2.set(p0.x+ddw,p0.y-ddh);pv->uv3.set(p0.x-ddw,p0.y+ddh);pv++;
-		pv->p.set(float(_w+EPS),float(_h+EPS),	EPS,1.f); pv->uv0.set(p1.x-ddw,p1.y-ddh);pv->uv1.set(p1.x+ddw,p1.y+ddh);pv->uv2.set(p1.x+ddw,p1.y-ddh);pv->uv3.set(p1.x-ddw,p1.y+ddh);pv++;
-		pv->p.set(float(_w+EPS),EPS,			EPS,1.f); pv->uv0.set(p1.x-ddw,p0.y-ddh);pv->uv1.set(p1.x+ddw,p0.y+ddh);pv->uv2.set(p1.x+ddw,p0.y-ddh);pv->uv3.set(p1.x-ddw,p0.y+ddh);pv++;
+		pv->p.set(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p0.x-ddw,p1.y-ddh);pv->uv1.set(p0.x+ddw,p1.y+ddh);pv->uv2.set(p0.x+ddw,p1.y-ddh);pv->uv3.set(p0.x-ddw,p1.y+ddh);pv++;
+		pv->p.set(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p0.x-ddw,p0.y-ddh);pv->uv1.set(p0.x+ddw,p0.y+ddh);pv->uv2.set(p0.x+ddw,p0.y-ddh);pv->uv3.set(p0.x-ddw,p0.y+ddh);pv++;
+		pv->p.set(float(_w+XrMath::EPS),float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p1.x-ddw,p1.y-ddh);pv->uv1.set(p1.x+ddw,p1.y+ddh);pv->uv2.set(p1.x+ddw,p1.y-ddh);pv->uv3.set(p1.x-ddw,p1.y+ddh);pv++;
+		pv->p.set(float(_w+XrMath::EPS),XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p1.x-ddw,p0.y-ddh);pv->uv1.set(p1.x+ddw,p0.y+ddh);pv->uv2.set(p1.x+ddw,p0.y-ddh);pv->uv3.set(p1.x-ddw,p0.y+ddh);pv++;
 		RCache.Vertex.Unlock		(4,g_bloom_build->vb_stride);
 		RCache.set_Geometry			(g_bloom_build);
 
@@ -170,7 +170,7 @@ void CRenderTarget::phase_bloom	()
 			v_filter* pv				= (v_filter*) RCache.Vertex.Lock	(4,g_bloom_filter->vb_stride,Offset);
 
 			// 0 - LB
-			pv->p.set	(EPS,			float(_h+EPS),	EPS,1.f);	
+			pv->p.set	(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f);	
 			pv->uv0.set	(a_0.x,1+a_0.y,0,0);	
 			pv->uv1.set	(a_1.x,1+a_1.y,1+a_1.z,a_1.w);	
 			pv->uv2.set	(a_2.x,1+a_2.y,1+a_2.z,a_2.w);	
@@ -182,7 +182,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;
 
 			// 1 - LT
-			pv->p.set	(EPS,			EPS,			EPS,1.f);	
+			pv->p.set	(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f);	
 			pv->uv0.set	(a_0.x,a_0.y,0,0);	
 			pv->uv1.set	(a_1.x,a_1.y,a_1.z,a_1.w);
 			pv->uv2.set	(a_2.x,a_2.y,a_2.z,a_2.w);
@@ -194,7 +194,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;
 
 			// 2 - RB
-			pv->p.set	(float(_w+EPS),	float(_h+EPS),	EPS,1.f);	
+			pv->p.set	(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	XrMath::EPS,1.f);	
 			pv->uv0.set	(1+a_0.x,1+a_0.y,0,0);	
 			pv->uv1.set	(1+a_1.x,1+a_1.y,1+a_1.z,1+a_1.w);	
 			pv->uv2.set	(1+a_2.x,1+a_2.y,1+a_2.z,1+a_2.w);	
@@ -206,7 +206,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;								
 
 			// 3 - RT
-			pv->p.set	(float(_w+EPS),	EPS,			EPS,1.f);	
+			pv->p.set	(float(_w+XrMath::EPS),	XrMath::EPS,			XrMath::EPS,1.f);	
 			pv->uv0.set	(1+a_0.x,a_0.y,0,0);	
 			pv->uv1.set	(1+a_1.x,a_1.y,a_1.z,1+a_1.w);	
 			pv->uv2.set	(1+a_2.x,a_2.y,a_2.z,1+a_2.w);	
@@ -250,7 +250,7 @@ void CRenderTarget::phase_bloom	()
 			v_filter* pv				= (v_filter*) RCache.Vertex.Lock	(4,g_bloom_filter->vb_stride,Offset);
 
 			// 0 - LB
-			pv->p.set	(EPS,			float(_h+EPS),	EPS,1.f);	
+			pv->p.set	(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f);	
 			pv->uv0.set	(a_0.x,1+a_0.y,0,0);	
 			pv->uv1.set	(a_1.x,1+a_1.y,1+a_1.z,a_1.w);	
 			pv->uv2.set	(a_2.x,1+a_2.y,1+a_2.z,a_2.w);	
@@ -262,7 +262,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;
 
 			// 1 - LT
-			pv->p.set	(EPS,			EPS,			EPS,1.f);	
+			pv->p.set	(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f);	
 			pv->uv0.set	(a_0.x,a_0.y,0,0);	
 			pv->uv1.set	(a_1.x,a_1.y,a_1.z,a_1.w);
 			pv->uv2.set	(a_2.x,a_2.y,a_2.z,a_2.w);
@@ -274,7 +274,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;
 
 			// 2 - RB
-			pv->p.set	(float(_w+EPS),	float(_h+EPS),	EPS,1.f);	
+			pv->p.set	(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	XrMath::EPS,1.f);	
 			pv->uv0.set	(1+a_0.x,1+a_0.y,0,0);	
 			pv->uv1.set	(1+a_1.x,1+a_1.y,1+a_1.z,1+a_1.w);	
 			pv->uv2.set	(1+a_2.x,1+a_2.y,1+a_2.z,1+a_2.w);	
@@ -286,7 +286,7 @@ void CRenderTarget::phase_bloom	()
 			pv++;								
 
 			// 3 - RT
-			pv->p.set	(float(_w+EPS),	EPS,			EPS,1.f);	
+			pv->p.set	(float(_w+XrMath::EPS),	XrMath::EPS,			XrMath::EPS,1.f);	
 			pv->uv0.set	(1+a_0.x,a_0.y,0,0);	
 			pv->uv1.set	(1+a_1.x,a_1.y,a_1.z,1+a_1.w);	
 			pv->uv2.set	(1+a_2.x,a_2.y,a_2.z,1+a_2.w);	

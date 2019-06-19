@@ -22,12 +22,12 @@ void	light::vis_prepare			()
 
 	float	safe_area					= VIEWPORT_NEAR;
 	{
-		float	a0	= deg2rad(Device.fFOV*Device.fASPECT/2.f);
-		float	a1	= deg2rad(Device.fFOV/2.f);
-		float	x0	= VIEWPORT_NEAR/_cos	(a0);
-		float	x1	= VIEWPORT_NEAR/_cos	(a1);
-		float	c	= _sqrt					(x0*x0 + x1*x1);
-		safe_area	= _max(_max(VIEWPORT_NEAR,_max(x0,x1)),c);
+		float	a0	= XrMath::deg2rad(Device.fFOV*Device.fASPECT/2.f);
+		float	a1	= XrMath::deg2rad(Device.fFOV/2.f);
+		float	x0	= VIEWPORT_NEAR/XrMath::cos	(a0);
+		float	x1	= VIEWPORT_NEAR/XrMath::cos	(a1);
+		float	c	= XrMath::sqrt					(x0*x0 + x1*x1);
+		safe_area	= XrMath::max(XrMath::max(VIEWPORT_NEAR,XrMath::max(x0,x1)),c);
 	}
 
 	//Msg	("sc[%f,%f,%f]/c[%f,%f,%f] - sr[%f]/r[%f]",VPUSH(spatial.center),VPUSH(position),spatial.radius,range);

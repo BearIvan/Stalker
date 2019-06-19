@@ -96,27 +96,27 @@ void CShootingObject::LoadFireParams	(LPCSTR section, LPCSTR prefix)
 	shared_str	s_sHitPower;
 	//базовая дисперсия оружия
 	fireDispersionBase	= pSettings->r_float	(section,"fire_dispersion_base"	);
-	fireDispersionBase	= deg2rad				(fireDispersionBase);
+	fireDispersionBase	= XrMath::deg2rad				(fireDispersionBase);
 	//сила выстрела и его мощьность
 	s_sHitPower			= pSettings->r_string_wb(section,strconcat(sizeof(full_name),full_name, prefix, "hit_power"));//читаем строку силы хита пули оружия
-	fvHitPower[egdMaster]	= (float)atof(_GetItem(*s_sHitPower,0,buffer));//первый параметр - это хит для уровня игры мастер
+	fvHitPower[egdMaster]	= (float)atof(XrTrims::GetItem(*s_sHitPower,0,buffer));//первый параметр - это хит для уровня игры мастер
 
 	fvHitPower[egdVeteran]	= fvHitPower[egdMaster];//изначально параметры для других уровней
 	fvHitPower[egdStalker]	= fvHitPower[egdMaster];//сложности
 	fvHitPower[egdNovice]	= fvHitPower[egdMaster];//такие же
 	
-	int num_game_diff_param=_GetItemCount(*s_sHitPower);//узнаём колличество параметров для хитов
+	int num_game_diff_param=XrTrims::GetItemCount(*s_sHitPower);//узнаём колличество параметров для хитов
 	if (num_game_diff_param>1)//если задан второй параметр хита
 	{
-		fvHitPower[egdVeteran]	= (float)atof(_GetItem(*s_sHitPower,1,buffer));//то вычитываем его для уровня ветерана
+		fvHitPower[egdVeteran]	= (float)atof(XrTrims::GetItem(*s_sHitPower,1,buffer));//то вычитываем его для уровня ветерана
 	}
 	if (num_game_diff_param>2)//если задан третий параметр хита
 	{
-		fvHitPower[egdStalker]	= (float)atof(_GetItem(*s_sHitPower,2,buffer));//то вычитываем его для уровня сталкера
+		fvHitPower[egdStalker]	= (float)atof(XrTrims::GetItem(*s_sHitPower,2,buffer));//то вычитываем его для уровня сталкера
 	}
 	if (num_game_diff_param>3)//если задан четвёртый параметр хита
 	{
-		fvHitPower[egdNovice]	= (float)atof(_GetItem(*s_sHitPower,3,buffer));//то вычитываем его для уровня новичка
+		fvHitPower[egdNovice]	= (float)atof(XrTrims::GetItem(*s_sHitPower,3,buffer));//то вычитываем его для уровня новичка
 	}
 	
 	//fHitPower			= pSettings->r_float	(section,strconcat(full_name, prefix, "hit_power"));

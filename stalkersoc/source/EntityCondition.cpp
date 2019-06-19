@@ -281,11 +281,11 @@ void CEntityCondition::UpdateCondition()
 	m_fDeltaCircumspection		= 0;
 	m_fDeltaEntityMorale		= 0;
 
-	clamp						(health(),			MIN_HEALTH, max_health());
-	clamp						(m_fPower,			0.0f,		m_fPowerMax);
-	clamp						(m_fRadiation,		0.0f,		m_fRadiationMax);
-	clamp						(m_fEntityMorale,	0.0f,		m_fEntityMoraleMax);
-	clamp						(m_fPsyHealth,		0.0f,		m_fPsyHealthMax);
+	XrMath::clamp						(health(),			MIN_HEALTH, max_health());
+	XrMath::clamp						(m_fPower,			0.0f,		m_fPowerMax);
+	XrMath::clamp						(m_fRadiation,		0.0f,		m_fRadiationMax);
+	XrMath::clamp						(m_fEntityMorale,	0.0f,		m_fEntityMoraleMax);
+	XrMath::clamp						(m_fPsyHealth,		0.0f,		m_fPsyHealthMax);
 }
 
 
@@ -451,7 +451,7 @@ float CEntityCondition::BleedingSpeed()
 void CEntityCondition::UpdateHealth()
 {
 	float bleeding_speed		= BleedingSpeed() * m_fDeltaTime * m_change_v.m_fV_Bleeding;
-	m_bIsBleeding				= fis_zero(bleeding_speed)?false:true;
+	m_bIsBleeding				= XrMath::fis_zero(bleeding_speed)?false:true;
 	m_fDeltaHealth				-= CanBeHarmed() ? bleeding_speed : 0;
 	m_fDeltaHealth				+= m_fDeltaTime * m_change_v.m_fV_HealthRestore;
 	

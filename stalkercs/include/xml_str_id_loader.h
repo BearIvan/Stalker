@@ -148,11 +148,11 @@ typename void	CSXML_IdToIndex::InitInternal ()
 	VERIFY(tag_name);
 
 	string_path	xml_file;
-	int			count = _GetItemCount	(file_str);
+	int			count = XrTrims::GetItemCount	(file_str);
 	int			index = 0;
 	for (int it=0; it<count; ++it)	
 	{
-		_GetItem	(file_str, it, xml_file);
+		XrTrims::GetItem	(file_str, it, xml_file);
 
 		CUIXml* uiXml			= xr_new<CUIXml>();
 		xr_string				xml_file_full;

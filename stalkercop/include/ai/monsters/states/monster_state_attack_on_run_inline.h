@@ -3,7 +3,7 @@
 
 #include "../monster_velocity_space.h"
 
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/Xrvector3d2.h"
 #include "../../../level_graph.h"
 
 #define TEMPLATE_SIGNATURE template <typename _Object>
@@ -293,7 +293,7 @@ void   ATTACK_ON_RUN_STATE::update_movement_target ()
 	}
 	else if ( m_phaze == go_close )
 	{
-		if ( angle_between_vectors(object->Direction(), self2enemy) > deg2rad(140.f) &&
+		if ( angle_between_vectors(object->Direction(), self2enemy) > XrMath::deg2rad(140.f) &&
 			 self2predicted_mag < 4.f &&
 			 current_time() > m_phaze_chosen_time + 3000 )
 		{
@@ -323,11 +323,11 @@ void   ATTACK_ON_RUN_STATE::update_movement_target ()
 	else if ( m_phaze == go_prepare )
 	{
 		float const offs_length				=	5.f;
-		float const offs_angle				=	_max(deg2rad(30.f), offs_length/far_radius) * 
+		float const offs_angle				=	XrMath::max(XrMath::deg2rad(30.f), offs_length/far_radius) * 
 												(m_prepare_side == left ? -1 : +1);
 		
-		float const cos_alpha				=	_cos(offs_angle);
-		float const sin_alpha				=	_sin(offs_angle);
+		float const cos_alpha				=	XrMath::cos(offs_angle);
+		float const sin_alpha				=	XrMath::sin(offs_angle);
 
 		Fvector const predicted2self		=	-self2predicted;
 
@@ -342,7 +342,7 @@ void   ATTACK_ON_RUN_STATE::update_movement_target ()
 	else if ( self2predicted_mag > attack_radius )
 	{
 		// 90 deg triangle: (self, enemy, atack-point)
-		float const dist2atack_point	=	_sqrt( self2predicted_mag*self2predicted_mag - 
+		float const dist2atack_point	=	XrMath::sqrt( self2predicted_mag*self2predicted_mag - 
 													   attack_radius*attack_radius );
 
 		// alpha is the angle between (self, enemy) and (self, atack-point)
@@ -374,7 +374,7 @@ void   ATTACK_ON_RUN_STATE::update_movement_target ()
 			dir2target.invert();
 		}
 
-		float const	self2target_mag			=	_sqrt(far_radius*far_radius - 
+		float const	self2target_mag			=	XrMath::sqrt(far_radius*far_radius - 
 													  self2predicted_mag*self2predicted_mag);
 		self2target							=	normalize(dir2target)*self2target_mag;
 	}
@@ -415,7 +415,7 @@ void   ATTACK_ON_RUN_STATE::select_prepare_fallback_target ()
 	Fvector	const	enemy_pos				=	enemy->Position();
 
 	float	const	move_scan_points		=	8;
-	float	const	move_scan_angle			=	deg2rad(360.f) / move_scan_points;
+	float	const	move_scan_angle			=	XrMath::deg2rad(360.f) / move_scan_points;
 
 	for (			u32	index				=	0; 
 						index				<	move_scan_points; 
@@ -503,7 +503,7 @@ void   ATTACK_ON_RUN_STATE::update_attack ()
 			self_direction_xz.y				=	0;
 			float const attack_angle		=	angle_between_vectors(self_to_enemy_xz, self_direction_xz);
 
-			bool const good_attack_angle	=	attack_angle < deg2rad(30.f);
+			bool const good_attack_angle	=	attack_angle < XrMath::deg2rad(30.f);
 
 			//bool const see_enemy_now		=	object->EnemyMan.see_enemy_now(enemy);
 			bool const good_attack_dist		=	current_atack_dist < allowed_atack_distance &&

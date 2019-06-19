@@ -82,15 +82,15 @@ void calc_cam_diff_rot(Fmatrix item_transform, Fvector diff, Fvector& res)
 
 	Fmatrix							R;
 	R.identity						();
-	if(!fis_zero(diff.x))
+	if(!XrMath::fis_zero(diff.x))
 	{
 		R.rotation(cam_m.i,diff.x);
 	}else
-	if(!fis_zero(diff.y))
+	if(!XrMath::fis_zero(diff.y))
 	{
 		R.rotation(cam_m.j,diff.y);
 	}else
-	if(!fis_zero(diff.z))
+	if(!XrMath::fis_zero(diff.z))
 	{
 		R.rotation(cam_m.k,diff.z);
 	};
@@ -102,7 +102,7 @@ void calc_cam_diff_rot(Fmatrix item_transform, Fvector diff, Fvector& res)
 	
 	R.getHPB	(res);
 
-	res.mul					(180.0f/PI);
+	res.mul					(180.0f/XrMath::M_PI);
 }
 
 void attachable_hud_item::tune(Ivector values)

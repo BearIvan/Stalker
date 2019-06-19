@@ -138,7 +138,7 @@ void CParticlesPlayer::StartParticles(const shared_str& particles_name, u16 bone
 }
 void CParticlesPlayer::StartParticles(const shared_str& particles_name, u16 bone_num, const Fmatrix& xform, u16 sender_id, int life_time, bool auto_stop)
 {
-	VERIFY(fis_zero(xform.c.magnitude()));
+	VERIFY(XrMath::fis_zero(xform.c.magnitude()));
 	R_ASSERT(*particles_name);
 	
 	CObject* object					= m_self_object;

@@ -43,7 +43,7 @@ void SStaticSound::Update(u32 game_time, u32 global_time)
 					m_Source.set_frequency	(m_Freq);
 					if (bFullPlay){
 						m_StopTime		= 0xFFFFFFFF;
-						m_NextTime		= global_time+iFloor(m_Source.get_length_sec()*1000.0f)+Random.randI(m_PauseTime.x,m_PauseTime.y);
+						m_NextTime		= global_time+XrMath::iFloor(m_Source.get_length_sec()*1000.0f)+Random.randI(m_PauseTime.x,m_PauseTime.y);
 					}else{
 						m_StopTime		= bFullPlay?0:global_time+Random.randI(m_PlayTime.x,m_PlayTime.y);
 						m_NextTime		= m_StopTime+Random.randI(m_PauseTime.x,m_PauseTime.y);
@@ -70,7 +70,7 @@ void SMusicTrack::Load(LPCSTR fn, LPCSTR params)
 	m_SourceStereo.create(fn,st_Music,sg_Undefined);
 
 	// parse params
-	int cnt				= _GetItemCount(params); 
+	int cnt				= XrTrims::GetItemCount(params); 
 	VERIFY				(cnt==5);
 	m_ActiveTime.set	(0,0);
 	m_PauseTime.set		(0,0);

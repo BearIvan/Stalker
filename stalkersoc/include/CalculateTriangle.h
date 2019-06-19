@@ -147,7 +147,7 @@ ICF float DistToTri(Triangle* T,const float *pos,float *dir,float* p,ETriDist &c
 	switch (cd)
 	{
 		case 0:
-			if(tdist>EPS_S) cast_fv(dir).mul(1.f/tdist);
+			if(tdist>XrMath::EPS_S) cast_fv(dir).mul(1.f/tdist);
 			c=tdSide;
 			return tdist;
 		case 1:
@@ -160,7 +160,7 @@ ICF float DistToTri(Triangle* T,const float *pos,float *dir,float* p,ETriDist &c
 	}
 	dVectorSub(dir,p,pos);
 	float sqd=dDOT(dir,dir);
-	if(sqd>EPS_S) 
+	if(sqd>XrMath::EPS_S) 
 	{
 		tdist=dSqrt(sqd);
 		cast_fv(dir).mul(1.f/tdist);

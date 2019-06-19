@@ -102,7 +102,7 @@ void CLightShadows::set_object	(IRenderable* O)
 		float		D				= C.distance_to(Device.vCameraPosition)+R;
 					// D=0 -> P=0; 
 					// R<S_ideal_size -> P=max, R>S_ideal_size -> P=min
-		float		_priority		= (D/S_distance)*(S_ideal_size/(R+EPS));
+		float		_priority		= (D/S_distance)*(S_ideal_size/(R+XrMath::EPS));
 		if (_priority<1.f)		current	= O;
 		else					current = 0;
 		
@@ -153,7 +153,7 @@ void CLightShadows::calculate	()
 	int	slot_id		= 0;
 	int slot_line	= S_rt_size/S_size;
 	int slot_max	= slot_line*slot_line;
-	const float	eps = 2*EPS_L;
+	const float	eps = 2*XrMath::EPS_L;
 	for (u32 o_it=0; o_it<casters.size(); o_it++)
 	{
 		caster&	C	= *casters	[o_it];
@@ -197,7 +197,7 @@ void CLightShadows::calculate	()
 				while		(true)	{
 					_dist	=	C.C.distance_to	(Lpos);
 					//Msg		("* o-dist: %f",	_dist);
-					if (_dist>EPS_L)		break;
+					if (_dist>XrMath::EPS_L)		break;
 					Lpos.y					+=	.01f;	//. hack to avoid light-in-the-center-of-object
 				}
 				float		_R		=	C.O->renderable.visual->getVisData().sphere.R+0.1f;
@@ -220,11 +220,11 @@ void CLightShadows::calculate	()
 			float		p_near	=	p_dist-p_R-eps;									
 			//float		p_nearR	=	C.C.distance_to(L.source->position) + p_R*0.85f + eps;
 			//			p_nearR =	p_near;
-			float		p_far	=	_min(Lrange,_max(p_dist+S_fade,p_dist+p_R));	
+			float		p_far	=	XrMath::min(Lrange,XrMath::max(p_dist+S_fade,p_dist+p_R));	
 			if (p_near<eps)			continue;
 			if (p_far<(p_near+eps))	continue;
 			//	Igor: make check here instead of assertion in buil_projection_hat
-			if (!(_abs(p_far-p_near) > eps)) continue;
+			if (!(XrMath::abs(p_far-p_near) > eps)) continue;
 			if (p_hat>0.9f)			continue;
 			if (p_hat<0.01f)		continue;
 
@@ -243,7 +243,7 @@ void CLightShadows::calculate	()
 			Fvector		v_D,v_N,v_R;
 			v_D.sub					(C.C,Lpos);
 			v_D.normalize			();
-			if(1-_abs(v_D.y)<EPS)	v_N.set(1,0,0);
+			if(1-XrMath::abs(v_D.y)<XrMath::EPS)	v_N.set(1,0,0);
 			else            		v_N.set(0,1,0);
 			v_R.crossproduct		(v_N,v_D);
 			v_N.crossproduct		(v_D,v_R);
@@ -349,7 +349,7 @@ IC float PLC_energy	(Fvector& P, Fvector& N, light* L, float E)
 		if( D <=0 )						return 0;
 
 		// Trace Light
-		float R		= _sqrt		(sqD);
+		float R		= XrMath::sqrt		(sqD);
 		float att	= 1-(1/(1+R));
 		return (E * att);
 	}
@@ -358,10 +358,10 @@ IC float PLC_energy	(Fvector& P, Fvector& N, light* L, float E)
 IC int PLC_calc	(Fvector& P, Fvector& N, light* L, float energy, Fvector& O)
 {
 	float	E		= PLC_energy(P,N,L,energy);
-	float	C1		= clampr(Device.vCameraPosition.distance_to_sqr(P)/S_distance2,	0.f,1.f);
-	float	C2		= clampr(O.distance_to_sqr(P)/S_fade2,							0.f,1.f);
+	float	C1		= XrMath::clampr(Device.vCameraPosition.distance_to_sqr(P)/S_distance2,	0.f,1.f);
+	float	C2		= XrMath::clampr(O.distance_to_sqr(P)/S_fade2,							0.f,1.f);
 	float	A		= 1.f-1.5f*E*(1.f-C1)*(1.f-C2);
-	return			iCeil(255.f*A);
+	return			XrMath::iCeil(255.f*A);
 }
 
 void CLightShadows::render	()
@@ -382,7 +382,7 @@ void CLightShadows::render	()
 	const float fMinNearBias = 0.0002f;
 	const float fMaxNearBias = 0.002f;
 	float	fLerpCoeff	= (_43 - fMinNear) / (fMaxNear - fMinNear);
-	clamp( fLerpCoeff, 0.0f, 1.0f );
+	XrMath::clamp( fLerpCoeff, 0.0f, 1.0f );
 	//	lerp
 	Device.mProject._43			-=	fMinNearBias + (fMaxNearBias-fMinNearBias) * fLerpCoeff;
 	//Device.mProject._43			-=	0.0002f; 
@@ -467,8 +467,8 @@ void CLightShadows::render	()
 				t2.sub				(A[0],A[2]);
 				n.crossproduct		(t1,t2);
 				mag	= n.square_magnitude();
-				if (mag<EPS_S)						continue;
-				n.mul				(1.f/_sqrt(mag));
+				if (mag<XrMath::EPS_S)						continue;
+				n.mul				(1.f/XrMath::sqrt(mag));
 				P.build_unit_normal	(A[0],n);
 				float	DOT_Fade	= P.classify(S.L->position);
 				if (DOT_Fade<0)		continue;
@@ -521,9 +521,9 @@ void CLightShadows::render	()
 			PSGP.PLC_calc3(c0,c1,c2,Device,v,TT.N,S.L,Le,S.C);
 
 			if (c0>S_clip && c1>S_clip && c2>S_clip)		continue;	
-			clamp		(c0,S_ambient,255);
-			clamp		(c1,S_ambient,255);
-			clamp		(c2,S_ambient,255);
+			XrMath::clamp		(c0,S_ambient,255);
+			XrMath::clamp		(c1,S_ambient,255);
+			XrMath::clamp		(c2,S_ambient,255);
 
 			S.M.transform(T,v[0]); pv->set(v[0],CLS(c0),(T.x+1)*t_scale.x+t_offset.x,(1-T.y)*t_scale.y+t_offset.y); pv++;
 			S.M.transform(T,v[1]); pv->set(v[1],CLS(c1),(T.x+1)*t_scale.x+t_offset.x,(1-T.y)*t_scale.y+t_offset.y); pv++;

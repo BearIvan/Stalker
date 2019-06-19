@@ -37,7 +37,7 @@ struct	vertHW
 
 short QC (float v)
 {
-	int t=iFloor(v*float(quant)); clamp(t,-32768,32767);
+	int t=XrMath::iFloor(v*float(quant)); XrMath::clamp(t,-32768,32767);
 	return short(t&0xffff);
 }
 
@@ -51,7 +51,7 @@ void CDetailManager::hw_Load_Geom()
 {
 	// Analyze batch-size
 	hw_BatchSize	= (u32(HW.Caps.geometry.dwRegisters)-c_hdr)/c_size;
-	clamp			(hw_BatchSize,(u32)0,(u32)64);
+	XrMath::clamp			(hw_BatchSize,(u32)0,(u32)64);
 	Msg				("* [DETAILS] VertexConsts(%d), Batch(%d)",u32(HW.Caps.geometry.dwRegisters),hw_BatchSize);
 
 	// Pre-process objects
@@ -192,25 +192,25 @@ void CDetailManager::hw_Render()
 		if ((fDelta < 0) || (fDelta > 1))	fDelta = 0.03;
 		m_global_time_old = RDEVICE.fTimeGlobal;
 
-		m_time_rot_1 += (PI_MUL_2*fDelta / swing_current.rot1);
-		m_time_rot_2 += (PI_MUL_2*fDelta / swing_current.rot2);
+		m_time_rot_1 += (XrMath::PI_MUL_2*fDelta / swing_current.rot1);
+		m_time_rot_2 += (XrMath::PI_MUL_2*fDelta / swing_current.rot2);
 		m_time_pos += fDelta * swing_current.speed;
 
-		//float		tm_rot1		= (PI_MUL_2*RDEVICE.fTimeGlobal/swing_current.rot1);
-		//float		tm_rot2		= (PI_MUL_2*RDEVICE.fTimeGlobal/swing_current.rot2);
+		//float		tm_rot1		= (XrMath::PI_MUL_2*RDEVICE.fTimeGlobal/swing_current.rot1);
+		//float		tm_rot2		= (XrMath::PI_MUL_2*RDEVICE.fTimeGlobal/swing_current.rot2);
 			tm_rot1 = m_time_rot_1;
 			tm_rot2 = m_time_rot_2;
 
 	}
 	else
 	{
-				tm_rot1 = (PI_MUL_2*Device.fTimeGlobal / swing_current.rot1);
-				tm_rot2 = (PI_MUL_2*Device.fTimeGlobal / swing_current.rot2);
+				tm_rot1 = (XrMath::PI_MUL_2*Device.fTimeGlobal / swing_current.rot1);
+				tm_rot2 = (XrMath::PI_MUL_2*Device.fTimeGlobal / swing_current.rot2);
 	}
 
 	Fvector4	dir1,dir2;
-	dir1.set				(_sin(tm_rot1),0,_cos(tm_rot1),0).normalize().mul(swing_current.amp1);
-	dir2.set				(_sin(tm_rot2),0,_cos(tm_rot2),0).normalize().mul(swing_current.amp2);
+	dir1.set				(XrMath::sin(tm_rot1),0,XrMath::cos(tm_rot1),0).normalize().mul(swing_current.amp1);
+	dir2.set				(XrMath::sin(tm_rot2),0,XrMath::cos(tm_rot2),0).normalize().mul(swing_current.amp2);
 
 	// Setup geometry and DMA
 	RCache.set_Geometry		(hw_Geom);
@@ -227,7 +227,7 @@ void CDetailManager::hw_Render()
 		wave.set(1.f / 5.f, 1.f / 7.f, 1.f / 3.f, m_time_pos);
 	}
 	RCache.set_c			(&*hwc_consts,	scale,		scale,		ps_r__Detail_l_aniso,	ps_r__Detail_l_ambient);				// consts
-	RCache.set_c			(&*hwc_wave,	wave.div(PI_MUL_2));	// wave
+	RCache.set_c			(&*hwc_wave,	wave.div(XrMath::PI_MUL_2));	// wave
 	RCache.set_c			(&*hwc_wind,	dir1);																					// wind-dir
 	hw_Render_dump			(&*hwc_array,	1, 0, c_hdr );
 
@@ -240,7 +240,7 @@ void CDetailManager::hw_Render()
 	{
 		wave.set(1.f / 3.f, 1.f / 7.f, 1.f / 5.f, m_time_pos);
 	}
-	RCache.set_c			(&*hwc_wave,	wave.div(PI_MUL_2));	// wave
+	RCache.set_c			(&*hwc_wave,	wave.div(XrMath::PI_MUL_2));	// wave
 	RCache.set_c			(&*hwc_wind,	dir2);																					// wind-dir
 	hw_Render_dump			(&*hwc_array,	2, 0, c_hdr );
 

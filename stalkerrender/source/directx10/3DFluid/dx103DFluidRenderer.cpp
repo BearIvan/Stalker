@@ -74,7 +74,7 @@ void dx103DFluidRenderer::Initialize(int gridWidth, int gridHeight, int gridDept
 	m_vGridDim[1] = float(gridHeight);
 	m_vGridDim[2] = float(gridDepth);
 
-	m_fMaxDim = _max( _max( m_vGridDim[0], m_vGridDim[1] ), m_vGridDim[2] );
+	m_fMaxDim = XrMath::max( XrMath::max( m_vGridDim[0], m_vGridDim[1] ), m_vGridDim[2] );
 
 	// Initialize the grid offset matrix
 	{
@@ -397,8 +397,8 @@ void dx103DFluidRenderer::CreateHHGGTexture()
 
 //		for ( int j=0; j < 4; ++j )
 //		{
-//			mmin[j] = _min(mmin[j], data[4*i+j]);
-//			mmax[j] = _max(mmax[j], data[4*i+j]);
+//			mmin[j] = XrMath::min(mmin[j], data[4*i+j]);
+//			mmax[j] = XrMath::max(mmax[j], data[4*i+j]);
 //		}
 	}
 
@@ -447,8 +447,8 @@ void dx103DFluidRenderer::SetScreenSize( int width, int height )
 
 void dx103DFluidRenderer::CalculateRenderTextureSize(int screenWidth, int screenHeight)
 {
-	int maxProjectedSide = int(3.0 * _sqrt(3.0)*m_fMaxDim);
-	int maxScreenDim = _max(screenWidth, screenHeight);
+	int maxProjectedSide = int(3.0 * XrMath::sqrt(3.0)*m_fMaxDim);
+	int maxScreenDim = XrMath::max(screenWidth, screenHeight);
 
 	float screenAspectRatio = ((float)screenWidth)/screenHeight;
 
@@ -919,7 +919,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData &FluidData, Fo
 
 		float	d	=	pLight->position.distance_to(Transform.c);
 
-		float	R				= pLight->range + _max( size.x, _max( size.y, size.z ) );
+		float	R				= pLight->range + XrMath::max( size.x, XrMath::max( size.y, size.z ) );
 		if ( d >= R )
 			continue;
 
@@ -933,7 +933,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData &FluidData, Fo
 		//	LightIntencity.mul(0.5f);
 
 		float	r	=	pLight->range;
-		float	a	=	clampr(1.f - d/(r+EPS),0.f,1.f)*(pLight->flags.bStatic?1.f:2.f);
+		float	a	=	XrMath::clampr(1.f - d/(r+XrMath::EPS),0.f,1.f)*(pLight->flags.bStatic?1.f:2.f);
 
 		LightIntencity.mul(a);
 

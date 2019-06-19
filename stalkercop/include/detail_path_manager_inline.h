@@ -134,8 +134,8 @@ IC	void CDetailPathManager::adjust_point(
 	Fvector2			&dest
 ) const
 {
-	dest.x				= -_sin(yaw);
-	dest.y				= _cos(yaw);
+	dest.x				= -XrMath::sin(yaw);
+	dest.y				= XrMath::cos(yaw);
 	dest.mad			(source,dest,magnitude);
 }
 
@@ -152,18 +152,18 @@ IC	void CDetailPathManager::assign_angle(
 		if (dest_yaw >= start_yaw)
 			angle		= dest_yaw - start_yaw;
 		else
-			angle		= PI_MUL_2 - start_yaw + dest_yaw;
+			angle		= XrMath::PI_MUL_2 - start_yaw + dest_yaw;
 	else
 		if (dest_yaw <= start_yaw)
 			angle		= dest_yaw - start_yaw;
 		else
-			angle		= dest_yaw - start_yaw - PI_MUL_2;
+			angle		= dest_yaw - start_yaw - XrMath::PI_MUL_2;
 
 	if (!start && ((direction_type == eDirectionTypePP) || (direction_type == eDirectionTypeNN)))
 		if (angle <= 0.f)
-			angle = angle + PI_MUL_2;
+			angle = angle + XrMath::PI_MUL_2;
 		else
-			angle = angle - PI_MUL_2;
+			angle = angle - XrMath::PI_MUL_2;
 
 	VERIFY				(_valid(angle));
 }
@@ -173,14 +173,14 @@ IC	bool CDetailPathManager::compute_circles(
 	SCirclePoint		*circles
 )
 {
-	if ( fis_zero(point.angular_velocity) ) {
+	if ( XrMath::fis_zero(point.angular_velocity) ) {
 		VERIFY2			(0, "point.angular_velocity is zero");
 		return			false;
 	}
 
-	point.radius		= _abs(point.linear_velocity)/point.angular_velocity;
+	point.radius		= XrMath::abs(point.linear_velocity)/point.angular_velocity;
 	circles[0].radius	= circles[1].radius = point.radius;
-	VERIFY				(fsimilar(point.direction.square_magnitude(),1.f));
+	VERIFY				(XrMath::fsimilar(point.direction.square_magnitude(),1.f));
 	circles[0].center.x =  point.direction.y*point.radius + point.position.x;
 	circles[0].center.y = -point.direction.x*point.radius + point.position.y;
 	circles[1].center.x = -point.direction.y*point.radius + point.position.x;
@@ -267,7 +267,7 @@ IC	void CDetailPathManager::add_velocity				(const u32 &velocity_id, const STrav
 
 IC	void CDetailPathManager::extrapolate_length			(float extrapolate_length)
 {
-	m_actuality				= m_actuality && (fsimilar(m_extrapolate_length,extrapolate_length));
+	m_actuality				= m_actuality && (XrMath::fsimilar(m_extrapolate_length,extrapolate_length));
 	m_extrapolate_length	= extrapolate_length;
 }
 

@@ -47,7 +47,7 @@ ICF float smooth(float x)
     float x0	= x*2.f-1.f;
     float s 	= (x0<0.f)?-1.f:1.f;
 
-    return ((s*pow(_abs(x0),1.f/1.5f))+1.f)/2.f;
+    return ((s*pow(XrMath::abs(x0),1.f/1.5f))+1.f)/2.f;
 }
 */
 IC	void QR2Quat(const CKeyQR &K,Fquaternion &Q)
@@ -78,7 +78,7 @@ IC void Dequantize(CKey& K,const CBlend& BD,const CMotion& M)
 	const CBlend*	B		=	&BD;
 	float			time	=	B->timeCurrent*float(SAMPLE_FPS);
 	VERIFY			(time >= 0.f);
-	u32				frame	=	iFloor(time);
+	u32				frame	=	XrMath::iFloor(time);
 	float			delta	=	time-float(frame);
 	u32				count	=	M.get_count();
 	// rotation
@@ -91,7 +91,7 @@ IC void Dequantize(CKey& K,const CBlend& BD,const CMotion& M)
 		Fquaternion	Q1,Q2;
 		QR2Quat(*K1r,Q1);
 		QR2Quat(*K2r,Q2);
-		D->Q.slerp	(Q1,Q2,clampr(delta,0.f,1.f));
+		D->Q.slerp	(Q1,Q2,XrMath::clampr(delta,0.f,1.f));
 	}
 
 	// translate
@@ -125,7 +125,7 @@ IC void Dequantize(CKey& K,const CBlend& BD,const CMotion& M)
 		*/
 		D->T.lerp	(T1,T2,delta);
 		/*					
-		if ((_abs(D->T.y)>10000) || (_abs(D->T.x)>10000) || (_abs(D->T.z)>10000))
+		if ((XrMath::abs(D->T.y)>10000) || (XrMath::abs(D->T.x)>10000) || (XrMath::abs(D->T.z)>10000))
 		{
 		Log("xxx");
 		Log("Blend--------");
@@ -202,14 +202,14 @@ IC void MixInterlerp( CKey &Result, const CKey	*R, const CBlend* const BA[MAX_BL
 			float w1 = BA[1]->blendAmount;
 			float ws = w0+w1;
 			float w;
-			if (fis_zero(ws))	w = 0;
+			if (XrMath::fis_zero(ws))	w = 0;
 			else				w = w1/ws;
 #ifdef DEBUG
-			//.					if (fis_zero(w0+w1) || (!_valid(w))){
+			//.					if (XrMath::fis_zero(w0+w1) || (!_valid(w))){
 			//.						Debug.fatal		(DEBUG_INFO,"TO ALEXMX VERY IMPORTANT: (TOTAL: %f) w: %f, w0: %f, w1: %f, ws:%f, BIS: %d",w0+w1,w,w0,w1,ws,BLEND_INST.Blend.size());
 			//.					}
 #endif
-			KEY_Interp	(Result,R[0],R[1], clampr(w,0.f,1.f));
+			KEY_Interp	(Result,R[0],R[1], XrMath::clampr(w,0.f,1.f));
 			/*
 			if(Result.T.y>10000){
 			Log("2");
@@ -238,10 +238,10 @@ IC void MixInterlerp( CKey &Result, const CKey	*R, const CBlend* const BA[MAX_BL
 			for 		(int cnt=1; cnt<b_count; cnt++){
 				total	+= S[cnt].w;
 				float	d;
-				if (fis_zero(total))	d = 0.0f;
+				if (XrMath::fis_zero(total))	d = 0.0f;
 				else d	= S[cnt].w/total;
 
-				clampr(d,0.f,1.f);
+				XrMath::clampr(d,0.f,1.f);
 
 #ifdef DEBUG
 				//.						if ((total==0) || (!_valid(S[cnt].w/total))){

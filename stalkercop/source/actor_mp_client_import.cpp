@@ -69,8 +69,8 @@ void CActorMP::net_Import	( NET_Packet &P)
 	N.o_torso.pitch		= m_state_holder.state().camera_pitch;
 	N.o_torso.roll		= m_state_holder.state().camera_roll;
 
-	if (N.o_torso.roll > PI)
-		N.o_torso.roll	-= PI_MUL_2;
+	if (N.o_torso.roll > XrMath::M_PI)
+		N.o_torso.roll	-= XrMath::PI_MUL_2;
 
 	{
 		if (Level().IsDemoPlay() || OnServer() || Remote())

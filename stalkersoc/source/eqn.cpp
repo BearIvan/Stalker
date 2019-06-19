@@ -34,15 +34,15 @@
 
 
 /*
- * Put angle in range 0 .. 2*M_PI. Bounds on range of Psi 
+ * Put angle in range 0 .. 2*XrMath::M_PI. Bounds on range of Psi 
  */
 /*
 const double LowBound  = 0;
-const double HighBound = 2*M_PI;
-const double TwoPi = 2*M_PI;
+const double HighBound = 2*XrMath::M_PI;
+const double TwoPi = 2*XrMath::M_PI;
 
 
-static double angle_normalize(double theta)
+static double XrMath::angle_normalize(double theta)
 {
     while (theta < LowBound)
 	theta += TwoPi;
@@ -64,8 +64,8 @@ static int solve_trig1_aux(float c,
     if (temp < 0.0f)
 	return 0;
 
-    temp  = atan2(_sqrt(temp), c);
-    num =  (_abs(temp) > 1e-6f) ? 2 : 1;
+    temp  = atan2(XrMath::sqrt(temp), c);
+    num =  (XrMath::abs(temp) > 1e-6f) ? 2 : 1;
 
     theta[0] = atan2ba;
     if (num == 2)
@@ -73,8 +73,8 @@ static int solve_trig1_aux(float c,
         theta[1] = theta[0] - temp;
         theta[0] += temp;
 
-	//theta[0] = angle_normalize(theta[0]);
-	//theta[1] = angle_normalize(theta[1]);
+	//theta[0] = XrMath::angle_normalize(theta[0]);
+	//theta[1] = XrMath::angle_normalize(theta[1]);
 
 	if (theta[0] > theta[1])
 	{

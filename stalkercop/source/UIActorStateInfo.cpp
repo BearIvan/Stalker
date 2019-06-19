@@ -96,7 +96,7 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 	m_state[stt_bleeding]->show_static(false, 1);
 	m_state[stt_bleeding]->show_static(false, 2);
 	m_state[stt_bleeding]->show_static(false, 3);
-	if(!fis_zero(value, EPS))
+	if(!XrMath::fis_zero(value, XrMath::EPS))
 	{
 		if(value<0.35f)
 			m_state[stt_bleeding]->show_static(true, 1);
@@ -110,7 +110,7 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 	m_state[stt_radiation]->show_static(false, 1);
 	m_state[stt_radiation]->show_static(false, 2);
 	m_state[stt_radiation]->show_static(false, 3);
-	if(!fis_zero(value, EPS))
+	if(!XrMath::fis_zero(value, XrMath::EPS))
 	{
 		if(value<0.35f)
 			m_state[stt_radiation]->show_static(true, 1);
@@ -365,7 +365,7 @@ void ui_actor_state_item::set_text( float value )
 		return;
 	}
 	int v = (int)( value * m_magnitude + 0.49f );// m_magnitude=100
-	clamp( v, 0, 99 );
+	XrMath::clamp( v, 0, 99 );
 	string32 text_res;
 	xr_sprintf( text_res, sizeof(text_res), "%d", v );
 	m_static->TextItemControl()->SetText( text_res );

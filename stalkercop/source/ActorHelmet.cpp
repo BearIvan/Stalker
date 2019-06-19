@@ -50,7 +50,7 @@ void CHelmet::Load(LPCSTR section)
 	m_fPowerRestoreSpeed			= READ_IF_EXISTS(pSettings, r_float, section, "power_restore_speed",     0.0f );
 	m_fBleedingRestoreSpeed			= READ_IF_EXISTS(pSettings, r_float, section, "bleeding_restore_speed",  0.0f );
 	m_fPowerLoss					= READ_IF_EXISTS(pSettings, r_float, section, "power_loss",    1.0f );
-	clamp							( m_fPowerLoss, 0.0f, 1.0f );
+	XrMath::clamp							( m_fPowerLoss, 0.0f, 1.0f );
 
 	m_BonesProtectionSect			= READ_IF_EXISTS(pSettings, r_string, section, "bones_koeff_protection",  "" );
 	m_fShowNearestEnemiesDistance	= READ_IF_EXISTS(pSettings, r_float, section, "nearest_enemies_show_dist",  0.0f );
@@ -178,7 +178,7 @@ bool CHelmet::install_upgrade_impl( LPCSTR section, bool test )
 	result |= process_if_exists( section, "bleeding_restore_speed",  &CInifile::r_float, m_fBleedingRestoreSpeed,  test );
 
 	result |= process_if_exists( section, "power_loss", &CInifile::r_float, m_fPowerLoss, test );
-	clamp( m_fPowerLoss, 0.0f, 1.0f );
+	XrMath::clamp( m_fPowerLoss, 0.0f, 1.0f );
 
 	result |= process_if_exists( section, "nearest_enemies_show_dist",  &CInifile::r_float, m_fShowNearestEnemiesDistance,  test );
 
@@ -215,7 +215,7 @@ float CHelmet::HitThroughArmor(float hit_power, s16 element, float ap, bool& add
 			return NewHitPower;
 
 		float BoneArmor = ba*GetCondition();
-		if(/*!fis_zero(ba, EPS) && */(ap > BoneArmor))
+		if(/*!XrMath::fis_zero(ba, XrMath::EPS) && */(ap > BoneArmor))
 		{
 			//пуля пробила бронь
 			if(!IsGameTypeSingle())

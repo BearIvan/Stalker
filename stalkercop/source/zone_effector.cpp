@@ -73,7 +73,7 @@ void CZoneEffector::Update(float dist, float r, ALife::EHitType hit_type)
 	}
 	if (m_pp_effector) {
 		m_factor = ((max_r - dist) / (max_r - min_r)) - protection;
-		clamp(m_factor,0.01f,1.0f);
+		XrMath::clamp(m_factor,0.01f,1.0f);
 	}
 }
 

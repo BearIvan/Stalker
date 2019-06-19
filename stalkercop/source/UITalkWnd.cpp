@@ -188,11 +188,11 @@ void UpdateCameraDirection(CGameObject* pTo)
 	des_dir.getHP(h,p);
 
 
-	if(angle_difference(cam->yaw,-h)>0.2)
-		cam->yaw		= angle_inertion_var(cam->yaw,		-h,	0.15f,	0.2f,	PI_DIV_6,	Device.fTimeDelta);
+	if(XrMath::angle_difference(cam->yaw,-h)>0.2)
+		cam->yaw		= XrMath::angle_inertion_var(cam->yaw,		-h,	0.15f,	0.2f,	XrMath::PI_DIV_6,	Device.fTimeDelta);
 
-	if(angle_difference(cam->pitch,-p)>0.2)
-		cam->pitch		= angle_inertion_var(cam->pitch,	-p,	0.15f,	0.2f,	PI_DIV_6,	Device.fTimeDelta);
+	if(XrMath::angle_difference(cam->pitch,-p)>0.2)
+		cam->pitch		= XrMath::angle_inertion_var(cam->pitch,	-p,	0.15f,	0.2f,	XrMath::PI_DIV_6,	Device.fTimeDelta);
 
 }
 

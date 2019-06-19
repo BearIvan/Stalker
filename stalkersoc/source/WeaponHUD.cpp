@@ -6,7 +6,7 @@
 #include "WeaponHUD.h"
 #include "Weapon.h"
 #include "engine/Motion.h"
-#include "XrRender/skeletonanimated.h"
+#include "XrRender/skeletonanimated.h"'
 #include "level.h"
 #include "MathUtils.h"
 weapon_hud_container* g_pWeaponHUDContainer=0;
@@ -17,7 +17,7 @@ BOOL weapon_hud_value::load(const shared_str& section, CHudItem* owner)
 	Fvector						pos,ypr;
 	pos							= pSettings->r_fvector3(section,"position");
 	ypr							= pSettings->r_fvector3(section,"orientation");
-	ypr.mul						(PI/180.f);
+	ypr.mul						(XrMath::M_PI/180.f);
 
 	m_offset.setHPB				(ypr.x,ypr.y,ypr.z);
 	m_offset.translate_over		(pos);
@@ -68,7 +68,7 @@ u32 shared_weapon_hud::motion_length(MotionID M)
 
 	if (motion_def->flags & esmStopAtEnd) {
 		CMotion*			motion		= skeleton_animated->LL_GetRootMotion(M);
-		return				iFloor(0.5f + 1000.f*motion->GetLength()/ motion_def->Dequantize(motion_def->speed));
+		return				XrMath::iFloor(0.5f + 1000.f*motion->GetLength()/ motion_def->Dequantize(motion_def->speed));
 	}
 	return				0;
 }
@@ -114,7 +114,7 @@ void  CWeaponHUD::net_DestroyHud()
 void CWeaponHUD::UpdatePosition(const Fmatrix& trans)
 {
 	m_Transform.mul				(trans,m_shared_data.get_value()->m_offset);
-	VERIFY						(!fis_zero(DET(m_Transform)));
+	VERIFY						(!XrMath::fis_zero(DET(m_Transform)));
 }
 
 MotionID CWeaponHUD::animGet(LPCSTR name)

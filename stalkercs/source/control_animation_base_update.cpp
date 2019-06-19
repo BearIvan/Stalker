@@ -154,13 +154,13 @@ void CControlAnimationBase::SetTurnAnimation()
 {
 	float yaw_current, yaw_target;
 	m_man->direction().get_heading(yaw_current, yaw_target);
-	float delta_yaw	= angle_difference(yaw_target, yaw_current);
+	float delta_yaw	= XrMath::angle_difference(yaw_target, yaw_current);
 
 	bool turn_left = true;
 	if (from_right(yaw_target, yaw_current)) turn_left = false; 
 
 	EPState	anim_state = GetState(cur_anim_info().motion);
-	if (IsStandCurAnim() && (anim_state == PS_STAND) && (!fis_zero(delta_yaw))) {
+	if (IsStandCurAnim() && (anim_state == PS_STAND) && (!XrMath::fis_zero(delta_yaw))) {
 		m_object->SetTurnAnimation(turn_left);
 		return;
 	}
@@ -200,7 +200,7 @@ void CControlAnimationBase::SelectVelocities()
 		} 
 
 		const CDetailPathManager::STravelParams &current_velocity = m_object->movement().detail().velocity(cur_point_velocity_index);
-		path_vel.set(_abs(current_velocity.linear_velocity), current_velocity.real_angular_velocity);
+		path_vel.set(XrMath::abs(current_velocity.linear_velocity), current_velocity.real_angular_velocity);
 	}
 
 	SAnimItem *item_it = m_anim_storage[cur_anim_info().motion];
@@ -210,20 +210,20 @@ void CControlAnimationBase::SelectVelocities()
 	anim_vel.set(item_it->velocity.velocity.linear, item_it->velocity.velocity.angular_real);
 
 	//	// проверить на совпадение
-	//	R_ASSERT(fsimilar(path_vel.linear,	anim_vel.linear));
-	//	R_ASSERT(fsimilar(path_vel.angular,	anim_vel.angular));
+	//	R_ASSERT(XrMath::fsimilar(path_vel.linear,	anim_vel.linear));
+	//	R_ASSERT(XrMath::fsimilar(path_vel.angular,	anim_vel.angular));
 	
 	// установка линейной скорости	
 	if (m_object->state_invisible) {
 		// если невидимый, то установить скорость из пути
-		m_object->move().set_velocity(_abs(path_vel.linear));
+		m_object->move().set_velocity(XrMath::abs(path_vel.linear));
 	} else {
 		
-		if (fis_zero(_abs(anim_vel.linear))) stop_now();
+		if (XrMath::fis_zero(XrMath::abs(anim_vel.linear))) stop_now();
 		else {
 			// - проверить на возможность торможения
-			if (!accel_check_braking(-2.f, _abs(anim_vel.linear))) {
-				m_object->move().set_velocity(_abs(anim_vel.linear));
+			if (!accel_check_braking(-2.f, XrMath::abs(anim_vel.linear))) {
+				m_object->move().set_velocity(XrMath::abs(anim_vel.linear));
 				//no braking mode
 			} else {
 				m_object->move().stop_accel();
@@ -235,7 +235,7 @@ void CControlAnimationBase::SelectVelocities()
 	// финальная корректировка скорости анимации по физической скорости
 
 
-	if (!m_object->state_invisible && !fis_zero(anim_vel.linear)) {
+	if (!m_object->state_invisible && !XrMath::fis_zero(anim_vel.linear)) {
 			
 		EMotionAnim new_anim;
 		float		a_speed;
@@ -279,8 +279,8 @@ void CControlAnimationBase::CheckVelocityBounce()
 	float		cur_speed	= temp_vec.magnitude();
 
 	// prepare 
-	if (fis_zero(prev_speed))	prev_speed	= 0.01f;
-	if (fis_zero(cur_speed))	cur_speed	= 0.01f;
+	if (XrMath::fis_zero(prev_speed))	prev_speed	= 0.01f;
+	if (XrMath::fis_zero(cur_speed))	cur_speed	= 0.01f;
 
 	float ratio = ((prev_speed > cur_speed) ? (prev_speed / cur_speed) : (cur_speed / prev_speed));
 

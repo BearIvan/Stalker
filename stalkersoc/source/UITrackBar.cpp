@@ -95,7 +95,7 @@ bool CUITrackBar::IsChanged()
 {
 	if(m_b_is_float)
 	{
-		return !fsimilar(m_f_back_up, m_f_val); 
+		return !XrMath::fsimilar(m_f_back_up, m_f_val); 
 	}else
 	{
 		return (m_i_back_up != m_i_val);
@@ -107,7 +107,7 @@ void CUITrackBar::SetStep(float step)
 	if(m_b_is_float)
 		m_f_step	= step;
 	else
-		m_i_step	= iFloor(step);
+		m_i_step	= XrMath::iFloor(step);
 }
 
 void CUITrackBar::SeveBackUpValue()
@@ -173,7 +173,7 @@ void CUITrackBar::UpdatePosRelativeToMouse()
 	float _d	= (__fval-__fmin);
 	
 	float _v	= _d/__fstep;
-	int _vi		= iFloor(_v);
+	int _vi		= XrMath::iFloor(_v);
 	float _vf	= __fstep*_vi;
 	
 	if(_d-_vf>__fstep/2.0f)	
@@ -181,18 +181,18 @@ void CUITrackBar::UpdatePosRelativeToMouse()
 
 	__fval		= __fmin+_vf;
 	
-	clamp		(__fval, __fmin, __fmax);
+	XrMath::clamp		(__fval, __fmin, __fmax);
 
 	if(m_b_is_float)
 		m_f_val	= __fval;
 	else
-		m_i_val	= iFloor(__fval);
+		m_i_val	= XrMath::iFloor(__fval);
 	
 
 	bool b_ch = false;
 	if(m_b_is_float)
 	{
-		b_ch  = !fsimilar(_bkf, m_f_val); 
+		b_ch  = !XrMath::fsimilar(_bkf, m_f_val); 
 	}else
 	{
 		b_ch  =  (_bki != m_i_val);
@@ -240,7 +240,7 @@ void CUITrackBar::OnMessage(const char* message)
 		if(m_b_is_float)
 			m_f_val = m_f_min + (m_f_max - m_f_min)/2.0f;
 		else
-			m_i_val = m_i_min + iFloor((m_i_max - m_i_min)/2.0f);
+			m_i_val = m_i_min + XrMath::iFloor((m_i_max - m_i_min)/2.0f);
 
 		UpdatePos();
 	}

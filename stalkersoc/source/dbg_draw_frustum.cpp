@@ -9,8 +9,8 @@
 #ifdef DEBUG
 void MK_Frustum(CFrustum& F, float FOV, float _FAR, float A, Fvector &P, Fvector &D, Fvector &U)
 {
-	float YFov	= deg2rad(FOV);
-	float XFov	= deg2rad(FOV/A);
+	float YFov	= XrMath::deg2rad(FOV);
+	float XFov	= XrMath::deg2rad(FOV/A);
 
 	// calc window extents in camera coords
 	float wR=tanf(XFov*0.5f);
@@ -58,8 +58,8 @@ void dbg_draw_frustum	(float FOV, float _FAR, float A, Fvector &P, Fvector &D, F
 {
 	//if (!bDebug)		return;
 
-	float YFov = deg2rad(FOV*A);
-	float XFov = deg2rad(FOV);
+	float YFov = XrMath::deg2rad(FOV*A);
+	float XFov = XrMath::deg2rad(FOV);
 
 	// calc window extents in camera coords
 	float wR = tanf(XFov*0.5f);

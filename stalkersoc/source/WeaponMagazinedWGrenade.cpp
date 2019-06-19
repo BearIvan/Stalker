@@ -94,10 +94,10 @@ void CWeaponMagazinedWGrenade::Load	(LPCSTR section)
 	if (S && S[0]) 
 	{
 		string128		_ammoItem;
-		int				count		= _GetItemCount	(S);
+		int				count		= XrTrims::GetItemCount	(S);
 		for (int it=0; it<count; ++it)	
 		{
-			_GetItem				(S,it,_ammoItem);
+			XrTrims::GetItem				(S,it,_ammoItem);
 			m_ammoTypes2.push_back	(_ammoItem);
 		}
 		m_ammoName2 = pSettings->r_string(*m_ammoTypes2[0],"inv_name_short");

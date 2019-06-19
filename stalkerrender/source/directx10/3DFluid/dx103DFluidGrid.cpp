@@ -16,7 +16,7 @@ inline void ComputeRowColsForFlat3DTexture( int depth, int *outCols, int *outRow
 {
 	// Compute # of m_iRows and m_iCols for a "flat 3D-texture" configuration
 	// (in this configuration all the slices in the volume are spread in a single 2D texture)
-	int m_iRows =(int)floorf(_sqrt((float)depth));
+	int m_iRows =(int)floorf(XrMath::sqrt((float)depth));
 	int m_iCols = m_iRows;
 	while( m_iRows * m_iCols < depth ) {
 		m_iCols++;
@@ -48,7 +48,7 @@ void dx103DFluidGrid::Initialize( int gridWidth, int gridHeight, int gridDepth)
 	m_vDim[1] = gridHeight;
 	m_vDim[2] = gridDepth;
 
-	m_iMaxDim = _max( _max( m_vDim[0], m_vDim[1] ), m_vDim[2] );
+	m_iMaxDim = XrMath::max( XrMath::max( m_vDim[0], m_vDim[1] ), m_vDim[2] );
 
 	ComputeRowColsForFlat3DTexture(m_vDim[2], &m_iCols, &m_iRows);
 

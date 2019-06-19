@@ -766,9 +766,9 @@ void construct_restriction_vector(shared_str restrictions, xr_vector<ALife::_OBJ
 {
 	result.clear();
 	string64	temp;
-	u32			n = _GetItemCount(*restrictions);
+	u32			n = XrTrims::GetItemCount(*restrictions);
 	for (u32 i=0; i<n; ++i) {
-		CObject	*object = Level().Objects.FindObjectByName(_GetItem(*restrictions,i,temp));
+		CObject	*object = Level().Objects.FindObjectByName(XrTrims::GetItem(*restrictions,i,temp));
 		if (!object)
 			continue;
 		result.push_back(object->ID());

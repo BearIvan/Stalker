@@ -355,8 +355,8 @@ void __stdcall	CDetailManager::MT_CALC		()
 		{
 			Fvector		EYE				= RDEVICE.vCameraPosition_saved;
 
-			int s_x	= iFloor			(EYE.x/dm_slot_size+.5f);
-			int s_z	= iFloor			(EYE.z/dm_slot_size+.5f);
+			int s_x	= XrMath::iFloor			(EYE.x/dm_slot_size+.5f);
+			int s_z	= XrMath::iFloor			(EYE.z/dm_slot_size+.5f);
 
 			RDEVICE.Statistic->RenderDUMP_DT_Cache.Begin	();
 			cache_Update				(s_x,s_z,EYE,dm_max_decompress);

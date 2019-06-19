@@ -237,7 +237,7 @@ void	CBlender_Compile::PassSET_ablend_mode	(BOOL bABlend,	u32 abSRC, u32 abDST)
 }
 void	CBlender_Compile::PassSET_ablend_aref	(BOOL bATest,	u32 aRef)
 {
-	clamp		(aRef,0u,255u);
+	XrMath::clamp		(aRef,0u,255u);
 	RS.SetRS	(D3DRS_ALPHATESTENABLE,		BC(bATest));
 	if (bATest)	RS.SetRS(D3DRS_ALPHAREF,	u32(aRef));
 }

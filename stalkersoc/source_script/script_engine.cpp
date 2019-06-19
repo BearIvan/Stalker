@@ -213,10 +213,10 @@ void CScriptEngine::load_common_scripts()
 
 	if (l_tpIniFile->line_exist("common","script")) {
 		LPCSTR			caScriptString = l_tpIniFile->r_string("common","script");
-		u32				n = _GetItemCount(caScriptString);
+		u32				n = XrTrims::GetItemCount(caScriptString);
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
-			process_file(_GetItem(caScriptString,i,I));
+			process_file(XrTrims::GetItem(caScriptString,i,I));
 			if (object("_G",strcat(I,"_initialize"),LUA_TFUNCTION)) {
 //				lua_dostring			(lua(),strcat(I,"()"));
 				luabind::functor<void>	f;
@@ -288,10 +288,10 @@ void CScriptEngine::register_script_classes		()
 	m_class_registrators		= READ_IF_EXISTS(l_tpIniFile,r_string,"common","class_registrators","");
 	xr_delete					(l_tpIniFile);
 
-	u32							n = _GetItemCount(*m_class_registrators);
+	u32							n = XrTrims::GetItemCount(*m_class_registrators);
 	string256					I;
 	for (u32 i=0; i<n; ++i) {
-		_GetItem				(*m_class_registrators,i,I);
+		XrTrims::GetItem				(*m_class_registrators,i,I);
 		luabind::functor<void>	result;
 		if (!functor(I,result)) {
 			script_log			(eLuaMessageTypeError,"Cannot load class registrator %s!",I);

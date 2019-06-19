@@ -257,7 +257,7 @@ public:
     virtual void Execute(LPCSTR args)
     {
         float v = float(atof(args));
-        if (v<(min - EPS) || v>(max + EPS)) InvalidSyntax();
+        if (v<(min - XrMath::EPS) || v>(max + XrMath::EPS)) InvalidSyntax();
         else *value = v;
     }
     virtual void Status(TStatus& S)

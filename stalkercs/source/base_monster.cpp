@@ -402,19 +402,19 @@ void CBaseMonster::set_state_sound(u32 type, bool once)
 				// check distance to actor
 
 				if (Actor()->Position().distance_to(Position()) > db().m_fDistantIdleSndRange) {
-					delay = u32(float(db().m_dwDistantIdleSndDelay) * _sqrt(float(objects_count)));
+					delay = u32(float(db().m_dwDistantIdleSndDelay) * XrMath::sqrt(float(objects_count)));
 					type  = MonsterSound::eMonsterSoundIdleDistant;
 				} else {
-					delay = u32(float(db().m_dwIdleSndDelay) * _sqrt(float(objects_count)));
+					delay = u32(float(db().m_dwIdleSndDelay) * XrMath::sqrt(float(objects_count)));
 				}
 				
 				break;
 			case MonsterSound::eMonsterSoundEat:
-				delay = u32(float(db().m_dwEatSndDelay) * _sqrt(float(objects_count)));
+				delay = u32(float(db().m_dwEatSndDelay) * XrMath::sqrt(float(objects_count)));
 				break;
 			case MonsterSound::eMonsterSoundAggressive:
 			case MonsterSound::eMonsterSoundPanic:
-				delay = u32(float(db().m_dwAttackSndDelay) * _sqrt(float(objects_count)));
+				delay = u32(float(db().m_dwAttackSndDelay) * XrMath::sqrt(float(objects_count)));
 				break;
 			}
 
@@ -635,7 +635,7 @@ void CBaseMonster::load_effector(LPCSTR section, LPCSTR line, SAttackEffector &e
 	effector.ppi.noise.intensity	= pSettings->r_float(ppi_section,"noise_intensity");
 	effector.ppi.noise.grain		= pSettings->r_float(ppi_section,"noise_grain");
 	effector.ppi.noise.fps			= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(effector.ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(effector.ppi.noise.fps));
 
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &effector.ppi.color_base.r,	&effector.ppi.color_base.g,	&effector.ppi.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &effector.ppi.color_gray.r,	&effector.ppi.color_gray.g,	&effector.ppi.color_gray.b);

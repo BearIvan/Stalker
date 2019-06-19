@@ -17,6 +17,7 @@
 #include "phdebug.h"
 #include "engine/objectdump.h"
 #endif
+#undef M_PI
 BOOL dbg_draw_doors = false;
 CPhysicObject::CPhysicObject(void): 
 m_anim_blend( 0 ),
@@ -421,9 +422,9 @@ void CPhysicObject::AddElement(CPhysicsElement* root_e, int id)
 		J->SetAnchorVsSecondElement	(0,0,0);
 		J->SetAxisDirVsSecondElement	(1,0,0,0);
 		J->SetAxisDirVsSecondElement	(0,1,0,2);
-		J->SetLimits				(-M_PI/2,M_PI/2,0);
-		J->SetLimits				(-M_PI/2,M_PI/2,1);
-		J->SetLimits				(-M_PI/2,M_PI/2,2);
+		J->SetLimits				(-XrMath::M_PI/2,XrMath::M_PI/2,0);
+		J->SetLimits				(-XrMath::M_PI/2,XrMath::M_PI/2,1);
+		J->SetLimits				(-XrMath::M_PI/2,XrMath::M_PI/2,2);
 		m_pPhysicsShell->add_Joint	(J);	
 	}
 
@@ -573,8 +574,8 @@ void CPhysicObject::net_Export			(NET_Packet& P)
 	num_items.num_items		= u8(temp);
 
 	if (State.enabled)									num_items.mask |= CSE_ALifeObjectPhysic::inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeObjectPhysic::inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeObjectPhysic::inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeObjectPhysic::inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeObjectPhysic::inventory_item_linear_null;
 	//if (m_pPhysicsShell->PPhysicsShellAnimator())		{num_items.mask |= CSE_ALifeObjectPhysic::animated;}
 
 	P.w_u8					(num_items.common);
@@ -605,8 +606,8 @@ void CPhysicObject::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask
 	//Msg("Export State.position.y:%4.6f",State.position.y);
 	//Msg("Export State.enabled:%i",int(State.enabled));
 
-	float					magnitude = _sqrt(State.quaternion.magnitude());
-	if (fis_zero(magnitude)) {
+	float					magnitude = XrMath::sqrt(State.quaternion.magnitude());
+	if (XrMath::fis_zero(magnitude)) {
 		magnitude			= 1;
 		State.quaternion.x	= 0.f;
 		State.quaternion.y	= 0.f;
@@ -621,10 +622,10 @@ void CPhysicObject::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask
 		State.quaternion.z	*= invert_magnitude;
 		State.quaternion.w	*= invert_magnitude;
 
-		clamp				(State.quaternion.x,-1.f,1.f);
-		clamp				(State.quaternion.y,-1.f,1.f);
-		clamp				(State.quaternion.z,-1.f,1.f);
-		clamp				(State.quaternion.w,-1.f,1.f);*/
+		XrMath::clamp				(State.quaternion.x,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.y,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.z,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.w,-1.f,1.f);*/
 	}
 
 	P.w_float			(State.quaternion.x);
@@ -633,9 +634,9 @@ void CPhysicObject::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask
 	P.w_float			(State.quaternion.w);
 
 	if (!(num_items.mask & CSE_ALifeObjectPhysic::inventory_item_angular_null)) {
-		/*	clamp				(State.angular_vel.x,-10.f*PI_MUL_2,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.y,-10.f*PI_MUL_2,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.z,-10.f*PI_MUL_2,10.f*PI_MUL_2);*/
+		/*	XrMath::clamp				(State.angular_vel.x,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.y,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.z,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);*/
 
 		P.w_float		(State.angular_vel.x);
 		P.w_float		(State.angular_vel.y);
@@ -643,9 +644,9 @@ void CPhysicObject::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask
 	}
 
 	if (!(num_items.mask & CSE_ALifeObjectPhysic::inventory_item_linear_null)) {
-		/*clamp				(State.linear_vel.x,-32.f,32.f);
-		clamp				(State.linear_vel.y,-32.f,32.f);
-		clamp				(State.linear_vel.z,-32.f,32.f);*/
+		/*XrMath::clamp				(State.linear_vel.x,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.y,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.z,-32.f,32.f);*/
 
 		P.w_float		(State.linear_vel.x);
 		P.w_float		(State.linear_vel.y);
@@ -931,10 +932,10 @@ bool	CPhysicObject::get_door_vectors	( Fvector& closed, Fvector& open ) const
 		return false;
 	const Fvector2& limits = joint.limits[1].limit;
 
-	//if( limits.y < EPS ) //limits.y - limits.x < EPS
+	//if( limits.y < XrMath::EPS ) //limits.y - limits.x < XrMath::EPS
 	//	return false;
 
-	if( M_PI - limits.y < EPS && M_PI + limits.x < EPS )
+	if( XrMath::M_PI - limits.y < XrMath::EPS && XrMath::M_PI + limits.x < XrMath::EPS )
 		return false;
 
 	Fmatrix to_hi = Fmatrix().rotateY( -limits.x  ); 

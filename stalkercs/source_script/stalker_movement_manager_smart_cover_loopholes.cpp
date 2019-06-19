@@ -118,7 +118,7 @@ bool stalker_movement_manager_smart_cover::test_pick	(Fvector source, Fvector de
 	destination.y				+= 2.f;
 	Fvector direction			= Fvector(destination).sub(source);
 	float const distance		= direction.magnitude();
-	if (distance > EPS_L)
+	if (distance > XrMath::EPS_L)
 		direction.normalize		();
 	else
 		return					(true);
@@ -206,7 +206,7 @@ stalker_movement_manager_smart_cover::transition_action const &stalker_movement_
 					continue;
 
 				float const y			= ai().level_graph().vertex_plane_y( vertex_id, action_position.x, action_position.z );
-				if ( !fsimilar(y, action_position.y,2.f) )
+				if ( !XrMath::fsimilar(y, action_position.y,2.f) )
 					continue;
 
 				if (!test_pick(object().Position(), action_position))

@@ -92,7 +92,7 @@ void CAI_Stalker::update_best_cover_actuality		(const Fvector &position_to_cover
 	if (!m_best_cover)
 		return;
 
-	if (m_best_cover->position().distance_to_sqr(position_to_cover_from) < _sqr(MIN_SUITABLE_ENEMY_DISTANCE)) {
+	if (m_best_cover->position().distance_to_sqr(position_to_cover_from) < XrMath::sqr(MIN_SUITABLE_ENEMY_DISTANCE)) {
 		m_best_cover_actual				= false;
 #if 0//def _DEBUG
 		Msg								("* [%6d][%s] enemy too close",Device.dwTimeGlobal,*cName());
@@ -179,7 +179,7 @@ void CAI_Stalker::on_danger_location_add			(const CDangerLocation &location)
 	if (!m_best_cover)
 		return;
 
-	if (m_best_cover->position().distance_to_sqr(location.position()) <= _sqr(location.m_radius)) {
+	if (m_best_cover->position().distance_to_sqr(location.position()) <= XrMath::sqr(location.m_radius)) {
 #ifdef _DEBUG
 //		Msg								("* [%6d][%s] on_danger_add",Device.dwTimeGlobal,*cName());
 #endif
@@ -190,7 +190,7 @@ void CAI_Stalker::on_danger_location_add			(const CDangerLocation &location)
 void CAI_Stalker::on_danger_location_remove			(const CDangerLocation &location)
 {
 	if (!m_best_cover) {
-		if (Position().distance_to_sqr(location.position()) <= _sqr(location.m_radius)) {
+		if (Position().distance_to_sqr(location.position()) <= XrMath::sqr(location.m_radius)) {
 #ifdef _DEBUG
 //			Msg							("* [%6d][%s] on_danger_remove",Device.dwTimeGlobal,*cName());
 #endif
@@ -200,7 +200,7 @@ void CAI_Stalker::on_danger_location_remove			(const CDangerLocation &location)
 		return;
 	}
 
-	if (m_best_cover->position().distance_to_sqr(location.position()) <= _sqr(location.m_radius)) {
+	if (m_best_cover->position().distance_to_sqr(location.position()) <= XrMath::sqr(location.m_radius)) {
 #ifdef _DEBUG
 //		Msg								("* [%6d][%s] on_danger_remove",Device.dwTimeGlobal,*cName());
 #endif

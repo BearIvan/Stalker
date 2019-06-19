@@ -132,14 +132,14 @@ void	CRenderTarget::phase_scene_end		()
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 	// Fill vertex buffer
 	FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-	pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-	pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-	pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-	pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+	pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+	pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+	pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+	pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 	RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 
 	// if (stencil>=1 && aref_pass)	stencil = light_id

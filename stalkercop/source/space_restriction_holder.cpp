@@ -152,8 +152,8 @@ bool try_remove_string				(shared_str &search_string, const shared_str &string_t
 	string256				temp;
 	string4096				temp1;
 	*temp1					= 0;
-	for (int i=0, j=0, n=_GetItemCount(*search_string); i<n; ++i, ++j) {
-		if (xr_strcmp(string_to_search,_GetItem(*search_string,i,temp))) {
+	for (int i=0, j=0, n=XrTrims::GetItemCount(*search_string); i<n; ++i, ++j) {
+		if (xr_strcmp(string_to_search,XrTrims::GetItem(*search_string,i,temp))) {
 			if (j)
 				xr_strcat		(temp1,",");
 			xr_strcat			(temp1,temp);

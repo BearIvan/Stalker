@@ -180,7 +180,7 @@ void line_edit_control::clear_states()
 void line_edit_control::init(u32 str_buffer_size, init_mode mode)
 {
     m_buffer_size = str_buffer_size;
-    clamp(m_buffer_size, (int)MIN_BUF_SIZE, (int)MAX_BUF_SIZE);
+	XrMath::clamp(m_buffer_size, (int)MIN_BUF_SIZE, (int)MAX_BUF_SIZE);
 
     xr_free(m_edit_str);
     m_edit_str = (LPSTR)xr_malloc(m_buffer_size * sizeof(char));
@@ -414,7 +414,7 @@ bool line_edit_control::empty_inserted()
 void line_edit_control::set_edit(LPCSTR str)
 {
     u32 str_size = xr_strlen(str);
-    clamp(str_size, (u32)0, (u32)(m_buffer_size - 1));
+	XrMath::clamp(str_size, (u32)0, (u32)(m_buffer_size - 1));
     strncpy_s(m_edit_str, m_buffer_size, str, str_size);
     m_edit_str[str_size] = 0;
 
@@ -595,11 +595,11 @@ void line_edit_control::add_inserted_text()
         m_inserted[m_buffer_size - 1 - m_p1] = 0;
         new_size = xr_strlen(m_inserted);
     }
-    strncpy_s(buf + m_p1, m_buffer_size- m_p1, m_inserted, _min(new_size, m_buffer_size - m_p1)); // part 2
+    strncpy_s(buf + m_p1, m_buffer_size- m_p1, m_inserted, XrMath::min(new_size, m_buffer_size - m_p1)); // part 2
 
     u8 ds = (m_insert_mode && m_p2 < old_edit_size) ? 1 : 0;
     strncpy_s(buf + m_p1 + new_size, m_buffer_size -(m_p1 + new_size), m_edit_str + m_p2 + ds,
-        _min(old_edit_size - m_p2 - ds, m_buffer_size - m_p1 - new_size)); // part 3
+		XrMath::min(old_edit_size - m_p2 - ds, m_buffer_size - m_p1 - new_size)); // part 3
     buf[m_buffer_size] = 0;
 
     int szn = m_p1 + new_size + old_edit_size - m_p2 - ds;
@@ -783,7 +783,7 @@ void line_edit_control::compute_positions()
 
 void line_edit_control::clamp_cur_pos()
 {
-    clamp(m_cur_pos, 0, (int)xr_strlen(m_edit_str));
+	XrMath::clamp(m_cur_pos, 0, (int)xr_strlen(m_edit_str));
 }
 
 void line_edit_control::SwitchKL()

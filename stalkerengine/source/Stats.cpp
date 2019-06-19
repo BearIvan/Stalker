@@ -142,7 +142,7 @@ void CStats::Show()
     }
 
     // calc FPS & TPS
-    if (Device.fTimeDelta > EPS_S)
+    if (Device.fTimeDelta > XrMath::EPS_S)
     {
         float fps = 1.f / Device.fTimeDelta;
         //if (Engine.External.tune_enabled) vtune.update (fps);
@@ -150,7 +150,7 @@ void CStats::Show()
         float fInv = 1.f - fOne;
         fFPS = fInv*fFPS + fOne*fps;
 
-        if (RenderTOTAL.result > EPS_S)
+        if (RenderTOTAL.result > XrMath::EPS_S)
         {
             u32 rendered_polies = Device.m_pRender->GetCacheStatPolys();
             fTPS = fInv*fTPS + fOne*float(rendered_polies) / (RenderTOTAL.result*1000.f);
@@ -383,7 +383,7 @@ void CStats::Show()
         for (u32 it = 0; it < errors.size(); it++)
             F.OutNext("%s", errors[it].c_str());
 #else
-        for (u32 it = (u32)_max(int(0), (int)errors.size() - g_ErrorLineCount); it < errors.size(); it++)
+        for (u32 it = (u32)XrMath::max(int(0), (int)errors.size() - g_ErrorLineCount); it < errors.size(); it++)
             F.OutNext("%s", errors[it].c_str());
 #endif
         F.OnRender();

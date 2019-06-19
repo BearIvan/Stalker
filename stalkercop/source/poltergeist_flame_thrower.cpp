@@ -60,7 +60,7 @@ void CPolterFlame::load(LPCSTR section)
 	m_scan_effector_info.noise.intensity	= pSettings->r_float(ppi_section,"noise_intensity");
 	m_scan_effector_info.noise.grain		= pSettings->r_float(ppi_section,"noise_grain");
 	m_scan_effector_info.noise.fps			= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(m_scan_effector_info.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_scan_effector_info.noise.fps));
 
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &m_scan_effector_info.color_base.r,	&m_scan_effector_info.color_base.g,	&m_scan_effector_info.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &m_scan_effector_info.color_gray.r,	&m_scan_effector_info.color_gray.g,	&m_scan_effector_info.color_gray.b);
@@ -267,7 +267,7 @@ bool CPolterFlame::get_valid_flame_position(const CObject *target_object, Fvecto
 	for (u32 i=0; i<FIND_POINT_ATTEMPT_COUNT; i++) {
 		
 		target_object->Direction().getHP(h,p);
-		h = Random.randF(0, PI_MUL_2);
+		h = Random.randF(0, XrMath::PI_MUL_2);
 		dir.setHP(h,p);
 		dir.normalize();
 
@@ -283,10 +283,10 @@ bool CPolterFlame::get_valid_flame_position(const CObject *target_object, Fvecto
 	}
 
 
-	float angle = ai().level_graph().vertex_high_cover_angle(Obj->ai_location().level_vertex_id(),PI_DIV_6,std::less<float>());
+	float angle = ai().level_graph().vertex_high_cover_angle(Obj->ai_location().level_vertex_id(),XrMath::PI_DIV_6,std::less<float>());
 
 	dir.set(1.f,0.f,0.f);
-	dir.setHP(angle + PI, 0.f);
+	dir.setHP(angle + XrMath::M_PI, 0.f);
 	dir.normalize();
 
 	vertex_position = ai().level_graph().vertex_position(Obj->ai_location().level_vertex_id());

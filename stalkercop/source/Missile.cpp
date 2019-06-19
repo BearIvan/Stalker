@@ -235,7 +235,7 @@ void CMissile::UpdateCL()
 			if (actor) 
 			{				
 				m_fThrowForce		+= (m_fForceGrowSpeed * Device.dwTimeDelta) * .001f;
-				clamp(m_fThrowForce, m_fMinForce, m_fMaxForce);
+				XrMath::clamp(m_fThrowForce, m_fMinForce, m_fMaxForce);
 			}
 		}
 	}
@@ -635,11 +635,11 @@ void CMissile::activate_physic_shell()
 	CInventoryOwner		*inventory_owner = smart_cast<CInventoryOwner*>(H_Root());
 	if (inventory_owner && inventory_owner->use_throw_randomness()) {
 		float			fi,teta,r;
-		fi				= ::Random.randF(0.f,2.f*M_PI);
-		teta			= ::Random.randF(0.f,M_PI);
-		r				= ::Random.randF(2.f*M_PI,3.f*M_PI);
-		float			rxy = r*_sin(teta);
-		a_vel.set		(rxy*_cos(fi),rxy*_sin(fi),r*_cos(teta));
+		fi				= ::Random.randF(0.f,2.f*XrMath::M_PI);
+		teta			= ::Random.randF(0.f,XrMath::M_PI);
+		r				= ::Random.randF(2.f*XrMath::M_PI,3.f*XrMath::M_PI);
+		float			rxy = r*XrMath::sin(teta);
+		a_vel.set		(rxy*XrMath::cos(fi),rxy*XrMath::sin(fi),r*XrMath::cos(teta));
 	}
 	else
 		a_vel.set		(0.f,0.f,0.f);

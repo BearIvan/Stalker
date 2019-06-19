@@ -65,7 +65,7 @@ static float const min_throw_distance		= 10.f;
 
 float CAI_Stalker::GetWeaponAccuracy	() const
 {
-	float				base = PI/180.f;
+	float				base = XrMath::M_PI/180.f;
 	
 	//влияние ранга на меткость
 	base				*= m_fRankDisperison;
@@ -115,7 +115,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 			update_throw_params	();
 			P			= m_throw_position;
 			D			= Fvector().set(m_throw_velocity).normalize();
-			VERIFY		(!fis_zero(D.square_magnitude()));
+			VERIFY		(!XrMath::fis_zero(D.square_magnitude()));
 			return;
 		}
 		
@@ -125,14 +125,14 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 		if (weapon_shot_effector().IsActive())
 			D			= weapon_shot_effector_direction(D);
 
-		VERIFY			(!fis_zero(D.square_magnitude()));
+		VERIFY			(!XrMath::fis_zero(D.square_magnitude()));
 		return;
 	}
 
 	if (!g_Alive()) {
 		P				= weapon->get_LastFP();
 		D				= weapon->get_LastFD();
-		VERIFY			(!fis_zero(D.square_magnitude()));
+		VERIFY			(!XrMath::fis_zero(D.square_magnitude()));
 		return;
 	}
 
@@ -143,7 +143,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 			D.setHP		(-movement().m_head.target.yaw, -movement().m_head.target.pitch);
 		else
 			D			= weapon->get_LastFD();
-		VERIFY			(!fis_zero(D.square_magnitude()));
+		VERIFY			(!XrMath::fis_zero(D.square_magnitude()));
 
 		return;
 	}
@@ -155,7 +155,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 				D		= eye_matrix.k;
 				if (weapon_shot_effector().IsActive())
 					D	= weapon_shot_effector_direction(D);
-				VERIFY	(!fis_zero(D.square_magnitude()));
+				VERIFY	(!XrMath::fis_zero(D.square_magnitude()));
 			}
 			else {
 				D.setHP	(-movement().m_head.current.yaw,-movement().m_head.current.pitch);
@@ -164,7 +164,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 				Center	(P);
 				P.mad	(D,.5f);
 				P.y		+= .50f;
-				VERIFY	(!fis_zero(D.square_magnitude()));
+				VERIFY	(!XrMath::fis_zero(D.square_magnitude()));
 			}
 
 			if (sniper_fire_mode())
@@ -178,7 +178,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 			if (weapon_shot_effector().IsActive())
 				D		= weapon_shot_effector_direction(D);
 
-			VERIFY		(!fis_zero(D.square_magnitude()));
+			VERIFY		(!XrMath::fis_zero(D.square_magnitude()));
 
 			if (sniper_fire_mode())
 				D.setHP	(-movement().m_head.target.yaw, -movement().m_head.target.pitch);
@@ -191,7 +191,7 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 #ifdef DEBUG
 	P					= weapon->get_LastFP();
 	D					= weapon->get_LastFD();
-	VERIFY				(!fis_zero(D.square_magnitude()));
+	VERIFY				(!XrMath::fis_zero(D.square_magnitude()));
 #endif
 }
 
@@ -220,7 +220,7 @@ void CAI_Stalker::Hit			(SHit* pHDS)
 		float BoneArmor = m_boneHitProtection->getBoneArmor( HDS.bone() );
 		float ap        = HDS.armor_piercing;
 
-		if( ap > EPS && ap > BoneArmor )
+		if( ap > XrMath::EPS && ap > BoneArmor )
 		{
 			float d_ap = ap - BoneArmor;
 			hit_power *= ( d_ap / ap );
@@ -252,7 +252,7 @@ void CAI_Stalker::Hit			(SHit* pHDS)
 		{
 			const CCoverPoint		*cover = agent_manager().member().member(this).cover();
 			if ( !invulnerable() && cover && HDS.initiator() &&
-				( HDS.initiator()->ID() != ID() ) && !fis_zero( HDS.damage() ) && brain().affect_cover() )
+				( HDS.initiator()->ID() != ID() ) && !XrMath::fis_zero( HDS.damage() ) && brain().affect_cover() )
 			{
 				agent_manager().location().add( xr_new<CDangerCoverLocation>(cover,Device.dwTimeGlobal,DANGER_INTERVAL,DANGER_DISTANCE) );
 			}
@@ -287,7 +287,7 @@ void CAI_Stalker::Hit			(SHit* pHDS)
 
 	#pragma todo("Dima to Dima : forward-back bone impulse direction has been determined incorrectly!")
 				float					power_factor = m_power_fx_factor * HDS.damage() / 100.f;
-				clamp					(power_factor,0.f,1.f);
+				XrMath::clamp					(power_factor,0.f,1.f);
 
 				//IKinematicsAnimated		*tpKinematics = smart_cast<IKinematicsAnimated*>(Visual());
 				IKinematics *tpKinematics = smart_cast<IKinematics*>(Visual());
@@ -298,7 +298,7 @@ void CAI_Stalker::Hit			(SHit* pHDS)
 					HDS._dump			();
 				}
 	#endif
-//				int						fx_index = iFloor(tpKinematics->LL_GetBoneInstance(HDS.bone()).get_param(1) + (angle_difference(movement().m_body.current.yaw,-yaw) <= PI_DIV_2 ? 0 : 1));
+//				int						fx_index = XrMath::iFloor(tpKinematics->LL_GetBoneInstance(HDS.bone()).get_param(1) + (XrMath::angle_difference(movement().m_body.current.yaw,-yaw) <= XrMath::PI_DIV_2 ? 0 : 1));
 //				if (fx_index != -1)
 //					animation().play_fx	(power_factor,fx_index);
 			}
@@ -379,7 +379,7 @@ void CAI_Stalker::update_best_item_info	()
 		ai().ef_storage().non_alife().member_item()	= &m_best_item_to_kill->object();
 		float									value;
 		value									= ai().ef_storage().m_pfWeaponEffectiveness->ffGetValue();
-		if (fsimilar(value,m_best_item_value))
+		if (XrMath::fsimilar(value,m_best_item_value))
 			return;
 	}
 
@@ -406,16 +406,16 @@ void CAI_Stalker::update_best_item_info	()
 				else
 					value							= (float)(*I)->object().ef_weapon_type();
 
-				if (!fsimilar(value,m_best_item_value) && (value < m_best_item_value))
+				if (!XrMath::fsimilar(value,m_best_item_value) && (value < m_best_item_value))
 					continue;
 
-				if (!fsimilar(value,m_best_item_value) && (value > m_best_item_value)) {
+				if (!XrMath::fsimilar(value,m_best_item_value) && (value > m_best_item_value)) {
 					m_best_item_value	= value;
 					m_best_item_to_kill = *I;
 					continue;
 				}
 
-				VERIFY					(fsimilar(value,m_best_item_value));
+				VERIFY					(XrMath::fsimilar(value,m_best_item_value));
 				if (m_best_item_to_kill && ((*I)->object().ef_weapon_type() <= m_best_item_to_kill->object().ef_weapon_type()))
 					continue;
 
@@ -600,17 +600,17 @@ IC BOOL ray_query_callback	(collide::rq_result& result, LPVOID params)
 
 void CAI_Stalker::can_kill_entity		(const Fvector &position, const Fvector &direction, float distance, collide::rq_results& rq_storage)
 {
-	VERIFY							(!fis_zero(direction.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(direction.square_magnitude()));
 
 	collide::ray_defs				ray_defs(position,direction,distance,CDB::OPT_CULL,collide::rqtBoth);
-	VERIFY							(!fis_zero(ray_defs.dir.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(ray_defs.dir.square_magnitude()));
 	
 	ray_query_param					params(this,memory().visual().transparency_threshold(),distance);
 
 	Level().ObjectSpace.RayQuery	(rq_storage,ray_defs,ray_query_callback,&params,NULL,this);
 	m_can_kill_enemy				= m_can_kill_enemy  || params.m_can_kill_enemy;
 	m_can_kill_member				= m_can_kill_member || params.m_can_kill_member;
-	m_pick_distance					= _max(m_pick_distance,params.m_pick_distance);
+	m_pick_distance					= XrMath::max(m_pick_distance,params.m_pick_distance);
 }
 
 void CAI_Stalker::can_kill_entity_from	(const Fvector &position, Fvector direction, float distance)
@@ -621,7 +621,7 @@ void CAI_Stalker::can_kill_entity_from	(const Fvector &position, Fvector directi
 	if (m_can_kill_member && m_can_kill_enemy)
 		return;
 
-	float					yaw, pitch, safety_fire_angle = PI_DIV_8*.125f;
+	float					yaw, pitch, safety_fire_angle = XrMath::PI_DIV_8*.125f;
 	direction.getHP			(yaw,pitch);
 
 
@@ -655,7 +655,7 @@ IC	float CAI_Stalker::start_pick_distance	() const
 		return				(result);
 
 	return					(
-		_max(
+		XrMath::max(
 			result,
 			memory().enemy().selected()->Position().distance_to(Position()) + 1.f
 		)
@@ -754,7 +754,7 @@ bool CAI_Stalker::fire_make_sense		()
 	if ((pick_distance() + PRECISE_DISTANCE) < Position().distance_to(enemy->Position()))
 		return				(false);
 
-	if (_abs(Position().y - enemy->Position().y) > FLOOR_DISTANCE)
+	if (XrMath::abs(Position().y - enemy->Position().y) > FLOOR_DISTANCE)
 		return				(false);
 
 	if (pick_distance() < NEAR_DISTANCE)
@@ -896,7 +896,7 @@ float CAI_Stalker::missile_throw_force		()
 void CAI_Stalker::throw_target				(const Fvector &position, CObject *throw_ignore_object)
 {
 	float					distance_to_sqr = position.distance_to_sqr(m_throw_target);
-	m_throw_actual			= m_throw_actual && (distance_to_sqr < _sqr(.1f));
+	m_throw_actual			= m_throw_actual && (distance_to_sqr < XrMath::sqr(.1f));
 	m_throw_target			= position;
 	m_throw_ignore_object	= throw_ignore_object;
 }
@@ -910,7 +910,7 @@ static void throw_position					(Fvector &result, const Fvector &start_position, 
 		time
 	).mad(
 		gravity,
-		_sqr(time)*.5f
+		XrMath::sqr(time)*.5f
 	);
 }
 
@@ -946,7 +946,7 @@ static float throw_pick_error				(
 	start_to_max_error.mul	(1.f/magnitude);
 	Fvector					start_to_target = Fvector().sub(target,start).normalize();
 	float					cosine_alpha = start_to_max_error.dotproduct(start_to_target);
-	float					sine_alpha = _sqrt(1.f - _sqr(cosine_alpha));
+	float					sine_alpha = XrMath::sqrt(1.f - XrMath::sqr(cosine_alpha));
 	return					(magnitude*sine_alpha);
 }
 
@@ -962,7 +962,7 @@ static float throw_select_pick_time			(
 	float					low = start_low;
 	float					check_time = high;
 	float					time_epsilon = .1f / velocity.magnitude();
-	while (!fsimilar(low, high, time_epsilon)) {
+	while (!XrMath::fsimilar(low, high, time_epsilon)) {
 		float				distance = throw_pick_error(start_low, check_time, start, velocity, gravity);
 		
 		if (distance < epsilon)
@@ -1057,13 +1057,13 @@ void CAI_Stalker::check_throw_trajectory	(const float &throw_time)
 #endif // DEBUG
 
 		if (!throw_check_error(low, time, m_throw_position, m_throw_velocity, gravity)) {
-			if (fsimilar(time,high) && m_throw_collide_position.similar(m_throw_target,.2f))
+			if (XrMath::fsimilar(time,high) && m_throw_collide_position.similar(m_throw_target,.2f))
 				break;
 
 			return;
 		}
 
-		if (fsimilar(time,high))
+		if (XrMath::fsimilar(time,high))
 			break;
 
 		low					= time;

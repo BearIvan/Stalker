@@ -151,8 +151,8 @@ void CDrawUtilities::UpdateGrid(int number_of_cell, float square_size, int subdi
     m_GridStep.set(square_size,square_size);
 	m_GridSubDiv[0] = subdiv;
 	m_GridSubDiv[1] = subdiv;
-	m_GridCounts[0] = number_of_cell;//iFloor(size/step)*subdiv;
-	m_GridCounts[1] = number_of_cell;//iFloor(size/step)*subdiv;
+	m_GridCounts[0] = number_of_cell;//XrMath::iFloor(size/step)*subdiv;
+	m_GridCounts[1] = number_of_cell;//XrMath::iFloor(size/step)*subdiv;
 
 	FVF::L left,right;
 	left.p.y = right.p.y = 0;
@@ -201,8 +201,8 @@ void CDrawUtilities::OnDeviceCreate()
     m_WireCylinder.CreateFromData	(D3DPT_LINELIST,	DU_CYLINDER_NUMLINES,	D3DFVF_XYZ|D3DFVF_DIFFUSE,du_cylinder_vertices,	DU_CYLINDER_NUMVERTEX,		du_cylinder_lines,		DU_CYLINDER_NUMLINES*2);
 
 	for(int i=0;i<LINE_DIVISION;i++){                                
-		float angle = M_PI * 2.f * (i / (float)LINE_DIVISION);
-        float _sa=_sin(angle), _ca=_cos(angle);
+		float angle = XrMath::M_PI * 2.f * (i / (float)LINE_DIVISION);
+        float _sa=XrMath::sin(angle), _ca=XrMath::cos(angle);
 		circledef1[i].x = _ca;
 		circledef1[i].y = _sa;
 		circledef1[i].z = 0;
@@ -262,18 +262,18 @@ void CDrawUtilities::DrawSpotLight(const Fvector& p, const Fvector& d, float ran
     Fmatrix T;
 	Fvector p1;
     float H,P;
-    float da	= PI_MUL_2/LINE_DIVISION;
-	float b		= range*_cos(PI_DIV_2-phi/2);
-	float a		= range*_sin(PI_DIV_2-phi/2);
+    float da	= XrMath::PI_MUL_2/LINE_DIVISION;
+	float b		= range*XrMath::cos(XrMath::PI_DIV_2-phi/2);
+	float a		= range*XrMath::sin(XrMath::PI_DIV_2-phi/2);
     d.getHP		(H,P);
     T.setHPB	(H,P,0);     
     T.translate_over(p);
     _VertexStream*	Stream	= &RCache.Vertex;
     u32				vBase;
     FVF::L*	pv	 	= (FVF::L*)Stream->Lock(LINE_DIVISION*2+2,vs_L->vb_stride,vBase);
-	for (float angle=0; angle<PI_MUL_2; angle+=da){
-        float _sa	=_sin(angle);
-        float _ca	=_cos(angle);
+	for (float angle=0; angle<XrMath::PI_MUL_2; angle+=da){
+        float _sa	=XrMath::sin(angle);
+        float _ca	=XrMath::cos(angle);
 		p1.x		= b * _ca;
 		p1.y		= b * _sa;
         p1.z		= a;
@@ -297,7 +297,7 @@ void CDrawUtilities::DrawDirectionalLight(const Fvector& p, const Fvector& d, fl
 	Fmatrix rot;
 
     N.set		(0,1,0);
-	if (_abs(D.y)>0.99f) N.set(1,0,0);
+	if (XrMath::abs(D.y)>0.99f) N.set(1,0,0);
 	R.crossproduct(N,D); R.normalize();
 	N.crossproduct(D,R); N.normalize();
     rot.set(R,N,D,p);
@@ -376,8 +376,8 @@ void CDrawUtilities::DrawFlag(const Fvector& p, float heading, float height, flo
 
     if (bDrawEntity){
 		// fill VB
-        float rx		= _sin(heading);
-        float rz		= _cos(heading);
+        float rx		= XrMath::sin(heading);
+        float rz		= XrMath::cos(heading);
 		FVF::L*	pv	 	= (FVF::L*)Stream->Lock(6,vs_L->vb_stride,vBase);
         sz				*= 0.8f;
         pv->set			(p.x,p.y+height,p.z,clr);											pv++;
@@ -395,7 +395,7 @@ void CDrawUtilities::DrawFlag(const Fvector& p, float heading, float height, flo
 		FVF::L*	pv	 	= (FVF::L*)Stream->Lock(6,vs_L->vb_stride,vBase);
 	    pv->set			(p.x,p.y+height*(1.f-sz_fl),p.z,clr); 								pv++;
     	pv->set			(p.x,p.y+height,p.z,clr); 											pv++;
-	    pv->set			(p.x+_sin(heading)*sz,((pv-2)->p.y+(pv-1)->p.y)/2,p.z+_cos(heading)*sz,clr); pv++;
+	    pv->set			(p.x+XrMath::sin(heading)*sz,((pv-2)->p.y+(pv-1)->p.y)/2,p.z+XrMath::cos(heading)*sz,clr); pv++;
     	pv->set			(*(pv-3)); 															pv++;
 	    pv->set			(*(pv-2)); 															pv++;
     	pv->set			(*(pv-4)); 															pv++;
@@ -579,7 +579,7 @@ void CDrawUtilities::dbgDrawPlacement(const Fvector& p, int sz, u32 clr, LPCSTR 
 
 	float s = (float)sz;
 	Device.mFullTransform.transform(c,p);
-	c.x = (float)iFloor(_x2real(c.x)); c.y = (float)iFloor(_y2real(-c.y));
+	c.x = (float)XrMath::iFloor(_x2real(c.x)); c.y = (float)XrMath::iFloor(_y2real(-c.y));
 
 	_VertexStream*	Stream	= &RCache.Vertex;
     u32 vBase;
@@ -717,7 +717,7 @@ void CDrawUtilities::DrawAABB(const Fvector& p0, const Fvector& p1, u32 clr_s, u
 {
     Fmatrix			R;
 	Fvector	C; C.set((p1.x+p0.x)*0.5f,(p1.y+p0.y)*0.5f,(p1.z+p0.z)*0.5f);
-    R.scale			(_abs(p1.x-p0.x),_abs(p1.y-p0.y),_abs(p1.z-p0.z));
+    R.scale			(XrMath::abs(p1.x-p0.x),XrMath::abs(p1.y-p0.y),XrMath::abs(p1.z-p0.z));
     R.translate_over(C);
 	RCache.set_xform_world(R);
 	DrawIdentBox	(bSolid,bWire,clr_s,clr_w);
@@ -803,7 +803,7 @@ void CDrawUtilities::DrawCylinder(const Fmatrix& parent, const Fvector& center, 
     // build final rotation / translation
     Fvector             L_dir,L_up,L_right;
     L_dir.set           (dir);       		    L_dir.normalize			();
-    L_up.set            (0,1,0);				if (_abs(L_up.dotproduct(L_dir))>.99f)  L_up.set(0,0,1);
+    L_up.set            (0,1,0);				if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)  L_up.set(0,0,1);
     L_right.crossproduct(L_up,L_dir);           L_right.normalize       ();
     L_up.crossproduct   (L_dir,L_right);        L_up.normalize          ();
 
@@ -829,7 +829,7 @@ void CDrawUtilities::DrawCone	(const Fmatrix& parent, const Fvector& apex, const
     // build final rotation / translation
     Fvector             L_dir,L_up,L_right;
     L_dir.set           (dir);       		    L_dir.normalize			();
-    L_up.set            (0,1,0);				if (_abs(L_up.dotproduct(L_dir))>.99f)  L_up.set(0,0,1);
+    L_up.set            (0,1,0);				if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)  L_up.set(0,0,1);
     L_right.crossproduct(L_up,L_dir);           L_right.normalize       ();
     L_up.crossproduct   (L_dir,L_right);        L_up.normalize          ();
 
@@ -849,10 +849,10 @@ void CDrawUtilities::DrawCone	(const Fmatrix& parent, const Fvector& apex, const
 
 void CDrawUtilities::DrawPlane	(const Fvector& p, const Fvector& n, const Fvector2& scale, u32 clr_s, u32 clr_w, BOOL bCull, BOOL bSolid, BOOL bWire)
 {
-	if (n.square_magnitude()<EPS_S) return;
+	if (n.square_magnitude()<XrMath::EPS_S) return;
     // build final rotation / translation
     Fvector             L_dir,L_up=n,L_right;
-    L_dir.set           (0,0,1);				if (_abs(L_up.dotproduct(L_dir))>.99f)  L_dir.set(1,0,0);
+    L_dir.set           (0,0,1);				if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)  L_dir.set(1,0,0);
     L_right.crossproduct(L_up,L_dir);           L_right.normalize	();
     L_dir.crossproduct  (L_right,L_up);        	L_dir.normalize		();
 
@@ -978,7 +978,7 @@ void CDrawUtilities::DrawCross(const Fvector& p, float szx1, float szy1, float s
     pv->set(p.x,p.y,p.z-szz1,clr); pv++;
     if (bRot45){
     	Fmatrix M;
-        M.setHPB(PI_DIV_4,PI_DIV_4,PI_DIV_4);
+        M.setHPB(XrMath::PI_DIV_4,XrMath::PI_DIV_4,XrMath::PI_DIV_4);
 	    for(int i=0;i<6;i++,pv++){
         	pv->p.sub((pv-6)->p,p);
         	M.transform_dir(pv->p);
@@ -1021,7 +1021,7 @@ void CDrawUtilities::DrawAxis(const Fmatrix& T)
 
     for (int i=0; i<6; i++,pv++){
 	    pv->color = c[i]; pv->transform(p[i],Device.mFullTransform);
-	    pv->p.set((float)iFloor(_x2real(pv->p.x)+dx),(float)iFloor(_y2real(pv->p.y)+dy),0,1);
+	    pv->p.set((float)XrMath::iFloor(_x2real(pv->p.x)+dx),(float)XrMath::iFloor(_y2real(pv->p.y)+dy),0,1);
         p[i].set(pv->p.x,pv->p.y,0);
     }
 
@@ -1055,10 +1055,10 @@ void CDrawUtilities::DrawObjectAxis(const Fmatrix& T, float sz, BOOL sel)
     r.mul(T.i,s); r.add(T.c); 	Device.mFullTransform.transform(r);
     n.mul(T.j,s); n.add(T.c); 	Device.mFullTransform.transform(n);
     d.mul(T.k,s); d.add(T.c); 	Device.mFullTransform.transform(d);
-	c.x = (float)iFloor(_x2real(c.x)); c.y = (float)iFloor(_y2real(-c.y));
-    r.x = (float)iFloor(_x2real(r.x)); r.y = (float)iFloor(_y2real(-r.y));
-    n.x = (float)iFloor(_x2real(n.x)); n.y = (float)iFloor(_y2real(-n.y));
-    d.x = (float)iFloor(_x2real(d.x)); d.y = (float)iFloor(_y2real(-d.y));
+	c.x = (float)XrMath::iFloor(_x2real(c.x)); c.y = (float)XrMath::iFloor(_y2real(-c.y));
+    r.x = (float)XrMath::iFloor(_x2real(r.x)); r.y = (float)XrMath::iFloor(_y2real(-r.y));
+    n.x = (float)XrMath::iFloor(_x2real(n.x)); n.y = (float)XrMath::iFloor(_y2real(-n.y));
+    d.x = (float)XrMath::iFloor(_x2real(d.x)); d.y = (float)XrMath::iFloor(_y2real(-d.y));
 
     u32 vBase;
 	FVF::TL* pv	= (FVF::TL*)Stream->Lock(6,vs_TL->vb_stride,vBase);
@@ -1205,7 +1205,7 @@ void CDrawUtilities::OutText(const Fvector& pos, LPCSTR text, u32 color, u32 sha
 	float w	= pos.x*Device.mFullTransform._14 + pos.y*Device.mFullTransform._24 + pos.z*Device.mFullTransform._34 + Device.mFullTransform._44;
 	if (w>=0){
 		Device.mFullTransform.transform(p,pos);
-		p.x = (float)iFloor(_x2real(p.x)); p.y = (float)iFloor(_y2real(-p.y));
+		p.x = (float)XrMath::iFloor(_x2real(p.x)); p.y = (float)XrMath::iFloor(_y2real(-p.y));
 
 		m_Font->SetColor(shadow_color);
 		m_Font->Out(p.x,p.y,(LPSTR)text);

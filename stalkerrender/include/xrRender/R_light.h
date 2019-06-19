@@ -23,7 +23,7 @@ struct R_Light
 
 	R_Light()		{
 		tri[0].set	(0,0,0);
-		tri[1].set	(0,0,EPS_S);
-		tri[2].set	(EPS_S,0,0);
+		tri[1].set	(0,0,XrMath::EPS_S);
+		tri[2].set	(XrMath::EPS_S,0,0);
 	}
 };

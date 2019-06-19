@@ -18,7 +18,7 @@ u32 CTeamInfo::GetTeam1_color(){
 	string256 _buff;
 
 	LPCSTR tm_col = pSettings->r_string("team1","color");
-	team1_color = color_argb(155,atoi(_GetItem(tm_col, 0, _buff)),atoi(_GetItem(tm_col, 1, _buff)),atoi(_GetItem(tm_col, 2, _buff)));
+	team1_color = color_argb(155,atoi(XrTrims::GetItem(tm_col, 0, _buff)),atoi(XrTrims::GetItem(tm_col, 1, _buff)),atoi(XrTrims::GetItem(tm_col, 2, _buff)));
 	flags.set(flTeam1_color, true);
 
 	return team1_color;
@@ -31,7 +31,7 @@ u32 CTeamInfo::GetTeam2_color(){
 	string256 _buff;
 
 	LPCSTR tm_col = pSettings->r_string("team2","color");
-	team2_color = color_argb(155,atoi(_GetItem(tm_col, 0, _buff)),atoi(_GetItem(tm_col, 1, _buff)),atoi(_GetItem(tm_col, 2, _buff)));
+	team2_color = color_argb(155,atoi(XrTrims::GetItem(tm_col, 0, _buff)),atoi(XrTrims::GetItem(tm_col, 1, _buff)),atoi(XrTrims::GetItem(tm_col, 2, _buff)));
 	flags.set(flTeam2_color, true);
 
 	return team2_color;
@@ -84,14 +84,14 @@ LPCSTR	CTeamInfo::GetTeam_color_tag(int team){
 	else
 		tm_col = pSettings->r_string("team2","color");
 
-	//team1_color = color_argb(155,atoi(_GetItem(tm_col, 0, _buff)),atoi(_GetItem(tm_col, 1, _buff)),atoi(_GetItem(tm_col, 2, _buff)));
+	//team1_color = color_argb(155,atoi(XrTrims::GetItem(tm_col, 0, _buff)),atoi(XrTrims::GetItem(tm_col, 1, _buff)),atoi(XrTrims::GetItem(tm_col, 2, _buff)));
 	xr_string str;
 	str = "%c[255,";
-	str += _GetItem(tm_col, 0, _buff);
+	str += XrTrims::GetItem(tm_col, 0, _buff);
 	str += ",";
-	str += _GetItem(tm_col, 1, _buff);
+	str += XrTrims::GetItem(tm_col, 1, _buff);
 	str += ",";
-	str += _GetItem(tm_col, 2, _buff);
+	str += XrTrims::GetItem(tm_col, 2, _buff);
 	str += "]";
 
 	if (1 == team){

@@ -96,7 +96,7 @@ void CSightManager::SetFirePointLookAngles(const Fvector &tPosition, float &yaw,
 	}
 
 	target.sub					(my_position);
-	if (fis_zero(target.square_magnitude()))
+	if (XrMath::fis_zero(target.square_magnitude()))
 		target.set				(0.f,0.f,1.f);
 
 	target.getHP				(yaw,pitch);
@@ -134,7 +134,7 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 {
 	float					fAngleOfView, range, fMaxSquare = -1.f, fBestAngle = object().movement().m_head.target.yaw;
 	m_object->update_range_fov(range,fAngleOfView,m_object->eye_range,m_object->eye_fov);
-	fAngleOfView			= (fAngleOfView/180.f*PI)/2.f;
+	fAngleOfView			= (fAngleOfView/180.f*XrMath::M_PI)/2.f;
 
 	CLevelGraph::CVertex	*tpNextNode = 0;
 	u32						node_id;
@@ -170,8 +170,8 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 			if	(
 					(fSquare1 - fSquare0 > fMaxSquare) || 
 					(
-						fsimilar(fSquare1 - fSquare0,fMaxSquare,EPS_L) && 
-						(_abs(fIncrement - object().movement().m_body.target.yaw) < _abs(fBestAngle - object().movement().m_body.target.yaw))
+						XrMath::fsimilar(fSquare1 - fSquare0,fMaxSquare,XrMath::EPS_L) && 
+						(XrMath::abs(fIncrement - object().movement().m_body.target.yaw) < XrMath::abs(fBestAngle - object().movement().m_body.target.yaw))
 					)
 				)
 			{
@@ -184,11 +184,11 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 				fSingleIncrement = fIncrement;
 			}
 		}
-		if (_sqrt(fMaxSquare) < 0*PI_DIV_6)
+		if (XrMath::sqrt(fMaxSquare) < 0*XrMath::PI_DIV_6)
 			fBestAngle = fSingleIncrement;
 	}
 
-	object().movement().m_head.target.yaw = angle_normalize_signed(fBestAngle);
+	object().movement().m_head.target.yaw = XrMath::angle_normalize_signed(fBestAngle);
 	object().movement().m_head.target.pitch = 0;
 	VERIFY					(_valid(object().movement().m_head.target.yaw));
 }
@@ -220,7 +220,7 @@ bool CSightManager::GetDirectionAnglesByPrevPositions(float &yaw, float &pitch)
 	VERIFY					(_valid(tPreviousPosition.vPosition));
 	VERIFY					(_valid(tCurrentPosition.vPosition));
 	tDirection.sub			(tCurrentPosition.vPosition,tPreviousPosition.vPosition);
-	if (tDirection.magnitude() < EPS_L)	return(false);
+	if (tDirection.magnitude() < XrMath::EPS_L)	return(false);
 	tDirection.getHP		(yaw,pitch);
 	VERIFY					(_valid(yaw));
 	VERIFY					(_valid(pitch));

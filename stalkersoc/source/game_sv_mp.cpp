@@ -92,7 +92,7 @@ void	game_sv_mp::Update	()
 
 	if(g_sv_mp_iDumpStatsPeriod)
 	{
-		int curr_minutes = iFloor(Device.fTimeGlobal/60.0f);
+		int curr_minutes = XrMath::iFloor(Device.fTimeGlobal/60.0f);
 		if(g_sv_mp_iDumpStats_last+g_sv_mp_iDumpStatsPeriod <= curr_minutes )
 		{
 			if(Phase()==GAME_PHASE_INPROGRESS)
@@ -974,7 +974,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 		{
 			string1024 wpnAmmos, BaseAmmoName;
 			std::strcpy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
-			_GetItem(wpnAmmos, 0, BaseAmmoName);
+			XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 			AmmoID = u16(m_strWeaponsData->GetItemIdx(BaseAmmoName)&0xffff);
 		};
 //		if (!pWpnS->WeaponBaseAmmo.size()) continue;
@@ -1259,24 +1259,24 @@ void	game_sv_mp::LoadRanks	()
 		NewRank.m_sTitle = pSettings->r_string(RankSect, "rank_name");
 		NewRank.m_iBonusMoney = READ_IF_EXISTS(pSettings, r_s32, RankSect, "rank_aquire_money", 0);
 		shared_str RDEB_str = pSettings->r_string(RankSect, "rank_diff_exp_bonus");
-		int RDEB_Count = _GetItemCount(RDEB_str.c_str());
+		int RDEB_Count = XrTrims::GetItemCount(RDEB_str.c_str());
 		for (int r=0; r<RDEB_Count; r++)
 		{
 			string16						temp;
 			float f = 1.0f;
 			if (r <= NumRanks)
-				f = float(atof(_GetItem(RDEB_str.c_str(), r, temp)));
+				f = float(atof(XrTrims::GetItem(RDEB_str.c_str(), r, temp)));
 			NewRank.m_aRankDiff_ExpBonus.push_back(f);
 		};
 
 		shared_str sTerms = pSettings->r_string(RankSect, "rank_exp");
-		int TermsCount = _GetItemCount(sTerms.c_str());
+		int TermsCount = XrTrims::GetItemCount(sTerms.c_str());
 		R_ASSERT2((TermsCount != 0 && TermsCount <= MAX_TERMS), "Error Number of Terms for Rank");
 
 		for (int t =0; t<TermsCount; t++)
 		{
 			string16						temp;			
-			NewRank.m_iTerms[t] = atoi(_GetItem(sTerms.c_str(), t, temp));
+			NewRank.m_iTerms[t] = atoi(XrTrims::GetItem(sTerms.c_str(), t, temp));
 		}
 		m_aRanks.push_back(NewRank);
 	};
@@ -1297,7 +1297,7 @@ void	game_sv_mp::Player_AddExperience	(game_PlayerState* ps, float Exp)
 		int NextExp = m_aRanks[ps->rank+1].m_iTerms[0];
 		if ((ps->experience_Real+ps->experience_New) > NextExp) ps->experience_D = 1.0f;
 		else ps->experience_D = 1.0f - (NextExp - ps->experience_Real- ps->experience_New)/(NextExp - CurExp);
-		clamp(ps->experience_D, 0.0f, 1.0f);
+		XrMath::clamp(ps->experience_D, 0.0f, 1.0f);
 	};
 };
 

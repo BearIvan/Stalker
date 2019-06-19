@@ -273,10 +273,10 @@ void CUIDragDropListEx::ReinitScroll()
 		m_vScrollBar->Show			( h1 > h2 );
 		m_vScrollBar->Enable		( h1 > h2 );
 
-		m_vScrollBar->SetRange		(0, _max(0,iFloor(h1-h2)) );
+		m_vScrollBar->SetRange		(0, XrMath::max(0,XrMath::iFloor(h1-h2)) );
 		m_vScrollBar->SetScrollPos	(0);
 		m_vScrollBar->SetStepSize	(CellSize().y/3);
-		m_vScrollBar->SetPageSize	(iFloor(GetWndSize().y/float(CellSize().y)));
+		m_vScrollBar->SetPageSize	(XrMath::iFloor(GetWndSize().y/float(CellSize().y)));
 		m_container->SetWndPos		(0,0);
 }
 
@@ -560,7 +560,7 @@ void CUICellContainer::SetCellSize(const Ivector2& new_sz)
 
 Ivector2 CUICellContainer::TopVisibleCell()
 {
-	return Ivector2().set	(0, iFloor(m_pParentDragDropList->ScrollPos()/float(CellSize().y)));
+	return Ivector2().set	(0, XrMath::iFloor(m_pParentDragDropList->ScrollPos()/float(CellSize().y)));
 }
 
 CUICell& CUICellContainer::GetCellAt(const Ivector2& pos)
@@ -655,8 +655,8 @@ Ivector2 CUICellContainer::PickCell(const Fvector2& abs_pos)
 	GetAbsolutePos							(ap);
 	ap.sub									(abs_pos);
 	ap.mul									(-1);
-	res.x									= iFloor(ap.x/m_cellSize.x);
-	res.y									= iFloor(ap.y/m_cellSize.y);
+	res.x									= XrMath::iFloor(ap.x/m_cellSize.x);
+	res.y									= XrMath::iFloor(ap.y/m_cellSize.y);
 	if(!ValidCell(res))						res.set(-1, -1);
 	return res;
 }
@@ -674,11 +674,11 @@ void CUICellContainer::Draw()
 
 	Irect				tgt_cells;
 	tgt_cells.lt = TopVisibleCell();
-	tgt_cells.x2 = iFloor((float(clientArea.width()) + float(cell_sz.x) - EPS) / float(cell_sz.x)) + tgt_cells.lt.x;
-	tgt_cells.y2 = iFloor((float(clientArea.height()) + float(cell_sz.y) - EPS) / float(cell_sz.y)) + tgt_cells.lt.y;
+	tgt_cells.x2 = XrMath::iFloor((float(clientArea.width()) + float(cell_sz.x) - XrMath::EPS) / float(cell_sz.x)) + tgt_cells.lt.x;
+	tgt_cells.y2 = XrMath::iFloor((float(clientArea.height()) + float(cell_sz.y) - XrMath::EPS) / float(cell_sz.y)) + tgt_cells.lt.y;
 
-	clamp(tgt_cells.x2, 0, cell_cnt.x - 1);
-	clamp(tgt_cells.y2, 0, cell_cnt.y - 1);
+	XrMath::clamp(tgt_cells.x2, 0, cell_cnt.x - 1);
+	XrMath::clamp(tgt_cells.y2, 0, cell_cnt.y - 1);
 
 	Fvector2			lt_abs_pos;
 	GetAbsolutePos(lt_abs_pos);
@@ -712,8 +712,8 @@ void CUICellContainer::Draw()
 			for (u32 k = 0; k<6; ++k) {
 				const Fvector2& p = pts[k];
 				const Fvector2& uv = uvs[k];
-				UIRender->PushPoint(iFloor(drawLT.x + p.x*(f_len.x) + f_len.x*x) - 0.5f,
-					iFloor(drawLT.y + p.y*(f_len.y) + f_len.y*y) - 0.5f, 0, 0xFFFFFFFF, tp.x + uv.x, tp.y + uv.y);
+				UIRender->PushPoint(XrMath::iFloor(drawLT.x + p.x*(f_len.x) + f_len.x*x) - 0.5f,
+					XrMath::iFloor(drawLT.y + p.y*(f_len.y) + f_len.y*y) - 0.5f, 0, 0xFFFFFFFF, tp.x + uv.x, tp.y + uv.y);
 			}
 		}
 	}

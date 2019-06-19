@@ -129,7 +129,7 @@ float	CIKLimbsController::StaticObjectShift			( const SCalculateData cd[max_size
 		else
 			shift = shift_up;
 		VERIFY( _valid( shift ) );
-		_object_shift.set_taget( shift , _abs( current_shift - shift ) / static_shift_object_speed );
+		_object_shift.set_taget( shift , XrMath::abs( current_shift - shift ) / static_shift_object_speed );
 		return shift;
 }
 static float doun_shift_to_correct = 0.3f;
@@ -137,8 +137,8 @@ static float doun_shift_correct = 0.1f;
 bool	CIKLimbsController::PredictObjectShift			(  const SCalculateData cd[max_size] )
 {
 	
-	float predict_time_shift_down = FLT_MAX;
-	float predict_time_shift_up = FLT_MAX;
+	float predict_time_shift_down = flt_max;
+	float predict_time_shift_up = flt_max;
 	float predict_shift_down = 0.f;
 	//float predict_shift_up = 0.f;
 	bool shift_down = false;
@@ -169,7 +169,7 @@ bool	CIKLimbsController::PredictObjectShift			(  const SCalculateData cd[max_siz
 			
 		} 
 	float	predict_shift = 0;
-	float	predict_time_shift = FLT_MAX;
+	float	predict_time_shift = flt_max;
 
 	if( shift_down )
 	{
@@ -188,7 +188,7 @@ bool	CIKLimbsController::PredictObjectShift			(  const SCalculateData cd[max_siz
 	//}
 		
 	
-	if( predict_time_shift < EPS_S )
+	if( predict_time_shift < XrMath::EPS_S )
 		predict_time_shift = Device.fTimeDelta;
 		_object_shift.set_taget( predict_shift, predict_time_shift );
 	return true;

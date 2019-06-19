@@ -52,7 +52,7 @@ void GetCylinderExtensions(dGeomID cyl,const dReal* axis,
 	dReal _cos=dFabs(dDOT14(axis,rot+1));
 	dReal cos1=dDOT14(axis,rot+0);
 	dReal cos3=dDOT14(axis,rot+2);
-	dReal _sin=_sqrt(cos1*cos1+cos3*cos3);
+	dReal _sin=XrMath::sqrt(cos1*cos1+cos3*cos3);
 	length/=2.f;
 	dReal ful_ext=_cos*length+_sin*radius;
 	*lo_ext=-ful_ext+dif;
@@ -198,7 +198,7 @@ void CODEGeom::	clear_motion_history( bool set_unspecified )
 #ifdef	DEBUG
 	Fmatrix m;
 	get_xform( m );
-	if( Fvector().sub( m.c, cast_fv ( dGeomGetUserData( geom() )->last_pos ) ).magnitude() > EPS )
+	if( Fvector().sub( m.c, cast_fv ( dGeomGetUserData( geom() )->last_pos ) ).magnitude() > XrMath::EPS )
 		Msg("! WRONG THING" );
 #endif
 }
@@ -597,7 +597,7 @@ void CSphereGeom::get_mass(dMass& m)
 
 float CSphereGeom::volume()
 {
-	return 4.f*M_PI*m_sphere.R*m_sphere.R*m_sphere.R/3.f;
+	return 4.f*XrMath::M_PI*m_sphere.R*m_sphere.R*m_sphere.R/3.f;
 }
 
 float CSphereGeom::radius()
@@ -665,7 +665,7 @@ void CCylinderGeom::get_mass(dMass& m)
 
 float CCylinderGeom::volume()
 {
-	return M_PI*m_cylinder.m_radius*m_cylinder.m_radius*m_cylinder.m_height;
+	return XrMath::M_PI*m_cylinder.m_radius*m_cylinder.m_radius*m_cylinder.m_height;
 }
 
 float CCylinderGeom::radius()

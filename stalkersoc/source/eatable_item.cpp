@@ -47,7 +47,7 @@ void CEatableItem::Load(LPCSTR section)
 	m_fSatietyInfluence			= pSettings->r_float(section, "eat_satiety");
 	m_fRadiationInfluence		= pSettings->r_float(section, "eat_radiation");
 	m_fWoundsHealPerc			= pSettings->r_float(section, "wounds_heal_perc");
-	clamp						(m_fWoundsHealPerc, 0.f, 1.f);
+	XrMath::clamp						(m_fWoundsHealPerc, 0.f, 1.f);
 	
 	m_iStartPortionsNum			= pSettings->r_s32	(section, "eat_portions_num");
 	m_fMaxPowerUpInfluence		= READ_IF_EXISTS	(pSettings,r_float,section,"eat_max_power",0.0f);

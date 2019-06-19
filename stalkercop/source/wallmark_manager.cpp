@@ -159,7 +159,7 @@ void CWalmarkManager::StartWorkflow()
 			continue;
 		}
 */
-		float test					= dist-EPS_L;
+		float test					= dist-XrMath::EPS_L;
 		
 		if(test>0.f)
 		{
@@ -169,7 +169,7 @@ void CWalmarkManager::StartWorkflow()
 				continue;
 			}
 		}
-		if( fis_zero(pfSParam) || fis_zero(pfTParam) || fsimilar(pfSParam,1.0f) || fsimilar(pfTParam,1.0f)  )
+		if( XrMath::fis_zero(pfSParam) || XrMath::fis_zero(pfTParam) || XrMath::fsimilar(pfSParam,1.0f) || XrMath::fsimilar(pfTParam,1.0f)  )
 		{
 			++_tri_not_plane;
 			continue;
@@ -235,7 +235,7 @@ float Distance (const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam,
 //.    float fC = kDiff.SquaredLength();
     float fC = kDiff.square_magnitude();
 
-    float fDet = _abs(fA00*fA11-fA01*fA01);
+    float fDet = XrMath::abs(fA00*fA11-fA01*fA01);
 
     float fS = fA01*fB1-fA11*fB0;
     float fT = fA01*fB0-fA00*fB1;
@@ -454,5 +454,5 @@ float Distance (const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam,
 	
 	dir.sub				(closest, rkPoint);
 	dir.normalize_safe	();
-    return _sqrt		(_abs(fSqrDist));
+    return XrMath::sqrt		(XrMath::abs(fSqrDist));
 }

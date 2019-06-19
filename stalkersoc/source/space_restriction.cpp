@@ -207,8 +207,8 @@ void CSpaceRestriction::merge_free_in_retrictions	()
 {
 	START_PROFILE("Restricted Object/Merge Free In");
 	string256								temp;
-	for (u32 i=0, n=_GetItemCount(*m_in_restrictions); i<n ;++i) {
-		SpaceRestrictionHolder::CBaseRestrictionPtr bridge = m_space_restriction_manager->restriction(shared_str(_GetItem(*m_in_restrictions,i,temp)));
+	for (u32 i=0, n=XrTrims::GetItemCount(*m_in_restrictions); i<n ;++i) {
+		SpaceRestrictionHolder::CBaseRestrictionPtr bridge = m_space_restriction_manager->restriction(shared_str(XrTrims::GetItem(*m_in_restrictions,i,temp)));
 		m_free_in_restrictions.push_back	(CFreeInRestriction(bridge,false));
 	}
 

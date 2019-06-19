@@ -76,7 +76,7 @@ void CUICellItem::Update()
 	EnableHeading(m_pParentList->GetVerticalPlacement());
 	if(Heading())
 	{
-		SetHeading			( 90.0f * (PI/180.0f) );
+		SetHeading			( 90.0f * (XrMath::M_PI/180.0f) );
 		SetHeadingPivot		(Fvector2().set(0.0f,0.0f), Fvector2().set(0.0f,GetWndSize().y), true);
 	}else
 		ResetHeadingPivot	();

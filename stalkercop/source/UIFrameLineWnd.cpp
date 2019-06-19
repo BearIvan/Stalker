@@ -33,12 +33,12 @@ void CUIFrameLineWnd::InitTexture(LPCSTR texture, LPCSTR sh_name)
 	CUITextureMaster::InitTexture(strconcat(sizeof(buf), buf, texture,"_e"),	sh_name, m_shader, m_tex_rect[flSecond]);
 	if(bHorizontal)
 	{
-		R_ASSERT2(fsimilar(m_tex_rect[flFirst].height(), m_tex_rect[flSecond].height()), texture );
-		R_ASSERT2(fsimilar(m_tex_rect[flFirst].height(), m_tex_rect[flBack].height()),texture );
+		R_ASSERT2(XrMath::fsimilar(m_tex_rect[flFirst].height(), m_tex_rect[flSecond].height()), texture );
+		R_ASSERT2(XrMath::fsimilar(m_tex_rect[flFirst].height(), m_tex_rect[flBack].height()),texture );
 	}else
 	{
-		R_ASSERT2(fsimilar(m_tex_rect[flFirst].width(), m_tex_rect[flSecond].width()), texture );
-		R_ASSERT2(fsimilar(m_tex_rect[flFirst].width(), m_tex_rect[flBack].width()),texture );
+		R_ASSERT2(XrMath::fsimilar(m_tex_rect[flFirst].width(), m_tex_rect[flSecond].width()), texture );
+		R_ASSERT2(XrMath::fsimilar(m_tex_rect[flFirst].width(), m_tex_rect[flBack].width()),texture );
 	}
 }
 
@@ -93,7 +93,7 @@ void CUIFrameLineWnd::DrawElements()
 			rect.x2				-= back_len;
 
 		if(back_len>0.0f)
-			prim_count				+= 6* iCeil(back_len / m_tex_rect[flBack].width());
+			prim_count				+= 6* XrMath::iCeil(back_len / m_tex_rect[flBack].width());
 	}else
 	{
 		back_len				= rect.height()-m_tex_rect[flFirst].height()-m_tex_rect[flSecond].height();
@@ -101,7 +101,7 @@ void CUIFrameLineWnd::DrawElements()
 			rect.y2				-= back_len;
 
 		if(back_len>0.0f)
-			prim_count				+= 6* iCeil(back_len / m_tex_rect[flBack].height());
+			prim_count				+= 6* XrMath::iCeil(back_len / m_tex_rect[flBack].height());
 	}
 
 	UIRender->StartPrimitive	(prim_count, IUIRender::ptTriList, UI().m_currentPointType);
@@ -138,8 +138,8 @@ bool  CUIFrameLineWnd::inc_pos(Frect& rect, int counter, int i, Fvector2& LTp, F
 		RBp.y			+= m_tex_rect[i].height();
 	}else //i==flBack
 	{
-		if(	(bHorizontal && rect.lt.x + m_tex_rect[flSecond].width()+EPS_L >= rect.rb.x)|| 
-			(!bHorizontal && rect.lt.y + m_tex_rect[flSecond].height()+EPS_L >= rect.rb.y) )
+		if(	(bHorizontal && rect.lt.x + m_tex_rect[flSecond].width()+XrMath::EPS_L >= rect.rb.x)|| 
+			(!bHorizontal && rect.lt.y + m_tex_rect[flSecond].height()+XrMath::EPS_L >= rect.rb.y) )
 			return false;
 
 		LTt				= m_tex_rect[i].lt;

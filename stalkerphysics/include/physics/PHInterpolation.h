@@ -4,7 +4,7 @@
 
 //#include "ode_include.h"
 #include "ode/common.h"
-
+#undef M_PI
 class CPHInterpolation {
 
 public:

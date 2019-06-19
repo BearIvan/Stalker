@@ -131,7 +131,7 @@ void CStateBurerAttackGraviAbstract::ExecuteGraviContinue()
 
 	float dist = object->Position().distance_to(object->EnemyMan.get_enemy()->Position());
 	float time_to_hold = (abs(dist - GOOD_DISTANCE_FOR_GRAVI)/GOOD_DISTANCE_FOR_GRAVI);
-	clamp(time_to_hold, 0.f, 1.f);
+	XrMath::clamp(time_to_hold, 0.f, 1.f);
 	time_to_hold *= float(object->m_gravi_time_to_hold);
 
 	if (time_gravi_started + u32(time_to_hold) < Device.dwTimeGlobal) {

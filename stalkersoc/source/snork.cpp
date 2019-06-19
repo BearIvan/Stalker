@@ -227,7 +227,7 @@ bool CSnork::trace_geometry(const Fvector &d, float &range)
 	Fvector().sub(Pl, Pc).getHP(h1,p1);
 	Fvector().sub(Pc, Pr).getHP(h2,p2);
 
-	return (fsimilar(h1,h2,0.1f) && fsimilar(p1,p2,0.1f));
+	return (XrMath::fsimilar(h1,h2,0.1f) && XrMath::fsimilar(p1,p2,0.1f));
 }
 
 void CSnork::CheckSpecParams(u32 spec_params)

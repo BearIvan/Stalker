@@ -167,8 +167,8 @@ MotionID animation_selector::select_animation		(bool &animation_movement_control
 	float				time_current = blend->timeCurrent + .1f;
 	m_previous_time		= time_current;
 	// Slipch told me, that timeCurrent can decrease (setup to 0.f) during animation playing
-	// therefore we need here to clamp previous value
-	clamp				(previous_time, 0.f, time_current);
+	// therefore we need here to XrMath::clamp previous value
+	XrMath::clamp				(previous_time, 0.f, time_current);
 	// first 2 should be footsteps
 	if (!marks[2].is_mark_between(previous_time, time_current)) {
 		current_operator()->on_no_mark	();

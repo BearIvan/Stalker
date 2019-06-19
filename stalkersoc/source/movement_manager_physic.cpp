@@ -27,7 +27,7 @@
 float CMovementManager::speed			(CPHMovementControl *movement_control) const
 {
 	VERIFY					(movement_control);
-	if (fis_zero(m_speed))
+	if (XrMath::fis_zero(m_speed))
 		return				(0.f);
 
 	if (movement_control->IsCharacterEnabled())
@@ -39,7 +39,7 @@ float CMovementManager::speed			(CPHMovementControl *movement_control) const
 void CMovementManager::apply_collision_hit(CPHMovementControl *movement_control)
 {
 		VERIFY(movement_control);
-	if (object().g_Alive()&&!fsimilar(0.f,movement_control->gcontact_HealthLost))
+	if (object().g_Alive()&&!XrMath::fsimilar(0.f,movement_control->gcontact_HealthLost))
 	{
 		const ICollisionDamageInfo * di=movement_control->CollisionDamageInfo();
 		VERIFY(di);
@@ -69,7 +69,7 @@ void CMovementManager::move_along_path	(CPHMovementControl *movement_control, Fv
 			detail().path().empty() ||
 			detail().completed(dest_position,true) || 
 			(detail().curr_travel_point_index() >= detail().path().size() - 1) ||
-			fis_zero(old_desirable_speed())
+			XrMath::fis_zero(old_desirable_speed())
 		)
 	{
 		m_speed			= 0.f;
@@ -97,7 +97,7 @@ void CMovementManager::move_along_path	(CPHMovementControl *movement_control, Fv
 //	VERIFY(movement_control->CharacterExist());
 
 
-	if (time_delta < EPS) return;
+	if (time_delta < XrMath::EPS) return;
 
 	//#pragma todo("Dima to Kostia : Please change this piece of code to support paths with multiple desired velocities")
 	
@@ -151,7 +151,7 @@ void CMovementManager::move_along_path	(CPHMovementControl *movement_control, Fv
 	
 	if (prev_cur_point_index != detail().curr_travel_point_index()) on_travel_point_change(prev_cur_point_index);
 
-	if (dist_to_target < EPS_L) {
+	if (dist_to_target < XrMath::EPS_L) {
 #pragma todo("Dima to ? : is this correct?")
 		detail().m_current_travel_point = detail().path().size() - 1;
 		m_speed			= 0.f;

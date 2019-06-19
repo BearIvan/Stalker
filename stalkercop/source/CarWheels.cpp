@@ -170,7 +170,7 @@ void CCar::SWheel::ApplyDamage(u16 level)
 		joint->GetAxisDirDynamic( 1, v );
 
 		v[0]+=0.1f;v[1]+=0.1f;v[2]+=0.1f;
-		VERIFY( v.magnitude()>EPS_S );
+		VERIFY( v.magnitude()>XrMath::EPS_S );
 		//accurate_normalize(v);
 		v.normalize();
 
@@ -334,7 +334,7 @@ void CCar::SWheelSteer::Limit()
 	{
 		//dReal angle = dJointGetHinge2Angle1(joint);
 		float angle = J->GetAxisAngle( 0 );
-		if(_abs(angle)<M_PI/180.f)
+		if(XrMath::abs(angle)<XrMath::M_PI/180.f)
 		{
 			pwheel->SetSteerLimits(0.f,0.f);
 			pwheel->ApplySteerAxisVel(0.f);

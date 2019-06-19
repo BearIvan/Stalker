@@ -6,7 +6,7 @@
 #include "PhysicsShell.h"
 #include "PHObject.h"
 #include "PHInterpolation.h"
-#include "tools/_cylinder.h"
+#include "tools/Math/XrCylinder.h"
 #include "BlockAllocator.h"
 #include "PhysicsCommon.h"
 #include "PHWorld.h"

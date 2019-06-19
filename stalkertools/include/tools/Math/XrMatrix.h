@@ -192,7 +192,7 @@ public:
             a._12 * (a._21 * a._33 - a._23 * a._31) +
             a._13 * (a._21 * a._32 - a._22 * a._31));
 
-        VERIFY(_abs(fDetInv) > flt_zero);
+        VERIFY( XrMath::abs(fDetInv) > flt_zero);
         fDetInv = 1.0f / fDetInv;
 
         _11 = fDetInv * (a._22 * a._33 - a._23 * a._32);
@@ -224,7 +224,7 @@ public:
             a._12 * (a._21 * a._33 - a._23 * a._31) +
             a._13 * (a._21 * a._32 - a._22 * a._31));
 
-        if (_abs(fDetInv) <= flt_zero) return false;
+        if ( XrMath::abs(fDetInv) <= flt_zero) return false;
         fDetInv = 1.0f / fDetInv;
 
         _11 = fDetInv * (a._22 * a._33 - a._23 * a._32);
@@ -325,8 +325,8 @@ public:
 
     IC SelfRef rotateX(T Angle) // rotation about X axis
     {
-        T cosa = _cos(Angle);
-        T sina = _sin(Angle);
+        T cosa = XrMath::cos(Angle);
+        T sina = XrMath::sin(Angle);
         i.set(1, 0, 0);
         _14 = 0;
         j.set(0, cosa, sina);
@@ -339,8 +339,8 @@ public:
     }
     IC SelfRef rotateY(T Angle) // rotation about Y axis
     {
-        T cosa = _cos(Angle);
-        T sina = _sin(Angle);
+        T cosa = XrMath::cos(Angle);
+        T sina = XrMath::sin(Angle);
         i.set(cosa, 0, -sina);
         _14 = 0;
         j.set(0, 1, 0);
@@ -353,8 +353,8 @@ public:
     }
     IC SelfRef rotateZ(T Angle) // rotation about Z axis
     {
-        T cosa = _cos(Angle);
-        T sina = _sin(Angle);
+        T cosa = XrMath::cos(Angle);
+        T sina = XrMath::sin(Angle);
         i.set(cosa, sina, 0);
         _14 = 0;
         j.set(-sina, cosa, 0);
@@ -398,8 +398,8 @@ public:
 
     IC SelfRef rotation(const Tvector& axis, T Angle)
     {
-        T Cosine = _cos(Angle);
-        T Sine = _sin(Angle);
+        T Cosine = XrMath::cos(Angle);
+        T Sine = XrMath::sin(Angle);
         m[0][0] = axis.x * axis.x + (1 - axis.x * axis.x) * Cosine;
         m[0][1] = axis.x * axis.y * (1 - Cosine) + axis.z * Sine;
         m[0][2] = axis.x * axis.z * (1 - Cosine) - axis.y * Sine;
@@ -514,12 +514,12 @@ public:
     }
     IC SelfRef div(const Self& A, T v)
     {
-        VERIFY(_abs(v) > 0.000001f);
+        VERIFY( XrMath::abs(v) > 0.000001f);
         return mul(A, 1.0f / v);
     }
     IC SelfRef div(T v)
     {
-        VERIFY(_abs(v) > 0.000001f);
+        VERIFY( XrMath::abs(v) > 0.000001f);
         return mul(1.0f / v);
     }
     // fov
@@ -530,8 +530,8 @@ public:
     // half_fov-angle-tangent
     IC SelfRef build_projection_HAT(T HAT, T fAspect, T fNearPlane, T fFarPlane)
     {
-        VERIFY(_abs(fFarPlane - fNearPlane) > EPS_S);
-        VERIFY(_abs(HAT) > EPS_S);
+        VERIFY( XrMath::abs(fFarPlane - fNearPlane) > XrMath::EPS_S);
+        VERIFY( XrMath::abs(HAT) > XrMath::EPS_S);
 
         T cot = T(1) / HAT;
         T w = fAspect * cot;
@@ -734,12 +734,12 @@ public:
     {
         T _ch, _cp, _cb, _sh, _sp, _sb, _cc, _cs, _sc, _ss;
 
-        _sh = _sin(h);
-        _ch = _cos(h);
-        _sp = _sin(p);
-        _cp = _cos(p);
-        _sb = _sin(b);
-        _cb = _cos(b);
+        _sh = XrMath::sin(h);
+        _ch = XrMath::cos(h);
+        _sp = XrMath::sin(p);
+        _cp = XrMath::cos(p);
+        _sb = XrMath::sin(b);
+        _cb = XrMath::cos(b);
         _cc = _ch*_cb;
         _cs = _ch*_sb;
         _sc = _sh*_cb;
@@ -762,7 +762,7 @@ public:
     //
     IC void getHPB(T& h, T& p, T& b) const
     {
-        T cy = _sqrt(j.y*j.y + i.y*i.y);
+        T cy = XrMath::sqrt(j.y*j.y + i.y*i.y);
         if (cy > 16.0f*type_epsilon(T))
         {
             h = (T)-atan2(k.x, k.z);

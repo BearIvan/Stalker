@@ -131,7 +131,7 @@ void character_hit_animation_controller::PlayHitMotion( const Fvector &dir, cons
 	hit_point.x = 0;
 
 
-	float rotational_ammount = hit_point.magnitude( ) * g_params.power_factor * g_params.rotational_power_factor;//_abs(torqu.x)
+	float rotational_ammount = hit_point.magnitude( ) * g_params.power_factor * g_params.rotational_power_factor;//XrMath::abs(torqu.x)
 	
 	if( torqu.x < 0 )
 		play_cycle( CA, hit_downr, 3, block_blends[7], 1 ) ;
@@ -153,14 +153,14 @@ void character_hit_animation_controller::PlayHitMotion( const Fvector &dir, cons
 
 	dr.mul(g_params.power_factor);
 	if( dr.y > g_params.side_sensitivity_threshold )
-		play_cycle( CA, rthit_motion, 2, block_blends[0], _abs( dr.y ) ) ;
+		play_cycle( CA, rthit_motion, 2, block_blends[0], XrMath::abs( dr.y ) ) ;
 	else if( dr.y < -g_params.side_sensitivity_threshold )
-		play_cycle( CA, lthit_motion, 2, block_blends[1], _abs( dr.y ) ) ;
+		play_cycle( CA, lthit_motion, 2, block_blends[1], XrMath::abs( dr.y ) ) ;
 
 	if( dr.z<0.f )
-		play_cycle( CA, fvhit_motion, 2, block_blends[2], _abs(dr.z) ) ;
+		play_cycle( CA, fvhit_motion, 2, block_blends[2], XrMath::abs(dr.z) ) ;
 	else
-		play_cycle( CA, bkhit_motion, 2, block_blends[3], _abs( dr.z ) ) ;
+		play_cycle( CA, bkhit_motion, 2, block_blends[3], XrMath::abs( dr.z ) ) ;
 
 	CA->LL_SetChannelFactor( 2, g_params.anim_channel_factor );
 

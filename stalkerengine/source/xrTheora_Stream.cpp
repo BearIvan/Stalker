@@ -166,7 +166,7 @@ BOOL CTheoraStream::ParseHeaders()
         while (ogg_sync_pageout(&o_sync_state, &o_page) > 0)
             ogg_stream_pagein(&o_stream_state, &o_page);
     }
-    tm_total = iFloor(frame_count / fpms);
+    tm_total = XrMath::iFloor(frame_count / fpms);
 
     // seek to 0
     Reset();
@@ -178,7 +178,7 @@ BOOL CTheoraStream::Decode(u32 in_tm_play)
 {
     VERIFY(in_tm_play < tm_total);
     ogg_int64_t t_frame;
-    t_frame = iFloor(in_tm_play*fpms);
+    t_frame = XrMath::iFloor(in_tm_play*fpms);
     ogg_int64_t k_frame = t_frame - t_frame%key_rate;
 
     if (d_frame < t_frame)

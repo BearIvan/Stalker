@@ -165,7 +165,7 @@ void CLevelGraph::draw_stalkers		(const int &vertex_id)
 		Fvector4				temp;
 		Device.mFullTransform.transform (temp,position);
 		font.OutSetI			(temp.x,-temp.y);
-		font.SetHeightI			(.05f/_sqrt(temp.w));
+		font.SetHeightI			(.05f/XrMath::sqrt(temp.w));
 		
 		if (temp.z < 0.f) {
 			show_text			= false;
@@ -220,7 +220,7 @@ void CLevelGraph::draw_stalkers		(const int &vertex_id)
 			const float			&walked_distance = (path.size() < 2) ? 0.f : stalker->brain().movement().detail().walked_distance();
 //			font.OutNext		("%s",stalker->name_replace());
 
-			if ((path.size() >= 2) && !fis_zero(walked_distance))
+			if ((path.size() >= 2) && !XrMath::fis_zero(walked_distance))
 				continue;
 
 			if (!first_time)
@@ -249,7 +249,7 @@ void CLevelGraph::draw_stalkers		(const int &vertex_id)
 		u32						game_vertex_id1 = path[path.size() - 2];
 		const float				&walked_distance = stalker->brain().movement().detail().walked_distance();
 
-		if (fis_zero(walked_distance))
+		if (XrMath::fis_zero(walked_distance))
 			continue;
 
 		Fvector					position0 = graph.vertex(game_vertex_id0)->game_point();
@@ -287,7 +287,7 @@ void CLevelGraph::draw_stalkers		(const int &vertex_id)
 		if (temp.x > 1.f)
 			continue;
 
-		font.SetHeightI			(.05f/_sqrt(temp.w));
+		font.SetHeightI			(.05f/XrMath::sqrt(temp.w));
 	}
 }
 
@@ -309,7 +309,7 @@ void CLevelGraph::draw_objects		(const int &vertex_id)
 		Fvector4				temp;
 		Device.mFullTransform.transform (temp,position);
 		font.OutSetI			(temp.x,-temp.y);
-		font.SetHeightI			(.05f/_sqrt(temp.w));
+		font.SetHeightI			(.05f/XrMath::sqrt(temp.w));
 		
 		if (temp.z < 0.f) {
 			show_text			= false;
@@ -364,7 +364,7 @@ void CLevelGraph::draw_objects		(const int &vertex_id)
 			const float			&walked_distance = (path.size() < 2) ? 0.f : monster->brain().movement().detail().walked_distance();
 //			font.OutNext		("%s",monster->name_replace());
 
-			if ((path.size() >= 2) && !fis_zero(walked_distance))
+			if ((path.size() >= 2) && !XrMath::fis_zero(walked_distance))
 				continue;
 
 			if (!first_time)
@@ -393,7 +393,7 @@ void CLevelGraph::draw_objects		(const int &vertex_id)
 		u32						game_vertex_id1 = path[path.size() - 2];
 		const float				&walked_distance = monster->brain().movement().detail().walked_distance();
 
-		if (fis_zero(walked_distance))
+		if (XrMath::fis_zero(walked_distance))
 			continue;
 
 		Fvector					position0 = graph.vertex(game_vertex_id0)->game_point();
@@ -431,7 +431,7 @@ void CLevelGraph::draw_objects		(const int &vertex_id)
 		if (temp.x > 1.f)
 			continue;
 
-		font.SetHeightI			(.05f/_sqrt(temp.w));
+		font.SetHeightI			(.05f/XrMath::sqrt(temp.w));
 	}
 }
 
@@ -508,7 +508,7 @@ void CLevelGraph::draw_game_graph	()
 		//out of screen
 		if (S.z < 0 || S.w < 0)												continue;
 		if (S.x < -1.f || S.x > 1.f || S.y<-1.f || S.x>1.f)					continue;
-		F->SetSizeI	(0.05f/_sqrt(_abs(S.w)));
+		F->SetSizeI	(0.05f/XrMath::sqrt(XrMath::abs(S.w)));
 		F->SetColor(0xffffffff);
 		F->OutI(S.x,-S.y,"%d",i);
 	}
@@ -551,7 +551,7 @@ void CLevelGraph::draw_game_graph	()
 				//out of screen
 				if (S.z < 0 || S.w < 0)												continue;
 				if (S.x < -1.f || S.x > 1.f || S.y<-1.f || S.x>1.f)					continue;
-				F->SetSizeI	(0.1f/_sqrt(_abs(S.w)));
+				F->SetSizeI	(0.1f/XrMath::sqrt(XrMath::abs(S.w)));
 				F->SetColor(0xffffffff);
 				F->OutI(S.x,-S.y,"%d",i);
 			}
@@ -578,7 +578,7 @@ void CLevelGraph::draw_game_graph	()
 							t1 = t2;
 						}
 					}
-					if (tpALifeMonsterAbstract->m_fDistanceToPoint > EPS_L) {
+					if (tpALifeMonsterAbstract->m_fDistanceToPoint > XrMath::EPS_L) {
 						Fvector t1 = ai().game_graph().vertex(tpALifeMonsterAbstract->m_tGraphID)->game_point();
 						Fvector t2 = ai().game_graph().vertex(tpALifeMonsterAbstract->m_tNextGraphID)->game_point();
 						t2.sub(t1);

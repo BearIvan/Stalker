@@ -34,7 +34,7 @@ void CRadioactiveZone::Affect(SZoneObjectInfo* O)
 	if(!O->object || O->f_time_affected+one > Device.fTimeGlobal) 
 		return;
 
-	clamp					(O->f_time_affected, tg-(one*3), tg);
+	XrMath::clamp					(O->f_time_affected, tg-(one*3), tg);
 
 	Fvector					pos; 
 	XFORM().transform_tiny	(pos,CFORM()->getSphere().P);
@@ -43,7 +43,7 @@ void CRadioactiveZone::Affect(SZoneObjectInfo* O)
 	float power				= Power(O->object->Position().distance_to(pos),nearest_shape_radius(O));
 
 	float impulse			= 0.0f;
-	if(power < EPS)			
+	if(power < XrMath::EPS)			
 	{
 		O->f_time_affected	= tg;
 		return;

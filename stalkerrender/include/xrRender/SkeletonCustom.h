@@ -190,6 +190,21 @@ public:
         CBoneData* bd =  ((*bones)[bone_id]) ;
         return bd;
 	}
+	private:
+		static IC	u32	btwCount1(u32 v)
+		{
+			const u32 g31 = 0x49249249ul;	// = 0100_1001_0010_0100_1001_0010_0100_1001
+			const u32 g32 = 0x381c0e07ul;	// = 0011_1000_0001_1100_0000_1110_0000_0111
+			v = (v & g31) + ((v >> 1) & g31) + ((v >> 2) & g31);
+			v = ((v + (v >> 3)) & g32) + ((v >> 6) & g32);
+			return (v + (v >> 9) + (v >> 18) + (v >> 27)) & 0x3f;
+		}
+
+		static	IC	u64	btwCount1(u64 v)
+		{
+			return btwCount1(u32(v&u32(-1))) + btwCount1(u32(v >> u64(32)));
+		}
+		public:
 	u16						_BCL	LL_BoneCount		()	const			{	return u16(bones->size());										}
 	u16								LL_VisibleBoneCount	()					{	u64 F=visimask.flags&((u64(1)<<u64(LL_BoneCount()))-1); return (u16)btwCount1(F); }
 	ICF Fmatrix&			_BCL	LL_GetTransform		(u16 bone_id)		{	return LL_GetBoneInstance(bone_id).mTransform;					}

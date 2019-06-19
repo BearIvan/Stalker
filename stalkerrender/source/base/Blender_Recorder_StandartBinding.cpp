@@ -149,7 +149,7 @@ class cl_fog_plane	: public R_constant_setup {
 			plane.y			= -(M._24 + M._23);
 			plane.z			= -(M._34 + M._33);
 			plane.w			= -(M._44 + M._43);
-			float denom		= -1.0f / _sqrt(_sqr(plane.x)+_sqr(plane.y)+_sqr(plane.z));
+			float denom		= -1.0f / XrMath::sqrt(XrMath::sqr(plane.x)+XrMath::sqr(plane.y)+XrMath::sqr(plane.z));
 			plane.mul		(denom);
 
 			// Near/Far
@@ -228,7 +228,7 @@ class cl_times		: public R_constant_setup {
 	virtual void setup(R_constant* C)
 	{
 		float 		t	= RDEVICE.fTimeGlobal;
-		RCache.set_c	(C,t,t*10,t/10,_sin(t))	;
+		RCache.set_c	(C,t,t*10,t/10,XrMath::sin(t))	;
 	}
 };
 static cl_times		binder_times;

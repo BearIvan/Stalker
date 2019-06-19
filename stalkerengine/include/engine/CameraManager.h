@@ -11,9 +11,9 @@ struct ENGINE_API SPPInfo
         SColor(float _r, float _g, float _b) :r(_r), g(_g), b(_b) {}
         IC operator u32()
         {
-            int _r = clampr(iFloor(r*255.f + .5f), 0, 255);
-            int _g = clampr(iFloor(g*255.f + .5f), 0, 255);
-            int _b = clampr(iFloor(b*255.f + .5f), 0, 255);
+            int _r = XrMath::clampr(XrMath::iFloor(r*255.f + .5f), 0, 255);
+            int _g = XrMath::clampr(XrMath::iFloor(g*255.f + .5f), 0, 255);
+            int _b = XrMath::clampr(XrMath::iFloor(b*255.f + .5f), 0, 255);
             return color_rgba(_r, _g, _b, 0);
         }
 

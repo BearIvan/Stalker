@@ -20,21 +20,21 @@ IC Fvector random_position(const Fvector &center, float R)
 
 IC bool	from_right(float ty, float cy) 
 {
-	return ((angle_normalize_signed(ty - cy) > 0));
+	return ((XrMath::angle_normalize_signed(ty - cy) > 0));
 }
 
 IC bool	is_angle_between(float yaw, float yaw_from, float yaw_to)
 {
-	float diff = angle_difference(yaw_from,yaw_to);
-	R_ASSERT(diff < PI);
+	float diff = XrMath::angle_difference(yaw_from,yaw_to);
+	R_ASSERT(diff < XrMath::M_PI);
 
-	if ((angle_difference(yaw,yaw_from) < diff) && (angle_difference(yaw,yaw_to)<diff)) return true;
+	if ((XrMath::angle_difference(yaw,yaw_from) < diff) && (XrMath::angle_difference(yaw,yaw_to)<diff)) return true;
 	else return false;
 }
 
 IC void velocity_lerp(float &_cur, float _target, float _accel, float _dt)
 {
-	if (fsimilar(_cur, _target)) return;
+	if (XrMath::fsimilar(_cur, _target)) return;
 
 	if (_target > _cur) {
 		_cur += _accel * _dt;
@@ -47,7 +47,7 @@ IC void velocity_lerp(float &_cur, float _target, float _accel, float _dt)
 
 IC void def_lerp(float &_cur, float _target, float _vel, float _dt)
 {
-	if (fsimilar(_cur, _target)) return;
+	if (XrMath::fsimilar(_cur, _target)) return;
 
 	if (_target > _cur) {
 		_cur += _vel * _dt;
@@ -79,9 +79,9 @@ IC void read_delay(LPCSTR section, LPCSTR name, u32 &delay_min, u32 &delay_max)
 	LPCSTR	delay	= pSettings->r_string(section,name);
 	string128 tempst;	
 
-	if (_GetItemCount(delay) == 2) {
-		delay_min = u32(atoi(_GetItem(delay,0,tempst)));
-		delay_max = u32(atoi(_GetItem(delay,1,tempst)));
+	if (XrTrims::GetItemCount(delay) == 2) {
+		delay_min = u32(atoi(XrTrims::GetItem(delay,0,tempst)));
+		delay_max = u32(atoi(XrTrims::GetItem(delay,1,tempst)));
 	} else {
 		delay_min	= 0;
 		delay_max	= u32(atoi(delay));
@@ -93,9 +93,9 @@ IC void read_distance(LPCSTR section, LPCSTR name, float &dist_min, float &dist_
 	LPCSTR	dist	= pSettings->r_string(section,name);
 	string128 tempst;
 
-	VERIFY			(_GetItemCount(dist) == 2);
+	VERIFY			(XrTrims::GetItemCount(dist) == 2);
 	
-	dist_min		= float(atof(_GetItem(dist,0,tempst)));
-	dist_max		= float(atof(_GetItem(dist,1,tempst)));
+	dist_min		= float(atof(XrTrims::GetItem(dist,0,tempst)));
+	dist_max		= float(atof(XrTrims::GetItem(dist,1,tempst)));
 }
 

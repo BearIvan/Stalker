@@ -11,7 +11,7 @@ CAI_Flesh::CAI_Flesh()
 {
 	StateMan = xr_new<CStateManagerFlesh>(this);
 	
-	m_fEyeShiftYaw		= PI_DIV_6;
+	m_fEyeShiftYaw		= XrMath::PI_DIV_6;
 
 	CControlled::init_external(this);
 }
@@ -129,8 +129,8 @@ void CAI_Flesh::CheckSpecParams(u32 spec_params)
 // ConeDir - направление конуса, SphereCenter - центр сферы, SphereRadius - радиус сферы
 bool CAI_Flesh::ConeSphereIntersection(Fvector ConeVertex, float ConeAngle, Fvector ConeDir, Fvector SphereCenter, float SphereRadius)
 {
-	float fInvSin = 1.0f/_sin(ConeAngle);
-	float fCosSqr = _cos(ConeAngle)*_cos(ConeAngle);
+	float fInvSin = 1.0f/XrMath::sin(ConeAngle);
+	float fCosSqr = XrMath::cos(ConeAngle)*XrMath::cos(ConeAngle);
 
 	
 	Fvector kCmV;	kCmV.sub(SphereCenter,ConeVertex);
@@ -143,7 +143,7 @@ bool CAI_Flesh::ConeSphereIntersection(Fvector ConeVertex, float ConeAngle, Fvec
 	float fE = kD.dotproduct(ConeDir);
 	if ( fE > 0.0f && fE*fE >= fDSqrLen*fCosSqr ) {
 		
-		float fSinSqr = _sin(ConeAngle)*_sin(ConeAngle);
+		float fSinSqr = XrMath::sin(ConeAngle)*XrMath::sin(ConeAngle);
 
 		fDSqrLen = kCmV.square_magnitude();
 		fE = -kCmV.dotproduct(ConeDir);

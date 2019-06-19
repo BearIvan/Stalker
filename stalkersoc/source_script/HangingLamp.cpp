@@ -57,7 +57,7 @@ void CHangingLamp::Center	(Fvector& C) const
 
 float CHangingLamp::Radius	() const 
 { 
-	return (renderable.visual)?renderable.visual->getVisData().sphere.R:EPS;
+	return (renderable.visual)?renderable.visual->getVisData().sphere.R:XrMath::EPS;
 }
 
 void CHangingLamp::Load		(LPCSTR section)
@@ -203,7 +203,7 @@ void CHangingLamp::UpdateCL	()
 		if (light_bone!=BI_NONE){
 			Fmatrix& M = smart_cast<IKinematics*>(Visual())->LL_GetTransform(light_bone);
 			xf.mul		(XFORM(),M);
-			VERIFY(!fis_zero(DET(xf)));
+			VERIFY(!XrMath::fis_zero(DET(xf)));
 		}else{
 			xf.set		(XFORM());
 		}
@@ -217,7 +217,7 @@ void CHangingLamp::UpdateCL	()
 				if (ambient_bone!=BI_NONE){
 					Fmatrix& M = smart_cast<IKinematics*>(Visual())->LL_GetTransform(ambient_bone);
 					xf.mul		(XFORM(),M);
-					VERIFY(!fis_zero(DET(xf)));
+					VERIFY(!XrMath::fis_zero(DET(xf)));
 				}else{
 					xf.set		(XFORM());
 				}
@@ -302,10 +302,10 @@ void CHangingLamp::CreateBody(CSE_ALifeObjectHangingLamp	*lamp)
 	bone_map					.clear();
 	LPCSTR	fixed_bones=*lamp->fixed_bones;
 	if(fixed_bones){
-		int count =					_GetItemCount(fixed_bones);
+		int count =					XrTrims::GetItemCount(fixed_bones);
 		for (int i=0 ;i<count; ++i){
 			string64					fixed_bone							;
-			_GetItem					(fixed_bones,i,fixed_bone)			;
+			XrTrims::GetItem					(fixed_bones,i,fixed_bone)			;
 			u16 fixed_bone_id=pKinematics->LL_BoneID(fixed_bone)			;
 			R_ASSERT2(BI_NONE!=fixed_bone_id,"wrong fixed bone")			;
 			bone_map.insert(mk_pair(fixed_bone_id,physicsBone()))			;

@@ -28,7 +28,7 @@ CRestrictedObject::~CRestrictedObject		()
 
 IC	void construct_string					(LPSTR result, u32 const result_size, const xr_vector<ALife::_OBJECT_ID> &restrictions)
 {
-	u32		count = xr_strlen(result) ? _GetItemCount(result) : 0;
+	u32		count = xr_strlen(result) ? XrTrims::GetItemCount(result) : 0;
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
@@ -127,7 +127,7 @@ u32	CRestrictedObject::accessible_nearest	(const Fvector &position, Fvector &res
 bool CRestrictedObject::accessible			(const Fvector &position) const
 {
 	START_PROFILE("Restricted Object/Accessible");
-	return						(accessible(position,EPS_L));
+	return						(accessible(position,XrMath::EPS_L));
 	STOP_PROFILE;
 }
 
@@ -145,7 +145,7 @@ bool CRestrictedObject::accessible			(u32 level_vertex_id) const
 {
 	START_PROFILE("Restricted Object/Accessible");
 	VERIFY						(ai().level_graph().valid_vertex_id(level_vertex_id));
-	return						(accessible(level_vertex_id,EPS_L));
+	return						(accessible(level_vertex_id,XrMath::EPS_L));
 	STOP_PROFILE;
 }
 

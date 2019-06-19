@@ -174,7 +174,7 @@ void SHeliMovementState::getPathAltitude (Fvector& point, float base_altitude)
 	Fvector down_dir;
 	down_dir.set(0.0f, -1.0f, 0.0f);
 
-	point.y = boundingVolume.max.y+EPS_L;
+	point.y = boundingVolume.max.y+XrMath::EPS_L;
 	VERIFY( _valid(point) );
 
 	Level().ObjectSpace.RayPick(point, down_dir, boundSize.y+1.0f, collide::rqtStatic, cR, NULL);
@@ -184,13 +184,13 @@ void SHeliMovementState::getPathAltitude (Fvector& point, float base_altitude)
 	if( point.y+base_altitude < boundingVolume.max.y )
 		point.y += base_altitude;
 	else
-		point.y = boundingVolume.max.y-EPS_L;
+		point.y = boundingVolume.max.y-XrMath::EPS_L;
 
 	VERIFY( _valid(point) );
 
 	float minY = boundingVolume.min.y;//+(m_boundingVolume.max.y-m_boundingVolume.min.y)*m_heli->m_data.m_alt_korridor;
 	float maxY = boundingVolume.max.y+base_altitude;
-	clamp (point.y,minY,maxY);
+	XrMath::clamp (point.y,minY,maxY);
 	VERIFY( _valid(point) );
 
 }
@@ -314,9 +314,9 @@ void SHeliMovementState::CreateRoundPoints(Fvector center, float radius, float s
 {
 	float	height = center.y;
 
-	float				round_len	= 2*PI*radius;
+	float				round_len	= 2*XrMath::M_PI*radius;
 	static float		dist		= 30.0f;//dist between points
-	float				td			= 2*PI*dist/round_len;
+	float				td			= 2*XrMath::M_PI*dist/round_len;
 	float				dir_h		= 0.0f;
 
 	dir_h = start_h;
@@ -357,7 +357,7 @@ void SHeliMovementState::goByRoundPath(Fvector center_, float radius_, bool cloc
 	CPatrolPath* pp = xr_new<CPatrolPath>("heli_round_path");
 
 	float start_h	= 0.0f;
-	float end_h		= PI_MUL_2-EPS;
+	float end_h		= XrMath::PI_MUL_2-XrMath::EPS;
 
 	xr_vector<STmpPt> round_points;
 	xr_vector<STmpPt>::iterator it,it_e;
@@ -463,13 +463,13 @@ void CHelicopter::OnRender()
 /*
 	Fvector pos			= Level().CurrentEntity()->Position();
 	static float	radius		= 50.0f;//meters
-	float	round_len	= 2*PI*radius;
+	float	round_len	= 2*XrMath::M_PI*radius;
 	static float	dist		= 10.0f;//dist between points
-	float	td			= 2*PI*dist/round_len;
+	float	td			= 2*XrMath::M_PI*dist/round_len;
 	float	dir_h		= 0.0f;
 	xr_vector<Fvector>	round_points;
 	
-	while(dir_h+td<2*PI){
+	while(dir_h+td<2*XrMath::M_PI){
 		Fvector dir, new_pt;
 		dir.setHP(dir_h,0.0f);
 		new_pt.mad(pos,dir,radius);

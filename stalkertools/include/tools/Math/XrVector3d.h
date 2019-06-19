@@ -50,13 +50,13 @@ public:
     IC SelfRef invert() { x = -x; y = -y; z = -z; return *this; }
     IC SelfRef invert(const Self& a) { x = -a.x; y = -a.y; z = -a.z; return *this; }
 
-    IC SelfRef min(const Self& v1, const Self& v2) { x = _min(v1.x, v2.x); y = _min(v1.y, v2.y); z = _min(v1.z, v2.z); return *this; }
-    IC SelfRef min(const Self& v) { x = _min(x, v.x); y = _min(y, v.y); z = _min(z, v.z); return *this; }
-    IC SelfRef max(const Self& v1, const Self& v2) { x = _max(v1.x, v2.x); y = _max(v1.y, v2.y); z = _max(v1.z, v2.z); return *this; }
-    IC SelfRef max(const Self& v) { x = _max(x, v.x); y = _max(y, v.y); z = _max(z, v.z); return *this; }
+    IC SelfRef min(const Self& v1, const Self& v2) { x = XrMath::min(v1.x, v2.x); y = XrMath::min(v1.y, v2.y); z = XrMath::min(v1.z, v2.z); return *this; }
+    IC SelfRef min(const Self& v) { x = XrMath::min(x, v.x); y = XrMath::min(y, v.y); z = XrMath::min(z, v.z); return *this; }
+    IC SelfRef max(const Self& v1, const Self& v2) { x = XrMath::max(v1.x, v2.x); y = XrMath::max(v1.y, v2.y); z = XrMath::max(v1.z, v2.z); return *this; }
+    IC SelfRef max(const Self& v) { x = XrMath::max(x, v.x); y = XrMath::max(y, v.y); z = XrMath::max(z, v.z); return *this; }
 
-    IC SelfRef abs(const Self& v) { x = _abs(v.x); y = _abs(v.y); z = _abs(v.z); return *this; }
-    ICF BOOL similar(const Self& v, T E = EPS_L) const { return _abs(x - v.x) < E && _abs(y - v.y) < E && _abs(z - v.z) < E; };
+    IC SelfRef abs(const Self& v) { x = XrMath::abs(v.x); y = XrMath::abs(v.y); z = XrMath::abs(v.z); return *this; }
+    ICF BOOL similar(const Self& v, T E = XrMath::EPS_L) const { return XrMath::abs(x - v.x) < E && XrMath::abs(y - v.y) < E && XrMath::abs(z - v.z) < E; };
 
     IC SelfRef set_length(T l)
     {
@@ -68,38 +68,38 @@ public:
     IC SelfRef align()
     {
         y = 0;
-        if (_abs(z) >= _abs(x)) { z /= _abs(z ? z : 1); x = 0; }
-        else { x /= _abs(x); z = 0; }
+        if (XrMath::abs(z) >= XrMath::abs(x)) { z /= XrMath::abs(z ? z : 1); x = 0; }
+        else { x /= XrMath::abs(x); z = 0; }
         return *this;
     }
 
     // Squeeze
     IC SelfRef squeeze(T Epsilon)
     {
-        if (_abs(x) < Epsilon) x = 0;
-        if (_abs(y) < Epsilon) y = 0;
-        if (_abs(z) < Epsilon) z = 0;
+        if (XrMath::abs(x) < Epsilon) x = 0;
+        if (XrMath::abs(y) < Epsilon) y = 0;
+        if (XrMath::abs(z) < Epsilon) z = 0;
         return *this;
     }
 
     // Clamp vector3
     IC SelfRef clamp(const Self& min, const Self& max)
     {
-        ::clamp(x, min.x, max.x);
-        ::clamp(y, min.y, max.y);
-        ::clamp(z, min.z, max.z);
+		XrMath::clamp(x, min.x, max.x);
+		XrMath::clamp(y, min.y, max.y);
+		XrMath::clamp(z, min.z, max.z);
         return *this;
     }
 
     IC SelfRef clamp(const Self& _v)
     {
         Self v;
-        v.x = _abs(_v.x);
-        v.y = _abs(_v.y);
-        v.z = _abs(_v.z);
-        ::clamp(x, -v.x, v.x);
-        ::clamp(y, -v.y, v.y);
-        ::clamp(z, -v.z, v.z);
+        v.x = XrMath::abs(_v.x);
+        v.y = XrMath::abs(_v.y);
+        v.z = XrMath::abs(_v.z);
+		XrMath::clamp(x, -v.x, v.x);
+		XrMath::clamp(y, -v.y, v.y);
+		XrMath::clamp(z, -v.z, v.z);
         return *this;
     }
 
@@ -173,7 +173,7 @@ public:
     // magnitude
     IC T magnitude(void) const
     {
-        return _sqrt(square_magnitude());
+        return XrMath::sqrt(square_magnitude());
     }
 
     // Normalize
@@ -191,7 +191,7 @@ public:
     ICF SelfRef normalize(void)
     {
         VERIFY(square_magnitude() > std::numeric_limits<T>::min());
-        T mag = _sqrt(T(1) / (x*x + y*y + z*z));
+        T mag = XrMath::sqrt(T(1) / (x*x + y*y + z*z));
         x *= mag;
         y *= mag;
         z *= mag;
@@ -204,7 +204,7 @@ public:
         T magnitude = x*x + y*y + z*z;
         if (magnitude > std::numeric_limits<T>::min())
         {
-            magnitude = _sqrt(1 / magnitude);
+            magnitude = XrMath::sqrt(1 / magnitude);
             x *= magnitude;
             y *= magnitude;
             z *= magnitude;
@@ -216,7 +216,7 @@ public:
     ICF SelfRef normalize(const Self& v)
     {
         VERIFY((v.x*v.x + v.y*v.y + v.z*v.z) > flt_zero);
-        T mag = _sqrt(1 / (v.x*v.x + v.y*v.y + v.z*v.z));
+        T mag = XrMath::sqrt(1 / (v.x*v.x + v.y*v.y + v.z*v.z));
         x = v.x*mag;
         y = v.y*mag;
         z = v.z*mag;
@@ -229,7 +229,7 @@ public:
         T magnitude = v.x*v.x + v.y*v.y + v.z*v.z;
         if (magnitude > std::numeric_limits<T>::min())
         {
-            magnitude = _sqrt(1 / magnitude);
+            magnitude = XrMath::sqrt(1 / magnitude);
             x = v.x*magnitude;
             y = v.y*magnitude;
             z = v.z*magnitude;
@@ -239,11 +239,11 @@ public:
     IC SelfRef random_dir(CRandom& R = ::Random)
     {
         //z = R.randF(-1,1);
-        z = _cos(R.randF(PI));
-        T a = R.randF(PI_MUL_2);
-        T r = _sqrt(1 - z*z);
-        T sa = _sin(a);
-        T ca = _cos(a);
+        z = XrMath::cos(R.randF(XrMath::M_PI));
+        T a = R.randF(XrMath::PI_MUL_2);
+        T r = XrMath::sqrt(1 - z*z);
+        T sa = XrMath::sin(a);
+        T ca = XrMath::cos(a);
         x = r * ca;
         y = r * sa;
         return *this;
@@ -288,7 +288,7 @@ public:
     // Distance calculation
     IC T distance_to_xz(const Self& v) const
     {
-        return _sqrt((x - v.x)*(x - v.x) + (z - v.z)*(z - v.z));
+        return XrMath::sqrt((x - v.x)*(x - v.x) + (z - v.z)*(z - v.z));
     }
     IC T distance_to_xz_sqr(const Self& v) const
     {
@@ -304,7 +304,7 @@ public:
     // Distance calculation
     ICF T distance_to(const Self& v) const
     {
-        return _sqrt(distance_to_sqr(v));
+        return  XrMath::sqrt(distance_to_sqr(v));
     }
 
     // Barycentric coords
@@ -345,7 +345,7 @@ public:
     };
     IC SelfRef setHP(T h, T p)
     {
-        T _ch = _cos(h), _cp = _cos(p), _sh = _sin(h), _sp = _sin(p);
+        T _ch = XrMath::cos(h), _cp = XrMath::cos(p), _sh = XrMath::sin(h), _sp = XrMath::sin(p);
         x = -_cp*_sh;
         y = _sp;
         z = _cp*_ch;
@@ -355,46 +355,46 @@ public:
     {
         float hyp;
 
-        if (fis_zero(x) && fis_zero(z))
+        if (XrMath::fis_zero(x) && XrMath::fis_zero(z))
         {
             h = 0.0f;
-            if (!fis_zero(float(y))) p = (y > 0.0f) ? PI_DIV_2 : -PI_DIV_2;
+            if (!XrMath::fis_zero(float(y))) p = (y > 0.0f) ? XrMath::PI_DIV_2 : -XrMath::PI_DIV_2;
             else p = 0.0f;
         }
         else
         {
-            if (fis_zero(z)) h = (x > 0.0f) ? -PI_DIV_2 : PI_DIV_2;
-            else if (z < 0.0f) h = -(atanf(x / z) - PI);
+            if (XrMath::fis_zero(z)) h = (x > 0.0f) ? -XrMath::PI_DIV_2 : XrMath::PI_DIV_2;
+            else if (z < 0.0f) h = -(atanf(x / z) - XrMath::M_PI);
             else h = -atanf(x / z);
-            hyp = _sqrt(x*x + z*z);
-            if (fis_zero(float(hyp))) p = (y > 0.0f) ? PI_DIV_2 : -PI_DIV_2;
+            hyp = XrMath::sqrt(x*x + z*z);
+            if (XrMath::fis_zero(float(hyp))) p = (y > 0.0f) ? XrMath::PI_DIV_2 : -XrMath::PI_DIV_2;
             else p = atanf(y / hyp);
         }
     }
     ICF float getH() const
     {
-        if (fis_zero(x) && fis_zero(z))
+        if (XrMath::fis_zero(x) && XrMath::fis_zero(z))
         {
             return 0.0f;
         }
         else
         {
-            if (fis_zero(z)) return (x > 0.0f) ? -PI_DIV_2 : PI_DIV_2;
-            else if (z < 0.0f) return -(atanf(x / z) - PI);
+            if (XrMath::fis_zero(z)) return (x > 0.0f) ? -XrMath::PI_DIV_2 : XrMath::PI_DIV_2;
+            else if (z < 0.0f) return -(atanf(x / z) - XrMath::M_PI);
             else return -atanf(x / z);
         }
     }
     ICF float getP() const
     {
-        if (fis_zero(x) && fis_zero(z))
+        if (XrMath::fis_zero(x) && XrMath::fis_zero(z))
         {
-            if (!fis_zero(float(y))) return (y > 0.0f) ? PI_DIV_2 : -PI_DIV_2;
+            if (!XrMath::fis_zero(float(y))) return (y > 0.0f) ? XrMath::PI_DIV_2 : -XrMath::PI_DIV_2;
             else return 0.0f;
         }
         else
         {
-            float hyp = _sqrt(x*x + z*z);
-            if (fis_zero(float(hyp))) return (y > 0.0f) ? PI_DIV_2 : -PI_DIV_2;
+            float hyp = XrMath::sqrt(x*x + z*z);
+            if (XrMath::fis_zero(float(hyp))) return (y > 0.0f) ? XrMath::PI_DIV_2 : -XrMath::PI_DIV_2;
             else return atanf(y / hyp);
         }
     }
@@ -411,10 +411,10 @@ public:
     {
         T fInvLength;
 
-        if (_abs(dir.x) >= _abs(dir.y))
+        if (XrMath::abs(dir.x) >= XrMath::abs(dir.y))
         {
             // W.x or W.z is the largest magnitude component, swap them
-            fInvLength = 1.f / _sqrt(dir.x*dir.x + dir.z*dir.z);
+            fInvLength = 1.f / XrMath::sqrt(dir.x*dir.x + dir.z*dir.z);
             up.x = -dir.z*fInvLength;
             up.y = 0.0f;
             up.z = +dir.x*fInvLength;
@@ -422,7 +422,7 @@ public:
         else
         {
             // W.y or W.z is the largest magnitude component, swap them
-            fInvLength = 1.f / _sqrt(dir.y*dir.y + dir.z*dir.z);
+            fInvLength = 1.f / XrMath::sqrt(dir.y*dir.y + dir.z*dir.z);
             up.x = 0.0f;
             up.y = +dir.z*fInvLength;
             up.z = -dir.y*fInvLength;
@@ -434,10 +434,10 @@ public:
     {
         T fInvLength;
         dir.normalize();
-        if (fsimilar(dir.y, 1.f, EPS))
+        if (XrMath::fsimilar(dir.y, 1.f, XrMath::EPS))
         {
             up.set(0.f, 0.f, 1.f);
-            fInvLength = 1.f / _sqrt(dir.x*dir.x + dir.y*dir.y);
+            fInvLength = 1.f / XrMath::sqrt(dir.x*dir.x + dir.y*dir.y);
             // cross (up,dir) and normalize (right)
             right.x = -dir.y * fInvLength;
             right.y = dir.x * fInvLength;
@@ -450,7 +450,7 @@ public:
         else
         {
             up.set(0.f, 1.f, 0.f);
-            fInvLength = 1.f / _sqrt(dir.x*dir.x + dir.z*dir.z);
+            fInvLength = 1.f / XrMath::sqrt(dir.x*dir.x + dir.z*dir.z);
             // cross (up,dir) and normalize (right)
             right.x = dir.z * fInvLength;
             right.y = 0.f;
@@ -475,14 +475,14 @@ BOOL _valid(const _vector3<T>& v) { return _valid((T)v.x) && _valid((T)v.y) && _
 //////////////////////////////////////////////////////////////////////////
 #pragma warning(push)
 #pragma warning(disable:4244)
-ICF double rsqrt(double v) { return 1.0 / _sqrt(v); }
+
 IC BOOL exact_normalize(float* a)
 {
     double sqr_magnitude = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
     double epsilon = 1.192092896e-05F;
     if (sqr_magnitude > epsilon)
     {
-        double l = rsqrt(sqr_magnitude);
+        double l =XrMath::rsqrt(sqr_magnitude);
         a[0] *= l;
         a[1] *= l;
         a[2] *= l;
@@ -492,9 +492,9 @@ IC BOOL exact_normalize(float* a)
     a0 = a[0];
     a1 = a[1];
     a2 = a[2];
-    aa0 = _abs(a0);
-    aa1 = _abs(a1);
-    aa2 = _abs(a2);
+    aa0 = XrMath::abs(a0);
+    aa1 = XrMath::abs(a1);
+    aa2 = XrMath::abs(a2);
     if (aa1 > aa0)
     {
         if (aa2 > aa1)
@@ -505,7 +505,7 @@ IC BOOL exact_normalize(float* a)
         {
             a0 /= aa1;
             a2 /= aa1;
-            l = rsqrt(a0*a0 + a2*a2 + 1);
+            l = XrMath::rsqrt(a0*a0 + a2*a2 + 1);
             a[0] = a0*l;
             a[1] = (double)_copysign(l, a1);
             a[2] = a2*l;
@@ -518,7 +518,7 @@ IC BOOL exact_normalize(float* a)
         aa2_largest: // aa2 is largest
             a0 /= aa2;
             a1 /= aa2;
-            l = rsqrt(a0*a0 + a1*a1 + 1);
+            l = XrMath::rsqrt(a0*a0 + a1*a1 + 1);
             a[0] = a0*l;
             a[1] = a1*l;
             a[2] = (double)_copysign(l, a2);
@@ -535,7 +535,7 @@ IC BOOL exact_normalize(float* a)
             }
             a1 /= aa0;
             a2 /= aa0;
-            l = rsqrt(a1*a1 + a2*a2 + 1);
+            l = XrMath::rsqrt(a1*a1 + a2*a2 + 1);
             a[0] = (double)_copysign(l, a0);
             a[1] = a1*l;
             a[2] = a2*l;

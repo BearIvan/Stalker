@@ -27,8 +27,8 @@ CScriptProcess::CScriptProcess	(shared_str name, shared_str scripts) :
 #endif
 	
 	string256		I;
-	for (u32 i=0, n = _GetItemCount(*scripts); i<n; ++i)
-		add_script	(_GetItem(*scripts,i,I),false,false);
+	for (u32 i=0, n = XrTrims::GetItemCount(*scripts); i<n; ++i)
+		add_script	(XrTrims::GetItem(*scripts,i,I),false,false);
 
 	m_iterator		= 0;
 }

@@ -62,9 +62,9 @@ void CCameraLook::Move( int cmd, float val, float factor)
 	case kLEFT:			yaw		-= val?val:(rot_speed.y*Device.fTimeDelta/factor);	break;
 	case kRIGHT:		yaw		+= val?val:(rot_speed.y*Device.fTimeDelta/factor);	break;
 	}
-	if (bClampYaw)		clamp(yaw,lim_yaw[0],lim_yaw[1]);
-	if (bClampPitch)	clamp(pitch,lim_pitch[0],lim_pitch[1]);
-	clamp			(dist,lim_zoom[0],lim_zoom[1]);	
+	if (bClampYaw)		XrMath::clamp(yaw,lim_yaw[0],lim_yaw[1]);
+	if (bClampPitch)	XrMath::clamp(pitch,lim_pitch[0],lim_pitch[1]);
+	XrMath::clamp			(dist,lim_zoom[0],lim_zoom[1]);	
 }
 
 void CCameraLook::OnActivate( CCameraBase* old_cam )
@@ -74,8 +74,8 @@ void CCameraLook::OnActivate( CCameraBase* old_cam )
 		yaw				= old_cam->yaw;
 		vPosition.set	(old_cam->vPosition);
 	}
-	if (yaw>PI_MUL_2) yaw-=PI_MUL_2;
-	if (yaw<-PI_MUL_2)yaw+=PI_MUL_2;
+	if (yaw>XrMath::PI_MUL_2) yaw-=XrMath::PI_MUL_2;
+	if (yaw<-XrMath::PI_MUL_2)yaw+=XrMath::PI_MUL_2;
 }
 
 #include "engine/xr_input.h"
@@ -171,16 +171,16 @@ void CCameraLook2::UpdateAutoAim()
 	Fvector								xyz;
 	_m.getXYZi							(xyz);
 
-	yaw				= angle_inertion_var(	yaw,xyz.y,
+	yaw				= XrMath::angle_inertion_var(	yaw,xyz.y,
 											m_autoaim_inertion_yaw.x,
 											m_autoaim_inertion_yaw.y,
-											PI,
+											XrMath::M_PI,
 											Device.fTimeDelta);
 
-	pitch			= angle_inertion_var(	pitch,xyz.x,
+	pitch			= XrMath::angle_inertion_var(	pitch,xyz.x,
 											m_autoaim_inertion_pitch.x,
 											m_autoaim_inertion_pitch.y,
-											PI,
+											XrMath::M_PI,
 											Device.fTimeDelta);
 }
 

@@ -5,7 +5,7 @@
 class CEffect_Rain;
 //struct Fsphere;
 
-#include "tools//_sphere.h"
+#include "tools/Math/XrSphere.h"
 
 class IRainRender
 {

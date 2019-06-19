@@ -128,7 +128,7 @@ void CInventoryItem::Load(LPCSTR section)
 void  CInventoryItem::ChangeCondition(float fDeltaCondition)
 {
 	m_fCondition += fDeltaCondition;
-	clamp(m_fCondition, 0.f, 1.f);
+	XrMath::clamp(m_fCondition, 0.f, 1.f);
 }
 
 
@@ -458,9 +458,9 @@ void CInventoryItem::net_Import			(NET_Packet& P)
 
 	N.State.enabled				= num_items.mask & CSE_ALifeInventoryItem::inventory_item_state_enabled;
 	if (!(num_items.mask & CSE_ALifeInventoryItem::inventory_item_angular_null)) {
-		N.State.angular_vel.x	= P.r_float_q8(0.f,10.f*PI_MUL_2);
-		N.State.angular_vel.y	= P.r_float_q8(0.f,10.f*PI_MUL_2);
-		N.State.angular_vel.z	= P.r_float_q8(0.f,10.f*PI_MUL_2);
+		N.State.angular_vel.x	= P.r_float_q8(0.f,10.f*XrMath::PI_MUL_2);
+		N.State.angular_vel.y	= P.r_float_q8(0.f,10.f*XrMath::PI_MUL_2);
+		N.State.angular_vel.z	= P.r_float_q8(0.f,10.f*XrMath::PI_MUL_2);
 	}
 	else
 		N.State.angular_vel.set	(0.f,0.f,0.f);
@@ -555,8 +555,8 @@ void CInventoryItem::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mas
 	//Msg("Export State.position.y:%4.6f",State.position.y);
 	//Msg("Export State.enabled:%i",int(State.enabled));
 
-	float					magnitude = _sqrt(State.quaternion.magnitude());
-	if (fis_zero(magnitude)) {
+	float					magnitude = XrMath::sqrt(State.quaternion.magnitude());
+	if (XrMath::fis_zero(magnitude)) {
 		magnitude			= 1;
 		State.quaternion.x	= 0.f;
 		State.quaternion.y	= 0.f;
@@ -571,10 +571,10 @@ void CInventoryItem::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mas
 		State.quaternion.z	*= invert_magnitude;
 		State.quaternion.w	*= invert_magnitude;
 
-		clamp				(State.quaternion.x,-1.f,1.f);
-		clamp				(State.quaternion.y,-1.f,1.f);
-		clamp				(State.quaternion.z,-1.f,1.f);
-		clamp				(State.quaternion.w,-1.f,1.f);*/
+		XrMath::clamp				(State.quaternion.x,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.y,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.z,-1.f,1.f);
+		XrMath::clamp				(State.quaternion.w,-1.f,1.f);*/
 	}
 
 	P.w_float			(State.quaternion.x);
@@ -583,9 +583,9 @@ void CInventoryItem::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mas
 	P.w_float			(State.quaternion.w);
 
 	if (!(num_items.mask & CSE_ALifeInventoryItem::inventory_item_angular_null)) {
-		/*	clamp				(State.angular_vel.x,-10.f*PI_MUL_2,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.y,-10.f*PI_MUL_2,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.z,-10.f*PI_MUL_2,10.f*PI_MUL_2);*/
+		/*	XrMath::clamp				(State.angular_vel.x,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.y,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.z,-10.f*XrMath::PI_MUL_2,10.f*XrMath::PI_MUL_2);*/
 
 		P.w_float		(State.angular_vel.x);
 		P.w_float		(State.angular_vel.y);
@@ -593,9 +593,9 @@ void CInventoryItem::net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mas
 	}
 
 	if (!(num_items.mask & CSE_ALifeInventoryItem::inventory_item_linear_null)) {
-		/*clamp				(State.linear_vel.x,-32.f,32.f);
-		clamp				(State.linear_vel.y,-32.f,32.f);
-		clamp				(State.linear_vel.z,-32.f,32.f);*/
+		/*XrMath::clamp				(State.linear_vel.x,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.y,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.z,-32.f,32.f);*/
 
 		P.w_float		(State.linear_vel.x);
 		P.w_float		(State.linear_vel.y);
@@ -634,8 +634,8 @@ void CInventoryItem::net_Export			(NET_Packet& P)
 	num_items.num_items		= u8(temp);
 
 	if (State.enabled)									num_items.mask |= CSE_ALifeInventoryItem::inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_linear_null;
 	//if (m_pPhysicsShell->PPhysicsShellAnimator())		{num_items.mask |= CSE_ALifeObjectPhysic::animated;}
 
 	P.w_u8					(num_items.common);
@@ -683,15 +683,15 @@ void CInventoryItem::net_Export			(NET_Packet& P)
 	num_items.num_items		= u8(temp);
 
 	if (State.enabled)									num_items.mask |= CSE_ALifeInventoryItem::inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= CSE_ALifeInventoryItem::inventory_item_linear_null;
 
 	P.w_u8					(num_items.common);
 
 	P.w_vec3				(State.position);
 
-	float					magnitude = _sqrt(State.quaternion.magnitude());
-	if (fis_zero(magnitude)) {
+	float					magnitude = XrMath::sqrt(State.quaternion.magnitude());
+	if (XrMath::fis_zero(magnitude)) {
 		magnitude			= 1;
 		State.quaternion.x	= 0.f;
 		State.quaternion.y	= 0.f;
@@ -706,10 +706,10 @@ void CInventoryItem::net_Export			(NET_Packet& P)
 		State.quaternion.z	*= invert_magnitude;
 		State.quaternion.w	*= invert_magnitude;
 
-		clamp				(State.quaternion.x, -1.f, 1.f);
-		clamp				(State.quaternion.y, -1.f, 1.f);
-		clamp				(State.quaternion.z, -1.f, 1.f);
-		clamp				(State.quaternion.w, -1.f, 1.f);
+		XrMath::clamp				(State.quaternion.x, -1.f, 1.f);
+		XrMath::clamp				(State.quaternion.y, -1.f, 1.f);
+		XrMath::clamp				(State.quaternion.z, -1.f, 1.f);
+		XrMath::clamp				(State.quaternion.w, -1.f, 1.f);
 	}
 
 	P.w_float_q8			(State.quaternion.x, -1.f, 1.f);
@@ -718,19 +718,19 @@ void CInventoryItem::net_Export			(NET_Packet& P)
 	P.w_float_q8			(State.quaternion.w, -1.f, 1.f);
 
 	if (!(num_items.mask & CSE_ALifeInventoryItem::inventory_item_angular_null)) {
-		clamp				(State.angular_vel.x,0.f,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.y,0.f,10.f*PI_MUL_2);
-		clamp				(State.angular_vel.z,0.f,10.f*PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.x,0.f,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.y,0.f,10.f*XrMath::PI_MUL_2);
+		XrMath::clamp				(State.angular_vel.z,0.f,10.f*XrMath::PI_MUL_2);
 
-		P.w_float_q8		(State.angular_vel.x,0.f,10.f*PI_MUL_2);
-		P.w_float_q8		(State.angular_vel.y,0.f,10.f*PI_MUL_2);
-		P.w_float_q8		(State.angular_vel.z,0.f,10.f*PI_MUL_2);
+		P.w_float_q8		(State.angular_vel.x,0.f,10.f*XrMath::PI_MUL_2);
+		P.w_float_q8		(State.angular_vel.y,0.f,10.f*XrMath::PI_MUL_2);
+		P.w_float_q8		(State.angular_vel.z,0.f,10.f*XrMath::PI_MUL_2);
 	}
 
 	if (!(num_items.mask & CSE_ALifeInventoryItem::inventory_item_linear_null)) {
-		clamp				(State.linear_vel.x,-32.f,32.f);
-		clamp				(State.linear_vel.y,-32.f,32.f);
-		clamp				(State.linear_vel.z,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.x,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.y,-32.f,32.f);
+		XrMath::clamp				(State.linear_vel.z,-32.f,32.f);
 
 		P.w_float_q8		(State.linear_vel.x,-32.f,32.f);
 		P.w_float_q8		(State.linear_vel.y,-32.f,32.f);
@@ -1268,7 +1268,7 @@ void CInventoryItem::UpdateXForm	()
 	Fvector			R,D,N;
 	D.sub			(mL.c,mR.c);	D.normalize_safe();
 
-	if(fis_zero(D.magnitude()))
+	if(XrMath::fis_zero(D.magnitude()))
 	{
 		mRes.set(E->XFORM());
 		mRes.c.set(mR.c);

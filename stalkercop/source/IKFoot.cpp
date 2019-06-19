@@ -134,7 +134,7 @@ void CIKFoot::set_toe(  u16 bones[4] )
 	ibind.set( ibind2 );
 	ax.set( foot_normal );
 	Kinematics()->EnumBoneVertices( pred, bones[2] );
-	m_toe_position.v.x = _max( pos.x, m_toe_position.v.x );
+	m_toe_position.v.x = XrMath::max( pos.x, m_toe_position.v.x );
 	/////////////////////////////////////////////////////////
 	ax.sub( foot_normal, foot_dir );
 	ax.normalize();
@@ -228,16 +228,16 @@ ik_goal_matrix::e_collide_state	 CIKFoot::CollideFoot( float angle, float &out_a
 	Fvector	axp;			axp.sub( global_toe, global_bone_pos );	
 	float	dfoot_toe		=p.n.dotproduct( axp );
 	out_angle = angle;
-	if( dfoot_tri < m_foot_width * _abs( foot_normal.dotproduct( p.n ) ) )
+	if( dfoot_tri < m_foot_width * XrMath::abs( foot_normal.dotproduct( p.n ) ) )
 		return ik_goal_matrix::cl_aligned;
 	axp.sub( Fvector( ).mul( ax, axp.dotproduct( ax ) ) );															//vector from nc_toe to ax
 	float	dtoe_ax = axp.magnitude();	
 
 	out_angle = 0.f;
 
-	if( dtoe_ax<EPS_S )
+	if( dtoe_ax<XrMath::EPS_S )
 		return ik_goal_matrix::cl_free;
-	if( dfoot_toe > dtoe_ax - EPS_S )
+	if( dfoot_toe > dtoe_ax - XrMath::EPS_S )
 		return ik_goal_matrix::cl_free;
 	if( dfoot_toe < dfoot_tri )
 		return ik_goal_matrix::cl_free;
@@ -260,16 +260,16 @@ bool CIKFoot::make_shift( Fmatrix &xm,const Fvector &cl_point, bool collide, con
 	Fvector point;
 	xm.transform_tiny( point, cl_point );
 	float dot = p.n.dotproduct( shift );
-	if( _abs( dot ) < min_dot )
+	if( XrMath::abs( dot ) < min_dot )
 	{
-		shift.add( Fvector( ).mul( p.n, min_dot - _abs( dot ) ) );
+		shift.add( Fvector( ).mul( p.n, min_dot - XrMath::abs( dot ) ) );
 		dot = p.n.dotproduct( shift );
 	}
-	VERIFY( !fis_zero( dot ) );
+	VERIFY( !XrMath::fis_zero( dot ) );
 	float shift_m = ( -p.d - p.n.dotproduct( point ) )/dot;
 	if(collide && shift_m > 0.f )
 		return false;
-	clamp( shift_m, -collide_dist, collide_dist );
+	XrMath::clamp( shift_m, -collide_dist, collide_dist );
 	shift.mul( shift_m );
 	xm.c.add( shift );
 #if	0
@@ -292,12 +292,12 @@ ik_goal_matrix::e_collide_state CIKFoot::rotate( Fmatrix &xm, const Fplane& p, c
 {
 		Fvector ax; ax.crossproduct( p.n, foot_normal );
 		float s=ax.magnitude( );
-		clamp( s, 0.f, 1.f );
+		XrMath::clamp( s, 0.f, 1.f );
 		float angle = asinf( -s );
 		VERIFY( _valid( angle ) );
-		clamp( angle, -M_PI/6, M_PI/6 );
+		XrMath::clamp( angle, -XrMath::M_PI/6, XrMath::M_PI/6 );
 		ik_goal_matrix::e_collide_state cl_state = ik_goal_matrix::cl_undefined;
-		if( !fis_zero( s ) )
+		if( !XrMath::fis_zero( s ) )
 		{
 			cl_state = ik_goal_matrix::cl_aligned;
 			ax.mul( 1.f/s );
@@ -341,7 +341,7 @@ bool CIKFoot::GetFootStepMatrix( ik_goal_matrix &m, const Fmatrix &g_anim, const
 	}
 
 	float	dtoe_tri		=-cld.m_plane.d - cld.m_plane.n.dotproduct( global_point );	
-	if(  !cld.collided ||  _abs( dtoe_tri ) > collide_dist )
+	if(  !cld.collided ||  XrMath::abs( dtoe_tri ) > collide_dist )
 	{
 		m.set( global_anim, ik_goal_matrix::cl_free );
 		return false;
@@ -376,7 +376,7 @@ bool CIKFoot::GetFootStepMatrix( ik_goal_matrix &m, const Fmatrix &g_anim, const
 	{
 		DBG_DrawPoint( global_point, 0.03f, D3DCOLOR_RGBA( 255, 0, 0, 255 ) );
 	}
-	if(!fsimilar( _abs( DET( g_anim ) - 1.f ), _abs( DET( m.get() ) - 1.f ), 0.001f ) )
+	if(!XrMath::fsimilar( XrMath::abs( DET( g_anim ) - 1.f ), XrMath::abs( DET( m.get() ) - 1.f ), 0.001f ) )
 		Msg("scale g_anim: %f scale m: %f ",  DET( g_anim ) ,  DET( m.get() ) );
 #endif
 
@@ -426,7 +426,7 @@ void	CIKFoot::SetFootGeom		( ik_foot_geom &fg, const Fmatrix &ref_bone, const Fm
 	Fvector v_side =  Fvector().crossproduct( normal, direction );
 	gl_bone.transform_dir ( v_side );
 	float vsm = v_side.magnitude();
-	VERIFY( vsm > EPS_L );
+	VERIFY( vsm > XrMath::EPS_L );
 	v_side.mul( Fvector().sub(pos_toe, pos_hill ).magnitude()/vsm );
 
 	fg.set( pos_toe, pos_hill, Fvector().add( v_m, v_side ) ); 

@@ -9,8 +9,8 @@
 
 #define SPEED_MIN		0.5f 
 #define SPEED_MAX		4.f
-#define EPS_ANGLE		1 * PI / 180
-#define MAX_DIST		PI
+#define EPS_ANGLE		1 * XrMath::M_PI / 180
+#define MAX_DIST		XrMath::M_PI
 
 void CControlledActor::reinit()
 {
@@ -62,12 +62,12 @@ void CControlledActor::update_turn()
 	D.getHP								(cam_current_yaw, cam_current_pitch);	
 
 	// YAW
-	float								speed_factor = angle_difference(cam_current_yaw, cam_target_yaw) / MAX_DIST;
-	clamp								(speed_factor, 0.f, 1.f);
+	float								speed_factor = XrMath::angle_difference(cam_current_yaw, cam_target_yaw) / MAX_DIST;
+	XrMath::clamp								(speed_factor, 0.f, 1.f);
 	if (speed_factor > 0.5f)			speed_factor = 1.f - speed_factor;
 	
 	float								speed;
-	if (fsimilar(cam_current_yaw, cam_target_yaw, EPS_ANGLE)) {
+	if (XrMath::fsimilar(cam_current_yaw, cam_target_yaw, EPS_ANGLE)) {
 		m_turned_yaw	= true;
 	} else {
 		speed	= SPEED_MIN + speed_factor * (SPEED_MAX - SPEED_MIN);
@@ -80,11 +80,11 @@ void CControlledActor::update_turn()
 	}
 
 	// PITCH
-	speed_factor						= angle_difference(cam_current_pitch, cam_target_pitch) / MAX_DIST;
-	clamp								(speed_factor, 0.f, 1.f);
+	speed_factor						= XrMath::angle_difference(cam_current_pitch, cam_target_pitch) / MAX_DIST;
+	XrMath::clamp								(speed_factor, 0.f, 1.f);
 	if (speed_factor > 0.5f)			speed_factor = 1.f - speed_factor;
 
-	if (fsimilar(cam_current_pitch, cam_target_pitch, EPS_ANGLE)) {
+	if (XrMath::fsimilar(cam_current_pitch, cam_target_pitch, EPS_ANGLE)) {
 		m_turned_pitch	= true;
 	} else {
 		speed	= SPEED_MIN + speed_factor * (SPEED_MAX - SPEED_MIN);

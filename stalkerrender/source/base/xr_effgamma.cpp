@@ -36,7 +36,7 @@ void CGammaControl::GenLUT( const DXGI_GAMMA_CONTROL_CAPABILITIES &GC, DXGI_GAMM
 
 	float DeltaCV = (GC.MaxConvertedValue - GC.MinConvertedValue);
 	
-	float og	= 1.f / (fGamma + EPS);
+	float og	= 1.f / (fGamma + XrMath::EPS);
 	float B		= fBrightness/2.f;
 	float C		= fContrast/2.f;
 
@@ -53,9 +53,9 @@ void CGammaControl::GenLUT( const DXGI_GAMMA_CONTROL_CAPABILITIES &GC, DXGI_GAMM
 		G.GammaCurve[i].Green = c*cBalance.g;
 		G.GammaCurve[i].Blue = c*cBalance.b;
 
-		clamp(G.GammaCurve[i].Red, GC.MinConvertedValue, GC.MaxConvertedValue);
-		clamp(G.GammaCurve[i].Green, GC.MinConvertedValue, GC.MaxConvertedValue);
-		clamp(G.GammaCurve[i].Blue, GC.MinConvertedValue, GC.MaxConvertedValue);
+		XrMath::clamp(G.GammaCurve[i].Red, GC.MinConvertedValue, GC.MaxConvertedValue);
+		XrMath::clamp(G.GammaCurve[i].Green, GC.MinConvertedValue, GC.MaxConvertedValue);
+		XrMath::clamp(G.GammaCurve[i].Blue, GC.MinConvertedValue, GC.MaxConvertedValue);
 	}
 }
 
@@ -63,8 +63,8 @@ void CGammaControl::GenLUT( const DXGI_GAMMA_CONTROL_CAPABILITIES &GC, DXGI_GAMM
 
 IC u16 clr2gamma(float c)
 {
-	int C=iFloor(c);
-	clamp		(C,0,65535);
+	int C=XrMath::iFloor(c);
+	XrMath::clamp		(C,0,65535);
 	return u16	(C);
 }
 
@@ -79,7 +79,7 @@ void CGammaControl::Update()
 }
 void CGammaControl::GenLUT(D3DGAMMARAMP &G)
 {
-	float og	= 1.f / (fGamma + EPS);
+	float og	= 1.f / (fGamma + XrMath::EPS);
 	float B		= fBrightness/2.f;
 	float C		= fContrast/2.f;
 	for (int i=0; i<256; i++) {

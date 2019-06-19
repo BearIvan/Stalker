@@ -18,7 +18,7 @@ IC void	CMonsterMorale::set_normal_state()
 IC void	CMonsterMorale::change(float value)
 {
 	m_morale +=	value;
-	clamp	(m_morale,0.f,1.f);
+	XrMath::clamp	(m_morale,0.f,1.f);
 }
 
 IC bool	CMonsterMorale::is_despondent()

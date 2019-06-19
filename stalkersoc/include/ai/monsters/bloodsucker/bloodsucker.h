@@ -76,7 +76,7 @@ public:
 
 			
 			void			ActivateVampireEffector	();
-	IC		bool			WantVampire				() {return (fsimilar(m_vampire_want_value,1.f) == TRUE);}
+	IC		bool			WantVampire				() {return (XrMath::fsimilar(m_vampire_want_value,1.f) == TRUE);}
 	IC		void			SatisfyVampire			() {m_vampire_want_value = 0.f;}
 
 private:

@@ -260,7 +260,7 @@ void IGame_Level::SoundEvent_Register(ref_sound_data_ptr S, float range)
     if (S->g_object && S->g_object->getDestroy()) { S->g_object = 0; return; }
     if (0 == S->feedback) return;
 
-    clamp(range, 0.1f, 500.f);
+	XrMath::clamp(range, 0.1f, 500.f);
 
     const CSound_params* p = S->feedback->get_params();
     Fvector snd_position = p->position;
@@ -270,7 +270,7 @@ void IGame_Level::SoundEvent_Register(ref_sound_data_ptr S, float range)
     }
 
     VERIFY(p && _valid(range));
-    range = _min(range, p->max_ai_distance);
+    range = XrMath::min(range, p->max_ai_distance);
     VERIFY(_valid(snd_position));
     VERIFY(_valid(p->max_ai_distance));
     VERIFY(_valid(p->volume));
@@ -295,15 +295,15 @@ void IGame_Level::SoundEvent_Register(ref_sound_data_ptr S, float range)
         float dist = snd_position.distance_to((*it)->spatial.sphere.P);
         if (dist > p->max_ai_distance) continue;
         VERIFY(_valid(dist));
-        VERIFY2(!fis_zero(p->max_ai_distance), S->handle->file_name());
+        VERIFY2(!XrMath::fis_zero(p->max_ai_distance), S->handle->file_name());
         float Power = (1.f - dist / p->max_ai_distance)*p->volume;
         VERIFY(_valid(Power));
-        if (Power > EPS_S)
+        if (Power > XrMath::EPS_S)
         {
             float occ = Sound->get_occlusion_to((*it)->spatial.sphere.P, snd_position);
             VERIFY(_valid(occ));
             Power *= occ;
-            if (Power > EPS_S)
+            if (Power > XrMath::EPS_S)
             {
                 _esound_delegate D = {L, S, Power};
                 snd_Events.push_back(D);

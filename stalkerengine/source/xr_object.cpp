@@ -300,7 +300,7 @@ void CObject::spatial_update(float eps_P, float eps_R)
         if (spatial.node_ptr)
         {
             // Object registered!
-            if (!fsimilar(Radius(), spatial.sphere.R, eps_R)) spatial_move();
+            if (!XrMath::fsimilar(Radius(), spatial.sphere.R, eps_R)) spatial_move();
             else
             {
                 Fvector C;

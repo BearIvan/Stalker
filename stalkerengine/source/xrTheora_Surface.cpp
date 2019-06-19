@@ -153,6 +153,14 @@ BOOL CTheoraSurface::Load(const char* fname)
     }
     return res;
 }
+IC	u32		btwLowestBitMask(u32 x) { return x & ~(x - 1); }
+
+IC	u32		btwPow2_Ceil(u32 v)
+{
+	u32 i = btwLowestBitMask(v);
+	while (i < v) i <<= 1;
+	return i;
+}
 
 u32 CTheoraSurface::Width(bool bRealSize)
 {
@@ -219,9 +227,9 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
                     int D = u - 128;
                     int E = v - 128;
 
-                    int R = clampr((298 * C + 409 * E + 128) >> 8, 0, 255);
-                    int G = clampr((298 * C - 100 * D - 208 * E + 128) >> 8, 0, 255);
-                    int B = clampr((298 * C + 516 * D + 128) >> 8, 0, 255);
+                    int R = XrMath::clampr((298 * C + 409 * E + 128) >> 8, 0, 255);
+                    int G = XrMath::clampr((298 * C - 100 * D - 208 * E + 128) >> 8, 0, 255);
+                    int B = XrMath::clampr((298 * C + 516 * D + 128) >> 8, 0, 255);
 
                     data[pos] = color_rgba(R, G, B, 255);
 
@@ -286,7 +294,7 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
             {
                 u8 y = Y[w];
                 u32& clr = data[++pos];
-                clr = subst_alpha(clr, iFloor(float((y - 16)) / K));
+                clr = subst_alpha(clr, XrMath::iFloor(float((y - 16)) / K));
             }
         }
     }

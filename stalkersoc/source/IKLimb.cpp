@@ -133,7 +133,7 @@ void	CIKLimb::GetKnee				( Fvector &knee, const SCalculateData& cd ) const
 	const Fvector foot		= cd.m_K->LL_GetTransform(m_bones[2]).c;
 	Fvector p0; p0.sub( foot, hip ); Fvector p1; p1.sub( cd.goal.c, hip );
 	float mp0 = p0.magnitude();
-	if(fis_zero(mp0))
+	if(XrMath::fis_zero(mp0))
 		return;
 	p0.mul( 1.f/mp0 );
 	knee.sub( hip );
@@ -215,15 +215,15 @@ void	CIKLimb::Solve(SCalculateData& cd)
 IC void set_limits( float &min, float &max, SJointLimit& l)
 {
 	min=-l.limit.y  ;max=-l.limit.x  ;
-	min += M_PI; max += M_PI;
-	clamp( min, 0.f, 2 * M_PI ); clamp( max, 0.f, 2 * M_PI );
+	min += XrMath::M_PI; max += XrMath::M_PI;
+	XrMath::clamp( min, 0.f, 2 * XrMath::M_PI ); XrMath::clamp( max, 0.f, 2 * XrMath::M_PI );
 
-	//min = 0/*-2*M_PI*/; max = 2*M_PI;
+	//min = 0/*-2*XrMath::M_PI*/; max = 2*XrMath::M_PI;
 }
 
 IC void free_limits( float &min, float &max)
 {
-	min = 0  ;max = 2 * M_PI  ;
+	min = 0  ;max = 2 * XrMath::M_PI  ;
 }
 
 void CIKLimb::Create( u16 id, IKinematics* K, const u16 bones[4], const Fvector& toe_pos, bool collide_ )
@@ -246,10 +246,10 @@ void CIKLimb::Create( u16 id, IKinematics* K, const u16 bones[4], const Fvector&
 	set_limits( lmin[1], lmax[1], limits[1] );
 	set_limits( lmin[2], lmax[2], limits[1] );
 	//free_limits( lmin[0], lmax[0] );
-	//lmin[0] = M_PI * 3.f/4.f; 
+	//lmin[0] = XrMath::M_PI * 3.f/4.f; 
 	lmin[1]+=1.0f; lmax[1]-=0.f;
 	lmin[2]+=1.0f; lmax[2]-=0.f;
-	lmax[0] = 2* M_PI - M_PI * 2.f/3.f;
+	lmax[0] = 2* XrMath::M_PI - XrMath::M_PI * 2.f/3.f;
 
 //  lmin[2]=-1.f;lmax[2]=1.f;
 
@@ -310,7 +310,7 @@ IC void	CIKLimb::GetPickDir(Fvector &v, const Fmatrix &gl_bone )
 	dir.add(sv_state.pick);
 	
 	float m = dir.magnitude();
-	if(m < EPS)
+	if(m < XrMath::EPS)
 			return;
 	dir.mul(dir,1/m);
 	v.set( dir );
@@ -333,7 +333,7 @@ float CIKLimb::CollideFoot( float angle, const Fmatrix &gl_anim, Fplane &p, Fvec
 		float dtoe_ax = axp.magnitude();
 		axp.sub( Fvector( ).mul( gl_anim.i, axp.dotproduct( gl_anim.i ) ) );
 		float dfoot = axp.magnitude( );
-		if( dtoe_ax > EPS_L &&  dfoot_tri < dtoe_ax && dfoot > EPS_L && dfoot < dtoe_ax )
+		if( dtoe_ax > XrMath::EPS_L &&  dfoot_tri < dtoe_ax && dfoot > XrMath::EPS_L && dfoot < dtoe_ax )
 		{
 			angle += asinf( dfoot_tri/dtoe_ax ) ;
 			VERIFY( _valid( angle ) );
@@ -341,7 +341,7 @@ float CIKLimb::CollideFoot( float angle, const Fmatrix &gl_anim, Fplane &p, Fvec
 			VERIFY( _valid( angle ) );
 		}
 	}
-	clamp( angle, - M_PI/3, 0.f );
+	XrMath::clamp( angle, - XrMath::M_PI/3, 0.f );
 	return angle;
 }
 
@@ -349,7 +349,7 @@ IC void tri_plane(const CDB::TRI &tri, Fplane &p )
 {
 	Fvector*	pVerts	= Level( ).ObjectSpace.GetStaticVerts( );
 	p.n.mknormal	( pVerts[tri.verts[0]], pVerts[tri.verts[1]], pVerts[tri.verts[2]] );
-	VERIFY( !fis_zero( p.n.magnitude( ) ) );
+	VERIFY( !XrMath::fis_zero( p.n.magnitude( ) ) );
 	p.n.invert( );
 	p.d = -p.n.dotproduct( pVerts[tri.verts[0]] );
 }
@@ -362,14 +362,14 @@ void CIKLimb::make_shift(Fmatrix &xm, const Fplane &p,const Fvector &pick_dir )
 
 	float dot = p.n.dotproduct( shift );
 	
-	if( _abs( dot ) < min_dot )
+	if( XrMath::abs( dot ) < min_dot )
 	{
-		shift.add( Fvector( ).mul( p.n, min_dot - _abs( dot ) ) );
+		shift.add( Fvector( ).mul( p.n, min_dot - XrMath::abs( dot ) ) );
 		dot = p.n.dotproduct( shift );
 		//shift.set( p.n );
 		//dot = 1.f;
 	}
-	VERIFY( !fis_zero( dot ) );
+	VERIFY( !XrMath::fis_zero( dot ) );
 	float shift_m = ( -p.d - p.n.dotproduct( toe ) )/dot;
 	shift.mul( shift_m );
 	xm.c.add( shift );
@@ -387,10 +387,10 @@ void CIKLimb::GetFootStepMatrix( Fmatrix	&m, const Fmatrix &gl_anim, const  SIKC
 	Fmatrix xm; xm.set( gl_anim );
 	Fvector ax; ax.crossproduct( p.n, xm.i );
 	float s=ax.magnitude( );
-	clamp( s, 0.f, 1.f );
+	XrMath::clamp( s, 0.f, 1.f );
 	float angle = asinf( -s );
 	VERIFY( _valid( angle ) );
-	if( !fis_zero( s ) )
+	if( !XrMath::fis_zero( s ) )
 	{
 		ax.mul( 1.f/s );
 		if( collide )
@@ -424,7 +424,7 @@ IC float clamp_rotation( Fquaternion &q, float v )
 {
 	float angl;Fvector ax;
 	q.get_axis_angle( ax, angl );
-	float abs_angl = _abs( angl );
+	float abs_angl = XrMath::abs( angl );
 	if( abs_angl > v )
 	{
 		if( angl <  0.f ) v = -v;
@@ -472,7 +472,7 @@ void get_diff_avalue( const Fmatrix & m0, const Fmatrix &m1, float &l, float &a 
 	l = diff.c.magnitude( );
 	Fvector ax; 
 	get_axix_angle( diff, ax, a );
-	a = _abs( a );
+	a = XrMath::abs( a );
 }
 IC void get_blend_speed_limits(float& l,float& a, const SCalculateData& cd, const calculate_state	&sv_state )
 {
@@ -644,7 +644,7 @@ void CIKLimb::Collide( SIKCollideData &cld, CGameObject *O, const Fmatrix &foot,
 			CDB::TRI	* tri	= Level( ).ObjectSpace.GetStaticTris( ) + R.element;
 			tri_plane( *tri, cld.m_plane );
 			cld.m_collide.add( pos, Fvector( ).mul( pick_v, R.range ) );
-			cld.clamp_down = R.range > pick_dist + EPS_L;
+			cld.clamp_down = R.range > pick_dist + XrMath::EPS_L;
 		} else {
 			
 			IRenderVisual* V =R.O->Visual();
@@ -754,7 +754,7 @@ void CIKLimb::CalculateBones(SCalculateData &cd)
 void	DBG_DrawRotationLimitsY(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationY( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 255, 0 ), false, 1 );
+	DBG_DrawRotationY( start, ang - XrMath::EPS, ang + XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 0, 255, 0 ), false, 1 );
 	DBG_DrawRotationY( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 250, 0 ), true );
 #endif // DEBUG
 }
@@ -762,7 +762,7 @@ void	DBG_DrawRotationLimitsY(const Fmatrix &start,float ang, float l, float h )
 void	DBG_DrawRotationLimitsZ(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationZ( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 0, 255 ), false, 1 );
+	DBG_DrawRotationZ( start, ang - XrMath::EPS, ang + XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 0, 0, 255 ), false, 1 );
 	DBG_DrawRotationZ( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 0, 250 ), true );
 #endif // DEBUG
 }
@@ -770,7 +770,7 @@ void	DBG_DrawRotationLimitsZ(const Fmatrix &start,float ang, float l, float h )
 void	DBG_DrawRotationLimitsX(const Fmatrix &start,float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationX( start, ang + EPS, ang - EPS, 0.15f, D3DCOLOR_XRGB( 255, 0, 0 ), false, 1 );
+	DBG_DrawRotationX( start, ang + XrMath::EPS, ang - XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 255, 0, 0 ), false, 1 );
 	DBG_DrawRotationX( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 255, 0, 0 ), true );
 #endif // DEBUG
 }

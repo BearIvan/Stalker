@@ -253,9 +253,9 @@ void CUIMMShniaga::Update(){
 	{
 //		playing = true;
 		Fvector2 pos = m_shniaga->GetWndPos();
-		float l = 2*PI*m_anims[0]->GetHeight()/2;
-		int n = iFloor(pos.y/l);
-		float a = 2*PI*(pos.y - l*n)/l;
+		float l = 2*XrMath::M_PI*m_anims[0]->GetHeight()/2;
+		int n = XrMath::iFloor(pos.y/l);
+		float a = 2*XrMath::M_PI*(pos.y - l*n)/l;
 		m_anims[0]->SetHeading(-a);
 		m_anims[1]->SetHeading(a);
 

@@ -292,22 +292,22 @@ u32 CPersonalMaxHealth::dwfGetDiscreteValue(u32 dwDiscretizationValue)
 			return(dwDiscretizationValue - 1);
 		else {
 			if (fTemp <= 30)
-				return(iFloor(1*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(1*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 50)
-				return(iFloor(2*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(2*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 80)
-				return(iFloor(3*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(3*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 100)
-				return(iFloor(4*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(4*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 150)
-				return(iFloor(5*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(5*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 250)
-				return(iFloor(6*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(6*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 500)
-				return(iFloor(7*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(7*float(dwDiscretizationValue)/10 + .5f));
 			if (fTemp <= 750)
-				return(iFloor(8*float(dwDiscretizationValue)/10 + .5f));
-			return(iFloor(9*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(8*float(dwDiscretizationValue)/10 + .5f));
+			return(XrMath::iFloor(9*float(dwDiscretizationValue)/10 + .5f));
 		}
 }
 
@@ -377,7 +377,7 @@ float CMainWeaponPreference::ffGetValue()
 	else {
 		CSE_ALifeHumanAbstract	*l_tpALifeHumanAbstract = smart_cast<CSE_ALifeHumanAbstract*>(ef_storage().alife().member());
 		R_ASSERT2				(l_tpALifeHumanAbstract,"Non-human object in EquipmentPreference evaluation function");
-		return					(l_tpALifeHumanAbstract->brain().m_cpMainWeaponPreferences[ef_storage().m_pfMainWeaponType->dwfGetDiscreteValue(iFloor(ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f))]);
+		return					(l_tpALifeHumanAbstract->brain().m_cpMainWeaponPreferences[ef_storage().m_pfMainWeaponType->dwfGetDiscreteValue(XrMath::iFloor(ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f))]);
 	}
 }
 #else
@@ -416,7 +416,7 @@ float CMainWeaponPreference::ffGetValue()
 	else {
 		CSE_ALifeHumanAbstract	*l_tpALifeHumanAbstract = smart_cast<CSE_ALifeHumanAbstract*>(ef_storage().alife().member());
 		R_ASSERT2				(l_tpALifeHumanAbstract,"Non-human object in EquipmentPreference evaluation function");
-		return					(l_tpALifeHumanAbstract->m_cpMainWeaponPreferences[ef_storage().m_pfMainWeaponType->dwfGetDiscreteValue(iFloor(ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f))]);
+		return					(l_tpALifeHumanAbstract->m_cpMainWeaponPreferences[ef_storage().m_pfMainWeaponType->dwfGetDiscreteValue(XrMath::iFloor(ef_storage().m_pfMainWeaponType->ffGetMaxResultValue() + .5f))]);
 	}
 }
 #endif
@@ -474,11 +474,11 @@ u32	 CWeaponAmmoCount::dwfGetDiscreteValue(u32 dwDiscretizationValue)
 			const CSE_ALifeItemWeapon	*l_tpALifeItemWeapon = smart_cast<const CSE_ALifeItemWeapon*>(ef_storage().alife().member_item());
 			if (l_tpALifeItemWeapon && l_tpALifeItemWeapon->m_caAmmoSections) {
 				string32		S;
-				_GetItem		(l_tpALifeItemWeapon->m_caAmmoSections,0,S);
+				XrTrims::GetItem		(l_tpALifeItemWeapon->m_caAmmoSections,0,S);
 				u32				l_dwBoxSize = pSettings->r_s32(S,"box_size");
 				if (fTemp <= 3*l_dwBoxSize)
-					return(iFloor(1*float(dwDiscretizationValue)/10 + .5f));
-				return(iFloor(2*float(dwDiscretizationValue)/10 + .5f));
+					return(XrMath::iFloor(1*float(dwDiscretizationValue)/10 + .5f));
+				return(XrMath::iFloor(2*float(dwDiscretizationValue)/10 + .5f));
 			}
 			else
 				return(dwDiscretizationValue - 1);

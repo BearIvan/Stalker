@@ -12,7 +12,7 @@ CUIProgressShape::CUIProgressShape()
 //	AttachChild		(m_pTexture);	
 	m_blend			= true;
 	m_angle_begin	= 0.0f;
-	m_angle_end		= PI_MUL_2;
+	m_angle_end		= XrMath::PI_MUL_2;
 };
 
 CUIProgressShape::~CUIProgressShape()
@@ -100,8 +100,8 @@ void CUIProgressShape::Draw()
 	float		radius_tex			= tex_rect.width()/2.0f;
 
 	float		curr_angle			=  m_angle_begin;
-	float		sin_a				= _sin(curr_angle);
-	float		cos_a				= _cos(curr_angle);
+	float		sin_a				= XrMath::sin(curr_angle);
+	float		cos_a				= XrMath::cos(curr_angle);
 	Fvector2	start_pos_pt,	prev_pos_pt;
 	Fvector2	start_tex_pt,	prev_tex_pt;
 	
@@ -114,7 +114,7 @@ void CUIProgressShape::Draw()
 	_make_rot_tex(prev_pos_pt, start_pos_pt.y, sin_a, cos_a);
 	_make_rot_tex(prev_tex_pt, start_tex_pt.y, sin_a, cos_a);
 
-	float angle_range = PI_MUL_2;
+	float angle_range = XrMath::PI_MUL_2;
 	if ( m_bClockwise )
 	{
 		angle_range = -abs( m_angle_end - m_angle_begin );
@@ -146,8 +146,8 @@ void CUIProgressShape::Draw()
 
 		curr_angle					+= angle_range/float(m_sectorCount);
 
-		sin_a						= _sin(curr_angle);
-		cos_a						= _cos(curr_angle);
+		sin_a						= XrMath::sin(curr_angle);
+		cos_a						= XrMath::cos(curr_angle);
 
 		_make_rot_tex(prev_pos_pt, start_pos_pt.y, sin_a, cos_a);
 		_make_rot_tex(prev_tex_pt, start_tex_pt.y, sin_a, cos_a);

@@ -226,7 +226,7 @@ for( u8 i=0;i<3;++i){
 IC bool normalize_if_possible( dReal *v )
 {
 	dReal sqr_magnitude = dDOT(v,v);
-	if( sqr_magnitude < EPS_S )
+	if( sqr_magnitude < XrMath::EPS_S )
 		return false;
 	dReal	l	=	dRecipSqrt(sqr_magnitude);
 		v[0]		*=	l;

@@ -250,7 +250,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
     while (!F->eof())
     {
         F->r_string(str, sizeof(str));
-        _Trim(str);
+		XrTrims::Trim(str);
         LPSTR comm = strchr(str, ';');
         LPSTR comm_1 = strchr(str, '/');
 
@@ -285,11 +285,10 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
             }
         }
 
-
         if (str[0] && (str[0] == '#') && strstr(str, "#include")) //handle includes
         {
             string_path inc_name;
-            if (_GetItem(str, 1, inc_name, '"'))
+            if (XrTrims::GetItem(str, 1, inc_name, '"'))
             {
                 string_path fn, inc_path, folder;
                 strconcat(sizeof(fn), fn, path, inc_name);
@@ -332,13 +331,13 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
             {
                 VERIFY2(m_flags.test(eReadOnly), "Allow for readonly mode only.");
                 inherited_names += 2;
-                u32 cnt = _GetItemCount(inherited_names);
+                u32 cnt = XrTrims::GetItemCount(inherited_names);
                 u32 total_count = 0;
                 u32 k = 0;
                 for (k = 0; k < cnt; ++k)
                 {
                     string512 tmp;
-                    _GetItem(inherited_names, k, tmp);
+                    XrTrims::GetItem(inherited_names, k, tmp);
                     Sect& inherited_section = r_section(tmp);
                     total_count += inherited_section.Data.size();
                 }
@@ -348,7 +347,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                 for (k = 0; k < cnt; ++k)
                 {
                     string512 tmp;
-                    _GetItem(inherited_names, k, tmp);
+                    XrTrims::GetItem(inherited_names, k, tmp);
                     Sect& inherited_section = r_section(tmp);
                     for (SectIt_ it = inherited_section.Data.begin(); it != inherited_section.Data.end(); it++)
                         insert_item(Current, *it);
@@ -367,7 +366,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                 if (t)
                 {
                     *t = 0;
-                    _Trim(name);
+                    XrTrims::Trim(name);
                     ++t;
                     xr_strcpy(value_raw, sizeof(value_raw), t);
                     bInsideSTR = _parse(str2, value_raw);
@@ -398,7 +397,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                 }
                 else
                 {
-                    _Trim(name);
+					XrTrims::Trim(name);
                     str2[0] = 0;
                 }
 
@@ -473,7 +472,7 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
                 // no name, so no value
                 temp[0] = 0;
             }
-            _TrimRight(temp);
+			XrTrims::TrimRight(temp);
             if (temp[0]) writer.w_string(temp);
         }
         writer.w_string(" ");

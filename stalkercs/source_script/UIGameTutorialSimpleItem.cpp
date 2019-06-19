@@ -148,7 +148,7 @@ void CUISequenceSimpleItem::Update			()
 	SubItemVecIt _E					= m_subitems.end();
 	for(;_I!=_E;++_I){
 		SSubItem& s					= *_I;
-		bool bPlaying				= (gt>(m_time_start+s.m_start-EPS))&&(gt<(m_time_start+s.m_start+s.m_length+EPS));
+		bool bPlaying				= (gt>(m_time_start+s.m_start-XrMath::EPS))&&(gt<(m_time_start+s.m_start+s.m_length+XrMath::EPS));
 		if (true==bPlaying&&(false==s.m_visible))			s.Start	();
 		else if ((false==bPlaying)&&(true==s.m_visible))	s.Stop	();
 	}

@@ -58,7 +58,7 @@ void CCoverEvaluatorCloseToEnemy::evaluate_cover	(const CCoverPoint *cover_point
 	//float					y,p;
 	//direction.sub			(m_enemy_position,cover_point->position());
 	//direction.getHP		(y,p);
-	//y						= angle_normalize(y);
+	//y						= XrMath::angle_normalize(y);
 	//float					cover_value = ai().level_graph().cover_in_direction(y,cover_point->level_vertex_id());
 	//if (cover_value >= m_best_value)
 	//	return;
@@ -98,7 +98,7 @@ void CCoverEvaluatorFarFromEnemy::evaluate_cover	(const CCoverPoint *cover_point
 //	float					y,p;
 //	direction.sub			(m_enemy_position,cover_point->position());
 //	direction.getHP			(y,p);
-//	y						= angle_normalize(y);
+//	y						= XrMath::angle_normalize(y);
 //	float					cover_value = ai().level_graph().cover_in_direction(y,cover_point->level_vertex_id());
 	if (enemy_distance <= -m_best_value)
 		return;
@@ -119,7 +119,7 @@ bool CCoverEvaluatorBest::threat_on_the_way			(Fvector const& cover_position) co
 {
 	Fvector const start_to_cover			= Fvector().sub(cover_position, m_start_position);
 	float const start_to_cover_magnitude	= start_to_cover.magnitude();
-	if (start_to_cover_magnitude < EPS_L)
+	if (start_to_cover_magnitude < XrMath::EPS_L)
 		return								(false);
 
 	Fvector const start_to_threat			= Fvector().sub(m_enemy_position, m_start_position);
@@ -128,7 +128,7 @@ bool CCoverEvaluatorBest::threat_on_the_way			(Fvector const& cover_position) co
 	float const start_to_threat_magnitude	= start_to_threat.magnitude();
 	float const cos_alpha					= projection/start_to_threat_magnitude;
 	float const angle						= acosf(cos_alpha);
-	if (angle >= PI_DIV_6)
+	if (angle >= XrMath::PI_DIV_6)
 		return								(false);
 
 	if (projection > start_to_cover_magnitude*1.5f)
@@ -139,7 +139,7 @@ bool CCoverEvaluatorBest::threat_on_the_way			(Fvector const& cover_position) co
 
 void CCoverEvaluatorBest::evaluate_cover			(const CCoverPoint *cover_point, float weight)
 {
-	if (fis_zero(weight))
+	if (XrMath::fis_zero(weight))
 		return;
 
 	if (m_use_smart_covers_only && !cover_point->m_is_smart_cover)
@@ -160,11 +160,11 @@ void CCoverEvaluatorBest::evaluate_cover			(const CCoverPoint *cover_point, floa
 	float					y,p;
 	direction.sub			(m_enemy_position,cover_point->position());
 	direction.getHP			(y,p);
-	y						= angle_normalize(y);
+	y						= XrMath::angle_normalize(y);
 
 	float					high_cover_value = ai().level_graph().high_cover_in_direction(y,cover_point->level_vertex_id());
 	float					low_cover_value = ai().level_graph().low_cover_in_direction(y,cover_point->level_vertex_id());
-	float					cover_value = _min(high_cover_value, low_cover_value);
+	float					cover_value = XrMath::min(high_cover_value, low_cover_value);
 	float					value = cover_value;
 	if (ai().level_graph().neighbour_in_direction(direction,cover_point->level_vertex_id()))
 		value				+= 10.f;
@@ -220,10 +220,10 @@ void CCoverEvaluatorAngle::initialize				(const Fvector &start_position, bool fa
 	m_direction.normalize_safe	();
 	float						best_value = -1.f;
 	float						m_best_angle = 0.f;
-	for (float alpha = 0.f, step = PI_MUL_2/360.f; alpha < PI_MUL_2; alpha += step) {
-		float					high_value = ai().level_graph().compute_high_square(alpha,PI_DIV_2,m_level_vertex_id);
-		float					low_value = ai().level_graph().compute_low_square(alpha,PI_DIV_2,m_level_vertex_id);
-		float					value = _max(high_value, low_value);
+	for (float alpha = 0.f, step = XrMath::PI_MUL_2/360.f; alpha < XrMath::PI_MUL_2; alpha += step) {
+		float					high_value = ai().level_graph().compute_high_square(alpha,XrMath::PI_DIV_2,m_level_vertex_id);
+		float					low_value = ai().level_graph().compute_low_square(alpha,XrMath::PI_DIV_2,m_level_vertex_id);
+		float					value = XrMath::max(high_value, low_value);
 		if (value > best_value) {
 			best_value			= value;
 			m_best_angle		= alpha;
@@ -268,7 +268,7 @@ void CCoverEvaluatorSafe::evaluate_cover			(const CCoverPoint *cover_point, floa
 
 	float					high_cover_value = ai().level_graph().vertex_high_cover(cover_point->level_vertex_id());
 	float					low_cover_value = ai().level_graph().vertex_low_cover(cover_point->level_vertex_id());
-	float					cover_value = _min(high_cover_value, low_cover_value);
+	float					cover_value = XrMath::min(high_cover_value, low_cover_value);
 	if (cover_value >= m_best_value)
 		return;
 
@@ -294,7 +294,7 @@ void CCoverEvaluatorAmbush::setup					(const Fvector &my_position, const Fvector
 	m_actuality				= m_actuality && m_enemy_position.similar(enemy_position,5.f);
 	m_enemy_position		= enemy_position;
 
-	m_actuality				= m_actuality && fsimilar(m_min_enemy_distance,min_enemy_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_min_enemy_distance,min_enemy_distance);
 	m_min_enemy_distance	= min_enemy_distance;
 }
 
@@ -311,17 +311,17 @@ void CCoverEvaluatorAmbush::evaluate_cover			(const CCoverPoint *cover_point, fl
 
 	direction.sub			(m_enemy_position,cover_point->position());
 	direction.getHP			(y,p);
-	y						= angle_normalize(y);
+	y						= XrMath::angle_normalize(y);
 	float					high_cover_from_enemy = ai().level_graph().high_cover_in_direction(y,cover_point->level_vertex_id());
 	float					low_cover_from_enemy  = ai().level_graph().low_cover_in_direction(y,cover_point->level_vertex_id());
-	float					cover_from_enemy  = _min(high_cover_from_enemy, low_cover_from_enemy);
+	float					cover_from_enemy  = XrMath::min(high_cover_from_enemy, low_cover_from_enemy);
 
 	direction.sub			(m_my_position,cover_point->position());
 	direction.getHP			(y,p);
-	y						= angle_normalize(y);
+	y						= XrMath::angle_normalize(y);
 	float					high_cover_from_myself = ai().level_graph().high_cover_in_direction(y,cover_point->level_vertex_id());
 	float					low_cover_from_myself = ai().level_graph().low_cover_in_direction(y,cover_point->level_vertex_id());
-	float					cover_from_myself = _min(high_cover_from_myself, low_cover_from_myself);
+	float					cover_from_myself = XrMath::min(high_cover_from_myself, low_cover_from_myself);
 
 	float					value = cover_from_enemy/cover_from_myself;
 	if (value >= m_best_value)

@@ -26,7 +26,7 @@
 #include "alife_simulator.h"
 #include "alife_group_registry.h"
 #include "alife_object_registry.h"
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/Xrvector3d2.h"
 #include "xrServer_Objects_Alife_Monsters.h"
 
 using namespace MonsterSpace;
@@ -42,7 +42,7 @@ void CBaseMonster::GenerateNewOffsetFromLeader ()
 	float const offset_magnitude	=	min_squad_offset + (max_squad_offset-min_squad_offset)*Random.randF(1.f);
 	Fvector		offset				=	Fvector().set(offset_magnitude, 0, 0);
 
-	m_offset_from_leader				=	rotate_point(offset, deg2rad(360.f) * Random.randF(1.f));
+	m_offset_from_leader				=	rotate_point(offset, XrMath::deg2rad(360.f) * Random.randF(1.f));
 	m_offset_from_leader_chosen_tick	=	Device.dwTimeGlobal;
 }
 

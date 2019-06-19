@@ -71,7 +71,7 @@ void CUIGameLog::AddChatMessage(LPCSTR msg, LPCSTR author){
 	LPSTR fullLine;
 	STRCONCAT(fullLine, author, " ", msg);
 
-	_TrimRight(fullLine);
+	XrTrims::TrimRight(fullLine);
     
 	CUIStatic* pItem = NULL;
 

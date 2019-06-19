@@ -247,7 +247,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	}
 #endif
 	VERIFY							(_valid(renderable.xform));
-	VERIFY							(!fis_zero(DET(renderable.xform)));
+	VERIFY							(!XrMath::fis_zero(DET(renderable.xform)));
 	CSE_ALifeObject					*O = smart_cast<CSE_ALifeObject*>(E);
 	if (O && xr_strlen(O->m_ini_string)) {
 #pragma warning(push)
@@ -349,7 +349,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 					) &&
 					can_validate_position_on_spawn()
 				)
-				Position().y		= EPS_L + ai().level_graph().vertex_plane_y(*ai_location().level_vertex(),Position().x,Position().z);
+				Position().y		= XrMath::EPS_L + ai().level_graph().vertex_plane_y(*ai_location().level_vertex(),Position().x,Position().z);
 		
 		}
  		inherited::net_Spawn	(DC);
@@ -468,14 +468,14 @@ void CGameObject::spawn_supplies()
 		
 		float f_cond						= 1.0f;
 		if (V && xr_strlen(V)) {
-			int				n = _GetItemCount(V);
+			int				n = XrTrims::GetItemCount(V);
 			string16		temp;
 			if (n > 0)
-				j			= atoi(_GetItem(V,0,temp)); //count
+				j			= atoi(XrTrims::GetItem(V,0,temp)); //count
 			
 			if(NULL!=strstr(V,"prob="))
 				p			=(float)atof(strstr(V,"prob=")+5);
-			if (fis_zero(p))p = 1.f;
+			if (XrMath::fis_zero(p))p = 1.f;
 			if (!j)	j		= 1;
 			if(NULL!=strstr(V,"cond="))
 				f_cond		= (float)atof(strstr(V,"cond=")+5);

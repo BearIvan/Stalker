@@ -33,7 +33,7 @@ struct priority {
 			return				(false);
 
 		return					(
-			!!fis_zero(
+			!!XrMath::fis_zero(
 				object->position().distance_to_sqr(
 					object->predict_position(1.f)
 				)
@@ -415,7 +415,7 @@ void moving_objects::generate_collisions		(moving_object *object)
 	Fvector						dest_position = object->predict_position(time_to_check);
 	float						linear_velocity = dest_position.distance_to(object->position())/time_to_check;
 	float						distance_to_check = time_to_check*linear_velocity;
-	u32							step_count = iFloor(distance_to_check/step_to_check + .5f);
+	u32							step_count = XrMath::iFloor(distance_to_check/step_to_check + .5f);
 	for (u32 i=0; (i<step_count) && !m_nearest_moving.empty(); ++i, remove_already_waited()) {
 		if (!i) {
 			if (!fill_collisions(object,object->position(),0.f))

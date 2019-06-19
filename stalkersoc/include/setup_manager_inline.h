@@ -111,7 +111,7 @@ IC	void CSSetupManager::select_action				()
 		for ( ; I != E; ++I)
 			if (((*I).first != m_current_action_id) && (*I).second->applicable())
 				m_total_weight += (*I).second->weight();
-		VERIFY				(!fis_zero(m_total_weight));
+		VERIFY				(!XrMath::fis_zero(m_total_weight));
 
 		float				m_random = ::Random.randF(m_total_weight);
 		m_total_weight		= 0.f;

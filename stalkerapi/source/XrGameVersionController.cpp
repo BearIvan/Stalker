@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "XrGameVersionController.h"
 
-XRAPI_API const char*	ENGINE_VERSION = "1.7.01";
+XRAPI_API const char*	ENGINE_VERSION = "1.8.00_RC0";
 
 XRAPI_API GameVersionController* gameVersionController=NULL;
 

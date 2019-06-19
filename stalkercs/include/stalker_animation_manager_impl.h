@@ -20,7 +20,7 @@ IC	bool CStalkerAnimationManager::standing										() const
 	CAI_Stalker				&obj = object();
 	stalker_movement_manager_smart_cover	&movement = obj.movement();
 	
-	if (movement.speed(obj.character_physics_support()->movement()) < EPS_L)
+	if (movement.speed(obj.character_physics_support()->movement()) < XrMath::EPS_L)
 		return				(true);
 
 	if (eMovementTypeStand == movement.movement_type())

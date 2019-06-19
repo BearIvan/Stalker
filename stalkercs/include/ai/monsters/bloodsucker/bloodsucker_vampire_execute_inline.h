@@ -102,7 +102,7 @@ bool CStateBloodsuckerVampireExecuteAbstract::check_start_conditions()
 	if ((dist > VAMPIRE_MAX_DIST) || (dist < VAMPIRE_MIN_DIST))	return false;
 
 	// проверить направление на врага
-	if (!object->control().direction().is_face_target(enemy, PI_DIV_6)) return false;
+	if (!object->control().direction().is_face_target(enemy, XrMath::PI_DIV_6)) return false;
 
 	return true;
 }

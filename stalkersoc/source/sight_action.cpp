@@ -88,7 +88,7 @@ void CSightAction::remove_links					(CObject *object)
 
 bool CSightAction::target_reached				()
 {
-	return				(!!fsimilar(object().movement().m_head.target.yaw,object().movement().m_head.current.yaw));
+	return				(!!XrMath::fsimilar(object().movement().m_head.target.yaw,object().movement().m_head.current.yaw));
 }
 
 void CSightAction::execute_current_direction	()
@@ -157,7 +157,7 @@ void CSightAction::execute_object				()
 void CSightAction::execute_cover				()
 {
 	if (m_torso_look)
-		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),PI,m_path);
+		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),XrMath::M_PI,m_path);
 	else
 		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),m_path);
 #ifdef SIGHT_TEST
@@ -169,10 +169,10 @@ void CSightAction::execute_search				()
 {
 	m_torso_look					= false;
 	if (m_torso_look)
-		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),PI,m_path);
+		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),XrMath::M_PI,m_path);
 	else
 		object().sight().SetLessCoverLook(m_object->ai_location().level_vertex(),m_path);
-	object().movement().m_head.target.pitch	= PI_DIV_4;
+	object().movement().m_head.target.pitch	= XrMath::PI_DIV_4;
 #ifdef SIGHT_TEST
 	Msg					("%6d %s",Device.dwTimeGlobal,m_torso_look ? "eSightTypeFireSearch" : "eSightTypeSearch");
 #endif
@@ -196,7 +196,7 @@ void CSightAction::execute_cover_look_over		()
 				m_start_state_time	= Device.dwTimeGlobal;
 				m_stop_state_time	= 3500;
 				m_internal_state	= 1;
-				object().movement().m_head.target.yaw = m_cover_yaw + ::Random.randF(-PI_DIV_8,PI_DIV_8);
+				object().movement().m_head.target.yaw = m_cover_yaw + ::Random.randF(-XrMath::PI_DIV_8,XrMath::PI_DIV_8);
 			}
 			break;
 		}
@@ -230,7 +230,7 @@ bool CSightAction::change_head_speed			() const
 float CSightAction::head_speed					() const
 {
 	VERIFY	(SightManager::eSightTypeCoverLookOver == m_sight_type);
-	return	(PI_DIV_8*.5f);
+	return	(XrMath::PI_DIV_8*.5f);
 }
 
 void CSightAction::initialize_fire_object		()

@@ -14,8 +14,8 @@ CVampirePPEffector::CVampirePPEffector(const SPPInfo &ppi, float life_time) :
 
 #define TIME_ATTACK		0.2f
 #define PERIODS			2			
-#define RAD_TO_PERC(rad)	((rad - PI_DIV_2) / (PERIODS * PI_MUL_2))
-#define PERC_TO_RAD(perc)	(perc * (PERIODS * PI_MUL_2) + PI_DIV_2)
+#define RAD_TO_PERC(rad)	((rad - XrMath::PI_DIV_2) / (PERIODS * XrMath::PI_MUL_2))
+#define PERC_TO_RAD(perc)	(perc * (PERIODS * XrMath::PI_MUL_2) + XrMath::PI_DIV_2)
 
 BOOL CVampirePPEffector::Process(SPPInfo& pp)
 {
@@ -31,10 +31,10 @@ BOOL CVampirePPEffector::Process(SPPInfo& pp)
 		factor = 0.75f * (1-time_past_perc) / TIME_ATTACK;
 	} else {	
 		float time_past_sine_perc = (time_past_perc - TIME_ATTACK) * (1 / ( 1 - TIME_ATTACK + TIME_ATTACK));
-		factor = 0.5f + 0.25f * _sin(PERC_TO_RAD(time_past_sine_perc));
+		factor = 0.5f + 0.25f * XrMath::sin(PERC_TO_RAD(time_past_sine_perc));
 	}
 	
-	clamp(factor,0.01f,1.0f);
+	XrMath::clamp(factor,0.01f,1.0f);
 	pp.lerp				(pp_identity, state, factor);
 
 	return TRUE;
@@ -43,7 +43,7 @@ BOOL CVampirePPEffector::Process(SPPInfo& pp)
 //////////////////////////////////////////////////////////////////////////
 // Vampire Camera Effector
 //////////////////////////////////////////////////////////////////////////
-#define DELTA_ANGLE_X	10 * PI / 180
+#define DELTA_ANGLE_X	10 * XrMath::M_PI / 180
 #define DELTA_ANGLE_Y	DELTA_ANGLE_X
 #define DELTA_ANGLE_Z	DELTA_ANGLE_X
 #define ANGLE_SPEED		0.2f	
@@ -90,7 +90,7 @@ BOOL CVampireCameraEffector::Process(Fvector &p, Fvector &d, Fvector &n, float& 
 	// using formula: y = k - 2*k*abs(x-1/2)   k - max distance
 	//float	cur_dist = m_dist * (1 - 2*_abs((1-time_left_perc) - 0.5f));
 	float time_passed	= 1-time_left_perc;
-	float cur_dist		= m_dist * (_sqrt(0.5f*0.5f - (time_passed - 0.5f)*(time_passed - 0.5f)) );
+	float cur_dist		= m_dist * (XrMath::sqrt(0.5f*0.5f - (time_passed - 0.5f)*(time_passed - 0.5f)) );
 
 	Mdef.c.mad(m_direction, cur_dist);
 	
@@ -101,21 +101,21 @@ BOOL CVampireCameraEffector::Process(Fvector &p, Fvector &d, Fvector &n, float& 
 		dangle_target.y = 0.f;
 		dangle_target.z = 0.f;
 
-		angle_lerp(dangle_current.x, dangle_target.x, _abs(dangle_current.x / fLifeTime + 0.001f), Device.fTimeDelta);
-		angle_lerp(dangle_current.y, dangle_target.y, _abs(dangle_current.y / fLifeTime + 0.001f), Device.fTimeDelta);
-		angle_lerp(dangle_current.z, dangle_target.z, _abs(dangle_current.z / fLifeTime + 0.001f), Device.fTimeDelta);
+		XrMath::angle_lerp(dangle_current.x, dangle_target.x, XrMath::abs(dangle_current.x / fLifeTime + 0.001f), Device.fTimeDelta);
+		XrMath::angle_lerp(dangle_current.y, dangle_target.y, XrMath::abs(dangle_current.y / fLifeTime + 0.001f), Device.fTimeDelta);
+		XrMath::angle_lerp(dangle_current.z, dangle_target.z, XrMath::abs(dangle_current.z / fLifeTime + 0.001f), Device.fTimeDelta);
 
 	} else {
 		
-		if (angle_lerp(dangle_current.x, dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
+		if (XrMath::angle_lerp(dangle_current.x, dangle_target.x, ANGLE_SPEED, Device.fTimeDelta)) {
 			dangle_target.x = Random.randFs(DELTA_ANGLE_X);
 		}
 
-		if (angle_lerp(dangle_current.y, dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
+		if (XrMath::angle_lerp(dangle_current.y, dangle_target.y, ANGLE_SPEED, Device.fTimeDelta)) {
 			dangle_target.y = Random.randFs(DELTA_ANGLE_Y);
 		}
 
-		if (angle_lerp(dangle_current.z, dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
+		if (XrMath::angle_lerp(dangle_current.z, dangle_target.z, ANGLE_SPEED, Device.fTimeDelta)) {
 			dangle_target.z = Random.randFs(DELTA_ANGLE_Z);
 		}
 	}

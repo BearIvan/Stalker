@@ -375,7 +375,7 @@ void CCharacterPhysicsSupport::in_shedule_Update( u32 DT )
 	LPSTR dbg_stalker_death_anim = sdbg_stalker_death_anim;
 #endif
 BOOL  b_death_anim_velocity = TRUE;
-const float cmp_angle = M_PI/10.f;
+const float cmp_angle = XrMath::M_PI/10.f;
 const float cmp_ldisp = 0.1f;
 IC bool cmp( const Fmatrix &f0, const Fmatrix &f1 )
 {
@@ -398,7 +398,7 @@ bool is_similar( const Fmatrix &m0, const Fmatrix &m1, float param )
 	Fquaternion q;
 	q.set( tmp2 );
 	q.get_axis_angle( ax, ang );
-	return _abs( ang )<M_PI/2.f;
+	return XrMath::abs( ang )<XrMath::M_PI/2.f;
 }
 
 void CCharacterPhysicsSupport::KillHit( SHit &H )
@@ -695,7 +695,7 @@ bool CCharacterPhysicsSupport::CollisionCorrectObjPos(const Fvector& start_from,
 	}
 	if( !character_create )
 			activation_shape.set_rotation( mXFORM );
-	bool ret = activation_shape.Activate(vbox,1,1.f,M_PI/8.f);
+	bool ret = activation_shape.Activate(vbox,1,1.f,XrMath::M_PI/8.f);
 	m_EntityAlife.Position().sub(activation_shape.Position(),shift);
 
 	activation_shape.Destroy();
@@ -1151,7 +1151,7 @@ if( dbg_draw_ragdoll_spawn )
 
 
 
-	//if( false &&  anim_mov_ctrl && anim_mov_blend && anim_mov_blend->blend != CBlend::eFREE_SLOT &&  anim_mov_blend->timeCurrent + Device.fTimeDelta*anim_mov_blend->speed < anim_mov_blend->timeTotal-SAMPLE_SPF-EPS)//.
+	//if( false &&  anim_mov_ctrl && anim_mov_blend && anim_mov_blend->blend != CBlend::eFREE_SLOT &&  anim_mov_blend->timeCurrent + Device.fTimeDelta*anim_mov_blend->speed < anim_mov_blend->timeTotal-SAMPLE_SPF-XrMath::EPS)//.
 	//{
 	//	const Fmatrix sv_xform = mXFORM;
 	//	mXFORM.set( start_xform );
@@ -1291,7 +1291,7 @@ void						CCharacterPhysicsSupport::FlyTo(const	Fvector &disp)
 {
 		R_ASSERT(m_pPhysicsShell);
 		float ammount=disp.magnitude();
-		if(fis_zero(ammount,EPS_L))	return;
+		if(XrMath::fis_zero(ammount,XrMath::EPS_L))	return;
 		ph_world->Freeze();
 		bool g=m_pPhysicsShell->get_ApplyByGravity();
 		m_pPhysicsShell->set_ApplyByGravity(false);

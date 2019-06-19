@@ -300,10 +300,10 @@ void CHelicopter::MoveStep()
 		dir.normalize_safe();
 		pathDir = dir;
 		dir.getHP(desired_H, desired_P);
-		float speed_ = _min(m_movement.GetSpeedInDestPoint(), GetMaxVelocity() );
+		float speed_ = XrMath::min(m_movement.GetSpeedInDestPoint(), GetMaxVelocity() );
 
 		static float ang = pSettings->r_float	(cNameSect(),"magic_angle");
-		if(m_movement.curLinearSpeed>GetMaxVelocity() || angle_difference(m_movement.currPathH,desired_H)>ang)
+		if(m_movement.curLinearSpeed>GetMaxVelocity() || XrMath::angle_difference(m_movement.currPathH,desired_H)>ang)
 			m_movement.curLinearAcc = -m_movement.LinearAcc_bk;
 		else
 			m_movement.curLinearAcc = GetCurrAcc(	m_movement.curLinearSpeed,
@@ -313,8 +313,8 @@ void CHelicopter::MoveStep()
 													-m_movement.LinearAcc_bk);
 
 
-		angle_lerp	(m_movement.currPathH, desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
-		angle_lerp	(m_movement.currPathP, desired_P, m_movement.GetAngSpeedPitch(m_movement.curLinearSpeed), STEP);
+		XrMath::angle_lerp	(m_movement.currPathH, desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
+		XrMath::angle_lerp	(m_movement.currPathP, desired_P, m_movement.GetAngSpeedPitch(m_movement.curLinearSpeed), STEP);
 		
 		dir.setHP(m_movement.currPathH, m_movement.currPathP);
 
@@ -324,11 +324,11 @@ void CHelicopter::MoveStep()
 		static bool aaa = false;
 		if(aaa)
 			Log("1-m_movement.curLinearSpeed=",m_movement.curLinearSpeed);
-		clamp(m_movement.curLinearSpeed,0.0f,1000.0f);
+		XrMath::clamp(m_movement.curLinearSpeed,0.0f,1000.0f);
 		if(aaa)
 			Log("2-m_movement.curLinearSpeed=",m_movement.curLinearSpeed);
 	}else{ //go stopping
-		if( !fis_zero(m_movement.curLinearSpeed) ){
+		if( !XrMath::fis_zero(m_movement.curLinearSpeed) ){
 			m_movement.curLinearAcc = -m_movement.LinearAcc_bk;
 
 			float vp = m_movement.curLinearSpeed*STEP+(m_movement.curLinearAcc*STEP*STEP)/2.0f;
@@ -336,8 +336,8 @@ void CHelicopter::MoveStep()
 			dir.normalize_safe();
 			m_movement.currP.mad	(dir, vp);
 			m_movement.curLinearSpeed += m_movement.curLinearAcc*STEP;
-			clamp(m_movement.curLinearSpeed,0.0f,1000.0f);
-//			clamp(m_movement.curLinearSpeed,0.0f,m_movement.maxLinearSpeed);
+			XrMath::clamp(m_movement.curLinearSpeed,0.0f,1000.0f);
+//			XrMath::clamp(m_movement.curLinearSpeed,0.0f,m_movement.maxLinearSpeed);
 
 		}else{
 			m_movement.curLinearAcc		= 0.0f;
@@ -352,25 +352,25 @@ void CHelicopter::MoveStep()
 
 		float center_desired_H,tmp_P;
 		desired_dir.getHP(center_desired_H, tmp_P);
-		angle_lerp			(m_body.currBodyHPB.x, center_desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
+		XrMath::angle_lerp			(m_body.currBodyHPB.x, center_desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
 	}else{
-		angle_lerp			(m_body.currBodyHPB.x, m_movement.currPathH, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
+		XrMath::angle_lerp			(m_body.currBodyHPB.x, m_movement.currPathH, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
 	}
 
 
 	float needBodyP = -m_body.model_pitch_k*m_movement.curLinearSpeed;
 	if(m_movement.curLinearAcc < 0) needBodyP*=-1;
-	angle_lerp	(m_body.currBodyHPB.y, needBodyP, m_body.model_angSpeedPitch, STEP);
+	XrMath::angle_lerp	(m_body.currBodyHPB.y, needBodyP, m_body.model_angSpeedPitch, STEP);
 
 
 	float sign;
 	Fvector cp;
 	cp.crossproduct (pathDir,dir);
 	(cp.y>0.0)?sign=1.0f:sign=-1.0f;
-	float ang_diff = angle_difference (m_movement.currPathH, desired_H);
+	float ang_diff = XrMath::angle_difference (m_movement.currPathH, desired_H);
 	
 	float needBodyB = -ang_diff*sign*m_body.model_bank_k*m_movement.curLinearSpeed;
-	angle_lerp	(m_body.currBodyHPB.z, needBodyB, m_body.model_angSpeedBank, STEP);
+	XrMath::angle_lerp	(m_body.currBodyHPB.z, needBodyB, m_body.model_angSpeedBank, STEP);
 	
 
 	XFORM().setHPB(m_body.currBodyHPB.x,m_body.currBodyHPB.y,m_body.currBodyHPB.z);

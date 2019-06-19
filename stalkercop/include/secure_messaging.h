@@ -2,7 +2,7 @@
 #define SECRET_KEY_GENERATOR_INCLUDED
 
 #include <boost/noncopyable.hpp>
-#include "tools/_random.h"
+#include "tools/Utilities/XrRandom.h"
 
 namespace secure_messaging
 {

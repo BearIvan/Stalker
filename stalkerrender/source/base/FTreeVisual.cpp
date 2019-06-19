@@ -104,13 +104,13 @@ struct	FTreeVisual_setup
 		dwFrame					= Device.dwFrame;
 
 		// Calc wind-vector3, scale
-		float	tm_rot			= PI_MUL_2*Device.fTimeGlobal/ps_r__Tree_w_rot;
-		wind.set				(_sin(tm_rot),0,_cos(tm_rot),0);	wind.normalize	();	wind.mul(ps_r__Tree_w_amp);	// dir1*amplitude
+		float	tm_rot			= XrMath::PI_MUL_2*Device.fTimeGlobal/ps_r__Tree_w_rot;
+		wind.set				(XrMath::sin(tm_rot),0,XrMath::cos(tm_rot),0);	wind.normalize	();	wind.mul(ps_r__Tree_w_amp);	// dir1*amplitude
 		scale					= 1.f/float(FTreeVisual_quant);
 
 		// setup constants
 		wave.set				(ps_r__Tree_Wave.x,	ps_r__Tree_Wave.y,	ps_r__Tree_Wave.z,	Device.fTimeGlobal*ps_r__Tree_w_speed);			// wave
-		wave.div				(PI_MUL_2);
+		wave.div				(XrMath::PI_MUL_2);
 	}
 };
 
@@ -261,7 +261,7 @@ void FTreeVisual_PM::Render		(float LOD)
 		inherited::Render(LOD);
 		int lod_id = last_lod;
 		if (LOD >= 0.f) {
-			lod_id = iFloor((1.f - LOD)*float(pSWI->count - 1) + 0.5f);
+			lod_id = XrMath::iFloor((1.f - LOD)*float(pSWI->count - 1) + 0.5f);
 			last_lod = lod_id;
 		}
 		VERIFY(lod_id >= 0 && lod_id<int(pSWI->count));

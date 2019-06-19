@@ -88,17 +88,17 @@ void CLensFlareDescriptor::load(CInifile* pIni, LPCSTR sect)
         LPCSTR R = pIni->r_string(sect, "flare_radius");
         LPCSTR O = pIni->r_string(sect, "flare_opacity");
         LPCSTR P = pIni->r_string(sect, "flare_position");
-        u32 tcnt = _GetItemCount(T);
+        u32 tcnt = XrTrims::GetItemCount(T);
         string256 name;
         for (u32 i = 0; i < tcnt; i++)
         {
-            _GetItem(R, i, name);
+            XrTrims::GetItem(R, i, name);
             float r = (float)atof(name);
-            _GetItem(O, i, name);
+            XrTrims::GetItem(O, i, name);
             float o = (float)atof(name);
-            _GetItem(P, i, name);
+            XrTrims::GetItem(P, i, name);
             float p = (float)atof(name);
-            _GetItem(T, i, name);
+            XrTrims::GetItem(T, i, name);
             AddFlare(r, o, p, name, S);
         }
     }
@@ -111,8 +111,8 @@ void CLensFlareDescriptor::load(CInifile* pIni, LPCSTR sect)
         float o = pIni->r_float(sect, "gradient_opacity");
         SetGradient(r, o, T, S);
     }
-    m_StateBlendUpSpeed = 1.f / (_max(pIni->r_float(sect, "blend_rise_time"), 0.f) + EPS_S);
-    m_StateBlendDnSpeed = 1.f / (_max(pIni->r_float(sect, "blend_down_time"), 0.f) + EPS_S);
+    m_StateBlendUpSpeed = 1.f / (XrMath::max(pIni->r_float(sect, "blend_rise_time"), 0.f) + XrMath::EPS_S);
+    m_StateBlendDnSpeed = 1.f / (XrMath::max(pIni->r_float(sect, "blend_down_time"), 0.f) + XrMath::EPS_S);
 
     OnDeviceCreate();
 }
@@ -203,7 +203,7 @@ IC BOOL material_callbackSOC(collide::rq_result& result, LPVOID params)
 	else {
 		CDB::TRI* T = g_pGameLevel->ObjectSpace.GetStaticTris() + result.element;
 		vis = g_pGamePersistent->MtlTransparent(T->material);
-		if (fis_zero(vis)) {
+		if (XrMath::fis_zero(vis)) {
 			Fvector* V = g_pGameLevel->ObjectSpace.GetStaticVerts();
 			fp->parent->getRayChache().set(fp->P, fp->D, fp->f, TRUE);
 			fp->parent->getRayChache().verts[0].set(V[T->verts[0]]);
@@ -242,7 +242,7 @@ IC BOOL material_callback(collide::rq_result& result, LPVOID params)
     {
         CDB::TRI* T = g_pGameLevel->ObjectSpace.GetStaticTris() + result.element;
         vis = g_pGamePersistent->MtlTransparent(T->material);
-        if (fis_zero(vis))
+        if (XrMath::fis_zero(vis))
         {
             Fvector* V = g_pGameLevel->ObjectSpace.GetStaticVerts();
             fp->pray_cache->set(fp->P, fp->D, fp->f, TRUE);
@@ -259,8 +259,8 @@ IC BOOL material_callback(collide::rq_result& result, LPVOID params)
 IC void blend_lerp(float& cur, float tgt, float speed, float dt)
 {
     float diff = tgt - cur;
-    float diff_a = _abs(diff);
-    if (diff_a < EPS_S) return;
+    float diff_a = XrMath::abs(diff);
+    if (diff_a < XrMath::EPS_S) return;
     float mot = speed*dt;
     if (mot > diff_a) mot = diff_a;
     cur += (diff / diff_a)*mot;
@@ -327,11 +327,11 @@ void CLensFlare::OnFrame(shared_str id)
         if (desc != m_Current) m_State = lfsHide;
         break;
     case lfsShow:
-        m_StateBlend = m_Current ? (m_StateBlend + m_Current->m_StateBlendUpSpeed * Device.fTimeDelta * tf) : 1.f + EPS;
+        m_StateBlend = m_Current ? (m_StateBlend + m_Current->m_StateBlendUpSpeed * Device.fTimeDelta * tf) : 1.f + XrMath::EPS;
         if (m_StateBlend >= 1.f) m_State = lfsIdle;
         break;
     case lfsHide:
-        m_StateBlend = m_Current ? (m_StateBlend - m_Current->m_StateBlendDnSpeed * Device.fTimeDelta * tf) : 0.f - EPS;
+        m_StateBlend = m_Current ? (m_StateBlend - m_Current->m_StateBlendDnSpeed * Device.fTimeDelta * tf) : 0.f - XrMath::EPS;
         if (m_StateBlend <= 0.f)
         {
             m_State = lfsShow;
@@ -341,7 +341,7 @@ void CLensFlare::OnFrame(shared_str id)
         break;
     }
     // Msg ("%6d : [%s] -> [%s]", Device.dwFrame, state_to_string(previous_state), state_to_string(m_State));
-    clamp(m_StateBlend, 0.f, 1.f);
+    XrMath::clamp(m_StateBlend, 0.f, 1.f);
 
     if ((m_Current == 0) || (LightColor.magnitude_rgb() == 0.f)) { bRender = false; return; }
 
@@ -416,7 +416,7 @@ void CLensFlare::OnFrame(shared_str id)
 
     CObject* o_main = g_pGameLevel->CurrentViewEntity();
     R_ASSERT(_valid(vSunDir));
-    STranspParam TP(&m_ray_cache[0], Device.vCameraPosition, vSunDir, 1000.f, EPS_L);
+    STranspParam TP(&m_ray_cache[0], Device.vCameraPosition, vSunDir, 1000.f, XrMath::EPS_L);
 
     R_ASSERT(_valid(TP.P));
     R_ASSERT(_valid(TP.D));
@@ -464,7 +464,7 @@ void CLensFlare::OnFrame(shared_str id)
 
     /*
     CObject* o_main = g_pGameLevel->CurrentViewEntity();
-    STranspParam TP (&m_ray_cache,Device.vCameraPosition,vSunDir,1000.f,EPS_L);
+    STranspParam TP (&m_ray_cache,Device.vCameraPosition,vSunDir,1000.f,XrMath::EPS_L);
     collide::ray_defs RD (TP.P,TP.D,TP.f,CDB::OPT_CULL,collide::rqtBoth);
     if (m_ray_cache.result&&m_ray_cache.similar(TP.P,TP.D,TP.f)){
     // similar with previous query == 0
@@ -485,7 +485,7 @@ void CLensFlare::OnFrame(shared_str id)
     */
     /*
      CObject* o_main = g_pGameLevel->CurrentViewEntity();
-     STranspParam TP (this,Device.vCameraPosition,vSunDir,1000.f,EPS_L);
+     STranspParam TP (this,Device.vCameraPosition,vSunDir,1000.f,XrMath::EPS_L);
      collide::ray_defs RD (TP.P,TP.D,TP.f,CDB::OPT_CULL,collide::rqtBoth);
      if (m_ray_cache.result&&m_ray_cache.similar(TP.P,TP.D,TP.f)){
      // similar with previous query == 0
@@ -504,7 +504,7 @@ void CLensFlare::OnFrame(shared_str id)
      blend_lerp(fBlend,TP.vis,BLEND_DEC_SPEED,Device.fTimeDelta);
      */
 #endif
-    clamp(fBlend, 0.0f, 1.0f);
+    XrMath::clamp(fBlend, 0.0f, 1.0f);
 
     // gradient
     if (m_Current->m_Flags.is(CLensFlareDescriptor::flGradient))
@@ -516,10 +516,10 @@ void CLensFlare::OnFrame(shared_str id)
         float sun_max = 2.5f;
         scr_pos.y *= -1;
 
-        if (_abs(scr_pos.x) > sun_blend) kx = ((sun_max - (float)_abs(scr_pos.x))) / (sun_max - sun_blend);
-        if (_abs(scr_pos.y) > sun_blend) ky = ((sun_max - (float)_abs(scr_pos.y))) / (sun_max - sun_blend);
+        if (XrMath::abs(scr_pos.x) > sun_blend) kx = ((sun_max - (float)XrMath::abs(scr_pos.x))) / (sun_max - sun_blend);
+        if (XrMath::abs(scr_pos.y) > sun_blend) ky = ((sun_max - (float)XrMath::abs(scr_pos.y))) / (sun_max - sun_blend);
 
-        if (!((_abs(scr_pos.x) > sun_max) || (_abs(scr_pos.y) > sun_max)))
+        if (!((XrMath::abs(scr_pos.x) > sun_max) || (XrMath::abs(scr_pos.y) > sun_max)))
         {
             float op = m_StateBlend*m_Current->m_Gradient.fOpacity;
             fGradientValue = kx * ky * op * fBlend;
@@ -550,11 +550,11 @@ void CLensFlare::OnFrame(int id)
 	case lfsNone: m_State = lfsShow; m_Current = desc; break;
 	case lfsIdle: if (desc != m_Current) m_State = lfsHide; 	break;
 	case lfsShow:
-		m_StateBlend = m_Current ? (m_StateBlend + m_Current->m_StateBlendUpSpeed * Device.fTimeDelta * tf) : 1.f + EPS;
+		m_StateBlend = m_Current ? (m_StateBlend + m_Current->m_StateBlendUpSpeed * Device.fTimeDelta * tf) : 1.f + XrMath::EPS;
 		if (m_StateBlend >= 1.f) m_State = lfsIdle;
 		break;
 	case lfsHide:
-		m_StateBlend = m_Current ? (m_StateBlend - m_Current->m_StateBlendDnSpeed * Device.fTimeDelta * tf) : 0.f - EPS;
+		m_StateBlend = m_Current ? (m_StateBlend - m_Current->m_StateBlendDnSpeed * Device.fTimeDelta * tf) : 0.f - XrMath::EPS;
 		if (m_StateBlend <= 0.f) {
 			m_State = lfsShow;
 			m_Current = desc;
@@ -562,7 +562,7 @@ void CLensFlare::OnFrame(int id)
 		}
 		break;
 	}
-	clamp(m_StateBlend, 0.f, 1.f);
+	XrMath::clamp(m_StateBlend, 0.f, 1.f);
 
 	if ((m_Current == 0) || (LightColor.magnitude_rgb() == 0.f)) { bRender = false; return; }
 
@@ -620,7 +620,7 @@ void CLensFlare::OnFrame(int id)
 		fBlend = fBlend + BLEND_INC_SPEED * Device.fTimeDelta;
 #else
 	CObject*	o_main = g_pGameLevel->CurrentViewEntity();
-	STranspParamSOC TP(this, Device.vCameraPosition, vSunDir, 1000.f, EPS_L);
+	STranspParamSOC TP(this, Device.vCameraPosition, vSunDir, 1000.f, XrMath::EPS_L);
 	collide::ray_defs RD(TP.P, TP.D, TP.f, CDB::OPT_CULL, collide::rqtBoth);
 	if (m_ray_cache->result&&m_ray_cache->similar(TP.P, TP.D, TP.f)) {
 		// similar with previous query == 0
@@ -641,7 +641,7 @@ void CLensFlare::OnFrame(int id)
 	blend_lerp(fBlend, TP.vis, BLEND_DEC_SPEED, Device.fTimeDelta);
 
 #endif
-	clamp(fBlend, 0.0f, 1.0f);
+	XrMath::clamp(fBlend, 0.0f, 1.0f);
 
 	// gradient
 	if (m_Current->m_Flags.is(CLensFlareDescriptor::flGradient))
@@ -653,10 +653,10 @@ void CLensFlare::OnFrame(int id)
 		float sun_max = 2.5f;
 		scr_pos.y *= -1;
 
-		if (_abs(scr_pos.x) > sun_blend)	kx = ((sun_max - (float)_abs(scr_pos.x))) / (sun_max - sun_blend);
-		if (_abs(scr_pos.y) > sun_blend)	ky = ((sun_max - (float)_abs(scr_pos.y))) / (sun_max - sun_blend);
+		if (XrMath::abs(scr_pos.x) > sun_blend)	kx = ((sun_max - (float)XrMath::abs(scr_pos.x))) / (sun_max - sun_blend);
+		if (XrMath::abs(scr_pos.y) > sun_blend)	ky = ((sun_max - (float)XrMath::abs(scr_pos.y))) / (sun_max - sun_blend);
 
-		if (!((_abs(scr_pos.x) > sun_max) || (_abs(scr_pos.y) > sun_max))) {
+		if (!((XrMath::abs(scr_pos.x) > sun_max) || (XrMath::abs(scr_pos.y) > sun_max))) {
 			float op = m_StateBlend*m_Current->m_Gradient.fOpacity;
 			fGradientValue = kx * ky *  op * fBlend;
 		}
@@ -702,7 +702,7 @@ void CLensFlare::Render(BOOL bSun, BOOL bFlares, BOOL bGradient)
     _2render.push_back (m_Current->m_Source.hShader);
     }
     }
-    if (fBlend>=EPS_L)
+    if (fBlend>=XrMath::EPS_L)
     {
     if(bFlares){
     vecDx.normalize (vecAxis);
@@ -727,7 +727,7 @@ void CLensFlare::Render(BOOL bSun, BOOL bFlares, BOOL bGradient)
     }
     }
     // gradient
-    if (bGradient&&(fGradientValue>=EPS_L)){
+    if (bGradient&&(fGradientValue>=XrMath::EPS_L)){
     if (m_Current->m_Flags.is(CLensFlareDescriptor::flGradient)){
     vecSx.mul (vecX, m_Current->m_Gradient.fRadius*fGradientValue*fDistance);
     vecSy.mul (vecY, m_Current->m_Gradient.fRadius*fGradientValue*fDistance);

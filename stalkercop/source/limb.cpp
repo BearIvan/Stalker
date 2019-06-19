@@ -81,9 +81,9 @@ int Limb::check_r_joint(float &v)
     {
 	// Put v in correct range
 	if (v < min[3])
-	    v += 2*M_PI;
+	    v += 2*XrMath::M_PI;
 	if (v > max[3])
-	    v -= 2*M_PI;
+	    v -= 2*XrMath::M_PI;
 	return 1;
     }
 
@@ -141,7 +141,7 @@ inline float min(float x, float y)
 }
 
 //
-// If possible put v (0 < v < 2*M_PI) in the range low < v < high
+// If possible put v (0 < v < 2*XrMath::M_PI) in the range low < v < high
 //
 
 inline float put_angle_in_range(float low, float high, float v)
@@ -151,16 +151,16 @@ inline float put_angle_in_range(float low, float high, float v)
     if (low <= v && v <= high)
 		return v;
     else
-		d1 = min(_abs(v-low),_abs(v-high));
+		d1 = min(XrMath::abs(v-low),XrMath::abs(v-high));
 
-    v2 = v - 2*M_PI;
+    v2 = v - 2*XrMath::M_PI;
 
     if (low <= v2 && v2 <= high)
 		return v2;
     else
-		d2 = min(_abs(v2-low),_abs(v2-high));
+		d2 = min(XrMath::abs(v2-low),XrMath::abs(v2-high));
     
-    return (_abs(d1) < _abs(d2)) ? v : v2;
+    return (XrMath::abs(d1) < XrMath::abs(d2)) ? v : v2;
 }
 
 //
@@ -650,7 +650,7 @@ int choose_closest_range(float &swivel_angle,
 			 const AngleIntList *f22 = 0)
 {
     int i = 0;
-    float d = 2*M_PI; 
+    float d = 2*XrMath::M_PI; 
     float angle; 
 
     if (inspect_range(*f11, swivel_angle, 1, angle, i, d))
@@ -870,7 +870,7 @@ int Limb::try_closeby_singularity(int solves,
 	return 1;
     
     for (int i = 0; i < num_singular; i++)
-	if (_abs(swivel_angle - singular_pts[i]) < DTOR(1.0))
+	if (XrMath::abs(swivel_angle - singular_pts[i]) < DTOR(1.0))
 	{
 	    // Try the singularity
 	    if (try_swivel_angle(solves, singular_pts[i], x))
@@ -893,9 +893,9 @@ int Limb::SolveByAngle(float swivel_angle, float x[7],
     int success; 
 
     if (swivel_angle < 0)
-	swivel_angle += 2*M_PI;
-    if (swivel_angle > 2*M_PI)
-	swivel_angle -= 2*M_PI;
+	swivel_angle += 2*XrMath::M_PI;
+    if (swivel_angle > 2*XrMath::M_PI)
+	swivel_angle -= 2*XrMath::M_PI;
  
     x[3] = x3;
 
@@ -980,7 +980,7 @@ int Limb::InLimits(const float x[7]) const
 float roundup(float x)
 {
     if (x < 0)
-	x += 2*M_PI;
+	x += 2*XrMath::M_PI;
     return x;
 }
 void dump_file(char *file, int euler_type, float min[], float max[], 

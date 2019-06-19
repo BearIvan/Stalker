@@ -28,8 +28,8 @@ void animation_offsets::load							(LPCSTR section)
 
 		shared_str						anim_id = i->first;
 		LPCSTR							data = i->second.c_str();
-		float							yaw = deg2rad((float)atof(_GetItem(data, 0, tmp)));
-		float							pitch = deg2rad((float)atof(_GetItem(data, 1, tmp)));
+		float							yaw = XrMath::deg2rad((float)atof(XrTrims::GetItem(data, 0, tmp)));
+		float							pitch = XrMath::deg2rad((float)atof(XrTrims::GetItem(data, 1, tmp)));
 
 		m_animation_offsets.insert		(std::make_pair(anim_id, SRotation(yaw, pitch, 0.f)));
 	}

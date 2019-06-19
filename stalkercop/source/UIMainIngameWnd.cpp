@@ -212,13 +212,13 @@ void CUIMainIngameWnd::Init()
 	{
 		// „итаем данные порогов дл€ каждого индикатора
 		shared_str cfgRecord = pSettings->r_string("main_ingame_indicators_thresholds", *warningStrings[static_cast<int>(j) - 1]);
-		u32 count = _GetItemCount(*cfgRecord);
+		u32 count = XrTrims::GetItemCount(*cfgRecord);
 
 		char	singleThreshold[8];
 		float	f = 0;
 		for (u32 k = 0; k < count; ++k)
 		{
-			_GetItem(*cfgRecord, k, singleThreshold);
+			XrTrims::GetItem(*cfgRecord, k, singleThreshold);
 			sscanf(singleThreshold, "%f", &f);
 
 			m_Thresholds[j].push_back(f);
@@ -275,7 +275,7 @@ void CUIMainIngameWnd::Draw()
 
 	if ((UIStaticDiskIO_start_time+1.0f) < Device.fTimeGlobal)	UIStaticDiskIO->Show(false); 
 	else {
-		u32		alpha			= clampr(iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
+		u32		alpha			= XrMath::clampr(XrMath::iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
 		UIStaticDiskIO->Show		( true  ); 
 		UIStaticDiskIO->SetTextureColor(color_rgba(255,255,255,alpha));
 	}
@@ -289,11 +289,11 @@ void CUIMainIngameWnd::Draw()
 
 		static float cur_lum = luminocity;
 		cur_lum = luminocity*0.01f + cur_lum*0.99f;
-		UIMotionIcon->SetLuminosity((s16)iFloor(cur_lum*100.0f));
+		UIMotionIcon->SetLuminosity((s16)XrMath::iFloor(cur_lum*100.0f));
 	}
 	if ( !pActor || !pActor->g_Alive() ) return;
 
-	UIMotionIcon->SetNoise((s16)(0xffff&iFloor(pActor->m_snd_noise*100)));
+	UIMotionIcon->SetNoise((s16)(0xffff&XrMath::iFloor(pActor->m_snd_noise*100)));
 
 	UIMotionIcon->Draw();
 
@@ -672,7 +672,7 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 	flags |= LA_TEXTURECOLOR;
 // Bleeding icon
 	float bleeding = pActor->conditions().BleedingSpeed();
-	if(fis_zero(bleeding, EPS))
+	if(XrMath::fis_zero(bleeding, XrMath::EPS))
 	{
 		m_ind_bleeding->Show(false);
 		m_ind_bleeding->ResetColorAnimation();
@@ -698,7 +698,7 @@ void CUIMainIngameWnd::UpdateMainIndicators()
 	}
 // Radiation icon
 	float radiation = pActor->conditions().GetRadiation();
-	if(fis_zero(radiation, EPS))
+	if(XrMath::fis_zero(radiation, XrMath::EPS))
 	{
 		m_ind_radiation->Show(false);
 		m_ind_radiation->ResetColorAnimation();

@@ -3,15 +3,15 @@ void CPHSimpleCharacter::UpdateStaticDamage(dContact* c,SGameMtl* tri_material,b
 	const	dReal	*v			=	dBodyGetLinearVel(m_body);
 			dReal	norm_prg	=	dFabs(dDOT(v,c->geom.normal));
 			dReal	smag		=	dDOT(v,v);
-			dReal	plane_pgr	=	_sqrt(smag-norm_prg*norm_prg);
+			dReal	plane_pgr	=	XrMath::sqrt(smag-norm_prg*norm_prg);
 			dReal	mag			=	0.f;
 				if(tri_material->Flags.test(SGameMtl::flPassable))
 				{
-					mag					=	_sqrt(smag)*tri_material->fBounceDamageFactor;
+					mag					=	XrMath::sqrt(smag)*tri_material->fBounceDamageFactor;
 				}
 				else
 				{
-					float				vel_prg;vel_prg=_max(plane_pgr*tri_material->fPHFriction,norm_prg);
+					float				vel_prg;vel_prg=XrMath::max(plane_pgr*tri_material->fPHFriction,norm_prg);
 					mag					=	(vel_prg)*tri_material->fBounceDamageFactor;
 				}
 				if(mag>m_collision_damage_info.m_contact_velocity)

@@ -28,12 +28,12 @@ void CItemMgr::Load(const shared_str& sect_cost)
 	{
 		const shared_str& buff		= pSettings->r_string("buy_menu_items_place", _list_names[i]);
 		
-		u32 cnt						= _GetItemCount(buff.c_str());
+		u32 cnt						= XrTrims::GetItemCount(buff.c_str());
 		string1024					_one;
 
 		for(u32 c=0; c<cnt; ++c)
 		{
-			_GetItem				(buff.c_str(), c, _one);
+			XrTrims::GetItem				(buff.c_str(), c, _one);
 			shared_str _one_str		= _one;
 			COST_MAP_IT it			= m_items.find(_one_str);
 			R_ASSERT				(it!=m_items.end());

@@ -100,7 +100,7 @@ void CStalkerAnimationPair::play			(IKinematicsAnimated *skeleton_animated, Play
 
 		float				pos = 0.f;
 		if (m_step_dependence && continue_interrupted_animation) {
-			VERIFY			(!m_blend || !fis_zero(m_blend->timeTotal));
+			VERIFY			(!m_blend || !XrMath::fis_zero(m_blend->timeTotal));
 			if (m_step_dependence && m_blend)
 				pos			= fmod(m_blend->timeCurrent,m_blend->timeTotal)/m_blend->timeTotal;
 		}

@@ -415,7 +415,7 @@ if(!psNET_direct_connect)
         xr_strcpy(portstr, strstr(options, "port=")+5);
 		if (strchr(portstr,'/'))	*strchr(portstr,'/') = 0;
 		psSV_Port = atol(portstr);
-		clamp(psSV_Port, int(START_PORT), int(END_PORT));
+		XrMath::clamp(psSV_Port, int(START_PORT), int(END_PORT));
 	};
 	
 	BOOL bPortWasSet = FALSE;
@@ -426,7 +426,7 @@ if(!psNET_direct_connect)
 		xr_strcpy(portstr, strstr(options, "portcl=")+7);
 		if (strchr(portstr,'/'))	*strchr(portstr,'/') = 0;
 		psCL_Port = atol(portstr);
-		clamp(psCL_Port, int(START_PORT), int(END_PORT));
+		XrMath::clamp(psCL_Port, int(START_PORT), int(END_PORT));
 		bPortWasSet = TRUE;
 	};
 //	Msg("* Client connect on port %d\n",psNET_Port);
@@ -1131,7 +1131,7 @@ void	IPureClient::net_Syncronize	()
 {
 	net_Syncronised		= FALSE;
 	net_DeltaArray.clear();
-	thread_spawn		(sync_thread,"network-time-sync",0,this);
+	XrThread::Spawn("network-time-sync", sync_thread, this);
 }
 
 void	IPureClient::ClearStatistic()

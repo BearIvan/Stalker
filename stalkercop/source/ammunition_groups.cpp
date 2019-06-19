@@ -19,10 +19,10 @@ void ammunition_group::init_ammunition_group(CItemMgr const * item_manager,
 									  shared_str const & weapons_string)
 {
 	string256	dststr;
-	u32 count	= _GetItemCount(weapons_string.c_str());
+	u32 count	= XrTrims::GetItemCount(weapons_string.c_str());
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem		(weapons_string.c_str(), i, dststr);
+		XrTrims::GetItem		(weapons_string.c_str(), i, dststr);
 		u32 itm_index	= item_manager->GetItemIdx(dststr);
 		if (itm_index != u32(-1))
 		{

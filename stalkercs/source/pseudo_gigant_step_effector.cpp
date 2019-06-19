@@ -28,14 +28,14 @@ BOOL CPseudogigantStepEffector::ProcessCam(SCamEffectorInfo& info)
 	Mdef.i.crossproduct	(info.n, info.d);
 	Mdef.c.set			(info.p);
 
-	float period_all	= period_number * PI_MUL_2;		// макс. значение цикла
-	float k				= 1 - time_left_perc + EPS_L + (1 - power);
-	float cur_amp		= max_amp * (PI / 180) / (10 * k * k);
+	float period_all	= period_number * XrMath::PI_MUL_2;		// макс. значение цикла
+	float k				= 1 - time_left_perc + XrMath::EPS_L + (1 - power);
+	float cur_amp		= max_amp * (XrMath::M_PI / 180) / (10 * k * k);
 
 	Fvector dangle; 
-	dangle.x = cur_amp/2	* _sin(period_all	* (1.0f - time_left_perc));
-	dangle.y = cur_amp		* _cos(period_all/2 * (1.0f - time_left_perc));
-	dangle.z = cur_amp/4	* _sin(period_all/4	* (1.0f - time_left_perc));
+	dangle.x = cur_amp/2	* XrMath::sin(period_all	* (1.0f - time_left_perc));
+	dangle.y = cur_amp		* XrMath::cos(period_all/2 * (1.0f - time_left_perc));
+	dangle.z = cur_amp/4	* XrMath::sin(period_all/4	* (1.0f - time_left_perc));
 
 	// Установить углы смещения
 	Fmatrix		R;

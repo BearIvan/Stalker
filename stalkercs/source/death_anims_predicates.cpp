@@ -30,7 +30,7 @@ type_motion::edirection	type_motion::dir( CEntityAlive& ea, const SHit& H, float
 	Fvector dir = H.direction();
 	dir.y = 0;
 	float m = dir.magnitude();
-	if( fis_zero( m ) )
+	if( XrMath::fis_zero( m ) )
 	{
 		edirection dr;
 		dr = (edirection) ::Random.randI( 0, (s32) not_definite );
@@ -46,7 +46,7 @@ type_motion::edirection	type_motion::dir( CEntityAlive& ea, const SHit& H, float
 	float front_factor	= dir.dotproduct( z_dir );
 	float sidefactor	= dir.dotproduct( x_dir );
 
-	if( _abs( front_factor ) > M_SQRT1_2 )
+	if( XrMath::abs( front_factor ) > M_SQRT1_2 )
 	{
 		float sign = front_factor < 0.f ? -1.f : 1.f;
 
@@ -133,7 +133,7 @@ class	type_motion0: public type_motion
 
 		const Fvector dir_to_actor = Fvector().sub( H.initiator()->Position(), ea.Position() ).normalize_safe();
 
-		const float front_angle_cos = _cos( deg2rad ( 20.f ) );
+		const float front_angle_cos = XrMath::cos( XrMath::deg2rad ( 20.f ) );
 		
 		if( stalker_velocity_dir.dotproduct(dir_to_actor) < front_angle_cos )
 			return false;

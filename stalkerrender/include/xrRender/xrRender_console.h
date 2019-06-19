@@ -100,7 +100,7 @@ extern ECORE_API float			ps_r2_aa_kernel;			// r2-only
 extern ECORE_API float			ps_r2_mblur;				// .5f
 extern ECORE_API int			ps_r2_GI_depth;				// 1..5
 extern ECORE_API int			ps_r2_GI_photons;			// 8..256
-extern ECORE_API float			ps_r2_GI_clip;				// EPS
+extern ECORE_API float			ps_r2_GI_clip;				// XrMath::EPS
 extern ECORE_API float			ps_r2_GI_refl;				// .9f
 extern ECORE_API float			ps_r2_ls_depth_scale;		// 1.0f
 extern ECORE_API float			ps_r2_ls_depth_bias;		// -0.0001f

@@ -357,7 +357,7 @@ void CScriptGameObject::set_ignore_monster_threshold	(float ignore_monster_thres
 		ai().script_engine().script_log		(ScriptStorage::eLuaMessageTypeError,"CAI_Stalker : cannot access class member set_ignore_monster_threshold!");
 		return;
 	}
-	clamp				(ignore_monster_threshold,0.f,1.f);
+	XrMath::clamp				(ignore_monster_threshold,0.f,1.f);
 	stalker->memory().enemy().ignore_monster_threshold	(ignore_monster_threshold);
 }
 

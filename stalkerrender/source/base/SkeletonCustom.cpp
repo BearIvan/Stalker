@@ -529,7 +529,7 @@ void BuildMatrix		(Fmatrix &mView, float invsz, const Fvector norm, const Fvecto
 	Fvector				at,up,right,y;
 	at.sub				(from,norm);
 	y.set				(0,1,0);
-	if (_abs(norm.y)>.99f) y.set(1,0,0);
+	if (XrMath::abs(norm.y)>.99f) y.set(1,0,0);
 	right.crossproduct	(y,norm);
 	up.crossproduct		(norm,right);
 	mView.build_camera	(from,at,up);
@@ -639,7 +639,7 @@ void CKinematics::AddWallmark(const Fmatrix* parent_xform, const Fvector3& start
 	// build UV projection matrix
 	Fmatrix						mView,mRot;
 	BuildMatrix					(mView,1/(0.9f*size),normal,cp);
-	mRot.rotateZ				(::Random.randF(deg2rad(-20.f),deg2rad(20.f)));
+	mRot.rotateZ				(::Random.randF(XrMath::deg2rad(-20.f),XrMath::deg2rad(20.f)));
 	mView.mulA_43				(mRot);
 
 	// fill vertices
@@ -713,7 +713,7 @@ void CKinematics::RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT* 
 			}
 			wm->XFORM()->transform_tiny	(V->p,P);
 			V->t.set					(F.uv[k]);
-			int			aC				= iFloor	( w * 255.f);	clamp	(aC,0,255);
+			int			aC				= XrMath::iFloor	( w * 255.f);	XrMath::clamp	(aC,0,255);
 			V->color					= color_rgba(128,128,128,aC);
 			V++;
 		}

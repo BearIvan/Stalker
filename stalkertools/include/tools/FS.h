@@ -76,16 +76,16 @@ public:
     {
         VERIFY(a >= min && a <= max);
         float q = (a - min) / (max - min);
-        w_u16(u16(iFloor(q*65535.f + .5f)));
+        w_u16(u16(XrMath::iFloor(q*65535.f + .5f)));
     }
     IC void w_float_q8(float a, float min, float max)
     {
         VERIFY(a >= min && a <= max);
         float q = (a - min) / (max - min);
-        w_u8(u8(iFloor(q*255.f + .5f)));
+        w_u8(u8(XrMath::iFloor(q*255.f + .5f)));
     }
-    IC void w_angle16(float a) { w_float_q16(angle_normalize(a), 0, PI_MUL_2); }
-    IC void w_angle8(float a) { w_float_q8(angle_normalize(a), 0, PI_MUL_2); }
+    IC void w_angle16(float a) { w_float_q16(XrMath::angle_normalize(a), 0, XrMath::PI_MUL_2); }
+    IC void w_angle8(float a) { w_float_q8(XrMath::angle_normalize(a), 0, XrMath::PI_MUL_2); }
     IC void w_dir(const Fvector& D) { w_u16(pvCompress(D)); }
     void w_sdir(const Fvector& D);
     void __cdecl w_printf(const char* format, ...);
@@ -195,7 +195,7 @@ public:
     {
         u16 val = r_u16();
         float A = (float(val)*(max - min)) / 65535.f + min; // floating-point-error possible
-        VERIFY((A >= min - EPS_S) && (A <= max + EPS_S));
+        VERIFY((A >= min - XrMath::EPS_S) && (A <= max + XrMath::EPS_S));
         return A;
     }
     IC float r_float_q8(float min, float max)
@@ -205,8 +205,8 @@ public:
         VERIFY((A >= min) && (A <= max));
         return A;
     }
-    IC float r_angle16() { return r_float_q16(0, PI_MUL_2); }
-    IC float r_angle8() { return r_float_q8(0, PI_MUL_2); }
+    IC float r_angle16() { return r_float_q16(0, XrMath::PI_MUL_2); }
+    IC float r_angle8() { return r_float_q8(0, XrMath::PI_MUL_2); }
     IC void r_dir(Fvector& A) { u16 t = r_u16(); pvDecompress(A, t); }
     IC void r_sdir(Fvector& A)
     {

@@ -60,7 +60,7 @@ void CUISequenceVideoItem::Load(CUIXml* xml, int idx)
 
 	m_flags.set										(etiGrabInput,		TRUE);
 
-	m_delay					= _max(xml->ReadFlt		("delay",0,0.f),0.f);
+	m_delay					= XrMath::max(xml->ReadFlt		("delay",0,0.f),0.f);
 
 	//ui-components
 	m_wnd											= xr_new<CUIStatic>();
@@ -162,7 +162,7 @@ void CUISequenceVideoItem::Start()
 	m_flags.set					(etiNeedStart,TRUE);
 
 	m_sync_time					= 0;
-	m_time_start				= Device.dwTimeContinual+iFloor(m_delay*1000.f);
+	m_time_start				= Device.dwTimeContinual+XrMath::iFloor(m_delay*1000.f);
 	m_flags.set					(etiDelayed,TRUE);
 
 	if (m_flags.test(etiBackVisible)){

@@ -36,7 +36,7 @@ public:
         }
         else if (fDiscr > (T)0.0)
         {
-            T fRoot = _sqrt(fDiscr);
+            T fRoot = XrMath::sqrt(fDiscr);
             T fInvA = ((T)1.0) / fA;
             afT[0] = range*(-fB - fRoot)*fInvA;
             afT[1] = range*(-fB + fRoot)*fInvA;

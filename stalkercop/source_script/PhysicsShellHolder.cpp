@@ -188,7 +188,7 @@ void CPhysicsShellHolder::correct_spawn_pos()
 //		CPHActivationShape				activation_shape;
 //		activation_shape.Create			(c,size,this);
 //		activation_shape.set_rotation	(XFORM());
-//		activation_shape.Activate		(size,1,1.f,M_PI/8.f);
+//		activation_shape.Activate		(size,1,1.f,XrMath::M_PI/8.f);
 ////		VERIFY							(valid_pos(activation_shape.Position(),phBoundaries));
 //	}
 	
@@ -423,8 +423,8 @@ void CPhysicsShellHolder::PHSaveState(NET_Packet &P)
 		if(p.z>max.z)max.z=p.z;
 	}
 
-	min.sub(2.f*EPS_L);
-	max.add(2.f*EPS_L);
+	min.sub(2.f*XrMath::EPS_L);
+	max.add(2.f*XrMath::EPS_L);
 
 	VERIFY(!min.similar(max));
 	P.w_vec3(min);

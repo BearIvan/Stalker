@@ -12,7 +12,7 @@
 #define	GAMESAVE_SIZE	128
 
 IC u32 convert				(float c)	{
-	u32 C=iFloor(c);
+	u32 C=XrMath::iFloor(c);
 	if (C>255) C=255;
 	return C;
 }
@@ -24,7 +24,7 @@ IC void MouseRayFromPoint	( Fvector& direction, int x, int y, Fmatrix& m_CamMat 
 	Ivector2 point2;
 	point2.set			(x-halfwidth, halfheight-y);
 
-	float size_y		= VIEWPORT_NEAR * tanf( deg2rad(60.f) * 0.5f );
+	float size_y		= VIEWPORT_NEAR * tanf( XrMath::deg2rad(60.f) * 0.5f );
 	float size_x		= size_y / (Device.fHeight_2/Device.fWidth_2);
 
 	float r_pt			= float(point2.x) * size_x / (float) halfwidth;
@@ -534,7 +534,7 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 		FLOAT	tmpArray[4*iMaxPixelsInARow];
 		while(pPixel!=pEnd)
 		{
-			const int iProcessPixels = _min(iMaxPixelsInARow, (s32)(pEnd-pPixel));
+			const int iProcessPixels = XrMath::min(iMaxPixelsInARow, (s32)(pEnd-pPixel));
 
 			D3DXFloat16To32Array( tmpArray, pPixelElement16, iProcessPixels*4);			
 

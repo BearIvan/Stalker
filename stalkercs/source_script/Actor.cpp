@@ -354,13 +354,13 @@ if(!g_dedicated_server)
 	{
 		LPCSTR hit_name = ALife::g_cafHitType2String((ALife::EHitType)hit_type);
 		LPCSTR hit_snds = READ_IF_EXISTS(pSettings, r_string, hit_snd_sect, hit_name, "");
-		int cnt = _GetItemCount(hit_snds);
+		int cnt = XrTrims::GetItemCount(hit_snds);
 		string128		tmp;
 		VERIFY			(cnt!=0);
 		for(int i=0; i<cnt;++i)
 		{
 			sndHit[hit_type].push_back		(ref_sound());
-			sndHit[hit_type].back().create	(_GetItem(hit_snds,i,tmp),st_Effect,sg_SourceType);
+			sndHit[hit_type].back().create	(XrTrims::GetItem(hit_snds,i,tmp),st_Effect,sg_SourceType);
 		}
 		char buf[256];
 
@@ -384,10 +384,10 @@ if(!g_dedicated_server)
 
 	// настройки дисперсии стрельбы
 	m_fDispBase					= pSettings->r_float		(section,"disp_base"		 );
-	m_fDispBase					= deg2rad(m_fDispBase);
+	m_fDispBase					= XrMath::deg2rad(m_fDispBase);
 
 	m_fDispAim					= pSettings->r_float		(section,"disp_aim"		 );
-	m_fDispAim					= deg2rad(m_fDispAim);
+	m_fDispAim					= XrMath::deg2rad(m_fDispAim);
 
 	m_fDispVelFactor			= pSettings->r_float		(section,"disp_vel_factor"	 );
 	m_fDispAccelFactor			= pSettings->r_float		(section,"disp_accel_factor" );
@@ -611,19 +611,19 @@ void CActor::HitMark	(float P,
 		cam_dir.normalize_safe		();
 		dir.normalize_safe			();
 
-		float ang_diff				= angle_difference	(cam_dir.getH(), dir.getH());
+		float ang_diff				= XrMath::angle_difference	(cam_dir.getH(), dir.getH());
 		Fvector						cp;
 		cp.crossproduct				(cam_dir,dir);
 		bool bUp					=(cp.y>0.0f);
 
 		Fvector cross;
 		cross.crossproduct			(cam_dir, dir);
-		VERIFY						(ang_diff>=0.0f && ang_diff<=PI);
+		VERIFY						(ang_diff>=0.0f && ang_diff<=XrMath::M_PI);
 
-		float _s1 = PI_DIV_8;
-		float _s2 = _s1 + PI_DIV_4;
-		float _s3 = _s2 + PI_DIV_4;
-		float _s4 = _s3 + PI_DIV_4;
+		float _s1 = XrMath::PI_DIV_8;
+		float _s2 = _s1 + XrMath::PI_DIV_4;
+		float _s3 = _s2 + XrMath::PI_DIV_4;
+		float _s4 = _s3 + XrMath::PI_DIV_4;
 
 		if ( ang_diff <= _s1 )
 		{
@@ -673,8 +673,8 @@ void CActor::HitSignal(float perc, Fvector& vLocalDir, CObject* who, s16 element
 		IKinematics *pK = smart_cast<IKinematics*>(pV);
 		VERIFY(tpKinematics);
 #pragma todo("Dima to Dima : forward-back bone impulse direction has been determined incorrectly!")
-		MotionID motion_ID = m_anims->m_normal.m_damage[iFloor(pK->LL_GetBoneInstance(element).get_param(1) + (angle_difference(r_model_yaw + r_model_yaw_delta,yaw) <= PI_DIV_2 ? 0 : 1))];
-		float power_factor = perc/100.f; clamp(power_factor,0.f,1.f);
+		MotionID motion_ID = m_anims->m_normal.m_damage[XrMath::iFloor(pK->LL_GetBoneInstance(element).get_param(1) + (XrMath::angle_difference(r_model_yaw + r_model_yaw_delta,yaw) <= XrMath::PI_DIV_2 ? 0 : 1))];
+		float power_factor = perc/100.f; XrMath::clamp(power_factor,0.f,1.f);
 		VERIFY(motion_ID.valid());
 		tpKinematics->PlayFX(motion_ID,power_factor);
 	}
@@ -813,7 +813,7 @@ void CActor::g_Physics			(Fvector& _accel, float jump, float dt)
 	if (Local() && g_Alive()) {
 		if (character_physics_support()->movement()->gcontact_Was)
 			Cameras().AddCamEffector		(xr_new<CEffectorFall> (character_physics_support()->movement()->gcontact_Power));
-		if (!fis_zero(character_physics_support()->movement()->gcontact_HealthLost))	{
+		if (!XrMath::fis_zero(character_physics_support()->movement()->gcontact_HealthLost))	{
 			const ICollisionDamageInfo* di=character_physics_support()->movement()->CollisionDamageInfo();
 			Fvector hdir;di->HitDir(hdir);
 			SetHitInfo(this, NULL, 0, Fvector().set(0, 0, 0), hdir);
@@ -1038,7 +1038,7 @@ void CActor::shedule_Update	(u32 DT)
 		return;
 	}
 
-	clamp					(DT,0u,100u);
+	XrMath::clamp					(DT,0u,100u);
 	float	dt	 			=  float(DT)/1000.f;
 
 	// Check controls, create accel, prelimitary setup "mstate_real"
@@ -1081,7 +1081,7 @@ void CActor::shedule_Update	(u32 DT)
 		// Dropping
 		if (b_DropActivated)	{
 			f_DropPower			+= dt*0.1f;
-			clamp				(f_DropPower,0.f,1.f);
+			XrMath::clamp				(f_DropPower,0.f,1.f);
 		} else {
 			f_DropPower			= 0.f;
 		}
@@ -1674,7 +1674,7 @@ float	CActor::HitArtefactsOnBelt(float hit_power, ALife::EHitType hit_type)
 			hit_power -= artefact->m_ArtefactHitImmunities.AffectHit( 1.0f, hit_type );
 		}
 	}
-	clamp(hit_power, 0.0f, flt_max);
+	XrMath::clamp(hit_power, 0.0f, flt_max);
 
 	return hit_power;
 

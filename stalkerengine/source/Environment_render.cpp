@@ -153,7 +153,7 @@ void CEnvironment::RenderClouds()
     if (0 == g_pGameLevel) return;
 #endif
     // draw clouds
-    if (fis_zero(CurrentEnv->clouds_color.w, EPS_L)) return;
+    if (XrMath::fis_zero(CurrentEnv->clouds_color.w, XrMath::EPS_L)) return;
 
     m_pRender->RenderClouds(this);
     /*

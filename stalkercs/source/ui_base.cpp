@@ -58,10 +58,10 @@ sPoly2D* C2DFrustum::ClipPoly	(sPoly2D& S, sPoly2D& D) const
 		src->push_back((*src)[0])	;
 		Fvector2 dir_pt,dir_uv;		float denum,t;
 		for (u32 j=0; j<src->size()-1; j++)	{
-			if ((*src)[j].pt.similar((*src)[j+1].pt,EPS_S)) continue;
-			if (negative(cls[j]))	{
+			if ((*src)[j].pt.similar((*src)[j+1].pt,XrMath::EPS_S)) continue;
+			if (cls[j]<0)	{
 				dest->push_back((*src)[j])	;
-				if (positive(cls[j+1]))	{
+				if (cls[j+1]>=0)	{
 					// segment intersects plane
 					dir_pt.sub((*src)[j+1].pt,(*src)[j].pt);
 					dir_uv.sub((*src)[j+1].uv,(*src)[j].uv);
@@ -75,7 +75,7 @@ sPoly2D* C2DFrustum::ClipPoly	(sPoly2D& S, sPoly2D& D) const
 				}
 			} else {
 				// J - outside
-				if (negative(cls[j+1]))	{
+				if (cls[j+1]<0)	{
 					// J+1  - inside
 					// segment intersects plane
 					dir_pt.sub((*src)[j+1].pt,(*src)[j].pt);
@@ -137,7 +137,7 @@ void ui_core::ClientToScreenScaledHeight(float& src_and_dest)
 void ui_core::AlignPixel(float src_and_dest)
 {
 	if(m_currentPointType!=IUIRender::pttLIT)
-		src_and_dest		= (float)iFloor(src_and_dest);
+		src_and_dest		= (float)XrMath::iFloor(src_and_dest);
 }
 
 Frect ui_core::ScreenRect()
@@ -174,10 +174,10 @@ void ui_core::PushScissor(const Frect& r_tgt, bool overlapped)
 	result.rb.y 		= ClientToScreenScaledY(result.rb.y);
 
 	Irect				r;
-	r.x1 				= iFloor(result.x1);
-	r.x2 				= iFloor(result.x2+0.5f);
-	r.y1 				= iFloor(result.y1);
-	r.y2 				= iFloor(result.y2+0.5f);
+	r.x1 				= XrMath::iFloor(result.x1);
+	r.x2 				= XrMath::iFloor(result.x2+0.5f);
+	r.y1 				= XrMath::iFloor(result.y1);
+	r.y2 				= XrMath::iFloor(result.y2+0.5f);
 	UIRender->SetScissor(&r);
 }
 
@@ -195,10 +195,10 @@ void ui_core::PopScissor()
 	else{
 		const Frect& top= m_Scissors.top();
 		Irect tgt;
-		tgt.lt.x 		= iFloor(ClientToScreenScaledX(top.lt.x));
-		tgt.lt.y 		= iFloor(ClientToScreenScaledY(top.lt.y));
-		tgt.rb.x 		= iFloor(ClientToScreenScaledX(top.rb.x));
-		tgt.rb.y 		= iFloor(ClientToScreenScaledY(top.rb.y));
+		tgt.lt.x 		= XrMath::iFloor(ClientToScreenScaledX(top.lt.x));
+		tgt.lt.y 		= XrMath::iFloor(ClientToScreenScaledY(top.lt.y));
+		tgt.rb.x 		= XrMath::iFloor(ClientToScreenScaledX(top.rb.x));
+		tgt.rb.y 		= XrMath::iFloor(ClientToScreenScaledY(top.rb.y));
 
 		UIRender->SetScissor(&tgt);
 	}

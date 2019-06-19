@@ -144,7 +144,7 @@ float get_str_width(CGameFont*pFont, char ch)
 }
 
 void CUILines::ParseText(){
-	if ( !fsimilar(m_oldWidth, m_wndSize.x) )
+	if ( !XrMath::fsimilar(m_oldWidth, m_wndSize.x) )
 	{
 		uFlags.set(flNeedReparse, TRUE);
 		m_oldWidth = m_wndSize.x;

@@ -244,13 +244,13 @@ float CVisualMemoryManager::object_visible_distance(const CGameObject *game_obje
 	object_direction.normalize_safe		();
 	
 	if (m_object)
-		m_object->update_range_fov		(object_range,object_fov,m_object->eye_range,deg2rad(m_object->eye_fov));
+		m_object->update_range_fov		(object_range,object_fov,m_object->eye_range,XrMath::deg2rad(m_object->eye_fov));
 
 	float								fov = object_fov*.5f;
 	float								cos_alpha = eye_direction.dotproduct(object_direction);
-	clamp								(cos_alpha,-.99999f,.99999f);
+	XrMath::clamp								(cos_alpha,-.99999f,.99999f);
 	float								alpha = acosf(cos_alpha);
-	clamp								(alpha,0.f,fov);
+	XrMath::clamp								(alpha,0.f,fov);
 
 	float								max_view_distance = object_range, min_view_distance = object_range;
 	max_view_distance					*= current_state().m_max_view_distance;
@@ -291,7 +291,7 @@ float CVisualMemoryManager::get_visible_value	(float distance, float object_dist
 {
 	float								always_visible_distance = current_state().m_always_visible_distance;
 
-	if (distance <= always_visible_distance + EPS_L)
+	if (distance <= always_visible_distance + XrMath::EPS_L)
 		return							(current_state().m_visibility_threshold);
 
 	return								(
@@ -365,7 +365,7 @@ bool CVisualMemoryManager::visible				(const CGameObject *game_object, float tim
 		new_object.m_object			= game_object;
 		new_object.m_prev_time		= 0;
 		new_object.m_value			= get_visible_value(distance,object_distance,time_delta,get_object_velocity(game_object,new_object),object_luminocity(game_object));
-		clamp						(new_object.m_value,0.f,current_state().m_visibility_threshold + EPS_L);
+		XrMath::clamp						(new_object.m_value,0.f,current_state().m_visibility_threshold + XrMath::EPS_L);
 		new_object.m_update_time	= Device.dwTimeGlobal;
 		new_object.m_prev_time		= get_prev_time(game_object);
 		add_not_yet_visible_object	(new_object);
@@ -374,7 +374,7 @@ bool CVisualMemoryManager::visible				(const CGameObject *game_object, float tim
 
 	object->m_update_time		= Device.dwTimeGlobal;
 	object->m_value				+= get_visible_value(distance,object_distance,time_delta,get_object_velocity(game_object,*object),object_luminocity(game_object));
-	clamp						(object->m_value,0.f,current_state().m_visibility_threshold + EPS_L);
+	XrMath::clamp						(object->m_value,0.f,current_state().m_visibility_threshold + XrMath::EPS_L);
 	object->m_prev_time			= get_prev_time(game_object);
 
 	return						(object->m_value >= current_state().m_visibility_threshold);
@@ -483,7 +483,7 @@ bool CVisualMemoryManager::visible(u32 _level_vertex_id, float yaw, float eye_fo
 	direction.normalize_safe();
 	float					y, p;
 	direction.getHP			(y,p);
-	if (angle_difference(yaw,y) <= eye_fov*PI/180.f/2.f)
+	if (XrMath::angle_difference(yaw,y) <= eye_fov*XrMath::M_PI/180.f/2.f)
 		return(ai().level_graph().check_vertex_in_direction(m_object->ai_location().level_vertex_id(),m_object->Position(),_level_vertex_id));
 	else
 		return(false);
@@ -660,7 +660,7 @@ void CVisualMemoryManager::update				(float time_delta)
 		if (I != m_not_yet_visible_objects.end()) {
 			Actor()->SetActorVisibility				(
 				m_object->ID(),
-				clampr(
+				XrMath::clampr(
 					(*I).m_value/visibility_threshold(),
 					0.f,
 					1.f

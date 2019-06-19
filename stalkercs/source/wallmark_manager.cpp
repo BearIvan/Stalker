@@ -159,7 +159,7 @@ void CWalmarkManager::StartWorkflow()
 			continue;
 		}
 */
-		float test					= dist-EPS_L;
+		float test					= dist-XrMath::EPS_L;
 		
 		if(test>0.f)
 		{
@@ -169,7 +169,7 @@ void CWalmarkManager::StartWorkflow()
 				continue;
 			}
 		}
-		if( fis_zero(pfSParam) || fis_zero(pfTParam) || fsimilar(pfSParam,1.0f) || fsimilar(pfTParam,1.0f)  )
+		if( XrMath::fis_zero(pfSParam) || XrMath::fis_zero(pfTParam) || XrMath::fsimilar(pfSParam,1.0f) || XrMath::fsimilar(pfTParam,1.0f)  )
 		{
 			++_tri_not_plane;
 			continue;
@@ -215,17 +215,17 @@ void CWalmarkManager::Load (LPCSTR section)
 	string256	tmp;
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 
-	int cnt		=_GetItemCount(wallmarks_name);
+	int cnt		=XrTrims::GetItemCount(wallmarks_name);
 	VERIFY		(cnt);
 
 	for (int k=0; k<cnt; ++k)
-		m_wallmarks->AppendMark(_GetItem(wallmarks_name,k,tmp));
+		m_wallmarks->AppendMark(XrTrims::GetItem(wallmarks_name,k,tmp));
 
 	/*
 	ref_shader	s;
 	for (int k=0; k<cnt; ++k)
 	{
-		s.create ("effects\\wallmark",_GetItem(wallmarks_name,k,tmp));
+		s.create ("effects\\wallmark",XrTrims::GetItem(wallmarks_name,k,tmp));
 		m_wallmarks.push_back	(s);
 	}
 	*/
@@ -261,7 +261,7 @@ float Distance (const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam,
 //.    float fC = kDiff.SquaredLength();
     float fC = kDiff.square_magnitude();
 
-    float fDet = _abs(fA00*fA11-fA01*fA01);
+    float fDet = XrMath::abs(fA00*fA11-fA01*fA01);
 
     float fS = fA01*fB1-fA11*fB0;
     float fT = fA01*fB0-fA00*fB1;
@@ -480,5 +480,5 @@ float Distance (const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam,
 	
 	dir.sub				(closest, rkPoint);
 	dir.normalize_safe	();
-    return _sqrt		(_abs(fSqrDist));
+    return XrMath::sqrt		(XrMath::abs(fSqrDist));
 }

@@ -119,7 +119,7 @@ bool UIProperty::read_value_from_section( LPCSTR section, LPCSTR param, float& r
 			sum += i_res;
 		}
 		
-		if ( _abs(sum) > EPS )
+		if ( XrMath::abs(sum) > XrMath::EPS )
 		{
 			not_null = true;
 		}

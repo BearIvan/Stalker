@@ -253,7 +253,7 @@ void CSE_ALifeHumanAbstract::vfDetachAll(bool bFictitious)
 			detach					(l_tpALifeInventoryItem,&I);
 		}
 	}
-	R_ASSERT2						((m_fCumulativeItemMass < EPS_L) && !m_iCumulativeItemVolume,"Invalid cumulative item mass or volume value");
+	R_ASSERT2						((m_fCumulativeItemMass < XrMath::EPS_L) && !m_iCumulativeItemVolume,"Invalid cumulative item mass or volume value");
 }
 
 CSE_ALifeDynamicObject *CSE_ALifeHumanAbstract::tpfGetBestDetector()
@@ -270,7 +270,7 @@ CSE_ALifeDynamicObject *CSE_ALifeHumanAbstract::tpfGetBestDetector()
 			CSE_ALifeHumanAbstract	*l_tpALifeHumanAbstract = smart_cast<CSE_ALifeHumanAbstract*>(ai().alife().objects().object(l_tpALifeGroupAbstract->m_tpMembers[0]));
 			R_ASSERT				(l_tpALifeHumanAbstract);
 			ai().ef_storage().alife().member_item() = l_tpALifeHumanAbstract->tpfGetBestDetector();
-			u32						l_dwCurrentValue = iFloor(ai().ef_storage().m_pfDetectorType->ffGetValue()+.5f);
+			u32						l_dwCurrentValue = XrMath::iFloor(ai().ef_storage().m_pfDetectorType->ffGetValue()+.5f);
 			if (l_dwCurrentValue > l_dwBestValue) {
 				l_dwBestValue		= l_dwCurrentValue;
 				m_tpBestDetector	= const_cast<CSE_ALifeDynamicObject*>(smart_cast<const CSE_ALifeDynamicObject*>(ai().ef_storage().alife().member_item()));
@@ -575,7 +575,7 @@ int  CSE_ALifeHumanAbstract::ifChooseValuables()
 
 void CSE_ALifeHumanAbstract::vfAttachItems(ETakeType tTakeType)
 {
-	R_ASSERT2					(fHealth >= EPS_L,"Cannot graph().attach items to dead human");
+	R_ASSERT2					(fHealth >= XrMath::EPS_L,"Cannot graph().attach items to dead human");
 	
 	CSE_ALifeGroupAbstract		*l_tpALifeGroupAbstract = smart_cast<CSE_ALifeGroupAbstract*>(this);
 	if (l_tpALifeGroupAbstract) {

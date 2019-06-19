@@ -93,12 +93,12 @@ void CMonsterEnemyManager::update()
 		dist_now	= position.distance_to(monster->Position());
 		dist_prev	= prev_enemy_position.distance_to(monster->Position());
 
-		if (_abs(dist_now - dist_prev) < 0.2f)								flags.or(FLAG_ENEMY_STANDING);
+		if (XrMath::abs(dist_now - dist_prev) < 0.2f)								flags.or(FLAG_ENEMY_STANDING);
 		else {
 			if (dist_now < dist_prev)										flags.or(FLAG_ENEMY_GO_CLOSER);
 			else															flags.or(FLAG_ENEMY_GO_FARTHER);
 
-			if (_abs(dist_now - dist_prev) < 1.2f) {
+			if (XrMath::abs(dist_now - dist_prev) < 1.2f) {
 				if (dist_now < dist_prev)									flags.or(FLAG_ENEMY_GO_CLOSER_FAST);
 				else														flags.or(FLAG_ENEMY_GO_FARTHER_FAST);
 			}
@@ -209,19 +209,19 @@ bool CMonsterEnemyManager::is_faced(const CEntityAlive *object0, const CEntityAl
 
 	yaw1			= object0->Orientation().yaw;
 	pitch1			= object0->Orientation().pitch;
-	fYawFov			= angle_normalize_signed(object0->ffGetFov()*PI/180.f);
+	fYawFov			= XrMath::angle_normalize_signed(object0->ffGetFov()*XrMath::M_PI/180.f);
 	fRange			= object0->ffGetRange();
 
-	fYawFov			= angle_normalize_signed((_abs(fYawFov) + _abs(atanf(1.f/tPosition.distance_to(object1->Position()))))/2.f);
-	fPitchFov		= angle_normalize_signed(fYawFov*1.f);
+	fYawFov			= XrMath::angle_normalize_signed((XrMath::abs(fYawFov) + XrMath::abs(atanf(1.f/tPosition.distance_to(object1->Position()))))/2.f);
+	fPitchFov		= XrMath::angle_normalize_signed(fYawFov*1.f);
 	tPosition.sub	(object1->Position());
 	tPosition.mul	(-1);
 	tPosition.getHP	(yaw2,pitch2);
-	yaw1			= angle_normalize_signed(yaw1);
-	pitch1			= angle_normalize_signed(pitch1);
-	yaw2			= angle_normalize_signed(yaw2);
-	pitch2			= angle_normalize_signed(pitch2);
-	if ((angle_difference(yaw1,yaw2) <= fYawFov) && (angle_difference(pitch1,pitch2) <= fPitchFov))
+	yaw1			= XrMath::angle_normalize_signed(yaw1);
+	pitch1			= XrMath::angle_normalize_signed(pitch1);
+	yaw2			= XrMath::angle_normalize_signed(yaw2);
+	pitch2			= XrMath::angle_normalize_signed(pitch2);
+	if ((XrMath::angle_difference(yaw1,yaw2) <= fYawFov) && (XrMath::angle_difference(pitch1,pitch2) <= fPitchFov))
 		return		(true);
 	return			(false);
 }

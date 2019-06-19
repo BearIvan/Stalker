@@ -256,8 +256,8 @@ void CAI_Bloodsucker::reinit()
 	
 	state_invisible				= false;
 
-	//com_man().add_rotation_jump_data("run_turn_r_0","run_turn_r_1","run_turn_r_0","run_turn_r_1", PI - 0.01f, SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
-	com_man().add_rotation_jump_data("run_turn_l_0","run_turn_l_1","run_turn_r_0","run_turn_r_1", PI_DIV_2);
+	//com_man().add_rotation_jump_data("run_turn_r_0","run_turn_r_1","run_turn_r_0","run_turn_r_1", XrMath::M_PI - 0.01f, SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
+	com_man().add_rotation_jump_data("run_turn_l_0","run_turn_l_1","run_turn_r_0","run_turn_r_1", XrMath::PI_DIV_2);
 	
 	com_man().load_jump_data("boloto_jump_prepare",0, "boloto_jump_fly", "boloto_jump_end", u32(-1), MonsterMovement::eBloodsuckerVelocityParameterJumpGround,0);
 
@@ -293,7 +293,7 @@ void CAI_Bloodsucker::LoadVampirePPEffector(LPCSTR section)
 	pp_vampire_effector.noise.intensity		= pSettings->r_float(section,"noise_intensity");
 	pp_vampire_effector.noise.grain			= pSettings->r_float(section,"noise_grain");
 	pp_vampire_effector.noise.fps			= pSettings->r_float(section,"noise_fps");
-	VERIFY(!fis_zero(pp_vampire_effector.noise.fps));
+	VERIFY(!XrMath::fis_zero(pp_vampire_effector.noise.fps));
 
 	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &pp_vampire_effector.color_base.r, &pp_vampire_effector.color_base.g, &pp_vampire_effector.color_base.b);
 	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &pp_vampire_effector.color_gray.r, &pp_vampire_effector.color_gray.g, &pp_vampire_effector.color_gray.b);
@@ -326,7 +326,7 @@ void CAI_Bloodsucker::vfAssignBones()
 }
 
 
-//#define MAX_BONE_ANGLE PI_DIV_4
+//#define MAX_BONE_ANGLE XrMath::PI_DIV_4
 
 void CAI_Bloodsucker::LookDirection(Fvector to_dir, float bone_turn_speed)
 {
@@ -338,12 +338,12 @@ void CAI_Bloodsucker::LookDirection(Fvector to_dir, float bone_turn_speed)
 	//float cur_yaw = -movement().m_body.current.yaw;						// текущий мировой угол монстра
 	//float bone_angle;											// угол для боны	
 
-	//float dy = _abs(angle_normalize_signed(yaw - cur_yaw));		// дельта, на которую нужно поворачиваться
+	//float dy = XrMath::abs(XrMath::angle_normalize_signed(yaw - cur_yaw));		// дельта, на которую нужно поворачиваться
 
-	//if (angle_difference(cur_yaw,yaw) <= MAX_BONE_ANGLE) {		// bone turn only
+	//if (XrMath::angle_difference(cur_yaw,yaw) <= MAX_BONE_ANGLE) {		// bone turn only
 	//	bone_angle = dy;
 	//} else {													// torso & bone turn 
-	//	if (movement().IsMoveAlongPathFinished() || !movement().enabled()) movement().m_body.target.yaw = angle_normalize(-yaw);
+	//	if (movement().IsMoveAlongPathFinished() || !movement().enabled()) movement().m_body.target.yaw = XrMath::angle_normalize(-yaw);
 	//	if (dy / 2 < MAX_BONE_ANGLE) bone_angle = dy / 2;
 	//	else bone_angle = MAX_BONE_ANGLE;
 	//}
@@ -355,7 +355,7 @@ void CAI_Bloodsucker::LookDirection(Fvector to_dir, float bone_turn_speed)
 	//Bones.SetMotion(bone_head,	AXIS_X, bone_angle, bone_turn_speed, 100);
 
 	//// установить параметры вращения по pitch
-	//clamp(pitch, -MAX_BONE_ANGLE, MAX_BONE_ANGLE);
+	//XrMath::clamp(pitch, -MAX_BONE_ANGLE, MAX_BONE_ANGLE);
 	//pitch /= 2; 
 
 	//Bones.SetMotion(bone_spine, AXIS_Y, pitch, bone_turn_speed, 100);
@@ -411,7 +411,7 @@ void CAI_Bloodsucker::apply_actor_camera_effector()
 		return;
 	}
 
-	const TTime current_tick   = _min(time(), m_camera_effector_start_move_tick + 
+	const TTime current_tick   = XrMath::min(time(), m_camera_effector_start_move_tick + 
 		                                      m_camera_effector_move_time_milis);
 
 	const float relative_time1 = (m_camera_effector_last_move_tick - m_camera_effector_start_move_tick)
@@ -427,10 +427,10 @@ void CAI_Bloodsucker::apply_actor_camera_effector()
 	const float angle_relative = (relative_time2-relative_time1) * (2-relative_time1-relative_time2);
 
 	Actor()->cam_Active()->Move(m_camera_effector_hor_angle > 0 ? kRIGHT : kLEFT, 
-		                        _abs(m_camera_effector_hor_angle)*angle_relative);
+		                        XrMath::abs(m_camera_effector_hor_angle)*angle_relative);
 
 	Actor()->cam_Active()->Move(m_camera_effector_ver_angle > 0 ? kUP	 : kDOWN, 
-		                        _abs(m_camera_effector_ver_angle)*angle_relative);
+		                        XrMath::abs(m_camera_effector_ver_angle)*angle_relative);
 }
 
 void CAI_Bloodsucker::UpdateCL()
@@ -443,7 +443,7 @@ void CAI_Bloodsucker::UpdateCL()
 	{
 		// update vampire need
 		m_vampire_want_value += m_vampire_want_speed * client_update_fdelta();
-		clamp(m_vampire_want_value,0.f,1.f);
+		XrMath::clamp(m_vampire_want_value,0.f,1.f);
 		
 		apply_actor_camera_effector();
 	}
@@ -739,11 +739,11 @@ void CAI_Bloodsucker::debug_on_key(int key)
 {
 	switch (key){
 	case DIK_MINUS:
-		Actor()->cam_Active()->Move(Random.randI(2) ? kRIGHT : kLEFT, PI_DIV_2);
+		Actor()->cam_Active()->Move(Random.randI(2) ? kRIGHT : kLEFT, XrMath::PI_DIV_2);
 		//set_alien_control(true);
 		break;
 	case DIK_EQUALS:
-		Actor()->cam_Active()->Move(Random.randI(2) ? kUP	 : kDOWN, PI_DIV_2);
+		Actor()->cam_Active()->Move(Random.randI(2) ? kUP	 : kDOWN, XrMath::PI_DIV_2);
 		//set_alien_control(false);
 		break;
 	}

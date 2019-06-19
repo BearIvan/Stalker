@@ -137,7 +137,7 @@ void object::OnRender		()
 		Fvector						direction = m_cover->fov_direction(*loophole);
 		Fvector						up = XFORM().j;
 		dbg_draw_frustum			(
-			loophole->fov()*180.f/PI,
+			loophole->fov()*180.f/XrMath::M_PI,
 			loophole->range(),
 			1.f,
 			position,

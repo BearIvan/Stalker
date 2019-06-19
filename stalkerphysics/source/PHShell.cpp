@@ -311,7 +311,7 @@ void        CPHShell::  applyForce              (float x,float y,float z)
 {
 Fvector dir;dir.set(x,y,z);
 float val=dir.magnitude();
-    if(!fis_zero(val))
+    if(!XrMath::fis_zero(val))
     {
         dir.mul(1.f/val);
         applyForce(dir,val);

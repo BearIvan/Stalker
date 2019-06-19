@@ -299,7 +299,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	}
 #endif
 	VERIFY							(_valid(renderable.xform));
-	VERIFY							(!fis_zero(DET(renderable.xform)));
+	VERIFY							(!XrMath::fis_zero(DET(renderable.xform)));
 	CSE_ALifeObject					*O = smart_cast<CSE_ALifeObject*>(E);
 	if (O && xr_strlen(O->m_ini_string)) {
 #pragma warning(push)
@@ -391,7 +391,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 					) &&
 					can_validate_position_on_spawn()
 				)
-				Position().y					= EPS_L + ai().level_graph().vertex_plane_y(*ai_location().level_vertex(),Position().x,Position().z);
+				Position().y					= XrMath::EPS_L + ai().level_graph().vertex_plane_y(*ai_location().level_vertex(),Position().x,Position().z);
 		}
 		else {
 			CSE_ALifeObject* const alife_object	= smart_cast<CSE_ALifeObject*>(E);
@@ -516,14 +516,14 @@ void CGameObject::spawn_supplies()
 		
 		float f_cond						= 1.0f;
 		if (V && xr_strlen(V)) {
-			int				n = _GetItemCount(V);
+			int				n = XrTrims::GetItemCount(V);
 			string16		temp;
 			if (n > 0)
-				j			= atoi(_GetItem(V,0,temp)); //count
+				j			= atoi(XrTrims::GetItem(V,0,temp)); //count
 			
 			if(NULL!=strstr(V,"prob="))
 				p			=(float)atof(strstr(V,"prob=")+5);
-			if (fis_zero(p))p = 1.f;
+			if (XrMath::fis_zero(p))p = 1.f;
 			if (!j)	j		= 1;
 			if(NULL!=strstr(V,"cond="))
 				f_cond		= (float)atof(strstr(V,"cond=")+5);
@@ -995,7 +995,7 @@ void CGameObject::destroy_anim_mov_ctrl	()
 	xr_delete			( m_anim_mov_ctrl );
 }
 
-IC	bool similar						(const Fmatrix &_0, const Fmatrix &_1, const float &epsilon = EPS)
+IC	bool similar						(const Fmatrix &_0, const Fmatrix &_1, const float &epsilon = XrMath::EPS)
 {
 	if (!_0.i.similar(_1.i,epsilon))
 		return						(false);
@@ -1023,7 +1023,7 @@ void CGameObject::UpdateCL			()
 	if (H_Parent())
 		return;
 
-	if (similar(XFORM(),m_previous_matrix,EPS))
+	if (similar(XFORM(),m_previous_matrix,XrMath::EPS))
 		return;
 
 	on_matrix_change				(m_previous_matrix);
@@ -1056,7 +1056,7 @@ void render_box						(IRenderVisual *visual, const Fmatrix &xform, const Fvector
 			continue;
 		
 		const Fobb			&obb = kinematics->LL_GetData(i).obb;
-		if (fis_zero(obb.m_halfsize.square_magnitude())) {
+		if (XrMath::fis_zero(obb.m_halfsize.square_magnitude())) {
 			VERIFY			(visible_bone_count > 1);
 			--visible_bone_count;
 			continue;

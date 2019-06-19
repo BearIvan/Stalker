@@ -20,11 +20,11 @@ rnd_motion*	rnd_motion::	setup		( IKinematicsAnimated* k, LPCSTR s )
 	VERIFY( k );
 	VERIFY( s );
 
-	const u16 nb =( u16 )_GetItemCount( s );
+	const u16 nb =( u16 )XrTrims::GetItemCount( s );
 	for(u16 i = 0 ; nb > i ; ++i )
 	{
 		string64 n;
-		_GetItem( s, i, n );
+		XrTrims::GetItem( s, i, n );
 		MotionID m = k->LL_MotionID( n );
 		VERIFY2( m.valid(), make_string( "motion: %s not found!", n ) );
 		motions.push_back( m );
@@ -63,11 +63,11 @@ xr_token motion_dirs[]={
 void type_motion::set_motion( IKinematicsAnimated* k, u16 id_motion, LPCSTR dir_anim )
 {
 	
-	//VERIFY2( _GetItemCount( dir_anim, '-' ) == 2,"wrong params" );
+	//VERIFY2( XrTrims::GetItemCount( dir_anim, '-' ) == 2,"wrong params" );
 
 	//string16 sdir; string1024 sanim;
-	//_GetItem( dir_anim, 0, sdir, '-' );
-	//_GetItem( dir_anim, 1, sanim, '-' );
+	//XrTrims::GetItem( dir_anim, 0, sdir, '-' );
+	//XrTrims::GetItem( dir_anim, 1, sanim, '-' );
 	//u16( get_token_id ( motion_dirs, sdir  ) )
 	anims[ id_motion ] = xr_new<rnd_motion>()->setup( k, dir_anim );
 }
@@ -88,7 +88,7 @@ type_motion* type_motion::setup( IKinematicsAnimated* k, CInifile const * ini, L
 			return this;
 		}
 		R_ASSERT( xr_strlen( line ) < 1023 );
-		const int num = _GetItemCount( line, '/' );
+		const int num = XrTrims::GetItemCount( line, '/' );
 #ifdef	DEBUG
 		if( death_anim_debug && num == 0 )
 			Msg("death anims: load: no setings in section %s for %s", section, type );
@@ -96,7 +96,7 @@ type_motion* type_motion::setup( IKinematicsAnimated* k, CInifile const * ini, L
 		for( int i = 0; num > i; ++i)
 		{
 			string1024 sdir_anim;
-			set_motion( k, u16(i), _GetItem( line, i, sdir_anim, '/' ) );
+			set_motion( k, u16(i), XrTrims::GetItem( line, i, sdir_anim, '/' ) );
 #ifdef	DEBUG
 			if( death_anim_debug )
 				Msg("death anims: load: loaded %s from section %s for %s", sdir_anim, section, type );

@@ -551,9 +551,9 @@ public:
 	{
 		string512				console_command;
 		string256				key;
-		int cnt					= _GetItemCount(args,' ');
-		_GetItems				(args,0,cnt-1,console_command,' ');
-		_GetItem				(args,cnt-1,key,' ');
+		int cnt					= XrTrims::GetItemCount(args,' ');
+		XrTrims::GetItems				(args,0,cnt-1,console_command,' ');
+		XrTrims::GetItem				(args,cnt-1,key,' ');
 
 		int dik					= keyname_to_dik(key);
 		bindConsoleCmds.bind	(dik, console_command);

@@ -107,7 +107,7 @@ void CPHMovementControl::AddControlVel	(const Fvector& vel)
 void CPHMovementControl::ApplyImpulse(const Fvector& dir,const dReal P)
 {
 	VERIFY( m_character );
-	if(fis_zero(P))
+	if(XrMath::fis_zero(P))
 		return;
 	Fvector force;
 	force.set(dir);
@@ -153,9 +153,9 @@ void CPHMovementControl::Calculate(Fvector& vAccel,const Fvector& camDir,float /
 	float mAccel=vAccel.magnitude();
 	m_character->SetCamDir(camDir);
 	m_character->SetMaximumVelocity(mAccel/10.f);
-	//if(!fis_zero(mAccel))vAccel.mul(1.f/mAccel);
+	//if(!XrMath::fis_zero(mAccel))vAccel.mul(1.f/mAccel);
 	m_character->SetAcceleration(vAccel);
-	if(!fis_zero(jump)) m_character->Jump(vAccel);
+	if(!XrMath::fis_zero(jump)) m_character->Jump(vAccel);
 	
 	m_character->GetSavedVelocity(vVelocity); 
 	fActualVelocity=vVelocity.magnitude();
@@ -176,7 +176,7 @@ void CPHMovementControl::Calculate(Fvector& vAccel,const Fvector& camDir,float /
 
 	if( mat_injurios!=GAMEMTL_NONE_IDX)
 	{
-		if( fis_zero(gcontact_HealthLost) )
+		if( XrMath::fis_zero(gcontact_HealthLost) )
 				m_character->SetHitType( DefineCollisionHitType( mat_injurios ) );
 		gcontact_HealthLost+=Device.fTimeDelta*GMLib.GetMaterialByIdx( mat_injurios )->fInjuriousSpeed;
 	}
@@ -320,7 +320,7 @@ void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPat
 			_d.sub(path[0].position,new_position);
 			SetPathDir	(_d);
 			m_path_distance=GetPathDir().magnitude();
-			if(m_path_distance>EPS)
+			if(m_path_distance>XrMath::EPS)
 			{
 				Fvector _d = GetPathDir();
 				_d.mul(1.f/m_path_distance);
@@ -349,13 +349,13 @@ void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPat
 	
 			travel_point=(u32)index;
 			m_start_index=index;
-			if(fis_zero(speed)) dir.set(0,0,0);
+			if(XrMath::fis_zero(speed)) dir.set(0,0,0);
 		}
 
 	}
 	
 	dir.y=0.f;
-	//VERIFY(!(fis_zero(dir.magnitude())&&!fis_zero(speed)));
+	//VERIFY(!(XrMath::fis_zero(dir.magnitude())&&!XrMath::fis_zero(speed)));
 	dir.normalize_safe();
 	
 	/////////////////////////////////////////////////////////////////
@@ -371,7 +371,7 @@ void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPat
 		m_character->ApplyForce(vExternalImpulse);
 		speed=V.magnitude();
 
-		if(!fis_zero(speed))
+		if(!XrMath::fis_zero(speed))
 		{
 			dir.set(V);
 			dir.mul(1.f/speed);
@@ -686,9 +686,9 @@ void		CPHMovementControl::CorrectPathDir			(const Fvector &real_path_dir,const x
 {
 	const float epsilon=0.1f;
 	float plane_motion=dXZMag(real_path_dir);
-	if(fis_zero(plane_motion,epsilon))
+	if(XrMath::fis_zero(plane_motion,epsilon))
 	{
-		if(!fis_zero(plane_motion,EPS))
+		if(!XrMath::fis_zero(plane_motion,XrMath::EPS))
 		{
 			corrected_path_dir.set(real_path_dir);
 			corrected_path_dir.y=0.f;
@@ -717,7 +717,7 @@ void CPHMovementControl::PathDIrLine(const xr_vector<DetailPathManager::STravelP
 	Fvector corrected_path_dir;CorrectPathDir(GetPathDir(),path,index,corrected_path_dir);
 	to_path_point.sub(vPathPoint,vPosition);	//_new position
 	float mag=to_path_point.magnitude();
-	if(mag<EPS)
+	if(mag<XrMath::EPS)
 	{
 	dir.set(corrected_path_dir);
 	return;
@@ -736,7 +736,7 @@ void CPHMovementControl::PathDIrPoint(const xr_vector<DetailPathManager::STravel
 	to_path_point.sub(vPathPoint,vPosition);	//_new position
 	float mag=to_path_point.magnitude();
 
-	if(mag<EPS) //near the point
+	if(mag<XrMath::EPS) //near the point
 	{  
 		if(0==index||m_path_size-1==index) //on path eidge
 		{
@@ -756,7 +756,7 @@ void CPHMovementControl::PathDIrPoint(const xr_vector<DetailPathManager::STravel
 	}
 
 
-	if(mag<EPS||fis_zero(dXZMag(to_path_point),EPS))
+	if(mag<XrMath::EPS||XrMath::fis_zero(dXZMag(to_path_point),XrMath::EPS))
 	{
 		dir.set(corrected_path_dir);
 		return;//mean dir
@@ -765,9 +765,9 @@ void CPHMovementControl::PathDIrPoint(const xr_vector<DetailPathManager::STravel
 	Fvector tangent;
 	tangent.crossproduct(Fvector().set(0,1,0),to_path_point);
 
-	VERIFY(!fis_zero(tangent.magnitude()));
+	VERIFY(!XrMath::fis_zero(tangent.magnitude()));
 	tangent.normalize();
-	if(dir.square_magnitude()>EPS)
+	if(dir.square_magnitude()>XrMath::EPS)
 	{
 		if(tangent.dotproduct(dir)<0.f)tangent.invert();
 	}
@@ -1066,7 +1066,7 @@ void CPHMovementControl::GetJumpParam(Fvector &velocity, JumpType &type,const Fv
 		return;
 	}
 	float rise_time=velosity.y/ph_world->Gravity();
-	if(_abs(rise_time-time)<EPS_L)
+	if(XrMath::abs(rise_time-time)<XrMath::EPS_L)
 	{
 		type=jtHigh;
 	}
@@ -1245,10 +1245,10 @@ void	CPHMovementControl::TraceBorder(const Fvector &prev_position)
 	Fvector dir;	dir					.sub(to_position,from_pos)			;
 	float sq_mag	=					dir.square_magnitude()				;
 	if(sq_mag==0.f) return													;
-	float mag=_sqrt(sq_mag)													;
+	float mag=XrMath::sqrt(sq_mag)													;
 	dir.mul(1.f/mag)														;
 	collide::ray_defs	RD		(from_pos,dir,mag,0,collide::rqtStatic)		;
-	VERIFY							(!fis_zero(RD.dir.square_magnitude()))	;
+	VERIFY							(!XrMath::fis_zero(RD.dir.square_magnitude()))	;
 
 	STraceBorderQParams			p(this,dir);
 	storage.r_clear				();
@@ -1266,11 +1266,11 @@ void	CPHMovementControl::				UpdateObjectBox(CPHCharacter *ach)
 	const Fvector &p	=cast_fv(dBodyGetPosition(m_character->get_body()));
 	Fvector2 poses_dir;poses_dir.set(p.x-pa.x,p.z-pa.z);float plane_dist=poses_dir.magnitude(); 
 	if(plane_dist>2.f) return;
-	if(plane_dist>EPS_S)poses_dir.mul(1.f/plane_dist);
+	if(plane_dist>XrMath::EPS_S)poses_dir.mul(1.f/plane_dist);
 	Fvector2 plane_cam;plane_cam.set(Device.vCameraDirection.x,Device.vCameraDirection.z);plane_cam.normalize_safe();
 	Fvector2 plane_i;plane_i.set(pObject->XFORM().i.x,pObject->XFORM().i.z);
 	Fvector2 plane_k;plane_k.set(pObject->XFORM().k.x,pObject->XFORM().k.z);
-	float R=_abs(poses_dir.dotproduct(plane_i)*cbox.x)+_abs(poses_dir.dotproduct(plane_k)*cbox.z);
+	float R=XrMath::abs(poses_dir.dotproduct(plane_i)*cbox.x)+XrMath::abs(poses_dir.dotproduct(plane_k)*cbox.z);
 	R*=poses_dir.dotproduct(plane_cam); //(poses_dir.x*plane_cam.x+poses_dir.y*plane_cam.z);
 	Calculate(Fvector().set(0,0,0),Fvector().set(1,0,0),0,0,0,0);
 	m_character->SetObjectRadius(R);
@@ -1282,12 +1282,12 @@ void CPHMovementControl::SetPathDir( const Fvector& v)
 {
 	_vPathDir = v;
 
-	if(_abs(_vPathDir.x)>1000 || _abs(_vPathDir.y)>1000 || _abs(_vPathDir.z)>1000)
+	if(XrMath::abs(_vPathDir.x)>1000 || XrMath::abs(_vPathDir.y)>1000 || XrMath::abs(_vPathDir.z)>1000)
 	{
 		Log					("_vPathDir",	_vPathDir );
 	
 	}
-	VERIFY2				( _abs(_vPathDir.x)<1000," incorrect SetPathDir ");
+	VERIFY2				( XrMath::abs(_vPathDir.x)<1000," incorrect SetPathDir ");
 
 }
 const IPhysicsElement*	CPHMovementControl::IElement( )const
@@ -1375,7 +1375,7 @@ void CPHMovementControl::VirtualMoveTo( const Fvector	&in_pos, Fvector &out_pos 
 	
 	const Fvector displacement = Fvector().sub( in_pos, vPosition );
 	const float dist = displacement.magnitude();
-	if( fis_zero( dist ) )
+	if( XrMath::fis_zero( dist ) )
 	{
 		out_pos.set(in_pos);
 		return;
@@ -1384,9 +1384,9 @@ void CPHMovementControl::VirtualMoveTo( const Fvector	&in_pos, Fvector &out_pos 
 	float		move_time		= dist/move_velocity;
 	float		n				= move_time/fixed_step;
 	float		fsteps_num		= ceil( n );
-	u32			steps_num		= iCeil( n );
-	clamp( fsteps_num, 0.f, fmove_steps_max_num );
-	clamp<u32>( steps_num, u32(0), move_steps_max_num );
+	u32			steps_num		= XrMath::iCeil( n );
+	XrMath::clamp( fsteps_num, 0.f, fmove_steps_max_num );
+	XrMath::clamp<u32>( steps_num, u32(0), move_steps_max_num );
 
 	
 					move_time		= fixed_step * fsteps_num;

@@ -62,7 +62,7 @@ void CAdvancedDetector::UpdateAf()
 
 	float dist				= min_dist;
 	float fRelPow			= (dist/m_fAfDetectRadius);
-	clamp					(fRelPow, 0.f, 1.f);
+	XrMath::clamp					(fRelPow, 0.f, 1.f);
 
 	//direction
 	Fvector					dir_to_artefact;
@@ -71,7 +71,7 @@ void CAdvancedDetector::UpdateAf()
 	float _ang_af			= dir_to_artefact.getH();
 	float _ang_cam			= Device.vCameraDirection.getH();
 	
-	float _diff				= angle_difference_signed(_ang_af, _ang_cam);
+	float _diff				= XrMath::angle_difference_signed(_ang_af, _ang_cam);
 
 	// sounds
 	af_info.cur_period = item_type->freq.x + 
@@ -119,7 +119,7 @@ void CUIArtefactDetectorAdv::update()
 	attachable_hud_item* itm		= m_parent->HudItemData();
 	R_ASSERT						(itm);
 
-	BOOL b_visible					= !fis_zero(m_target_dir.magnitude());
+	BOOL b_visible					= !XrMath::fis_zero(m_target_dir.magnitude());
 	if(b_visible != itm->m_model->LL_GetBoneVisible(m_bid))
 		itm->m_model->LL_SetBoneVisible(m_bid, b_visible, TRUE);
 
@@ -136,23 +136,23 @@ void CUIArtefactDetectorAdv::update()
 
 
 /*
-	m_cur_y_rot						= angle_normalize_signed(m_cur_y_rot);
-	float diff						= angle_difference_signed(m_cur_y_rot, dest_y_rot);
+	m_cur_y_rot						= XrMath::angle_normalize_signed(m_cur_y_rot);
+	float diff						= XrMath::angle_difference_signed(m_cur_y_rot, dest_y_rot);
 	float a							= (diff>0.0f)?-1.0f:1.0f;
 
 	a								*= 2.0f;
 
 	m_curr_ang_speed				= m_curr_ang_speed + a*Device.fTimeDelta;
-	clamp							(m_curr_ang_speed,-2.0f,2.0f);
+	XrMath::clamp							(m_curr_ang_speed,-2.0f,2.0f);
 	float _add						= m_curr_ang_speed*Device.fTimeDelta;
 
 	m_cur_y_rot						+= _add;
 */
-	m_cur_y_rot						= angle_inertion_var(	m_cur_y_rot,
+	m_cur_y_rot						= XrMath::angle_inertion_var(	m_cur_y_rot,
 															dest_y_rot,
-															PI_DIV_4,
-															PI_MUL_4,
-															PI_MUL_2,
+															XrMath::PI_DIV_4,
+															XrMath::PI_MUL_4,
+															XrMath::PI_MUL_2,
 															Device.fTimeDelta);
 
 }
@@ -201,7 +201,7 @@ void CUIArtefactDetectorAdv::ResetBoneCallbacks()
 
 float CUIArtefactDetectorAdv::CurrentYRotation() const 
 {
-	float one		= PI_MUL_2/24.0f;
+	float one		= XrMath::PI_MUL_2/24.0f;
 	float ret		= fmod(m_cur_y_rot, one);
 	return			(m_cur_y_rot-ret);
 }

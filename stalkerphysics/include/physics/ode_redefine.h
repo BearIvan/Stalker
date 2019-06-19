@@ -5,12 +5,12 @@
 
 #ifdef	dSqrt
 #undef	dSqrt
-#define dSqrt(x) ((float)_sqrt(x))		/* square root */
+#define dSqrt(x) ((float)XrMath::sqrt(x))		/* square root */
 #endif
 
 #ifdef  dRecipSqrt
 #undef  dRecipSqrt
-#define dRecipSqrt(x) ((float)(1.0f/_sqrt(x)))	/* reciprocal square root */
+#define dRecipSqrt(x) ((float)(1.0f/XrMath::sqrt(x)))	/* reciprocal square root */
 #endif
 
 #ifdef	dSin
@@ -25,7 +25,7 @@
 
 #ifdef  dFabs
 #undef  dFabs
-#define dFabs(x) ((float)_abs(x))		/* absolute value */
+#define dFabs(x) ((float)XrMath::abs(x))		/* absolute value */
 #endif
 
 #endif//XRGAME_EXPORTS

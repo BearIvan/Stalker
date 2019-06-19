@@ -58,7 +58,7 @@ u32 GetNVGpuNum()
 	{
 		status = NvAPI_GetPhysicalGPUsFromLogicalGPU( logicalGPUs[i], physicalGPUs, &physicalGPUCount);
 		if (status == NVAPI_OK)
-			iGpuNum = _max( iGpuNum, physicalGPUCount);
+			iGpuNum = XrMath::max(NvU32( iGpuNum), physicalGPUCount);
 	}
 
 	if (iGpuNum>1)
@@ -86,11 +86,11 @@ u32 GetGpuNum()
 {
 	u32 res = GetNVGpuNum();
 
-	res = _max( res, GetATIGpuNum() );
+	res = XrMath::max( res, GetATIGpuNum() );
 
-	res = _max( res, 2 );
+	res = XrMath::max( res, u32(2) );
 
-	res = _min( res, CHWCaps::MAX_GPUS );
+	res = XrMath::min( res, u32(CHWCaps::MAX_GPUS) );
 
 	//	It's vital to have at least one GPU, else
 	//	code will fail.
@@ -121,10 +121,10 @@ void CHWCaps::Update()
 	geometry.bPointSprites		= FALSE;
 	geometry.bNPatches			= (caps.DevCaps & D3DDEVCAPS_NPATCHES)!=0;
 	DWORD cnt					= (caps.MaxVertexShaderConst);
-	clamp<DWORD>(cnt,0,256);
+	XrMath::clamp<DWORD>(cnt,0,256);
 	geometry.dwRegisters		= cnt;
 	geometry.dwInstructions		= 256;
-	geometry.dwClipPlanes		= _min(caps.MaxUserClipPlanes,15);
+	geometry.dwClipPlanes		= XrMath::min(caps.MaxUserClipPlanes,DWORD(15));
 	geometry.bVTF				= (geometry_major>=3) && HW.support(D3DFMT_R32F,D3DRTYPE_TEXTURE,D3DUSAGE_QUERY_VERTEXTEXTURE);
 
 	// ***************** PIXEL processing
@@ -220,10 +220,10 @@ void CHWCaps::Update()
 	geometry.bPointSprites		= FALSE;
 	geometry.bNPatches			= FALSE;
 	DWORD cnt					= 256;
-	clamp<DWORD>(cnt,0,256);
+	XrMath::clamp<DWORD>(cnt,0,256);
 	geometry.dwRegisters		= cnt;
 	geometry.dwInstructions		= 256;
-	geometry.dwClipPlanes		= _min(6,15);
+	geometry.dwClipPlanes		= XrMath::min(6,15);
 	geometry.bVTF				= TRUE;
 
 	// ***************** PIXEL processing

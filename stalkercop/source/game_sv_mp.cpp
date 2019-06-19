@@ -104,7 +104,7 @@ void	game_sv_mp::Update	()
 
 	if(g_sv_mp_iDumpStatsPeriod)
 	{
-		int curr_minutes = iFloor(Device.fTimeGlobal/60.0f);
+		int curr_minutes = XrMath::iFloor(Device.fTimeGlobal/60.0f);
 		if(g_sv_mp_iDumpStats_last+g_sv_mp_iDumpStatsPeriod <= curr_minutes )
 		{
 			if(Phase()==GAME_PHASE_INPROGRESS)
@@ -735,14 +735,14 @@ void game_sv_mp::ChargeAmmo(CSE_ALifeItemWeapon* weapon,
 							game_PlayerState::PLAYER_ITEMS_LIST & playerItems,
 							ammo_diff_t & ammo_diff)
 {
-	int ammoc_count		= _GetItemCount(ammo_string);
+	int ammoc_count		= XrTrims::GetItemCount(ammo_string);
 	u16 ammo_magsize	= weapon->get_ammo_magsize();
 	weapon->a_elapsed	= 0;
 
 	string512	temp_ammo_class;
 	for (int i = 0; i < ammoc_count; ++i)
 	{
-		_GetItem(ammo_string, i, temp_ammo_class);
+		XrTrims::GetItem(ammo_string, i, temp_ammo_class);
 		u32 const ammo_id = static_cast<u16>(
 			m_strWeaponsData->GetItemIdx(shared_str(temp_ammo_class))
 		);
@@ -774,7 +774,7 @@ void game_sv_mp::ChargeAmmo(CSE_ALifeItemWeapon* weapon,
 	}
 	if (!weapon->a_elapsed)
 	{
-		_GetItem(ammo_string, 0, temp_ammo_class);
+		XrTrims::GetItem(ammo_string, 0, temp_ammo_class);
 		weapon->ammo_type = 0;
 		if (CanChargeFreeAmmo(temp_ammo_class))
 		{
@@ -785,7 +785,7 @@ void game_sv_mp::ChargeAmmo(CSE_ALifeItemWeapon* weapon,
 
 void game_sv_mp::ChargeGrenades(CSE_ALifeItemWeapon* weapon, LPCSTR grenade_string, game_PlayerState::PLAYER_ITEMS_LIST & playerItems)
 {
-	int grenades_count		= _GetItemCount(grenade_string);
+	int grenades_count		= XrTrims::GetItemCount(grenade_string);
 	R_ASSERT2(grenades_count <= 4,
 		make_string("weapon [%s] has greater than 4 types of grenade [%s]",
 			weapon->s_name.c_str(),
@@ -796,7 +796,7 @@ void game_sv_mp::ChargeGrenades(CSE_ALifeItemWeapon* weapon, LPCSTR grenade_stri
 	string512	temp_ammo_class;
 	for (int i = 0; i < grenades_count; ++i)
 	{
-		_GetItem(grenade_string, i, temp_ammo_class);
+		XrTrims::GetItem(grenade_string, i, temp_ammo_class);
 		u32 const ammo_id = static_cast<u16>(
 			m_strWeaponsData->GetItemIdx(shared_str(temp_ammo_class))
 		);
@@ -1361,7 +1361,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 		{
 			string1024 wpnAmmos, BaseAmmoName;
 			xr_strcpy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
-			_GetItem(wpnAmmos, 0, BaseAmmoName);
+			XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 			AmmoID = u16(m_strWeaponsData->GetItemIdx(BaseAmmoName)&0xffff);
 		};
 //		if (!pWpnS->WeaponBaseAmmo.size()) continue;
@@ -1575,24 +1575,24 @@ void	game_sv_mp::LoadRanks	()
 		NewRank.m_sTitle = pSettings->r_string(RankSect, "rank_name");
 		NewRank.m_iBonusMoney = READ_IF_EXISTS(pSettings, r_s32, RankSect, "rank_aquire_money", 0);
 		shared_str RDEB_str = pSettings->r_string(RankSect, "rank_diff_exp_bonus");
-		int RDEB_Count = _GetItemCount(RDEB_str.c_str());
+		int RDEB_Count = XrTrims::GetItemCount(RDEB_str.c_str());
 		for (int r=0; r<RDEB_Count; r++)
 		{
 			string16						temp;
 			float f = 1.0f;
 			if (r <= NumRanks)
-				f = float(atof(_GetItem(RDEB_str.c_str(), r, temp)));
+				f = float(atof(XrTrims::GetItem(RDEB_str.c_str(), r, temp)));
 			NewRank.m_aRankDiff_ExpBonus.push_back(f);
 		};
 
 		shared_str sTerms = pSettings->r_string(RankSect, "rank_exp");
-		int TermsCount = _GetItemCount(sTerms.c_str());
+		int TermsCount = XrTrims::GetItemCount(sTerms.c_str());
 		R_ASSERT2((TermsCount != 0 && TermsCount <= MAX_TERMS), "Error Number of Terms for Rank");
 
 		for (int t =0; t<TermsCount; t++)
 		{
 			string16						temp;			
-			NewRank.m_iTerms[t] = atoi(_GetItem(sTerms.c_str(), t, temp));
+			NewRank.m_iTerms[t] = atoi(XrTrims::GetItem(sTerms.c_str(), t, temp));
 		}
 		m_aRanks.push_back(NewRank);
 	};

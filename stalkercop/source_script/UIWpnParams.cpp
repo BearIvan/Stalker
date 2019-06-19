@@ -123,12 +123,12 @@ void CUIWpnParams::SetInfo( CInventoryItem* slot_wpn, CInventoryItem& cur_wpn )
 	str_upgrades[0] = 0;
 	cur_wpn.get_upgrades_str( str_upgrades );
 
-	float cur_rpm    = iFloor(g_lua_wpn_params->m_functorRPM( cur_section, str_upgrades )*53.0f)/53.0f;
-	float cur_accur  = iFloor(g_lua_wpn_params->m_functorAccuracy( cur_section, str_upgrades )*53.0f)/53.0f;
-	float cur_hand   = iFloor(g_lua_wpn_params->m_functorHandling( cur_section, str_upgrades )*53.0f)/53.0f;
+	float cur_rpm    = XrMath::iFloor(g_lua_wpn_params->m_functorRPM( cur_section, str_upgrades )*53.0f)/53.0f;
+	float cur_accur  = XrMath::iFloor(g_lua_wpn_params->m_functorAccuracy( cur_section, str_upgrades )*53.0f)/53.0f;
+	float cur_hand   = XrMath::iFloor(g_lua_wpn_params->m_functorHandling( cur_section, str_upgrades )*53.0f)/53.0f;
 	float cur_damage = ( GameID() == eGameIDSingle ) ?
-		iFloor(g_lua_wpn_params->m_functorDamage( cur_section, str_upgrades )*53.0f)/53.0f
-		: iFloor(g_lua_wpn_params->m_functorDamageMP( cur_section, str_upgrades )*53.0f)/53.0f;
+		XrMath::iFloor(g_lua_wpn_params->m_functorDamage( cur_section, str_upgrades )*53.0f)/53.0f
+		: XrMath::iFloor(g_lua_wpn_params->m_functorDamageMP( cur_section, str_upgrades )*53.0f)/53.0f;
 
 	float slot_rpm    = cur_rpm;
 	float slot_accur  = cur_accur;
@@ -141,12 +141,12 @@ void CUIWpnParams::SetInfo( CInventoryItem* slot_wpn, CInventoryItem& cur_wpn )
 		str_upgrades[0] = 0;
 		slot_wpn->get_upgrades_str( str_upgrades );
 
-		slot_rpm    = iFloor(g_lua_wpn_params->m_functorRPM( slot_section, str_upgrades )*53.0f)/53.0f;
-		slot_accur  = iFloor(g_lua_wpn_params->m_functorAccuracy( slot_section, str_upgrades )*53.0f)/53.0f;
-		slot_hand   = iFloor(g_lua_wpn_params->m_functorHandling( slot_section, str_upgrades )*53.0f)/53.0f;
+		slot_rpm    = XrMath::iFloor(g_lua_wpn_params->m_functorRPM( slot_section, str_upgrades )*53.0f)/53.0f;
+		slot_accur  = XrMath::iFloor(g_lua_wpn_params->m_functorAccuracy( slot_section, str_upgrades )*53.0f)/53.0f;
+		slot_hand   = XrMath::iFloor(g_lua_wpn_params->m_functorHandling( slot_section, str_upgrades )*53.0f)/53.0f;
 		slot_damage = ( GameID() == eGameIDSingle ) ?
-			iFloor(g_lua_wpn_params->m_functorDamage( slot_section, str_upgrades )*53.0f)/53.0f
-			: iFloor(g_lua_wpn_params->m_functorDamageMP( slot_section, str_upgrades )*53.0f)/53.0f;
+			XrMath::iFloor(g_lua_wpn_params->m_functorDamage( slot_section, str_upgrades )*53.0f)/53.0f
+			: XrMath::iFloor(g_lua_wpn_params->m_functorDamageMP( slot_section, str_upgrades )*53.0f)/53.0f;
 	}
 	
 	m_progressAccuracy.SetTwoPos( cur_accur,  slot_accur );
@@ -260,12 +260,12 @@ void CUIConditionParams::InitFromXml(CUIXml& xml_doc)
 
 void CUIConditionParams::SetInfo( CInventoryItem const* slot_item, CInventoryItem const& cur_item )
 {
-	float cur_value  = cur_item.GetConditionToShow() * 100.0f + 1.0f - EPS;
+	float cur_value  = cur_item.GetConditionToShow() * 100.0f + 1.0f - XrMath::EPS;
 	float slot_value = cur_value;
 
 	if ( slot_item && (slot_item != &cur_item) /*&& (cur_item.object().cNameSect()._get() == slot_item->object().cNameSect()._get())*/ )
 	{
-		slot_value = slot_item->GetConditionToShow() * 100.0f + 1.0f - EPS;
+		slot_value = slot_item->GetConditionToShow() * 100.0f + 1.0f - XrMath::EPS;
 	}
 	m_progress.SetTwoPos( cur_value, slot_value );
 }

@@ -389,7 +389,7 @@ void CUIActorMenu::InfoCurItem( CUICellItem* cell_item )
 			item_price = m_partner_trade->GetItemPrice(current_item, false);
 
 		//if(item_price>500)
-		//	item_price = iFloor(item_price/10+0.5f)*10;
+		//	item_price = XrMath::iFloor(item_price/10+0.5f)*10;
 
 		CWeaponAmmo* ammo = smart_cast<CWeaponAmmo*>(current_item);
 		if(ammo)
@@ -405,7 +405,7 @@ void CUIActorMenu::InfoCurItem( CUICellItem* cell_item )
 					tmp_price = m_partner_trade->GetItemPrice(jitem, false);
 
 				//if(tmp_price>500)
-				//	tmp_price = iFloor(tmp_price/10+0.5f)*10;
+				//	tmp_price = XrMath::iFloor(tmp_price/10+0.5f)*10;
 
 				item_price		+= tmp_price;
 			}
@@ -882,26 +882,26 @@ void CUIActorMenu::UpdateConditionProgressBars()
 	PIItem itm = m_pActorInvOwner->inventory().ItemFromSlot(INV_SLOT_2);
 	if(itm)
 	{
-		m_WeaponSlot1_progress->SetProgressPos(iCeil(itm->GetCondition()*15.0f)/15.0f);
+		m_WeaponSlot1_progress->SetProgressPos(XrMath::iCeil(itm->GetCondition()*15.0f)/15.0f);
 	}
 	else
 		m_WeaponSlot1_progress->SetProgressPos(0);
 
 	itm = m_pActorInvOwner->inventory().ItemFromSlot(INV_SLOT_3);
 	if(itm)
-		m_WeaponSlot2_progress->SetProgressPos(iCeil(itm->GetCondition()*15.0f)/15.0f);
+		m_WeaponSlot2_progress->SetProgressPos(XrMath::iCeil(itm->GetCondition()*15.0f)/15.0f);
 	else
 		m_WeaponSlot2_progress->SetProgressPos(0);
 
 	itm = m_pActorInvOwner->inventory().ItemFromSlot(OUTFIT_SLOT);
 	if(itm)
-		m_Outfit_progress->SetProgressPos(iCeil(itm->GetCondition()*15.0f)/15.0f);
+		m_Outfit_progress->SetProgressPos(XrMath::iCeil(itm->GetCondition()*15.0f)/15.0f);
 	else
 		m_Outfit_progress->SetProgressPos(0);
 
 	itm = m_pActorInvOwner->inventory().ItemFromSlot(HELMET_SLOT);
 	if(itm)
-		m_Helmet_progress->SetProgressPos(iCeil(itm->GetCondition()*15.0f)/15.0f);
+		m_Helmet_progress->SetProgressPos(XrMath::iCeil(itm->GetCondition()*15.0f)/15.0f);
 	else
 		m_Helmet_progress->SetProgressPos(0);
 }

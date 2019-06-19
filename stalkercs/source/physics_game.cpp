@@ -102,7 +102,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 	dMass m;
 	dBodyGetMass(b,&m);
 	dBodyGetPointVel(b,c->pos[0],c->pos[1],c->pos[2],vel);
-	dReal vel_cret=dFabs(dDOT(vel,c->normal))* _sqrt(m.mass);
+	dReal vel_cret=dFabs(dDOT(vel,c->normal))* XrMath::sqrt(m.mass);
 	Fvector to_camera;to_camera.sub(cast_fv(c->pos),Device.vCameraPosition);
 	float square_cam_dist=to_camera.square_magnitude();
 	if(data)
@@ -129,7 +129,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 					{
 						if(!mtl_pair->CollideSounds.empty())
 						{
-							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(_sqrt(mass_limit)*default_l_limit-Pars::vel_cret_sound);
+							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(XrMath::sqrt(mass_limit)*default_l_limit-Pars::vel_cret_sound);
 							GET_RANDOM(mtl_pair->CollideSounds).play_no_feedback(0,0,0,((Fvector*)c->pos),&volume);
 						}
 					}

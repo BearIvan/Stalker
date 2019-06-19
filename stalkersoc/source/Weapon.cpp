@@ -140,7 +140,7 @@ void CWeapon::UpdateXForm	()
 		Fvector				R,D,N;
 		D.sub				(mL.c,mR.c);	
 
-		if(fis_zero(D.magnitude()))
+		if(XrMath::fis_zero(D.magnitude()))
 		{
 			mRes.set(E->XFORM());
 			mRes.c.set(mR.c);
@@ -264,7 +264,7 @@ void CWeapon::Load		(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"position");
 		ypr					= pSettings->r_fvector3		(section,"orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_Offset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_Offset.translate_over	(pos);
@@ -275,7 +275,7 @@ void CWeapon::Load		(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"strap_position");
 		ypr					= pSettings->r_fvector3		(section,"strap_orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_StrapOffset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_StrapOffset.translate_over	(pos);
@@ -288,10 +288,10 @@ void CWeapon::Load		(LPCSTR section)
 	if (S && S[0]) 
 	{
 		string128		_ammoItem;
-		int				count		= _GetItemCount	(S);
+		int				count		= XrTrims::GetItemCount	(S);
 		for (int it=0; it<count; ++it)	
 		{
-			_GetItem				(S,it,_ammoItem);
+			XrTrims::GetItem				(S,it,_ammoItem);
 			m_ammoTypes.push_back	(_ammoItem);
 		}
 		m_ammoName = pSettings->r_string(*m_ammoTypes[0],"inv_name_short");
@@ -307,13 +307,13 @@ void CWeapon::Load		(LPCSTR section)
 
 	//подбрасывание камеры во время отдачи
 	camMaxAngle			= pSettings->r_float		(section,"cam_max_angle"	); 
-	camMaxAngle			= deg2rad					(camMaxAngle);
+	camMaxAngle			= XrMath::deg2rad					(camMaxAngle);
 	camRelaxSpeed		= pSettings->r_float		(section,"cam_relax_speed"	); 
-	camRelaxSpeed		= deg2rad					(camRelaxSpeed);
+	camRelaxSpeed		= XrMath::deg2rad					(camRelaxSpeed);
 	if (pSettings->line_exist(section, "cam_relax_speed_ai"))
 	{
 		camRelaxSpeed_AI		= pSettings->r_float		(section,"cam_relax_speed_ai"	); 
-		camRelaxSpeed_AI		= deg2rad					(camRelaxSpeed_AI);
+		camRelaxSpeed_AI		= XrMath::deg2rad					(camRelaxSpeed_AI);
 	}
 	else
 	{
@@ -321,12 +321,12 @@ void CWeapon::Load		(LPCSTR section)
 	}
 	
 //	camDispersion		= pSettings->r_float		(section,"cam_dispersion"	); 
-//	camDispersion		= deg2rad					(camDispersion);
+//	camDispersion		= XrMath::deg2rad					(camDispersion);
 
 	camMaxAngleHorz		= pSettings->r_float		(section,"cam_max_angle_horz"	); 
-	camMaxAngleHorz		= deg2rad					(camMaxAngleHorz);
+	camMaxAngleHorz		= XrMath::deg2rad					(camMaxAngleHorz);
 	camStepAngleHorz	= pSettings->r_float		(section,"cam_step_angle_horz"	); 
-	camStepAngleHorz	= deg2rad					(camStepAngleHorz);	
+	camStepAngleHorz	= XrMath::deg2rad					(camStepAngleHorz);	
 	camDispertionFrac			= READ_IF_EXISTS(pSettings, r_float, section, "cam_dispertion_frac",	0.7f);
 	//  [8/2/2005]
 	//m_fParentDispersionModifier = READ_IF_EXISTS(pSettings, r_float, section, "parent_dispersion_modifier",1.0f);
@@ -426,12 +426,12 @@ void CWeapon::Load		(LPCSTR section)
 void CWeapon::LoadFireParams		(LPCSTR section, LPCSTR prefix)
 {
 	camDispersion		= pSettings->r_float		(section,"cam_dispersion"	); 
-	camDispersion		= deg2rad					(camDispersion);
+	camDispersion		= XrMath::deg2rad					(camDispersion);
 
 	if (pSettings->line_exist(section,"cam_dispersion_inc"))
 	{
 		camDispersionInc		= pSettings->r_float		(section,"cam_dispersion_inc"	); 
-		camDispersionInc		= deg2rad					(camDispersionInc);
+		camDispersionInc		= XrMath::deg2rad					(camDispersionInc);
 	}
 	else
 		camDispersionInc = 0;
@@ -776,7 +776,7 @@ void CWeapon::UpdatePosition(const Fmatrix& trans)
 {
 	Position().set		(trans.c);
 	XFORM().mul			(trans,m_strapped_mode ? m_StrapOffset : m_Offset);
-	VERIFY				(!fis_zero(DET(renderable.xform)));
+	VERIFY				(!XrMath::fis_zero(DET(renderable.xform)));
 }
 
 
@@ -968,7 +968,7 @@ float CWeapon::GetConditionMisfireProbability() const
 	if( GetCondition()>0.95f ) return 0.0f;
 
 	float mis = misfireProbability+powf(1.f-GetCondition(), 3.f)*misfireConditionK;
-	clamp(mis,0.0f,0.99f);
+	XrMath::clamp(mis,0.0f,0.99f);
 	return mis;
 }
 
@@ -1296,7 +1296,7 @@ void CWeapon::reload			(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"position");
 		ypr					= pSettings->r_fvector3		(section,"orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_Offset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_Offset.translate_over	(pos);
@@ -1307,7 +1307,7 @@ void CWeapon::reload			(LPCSTR section)
 		Fvector				pos,ypr;
 		pos					= pSettings->r_fvector3		(section,"strap_position");
 		ypr					= pSettings->r_fvector3		(section,"strap_orientation");
-		ypr.mul				(PI/180.f);
+		ypr.mul				(XrMath::M_PI/180.f);
 
 		m_StrapOffset.setHPB			(ypr.x,ypr.y,ypr.z);
 		m_StrapOffset.translate_over	(pos);
@@ -1436,7 +1436,7 @@ void CWeapon::UpdateHudAdditonal		(Fmatrix& trans)
 			m_fZoomRotationFactor += Device.fTimeDelta/m_fZoomRotateTime;
 		else
 			m_fZoomRotationFactor -= Device.fTimeDelta/m_fZoomRotateTime;
-		clamp(m_fZoomRotationFactor, 0.f, 1.f);
+		XrMath::clamp(m_fZoomRotationFactor, 0.f, 1.f);
 	}
 }
 

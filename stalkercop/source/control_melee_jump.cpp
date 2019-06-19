@@ -3,7 +3,7 @@
 #include "ai/monsters/BaseMonster/base_monster.h"
 #include "ai/monsters/control_manager.h"
 
-#define CHECK_YAW					165 * PI / 180
+#define CHECK_YAW					165 * XrMath::M_PI / 180
 #define ROTATION_JUMP_DELAY_MIN		500
 #define ROTATION_JUMP_DELAY_MAX		1000
 #define MAX_DISTANCE_TO_ENEMY		4.f
@@ -47,7 +47,7 @@ void CControlMeleeJump::activate()
 	dir_to_enemy.sub		(m_object->EnemyMan.get_enemy()->Position(), m_object->Position());
 	dir_to_enemy.normalize	();
 	
-	float		target_yaw		= angle_normalize(-dir_to_enemy.getH());
+	float		target_yaw		= XrMath::angle_normalize(-dir_to_enemy.getH());
 	MotionID	motion			= ((m_man->direction().is_from_right(target_yaw)) ? m_data.anim_rs : m_data.anim_ls );
 	float		anim_time		= m_man->animation().motion_time(motion, m_object->Visual());	
 
@@ -59,9 +59,9 @@ void CControlMeleeJump::activate()
 	// set angular speed
 	float cur_yaw;
 	m_man->direction().get_heading			(cur_yaw, target_yaw);
-	ctrl_data_dir->heading.target_speed		= angle_difference(cur_yaw,target_yaw)/ anim_time;
+	ctrl_data_dir->heading.target_speed		= XrMath::angle_difference(cur_yaw,target_yaw)/ anim_time;
 	ctrl_data_dir->linear_dependency		= false;
-	VERIFY									(!fis_zero(ctrl_data_dir->heading.target_speed));
+	VERIFY									(!XrMath::fis_zero(ctrl_data_dir->heading.target_speed));
 
 	// set animation
 	SControlAnimationData		*ctrl_data = (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation); 

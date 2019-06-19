@@ -38,13 +38,13 @@ void CStateGroupDragAbstract::initialize()
 	}
 	LPCSTR bones = ini->r_string( "capture_used_bones","bones" );
 
-	int				bone_number = _GetItemCount( bones );
+	int				bone_number = XrTrims::GetItemCount( bones );
 	u16				*vbones = (u16*)_alloca(bone_number*sizeof(u16));
 	u16				*I = vbones;
 	u16				*E = vbones + bone_number;
 	for ( ; I != E; ++I) {
 		string32	sbone;
-		_GetItem	( bones, int(I - vbones), sbone );
+		XrTrims::GetItem	( bones, int(I - vbones), sbone );
 		*I			= K->LL_BoneID( sbone );
 		VERIFY		( *I != BI_NONE );
 	}

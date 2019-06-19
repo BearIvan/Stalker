@@ -100,14 +100,14 @@ void CUIArtefactParams::SetInfo(const shared_str& af_section)
 			float _actor_val	= pSettings->r_float	("actor_condition", af_actor_param_names[i]);
 			_val				= pSettings->r_float	(af_section, af_item_sect_names[i]);
 
-			if					(fis_zero(_val))				continue;
+			if					(XrMath::fis_zero(_val))				continue;
 			
 			_val				= (_val/_actor_val)*100.0f;
 		}else
 		{
 			shared_str _sect	= pSettings->r_string(af_section, "hit_absorbation_sect");
 			_val				= pSettings->r_float(_sect, af_item_sect_names[i]);
-			if					(fsimilar(_val, 1.0f))				continue;
+			if					(XrMath::fsimilar(_val, 1.0f))				continue;
 			_val				= (1.0f - _val);
 			_val				*= 100.0f;
 

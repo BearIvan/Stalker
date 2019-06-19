@@ -101,8 +101,6 @@ void CRenderDevice::Clear()
     m_pRender->Clear();
 }
 
-extern void CheckPrivilegySlowdown();
-
 
 void CRenderDevice::End(void)
 {
@@ -140,7 +138,7 @@ void CRenderDevice::End(void)
             g_find_chunk_counter.flush();
 #endif // FIND_CHUNK_BENCHMARK_ENABLE
 
-            CheckPrivilegySlowdown();
+           // CheckPrivilegySlowdown();
 
             if (g_pGamePersistent->GameType() == 1)//haCk
             {
@@ -269,8 +267,8 @@ void CRenderDevice::on_idle()
     if (dwPrecacheFrame)
     {
         float factor = float(dwPrecacheFrame) / float(dwPrecacheTotal);
-        float angle = PI_MUL_2 * factor;
-        vCameraDirection.set(_sin(angle), 0, _cos(angle));
+        float angle = XrMath::PI_MUL_2 * factor;
+        vCameraDirection.set(XrMath::sin(angle), 0, XrMath::cos(angle));
         vCameraDirection.normalize();
         vCameraTop.set(0, 1, 0);
         vCameraRight.crossproduct(vCameraTop, vCameraDirection);
@@ -430,7 +428,7 @@ void CRenderDevice::Run()
     // DUMP_PHASE;
     g_bLoaded = FALSE;
     Log("Starting engine...");
-    thread_name("X-RAY Primary thread");
+  //  thread_name("X-RAY Primary thread");
 
     // Startup timers and calculate timer delta
     dwTimeGlobal = 0;
@@ -448,7 +446,7 @@ void CRenderDevice::Run()
     // InitializeCriticalSection (&mt_csLeave);
     mt_csEnter.Enter();
     mt_bMustExit = FALSE;
-    thread_spawn(mt_Thread, "X-RAY Secondary thread", 0, 0);
+    XrThread::Spawn( "X-RAY Secondary thread", mt_Thread,0 );
 	size_screen_x=GetSystemMetrics(SM_CXSCREEN);
 	size_screen_y = GetSystemMetrics(SM_CYSCREEN);
     // Message cycle
@@ -505,7 +503,7 @@ void CRenderDevice::FrameMove()
             fTimeDelta = .1f; // limit to 15fps minimum
 
         if (fTimeDelta <= 0.f)
-            fTimeDelta = EPS_S + EPS_S; // limit to 15fps minimum
+            fTimeDelta = XrMath::EPS_S + XrMath::EPS_S; // limit to 15fps minimum
 
         if (Paused())
             fTimeDelta = 0.0f;
@@ -583,7 +581,7 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
     {
         if (bTimer && /*g_pGamePersistent->CanBePaused() &&*/ g_pauseMngr.Paused())
         {
-            fTimeDelta = EPS_S + EPS_S;
+            fTimeDelta = XrMath::EPS_S + XrMath::EPS_S;
             g_pauseMngr.Pause(FALSE);
         }
 

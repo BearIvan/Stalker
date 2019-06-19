@@ -55,7 +55,7 @@ IC	void CLevelFlooderPathManager::setup			(
 	);
 //		graph->unpack_xz		(graph->vertex(_start_node_index),start_position.x,start_position.y);
 	graph->unpack_xz		(*graph->vertex(_start_node_index),x0,y0);
-	max_range_sqr			= iFloor(_sqr(max_range)/m_sqr_distance_xz + .5f);
+	max_range_sqr			= XrMath::iFloor(XrMath::sqr(max_range)/m_sqr_distance_xz + .5f);
 	m_cell_dist				= graph->header().cell_size();
 }
 
@@ -90,7 +90,7 @@ IC	bool CLevelFlooderPathManager::is_accessible	(const _index_type &vertex_id) c
 		return				(false);
 	int						x4,y4;
 	graph->unpack_xz		(graph->vertex(vertex_id),x4,y4);
-	return					(u32(_sqr(x0 - x4) + _sqr(y0 - y4)) <= max_range_sqr);
+	return					(u32(XrMath::sqr(x0 - x4) + XrMath::sqr(y0 - y4)) <= max_range_sqr);
 }
 
 TEMPLATE_SPECIALIZATION

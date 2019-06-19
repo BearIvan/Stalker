@@ -43,21 +43,21 @@ void CRenderTarget::phase_ssao	()
 		p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
 
 		float		fSSAONoise = 2.0f;
-		fSSAONoise *= tan(deg2rad(67.5f));
-		fSSAONoise /= tan(deg2rad(Device.fFOV));
+		fSSAONoise *= tan(XrMath::deg2rad(67.5f));
+		fSSAONoise /= tan(XrMath::deg2rad(Device.fFOV));
 
 		float		fSSAOKernelSize = 150.0f;
-		fSSAOKernelSize *= tan(deg2rad(67.5f));
-		fSSAOKernelSize /= tan(deg2rad(Device.fFOV));
+		fSSAOKernelSize *= tan(XrMath::deg2rad(67.5f));
+		fSSAOKernelSize /= tan(XrMath::deg2rad(Device.fFOV));
 
 		float	scale_X				= _w	/ float(TEX_jitter);
 		float	scale_Y				= _h / float(TEX_jitter);
 
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine_VP->vb_stride,Offset);
-		pv->set						(hclip(EPS,		_w),	hclip(_h+EPS,	_h),	p0.x, p1.y, 0, 0,			scale_Y	);	pv++;
-		pv->set						(hclip(EPS,		_w),	hclip(EPS,		_h),	p0.x, p0.y, 0, 0,			0		);	pv++;
-		pv->set						(hclip(_w+EPS,	_w),	hclip(_h+EPS,	_h),	p1.x, p1.y, 0, scale_X,	scale_Y	);	pv++;
-		pv->set						(hclip(_w+EPS,	_w),	hclip(EPS,		_h),	p1.x, p0.y, 0, scale_X,	0		);	pv++;
+		pv->set						(hclip(XrMath::EPS,		_w),	hclip(_h+XrMath::EPS,	_h),	p0.x, p1.y, 0, 0,			scale_Y	);	pv++;
+		pv->set						(hclip(XrMath::EPS,		_w),	hclip(XrMath::EPS,		_h),	p0.x, p0.y, 0, 0,			0		);	pv++;
+		pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(_h+XrMath::EPS,	_h),	p1.x, p1.y, 0, scale_X,	scale_Y	);	pv++;
+		pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(XrMath::EPS,		_h),	p1.x, p0.y, 0, scale_X,	0		);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
 
 		RCache.set_Element			(s_ssao->E[0]);
@@ -110,10 +110,10 @@ void CRenderTarget::phase_downsamp	()
 		float	scale_Y				= _h / float(TEX_jitter);
 
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine_VP->vb_stride,Offset);
-		pv->set						(hclip(EPS,		_w),	hclip(_h+EPS,	_h),	p0.x, p1.y, 0, 0,			scale_Y	);	pv++;
-		pv->set						(hclip(EPS,		_w),	hclip(EPS,		_h),	p0.x, p0.y, 0, 0,			0		);	pv++;
-		pv->set						(hclip(_w+EPS,	_w),	hclip(_h+EPS,	_h),	p1.x, p1.y, 0, scale_X,	scale_Y	);	pv++;
-		pv->set						(hclip(_w+EPS,	_w),	hclip(EPS,		_h),	p1.x, p0.y, 0, scale_X,	0		);	pv++;
+		pv->set						(hclip(XrMath::EPS,		_w),	hclip(_h+XrMath::EPS,	_h),	p0.x, p1.y, 0, 0,			scale_Y	);	pv++;
+		pv->set						(hclip(XrMath::EPS,		_w),	hclip(XrMath::EPS,		_h),	p0.x, p0.y, 0, 0,			0		);	pv++;
+		pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(_h+XrMath::EPS,	_h),	p1.x, p1.y, 0, scale_X,	scale_Y	);	pv++;
+		pv->set						(hclip(_w+XrMath::EPS,	_w),	hclip(XrMath::EPS,		_h),	p1.x, p0.y, 0, scale_X,	0		);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
 
 		RCache.set_Element			(s_ssao->E[1]);

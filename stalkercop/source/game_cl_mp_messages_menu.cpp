@@ -26,7 +26,7 @@ void				game_cl_mp::AddMessageMenu			(LPCSTR	menu_section, LPCSTR snd_path, LPCS
 		//---------------------------------------------------------
 		string4096			Line;
 		xr_strcpy(Line, pSettings->r_string(menu_section, *LineName));
-		u32 count	= _GetItemCount(Line);
+		u32 count	= XrTrims::GetItemCount(Line);
 		if (!count) continue;
 		//---------------------------------------------------------
 		pNewMenu->m_aMessages.push_back(cl_Menu_Message ());
@@ -34,8 +34,8 @@ void				game_cl_mp::AddMessageMenu			(LPCSTR	menu_section, LPCSTR snd_path, LPCS
 		pNewMessage->aVariants.clear();		
 		//---------------------------------------------------------
 		string4096 Phrase, SoundName;
-		_GetItem(Line, 0, Phrase);	pNewMessage->pMessage = Phrase;
-		_GetItem(Line, 1, SoundName);		
+		XrTrims::GetItem(Line, 0, Phrase);	pNewMessage->pMessage = Phrase;
+		XrTrims::GetItem(Line, 1, SoundName);		
 		//---------------------------------------------------------
 		for (u32 s=1; s<=16; s++)
 		{

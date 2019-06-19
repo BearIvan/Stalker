@@ -93,10 +93,10 @@ void CRestrictions::AddRestriction4rank(u32 rank, const shared_str& lst)
 	}
 
 	string256				singleItem;
-	u32 count				= _GetItemCount(lst.c_str());
+	u32 count				= XrTrims::GetItemCount(lst.c_str());
 	for (u32 j = 0; j < count; ++j)
 	{
-		_GetItem			(lst.c_str(), j, singleItem);
+		XrTrims::GetItem			(lst.c_str(), j, singleItem);
 		RESTR r				= GetRestr(singleItem);
 		restr_item* ritem	= find_restr_item_internal(rank, r.name);
 		VERIFY2				((ritem || rank==_RANK_COUNT), singleItem);
@@ -121,10 +121,10 @@ void CRestrictions::AddGroup(LPCSTR group, LPCSTR lst)
 
 	group_items& _new	= m_goups[group];
 	string256			singleItem;
-	u32 count			= _GetItemCount(lst);
+	u32 count			= XrTrims::GetItemCount(lst);
 	for (u32 j = 0; j < count; ++j)
 	{
-		_GetItem(lst, j, singleItem);
+		XrTrims::GetItem(lst, j, singleItem);
 #ifdef DEBUG
 		const shared_str& _exist = GetItemGroup(singleItem);
 		VERIFY3(_exist.size()==0, "item has duplicate record in groups", singleItem);

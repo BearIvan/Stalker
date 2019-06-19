@@ -31,7 +31,7 @@ void CEnvelope::FindNearestKey(float t, KeyIt& min_k, KeyIt& max_k, float eps)
 {
     for (KeyIt k_it = keys.begin(); k_it != keys.end(); k_it++)
     {
-        if (fsimilar((*k_it)->time, t, eps))
+        if (XrMath::fsimilar((*k_it)->time, t, eps))
         {
             max_k = k_it + 1;
             min_k = (k_it == keys.begin()) ? k_it : k_it - 1;
@@ -52,7 +52,7 @@ KeyIt CEnvelope::FindKey(float t, float eps)
 {
     for (KeyIt k_it = keys.begin(); k_it != keys.end(); k_it++)
     {
-        if (fsimilar((*k_it)->time, t, eps)) return k_it;
+        if (XrMath::fsimilar((*k_it)->time, t, eps)) return k_it;
         if ((*k_it)->time > t) return keys.end();
     }
     return keys.end();
@@ -63,7 +63,7 @@ void CEnvelope::InsertKey(float t, float val)
 	KeyIt k_it = keys.begin();
     for (; k_it != keys.end(); k_it++)
     {
-        if (fsimilar((*k_it)->time, t, EPS_L))
+        if (XrMath::fsimilar((*k_it)->time, t, XrMath::EPS_L))
         {
             (*k_it)->value = val;
             return;
@@ -85,7 +85,7 @@ void CEnvelope::DeleteKey(float t)
 {
     for (KeyIt k_it = keys.begin(); k_it != keys.end(); k_it++)
     {
-        if (fsimilar((*k_it)->time, t, EPS_L))
+        if (XrMath::fsimilar((*k_it)->time, t, XrMath::EPS_L))
         {
             xr_delete(*k_it);
             keys.erase(k_it);

@@ -159,12 +159,12 @@ public:
         if (enabled&&!m_bNearer)
         {
             m_bNearer = TRUE;
-            mProject._43 -= EPS_L;
+            mProject._43 -= XrMath::EPS_L;
         }
         else if (!enabled&&m_bNearer)
         {
             m_bNearer = FALSE;
-            mProject._43 += EPS_L;
+            mProject._43 += XrMath::EPS_L;
         }
         m_pRender->SetCacheXform(mView, mProject);
         //R_ASSERT(0);

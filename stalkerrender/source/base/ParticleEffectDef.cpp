@@ -30,7 +30,7 @@ CPEDef::CPEDef()
     // velocity scale
     m_VelocityScale.set			(0.f,0.f,0.f);
     // align to path
-    m_APDefaultRotation.set		(-PI_DIV_2,0.f,0.f);
+    m_APDefaultRotation.set		(-XrMath::PI_DIV_2,0.f,0.f);
 	// flags
     m_Flags.zero		();
 }
@@ -107,7 +107,7 @@ void CPEDef::ExecuteAnimate(Particle *particles, u32 p_cnt, float dt)
 		float f						= (float(m.frame)/255.f+((m.flags.is(Particle::ANIMATE_CCW))?-1.f:1.f)*speedFac);
 		if (f>m_Frame.m_iFrameCount)f-=m_Frame.m_iFrameCount;
 		if (f<0.f)					f+=m_Frame.m_iFrameCount;
-		m.frame						= (u16)iFloor(f*255.f);
+		m.frame						= (u16)XrMath::iFloor(f*255.f);
 	}
 }
 
@@ -125,7 +125,7 @@ void CPEDef::ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CP
 			Fvector 	dir;
 			dir.sub		(m.pos,m.posB);
 			float dist 	= dir.magnitude();
-			if (dist>=EPS){
+			if (dist>=XrMath::EPS){
 				dir.div	(dist);
 #ifdef _EDITOR                
 				if (Tools->RayPick(m.posB,dir,dist,&pt,&n)){

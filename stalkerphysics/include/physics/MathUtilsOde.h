@@ -79,7 +79,7 @@ aa2_largest:	// aa2 is largest
 
 IC	bool	dVectorLimit(const float* v,float l,float* lv)
 {
-	float mag		=	_sqrt(dDOT(v,v));
+	float mag		=	XrMath::sqrt(dDOT(v,v));
 	if(mag>l)
 	{
 		float f=mag/l;

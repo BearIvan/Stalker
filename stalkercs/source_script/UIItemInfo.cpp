@@ -255,8 +255,8 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 			Fvector2 new_size;
 			new_size.x						= GetWndSize().x;
 			new_size.y						= UIDesc->GetWndPos().y+UIDesc->GetWndSize().y+20.0f;
-			new_size.x						= _max(105.0f, new_size.x);
-			new_size.y						= _max(105.0f, new_size.y);
+			new_size.x						= XrMath::max(105.0f, new_size.x);
+			new_size.y						= XrMath::max(105.0f, new_size.y);
 			SetWndSize						(new_size);
 			if(UIBackground)
 				UIBackground->InitFrameWindow(UIBackground->GetWndPos(), new_size);
@@ -283,8 +283,8 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 			v_r.x2 /= 1.2f;
 
 		UIItemImage->GetUIStaticItem().SetRect	(v_r);
-//		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x));
-//		UIItemImage->SetHeight					(_min(v_r.height(),	UIItemImageSize.y));
+//		UIItemImage->SetWidth					(XrMath::min(v_r.width(),	UIItemImageSize.x));
+//		UIItemImage->SetHeight					(XrMath::min(v_r.height(),	UIItemImageSize.y));
 		UIItemImage->SetWidth					( v_r.width()  );
 		UIItemImage->SetHeight					( v_r.height() );
 	}

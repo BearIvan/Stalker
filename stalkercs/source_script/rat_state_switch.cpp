@@ -61,7 +61,7 @@ bool CAI_Rat::switch_if_enemy()
 
 bool CAI_Rat::get_morale()
 {
-	if (m_fMorale >= m_fMoraleNormalValue - EPS_L)
+	if (m_fMorale >= m_fMoraleNormalValue - XrMath::EPS_L)
 	{
 		return true;
 	}
@@ -131,7 +131,7 @@ void CAI_Rat::set_dir()
 		Fvector m_enemy_position = memory().enemy().selected()->Position();
 		if (squad && squad->SquadActive())
 		{
-			float m_delta_Angle = angle_normalize((PI * 2) / squad->squad_alife_count());
+			float m_delta_Angle = XrMath::angle_normalize((XrMath::M_PI * 2) / squad->squad_alife_count());
 			float m_heading, m_pitch;
 			Fvector m_temp, m_dest_direction;
 			m_temp = squad->GetLeader()->Position();
@@ -139,7 +139,7 @@ void CAI_Rat::set_dir()
 			m_dest_direction.y = (m_temp.y - m_enemy_position.y) / m_temp.distance_to(m_enemy_position);
 			m_dest_direction.z = (m_temp.z - m_enemy_position.z) / m_temp.distance_to(m_enemy_position);
 			m_dest_direction.getHP(m_heading, m_pitch);
-			m_heading = angle_normalize(m_heading + m_delta_Angle * squad->get_index(this));
+			m_heading = XrMath::angle_normalize(m_heading + m_delta_Angle * squad->get_index(this));
 			m_dest_direction.setHP(m_heading, m_pitch);
 			m_dest_direction.mul(0.5f);
 			m_enemy_position.add(m_enemy_position,m_dest_direction);
@@ -243,7 +243,7 @@ bool CAI_Rat::switch_if_alife()
 bool CAI_Rat::switch_if_diff()
 {
 	SRotation sTemp = sub_rotation();
-	if (angle_difference(movement().m_body.current.yaw,sTemp.yaw) > m_fAttackAngle)
+	if (XrMath::angle_difference(movement().m_body.current.yaw,sTemp.yaw) > m_fAttackAngle)
 	{
 		return true;
 	}

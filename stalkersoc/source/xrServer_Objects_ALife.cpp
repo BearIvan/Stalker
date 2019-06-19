@@ -975,7 +975,7 @@ CSE_ALifeObjectHangingLamp::CSE_ALifeObjectHangingLamp(LPCSTR caSection) : CSE_A
 	m_virtual_size				= 0.1f;
 	m_ambient_radius			= 10.f;
     m_ambient_power				= 0.1f;
-    spot_cone_angle				= deg2rad(120.f);
+    spot_cone_angle				= XrMath::deg2rad(120.f);
     glow_radius					= 0.7f;
 }
 
@@ -1131,7 +1131,7 @@ void CSE_ALifeObjectHangingLamp::FillProps	(LPCSTR pref, PropItemVec& values)
 	PHelper().CreateChoose		(values, PrepareKey(pref,*s_name,"Light\\Main\\Texture"),	    &light_texture, 	smTexture, "lights");
 	PHelper().CreateChoose		(values, PrepareKey(pref,*s_name,"Light\\Main\\Bone"),			&light_main_bone,	smSkeletonBones,0,(void*)visual()->get_visual());
 	if (flags.is(flTypeSpot))
-		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	deg2rad(1.f), deg2rad(120.f));
+		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	XrMath::deg2rad(1.f), XrMath::deg2rad(120.f));
 
 	if (flags.is(flPointAmbient)){
 		PHelper().CreateFloat	(values, PrepareKey(pref,*s_name,"Light\\Ambient\\Radius"),		&m_ambient_radius,	0.f, 1000.f);

@@ -186,13 +186,13 @@ void	CRenderTarget::u_compute_texgen_jitter	(Fmatrix&		m_Texgen_J)
 }
 
 u8		fpack			(float v)				{
-	s32	_v	= iFloor	(((v+1)*.5f)*255.f + .5f);
-	clamp	(_v,0,255);
+	s32	_v	= XrMath::iFloor	(((v+1)*.5f)*255.f + .5f);
+	XrMath::clamp	(_v,0,255);
 	return	u8(_v);
 }
 u8		fpackZ			(float v)				{
-	s32	_v	= iFloor	(_abs(v)*255.f + .5f);
-	clamp	(_v,0,255);
+	s32	_v	= XrMath::iFloor	(XrMath::abs(v)*255.f + .5f);
+	XrMath::clamp	(_v,0,255);
 	return	u8(_v);
 }
 Fvector	vunpack			(s32 x, s32 y, s32 z)	{
@@ -219,16 +219,16 @@ Ivector	vpack			(Fvector src)
 #else
 	int		d=3;
 #endif
-	for (int x=_max(bx-d,0); x<=_min(bx+d,255); x++)
-	for (int y=_max(by-d,0); y<=_min(by+d,255); y++)
-	for (int z=_max(bz-d,0); z<=_min(bz+d,255); z++)
+	for (int x=XrMath::max(bx-d,0); x<=XrMath::min(bx+d,255); x++)
+	for (int y=XrMath::max(by-d,0); y<=XrMath::min(by+d,255); y++)
+	for (int z=XrMath::max(bz-d,0); z<=XrMath::min(bz+d,255); z++)
 	{
 		_v				= vunpack(x,y,z);
 		float	m		= _v.magnitude();
-		float	me		= _abs(m-1.f);
+		float	me		= XrMath::abs(m-1.f);
 		if	(me>0.03f)	continue;
 		_v.div	(m);
-		float	e		= _abs(src.dotproduct(_v)-1.f);
+		float	e		= XrMath::abs(src.dotproduct(_v)-1.f);
 		if (e<e_best)	{
 			e_best		= e;
 			r=x,g=y,b=z;
@@ -250,7 +250,7 @@ void	generate_jitter	(DWORD*	dest, u32 elem_count)
 		BOOL		valid = TRUE;
 		for (u32 t=0; t<samples.size(); t++)
 		{
-			int		dist	= _abs(test.x-samples[t].x)+_abs(test.y-samples[t].y);
+			int		dist	= XrMath::abs(test.x-samples[t].x)+XrMath::abs(test.y-samples[t].y);
 			if (dist<32)	{
 				valid		= FALSE;
 				break;
@@ -267,7 +267,7 @@ CRenderTarget::CRenderTarget		()
    u32 SampleCount = 1;
 
    if (ps_r_ssao_mode!=2/*hdao*/)
-	   ps_r_ssao = _min(ps_r_ssao, 3);
+	   ps_r_ssao = XrMath::min(ps_r_ssao, u32(3));
 
 	RImplementation.o.ssao_ultra		= ps_r_ssao>3;
    if( RImplementation.o.dx10_msaa )
@@ -759,7 +759,7 @@ CRenderTarget::CRenderTarget		()
 							+ slice*subData.SysMemSlicePitch 
 							+ y*subData.SysMemPitch + x*2);
 						float	ld	=	float(x)	/ float	(TEX_material_LdotN-1);
-						float	ls	=	float(y)	/ float	(TEX_material_LdotH-1) + EPS_S;
+						float	ls	=	float(y)	/ float	(TEX_material_LdotH-1) + XrMath::EPS_S;
 						ls			*=	powf(ld,1/32.f);
 						float	fd,fs;
 
@@ -778,18 +778,18 @@ CRenderTarget::CRenderTarget		()
 							fs	= powf(ls*1.01f,128.f	);
 								}	break;
 						case 3:	{ // looks like Metal
-							float	s0	=	_abs	(1-_abs	(0.05f*_sin(33.f*ld)+ld-ls));
-							float	s1	=	_abs	(1-_abs	(0.05f*_cos(33.f*ld*ls)+ld-ls));
-							float	s2	=	_abs	(1-_abs	(ld-ls));
+							float	s0	=	XrMath::abs	(1-XrMath::abs	(0.05f*XrMath::sin(33.f*ld)+ld-ls));
+							float	s1	=	XrMath::abs	(1-XrMath::abs	(0.05f*XrMath::cos(33.f*ld*ls)+ld-ls));
+							float	s2	=	XrMath::abs	(1-XrMath::abs	(ld-ls));
 							fd		=	ld;				// 1.0
-							fs		=	powf	(_max(_max(s0,s1),s2), 24.f);
+							fs		=	powf	(XrMath::max(XrMath::max(s0,s1),s2), 24.f);
 							fs		*=	powf	(ld,1/7.f);
 								}	break;
 						default:
 							fd	= fs = 0;
 						}
-						s32		_d	=	clampr	(iFloor	(fd*255.5f),	0,255);
-						s32		_s	=	clampr	(iFloor	(fs*255.5f),	0,255);
+						s32		_d	=	XrMath::clampr	(XrMath::iFloor	(fd*255.5f),	0,255);
+						s32		_s	=	XrMath::clampr	(XrMath::iFloor	(fs*255.5f),	0,255);
 						if ((y==(TEX_material_LdotH-1)) && (x==(TEX_material_LdotN-1)))	{ _d = 255; _s=255;	}
 						*p			=	u16		(_s*256 + _d);
 					}
@@ -926,8 +926,8 @@ CRenderTarget::CRenderTarget		()
 						(LPBYTE (subData[it].pSysMem) 
 						+ y*subData[it].SysMemPitch 
 						+ x*4*sizeof(float));
-					*p = (float)(_cos(angle));
-					*(p+1) = (float)(_sin(angle));
+					*p = (float)(XrMath::cos(angle));
+					*(p+1) = (float)(XrMath::sin(angle));
 					*(p+2) = (float)(dist);
 					*(p+3) = 0;
 				}

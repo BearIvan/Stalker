@@ -49,15 +49,15 @@ static const float max_linear_velocity_component	= 32.f;
 IC	bool is_similar						(const Fvector &_0, const Fvector &_1)
 {
 	return		(
-		fsimilar(_0.x,_1.x,EPS) &&
-		fsimilar(_0.y,_1.y,EPS) &&
-		fsimilar(_0.z,_1.z,EPS)
+		XrMath::fsimilar(_0.x,_1.x,XrMath::EPS) &&
+		XrMath::fsimilar(_0.y,_1.y,XrMath::EPS) &&
+		XrMath::fsimilar(_0.z,_1.z,XrMath::EPS)
 	);
 }
 
 IC	bool is_similar						(const float &_0, const float &_1)
 {
-	return		(!!fsimilar(_0,_1,EPS));
+	return		(!!XrMath::fsimilar(_0,_1,XrMath::EPS));
 }
 
 IC	bool is_similar						(const u32 &_0, const u32 &_1)
@@ -105,15 +105,15 @@ IC	float unpack						(const u32 &packed_value, const u32 bit_count)
 IC	u32 pack							(const float &unpacked_value, const u32 bit_count)
 {
 	float inValue = unpacked_value;
-	clamp(inValue, 0.f, 1.f);
+	XrMath::clamp(inValue, 0.f, 1.f);
 	u32			max_value = (u32(1) << bit_count) - 1;
-	u32			result = iFloor(float(max_value)*inValue + .5f);
+	u32			result = XrMath::iFloor(float(max_value)*inValue + .5f);
 	
 	if (bit_count>1)
 		if (result == 0 && unpacked_value != 0) 
 			result += 1;
 
-	clamp		(result,u32(0),max_value);	
+	XrMath::clamp		(result,u32(0),max_value);	
 	return		(result);
 }
 
@@ -159,9 +159,9 @@ void actor_mp_state_holder::write		(NET_Packet &packet)
 
 	packet.w_u32(m_state.time);
 
-	clamp		(m_state.physics_linear_velocity.x,min_linear_velocity_component,max_linear_velocity_component);
-	clamp		(m_state.physics_linear_velocity.y,min_linear_velocity_component,max_linear_velocity_component);
-	clamp		(m_state.physics_linear_velocity.z,min_linear_velocity_component,max_linear_velocity_component);
+	XrMath::clamp		(m_state.physics_linear_velocity.x,min_linear_velocity_component,max_linear_velocity_component);
+	XrMath::clamp		(m_state.physics_linear_velocity.y,min_linear_velocity_component,max_linear_velocity_component);
+	XrMath::clamp		(m_state.physics_linear_velocity.z,min_linear_velocity_component,max_linear_velocity_component);
 
 	if (check(physics_linear_velocity_x_flag	))	packet.w_float_q8	(m_state.physics_linear_velocity.x	,min_linear_velocity_component	,max_linear_velocity_component);
 	if (check(physics_linear_velocity_y_flag	))	packet.w_float_q8	(m_state.physics_linear_velocity.y	,min_linear_velocity_component	,max_linear_velocity_component);
@@ -169,10 +169,10 @@ void actor_mp_state_holder::write		(NET_Packet &packet)
 	if (check(physics_position_x_flag			))	packet.w_float		(m_state.physics_position.x				);
 	if (check(physics_position_y_flag			))	packet.w_float		(m_state.physics_position.y				);
 	if (check(physics_position_z_flag			))	packet.w_float		(m_state.physics_position.z				);
-	if (check(model_yaw_flag					))	packet.w_float_q8	(m_state.model_yaw		,0.f	,PI_MUL_2);
-	if (check(camera_yaw_flag					))	packet.w_float_q8	(m_state.camera_yaw		,0.f	,PI_MUL_2);
-	if (check(camera_pitch_flag					))	packet.w_float_q8	(m_state.camera_pitch	,0.f	,PI_MUL_2);
-	if (check(camera_roll_flag					))	packet.w_float_q8	(m_state.camera_roll	,0.f	,PI_MUL_2);
+	if (check(model_yaw_flag					))	packet.w_float_q8	(m_state.model_yaw		,0.f	,XrMath::PI_MUL_2);
+	if (check(camera_yaw_flag					))	packet.w_float_q8	(m_state.camera_yaw		,0.f	,XrMath::PI_MUL_2);
+	if (check(camera_pitch_flag					))	packet.w_float_q8	(m_state.camera_pitch	,0.f	,XrMath::PI_MUL_2);
+	if (check(camera_roll_flag					))	packet.w_float_q8	(m_state.camera_roll	,0.f	,XrMath::PI_MUL_2);
 
 #ifdef USE_LOGIC_ACCELERATION
 	if (check(logic_acceleration_flag			))	packet.w_sdir		(m_state.logic_acceleration				);
@@ -218,10 +218,10 @@ void actor_mp_state_holder::read		(NET_Packet &packet)
 	if (check(physics_position_x_flag			))	packet.r_float		(m_state.physics_position.x				);
 	if (check(physics_position_y_flag			))	packet.r_float		(m_state.physics_position.y				);
 	if (check(physics_position_z_flag			))	packet.r_float		(m_state.physics_position.z				);
-	if (check(model_yaw_flag					))	packet.r_float_q8	(m_state.model_yaw,0.f,PI_MUL_2			);
-	if (check(camera_yaw_flag					))	packet.r_float_q8	(m_state.camera_yaw,0.f,PI_MUL_2		);
-	if (check(camera_pitch_flag					))	packet.r_float_q8	(m_state.camera_pitch,0.f,PI_MUL_2		);
-	if (check(camera_roll_flag					))	packet.r_float_q8	(m_state.camera_roll,0.f,PI_MUL_2		);
+	if (check(model_yaw_flag					))	packet.r_float_q8	(m_state.model_yaw,0.f,XrMath::PI_MUL_2			);
+	if (check(camera_yaw_flag					))	packet.r_float_q8	(m_state.camera_yaw,0.f,XrMath::PI_MUL_2		);
+	if (check(camera_pitch_flag					))	packet.r_float_q8	(m_state.camera_pitch,0.f,XrMath::PI_MUL_2		);
+	if (check(camera_roll_flag					))	packet.r_float_q8	(m_state.camera_roll,0.f,XrMath::PI_MUL_2		);
 
 #ifdef USE_LOGIC_ACCELERATION
 	if (check(logic_acceleration_flag			))	packet.r_sdir		(m_state.logic_acceleration				);

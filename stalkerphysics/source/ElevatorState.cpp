@@ -31,7 +31,7 @@ float CElevatorState::ClimbDirection()
 	Fvector d;
 	m_ladder->DToPlain(m_character,d);
 	float dir=m_character->ControlAccel().dotproduct(d);
-	if(dir>EPS_L)dir*=(m_character->CamDir().y+lookup_angle_sine);
+	if(dir>XrMath::EPS_L)dir*=(m_character->CamDir().y+lookup_angle_sine);
 	return dir;
 }
 
@@ -156,7 +156,7 @@ void CElevatorState::UpdateStNearUp()
 	Fvector d;
 	
 	if(	m_ladder->InTouch(m_character)								&&
-		m_character->CamDir().y<-M_PI/20.f							&&
+		m_character->CamDir().y<-XrMath::M_PI/20.f							&&
 		//d.dotproduct(m_character->ControlAccel())<0.f&&
 		//ClimbDirection()<0.f&&
 		m_ladder->DDToPlain(m_character,d)>m_character->FootRadius()/3.f&&
@@ -192,7 +192,7 @@ void CElevatorState::UpdateStClimbingDown()
 	float to_ax=m_ladder->DDToAxis(m_character,d);
 	Fvector ca;ca.set(m_character->ControlAccel());
 	float  control_a=to_mag_and_dir(ca);
-	if(!fis_zero(to_ax)&&!fis_zero(control_a)&&abs(-ca.dotproduct(Fvector(m_ladder->Norm()).normalize()))<M_SQRT1_2)SwitchState(clbDepart);
+	if(!XrMath::fis_zero(to_ax)&&!XrMath::fis_zero(control_a)&&abs(-ca.dotproduct(Fvector(m_ladder->Norm()).normalize()))<M_SQRT1_2)SwitchState(clbDepart);
 	if(m_ladder->AxDistToLowerP(m_character)-m_character->FootRadius()<stop_climbing_dist)
 		SwitchState(clbNearDown);
 	UpdateClimbingCommon(d,to_ax,ca,control_a);
@@ -201,13 +201,13 @@ void CElevatorState::UpdateStClimbingDown()
 
 	Fvector vel;
 	m_character->GetVelocity(vel);
-	if(vel.y>EPS_S)
+	if(vel.y>XrMath::EPS_S)
 	{
 		m_character->ApplyForce(0.f,-m_character->Mass()*ph_world->Gravity(),0.f);
 	}
 	//if(to_ax-m_character->FootRadius()>out_dist)
 	//														SwitchState((clbNone));
-	//if(fis_zero(control_a)) 
+	//if(XrMath::fis_zero(control_a)) 
 	//	m_character->ApplyForce(d,m_character->Mass());
 }
 
@@ -221,7 +221,7 @@ void CElevatorState::UpdateStClimbingUp()
 	float to_ax=m_ladder->DDToAxis(m_character,d);
 	Fvector ca;ca.set(m_character->ControlAccel());
 	float control_a=to_mag_and_dir(ca);
-	if(!fis_zero(to_ax)&&!fis_zero(control_a)&&abs(-ca.dotproduct(Fvector(m_ladder->Norm()).normalize()))<M_SQRT1_2)SwitchState(clbDepart);
+	if(!XrMath::fis_zero(to_ax)&&!XrMath::fis_zero(control_a)&&abs(-ca.dotproduct(Fvector(m_ladder->Norm()).normalize()))<M_SQRT1_2)SwitchState(clbDepart);
 	if(m_ladder->AxDistToUpperP(m_character)+m_character->FootRadius()<stop_climbing_dist)
 		SwitchState(clbNearUp);
 	
@@ -230,7 +230,7 @@ void CElevatorState::UpdateStClimbingUp()
 	UpdateClimbingCommon(d,to_ax,ca,control_a);
 	//if(to_ax-m_character->FootRadius()>out_dist)
 	//										SwitchState((clbNone));
-	//if(fis_zero(control_a)) 
+	//if(XrMath::fis_zero(control_a)) 
 	//	m_character->ApplyForce(d,m_character->Mass());
 }
 void CElevatorState::UpdateClimbingCommon(const Fvector	&d_to_ax,float to_ax,const Fvector& control_accel,float ca)
@@ -238,7 +238,7 @@ void CElevatorState::UpdateClimbingCommon(const Fvector	&d_to_ax,float to_ax,con
 	DEBUGFATALERROR1(m_ladder&&m_character);
 	if(to_ax-m_character->FootRadius()>out_dist)
 										SwitchState((clbNoLadder));
-	if(fis_zero(ca)&&d_to_ax.dotproduct(m_ladder->Norm())<0.f)
+	if(XrMath::fis_zero(ca)&&d_to_ax.dotproduct(m_ladder->Norm())<0.f)
 	{
 #ifdef DEBUG
 		if(debug_output().ph_dbg_draw_mask().test(phDbgLadder))
@@ -263,12 +263,12 @@ bool CElevatorState::GetControlDir(Fvector& dir)
 	case	clbNone			: 		break;			
 	case 	clbNearUp		:		dist= m_ladder->DDUpperP(m_character,d);
 									if(	dXZDotNormalized(d,m_character->CamDir())>look_angle_cosine&&
-										!fis_zero(dist,EPS_L)&&m_character->ControlAccel().dotproduct(d)>0.f) dir.set(d);
+										!XrMath::fis_zero(dist,XrMath::EPS_L)&&m_character->ControlAccel().dotproduct(d)>0.f) dir.set(d);
 									break;						
 	case 	clbNearDown		:		
 									dist=m_ladder->DDLowerP(m_character,d);
 									if(dXZDotNormalized(d,m_character->CamDir())>look_angle_cosine&&
-									   !fis_zero(dist,EPS_L)&&m_character->ControlAccel().dotproduct(d)>0.f) dir.set(d);
+									   !XrMath::fis_zero(dist,XrMath::EPS_L)&&m_character->ControlAccel().dotproduct(d)>0.f) dir.set(d);
 									break;					
 	case 	clbClimbingUp	:		m_ladder->DDAxis(dir);
 									m_ladder->DDToAxis(m_character,d);
@@ -352,7 +352,7 @@ void CElevatorState::GetJumpDir(const Fvector& accel,Fvector& dir)
 	Fvector ac;ac.set(accel).normalize_safe();
 	float side_component=ac.dotproduct(side);
 	dir.set(norm);
-	if(_abs(side_component)>M_SQRT1_2)
+	if(XrMath::abs(side_component)>M_SQRT1_2)
 	{
 		if(side_component<0.f)side.invert();
 		dir.add(side);

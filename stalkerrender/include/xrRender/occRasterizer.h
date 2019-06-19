@@ -35,10 +35,10 @@ private:
 	occD			bufDepth_2	[occ_dim_2][occ_dim_2];
 	occD			bufDepth_3	[occ_dim_3][occ_dim_3];
 public:
-	IC int			df_2_s32		(float d)	{ return iFloor	(d*occQ_s32);				}
-	IC s16			df_2_s16		(float d)	{ return s16(iFloor	(d*occQ_s16));			}
-	IC int			df_2_s32up		(float d)	{ return iCeil	(d*occQ_s32);				}
-	IC s16			df_2_s16up		(float d)	{ return s16(iCeil	(d*occQ_s16));			}
+	IC int			df_2_s32		(float d)	{ return XrMath::iFloor	(d*occQ_s32);				}
+	IC s16			df_2_s16		(float d)	{ return s16(XrMath::iFloor	(d*occQ_s16));			}
+	IC int			df_2_s32up		(float d)	{ return XrMath::iCeil	(d*occQ_s32);				}
+	IC s16			df_2_s16up		(float d)	{ return s16(XrMath::iCeil	(d*occQ_s16));			}
 	IC float		ds32_2_f		(s32 d)		{ return float(d)/occQ_s32;					}
 	IC float		ds16_2_f		(s16 d)		{ return float(d)/occQ_s16;					}
 

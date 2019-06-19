@@ -198,7 +198,14 @@ void configs_dumper::sign_configs		()
 	tmp_ini.save_as					(m_dump_result);
 }
 
-
+IC u32 btwCount1(u32 v)
+{
+	const u32 g31 = 0x49249249ul; // = 0100_1001_0010_0100_1001_0010_0100_1001
+	const u32 g32 = 0x381c0e07ul; // = 0011_1000_0001_1100_0000_1110_0000_0111
+	v = (v & g31) + ((v >> 1) & g31) + ((v >> 2) & g31);
+	v = ((v + (v >> 3)) & g32) + ((v >> 6) & g32);
+	return (v + (v >> 9) + (v >> 18) + (v >> 27)) & 0x3f;
+}
 void configs_dumper::dump_config(complete_callback_t complete_cb)
 {
 	if (is_active())
@@ -234,7 +241,7 @@ void configs_dumper::dump_config(complete_callback_t complete_cb)
 	}
 	m_make_start_event			= CreateEvent(NULL, FALSE, TRUE, NULL);
 	m_make_done_event			= CreateEvent(NULL, FALSE, FALSE, NULL);
-	thread_spawn				(&configs_dumper::dumper_thread, "configs_dumper", 0, this);
+	XrThread::Spawn				( "configs_dumper", &configs_dumper::dumper_thread, this);
 	Engine.Sheduler.Register	(this, TRUE);
 }
 

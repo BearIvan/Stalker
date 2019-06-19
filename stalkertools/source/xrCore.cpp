@@ -64,6 +64,8 @@ void xrCore::Initialize(LogCallback cb)
 	g_pStringContainer = xr_new<str_container>();
 	g_pSharedMemoryContainer = xr_new<smem_container>();
 	shared_str_initialized = true;
+
+	XrThread::Initialize();
 }
 
 #ifndef _EDITOR
@@ -72,6 +74,7 @@ extern compression::ppmd::stream* trained_model;
 #endif
 void xrCore::Destroy()
 {
+	XrThread::Destroy();
 	FlushLog();
     --init_counter;
 	if (0 == init_counter)

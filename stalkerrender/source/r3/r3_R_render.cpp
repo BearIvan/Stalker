@@ -97,7 +97,7 @@ void CRender::render_main	(Fmatrix&	m_ViewProjection, bool _fportals)
 				light*			L				= (light*)	(spatial->dcast_Light());
 				VERIFY							(L);
 				float	lod		= L->get_LOD	();
-				if (lod>EPS_L)	{
+				if (lod>XrMath::EPS_L)	{
 					vis_data&		vis		= L->get_homdata	( );
 					if	(HOM.visible(vis))	Lights.add_light	(L);
 				}
@@ -197,16 +197,16 @@ void CRender::render_menu	()
 	u32		C						= color_rgba	(255,255,255,255);
 	float	_w						= float(Device.dwWidth);
 	float	_h						= float(Device.dwHeight);
-	float	d_Z						= EPS_S;
+	float	d_Z						= XrMath::EPS_S;
 	float	d_W						= 1.f;
 	p0.set							(.5f/_w, .5f/_h);
 	p1.set							((_w+.5f)/_w, (_h+.5f)/_h );
 
 	FVF::TL* pv						= (FVF::TL*) RCache.Vertex.Lock	(4,Target->g_menu->vb_stride,Offset);
-	pv->set							(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-	pv->set							(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-	pv->set							(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-	pv->set							(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+	pv->set							(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+	pv->set							(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+	pv->set							(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+	pv->set							(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 	RCache.Vertex.Unlock			(4,Target->g_menu->vb_stride);
 	RCache.Render					(D3DPT_TRIANGLELIST,Offset,0,4,0,2);
 }
@@ -248,7 +248,7 @@ void CRender::Render		()
 	// Configure
 	RImplementation.o.distortion				= FALSE;		// disable distorion
 	Fcolor					sun_color			= ((light*)Lights.sun_adapted._get())->color;
-	BOOL					bSUN				= ps_r2_ls_flags.test(R2FLAG_SUN) && (u_diffuse2s(sun_color.r,sun_color.g,sun_color.b)>EPS);
+	BOOL					bSUN				= ps_r2_ls_flags.test(R2FLAG_SUN) && (u_diffuse2s(sun_color.r,sun_color.g,sun_color.b)>XrMath::EPS);
 	if (o.sunstatic)		bSUN				= FALSE;
 	// Msg						("sstatic: %s, sun: %s",o.sunstatic?;"true":"false", bSUN?"true":"false");
 
@@ -268,7 +268,7 @@ void CRender::Render		()
 		float		z_distance	= ps_r2_zfill		;
 		Fmatrix		m_zfill, m_project				;
 		m_project.build_projection	(
-			deg2rad(Device.fFOV/* *Device.fASPECT*/), 
+			XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/), 
 			Device.fASPECT, VIEWPORT_NEAR, 
 			z_distance *GetEnv().CurrentEnv->far_plane);
 		m_zfill.mul	(m_project,Device.mView);
@@ -367,9 +367,9 @@ void CRender::Render		()
 		stats.l_total		= stats.l_shadowed + stats.l_unshadowed;
 
 		// perform tests
-		count				= _max	(count,LP.v_point.size());
-		count				= _max	(count,LP.v_spot.size());
-		count				= _max	(count,LP.v_shadowed.size());
+		count				= XrMath::max	(count,LP.v_point.size());
+		count				= XrMath::max	(count,LP.v_spot.size());
+		count				= XrMath::max	(count,LP.v_shadowed.size());
 		for (u32 it=0; it<count; it++)	{
 			if (it<LP.v_point.size())		{
 				light*	L			= LP.v_point	[it];

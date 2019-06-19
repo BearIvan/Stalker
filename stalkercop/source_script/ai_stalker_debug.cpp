@@ -197,8 +197,8 @@ void draw_restrictions(const shared_str &restrictions, LPCSTR start_indent, LPCS
 {
 	DBG_OutText	("%s%s%s",start_indent,indent,header);
 	string256	temp;
-	for (u32 i=0, n=_GetItemCount(*restrictions); i<n; ++i)
-		DBG_OutText("%s%s%s%s",start_indent,indent,indent,_GetItem(*restrictions,i,temp));
+	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions); i<n; ++i)
+		DBG_OutText("%s%s%s%s",start_indent,indent,indent,XrTrims::GetItem(*restrictions,i,temp));
 }
 
 LPCSTR movement_type(const MonsterSpace::EMovementType &movement_type)
@@ -269,9 +269,9 @@ void CAI_Stalker::debug_text			()
 	DBG_OutText	("%svisual",indent);
 	
 	float								object_range, object_fov;
-	update_range_fov					(object_range,object_fov,eye_range,deg2rad(eye_fov));
+	update_range_fov					(object_range,object_fov,eye_range,XrMath::deg2rad(eye_fov));
 	DBG_OutText	("%s%seye range   : %f",indent,indent,object_range);
-	DBG_OutText	("%s%sFOV         : %f",indent,indent,rad2deg(object_fov));
+	DBG_OutText	("%s%sFOV         : %f",indent,indent,XrMath::rad2deg(object_fov));
 	if (g_Alive()) {
 		DBG_OutText	("%s%sobjects     : %d",indent,indent,memory().visual().objects().size());
 		DBG_OutText	("%s%snot yet     : %d",indent,indent,memory().visual().not_yet_visible_objects().size());
@@ -280,7 +280,7 @@ void CAI_Stalker::debug_text			()
 			DBG_OutText("%s%sactor       : visible",indent,indent);
 		else {
 			MemorySpace::CNotYetVisibleObject	*object = memory().visual().not_yet_visible_object(actor);
-			if (object && !fis_zero(object->m_value))
+			if (object && !XrMath::fis_zero(object->m_value))
 				DBG_OutText("%s%sactor       : not yet visible : %f",indent,indent,object->m_value);
 			else
 				DBG_OutText("%s%sactor       : not visible",indent,indent);
@@ -651,8 +651,8 @@ void CAI_Stalker::debug_text			()
 		DBG_OutText	("%s%s%s%sposition  : [%f][%f][%f]",indent,indent,indent,indent,VPUSH(movement().detail().path()[movement().detail().curr_travel_point_index()].position));
 		CDetailPathManager::STravelParams	current_velocity = movement().detail().velocity(movement().detail().path()[movement().detail().curr_travel_point_index()].velocity);
 		DBG_OutText	("%s%s%s%slinear    : %f",    indent,indent,indent,indent,current_velocity.linear_velocity);
-		DBG_OutText	("%s%s%s%sangular   : %f deg",indent,indent,indent,indent,rad2deg(current_velocity.angular_velocity));
-		DBG_OutText	("%s%s%s%sangular(R): %f deg",indent,indent,indent,indent,rad2deg(current_velocity.real_angular_velocity));
+		DBG_OutText	("%s%s%s%sangular   : %f deg",indent,indent,indent,indent,XrMath::rad2deg(current_velocity.angular_velocity));
+		DBG_OutText	("%s%s%s%sangular(R): %f deg",indent,indent,indent,indent,XrMath::rad2deg(current_velocity.real_angular_velocity));
 		DBG_OutText	("%s%s%sspeed(calc)   : %f",indent,indent,indent,movement().speed());
 		DBG_OutText	("%s%s%sspeed(physics): %f",indent,indent,indent,movement().speed(character_physics_support()->movement()));
 	}
@@ -1018,10 +1018,10 @@ BOOL _ray_query_callback	(collide::rq_result& result, LPVOID params)
 
 void fill_points			(CCustomMonster *self, const Fvector &position, const Fvector &direction, float distance, collide::rq_results& rq_storage, COLLIDE_POINTS &points, float &pick_distance)
 {
-	VERIFY							(!fis_zero(direction.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(direction.square_magnitude()));
 
 	collide::ray_defs				ray_defs(position,direction,distance,CDB::OPT_CULL,collide::rqtBoth);
-	VERIFY							(!fis_zero(ray_defs.dir.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(ray_defs.dir.square_magnitude()));
 	
 	ray_query_param					params(self,self->memory().visual().transparency_threshold(),distance,position,direction,points);
 
@@ -1069,7 +1069,7 @@ void draw_visiblity_rays	(CCustomMonster *self, const CObject *object, collide::
 		pick_distance
 	);
 
-	if (fsimilar(pick_distance,distance) && !dest_position.similar(points.back()))
+	if (XrMath::fsimilar(pick_distance,distance) && !dest_position.similar(points.back()))
 		points.push_back	(dest_position);
 
 	VERIFY					(points.size() > 1);
@@ -1117,7 +1117,7 @@ static Fmatrix aim_on_actor		(
 		bool const& debug_draw
 	)
 {
-	VERIFY								( fsimilar(1.f, weapon_direction.square_magnitude()) );
+	VERIFY								( XrMath::fsimilar(1.f, weapon_direction.square_magnitude()) );
 
 #ifdef DEBUG_RENDER
 	CDebugRenderer&						renderer = Level().debug_renderer();
@@ -1151,7 +1151,7 @@ static Fmatrix aim_on_actor		(
 	Fvector const bone2current			= Fvector().sub(current_point, bone_position);
 	float const sphere_radius_sqr		= bone2current.square_magnitude();
 	Fvector direction_target			= Fvector().sub(target, bone_position);
-	VERIFY								(direction_target.magnitude() > EPS_L);
+	VERIFY								(direction_target.magnitude() > XrMath::EPS_L);
 	float const invert_magnitude		= 1.f/direction_target.magnitude();
 	direction_target.mul				(invert_magnitude);
 	float const to_circle_center		= sphere_radius_sqr*invert_magnitude;
@@ -1162,9 +1162,9 @@ static Fmatrix aim_on_actor		(
 	plane.project						(projection, current_point);
 
 	Fvector const center2projection_direction	= Fvector().sub(projection, circle_center).normalize();
-	float const circle_radius_sqr		= sphere_radius_sqr - _sqr(to_circle_center);
+	float const circle_radius_sqr		= sphere_radius_sqr - XrMath::sqr(to_circle_center);
 	VERIFY								(circle_radius_sqr >= 0.f);
-	float const circle_radius			= _sqrt(circle_radius_sqr);
+	float const circle_radius			= XrMath::sqrt(circle_radius_sqr);
 	Fvector const target_point			= Fvector().mad(circle_center, center2projection_direction, circle_radius);
 	Fvector const current_direction		= Fvector().sub(current_point, bone_position).normalize();
 	Fvector const target_direction		= Fvector().sub(target_point,  bone_position).normalize();
@@ -1175,7 +1175,7 @@ static Fmatrix aim_on_actor		(
 		temp.c							= target_point;
 		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(255, 255, 255));
 
-		float const sphere_radius		= _sqrt(sphere_radius_sqr);
+		float const sphere_radius		= XrMath::sqrt(sphere_radius_sqr);
 		temp.scale						(sphere_radius, sphere_radius, sphere_radius);
 		temp.c							= bone_position;
 		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(255, 255, 0));
@@ -1186,18 +1186,18 @@ static Fmatrix aim_on_actor		(
 	{
 		Fvector							cross_product = Fvector().crossproduct(current_direction, target_direction);
 		float const sin_alpha			= cross_product.magnitude();
-		if (!fis_zero(sin_alpha)) {
+		if (!XrMath::fis_zero(sin_alpha)) {
 			float const cos_alpha		= current_direction.dotproduct(target_direction);
 			transform0.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
 		}
 		else {
 			float const dot_product		= current_direction.dotproduct(target_direction);
-			if (fsimilar(_abs(dot_product), 0.f))
+			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
 				transform0.identity		();
 			else {
-				VERIFY					(fsimilar(_abs(dot_product), 1.f));
+				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
 				cross_product.crossproduct	(current_direction, direction_target);
-				transform0.rotation		(cross_product.normalize(), dot_product > 0.f ? 0.f : PI);
+				transform0.rotation		(cross_product.normalize(), dot_product > 0.f ? 0.f : XrMath::M_PI);
 			}
 		}
 	}
@@ -1209,17 +1209,17 @@ static Fmatrix aim_on_actor		(
 		transform0.transform_dir		(old_direction, weapon_direction);
 		Fvector 						cross_product = Fvector().crossproduct(old_direction, new_direction);
 		float const sin_alpha			= cross_product.magnitude();
-		if (!fis_zero(sin_alpha)) {
+		if (!XrMath::fis_zero(sin_alpha)) {
 			float const cos_alpha		= old_direction.dotproduct(new_direction);
 			transform1.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
 		}
 		else {
 			float const dot_product		= current_direction.dotproduct(target_direction);
-			if (fsimilar(_abs(dot_product), 0.f))
+			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
 				transform1.identity		();
 			else {
-				VERIFY					(fsimilar(_abs(dot_product), 1.f));
-				transform1.rotation		(target_direction, dot_product > 0.f ? 0.f : PI);
+				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
+				transform1.rotation		(target_direction, dot_product > 0.f ? 0.f : XrMath::M_PI);
 			}
 		}
 	}
@@ -1257,7 +1257,7 @@ static void fill_bones				(CAI_Stalker& self, Fmatrix const& transform, IKinemat
 #if 0
 		CBlend* const blend				= kinematics_animated->LL_PlayCycle(i, animation, 0, 0, 0, 1);
 		if (blend)
-			blend->timeCurrent			= 0.f;//blend->timeTotal - (SAMPLE_SPF + EPS);
+			blend->timeCurrent			= 0.f;//blend->timeTotal - (SAMPLE_SPF + XrMath::EPS);
 #else // #if 0
 		u32 const blend_count			= kinematics_animated->LL_PartBlendsCount(i);
 		for (u32 j=0; j<blend_count; ++j) {
@@ -1430,7 +1430,7 @@ static void draw_animation_bones	(CAI_Stalker& self, Fmatrix const& transform, I
 	Fvector							pos,ypr;
 	pos								= pSettings->r_fvector3		(weapon->cNameSect(),"position");
 	ypr								= pSettings->r_fvector3		(weapon->cNameSect(),"orientation");
-	ypr.mul							(PI/180.f);
+	ypr.mul							(XrMath::M_PI/180.f);
 
 	Fmatrix							offset;
 	offset.setHPB					(ypr.x,ypr.y,ypr.z);
@@ -1679,7 +1679,7 @@ void CAI_Stalker::OnRender				()
 		Fvector				position, direction;
 		g_fireParams		(0,position,direction);
 
-		float				yaw, pitch, safety_fire_angle = 1.f*PI_DIV_8*.125f;
+		float				yaw, pitch, safety_fire_angle = 1.f*XrMath::PI_DIV_8*.125f;
 		direction.getHP		(yaw,pitch);
 
 		Level().debug_renderer().draw_line(Fidentity, position, Fvector().mad(position, direction, 20.f), D3DCOLOR_XRGB(0,255,0));
@@ -1745,14 +1745,14 @@ void CAI_Stalker::OnRender				()
 			float						best_value = -1.f;
 			u32 j = 0;
 			for (u32 i = 0; i < 36; ++i) {
-				float				value = ai().level_graph().high_cover_in_direction(float(10*i)/180.f*PI,v);
-				direction.setHP		(float(10*i)/180.f*PI,0);
+				float				value = ai().level_graph().high_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+				direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
 				direction.normalize	();
 				direction.mul		(value*half_size);
 				direction.add		(position);
 				direction.y			= position.y;
 				Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-				value				= ai().level_graph().compute_high_square(float(10*i)/180.f*PI,PI/2.f,v);
+				value				= ai().level_graph().compute_high_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
 				if (value > best_value) {
 					best_value		= value;
 					j				= i;
@@ -1771,8 +1771,8 @@ void CAI_Stalker::OnRender				()
 			direction.set		(position.x,position.y,position.z - half_size*float(v->high_cover(3))/15.f);
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-			float				value = ai().level_graph().high_cover_in_direction(float(10*j)/180.f*PI,v);
-			direction.setHP		(float(10*j)/180.f*PI,0);
+			float				value = ai().level_graph().high_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+			direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);
@@ -1785,14 +1785,14 @@ void CAI_Stalker::OnRender				()
 			float						best_value = -1.f;
 
 			for (u32 i=0, j = 0; i<36; ++i) {
-				float				value = ai().level_graph().low_cover_in_direction(float(10*i)/180.f*PI,v);
-				direction.setHP		(float(10*i)/180.f*PI,0);
+				float				value = ai().level_graph().low_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+				direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
 				direction.normalize	();
 				direction.mul		(value*half_size);
 				direction.add		(position);
 				direction.y			= position.y;
 				Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-				value				= ai().level_graph().compute_low_square(float(10*i)/180.f*PI,PI/2.f,v);
+				value				= ai().level_graph().compute_low_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
 				if (value > best_value) {
 					best_value		= value;
 					j				= i;
@@ -1811,8 +1811,8 @@ void CAI_Stalker::OnRender				()
 			direction.set		(position.x,position.y,position.z - half_size*float(v->low_cover(3))/15.f);
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-			float				value = ai().level_graph().low_cover_in_direction(float(10*j)/180.f*PI,v);
-			direction.setHP		(float(10*j)/180.f*PI,0);
+			float				value = ai().level_graph().low_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+			direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);

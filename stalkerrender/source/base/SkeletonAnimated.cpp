@@ -276,7 +276,7 @@ void CKinematicsAnimated::IBlendSetup(CBlend& B,u16 part,u8 channel, MotionID mo
 	if (bMixing)	{
 		//B.blend		= CBlend::eAccrue;
 		B.set_accrue_state();
-		B.blendAmount	= EPS_S;
+		B.blendAmount	= XrMath::EPS_S;
 	} else {
 		//B.blend		= CBlend::eFixed;
 		//B.blend		= CBlend::eAccrue;
@@ -304,7 +304,7 @@ void CKinematicsAnimated::IFXBlendSetup(CBlend &B, MotionID motion_ID, float ble
 {
 	//B.blend			= CBlend::eAccrue;
 	B.set_accrue_state();
-	B.blendAmount	= EPS_S;
+	B.blendAmount	= XrMath::EPS_S;
 	B.blendAccrue	= blendAccrue;
 	B.blendFalloff	= blendFalloff;
 	B.blendPower	= Power;
@@ -686,13 +686,13 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
     {
     	string_path		items_nm;
         data->r_stringZ	(items_nm,sizeof(items_nm));
-        u32 set_cnt		= _GetItemCount(items_nm);
+        u32 set_cnt		= XrTrims::GetItemCount(items_nm);
         R_ASSERT		(set_cnt<MAX_ANIM_SLOT);
 		m_Motions.reserve(set_cnt);
     	string_path		nm;
         for (u32 k=0; k<set_cnt; ++k)
         {
-        	_GetItem	(items_nm,k,nm);
+        	XrTrims::GetItem	(items_nm,k,nm);
             xr_strcat		(nm,".omf");
             // Check compatibility
             m_Motions.push_back				(SMotionsSlot());
@@ -916,7 +916,7 @@ void	CKinematicsAnimated::BuildBoneMatrix			( const CBoneData* bd, CBoneInstance
 			CBlend*			B		=	*BI;
 			CMotion&		M		=	*LL_GetMotion(B->motionID,SelfID);
 			float			time	=	B->timeCurrent*float(SAMPLE_FPS);
-			u32				frame	=	iFloor(time);
+			u32				frame	=	XrMath::iFloor(time);
 			u32				count	=	M.get_count();
 			float			delta	=	time-float(frame);
 

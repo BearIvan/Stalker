@@ -11,7 +11,7 @@
 #include "ai_space.h"
 #include "level_graph.h"
 
-#define DEFAULT_RADIUS EPS_L
+#define DEFAULT_RADIUS XrMath::EPS_L
 
 bool CSpaceRestrictionBase::inside	(u32 level_vertex_id, bool partially_inside)
 {
@@ -34,7 +34,7 @@ IC	bool CSpaceRestrictionBase_inside	(CSpaceRestrictionBase *self, const Fvector
 bool CSpaceRestrictionBase::inside	(u32 level_vertex_id, bool partially_inside, float radius)
 {
 	const Fvector					&position = ai().level_graph().vertex_position(level_vertex_id);
-	float							offset = ai().level_graph().header().cell_size()*.5f - EPS_L;
+	float							offset = ai().level_graph().header().cell_size()*.5f - XrMath::EPS_L;
 	if (partially_inside)
 		return						(
 			CSpaceRestrictionBase_inside(this,construct_position(level_vertex_id,position.x + offset,position.z + offset),radius) || 

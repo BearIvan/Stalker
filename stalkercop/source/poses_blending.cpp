@@ -27,7 +27,7 @@
 
 	void	poses_blending::pose			( Fmatrix &p, float time )									const 
 	{
-		VERIFY( target_time > EPS_S );
+		VERIFY( target_time > XrMath::EPS_S );
 		VERIFY( time >= 0.f );
 		VERIFY( time < target_time );
 

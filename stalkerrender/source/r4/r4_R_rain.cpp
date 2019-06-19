@@ -31,7 +31,7 @@ void CRender::render_rain()
 {
 	//return;
 	float	fRainFactor	= GetEnv().CurrentEnv->rain_density;
-	if ( fRainFactor < EPS_L )			return;
+	if ( fRainFactor < XrMath::EPS_L )			return;
 
 	PIX_EVENT(render_rain);
 
@@ -53,7 +53,7 @@ void CRender::render_rain()
 	{
 		//	
 		const float fRainFar = ps_r3_dyn_wet_surf_far;
-		ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,VIEWPORT_NEAR, fRainFar); 
+		ex_project.build_projection	(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,VIEWPORT_NEAR, fRainFar); 
 		ex_full.mul					(ex_project,Device.mView);
 		D3DXMatrixInverse			((D3DXMATRIX*)&ex_full_inverse,0,(D3DXMATRIX*)&ex_full);
 
@@ -62,8 +62,8 @@ void CRender::render_rain()
 			//	b^2 = 2RH, B - side enge of the pyramid, h = height
 			//	R = b^2/(2*H)
 			const float H = fRainFar;
-			const float a = tanf(deg2rad(Device.fFOV)/2);
-			const float c = tanf(deg2rad(Device.fFOV*Device.fASPECT)/2);
+			const float a = tanf(XrMath::deg2rad(Device.fFOV)/2);
+			const float c = tanf(XrMath::deg2rad(Device.fFOV*Device.fASPECT)/2);
 			const float b_2 = H*H* ( 1.0f + a*a + c*c );
 			fBoundingSphereRadius = b_2/(2.0f*H);
 		}
@@ -140,7 +140,7 @@ void CRender::render_rain()
 		Fvector						L_dir,L_up,L_right,L_pos;
 		L_pos.set					(RainLight.position);
 		L_dir.set					(RainLight.direction).normalize	();
-		L_right.set					(1,0,0);					if (_abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
+		L_right.set					(1,0,0);					if (XrMath::abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
 		L_up.crossproduct			(L_dir,L_right).normalize	();
 		L_right.crossproduct		(L_up,L_dir).normalize		();
 		mdir_View.build_camera_dir	(L_pos,L_dir,L_up);
@@ -154,7 +154,7 @@ void CRender::render_rain()
 			frustum_bb.modify		(xf);
 		}
 		Fbox&	bb					= frustum_bb;
-		bb.grow				(EPS);
+		bb.grow				(XrMath::EPS);
 
 		//	HACK
 		//	TODO: DX10: Calculate bounding sphere for view frustum
@@ -177,7 +177,7 @@ void CRender::render_rain()
 
 		cull_xform.mul		(mdir_Project,mdir_View	);
 
-		s32		limit				= _min(RImplementation.o.smapsize, ps_r3_dyn_wet_surf_sm_res);
+		s32		limit				= XrMath::min(s32(RImplementation.o.smapsize),s32( ps_r3_dyn_wet_surf_sm_res));
 
 		// build viewport xform
 		float	view_dim			= float(limit);

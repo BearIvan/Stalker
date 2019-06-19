@@ -39,19 +39,19 @@ void CCameraFirstEye::UpdateLookat()
 	Fvector								xyz;
 	_m.getXYZi							(xyz);
 
-	if(fsimilar(yaw, xyz.y, EPS) && fsimilar(pitch, xyz.x, EPS))
+	if(XrMath::fsimilar(yaw, xyz.y, XrMath::EPS) && XrMath::fsimilar(pitch, xyz.x, XrMath::EPS))
 		lookat_active = false;
 
-	yaw				= angle_inertion_var(	yaw, xyz.y,
+	yaw				= XrMath::angle_inertion_var(	yaw, xyz.y,
 											1.0f,
-											PI,
-											PI,
+											XrMath::M_PI,
+											XrMath::M_PI,
 											Device.fTimeDelta);
 
-	pitch			= angle_inertion_var(	pitch, xyz.x,
+	pitch			= XrMath::angle_inertion_var(	pitch, xyz.x,
 											1.0f,
-											PI,
-											PI,
+											XrMath::M_PI,
+											XrMath::M_PI,
 											Device.fTimeDelta);
 
 }
@@ -92,9 +92,9 @@ void CCameraFirstEye::Move( int cmd, float val, float factor )
 	if (bClampPitch)
 	{
 		while (pitch < lim_pitch[0])
-			pitch += PI_MUL_2;
+			pitch += XrMath::PI_MUL_2;
 		while (pitch > lim_pitch[1])
-			pitch -= PI_MUL_2;
+			pitch -= XrMath::PI_MUL_2;
 	};
 	switch (cmd){
 	case kDOWN:		pitch	-= val?val:(rot_speed.y*Device.fTimeDelta/factor);	break;
@@ -102,8 +102,8 @@ void CCameraFirstEye::Move( int cmd, float val, float factor )
 	case kLEFT:		yaw		-= val?val:(rot_speed.x*Device.fTimeDelta/factor);	break;
 	case kRIGHT:	yaw		+= val?val:(rot_speed.x*Device.fTimeDelta/factor);	break;
 	}
-	if (bClampYaw)		clamp(yaw,lim_yaw[0],lim_yaw[1]);
-	if (bClampPitch)	clamp(pitch,lim_pitch[0],lim_pitch[1]);
+	if (bClampYaw)		XrMath::clamp(yaw,lim_yaw[0],lim_yaw[1]);
+	if (bClampPitch)	XrMath::clamp(pitch,lim_pitch[0],lim_pitch[1]);
 }
 
 void CCameraFirstEye::OnActivate( CCameraBase* old_cam )

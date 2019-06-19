@@ -84,7 +84,7 @@ void CCoverEvaluatorFarFromEnemy::evaluate			(const CCoverPoint *cover_point, fl
 
 void CCoverEvaluatorBest::evaluate			(const CCoverPoint *cover_point, float weight)
 {
-	if (fis_zero(weight))
+	if (XrMath::fis_zero(weight))
 		return;
 
 	float					enemy_distance	= m_enemy_position.distance_to(cover_point->position());
@@ -120,7 +120,7 @@ void CCoverEvaluatorBest::evaluate			(const CCoverPoint *cover_point, float weig
 
 void CCoverEvaluatorBestByTime::evaluate		(const CCoverPoint *cover_point, float weight)
 {
-	if (fis_zero(weight))
+	if (XrMath::fis_zero(weight))
 		return;
 
 	float					enemy_distance	= m_enemy_position.distance_to(cover_point->position());
@@ -160,8 +160,8 @@ void CCoverEvaluatorAngle::initialize		(const Fvector &start_position, bool fake
 	m_direction.normalize_safe	();
 	float						best_value = -1.f;
 	float						m_best_angle = 0.f;
-	for (float alpha = 0.f, step = PI_MUL_2/360.f; alpha < PI_MUL_2; alpha += step) {
-		float					value = ai().level_graph().compute_square(alpha,PI_DIV_2,m_level_vertex_id);
+	for (float alpha = 0.f, step = XrMath::PI_MUL_2/360.f; alpha < XrMath::PI_MUL_2; alpha += step) {
+		float					value = ai().level_graph().compute_square(alpha,XrMath::PI_DIV_2,m_level_vertex_id);
 		if (value > best_value) {
 			best_value			= value;
 			m_best_angle		= alpha;
@@ -220,7 +220,7 @@ void CCoverEvaluatorRandomGame::setup		(GameGraph::_GRAPH_ID game_vertex_id, flo
 	m_game_vertex_id		= game_vertex_id;
 
 	m_start_position		= ai().game_graph().vertex(game_vertex_id)->level_point();
-	m_max_distance_sqr		= _sqr(max_distance);
+	m_max_distance_sqr		= XrMath::sqr(max_distance);
 	m_covers.clear			();
 }
 
@@ -255,7 +255,7 @@ void CCoverEvaluatorAmbush::setup			(const Fvector &my_position, const Fvector &
 	m_actuality				= m_actuality && m_enemy_position.similar(enemy_position,5.f);
 	m_enemy_position		= enemy_position;
 
-	m_actuality				= m_actuality && fsimilar(m_min_enemy_distance,min_enemy_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_min_enemy_distance,min_enemy_distance);
 	m_min_enemy_distance	= min_enemy_distance;
 }
 

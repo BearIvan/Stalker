@@ -390,9 +390,9 @@ void Manager::init_install( CInventoryItem& item )
 			u32 const buffer_size = (xr_strlen(installed_upgrades_str) + 1);
 			PSTR	temp = (PSTR)_alloca(buffer_size);
 
-			for ( int n = _GetItemCount(installed_upgrades_str), i = 0; i < n; ++i )
+			for ( int n = XrTrims::GetItemCount(installed_upgrades_str), i = 0; i < n; ++i )
 			{
-				upgrade_install( item, _GetItem( installed_upgrades_str, i, temp , buffer_size), true );
+				upgrade_install( item, XrTrims::GetItem( installed_upgrades_str, i, temp , buffer_size), true );
 			}
 		}
 	}//if exist

@@ -115,7 +115,7 @@ bool CSpaceRestrictionBridge::on_border					(const Fvector &position) const
 		if (ai().level_graph().vertex(*I)->position().xz() != pos.xz())
 			break;
 
-		if (_abs(ai().level_graph().vertex_plane_y(*I) - position.y) < 2.f)
+		if (XrMath::abs(ai().level_graph().vertex_plane_y(*I) - position.y) < 2.f)
 			return	(true);
 	}	
 
@@ -135,7 +135,7 @@ bool CSpaceRestrictionBridge::out_of_border				(const Fvector &position)
 		return				(true);
 
 	Fsphere					temp;
-	temp.R					= EPS_L;
+	temp.R					= XrMath::EPS_L;
 	temp.P					= position;
 	temp.P.y				= ai().level_graph().vertex_plane_y(level_vertex_id,position.x,position.z);
 	return					(!inside(temp));

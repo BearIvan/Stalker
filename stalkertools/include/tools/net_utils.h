@@ -116,22 +116,22 @@ public:
     {
         VERIFY(a >= min && a <= max);
         float q = (a - min) / (max - min);
-        w_u16(u16(iFloor(q*65535.f + 0.5f)));
+        w_u16(u16(XrMath::iFloor(q*65535.f + 0.5f)));
     }
     IC void w_float_q8(float a, float min, float max)
     {
         VERIFY(a >= min && a <= max);
         float q = (a - min) / (max - min);
-        w_u8(u8(iFloor(q*255.f + 0.5f)));
+        w_u8(u8(XrMath::iFloor(q*255.f + 0.5f)));
     }
-    IC void w_angle16(float a) { w_float_q16(angle_normalize(a), 0, PI_MUL_2); }
-    IC void w_angle8(float a) { w_float_q8(angle_normalize(a), 0, PI_MUL_2); }
+    IC void w_angle16(float a) { w_float_q16(XrMath::angle_normalize(a), 0, XrMath::PI_MUL_2); }
+    IC void w_angle8(float a) { w_float_q8(XrMath::angle_normalize(a), 0, XrMath::PI_MUL_2); }
     IC void w_dir(const Fvector& D) { w_u16(pvCompress(D)); }
     IC void w_sdir(const Fvector& D)
     {
         Fvector C;
         float mag = D.magnitude();
-        if (mag > EPS_S)
+        if (mag > XrMath::EPS_S)
         {
             C.div(D, mag);
         }

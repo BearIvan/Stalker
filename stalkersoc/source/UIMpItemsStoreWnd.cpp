@@ -87,12 +87,12 @@ void CStoreHierarchy::InitItemsInGroup(const shared_str& sect, item* _itm)
 	if( !_itm->HasSubLevels() )
 	{
 		shared_str v	= pSettings->r_string(sect, _itm->m_name.c_str());
-		u32 n			= _GetItemCount	(v.c_str());
+		u32 n			= XrTrims::GetItemCount	(v.c_str());
 		string512		buff;
 
 		for(u32 i=0; i<n;++i)
 		{
-			_GetItem							(v.c_str(),i,buff);
+			XrTrims::GetItem							(v.c_str(),i,buff);
 			_itm->m_items_in_group.push_back	(buff);
 			VERIFY3(g_mp_restrictions.GetItemGroup(buff).size(),"item has no group in restrictions", buff);
 		}

@@ -87,7 +87,7 @@ void animation_planner::initialize		()
 	object().hit_callback	(hit_callback);
 
 	m_head_speed			= object().movement().m_head.speed;
-//	object().movement().m_head.speed	= PI_DIV_4;
+//	object().movement().m_head.speed	= XrMath::PI_DIV_4;
 
 	m_storage.set_property	(eWorldPropertyLookedOut,			false);
 	m_storage.set_property	(eWorldPropertyReadyToIdle,			true);

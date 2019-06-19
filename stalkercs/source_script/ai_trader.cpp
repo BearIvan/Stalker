@@ -103,9 +103,9 @@ void CAI_Trader::LookAtActor(CBoneInstance *B)
 	float h,p,b;
 	XFORM().getHPB(h,p,b);
 	float cur_yaw	= h;
-	float dy		= _abs(angle_normalize_signed(yaw - cur_yaw));
+	float dy		= XrMath::abs(XrMath::angle_normalize_signed(yaw - cur_yaw));
 
-	if (angle_normalize_signed(yaw - cur_yaw) > 0) dy *= -1.f;
+	if (XrMath::angle_normalize_signed(yaw - cur_yaw) > 0) dy *= -1.f;
 
 	Fmatrix M;
 	M.setHPB (0.f, -dy, 0.f);

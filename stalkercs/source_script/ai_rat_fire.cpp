@@ -114,7 +114,7 @@ float CAI_Rat::evaluate		(const CItemManager *manager, const CGameObject *object
 void CAI_Rat::update_morale	()
 {
 	u32					dwCurTime = Device.dwTimeGlobal;
-	clamp				(m_fMorale, m_fMoraleMinValue, m_fMoraleMaxValue);
+	XrMath::clamp				(m_fMorale, m_fMoraleMinValue, m_fMoraleMaxValue);
 
 	if (dwCurTime - m_dwMoraleLastUpdateTime <= m_dwMoraleRestoreTimeInterval)
 		return;
@@ -155,5 +155,5 @@ void CAI_Rat::update_morale	()
 		}
 	}
 
-	clamp				(m_fMorale, m_fMoraleMinValue, m_fMoraleMaxValue);
+	XrMath::clamp				(m_fMorale, m_fMoraleMinValue, m_fMoraleMaxValue);
 }

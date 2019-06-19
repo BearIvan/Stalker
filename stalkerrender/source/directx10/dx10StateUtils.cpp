@@ -261,8 +261,8 @@ void ResetDescription( D3D_SAMPLER_DESC &desc )
 	desc.BorderColor[1] = 1.0f;
 	desc.BorderColor[2] = 1.0f;
 	desc.BorderColor[3] = 1.0f;
-	desc.MinLOD = -FLT_MAX;
-	desc.MaxLOD = FLT_MAX;
+	desc.MinLOD = -flt_max;
+	desc.MaxLOD = flt_max;
 }
 
 bool operator==(const D3D_RASTERIZER_DESC &desc1, const D3D_RASTERIZER_DESC &desc2)

@@ -202,11 +202,11 @@ public:
 			int id1=-1, id2=-1;
 			sscanf(args ,"%d %d",&id1,&id2);
 			if ((-1 != id1) && (-1 != id2))
-				if (_max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
+				if (XrMath::max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
 					Msg("! there are only %d vertexes!",ai().game_graph().header().vertex_count());
 				else
-					if (_min(id1,id2) < 0)
-						Msg("! invalid vertex number (%d)!",_min(id1,id2));
+					if (XrMath::min(id1,id2) < 0)
+						Msg("! invalid vertex number (%d)!",XrMath::min(id1,id2));
 					else {
 //						Sleep				(1);
 //						CTimer				timer;
@@ -227,7 +227,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		float id1 = 0.0f;
 		sscanf(args ,"%f",&id1);
-		if (id1 < EPS_L)
+		if (id1 < XrMath::EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
 			if (!OnServer())
@@ -304,7 +304,7 @@ public:
 			VERIFY			(tpGame);
 			float id1 = 0;
 			sscanf(args ,"%f",&id1);
-			clamp(id1,.1f,1.f);
+			XrMath::clamp(id1,.1f,1.f);
 			tpGame->alife().set_switch_factor(id1);
 		}
 		else
@@ -319,7 +319,7 @@ public:
 	virtual void	Execute			(LPCSTR args)
 	{
 		float				time_factor = (float)atof(args);
-		clamp				(time_factor,.001f,1000.f);
+		XrMath::clamp				(time_factor,.001f,1000.f);
 		Device.time_factor	(time_factor);
 	}
 };
@@ -856,8 +856,8 @@ public:
 	virtual void Execute(LPCSTR args) {
 
 		string128 param1, param2;
-		_GetItem(args,0,param1,' ');
-		_GetItem(args,1,param2,' ');
+		XrTrims::GetItem(args,0,param1,' ');
+		XrTrims::GetItem(args,1,param2,' ');
 
 		u32 value1;
 		u32 value2;
@@ -882,8 +882,8 @@ public:
 	virtual void Execute(LPCSTR args) {
 
 		string128 param1, param2;
-		_GetItem(args,0,param1,' ');
-		_GetItem(args,1,param2,' ');
+		XrTrims::GetItem(args,0,param1,' ');
+		XrTrims::GetItem(args,1,param2,' ');
 
 		CObject			*obj = Level().Objects.FindObjectByName(param1);
 		CBaseMonster	*monster = smart_cast<CBaseMonster *>(obj);
@@ -967,7 +967,7 @@ public:
 	  virtual void	Execute	(LPCSTR args)
 	  {
 		  float				step_count = (float)atof(args);
-		  clamp				(step_count,50.f,200.f);
+		  XrMath::clamp				(step_count,50.f,200.f);
 		  CPHWorld::SetStep(1.f/step_count);
 	  }
 	  virtual void	Status	(TStatus& S)
@@ -1059,9 +1059,9 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
 		sscanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
-		year				= _max(year,1);
-		month				= _max(month,1);
-		day					= _max(day,1);
+		year				= XrMath::max(year,u32(1));
+		month				= XrMath::max(month,u32(1));
+		day					= XrMath::max(day,u32(1));
 		g_qwStartGameTime	= generate_time	(year,month,day,hours,mins,secs,milisecs);
 
 		if (!g_pGameLevel)

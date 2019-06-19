@@ -28,7 +28,7 @@ XRayTexture::XRayTexture(const bchar * texture) :m_count(1), m_seq_current(0)
 		while (!_fs->eof())
 		{
 			_fs->r_string(buffer, sizeof(buffer));
-			_Trim(buffer);
+			XrTrims::Trim(buffer);
 			if (buffer[0])
 			{
 				if (FS.ExistFile(TEXT("%textures%"), buffer, TEXT(".dds")))

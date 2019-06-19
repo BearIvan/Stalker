@@ -37,10 +37,10 @@ void  HUD_SOUND::LoadSound(LPCSTR section, LPCSTR line,
 	LPCSTR str = pSettings->r_string(section, line);
 	string256 buf_str;
 
-	int	count = _GetItemCount	(str);
+	int	count = XrTrims::GetItemCount	(str);
 	R_ASSERT(count);
 
-	_GetItem(str, 0, buf_str);
+	XrTrims::GetItem(str, 0, buf_str);
 	snd.create(buf_str, st_Effect,type);
 
 
@@ -49,7 +49,7 @@ void  HUD_SOUND::LoadSound(LPCSTR section, LPCSTR line,
 		*volume = 1.f;
 		if(count>1)
 		{
-			_GetItem (str, 1, buf_str);
+			XrTrims::GetItem (str, 1, buf_str);
 			if(xr_strlen(buf_str)>0)
 				*volume = (float)atof(buf_str);
 		}
@@ -60,7 +60,7 @@ void  HUD_SOUND::LoadSound(LPCSTR section, LPCSTR line,
 		*delay = 0;
 		if(count>2)
 		{
-			_GetItem (str, 2, buf_str);
+			XrTrims::GetItem (str, 2, buf_str);
 			if(xr_strlen(buf_str)>0)
 				*delay = (float)atof(buf_str);
 		}

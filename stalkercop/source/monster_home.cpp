@@ -181,14 +181,14 @@ u32 CMonsterHome::get_place_in_mid_home()
 			{
 				if (Random.randI(2) == 1)
 				{
-					mAngle = Random.randF(-PI/3,-PI/4);
+					mAngle = Random.randF(-XrMath::M_PI/3,-XrMath::M_PI/4);
 				} else {
-					mAngle = Random.randF(PI/4,PI/3);
+					mAngle = Random.randF(XrMath::M_PI/4,XrMath::M_PI/3);
 				}
 			} else {
-				mAngle = Random.randF(-PI/4,PI/4);
+				mAngle = Random.randF(-XrMath::M_PI/4,XrMath::M_PI/4);
 			}
-			m_heading = angle_normalize(m_heading + mAngle);
+			m_heading = XrMath::angle_normalize(m_heading + mAngle);
 			m_dest_direction.setHP(m_heading,m_pitch);
 			m_dest_direction.mul(m_res_dist);
 			m_dest_direction.add(m_object->Position(),m_dest_direction);
@@ -235,14 +235,14 @@ u32 CMonsterHome::get_place_in_max_home_to_direction(Fvector to_direction)
 		{
 			if (Random.randI(2) == 1)
 			{
-				mAngle = Random.randF(-PI/4,-PI/5);
+				mAngle = Random.randF(-XrMath::M_PI/4,-XrMath::M_PI/5);
 			} else {
-				mAngle = Random.randF(PI/5,PI/4);
+				mAngle = Random.randF(XrMath::M_PI/5,XrMath::M_PI/4);
 			}
 		} else {
-			mAngle = Random.randF(-PI/5,PI/5);
+			mAngle = Random.randF(-XrMath::M_PI/5,XrMath::M_PI/5);
 		}
-		m_heading = angle_normalize(m_heading + mAngle);
+		m_heading = XrMath::angle_normalize(m_heading + mAngle);
 		m_dest_direction.setHP(m_heading,m_pitch);
 		m_dest_direction.x = m_home_point.x + m_res_dist * m_dest_direction.x;
 		m_dest_direction.y = m_home_point.y + m_res_dist * m_dest_direction.y;
@@ -274,14 +274,14 @@ u32 CMonsterHome::get_place_in_max_home_to_direction(Fvector to_direction)
 				{
 					if (Random.randI(2) == 1)
 					{
-						mAngle = Random.randF(-PI/3,-PI/5);
+						mAngle = Random.randF(-XrMath::M_PI/3,-XrMath::M_PI/5);
 					} else {
-						mAngle = Random.randF(PI/5,PI/3);
+						mAngle = Random.randF(XrMath::M_PI/5,XrMath::M_PI/3);
 					}
 				} else {
-					mAngle = Random.randF(-PI/3,PI/3);
+					mAngle = Random.randF(-XrMath::M_PI/3,XrMath::M_PI/3);
 				}
-				m_heading = angle_normalize(m_heading + mAngle);
+				m_heading = XrMath::angle_normalize(m_heading + mAngle);
 				m_dest_direction.setHP(m_heading,m_pitch);
 				m_dest_direction.x = m_home_point.x + m_res_dist * m_dest_direction.x;
 				m_dest_direction.y = m_home_point.y + m_res_dist * m_dest_direction.y;

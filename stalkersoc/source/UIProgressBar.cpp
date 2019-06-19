@@ -4,7 +4,7 @@
 CUIProgressBar::CUIProgressBar(void)
 {
 	m_MinPos				= 1.0f;
-	m_MaxPos				= 1.0f+EPS;
+	m_MaxPos				= 1.0f+XrMath::EPS;
 
 	Enable					(false);
 
@@ -32,7 +32,7 @@ void CUIProgressBar::Init(float x, float y, float width, float height, bool bIsH
 
 void CUIProgressBar::UpdateProgressBar()
 {
-	if( fsimilar(m_MaxPos,m_MinPos) ) m_MaxPos	+= EPS;
+	if( XrMath::fsimilar(m_MaxPos,m_MinPos) ) m_MaxPos	+= XrMath::EPS;
 
 	float progressbar_unit = 1/(m_MaxPos-m_MinPos);
 
@@ -51,7 +51,7 @@ void CUIProgressBar::UpdateProgressBar()
 void CUIProgressBar::SetProgressPos(float _Pos)				
 { 
 	m_ProgressPos.y		= _Pos; 
-	clamp(m_ProgressPos.y,m_MinPos,m_MaxPos);
+	XrMath::clamp(m_ProgressPos.y,m_MinPos,m_MaxPos);
 
 	if(m_last_render_frame+1 != Device.dwFrame)
 		m_ProgressPos.x = m_ProgressPos.y;
@@ -66,15 +66,15 @@ float _sign(const float& v)
 void CUIProgressBar::Update()
 {
 	inherited::Update();
-	if(!fsimilar(m_ProgressPos.x, m_ProgressPos.y))
+	if(!XrMath::fsimilar(m_ProgressPos.x, m_ProgressPos.y))
 	{
-		if( fsimilar(m_MaxPos,m_MinPos) ) m_MaxPos	+= EPS;	//hack ^(
+		if( XrMath::fsimilar(m_MaxPos,m_MinPos) ) m_MaxPos	+= XrMath::EPS;	//hack ^(
 		float _diff				= m_ProgressPos.y - m_ProgressPos.x;
 		
 		float _length			= (m_MaxPos-m_MinPos);
 		float _val				= _length*(1.0f-m_inertion)*Device.fTimeDelta;
 
-		_val					= _min(_abs(_val), _abs(_diff) );
+		_val					= XrMath::min(XrMath::abs(_val), XrMath::abs(_diff) );
 		_val					*= _sign(_diff);
 		m_ProgressPos.x			+= _val;
 		UpdateProgressBar		();

@@ -245,7 +245,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 	//dMass m;
 	//dBodyGetMass(b,&m);
 	//dBodyGetPointVel(b,c->pos[0],c->pos[1],c->pos[2],vel);
-	//float vel_cret=_abs(dDOT(vel,c->normal))* _sqrt(m.mass);
+	//float vel_cret=XrMath::abs(dDOT(vel,c->normal))* XrMath::sqrt(m.mass);
 	dxGeomUserData* data	=0;
 	float vel_cret			=0;
 	bool b_invert_normal	=false;
@@ -280,7 +280,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 					{
 						if(!mtl_pair->CollideSounds.empty())
 						{
-							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(_sqrt(mass_limit)*default_l_limit-Pars::vel_cret_sound);
+							float volume=collide_volume_min+vel_cret*(collide_volume_max-collide_volume_min)/(XrMath::sqrt(mass_limit)*default_l_limit-Pars::vel_cret_sound);
 							GET_RANDOM(mtl_pair->CollideSounds).play_no_feedback(0,0,0,((Fvector*)c->pos),&volume);
 						}
 					}

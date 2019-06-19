@@ -81,12 +81,12 @@ void CSpaceRestrictionShape::fill_shape		(const CCF_Shape::shape_def &shape)
 			Fvector					temp;
 			for (int i=0; i<8; ++i) {
                 Q.transform_tiny	(temp,points[i]);
-				start.x				= _min(start.x,temp.x);
-				start.y				= _min(start.y,temp.y);
-				start.z				= _min(start.z,temp.z);
-				dest.x				= _max(dest.x,temp.x);
-				dest.y				= _max(dest.y,temp.y);
-				dest.z				= _max(dest.z,temp.z);
+				start.x				= XrMath::min(start.x,temp.x);
+				start.y				= XrMath::min(start.y,temp.y);
+				start.z				= XrMath::min(start.z,temp.z);
+				dest.x				= XrMath::max(dest.x,temp.x);
+				dest.y				= XrMath::max(dest.y,temp.y);
+				dest.z				= XrMath::max(dest.z,temp.z);
 			}
 			break;
 		}

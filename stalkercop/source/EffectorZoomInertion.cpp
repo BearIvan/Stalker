@@ -74,7 +74,7 @@ void CEffectorZoomInertion::SetParams	(float disp)
 
 	//для того, чтоб сразу прошел пересчет направления
 	//движения прицела
-	if(!fis_zero(old_disp-m_fDispRadius,EPS))
+	if(!XrMath::fis_zero(old_disp-m_fDispRadius,XrMath::EPS))
 		m_fEpsilon = 2*m_fDispRadius;
 }
 

@@ -96,8 +96,8 @@ bool CSE_ALifeTraderAbstract::check_inventory_consistency	()
 		mass					+= item->m_fMass;
 	}
 
-	R_ASSERT2					(fis_zero(m_fCumulativeItemMass - mass,EPS_L),base()->name_replace());
-	if (!fis_zero(m_fCumulativeItemMass - mass,EPS_L))
+	R_ASSERT2					(XrMath::fis_zero(m_fCumulativeItemMass - mass,XrMath::EPS_L),base()->name_replace());
+	if (!XrMath::fis_zero(m_fCumulativeItemMass - mass,XrMath::EPS_L))
 		return					(false);
 
 	R_ASSERT2					(m_iCumulativeItemVolume == volume,base()->name_replace());

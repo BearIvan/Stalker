@@ -32,7 +32,7 @@ IC BOOL feel_vision_callback(collide::rq_result& result, LPVOID params)
     SFeelParam* fp = (SFeelParam*)params;
     float vis = fp->parent->feel_vision_mtl_transp(result.O, result.element);
     fp->vis *= vis;
-    if (NULL == result.O && fis_zero(vis))
+    if (NULL == result.O && XrMath::fis_zero(vis))
     {
         CDB::TRI* T = g_pGameLevel->ObjectSpace.GetStaticTris() + result.element;
         Fvector* V = g_pGameLevel->ObjectSpace.GetStaticVerts();
@@ -51,7 +51,7 @@ void Vision::o_new(CObject* O)
     I.Cache.verts[0].set(0, 0, 0);
     I.Cache.verts[1].set(0, 0, 0);
     I.Cache.verts[2].set(0, 0, 0);
-    I.fuzzy = -EPS_S;
+    I.fuzzy = -XrMath::EPS_S;
     I.cp_LP = O->get_new_local_point_on_mesh(I.bone_id);
     I.cp_LAST = O->get_last_local_point_on_mesh(I.cp_LP, I.bone_id);
 }
@@ -127,7 +127,7 @@ void Vision::feel_vision_update(CObject* parent, Fvector& P, float dt, float vis
         seen.resize(E - seen.begin());
 
         {
-            diff.resize(_max(seen.size(), query.size()));
+            diff.resize(XrMath::max(seen.size(), query.size()));
             xr_vector<CObject*>::iterator E = std::set_difference(
                 seen.begin(), seen.end(),
                 query.begin(), query.end(),
@@ -141,7 +141,7 @@ void Vision::feel_vision_update(CObject* parent, Fvector& P, float dt, float vis
     // A-B = objects, that are invisible
     if (!query.empty())
     {
-        diff.resize(_max(seen.size(), query.size()));
+        diff.resize(XrMath::max(seen.size(), query.size()));
         xr_vector<CObject*>::iterator E = std::set_difference(
             query.begin(), query.end(),
             seen.begin(), seen.end(),
@@ -174,7 +174,7 @@ void Vision::o_trace(Fvector& P, float dt, float vis_threshold)
         //
         Fvector D, OP = I->cp_LAST;
         D.sub(OP, P);
-        if (fis_zero(D.magnitude()))
+        if (XrMath::fis_zero(D.magnitude()))
         {
             I->fuzzy = 1.f;
             continue;
@@ -205,7 +205,7 @@ void Vision::o_trace(Fvector& P, float dt, float vis_threshold)
                 else
                 {
                     // cache outdated. real query.
-                    VERIFY(!fis_zero(RD.dir.magnitude()));
+                    VERIFY(!XrMath::fis_zero(RD.dir.magnitude()));
 
                     if (g_pGameLevel->ObjectSpace.RayQuery(RQR, RD, feel_vision_callback, &feel_params, NULL, NULL))
                     {
@@ -254,21 +254,21 @@ void Vision::o_trace(Fvector& P, float dt, float vis_threshold)
             {
                 // INVISIBLE, choose next point
                 I->fuzzy -= fuzzy_update_novis*dt;
-                clamp(I->fuzzy, -.5f, 1.f);
+				XrMath::clamp(I->fuzzy, -.5f, 1.f);
                 I->cp_LP = I->O->get_new_local_point_on_mesh(I->bone_id);
             }
             else
             {
                 // VISIBLE
                 I->fuzzy += fuzzy_update_vis*dt;
-                clamp(I->fuzzy, -.5f, 1.f);
+				XrMath::clamp(I->fuzzy, -.5f, 1.f);
             }
         }
         else
         {
             // VISIBLE, 'cause near
             I->fuzzy += fuzzy_update_vis*dt;
-            clamp(I->fuzzy, -.5f, 1.f);
+			XrMath::clamp(I->fuzzy, -.5f, 1.f);
         }
     }
 }

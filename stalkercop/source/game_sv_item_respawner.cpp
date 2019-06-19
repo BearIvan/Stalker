@@ -131,7 +131,7 @@ CSE_Abstract* item_respawn_manager::make_respawn_entity(shared_str const & secti
 bool item_respawn_manager::parse_string(char const * str, u32 str_size, section_item & result)
 {
 	string256	temp_string;
-	int			params_count = _GetItemCount(str);
+	int			params_count = XrTrims::GetItemCount(str);
 	
 	if (params_count == 0)
 		return false;
@@ -141,24 +141,24 @@ bool item_respawn_manager::parse_string(char const * str, u32 str_size, section_
 	result.count_of_ammo	= 0;
 
 
-	_GetItem(str, 0, temp_string);
+	XrTrims::GetItem(str, 0, temp_string);
 	result.section_name		= temp_string;
 	
 	if (params_count >= 2)
 	{
-		_GetItem(str, 1, temp_string);
+		XrTrims::GetItem(str, 1, temp_string);
 		result.respawn_time = static_cast<u32>(atoi(temp_string) * 1000);
 	}
 
 	if (params_count >= 3)
 	{
-		_GetItem(str, 2, temp_string);
+		XrTrims::GetItem(str, 2, temp_string);
 		result.addons = static_cast<u8>(atoi(temp_string));
 	}
 	
 	if (params_count >= 4)
 	{
-		_GetItem(str, 3, temp_string);
+		XrTrims::GetItem(str, 3, temp_string);
 		result.count_of_ammo = static_cast<u16>(atoi(temp_string));
 	}
 	return true;
@@ -204,14 +204,14 @@ item_respawn_manager::respawn_section_iter
 {
 	CInifile				ini("%config%", "mp\\respawn_items.ltx");
 
-	u32 sections_count = _GetItemCount(section_name.c_str());
+	u32 sections_count = XrTrims::GetItemCount(section_name.c_str());
 	string256				temp_section_name;
 
 	section_items* tmp_sect_items = xr_new<section_items>();
 
 	for (u32 is = 0; is < sections_count; ++is)
 	{
-		_GetItem(section_name.c_str(), is, temp_section_name);
+		XrTrims::GetItem(section_name.c_str(), is, temp_section_name);
 		if (!load_section_items(ini, temp_section_name, tmp_sect_items))
 		{
 			Msg("! WARNING: section [%s] is empty", temp_section_name);

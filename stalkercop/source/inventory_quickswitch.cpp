@@ -252,10 +252,10 @@ void priority_group::init_group			(shared_str const & game_section, shared_str c
 {
 	shared_str tmp_string = pSettings->r_string(game_section, line.c_str());
 	string256	dststr;
-	u32 count	= _GetItemCount(tmp_string.c_str());
+	u32 count	= XrTrims::GetItemCount(tmp_string.c_str());
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem			(tmp_string.c_str(), i, dststr);
+		XrTrims::GetItem			(tmp_string.c_str(), i, dststr);
 		m_sections.insert	(shared_str(dststr));
 	}
 }

@@ -137,7 +137,7 @@ void CPseudoGigant::Load(LPCSTR section)
 	m_threaten_effector.ppi.noise.intensity	= pSettings->r_float(ppi_section,"noise_intensity");
 	m_threaten_effector.ppi.noise.grain		= pSettings->r_float(ppi_section,"noise_grain");
 	m_threaten_effector.ppi.noise.fps		= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(m_threaten_effector.ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_threaten_effector.ppi.noise.fps));
 
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &m_threaten_effector.ppi.color_base.r,	&m_threaten_effector.ppi.color_base.g,	&m_threaten_effector.ppi.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &m_threaten_effector.ppi.color_gray.r,	&m_threaten_effector.ppi.color_gray.g,	&m_threaten_effector.ppi.color_gray.b);
@@ -180,7 +180,7 @@ void CPseudoGigant::reinit()
 	move().load_velocity(*cNameSect(), "Velocity_JumpGround",MonsterMovement::eGiantVelocityParameterJumpGround);
 	
 	//com_man().load_jump_data(0,"jump_attack_0", "jump_attack_1", "jump_attack_2", MonsterMovement::eGiantVelocityParameterJumpPrepare, MonsterMovement::eGiantVelocityParameterJumpGround,0);
-	com_man().add_rotation_jump_data("1","2","3","4", PI_DIV_2);
+	com_man().add_rotation_jump_data("1","2","3","4", XrMath::PI_DIV_2);
 
 	com_man().set_threaten_data	("stand_kick_0", 0.43f);
 }
@@ -276,7 +276,7 @@ void CPseudoGigant::on_threaten_execute()
 	float dist_to_enemy = pA->Position().distance_to(Position());
 	float			hit_value;
 	hit_value		= m_kick_damage - m_kick_damage * dist_to_enemy / m_threaten_dist_max;
-	clamp			(hit_value,0.f,1.f);
+	XrMath::clamp			(hit_value,0.f,1.f);
 
 	// запустить эффектор
 	Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(m_threaten_effector.ce_time,m_threaten_effector.ce_amplitude * hit_value,m_threaten_effector.ce_period_number,m_threaten_effector.ce_power * hit_value));

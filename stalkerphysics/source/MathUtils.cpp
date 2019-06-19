@@ -30,8 +30,8 @@ EBoxSideNearestPointCode GetNearestPointOnOBBSide(const Fmatrix &xform,const Fve
 		point.mul(diffs);
 		point.add(p);
 		Fvector d;d.sub(center,point);
-		bool inside1 =_abs(d[side1])<h1;
-		bool inside2 =_abs(d[side2])<h2;
+		bool inside1 =XrMath::abs(d[side1])<h1;
+		bool inside2 =XrMath::abs(d[side2])<h2;
 		if(diffs>0.f)
 		{
 			if(inside1&&inside2) return box_inside;
@@ -42,7 +42,7 @@ EBoxSideNearestPointCode GetNearestPointOnOBBSide(const Fmatrix &xform,const Fve
 			if(inside1&&inside2) return on_side;
 			else if(inside1)
 			{
-				float dd=h2-_abs(d[side2]);
+				float dd=h2-XrMath::abs(d[side2]);
 				Fvector s;s.set(xform[side2]);s.
 			}
 		}
@@ -74,12 +74,12 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 	float v_smag=v.square_magnitude();
 	const float sq_r=r*r;
 
-	if(sq_sin<EPS)//paralel
+	if(sq_sin<XrMath::EPS)//paralel
 	{
 		float tr1,tr2								;
 		float sq_dist=v_smag-Lr*Lr;//
 		if(sq_dist>sq_r) return false;
-		float r_dist=_sqrt(sq_r-sq_dist)+h;
+		float r_dist=XrMath::sqrt(sq_r-sq_dist)+h;
 		tr1=Lr-r_dist;
 		
 		if(tr1>R) return false;//
@@ -101,11 +101,11 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 		return true;
 	}
 
-	if(sq_cos<EPS)
+	if(sq_cos<XrMath::EPS)
 	{
 		float tr1,tr2								;	
 		//perp//
-		float abs_c_dist=_abs(Lc);
+		float abs_c_dist=XrMath::abs(Lc);
 		if(abs_c_dist>h+r)return false;
 		float sq_dist=v_smag-Lr*Lr-Lc*Lc;
 		if(sq_dist>sq_r) return false;
@@ -114,7 +114,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 		{
 			float sq_sphere_dist=lc_h*lc_h+sq_dist*sq_dist;
 			if(sq_sphere_dist>sq_r)return false;
-			float diff=_sqrt(sq_r-sq_sphere_dist);
+			float diff=XrMath::sqrt(sq_r-sq_sphere_dist);
 			tr1=Lr-diff;
 			if(tr1>R) return false;//
 			if(tr1<0.f)
@@ -132,7 +132,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 				}
 			}
 		}
-		float diff=_sqrt(sq_r-sq_dist);
+		float diff=XrMath::sqrt(sq_r-sq_dist);
 		tr1=Lr-diff;
 		
 		if(tr1>R) return false;//
@@ -169,9 +169,9 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 
 	float sq_horde=(sq_r-sq_nearest_dist)		;
 
-	//float horde=_sqrt(sq_horde)					;
+	//float horde=XrMath::sqrt(sq_horde)					;
 	float sq_c_diff=sq_horde*sq_cos*r_sq_sin	;
-	float c_diff=_sqrt(sq_c_diff)				;//ccc
+	float c_diff=XrMath::sqrt(sq_c_diff)				;//ccc
 	float cp1=tc-c_diff							;
 	float cp2=tc+c_diff							;
 	
@@ -184,7 +184,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 		float sq_sphere_dist=sq_sin*tc_h*tc_h;
 		if(sq_sphere_dist>sq_horde)return false;
 		float tr_c=tr-tc_h*cs;//
-		float diff=_sqrt(sq_horde-sq_sphere_dist);
+		float diff=XrMath::sqrt(sq_horde-sq_sphere_dist);
 		tr1=tr_c-diff;
 		if(tr1>R) return false;//
 		if(tr1<0.f)
@@ -207,7 +207,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 		float sq_sphere_dist=sq_sin*tc_h*tc_h;
 		if(sq_sphere_dist>sq_horde)return false;
 		float tr_c=tr-tc_h*cs;//!!
-		float diff=_sqrt(sq_horde-sq_sphere_dist);
+		float diff=XrMath::sqrt(sq_horde-sq_sphere_dist);
 		tr1=tr_c-diff;
 		if(tr1>R) return false;//
 		if(tr1<0.f)
@@ -258,7 +258,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 						float sq_sphere_dist=sq_sin*tc_h*tc_h;
 						//if(sq_sphere_dist>sq_horde)return false	;
 						float tr_c=tr-tc_h*cs						;
-						float diff=_sqrt(sq_horde-sq_sphere_dist)	;
+						float diff=XrMath::sqrt(sq_horde-sq_sphere_dist)	;
 						tr2=tr_c+diff								;
 						if(tr2<0.f) return false					;//
 						if(tr2<R){R=tr2;return true;}
@@ -276,7 +276,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 				float tc_h=tc+h								;//(tc-(-h))
 				float sq_sphere_dist=sq_sin*tc_h*tc_h;
 				//if(sq_sphere_dist>sq_horde)return false;
-				float diff=_sqrt(sq_horde-sq_sphere_dist)	;
+				float diff=XrMath::sqrt(sq_horde-sq_sphere_dist)	;
 				float tr_c=tr-tc_h*cs						;
 				tr1=tr_c-diff								;
 				if(tr1>R) return false						;//
@@ -299,7 +299,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 				/////////////////////////////////////////////
 				float tc_h=tc+h								;
 				float tr_c=tr-tc_h*cs						;
-				float diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
+				float diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
 				tr1=tr_c-diff								;
 				if(tr1>R) return false						;//
 				if(tr1<0.f)
@@ -308,7 +308,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 					else{
 						float tc_h=tc-h								;
 						float tr_c=tr-tc_h*cs						;
-						float diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
+						float diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
 						tr2=tr_c+diff								;
 						if(tr2<R){R=tr2;return true;}
 					}
@@ -346,7 +346,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 
 				float tc_h=tc-h;			//hi sphere/cyl
 				float tr_c=tr-tc_h*cs;
-				float diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h);
+				float diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h);
 				tr1=tr_c-diff;
 				if(tr1>R) return false						;//
 				if(tr1<0.f)
@@ -377,7 +377,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 						//mixed//lo 
 						float tc_h=tc+h;			
 						float tr_c=tr-tc_h*cs;
-						diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h);
+						diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h);
 						tr2=tr_c+diff;
 						if(tr2<0.f) return false;//
 						if(tr2<R){R=tr2;return true;}
@@ -391,7 +391,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 
 				float tc_h=tc-h								;
 				float tr_c=tr-tc_h*cs						;
-				float diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
+				float diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
 				tr1=tr_c-diff								;
 				if(tr1>R) return false						;//
 				/////////////////////////////////////////////
@@ -401,7 +401,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 					else{
 						tc_h=tc+h								;
 						tr_c=tr-tc_h*cs							;
-						diff=_sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
+						diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
 						tr2=tr_c+diff							;
 						if(tr2<0.f) return false				;//
 						if(tr2<R){R=tr2;return true;}

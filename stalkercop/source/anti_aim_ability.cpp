@@ -3,7 +3,7 @@
 #include "ai/monsters/basemonster/base_monster.h"
 #include "Actor.h"
 #include "ActorEffector.h"
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/Xrvector3d2.h"
 #include "ai/monsters/control_animation_base.h"
 #include "Inventory.h"
 #include "Weapon.h"
@@ -25,7 +25,7 @@ anti_aim_ability::anti_aim_ability (CBaseMonster* const object) : m_object(objec
 	m_max_angle						=	0.5f;
 	m_last_activated_tick			=	0;
 	m_last_detection_tick			=	0;
-	m_last_angle					=	M_PI;
+	m_last_angle					=	XrMath::M_PI;
 	m_callback.clear					();
 }
 
@@ -47,12 +47,12 @@ void   anti_aim_ability::load_from_ini (CInifile const* ini, pcstr const section
 
 	if ( effectors )
 	{
-		u32 const num_effectors		=	_GetItemCount(effectors, ',');
+		u32 const num_effectors		=	XrTrims::GetItemCount(effectors, ',');
 		m_effectors.resize				(num_effectors);
 		for ( u32 i=0; i<num_effectors; ++i )
 		{
 			char						effector_name[1024];
-			_GetItem					(effectors, i, effector_name, ',');
+			XrTrims::GetItem					(effectors, i, effector_name, ',');
 			m_effectors[i]			=	effector_name;
 		}
 	}
@@ -70,7 +70,7 @@ bool   anti_aim_ability::can_detect ()
 	Fvector	const	self_dir		=	m_object->Direction();
 	float			angle			=	angle_between_vectors(self2enemy, self_dir);
 
-	return								angle < deg2rad(70.f);
+	return								angle < XrMath::deg2rad(70.f);
 }
 
 bool   anti_aim_ability::check_start_condition ()
@@ -185,7 +185,7 @@ void   anti_aim_ability::start_camera_effector ()
 	cam_eff->Start						(fn);
 
 	m_camera_effector_end_tick		=	Device.dwTimeGlobal + (TTime)(cam_eff->GetAnimatorLength()*1000);
-	m_camera_effector_end_tick		=	_max(m_camera_effector_end_tick, m_animation_end_tick);
+	m_camera_effector_end_tick		=	XrMath::max(m_camera_effector_end_tick, m_animation_end_tick);
 
 	Actor()->Cameras().AddCamEffector	(cam_eff);
 	
@@ -228,13 +228,13 @@ void   anti_aim_ability::deactivate ()
 
 	m_effector_id					=	0;
 	m_last_detection_tick			=	Device.dwTimeGlobal;
-	m_last_angle					=	M_PI;
+	m_last_angle					=	XrMath::M_PI;
 	m_detection_level				=	0.f;
 }
 
 float   anti_aim_ability::calculate_angle () const
 {
-	float const opposite_angle_return_value	=	M_PI;
+	float const opposite_angle_return_value	=	XrMath::M_PI;
 
 	if ( !m_object->EnemyMan.see_enemy_now(Actor()) )
 	{
@@ -253,7 +253,7 @@ float   anti_aim_ability::calculate_angle () const
 	float	const max_deviation		=	angle_between_vectors(to_monster_center, to_monster_head);
 	float	const deviation			=	angle_between_vectors(to_monster_center, self_dir);
 
-	return _max							(0.f, deviation - max_deviation);
+	return XrMath::max							(0.f, deviation - max_deviation);
 }
 
 #include "level_debug.h"
@@ -337,11 +337,11 @@ void   anti_aim_ability::update_schedule ()
 	m_last_detection_tick			=	Device.dwTimeGlobal;
 
 	float const angle				=	calculate_angle();
-	float const average_angle		=	_min(m_max_angle, (angle + m_last_angle) / 2);
+	float const average_angle		=	XrMath::min(m_max_angle, (angle + m_last_angle) / 2);
 	float const relative_angle		=	(m_max_angle-average_angle) / m_max_angle; 
-	float const detect_speed		=	can_detect() ? _sqr(relative_angle) * m_detection_gain_speed : 0;
+	float const detect_speed		=	can_detect() ? XrMath::sqr(relative_angle) * m_detection_gain_speed : 0;
 
 	m_detection_level				+=	(detect_speed-m_detection_loose_speed)*detect_delta;
-	clamp								(m_detection_level, 0.f, 1.f);
+	XrMath::clamp								(m_detection_level, 0.f, 1.f);
 	m_last_angle					=	angle;
 }

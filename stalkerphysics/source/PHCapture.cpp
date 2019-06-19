@@ -186,14 +186,14 @@ void CPHCapture::PullingUpdate()
 
 		dJointSetAMotorAxis (m_ajoint, 0, 1, dir.x, dir.y, dir.z);
 
-		if(dir.x>EPS)
+		if(dir.x>XrMath::EPS)
 		{
-			if(dir.y>EPS)
+			if(dir.y>XrMath::EPS)
 			{
 				float mag=dir.x*dir.x+dir.y*dir.y;
 				dJointSetAMotorAxis (m_ajoint, 2, 2, -dir.y/mag, dir.x/mag, 0.f);
 			}
-			else if(dir.z>EPS)
+			else if(dir.z>XrMath::EPS)
 			{
 				float mag=dir.x*dir.x+dir.z*dir.z;
 				dJointSetAMotorAxis (m_ajoint, 2, 2, -dir.z/mag,0.f,dir.x/mag);
@@ -205,10 +205,10 @@ void CPHCapture::PullingUpdate()
 		}
 		else
 		{
-			if(dir.y>EPS)
+			if(dir.y>XrMath::EPS)
 			{
 
-				if(dir.z>EPS)
+				if(dir.z>XrMath::EPS)
 				{
 					float mag=dir.y*dir.y+dir.z*dir.z;
 					dJointSetAMotorAxis (m_ajoint, 2, 2,0.f,-dir.z/mag,dir.y/mag);
@@ -223,7 +223,7 @@ void CPHCapture::PullingUpdate()
 				dJointSetAMotorAxis (m_ajoint, 2, 2, 0.f,0.f,1.f);
 			}
 		}
-		//float hi=-M_PI/2.f,lo=-hi;
+		//float hi=-XrMath::M_PI/2.f,lo=-hi;
 		//dJointSetAMotorParam(m_ajoint,dParamLoStop ,lo);
 		//dJointSetAMotorParam(m_ajoint,dParamHiStop ,hi);	
 		//dJointSetAMotorParam(m_ajoint,dParamLoStop2 ,lo);

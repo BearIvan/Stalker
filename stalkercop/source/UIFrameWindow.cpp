@@ -54,21 +54,21 @@ void  CUIFrameWindow::InitTextureEx(LPCSTR texture, LPCSTR  sh_name)
 	CUITextureMaster::InitTexture(strconcat(sizeof(buf), buf, texture,"_rt"),	sh_name, m_shader, m_tex_rect[fmRT]);
 	CUITextureMaster::InitTexture(strconcat(sizeof(buf), buf, texture,"_lb"),	sh_name, m_shader, m_tex_rect[fmLB]);
 
-	R_ASSERT2(fsimilar(m_tex_rect[fmLT].height(), m_tex_rect[fmT].height()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmLT].height(), m_tex_rect[fmRT].height()),texture );
-//	R_ASSERT2(fsimilar(m_tex_rect[fmL].height(), m_tex_rect[fmBK].height()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmL].height(), m_tex_rect[fmR].height()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmLB].height(), m_tex_rect[fmB].height()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmLB].height(), m_tex_rect[fmRB].height()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLT].height(), m_tex_rect[fmT].height()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLT].height(), m_tex_rect[fmRT].height()),texture );
+//	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmL].height(), m_tex_rect[fmBK].height()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmL].height(), m_tex_rect[fmR].height()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLB].height(), m_tex_rect[fmB].height()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLB].height(), m_tex_rect[fmRB].height()),texture );
 
-	R_ASSERT2(fsimilar(m_tex_rect[fmLT].width(), m_tex_rect[fmL].width()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmLT].width(), m_tex_rect[fmLB].width()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLT].width(), m_tex_rect[fmL].width()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmLT].width(), m_tex_rect[fmLB].width()),texture );
 
-//	R_ASSERT2(fsimilar(m_tex_rect[fmT].width(), m_tex_rect[fmBK].width()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmT].width(), m_tex_rect[fmB].width()),texture );
+//	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmT].width(), m_tex_rect[fmBK].width()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmT].width(), m_tex_rect[fmB].width()),texture );
 
-	R_ASSERT2(fsimilar(m_tex_rect[fmRT].width(), m_tex_rect[fmR].width()),texture );
-	R_ASSERT2(fsimilar(m_tex_rect[fmRT].width(), m_tex_rect[fmRB].width()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmRT].width(), m_tex_rect[fmR].width()),texture );
+	R_ASSERT2(XrMath::fsimilar(m_tex_rect[fmRT].width(), m_tex_rect[fmRB].width()),texture );
 }
 
 void CUIFrameWindow::InitTexture(LPCSTR texture)
@@ -100,19 +100,19 @@ void CUIFrameWindow::DrawElements()
 	u32 rect_count				= 4; //lt+rt+lb+rb
 	back_len.x					= rect.width()-m_tex_rect[fmLT].width()-m_tex_rect[fmRT].width();
 	back_len.y					= rect.height()-m_tex_rect[fmLT].height()-m_tex_rect[fmRB].height();
-	R_ASSERT					(back_len.x+EPS_L>=0.0f && back_len.y+EPS_L>=0.0f);
+	R_ASSERT					(back_len.x+XrMath::EPS_L>=0.0f && back_len.y+XrMath::EPS_L>=0.0f);
 	
 	u32 cnt =0;
 	if(back_len.x>0.0f)//top+bottom
-		cnt						= 2* iCeil(back_len.x/m_tex_rect[fmT].width());
+		cnt						= 2* XrMath::iCeil(back_len.x/m_tex_rect[fmT].width());
 	rect_count					+= cnt;
 
 	if(back_len.y>0.0f)//left+right
-		cnt						= 2* iCeil(back_len.y/m_tex_rect[fmL].height());
+		cnt						= 2* XrMath::iCeil(back_len.y/m_tex_rect[fmL].height());
 	rect_count					+= cnt;
 	
 	if(back_len.x>0.0f && back_len.y>0.0f) //back
-		cnt						= iCeil(back_len.x/m_tex_rect[fmBK].width()) * iCeil(back_len.y/m_tex_rect[fmBK].height()) ;
+		cnt						= XrMath::iCeil(back_len.x/m_tex_rect[fmBK].width()) *  XrMath::iCeil(back_len.y/m_tex_rect[fmBK].height()) ;
 
 	rect_count					+= cnt;
 
@@ -217,7 +217,7 @@ void CUIFrameWindow::draw_tile_line(Frect rect, int i, bool b_horz, Fvector2 con
 
 	if(b_horz)
 	{
-		while(rect.lt.x+EPS_L<rect.rb.x)
+		while(rect.lt.x+XrMath::EPS_L<rect.rb.x)
 		{
 			get_points			(rect, i, LTp, RBp, LTt, RBt);
 			rect.lt.x			= RBp.x;
@@ -225,7 +225,7 @@ void CUIFrameWindow::draw_tile_line(Frect rect, int i, bool b_horz, Fvector2 con
 		}
 	}else
 	{
-		while(rect.lt.y+EPS_L<rect.rb.y)
+		while(rect.lt.y+XrMath::EPS_L<rect.rb.y)
 		{
 			get_points			(rect, i, LTp, RBp, LTt, RBt);
 			rect.lt.y			= RBp.y;
@@ -237,11 +237,11 @@ void CUIFrameWindow::draw_tile_line(Frect rect, int i, bool b_horz, Fvector2 con
 void CUIFrameWindow::draw_tile_rect(Frect rect, int i, Fvector2 const& ts)
 {
 	Frect tmp = rect;
-	while(rect.lt.x+EPS_L<rect.rb.x)
+	while(rect.lt.x+XrMath::EPS_L<rect.rb.x)
 	{
 		draw_tile_line		(rect, i, false, ts);
 		rect.lt.x			+= m_tex_rect[i].width();
-		rect.lt.x			= _min(rect.lt.x, tmp.rb.x);
+		rect.lt.x			= XrMath::min(rect.lt.x, tmp.rb.x);
 	}
 }
 

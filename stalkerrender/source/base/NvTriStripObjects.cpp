@@ -244,7 +244,7 @@ NvFaceInfo* NvStripifier::FindGoodResetPoint(NvFaceInfoVec &faceInfos, NvEdgeInf
 				break;
 			}
 			
-			// update the index and clamp to 0-(numFaces-1)
+			// update the index and XrMath::clamp to 0-(numFaces-1)
 			if (++i >= numFaces)
 				i = 0;
 			
@@ -897,7 +897,7 @@ void NvStripifier::Stripify(const WordVec &in_indices, const int in_cacheSize,
 	int numSamples = 10;
 	
 	//the cache size, clamped to one
-	cacheSize = _max	(1, in_cacheSize - CACHE_INEFFICIENCY);
+	cacheSize = XrMath::max	(1, in_cacheSize - CACHE_INEFFICIENCY);
 	
 	minStripLength = in_minStripLength;  //this is the strip size threshold below which we dump the strip into a list
 	

@@ -124,7 +124,7 @@ public:
     xr_vector<motion_marks> marks;
 
     IC float Dequantize(u16 V) const { return float(V) / 655.35f; }
-    IC u16 Quantize(float V) const { s32 t = iFloor(V*655.35f); clamp(t, 0, 65535); return u16(t); }
+    IC u16 Quantize(float V) const { s32 t = XrMath::iFloor(V*655.35f); XrMath::clamp(t, 0, 65535); return u16(t); }
 
     void Load(IReader* MP, u32 fl, u16 vers);
     u32 mem_usage() { return sizeof(*this); }

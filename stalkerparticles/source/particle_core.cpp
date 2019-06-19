@@ -26,7 +26,7 @@ float PAPI::NRand(float sigma)
 	{
 		y = -logf(drand48());
 	}
-	while(drand48() > expf(-_sqr(y - 1.0f)*0.5f));
+	while(drand48() > expf(-XrMath::sqr(y - 1.0f)*0.5f));
 	
 	if(rand() & 0x1)
 		return y * sigma * ONE_OVER_SIGMA_EXP;
@@ -162,7 +162,7 @@ pDomain::pDomain(PDomainEnum dtype, float a0, float a1,
 			{
 				radius1 = a7; radius2 = a6;
 			}
-			radius1Sqr = _sqr(radius1);
+			radius1Sqr = XrMath::sqr(radius1);
 			
 			// Given an arbitrary nonzero vector3 n, make two orthonormal
 			// vectors u and v forming a frame [u,v,n.normalize()].
@@ -176,7 +176,7 @@ pDomain::pDomain(PDomainEnum dtype, float a0, float a1,
 			
 			// Find a vector3 orthogonal to n.
 			pVector basis(1.0f, 0.0f, 0.0f);
-			if(_abs(basis * n) > 0.999)
+			if(XrMath::abs(basis * n) > 0.999)
 				basis = pVector(0.0f, 1.0f, 0.0f);
 			
 			// Project away N component, normalize and cross to get
@@ -191,7 +191,7 @@ pDomain::pDomain(PDomainEnum dtype, float a0, float a1,
 			p1 = pVector(a0, a1, a2);
 			radius1 = a3;
 			float tmp = 1.f/radius1;
-			radius2Sqr = -0.5f*_sqr(tmp);
+			radius2Sqr = -0.5f*XrMath::sqr(tmp);
 			radius2 = ONEOVERSQRT2PI * tmp;
 		}
 		break;
@@ -212,7 +212,7 @@ pDomain::pDomain(PDomainEnum dtype, float a0, float a1,
 			
 			// Find a vector3 orthogonal to n.
 			pVector basis(1.0f, 0.0f, 0.0f);
-			if(_abs(basis * p2) > 0.999)
+			if(XrMath::abs(basis * p2) > 0.999)
 				basis = pVector(0.0f, 1.0f, 0.0f);
 			
 			// Project away N component, normalize and cross to get
@@ -272,10 +272,10 @@ BOOL pDomain::Within(const pVector &pos) const
 			float rSqr = xrad.length2();
 			
 			if(type == PDCone)
-				return (rSqr <= _sqr(dist * radius1) &&
-				rSqr >= _sqr(dist * radius2));
+				return (rSqr <= XrMath::sqr(dist * radius1) &&
+				rSqr >= XrMath::sqr(dist * radius2));
 			else
-				return (rSqr <= radius1Sqr && rSqr >= _sqr(radius2));
+				return (rSqr <= radius1Sqr && rSqr >= XrMath::sqr(radius2));
 		}
 	case PDBlob:
 		{
@@ -344,12 +344,12 @@ void pDomain::Generate(pVector &pos) const
 		{
 			// For a cone, p2 is the apex of the cone.
 			float dist = drand48(); // Distance between base and tip
-			float theta = drand48() * 2.0f * float(M_PI); // Angle around axis
+			float theta = drand48() * 2.0f * float(XrMath::M_PI); // Angle around axis
 			// Distance from axis
 			float r = radius2 + drand48() * (radius1 - radius2);
 			
-			float x = r * _cos(theta); // Weighting of each frame vector3
-			float y = r * _sin(theta);
+			float x = r * XrMath::cos(theta); // Weighting of each frame vector3
+			float y = r * XrMath::sin(theta);
 			
 			// Scale radius along axis for cones
 			if(type == PDCone)
@@ -369,12 +369,12 @@ void pDomain::Generate(pVector &pos) const
 		break;
 	case PDDisc:
 		{
-			float theta = drand48() * 2.0f * float(M_PI); // Angle around normal
+			float theta = drand48() * 2.0f * float(XrMath::M_PI); // Angle around normal
 			// Distance from center
 			float r = radius2 + drand48() * (radius1 - radius2);
 			
-			float x = r * _cos(theta); // Weighting of each frame vector3
-			float y = r * _sin(theta);
+			float x = r * XrMath::cos(theta); // Weighting of each frame vector3
+			float y = r * XrMath::sin(theta);
 			
 			pos = p1 + u * x + v * y;
 		}

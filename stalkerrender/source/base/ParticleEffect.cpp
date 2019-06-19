@@ -52,7 +52,7 @@ void PS::OnEffectParticleBirth(void* owner, u32 , PAPI::Particle& m, u32 )
     CPEDef* PED			= PE->GetDefinition(); 
     if (PED){
         if (PED->m_Flags.is(CPEDef::dfRandomFrame))
-            m.frame	= (u16)iFloor(Random.randI(PED->m_Frame.m_iFrameCount)*255.f);
+            m.frame	= (u16)XrMath::iFloor(Random.randI(PED->m_Frame.m_iFrameCount)*255.f);
         if (PED->m_Flags.is(CPEDef::dfAnimated)&&PED->m_Flags.is(CPEDef::dfRandomPlayback)&&Random.randI(2))
             m.flags.set(Particle::ANIMATE_CCW,TRUE);
     }
@@ -127,7 +127,7 @@ void CParticleEffect::OnFrame(u32 frame_dt)
 			// it will really skip updates at less than 10fps, which is unplayable
 			StepCount	= m_MemDT/uDT_STEP;
 			m_MemDT		= m_MemDT%uDT_STEP;
-			clamp		(StepCount,0,3);
+			XrMath::clamp		(StepCount,0,3);
 		}
 
 		for (;StepCount; StepCount--)	{
@@ -173,7 +173,7 @@ void CParticleEffect::OnFrame(u32 frame_dt)
 		}
 	} else {
 		vis.box.set			(m_InitialPosition,m_InitialPosition);
-		vis.box.grow		(EPS_L);
+		vis.box.grow		(XrMath::EPS_L);
 		vis.box.getsphere	(vis.sphere.P,vis.sphere.R);
 	}
 }
@@ -240,8 +240,8 @@ void CParticleEffect::OnDeviceDestroy()
 //----------------------------------------------------
 IC void FillSprite_fpu	(FVF::LIT*& pv, const Fvector& T, const Fvector& R, const Fvector& pos, const Fvector2& lt, const Fvector2& rb, float r1, float r2, u32 clr, float angle)
 {
-	float sa	= _sin(angle);  
-	float ca	= _cos(angle);  
+	float sa	= XrMath::sin(angle);  
+	float ca	= XrMath::cos(angle);  
 	
 	Fvector Vr, Vt;
 	
@@ -458,7 +458,7 @@ void ParticleRenderStream( LPVOID lpvParams )
 				 _mm_prefetch( 64 + (char*) &particles[i + 1] , _MM_HINT_NTA );
 
 				if (pPE.m_Def->m_Flags.is(CPEDef::dfFramed))
-					pPE.m_Def->m_Frame.CalculateTC(iFloor(float(m.frame)/255.f),lt,rb);
+					pPE.m_Def->m_Frame.CalculateTC(XrMath::iFloor(float(m.frame)/255.f),lt,rb);
 
 				float r_x		= m.size.x*0.5f;
 				float r_y		= m.size.y*0.5f;
@@ -475,7 +475,7 @@ void ParticleRenderStream( LPVOID lpvParams )
 				if (pPE.m_Def->m_Flags.is(CPEDef::dfAlignToPath)){
 					if ( ! speed_calculated )
 						magnitude_sse( m.vel , speed );
-                    if ((speed<EPS_S)&&pPE.m_Def->m_Flags.is(CPEDef::dfWorldAlign)){
+                    if ((speed<XrMath::EPS_S)&&pPE.m_Def->m_Flags.is(CPEDef::dfWorldAlign)){
                     	Fmatrix	M;  	
                         M.setXYZ			(pPE.m_Def->m_APDefaultRotation);
 						if (pPE.m_RT_Flags.is(CParticleEffect::flRT_XFORM)){
@@ -486,10 +486,10 @@ void ParticleRenderStream( LPVOID lpvParams )
                         }else{
                             FillSprite		(pv,M.k,M.i,m.pos,lt,rb,r_x,r_y,m.color,sina,cosa);
                         }
-                    }else if ((speed>=EPS_S)&&pPE.m_Def->m_Flags.is(CPEDef::dfFaceAlign)){
+                    }else if ((speed>=XrMath::EPS_S)&&pPE.m_Def->m_Flags.is(CPEDef::dfFaceAlign)){
                     	Fmatrix	M;  		M.identity();
                         M.k.div				(m.vel,speed);            
-                        M.j.set 			(0,1,0);	if (_abs(M.j.dotproduct(M.k))>.99f)  M.j.set(0,0,1);
+                        M.j.set 			(0,1,0);	if (XrMath::abs(M.j.dotproduct(M.k))>.99f)  M.j.set(0,0,1);
                         M.i.crossproduct	(M.j,M.k);	M.i.normalize	();
                         M.j.crossproduct   	(M.k,M.i);	M.j.normalize  ();
 						if (pPE.m_RT_Flags.is(CParticleEffect::flRT_XFORM)){
@@ -502,7 +502,7 @@ void ParticleRenderStream( LPVOID lpvParams )
                         }
                     }else{
 						Fvector 			dir;
-                        if (speed>=EPS_S)	dir.div	(m.vel,speed);
+                        if (speed>=XrMath::EPS_S)	dir.div	(m.vel,speed);
                         else				dir.setHP(-pPE.m_Def->m_APDefaultRotation.y,-pPE.m_Def->m_APDefaultRotation.x);
 						if (pPE.m_RT_Flags.is(CParticleEffect::flRT_XFORM)){
                             Fvector p,d;
@@ -581,14 +581,14 @@ void CParticleEffect::Render(float )
 				{
 					if (gameVersionController->getGame() == gameVersionController->SOC)
 					{
-						RDEVICE.mProject.build_projection(deg2rad(psHUD_FOV*Device.fFOV),
+						RDEVICE.mProject.build_projection(XrMath::deg2rad(psHUD_FOV*Device.fFOV),
 							Device.fASPECT,
 							VIEWPORT_NEAR,
 							ENV_SOC.CurrentEnv.far_plane);
 					}
 					else
 					{
-						RDEVICE.mProject.build_projection(deg2rad(psHUD_FOV*Device.fFOV),
+						RDEVICE.mProject.build_projection(XrMath::deg2rad(psHUD_FOV*Device.fFOV),
 							Device.fASPECT,
 							VIEWPORT_NEAR,
 							ENV.CurrentEnv->far_plane);
@@ -629,8 +629,8 @@ void CParticleEffect::Render(float )
 //----------------------------------------------------
 IC void FillSprite	(FVF::LIT*& pv, const Fvector& T, const Fvector& R, const Fvector& pos, const Fvector2& lt, const Fvector2& rb, float r1, float r2, u32 clr, float angle)
 {
-	float sa	= _sin(angle);  
-	float ca	= _cos(angle);  
+	float sa	= XrMath::sin(angle);  
+	float ca	= XrMath::cos(angle);  
 	Fvector Vr, Vt;
 	Vr.x 		= T.x*r1*sa+R.x*r1*ca;
 	Vr.y 		= T.y*r1*sa+R.y*r1*ca;
@@ -652,8 +652,8 @@ IC void FillSprite	(FVF::LIT*& pv, const Fvector& T, const Fvector& R, const Fve
 
 IC void FillSprite	(FVF::LIT*& pv, const Fvector& pos, const Fvector& dir, const Fvector2& lt, const Fvector2& rb, float r1, float r2, u32 clr, float angle)
 {
-	float sa	= _sin(angle);  
-	float ca	= _cos(angle);  
+	float sa	= XrMath::sin(angle);  
+	float ca	= XrMath::cos(angle);  
 	const Fvector& T 	= dir;
 	Fvector R; 	R.crossproduct(T,RDEVICE.vCameraDirection).normalize_safe();
 	Fvector Vr, Vt;
@@ -695,7 +695,7 @@ void CParticleEffect::Render(float )
 				Fvector2 lt,rb;
 				lt.set			(0.f,0.f);
 				rb.set			(1.f,1.f);
-				if (m_Def->m_Flags.is(CPEDef::dfFramed)) m_Def->m_Frame.CalculateTC(iFloor(float(m.frame)/255.f),lt,rb);
+				if (m_Def->m_Flags.is(CPEDef::dfFramed)) m_Def->m_Frame.CalculateTC(XrMath::iFloor(float(m.frame)/255.f),lt,rb);
 				float r_x		= m.size.x*0.5f;
 				float r_y		= m.size.y*0.5f;
 				if (m_Def->m_Flags.is(CPEDef::dfVelocityScale)){
@@ -705,7 +705,7 @@ void CParticleEffect::Render(float )
 				}
 				if (m_Def->m_Flags.is(CPEDef::dfAlignToPath)){
 					float speed	= m.vel.magnitude();
-                    if ((speed<EPS_S)&&m_Def->m_Flags.is(CPEDef::dfWorldAlign)){
+                    if ((speed<XrMath::EPS_S)&&m_Def->m_Flags.is(CPEDef::dfWorldAlign)){
                     	Fmatrix	M;  	
                         M.setXYZ			(m_Def->m_APDefaultRotation);
                         if (m_RT_Flags.is(flRT_XFORM)){
@@ -716,10 +716,10 @@ void CParticleEffect::Render(float )
                         }else{
                             FillSprite		(pv,M.k,M.i,m.pos,lt,rb,r_x,r_y,m.color,m.rot.x);
                         }
-                    }else if ((speed>=EPS_S)&&m_Def->m_Flags.is(CPEDef::dfFaceAlign)){
+                    }else if ((speed>=XrMath::EPS_S)&&m_Def->m_Flags.is(CPEDef::dfFaceAlign)){
                     	Fmatrix	M;  		M.identity();
                         M.k.div				(m.vel,speed);            
-                        M.j.set 			(0,1,0);	if (_abs(M.j.dotproduct(M.k))>.99f)  M.j.set(0,0,1);
+                        M.j.set 			(0,1,0);	if (XrMath::abs(M.j.dotproduct(M.k))>.99f)  M.j.set(0,0,1);
                         M.i.crossproduct	(M.j,M.k);	M.i.normalize	();
                         M.j.crossproduct   	(M.k,M.i);	M.j.normalize  ();
                         if (m_RT_Flags.is(flRT_XFORM)){
@@ -732,7 +732,7 @@ void CParticleEffect::Render(float )
                         }
                     }else{
 						Fvector 			dir;
-                        if (speed>=EPS_S)	dir.div	(m.vel,speed);
+                        if (speed>=XrMath::EPS_S)	dir.div	(m.vel,speed);
                         else				dir.setHP(-m_Def->m_APDefaultRotation.y,-m_Def->m_APDefaultRotation.x);
                         if (m_RT_Flags.is(flRT_XFORM)){
                             Fvector p,d;
@@ -762,7 +762,7 @@ void CParticleEffect::Render(float )
 				Fmatrix FTold						= Device.mFullTransform;
 				if(GetHudMode())
 				{
-					RDEVICE.mProject.build_projection(	deg2rad(psHUD_FOV*Device.fFOV), 
+					RDEVICE.mProject.build_projection(	XrMath::deg2rad(psHUD_FOV*Device.fFOV), 
 														Device.fASPECT, 
 														VIEWPORT_NEAR, 
 														g_pGamePersistent->Environment().CurrentEnv->far_plane);

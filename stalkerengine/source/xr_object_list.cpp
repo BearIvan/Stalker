@@ -194,7 +194,7 @@ void CObjectList::Update(bool bForce)
     if (!Device.Paused() || bForce)
     {
         // Clients
-        if (Device.fTimeDelta>EPS_S || bForce)
+        if (Device.fTimeDelta> XrMath::EPS_S || bForce)
         {
             // Select Crow-Mode
             Device.Statistic->UpdateClient_updated = 0;

@@ -158,7 +158,7 @@ float       CPostprocessAnimator::GetLength                       ()
     for (int a = 0; a < POSTPROCESS_PARAMS_COUNT; a++)
         {
         float t = m_Params[a]->get_length();
-        v		= _max(t,v);
+        v		= XrMath::max(t,v);
         }
     return v;
 }
@@ -206,7 +206,7 @@ BOOL CPostprocessAnimator::Process(SPPInfo &PPInfo)
 	else
 		m_factor			+= m_factor_speed*Device.fTimeDelta*(m_dest_factor-m_factor);
 
-	clamp					(m_factor, 0.0001f, 1.0f);
+	XrMath::clamp					(m_factor, 0.0001f, 1.0f);
 
 	VERIFY				(_valid(m_factor));
 	VERIFY				(_valid(m_factor_speed));
@@ -234,7 +234,7 @@ BOOL CPostprocessAnimator::Process(SPPInfo &PPInfo)
 		R_ASSERT3(0,"noise.grain cant be zero! see postprocess",*m_Name);
 	}
 
-	if(fsimilar(m_factor,0.0001f,EPS_S))
+	if(XrMath::fsimilar(m_factor,0.0001f,XrMath::EPS_S))
 		return FALSE;
 
 	return TRUE;
@@ -248,12 +248,12 @@ BOOL CPostprocessAnimator::Process(float dt, SPPInfo &PPInfo)
 	//if(m_bStop)
 //		m_factor			-=	dt*m_stop_speed;
 
-	clamp					(m_factor, 0.001f, 1.0f);
+	XrMath::clamp					(m_factor, 0.001f, 1.0f);
 
     PPInfo = m_EffectorParams;
 //	PPInfo.lerp				(pp_identity, m_EffectorParams, m_factor);
 
-//	if(fsimilar(m_factor,0.001f,EPS_S))
+//	if(XrMath::fsimilar(m_factor,0.001f,XrMath::EPS_S))
 //		return FALSE;
 
 	return TRUE;

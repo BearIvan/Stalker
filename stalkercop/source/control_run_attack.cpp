@@ -60,7 +60,7 @@ bool CControlRunAttack::check_start_conditions()
 	const CEntityAlive *enemy				= m_object->EnemyMan.get_enemy();
 	if (!enemy)	return false;
 	// check if faced enemy
-	if (!m_man->direction().is_face_target(enemy, PI_DIV_6)) return false;
+	if (!m_man->direction().is_face_target(enemy, XrMath::PI_DIV_6)) return false;
 	
 	float dist = enemy->Position().distance_to(m_object->Position());
 	// check distance to enemy
@@ -68,7 +68,7 @@ bool CControlRunAttack::check_start_conditions()
 	
 	// check if run state, speed
 	SVelocityParam &velocity_run			= m_object->move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
-	if (!fsimilar(m_man->movement().velocity_current(), velocity_run.velocity.linear, 2.f)) return false;
+	if (!XrMath::fsimilar(m_man->movement().velocity_current(), velocity_run.velocity.linear, 2.f)) return false;
 
 	if (m_time_next_attack > time())		return false;
 

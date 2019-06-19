@@ -383,11 +383,11 @@ void	game_cl_Deathmatch::LoadTeamDefaultPresetItems	(const shared_str& caSection
 	string4096			DefItems;
 	// Читаем данные этого поля
 	strcpy_s(DefItems, pSettings->r_string(caSection, "default_items"));
-	u32 count	= _GetItemCount(DefItems);
+	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(DefItems, i, ItemName);
+		XrTrims::GetItem(DefItems, i, ItemName);
 
 		u8 SlotID, ItemID;
 		pBuyMenu->GetWeaponIndexByName(ItemName, SlotID, ItemID);
@@ -448,7 +448,7 @@ void				game_cl_Deathmatch::LoadDefItemsForRank(IBuyWnd* pBuyMenu)
 		
 		string1024 wpnAmmos, BaseAmmoName;
 		strcpy_s(wpnAmmos, pSettings->r_string(ItemName, "ammo_class"));
-		_GetItem(wpnAmmos, 0, BaseAmmoName);
+		XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 
 		u8 SlotID, ItemID;
 		pBuyMenu->GetWeaponIndexByName(BaseAmmoName, SlotID, ItemID);

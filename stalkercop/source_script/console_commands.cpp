@@ -59,7 +59,7 @@
 #endif // DEBUG
 
 string_path		g_last_saved_game;
-
+#undef min
 #ifdef DEBUG
 	extern float air_resistance_epsilon;
 #endif // #ifdef DEBUG
@@ -146,7 +146,7 @@ CUIOptConCom g_OptConCom;
 #endif // PURE_ALLOC
 
 #ifdef SEVERAL_ALLOCATORS
-	extern		u32 game_lua_memory_usage	();
+	//extern		u32 game_lua_memory_usage	();
 #endif // SEVERAL_ALLOCATORS
 
 typedef void (*full_memory_stats_callback_type) ( );
@@ -154,10 +154,10 @@ XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback;
 
 static void full_memory_stats	( )
 {
-	Memory.mem_compact		();
-	size_t	_process_heap	= ::Memory.mem_usage();
+	//Memory.mem_compact		();
+//	size_t	_process_heap	= ::Memory.mem_usage();
 #ifdef SEVERAL_ALLOCATORS
-	u32		_game_lua		= game_lua_memory_usage();
+	//u32		_game_lua		= game_lua_memory_usage();
 	u32		_render			= ::Render->memory_usage();
 #endif // SEVERAL_ALLOCATORS
 	int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
@@ -169,14 +169,14 @@ static void full_memory_stats	( )
 	//	Resource check moved to m_pRender
 	if (Device.m_pRender) Device.m_pRender->ResourcesGetMemoryUsage(m_base,c_base,m_lmaps,c_lmaps);
 
-	log_vminfo	();
+//	log_vminfo	();
 
 	Msg		("* [ D3D ]: textures[%d K]", (m_base+m_lmaps)/1024);
 
 #ifndef SEVERAL_ALLOCATORS
 	Msg		("* [x-ray]: process heap[%u K]",_process_heap/1024);
 #else // SEVERAL_ALLOCATORS
-	Msg		("* [x-ray]: process heap[%u K], game lua[%d K], render[%d K]",_process_heap/1024,_game_lua/1024,_render/1024);
+	Msg		("* [x-ray]: process heap[%u K], game lua[%d K], render[%d K]",1/1024,1/1024,_render/1024);
 #endif // SEVERAL_ALLOCATORS
 
 	Msg		("* [x-ray]: economy: strings[%d K], smem[%d K]",_eco_strings/1024,_eco_smem);
@@ -205,7 +205,7 @@ public:
 	CCC_MemCheckpoint(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = FALSE; };
 	virtual void Execute(LPCSTR args) 
 	{
-		memory_monitor::make_checkpoint(args);
+	//	memory_monitor::make_checkpoint(args);
 	}
 	virtual void	Save	(IWriter *F)	{}
 };
@@ -250,11 +250,11 @@ public:
 			int id1=-1, id2=-1;
 			sscanf(args ,"%d %d",&id1,&id2);
 			if ((-1 != id1) && (-1 != id2))
-				if (_max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
+				if (XrMath::max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
 					Msg("! there are only %d vertexes!",ai().game_graph().header().vertex_count());
 				else
-					if (_min(id1,id2) < 0)
-						Msg("! invalid vertex number (%d)!",_min(id1,id2));
+					if (XrMath::min(id1,id2) < 0)
+						Msg("! invalid vertex number (%d)!",XrMath::min(id1,id2));
 					else {
 //						Sleep				(1);
 //						CTimer				timer;
@@ -275,7 +275,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		float id1 = 0.0f;
 		sscanf(args ,"%f",&id1);
-		if (id1 < EPS_L)
+		if (id1 < XrMath::EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
 			if (!OnServer())
@@ -379,7 +379,7 @@ public:
 			VERIFY			(tpGame);
 			float id1 = 0;
 			sscanf(args ,"%f",&id1);
-			clamp(id1,.1f,1.f);
+			XrMath::clamp(id1,.1f,1.f);
 			tpGame->alife().set_switch_factor(id1);
 		}
 		else
@@ -414,7 +414,7 @@ class CCC_DemoRecordSetPos : public CCC_Vector3
 	static Fvector p;
 public:
 
-	CCC_DemoRecordSetPos(LPCSTR N) : CCC_Vector3( N, &p, Fvector().set( -FLT_MAX, -FLT_MAX, -FLT_MAX ),Fvector().set( FLT_MAX, FLT_MAX, FLT_MAX ) ) {};
+	CCC_DemoRecordSetPos(LPCSTR N) : CCC_Vector3( N, &p, Fvector().set( -flt_max, -flt_max, -flt_max ),Fvector().set( flt_max, flt_max, flt_max ) ) {};
 	virtual void Execute(LPCSTR args) {
 		#ifndef	DEBUG
 		//if (GameID() != eGameIDSingle) 
@@ -732,8 +732,8 @@ public:
 
 class CCC_FloatBlock : public CCC_Float {
 public:
-	CCC_FloatBlock(LPCSTR N, float* V, float _min=0, float _max=1) :
-	  CCC_Float(N,V,_min,_max)
+	CCC_FloatBlock(LPCSTR N, float* V, float min_=0, float max_=1) :
+	  CCC_Float(N,V,min_,max_)
 	  {};
 
 	  virtual void	Execute	(LPCSTR args)
@@ -757,8 +757,8 @@ class CCC_Net_CL_InputUpdateRate : public CCC_Integer {
 protected:
 	int		*value_blin;
 public:
-	CCC_Net_CL_InputUpdateRate(LPCSTR N, int* V, int _min=0, int _max=999) :
-	  CCC_Integer(N,V,_min,_max),
+	CCC_Net_CL_InputUpdateRate(LPCSTR N, int* V, int min_=0, int max_=999) :
+	  CCC_Integer(N,V,min_,max_),
 		  value_blin(V)
 	  {};
 
@@ -980,8 +980,8 @@ public:
 		string128 param1, param2;
 		VERIFY( xr_strlen(args) < sizeof(string128) );
 
-		_GetItem(args,0,param1,' ');
-		_GetItem(args,1,param2,' ');
+		XrTrims::GetItem(args,0,param1,' ');
+		XrTrims::GetItem(args,1,param2,' ');
 
 		u32 value1;
 		u32 value2;
@@ -1008,8 +1008,8 @@ public:
 		string128 param1, param2;
 		VERIFY( xr_strlen(args) < sizeof(string128) );
 
-		_GetItem(args,0,param1,' ');
-		_GetItem(args,1,param2,' ');
+		XrTrims::GetItem(args,0,param1,' ');
+		XrTrims::GetItem(args,1,param2,' ');
 
 		CObject			*obj = Level().Objects.FindObjectByName(param1);
 		CBaseMonster	*monster = smart_cast<CBaseMonster *>(obj);
@@ -1106,7 +1106,7 @@ public:
 	  {
 		  float				step_count = (float)atof(args);
 #ifndef		DEBUG
-		  clamp				(step_count,50.f,200.f);
+		  XrMath::clamp				(step_count,50.f,200.f);
 #endif
 		  //IPHWorld::SetStep(1.f/step_count);
 		  ph_console::ph_step_time = 1.f/step_count;
@@ -1301,7 +1301,7 @@ public:
 	virtual void	Execute			(LPCSTR args)
 	{
 		float				time_factor = (float)atof(args);
-		clamp				(time_factor,EPS,1000.f);
+		XrMath::clamp				(time_factor,XrMath::EPS,1000.f);
 		Device.time_factor	(time_factor);
 	}
 	virtual void	Status			(TStatus &S)
@@ -1354,9 +1354,9 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
 		sscanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
-		year				= _max(year,1);
-		month				= _max(month,1);
-		day					= _max(day,1);
+		year				= XrMath::max(year,bsize(1));
+		month				= XrMath::max(month,bsize(1));
+		day					= XrMath::max(day,bsize(1));
 		g_qwStartGameTime	= generate_time	(year,month,day,hours,mins,secs,milisecs);
 
 		if (!g_pGameLevel)
@@ -1380,7 +1380,7 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 };
 
 struct CCC_TimeFactorSingle : public CCC_Float {
-	CCC_TimeFactorSingle(LPCSTR N, float* V, float _min=0.f, float _max=1.f) : CCC_Float(N,V,_min,_max) {};
+	CCC_TimeFactorSingle(LPCSTR N, float* V, float min_=0.f, float max_=1.f) : CCC_Float(N,V,min_,max_) {};
 
 	virtual void	Execute	(LPCSTR args)
 	{
@@ -1462,7 +1462,7 @@ static CCC_RadioGroupMask2 x##CCC_RadioGroupMask2(&x##CCC_RadioMask1,&x##CCC_Rad
 }
 
 struct CCC_DbgBullets : public CCC_Integer {
-	CCC_DbgBullets(LPCSTR N, int* V, int _min=0, int _max=999) : CCC_Integer(N,V,_min,_max) {};
+	CCC_DbgBullets(LPCSTR N, int* V, int min_=0, int max_=999) : CCC_Integer(N,V,min_,max_) {};
 
 	virtual void	Execute	(LPCSTR args)
 	{
@@ -1718,8 +1718,8 @@ class CCC_Net_SV_GuaranteedPacketMode : public CCC_Integer {
 protected:
 	int		*value_blin;
 public:
-	CCC_Net_SV_GuaranteedPacketMode(LPCSTR N, int* V, int _min=0, int _max=2) :
-	  CCC_Integer(N,V,_min,_max),
+	CCC_Net_SV_GuaranteedPacketMode(LPCSTR N, int* V, int min_=0, int max_=2) :
+	  CCC_Integer(N,V,min_,max_),
 		  value_blin(V)
 	  {};
 
@@ -1753,7 +1753,7 @@ public:
 			return;
 		}
 
-		if ( _GetItemCount(arguments, ' ') == 1 )
+		if ( XrTrims::GetItemCount(arguments, ' ') == 1 )
 		{
 			ai_dbg::show_var(arguments);
 		}
@@ -2200,13 +2200,13 @@ extern BOOL dbg_moving_bones_snd_player;
 #endif // #ifdef DEBUG
 
 	extern float g_ai_aim_min_speed;
-	CMD4(CCC_Float,	"ai_aim_min_speed",	&g_ai_aim_min_speed, 0.f, 10.f*PI );
+	CMD4(CCC_Float,	"ai_aim_min_speed",	&g_ai_aim_min_speed, 0.f, 10.f*XrMath::M_PI );
 
 	extern float g_ai_aim_min_angle;
-	CMD4(CCC_Float,	"ai_aim_min_angle",	&g_ai_aim_min_angle, 0.f, 10.f*PI );
+	CMD4(CCC_Float,	"ai_aim_min_angle",	&g_ai_aim_min_angle, 0.f, 10.f*XrMath::M_PI );
 
 	extern float g_ai_aim_max_angle;
-	CMD4(CCC_Float,	"ai_aim_max_angle",	&g_ai_aim_max_angle, 0.f, 10.f*PI );
+	CMD4(CCC_Float,	"ai_aim_max_angle",	&g_ai_aim_max_angle, 0.f, 10.f*XrMath::M_PI );
 
 #ifdef DEBUG
 	extern BOOL g_debug_doors;

@@ -311,7 +311,7 @@ void CALifeCombatManager::vfPerformAttackAction(int iCombatGroupIndex)
 		float				l_fHitPower = 0.f;
 		if (!(*I)->m_tpCurrentBestWeapon) {
 			CSE_ALifeItemWeapon	*l_tpALifeItemWeapon = (*I)->tpfGetBestWeapon(l_tHitType,l_fHitPower);
-			if (!l_tpALifeItemWeapon && (l_fHitPower <= EPS_L))
+			if (!l_tpALifeItemWeapon && (l_fHitPower <= XrMath::EPS_L))
 				continue;
 		}
 		else {
@@ -323,10 +323,10 @@ void CALifeCombatManager::vfPerformAttackAction(int iCombatGroupIndex)
 		ai().ef_storage().alife().member() = *I;
 #ifdef DEBUG
 		if (psAI_Flags.test(aiALife)) {
-			Msg				("[LSS] %s attacks with %s(%d ammo) %d times in a row",(*I)->base()->name_replace(),(*I)->m_tpCurrentBestWeapon ? (*I)->m_tpCurrentBestWeapon->name_replace() : "its natural weapon",(*I)->m_tpCurrentBestWeapon ? (*I)->m_tpCurrentBestWeapon->m_dwAmmoAvailable : 0,iFloor(ai().ef_storage().m_pfWeaponAttackTimes->ffGetValue() + .5f));
+			Msg				("[LSS] %s attacks with %s(%d ammo) %d times in a row",(*I)->base()->name_replace(),(*I)->m_tpCurrentBestWeapon ? (*I)->m_tpCurrentBestWeapon->name_replace() : "its natural weapon",(*I)->m_tpCurrentBestWeapon ? (*I)->m_tpCurrentBestWeapon->m_dwAmmoAvailable : 0,XrMath::iFloor(ai().ef_storage().m_pfWeaponAttackTimes->ffGetValue() + .5f));
 		}
 #endif
-		for (int i=0, n=iFloor(ai().ef_storage().m_pfWeaponAttackTimes->ffGetValue() + .5f); i<n; ++i) {
+		for (int i=0, n=XrMath::iFloor(ai().ef_storage().m_pfWeaponAttackTimes->ffGetValue() + .5f); i<n; ++i) {
 			if (randF(100) < ai().ef_storage().m_pfWeaponSuccessProbability->ffGetValue()) {
 				// choose random enemy group member and perform hit with random power
 				// multiplied by immunity factor
@@ -337,7 +337,7 @@ void CALifeCombatManager::vfPerformAttackAction(int iCombatGroupIndex)
 				l_tpALifeMonsterAbstract->fHealth -= l_tpALifeMonsterAbstract->m_fpImmunityFactors[l_tHitType]*l_fHit;
 #ifdef DEBUG
 				if (psAI_Flags.test(aiALife)) {
-					Msg						("[LSS] %s %s %s [power %5.2f][damage %5.2f][health %5.2f][creatures left %d]",(*I)->base()->name_replace(),l_tpALifeMonsterAbstract->fHealth <= 0 ? "killed" : "attacked",l_tpALifeMonsterAbstract->name_replace(),l_fHit,l_tpALifeMonsterAbstract->m_fpImmunityFactors[l_tHitType]*l_fHit,_max(l_tpALifeMonsterAbstract->fHealth,0.f),l_tpALifeMonsterAbstract->fHealth >= EPS_L ? m_tpaCombatGroups[iCombatGroupIndex ^ 1].size() : m_tpaCombatGroups[iCombatGroupIndex ^ 1].size() - 1);
+					Msg						("[LSS] %s %s %s [power %5.2f][damage %5.2f][health %5.2f][creatures left %d]",(*I)->base()->name_replace(),l_tpALifeMonsterAbstract->fHealth <= 0 ? "killed" : "attacked",l_tpALifeMonsterAbstract->name_replace(),l_fHit,l_tpALifeMonsterAbstract->m_fpImmunityFactors[l_tHitType]*l_fHit,XrMath::max(l_tpALifeMonsterAbstract->fHealth,0.f),l_tpALifeMonsterAbstract->fHealth >= XrMath::EPS_L ? m_tpaCombatGroups[iCombatGroupIndex ^ 1].size() : m_tpaCombatGroups[iCombatGroupIndex ^ 1].size() - 1);
 				}
 #endif
 				// check if victim became dead
@@ -375,7 +375,7 @@ void CALifeCombatManager::vfFinishCombat(ECombatResult tCombatResult)
 				CSE_ALifeMonsterAbstract	*l_tpALifeMonsterAbstract = smart_cast<CSE_ALifeMonsterAbstract*>(objects().object(l_tpALifeGroupAbstract->m_tpMembers[I]));
 				R_ASSERT2					(l_tpALifeMonsterAbstract,"Invalid group member!");
 				l_tpALifeMonsterAbstract->vfUpdateWeaponAmmo	();
-				if (l_tpALifeMonsterAbstract->fHealth <= EPS_L) {
+				if (l_tpALifeMonsterAbstract->fHealth <= XrMath::EPS_L) {
 					append_item_vector							(l_tpALifeMonsterAbstract->children,m_temp_item_vector);
 					l_tpALifeMonsterAbstract->m_bDirectControl	= true;
 					l_tpALifeGroupAbstract->m_tpMembers.erase	(l_tpALifeGroupAbstract->m_tpMembers.begin() + I);
@@ -395,7 +395,7 @@ void CALifeCombatManager::vfFinishCombat(ECombatResult tCombatResult)
 		else {
 			m_tpaCombatObjects[i]->vfUpdateWeaponAmmo			();
 			CSE_ALifeMonsterAbstract							*l_tpALifeMonsterAbstract = smart_cast<CSE_ALifeMonsterAbstract*>(m_tpaCombatObjects[i]);
-			if (l_tpALifeMonsterAbstract && (l_tpALifeMonsterAbstract->fHealth <= EPS_L)) {
+			if (l_tpALifeMonsterAbstract && (l_tpALifeMonsterAbstract->fHealth <= XrMath::EPS_L)) {
 				kill_entity										(l_tpALifeMonsterAbstract,l_tGraphID,m_tpaCombatObjects[i ^ 1]);
 			}
 		}

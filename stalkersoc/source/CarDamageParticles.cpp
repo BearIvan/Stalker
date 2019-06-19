@@ -15,10 +15,10 @@ extern CPHWorld*	ph_world;
 void read_bones(IKinematics *K, LPCSTR S , xr_vector<u16>& bones)
 {
 	string64					S1;
-	int count =					_GetItemCount(S);
+	int count =					XrTrims::GetItemCount(S);
 	for (int i=0 ;i<count; ++i) 
 	{
-		_GetItem					(S,i,S1);
+		XrTrims::GetItem					(S,i,S1);
 
 		u16 bone_id	=				K->LL_BoneID(S1);
 		R_ASSERT3(bone_id!=BI_NONE,"wrong bone",S1);

@@ -28,7 +28,7 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F, CXml* xml )
 
 		if (str[0] && (str[0]=='#') && strstr(str,"#include") ){
 			string256	inc_name;	
-			if (_GetItem	(str,1,inc_name,'"'))
+			if (XrTrims::GetItem	(str,1,inc_name,'"'))
 			{
 				IReader* I 			= NULL;
 				if(inc_name==strstr(inc_name,"ui\\"))

@@ -180,8 +180,8 @@ void dxStatGraphRender::RenderBack(CStatGraph &owner)
 
 
 	//    for (int g_y=1; g_y<=owner.grid.y; g_y++){
-	//	    pv->set				(owner.lt.x,iFloor(g_y*grid_offs_y+owner.lt.y),owner.grid_color); pv++; 	
-	//	    pv->set				(owner.rb.x,iFloor(g_y*grid_offs_y+owner.lt.y),owner.grid_color); pv++; 	
+	//	    pv->set				(owner.lt.x,XrMath::iFloor(g_y*grid_offs_y+owner.lt.y),owner.grid_color); pv++; 	
+	//	    pv->set				(owner.rb.x,XrMath::iFloor(g_y*grid_offs_y+owner.lt.y),owner.grid_color); pv++; 	
 	//	}
 
 	dwCount 				= u32(pv-pv_start);
@@ -275,7 +275,7 @@ void dxStatGraphRender::RenderMarkers(CStatGraph &owner, FVF::TL0uv** ppv, CStat
 		case CStatGraph::stVert:
 			{
 				X0 = CurMarker.m_fPos*elem_offs+owner.lt.x;
-				clamp(X0, float(owner.lt.x), float(owner.rb.x));
+				XrMath::clamp(X0, float(owner.lt.x), float(owner.rb.x));
 				X1 = X0;
 				Y0 = float(owner.lt.y);
 				Y1 = float(owner.rb.y);
@@ -285,7 +285,7 @@ void dxStatGraphRender::RenderMarkers(CStatGraph &owner, FVF::TL0uv** ppv, CStat
 				X0 = float(owner.lt.x);
 				X1 = float(owner.rb.x);
 				Y0 = base_y - CurMarker.m_fPos*elem_factor;
-				clamp(Y0, float(owner.lt.y), float(owner.rb.y));
+				XrMath::clamp(Y0, float(owner.lt.y), float(owner.rb.y));
 				Y1 = Y0;
 			}break;
 		}

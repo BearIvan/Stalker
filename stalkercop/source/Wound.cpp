@@ -73,7 +73,7 @@ float CWound::BloodSize	()
 void CWound::AddHit(float hit_power, ALife::EHitType hit_type)
 {
 	m_Wounds[hit_type] += hit_power;
-	clamp(m_Wounds[hit_type],0.0f,WOUND_MAX);
+	XrMath::clamp(m_Wounds[hit_type],0.0f,WOUND_MAX);
 }
 
 
@@ -81,7 +81,7 @@ void CWound::Incarnation	(float percent, float min_wound_size)
 {
 	float total_size = TotalSize();
 
-	if(fis_zero(total_size))
+	if(XrMath::fis_zero(total_size))
 	{
 		for(int i=0; i<ALife::eHitTypeMax; i++)
 			m_Wounds[i] = 0.f;

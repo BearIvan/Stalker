@@ -217,7 +217,7 @@ void	CRender::render_indirect			(light* L)
 	light									LIGEN;
 	LIGEN.set_type							(IRender_Light::REFLECTED);
 	LIGEN.set_shadow						(false);
-	LIGEN.set_cone							(PI_DIV_2*2.f);
+	LIGEN.set_cone							(XrMath::PI_DIV_2*2.f);
 
 	xr_vector<light_indirect>&	Lvec		= L->indirect;
 	if (Lvec.empty())						return;
@@ -232,7 +232,7 @@ void	CRender::render_indirect			(light* L)
 		LIGEN.set_color					(T.x,T.y,T.z);
 
 		// geometric
-		Fvector L_up,L_right;			L_up.set	(0,1,0);	if (_abs(L_up.dotproduct(LI.D))>.99f)	L_up.set(0,0,1);
+		Fvector L_up,L_right;			L_up.set	(0,1,0);	if (XrMath::abs(L_up.dotproduct(LI.D))>.99f)	L_up.set(0,0,1);
 		L_right.crossproduct			(L_up,LI.D).normalize	();
 		LIGEN.spatial.sector			= LI.S;
 		LIGEN.set_position				(LI.P);

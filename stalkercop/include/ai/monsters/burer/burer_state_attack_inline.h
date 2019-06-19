@@ -188,7 +188,7 @@ void   CStateBurerAttack<Object>::execute ()
 	{
 		Fvector	const	self2enemy			=	enemy_pos - self_pos;
 		bool  	const 	good_aiming			=	angle_between_vectors(self2enemy, object->Direction()) 
-												< deg2rad(20.f);
+												< XrMath::deg2rad(20.f);
 
 		select_state							(eStateBurerAttack_FaceEnemy);
 

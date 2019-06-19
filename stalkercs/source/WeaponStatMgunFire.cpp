@@ -41,7 +41,7 @@ void CWeaponStatMgun::UpdateFire()
 	inheritedShooting::UpdateLight();
 
 	if(!IsWorking()){
-		clamp(fShotTimeCounter,0.0f, flt_max);
+		XrMath::clamp(fShotTimeCounter,0.0f, flt_max);
 		return;
 	}
 
@@ -51,8 +51,8 @@ void CWeaponStatMgun::UpdateFire()
 		fShotTimeCounter		+= fOneShotTime;
 	}else
 	{
-		angle_lerp		(m_dAngle.x,0.f,5.f,Device.fTimeDelta);
-		angle_lerp		(m_dAngle.y,0.f,5.f,Device.fTimeDelta);
+		XrMath::angle_lerp		(m_dAngle.x,0.f,5.f,Device.fTimeDelta);
+		XrMath::angle_lerp		(m_dAngle.y,0.f,5.f,Device.fTimeDelta);
 	}
 }
 

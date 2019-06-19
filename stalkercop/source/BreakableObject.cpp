@@ -90,7 +90,7 @@ void	CBreakableObject::Hit					(SHit* pHDS)
 		else
 		{
 			//. hack: slipch ???
-			if ((pHDS->impulse>EPS)&&(BI_NONE != pHDS->bone()))
+			if ((pHDS->impulse>XrMath::EPS)&&(BI_NONE != pHDS->bone()))
 				m_pPhysicsShell->applyImpulseTrace(pHDS->p_in_bone_space,pHDS->dir,pHDS->impulse,pHDS->bone());
 		}
 	}
@@ -171,7 +171,7 @@ void CBreakableObject::CreateBroken()
 	m_Shell->SmoothElementsInertia(0.3f);
 	Fobb b;
 	Visual()->getVisData().box.getradius(b.m_halfsize);
-	m_Shell->SetMaxAABBRadius(_max(_max(b.m_halfsize.x,b.m_halfsize.y),b.m_halfsize.z)*2.f);//+2.f
+	m_Shell->SetMaxAABBRadius(XrMath::max(XrMath::max(b.m_halfsize.x,b.m_halfsize.y),b.m_halfsize.z)*2.f);//+2.f
 
 }
 

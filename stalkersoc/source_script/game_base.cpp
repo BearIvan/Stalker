@@ -232,7 +232,7 @@ void game_GameState::switch_Phase		(u32 new_phase)
 
 ALife::_TIME_ID game_GameState::GetGameTime()
 {
-	return			(m_qwStartGameTime + iFloor(m_fTimeFactor*float(Level().timeServer_Async() - m_qwStartProcessorTime)));
+	return			(m_qwStartGameTime + XrMath::iFloor(m_fTimeFactor*float(Level().timeServer_Async() - m_qwStartProcessorTime)));
 }
 
 float game_GameState::GetGameTimeFactor()
@@ -256,7 +256,7 @@ void game_GameState::SetGameTimeFactor	(ALife::_TIME_ID GameTime, const float fT
 
 ALife::_TIME_ID game_GameState::GetEnvironmentGameTime()
 {
-	return			(m_qwEStartGameTime + iFloor(m_fETimeFactor*float(Level().timeServer_Async() - m_qwEStartProcessorTime)));
+	return			(m_qwEStartGameTime + XrMath::iFloor(m_fETimeFactor*float(Level().timeServer_Async() - m_qwEStartProcessorTime)));
 }
 
 float game_GameState::GetEnvironmentGameTimeFactor()

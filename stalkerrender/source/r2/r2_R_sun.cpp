@@ -83,12 +83,12 @@ struct BoundingBox
 	void Centroid( D3DXVECTOR3* vec) const { *vec = 0.5f*(minPt+maxPt); }
 	void Merge( const D3DXVECTOR3* vec )
 	{
-		minPt.x = _min(minPt.x, vec->x);
-		minPt.y = _min(minPt.y, vec->y);
-		minPt.z = _min(minPt.z, vec->z);
-		maxPt.x = _max(maxPt.x, vec->x);
-		maxPt.y = _max(maxPt.y, vec->y);
-		maxPt.z = _max(maxPt.z, vec->z);
+		minPt.x = XrMath::min(minPt.x, vec->x);
+		minPt.y = XrMath::min(minPt.y, vec->y);
+		minPt.z = XrMath::min(minPt.z, vec->z);
+		maxPt.x = XrMath::max(maxPt.x, vec->x);
+		maxPt.y = XrMath::max(maxPt.y, vec->y);
+		maxPt.z = XrMath::max(maxPt.z, vec->z);
 	}
 	D3DXVECTOR3 Point(int i) const { return D3DXVECTOR3( (i&1)?minPt.x:maxPt.x, (i&2)?minPt.y:maxPt.y, (i&4)?minPt.z:maxPt.z );  }
 };
@@ -98,7 +98,7 @@ BOOL LineIntersection2D( D3DXVECTOR2* result, const D3DXVECTOR2* lineA, const D3
 {
 	//  if the lines are parallel, the lines will not intersect in a point
 	//  NOTE: assumes the rays are already normalized!!!!
-	VERIFY		( _abs(D3DXVec2Dot(&lineA[1], &lineB[1]))<1.f );
+	VERIFY		( XrMath::abs(D3DXVec2Dot(&lineA[1], &lineB[1]))<1.f );
 
 	float x[2]	= { lineA[0].x, lineB[0].x };
 	float y[2]	= { lineA[0].y, lineB[0].y };
@@ -174,7 +174,7 @@ Frustum::Frustum(const D3DXMATRIX* matrix)
 	for (p=0; p<6; p++)  // normalize the planes
 	{
 		float dot = planes[p].x*planes[p].x + planes[p].y*planes[p].y + planes[p].z*planes[p].z;
-		dot = 1.f / _sqrt(dot);
+		dot = 1.f / XrMath::sqrt(dot);
 		planes[p] = planes[p] * dot;
 	}
 
@@ -251,7 +251,7 @@ public:
 	{
 		translation.set( 0.f, 0.f, 0.f );
 
-		if( fis_zero( 1-abs(view_ray.D.dotproduct( light_ray.D )), EPS_S) )
+		if( XrMath::fis_zero( 1-abs(view_ray.D.dotproduct( light_ray.D )), XrMath::EPS_S) )
 			return;
 
  		// compute planes for each polygon.
@@ -267,7 +267,7 @@ public:
 		for( u32 i = 0; i < LIGHT_CUBOIDSIDEPOLYS_COUNT; i++ )
 		{
 			float tmp_dot = view_ray.D.dotproduct(light_cuboid_polys[i].plane.n);
-			if( tmp_dot <= EPS_L )
+			if( tmp_dot <= XrMath::EPS_L )
 				continue;
 
 			align_planes[align_planes_count] = i;
@@ -292,7 +292,7 @@ public:
 				Fvector tmp_point = view_frustum_rays[i].P;
 					
 				tmp_dist = light_cuboid_polys[align_planes[p]].plane.classify( tmp_point );
-				min_dist = _min( tmp_dist, min_dist );
+				min_dist = XrMath::min( tmp_dist, min_dist );
 			}
 
 			Fvector shift = light_cuboid_polys[align_planes[p]].plane.n;
@@ -332,7 +332,7 @@ public:
 				}
 			}
 
-			if( fis_zero( max_mag ) )
+			if( XrMath::fis_zero( max_mag ) )
 				continue;
 
 			VERIFY ( max_mag <= 1.f );
@@ -353,7 +353,7 @@ public:
 			tmp_vector.crossproduct( view_frustum_rays[i].D, light_ray.D );
 
 			// check if the vectors are parallel
-			if( fis_zero( tmp_vector.square_magnitude(), EPS) )
+			if( XrMath::fis_zero( tmp_vector.square_magnitude(), XrMath::EPS) )
 				continue;
 			
 			Fplane tmp_plane;
@@ -380,7 +380,7 @@ public:
 	
 			float max_dist = -1000;
 			for( u32 i = 0; i< view_frustum_rays.size(); ++i )
-				max_dist = _max( plane.classify( view_frustum_rays[i].P ), max_dist);
+				max_dist = XrMath::max( plane.classify( view_frustum_rays[i].P ), max_dist);
 
 			for( u32 i = 0; i< view_frustum_rays.size(); ++i )
 			{
@@ -421,7 +421,7 @@ public:
 				else
 					light_cuboid_polys[p].plane.intersectRayDist( view_frustum_rays[i].P, view_frustum_rays[i].D, dist);
 
-				if( dist > EPS_L &&  dist < min_dist )
+				if( dist > XrMath::EPS_L &&  dist < min_dist )
 					min_dist = dist;
 			}
 
@@ -441,7 +441,7 @@ public:
 			tmp_pt.mad(  view_frustum_rays[j].D, mad_factor );
 			tmp_dist = plane.classify( tmp_pt );
 
-			if( fis_zero(tmp_dist, EPS_L))
+			if( XrMath::fis_zero(tmp_dist, XrMath::EPS_L))
 				continue;
 
 			if( !oriented )
@@ -750,8 +750,8 @@ D3DXVECTOR2 BuildTSMProjectionMatrix_caster_depth_bounds(D3DXMATRIX& lightSpaceB
 		for			(int e=0; e<8; e++)	{
 			s_casters[c].getpoint	(e,pt);
 			pt		= wform			(minmax_xform, pt);
-			min_z	= _min			( min_z, pt.z );
-			max_z	= _max			( max_z, pt.z );
+			min_z	= XrMath::min			( min_z, pt.z );
+			max_z	= XrMath::max			( max_z, pt.z );
 		}
 	}
 	return D3DXVECTOR2(min_z,max_z);
@@ -775,14 +775,14 @@ void CRender::render_sun				()
 		if (gameVersionController->getGame() == GameVersionController::SOC )
 		{
 			 _far_ = min(OLES_SUN_LIMIT_SOC, ENV_SOC.CurrentEnv.far_plane);
-			ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT, ps_r2_sun_near,_far_);
+			ex_project.build_projection	(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT, ps_r2_sun_near,_far_);
 		}
 		else
 		{
 			_far_ = min(OLES_SUN_LIMIT_COP, ENV.CurrentEnv->far_plane);
-			ex_project.build_projection(deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, VIEWPORT_NEAR, _far_);
+			ex_project.build_projection(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, VIEWPORT_NEAR, _far_);
 		}
-		//ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,ps_r2_sun_near,_far_);
+		//ex_project.build_projection	(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,ps_r2_sun_near,_far_);
 
 		ex_full.mul					(ex_project,Device.mView);
 		D3DXMatrixInverse			((D3DXMATRIX*)&ex_full_inverse,0,(D3DXMATRIX*)&ex_full);
@@ -844,7 +844,7 @@ void CRender::render_sun				()
 		Fvector						L_dir,L_up,L_right,L_pos;
 		L_pos.set					(fuckingsun->position);
 		L_dir.set					(fuckingsun->direction).normalize	();
-		L_up.set					(0,1,0);					if (_abs(L_up.dotproduct(L_dir))>.99f)	L_up.set(0,0,1);
+		L_up.set					(0,1,0);					if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)	L_up.set(0,0,1);
 		L_right.crossproduct		(L_up,L_dir).normalize		();
 		L_up.crossproduct			(L_dir,L_right).normalize	();
 		mdir_View.build_camera_dir	(L_pos,L_dir,L_up);
@@ -856,7 +856,7 @@ void CRender::render_sun				()
 			frustum_bb.modify		(xf);
 		}
 		Fbox&	bb					= frustum_bb;
-				bb.grow				(EPS);
+				bb.grow				(XrMath::EPS);
 		D3DXMatrixOrthoOffCenterLH	((D3DXMATRIX*)&mdir_Project,bb.min.x,bb.max.x,  bb.min.y,bb.max.y,  bb.min.z-tweak_ortho_xform_initial_offs,bb.max.z);
 
 		// full-xform
@@ -907,7 +907,7 @@ void CRender::render_sun				()
 
 	// Compute REAL sheared xform based on receivers/casters information
 	FPU::m64r			();
-	if	( _abs(m_fCosGamma) < 0.99f && ps_r2_ls_flags.test(R2FLAG_SUN_TSM))
+	if	( XrMath::abs(m_fCosGamma) < 0.99f && ps_r2_ls_flags.test(R2FLAG_SUN_TSM))
 	{
 		//  get the near and the far plane (points) in eye space.
 		D3DXVECTOR3 frustumPnts[8];
@@ -1009,8 +1009,8 @@ void CRender::render_sun				()
 
 		BoundingBox frustumAABB2D( frustumPnts, sizeof(frustumPnts)/sizeof(D3DXVECTOR3) );
 
-		float x_scale = max( _abs(frustumAABB2D.maxPt.x), _abs(frustumAABB2D.minPt.x) );
-		float y_scale = max( _abs(frustumAABB2D.maxPt.y), _abs(frustumAABB2D.minPt.y) );
+		float x_scale = max( XrMath::abs(frustumAABB2D.maxPt.x), XrMath::abs(frustumAABB2D.minPt.x) );
+		float y_scale = max( XrMath::abs(frustumAABB2D.maxPt.y), XrMath::abs(frustumAABB2D.minPt.y) );
 		x_scale = 1.f/x_scale;
 		y_scale = 1.f/y_scale;
 
@@ -1064,7 +1064,7 @@ void CRender::render_sun				()
 
 		//  this shear balances the "trapezoid" around the y=0 axis (no change to the projection pt position)
 		//  since we are redistributing the trapezoid, this affects the projection field of view (shear_amt)
-		float shear_amt = (max_slope + _abs(min_slope))*0.5f - max_slope;
+		float shear_amt = (max_slope + XrMath::abs(min_slope))*0.5f - max_slope;
 		max_slope = max_slope + shear_amt;
 
 		D3DXMATRIX trapezoid_shear( 1.f, shear_amt, 0.f, 0.f,
@@ -1136,10 +1136,10 @@ void CRender::render_sun				()
 		Fmatrix	x_project, x_full, x_full_inverse;
 		{
 
-			x_project.build_projection(deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, ps_r2_sun_near, ps_r2_sun_near + tweak_guaranteed_range);
+			x_project.build_projection(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, ps_r2_sun_near, ps_r2_sun_near + tweak_guaranteed_range);
 			if (gameVersionController->getGame() != GameVersionController::SOC)
 			{
-				x_project.build_projection(deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, VIEWPORT_NEAR, ps_r2_sun_near + tweak_guaranteed_range);
+				x_project.build_projection(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/), Device.fASPECT, VIEWPORT_NEAR, ps_r2_sun_near + tweak_guaranteed_range);
 			}
 			x_full.mul(x_project, Device.mView);
 			D3DXMatrixInverse((D3DXMATRIX*)&x_full_inverse, 0, (D3DXMATRIX*)&x_full);
@@ -1152,8 +1152,8 @@ void CRender::render_sun				()
 		}
 
 		// some tweaking
-		b_casters.grow				(EPS);
-		b_receivers.grow			(EPS);
+		b_casters.grow				(XrMath::EPS);
+		b_receivers.grow			(XrMath::EPS);
 
 		// because caster points are from coarse representation only allow to "shrink" box, not grow
 		// that is the same as if we first clip casters by frustum
@@ -1166,9 +1166,9 @@ void CRender::render_sun				()
 
 		// refit?
 		/*
-		const float EPS				= 0.001f;
+		const float XrMath::EPS				= 0.001f;
 		D3DXMATRIX					refit;
-		D3DXMatrixOrthoOffCenterLH	( &refit, b_receivers.min.x, b_receivers.max.x, b_receivers.min.y, b_receivers.max.y, b_casters.min.z-EPS, b_casters.max.z+EPS );
+		D3DXMatrixOrthoOffCenterLH	( &refit, b_receivers.min.x, b_receivers.max.x, b_receivers.min.y, b_receivers.max.y, b_casters.min.z-XrMath::EPS, b_casters.max.z+XrMath::EPS );
 		D3DXMatrixMultiply			( &m_LightViewProj, &m_LightViewProj, &refit);
 		*/
 
@@ -1241,7 +1241,7 @@ void CRender::render_sun_near	()
 	// calculate view-frustum bounds in world space
 	Fmatrix	ex_project, ex_full, ex_full_inverse;
 	{
-		ex_project.build_projection	(deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,VIEWPORT_NEAR,ps_r2_sun_near); 
+		ex_project.build_projection	(XrMath::deg2rad(Device.fFOV/* *Device.fASPECT*/),Device.fASPECT,VIEWPORT_NEAR,ps_r2_sun_near); 
 		ex_full.mul					(ex_project,Device.mView);
 		D3DXMatrixInverse			((D3DXMATRIX*)&ex_full_inverse,0,(D3DXMATRIX*)&ex_full);
 	}
@@ -1311,7 +1311,7 @@ void CRender::render_sun_near	()
 		Fvector						L_dir,L_up,L_right,L_pos;
 		L_pos.set					(fuckingsun->position);
 		L_dir.set					(fuckingsun->direction).normalize	();
-		L_right.set					(1,0,0);					if (_abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
+		L_right.set					(1,0,0);					if (XrMath::abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
 		L_up.crossproduct			(L_dir,L_right).normalize	();
 		L_right.crossproduct		(L_up,L_dir).normalize		();
 		mdir_View.build_camera_dir	(L_pos,L_dir,L_up);
@@ -1321,16 +1321,16 @@ void CRender::render_sun_near	()
 		{
 			//	Original
 			float	_D = ps_r2_sun_near;
-			float	a0 = deg2rad(Device.fFOV*Device.fASPECT) / 2.f;
-			float	a1 = deg2rad(Device.fFOV) / 2.f;
-			float	c0 = _D / _cos(a0);
-			float	c1 = _D / _cos(a1);
-			float	k0 = 2.f*c0*_sin(a0);
-			float	k1 = 2.f*c1*_sin(a1);
+			float	a0 = XrMath::deg2rad(Device.fFOV*Device.fASPECT) / 2.f;
+			float	a1 = XrMath::deg2rad(Device.fFOV) / 2.f;
+			float	c0 = _D / XrMath::cos(a0);
+			float	c1 = _D / XrMath::cos(a1);
+			float	k0 = 2.f*c0*XrMath::sin(a0);
+			float	k1 = 2.f*c1*XrMath::sin(a1);
 			float	borderalpha = (Device.fFOV - 10) / (90 - 10);
 
 			float	nearborder = 1 * borderalpha + 1.136363636364f*(1 - borderalpha);
-			float	spherical_range = ps_r2_sun_near_border * nearborder * _max(_max(c0, c1), _max(k0, k1)*1.414213562373f);
+			float	spherical_range = ps_r2_sun_near_border * nearborder * XrMath::max(XrMath::max(c0, c1), XrMath::max(k0, k1)*1.414213562373f);
 			Fbox	frustum_bb;			frustum_bb.invalidate();
 			hull.points.push_back(Device.vCameraPosition);
 			for (int it = 0; it < 9; it++) {
@@ -1357,7 +1357,7 @@ void CRender::render_sun_near	()
 				frustum_bb.modify(xf);
 			}
 			Fbox&	bb = frustum_bb;
-			bb.grow(EPS);
+			bb.grow(XrMath::EPS);
 			D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y, bb.min.z - tweak_ortho_xform_initial_offs, bb.max.z);
 			/**/
 		}
@@ -1392,10 +1392,10 @@ void CRender::render_sun_near	()
 			scissor.modify			(xf);
 		}
 		s32		limit					= RImplementation.o.smapsize-1;
-		fuckingsun->X.D.minX			= clampr	(iFloor	(scissor.min.x), 0, limit);
-		fuckingsun->X.D.maxX			= clampr	(iCeil	(scissor.max.x), 0, limit);
-		fuckingsun->X.D.minY			= clampr	(iFloor	(scissor.min.y), 0, limit);
-		fuckingsun->X.D.maxY			= clampr	(iCeil	(scissor.max.y), 0, limit);
+		fuckingsun->X.D.minX			= XrMath::clampr	(XrMath::iFloor	(scissor.min.x), 0, limit);
+		fuckingsun->X.D.maxX			= XrMath::clampr	(XrMath::iCeil	(scissor.max.x), 0, limit);
+		fuckingsun->X.D.minY			= XrMath::clampr	(XrMath::iFloor	(scissor.min.y), 0, limit);
+		fuckingsun->X.D.maxY			= XrMath::clampr	(XrMath::iCeil	(scissor.max.y), 0, limit);
 
 		// full-xform
 		FPU::m24r			();
@@ -1560,7 +1560,7 @@ void CRender::render_sun_cascade ( u32 cascade_ind )
 		Fvector						L_dir,L_up,L_right,L_pos;
 		L_pos.set					(fuckingsun->position);
 		L_dir.set					(fuckingsun->direction).normalize	();
-		L_right.set					(1,0,0);					if (_abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
+		L_right.set					(1,0,0);					if (XrMath::abs(L_right.dotproduct(L_dir))>.99f)	L_right.set(0,0,1);
 		L_up.crossproduct			(L_dir,L_right).normalize	();
 		L_right.crossproduct		(L_up,L_dir).normalize		();
 		mdir_View.build_camera_dir	(L_pos,L_dir,L_up);

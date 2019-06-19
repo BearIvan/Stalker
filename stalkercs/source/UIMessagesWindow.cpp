@@ -144,7 +144,7 @@ void CUIMessagesWindow::AddIconedPdaMessage(GAME_NEWS_DATA* news)
 	pItem->UIIcon.InitTexture			(news->texture_name.c_str());
 	pItem->UIMsgText.AdjustHeightToText	();
 	
-	float h1 = _max( pItem->UIIcon.GetHeight(), pItem->UIMsgText.GetWndPos().y + pItem->UIMsgText.GetHeight() );
+	float h1 = XrMath::max( pItem->UIIcon.GetHeight(), pItem->UIMsgText.GetWndPos().y + pItem->UIMsgText.GetHeight() );
 	pItem->SetHeight( h1 + 3.0f );
 
 	m_pGameLog->SendMessage(pItem,CHILD_CHANGED_SIZE);

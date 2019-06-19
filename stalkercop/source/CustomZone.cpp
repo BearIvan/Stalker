@@ -808,7 +808,7 @@ void CCustomZone::PlayEntranceParticles(CGameObject* pObject)
 			CParticlesObject* pParticles = CParticlesObject::Create(particle_str, TRUE);
 			Fmatrix					xform;
 			Fvector					dir;
-			if(fis_zero				(vel.magnitude()))
+			if(XrMath::fis_zero				(vel.magnitude()))
 				dir.set				(0,1,0);
 			else
 			{
@@ -854,8 +854,8 @@ void CCustomZone::PlayBoltEntranceParticles()
 			float ki				= 10.0f * s.data.sphere.R;
 			float c					= 2.0f * s.data.sphere.R;
 
-			float quant_h			= (PI_MUL_2/float(ki))*c;
-			float quant_p			= (PI_DIV_2/float(ki));
+			float quant_h			= (XrMath::PI_MUL_2/float(ki))*c;
+			float quant_p			= (XrMath::PI_DIV_2/float(ki));
 
 			for(float i=0; i<ki; ++i)
 			{
@@ -998,10 +998,10 @@ void CCustomZone::UpdateBlowoutLight	()
 		float time_k	= m_fLightTimeLeft - (float)Device.dwTimeGlobal;
 
 //		m_fLightTimeLeft -= Device.fTimeDelta;
-		clamp(time_k, 0.0f, m_fLightTime*1000.0f);
+		XrMath::clamp(time_k, 0.0f, m_fLightTime*1000.0f);
 
 		float scale		= time_k/(m_fLightTime*1000.0f);
-		scale			= powf(scale+EPS_L, 0.15f);
+		scale			= powf(scale+XrMath::EPS_L, 0.15f);
 		float r			= m_fLightRange*scale;
 		VERIFY(_valid(r));
 		m_pLight->set_color(m_LightColor.r*scale, 
@@ -1078,7 +1078,7 @@ void  CCustomZone::OnMove()
 
 		Fvector				vel;
 			
-		if(fis_zero(time_delta))
+		if(XrMath::fis_zero(time_delta))
 			vel = zero_vel;
 		else
 		{
@@ -1198,7 +1198,7 @@ void CCustomZone::StartWind()
 	m_zone_flags.set(eBlowoutWindActive, TRUE);
 
 	m_fStoreWindPower = ENV.wind_strength_factor;
-	clamp(ENV.wind_strength_factor, 0.f, 1.f);
+	XrMath::clamp(ENV.wind_strength_factor, 0.f, 1.f);
 }
 
 void CCustomZone::StopWind()
@@ -1223,14 +1223,14 @@ void CCustomZone::UpdateWind()
 		ENV.wind_strength_factor = m_fBlowoutWindPowerMax + ( m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 								float(m_dwBlowoutWindTimePeak - (u32)m_iStateTime)/
 								float(m_dwBlowoutWindTimePeak - m_dwBlowoutWindTimeStart);
-		clamp(ENV.wind_strength_factor, 0.f, 1.f);
+		XrMath::clamp(ENV.wind_strength_factor, 0.f, 1.f);
 	}
 	else
 	{
 		ENV.wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax)*
 			float((u32)m_iStateTime - m_dwBlowoutWindTimePeak)/
 			float(m_dwBlowoutWindTimeEnd - m_dwBlowoutWindTimePeak);
-		clamp(ENV.wind_strength_factor, 0.f, 1.f);
+		XrMath::clamp(ENV.wind_strength_factor, 0.f, 1.f);
 	}
 }
 
@@ -1477,8 +1477,8 @@ void CCustomZone::CalcDistanceTo(const Fvector& P, float& dist, float& radius)
 		float r1 = nearest_s->data.box.i.magnitude();
 		float r2 = nearest_s->data.box.j.magnitude();
 		float r3 = nearest_s->data.box.k.magnitude();
-		radius = _max(r1,r2);
-		radius = _max(radius,r3);
+		radius = XrMath::max(r1,r2);
+		radius = XrMath::max(radius,r3);
 	}
 
 }

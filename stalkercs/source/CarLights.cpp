@@ -54,7 +54,7 @@ void SCarLight::ParseDefinitions(LPCSTR section)
 	//fBrightness				= torch->spot_brightness;
 	light_render->set_range	(ini->r_float(section,"range"));
 	light_render->set_color	(clr);
-	light_render->set_cone	(deg2rad(ini->r_float(section,"cone_angle")));
+	light_render->set_cone	(XrMath::deg2rad(ini->r_float(section,"cone_angle")));
 	light_render->set_texture(ini->r_string(section,"spot_texture"));
 
 	glow_render->set_texture(ini->r_string(section,"glow_texture"));
@@ -138,10 +138,10 @@ void CCarLights::ParseDefinitions()
 	if(!ini->section_exist("lights")) return;
 	LPCSTR S=  ini->r_string("lights","headlights");
 	string64					S1;
-	int count =					_GetItemCount(S);
+	int count =					XrTrims::GetItemCount(S);
 	for (int i=0 ;i<count; ++i) 
 	{
-		_GetItem					(S,i,S1);
+		XrTrims::GetItem					(S,i,S1);
 		m_lights.push_back(xr_new<SCarLight>());
 		m_lights.back()->Init(this);
 		m_lights.back()->ParseDefinitions(S1);

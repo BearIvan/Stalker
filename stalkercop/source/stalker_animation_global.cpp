@@ -84,7 +84,7 @@ MotionID CStalkerAnimationManager::assign_global_animation	(bool &animation_move
 	if (eMentalStatePanic != object().movement().mental_state())
 		return					(global_critical_hit());
 
-	if (fis_zero(object().movement().speed(object().character_physics_support()->movement())))
+	if (XrMath::fis_zero(object().movement().speed(object().character_physics_support()->movement())))
 		return					(MotionID());
 
 	return						(

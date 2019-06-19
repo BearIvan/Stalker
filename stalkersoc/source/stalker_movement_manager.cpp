@@ -33,14 +33,14 @@ using namespace StalkerMovement;
 
 extern bool show_restrictions(CRestrictedObject *object);
 
-const float BAD_PATH_ANGLE			= PI_DIV_2 - PI_DIV_8;
+const float BAD_PATH_ANGLE			= XrMath::PI_DIV_2 - XrMath::PI_DIV_8;
 const float BAD_PATH_DISTANCE_CHECK	= 2.f;
 
 IC	void CStalkerMovementManager::setup_head_speed		()
 {
 	if (mental_state() == eMentalStateFree) {
 		if (object().sight().enabled())
-			m_head.speed		= PI_DIV_2;
+			m_head.speed		= XrMath::PI_DIV_2;
 	}
 	else
 		m_head.speed			= m_danger_head_speed;
@@ -68,7 +68,7 @@ IC	float CStalkerMovementManager::path_direction_angle	()
 		);
 		float					y,p;
 		t.getHP					(y,p);
-		return					(angle_difference(-y,m_body.current.yaw));
+		return					(XrMath::angle_difference(-y,m_body.current.yaw));
 	}
 	return						(0.f);
 }
@@ -161,33 +161,33 @@ void CStalkerMovementManager::init_velocity_masks	()
 {
 	float			cf = 2.f;
 
-	add_velocity	(eVelocityStandingFreeStand			,0.f,	PI_DIV_4	,PI_MUL_2	);
-	add_velocity	(eVelocityStandingPanicStand		,0.f,	PI_MUL_2);
-	add_velocity	(eVelocityStandingDangerStand		,0.f,	PI_MUL_2);
+	add_velocity	(eVelocityStandingFreeStand			,0.f,	XrMath::PI_DIV_4	,XrMath::PI_MUL_2	);
+	add_velocity	(eVelocityStandingPanicStand		,0.f,	XrMath::PI_MUL_2);
+	add_velocity	(eVelocityStandingDangerStand		,0.f,	XrMath::PI_MUL_2);
 
-	add_velocity	(eVelocityStandingFreeCrouch		,0.f,	PI_MUL_2);
-	add_velocity	(eVelocityStandingPanicCrouch		,0.f,	PI_MUL_2);
-	add_velocity	(eVelocityStandingDangerCrouch		,0.f,	PI_MUL_2);
+	add_velocity	(eVelocityStandingFreeCrouch		,0.f,	XrMath::PI_MUL_2);
+	add_velocity	(eVelocityStandingPanicCrouch		,0.f,	XrMath::PI_MUL_2);
+	add_velocity	(eVelocityStandingDangerCrouch		,0.f,	XrMath::PI_MUL_2);
 
-	add_velocity	(eVelocityWalkFreePositive			,m_velocities->velocity(eMentalStateFree,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,PI_DIV_8/1	,cf*PI_DIV_8/1	);
-	add_velocity	(eVelocityRunFreePositive			,m_velocities->velocity(eMentalStateFree,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,PI_DIV_8/2	,cf*PI_DIV_8/2	);
-	add_velocity	(eVelocityWalkDangerStandPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,100*PI		,cf*PI			);
-	add_velocity	(eVelocityWalkDangerCrouchPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeWalk,eMovementDirectionForward),100*PI		,cf*PI_DIV_2	);
-	add_velocity	(eVelocityRunDangerStandPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,100*PI		,cf*PI			);
-	add_velocity	(eVelocityRunDangerCrouchPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeRun,eMovementDirectionForward)	,100*PI		,cf*PI			);
-	add_velocity	(eVelocityRunPanicStandPositive		,m_velocities->velocity(eMentalStatePanic,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,PI_DIV_8/2	,cf*PI_DIV_8/2	);
+	add_velocity	(eVelocityWalkFreePositive			,m_velocities->velocity(eMentalStateFree,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,XrMath::PI_DIV_8/1	,cf*XrMath::PI_DIV_8/1	);
+	add_velocity	(eVelocityRunFreePositive			,m_velocities->velocity(eMentalStateFree,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,XrMath::PI_DIV_8/2	,cf*XrMath::PI_DIV_8/2	);
+	add_velocity	(eVelocityWalkDangerStandPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
+	add_velocity	(eVelocityWalkDangerCrouchPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeWalk,eMovementDirectionForward),100*XrMath::M_PI		,cf*XrMath::PI_DIV_2	);
+	add_velocity	(eVelocityRunDangerStandPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
+	add_velocity	(eVelocityRunDangerCrouchPositive	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeRun,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
+	add_velocity	(eVelocityRunPanicStandPositive		,m_velocities->velocity(eMentalStatePanic,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,XrMath::PI_DIV_8/2	,cf*XrMath::PI_DIV_8/2	);
 																																				
-	add_velocity	(eVelocityWalkDangerStandNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,100*PI		,cf*PI			);
-	add_velocity	(eVelocityWalkDangerCrouchNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeWalk,eMovementDirectionForward),100*PI		,cf*PI_DIV_2	);
-	add_velocity	(eVelocityRunDangerStandNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,100*PI		,cf*PI			);
-	add_velocity	(eVelocityRunDangerCrouchNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeRun,eMovementDirectionForward)	,100*PI		,cf*PI			);
+	add_velocity	(eVelocityWalkDangerStandNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeWalk,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
+	add_velocity	(eVelocityWalkDangerCrouchNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeWalk,eMovementDirectionForward),100*XrMath::M_PI		,cf*XrMath::PI_DIV_2	);
+	add_velocity	(eVelocityRunDangerStandNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateStand,eMovementTypeRun,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
+	add_velocity	(eVelocityRunDangerCrouchNegative	,m_velocities->velocity(eMentalStateDanger,eBodyStateCrouch,eMovementTypeRun,eMovementDirectionForward)	,100*XrMath::M_PI		,cf*XrMath::M_PI			);
 }
 
 void CStalkerMovementManager::reinit				()
 {
 	inherited::reinit					();
-	m_body.speed						= PI_MUL_2;
-	m_danger_head_speed					= 3*PI_DIV_2;
+	m_body.speed						= XrMath::PI_MUL_2;
+	m_danger_head_speed					= 3*XrMath::PI_DIV_2;
 	m_head.speed						= m_danger_head_speed;
 
 	m_current.m_use_desired_position	= false;
@@ -213,7 +213,7 @@ bool CStalkerMovementManager::script_control		()
 	if (!object().GetCurrentAction())
 		return						(false);
 
-	if (fis_zero(object().GetCurrentAction()->m_tMovementAction.m_fSpeed))
+	if (XrMath::fis_zero(object().GetCurrentAction()->m_tMovementAction.m_fSpeed))
 		return						(false);
 
 	object().m_fCurSpeed			= object().GetCurrentAction()->m_tMovementAction.m_fSpeed;
@@ -359,9 +359,9 @@ void CStalkerMovementManager::parse_velocity_mask	()
 	if ((movement_type() == eMovementTypeStand) || path().empty() || (path().size() <= detail().curr_travel_point_index()) || path_completed() || !actual()) {
 		object().m_fCurSpeed	= 0;
 		if (mental_state() != eMentalStateDanger)
-			m_body.speed		= 1*PI_DIV_2;
+			m_body.speed		= 1*XrMath::PI_DIV_2;
 		else
-			m_body.speed		= PI_MUL_2;
+			m_body.speed		= XrMath::PI_MUL_2;
 		set_desirable_speed		(object().m_fCurSpeed);
 		setup_head_speed		();
 		m_current.m_movement_type	= eMovementTypeStand;
@@ -371,7 +371,7 @@ void CStalkerMovementManager::parse_velocity_mask	()
 	DetailPathManager::STravelPathPoint	point = path()[detail().curr_travel_point_index()];
 	CDetailPathManager::STravelParams	current_velocity = detail().velocity(point.velocity);
 
-	if (fis_zero(current_velocity.linear_velocity)) {
+	if (XrMath::fis_zero(current_velocity.linear_velocity)) {
 		if (mental_state() == eMentalStateFree) {
 			setup_body_orientation	();
 			object().sight().enable	(false);
@@ -380,7 +380,7 @@ void CStalkerMovementManager::parse_velocity_mask	()
 		if	(
 				(mental_state() != eMentalStateFree) ||
 //				(object().sight().current_action().sight_type() != SightManager::eSightTypePathDirection) ||
-				fis_zero(path_direction_angle(),EPS_L) ||
+				XrMath::fis_zero(path_direction_angle(),XrMath::EPS_L) ||
 				(m_last_turn_index == detail().curr_travel_point_index())
 			)
 		{
@@ -396,7 +396,7 @@ void CStalkerMovementManager::parse_velocity_mask	()
 	else {
 		if (mental_state() != eMentalStateDanger) {
 			if (mental_state() == eMentalStatePanic) {
-				if (!fis_zero(path_direction_angle(),PI_DIV_8*.5f)) {
+				if (!XrMath::fis_zero(path_direction_angle(),XrMath::PI_DIV_8*.5f)) {
 					u32					temp = u32(-1);
 					temp				^= eVelocityFree;
 					temp				^= eVelocityDanger;
@@ -407,12 +407,12 @@ void CStalkerMovementManager::parse_velocity_mask	()
 				}
 			}
 			else {
-				if (!fis_zero(path_direction_angle(),PI_DIV_8*.5f)) {
+				if (!XrMath::fis_zero(path_direction_angle(),XrMath::PI_DIV_8*.5f)) {
 					setup_body_orientation	();
 					object().sight().enable	(false);
 					current_velocity		= detail().velocity(path()[detail().curr_travel_point_index()].velocity);
 					current_velocity.linear_velocity	= 0.f;
-					current_velocity.real_angular_velocity	= PI;
+					current_velocity.real_angular_velocity	= XrMath::M_PI;
 				}
 				else
 					object().sight().enable	(true);
@@ -588,7 +588,7 @@ bool CStalkerMovementManager::is_object_on_the_way		(const CGameObject *object, 
 		return							(m_last_query_result);
 	}
 
-	if (distance - EPS_L > m_last_query_distance) {
+	if (distance - XrMath::EPS_L > m_last_query_distance) {
 		update_object_on_the_way		(object,distance);
 		return							(m_last_query_result);
 	}
@@ -633,7 +633,7 @@ IC float distance_to_line								(const Fvector &p0, const Fvector &p1, const Fv
 	if (p1p2.dotproduct(p1p0) < 0.f)
 		return							(p1p2.magnitude());
 
-	float								sin_alpha = _sqrt(1.f - _sqr(cos_alpha));
+	float								sin_alpha = XrMath::sqrt(1.f - XrMath::sqr(cos_alpha));
 	return								(p0p2_magnitude*sin_alpha);
 }
 
@@ -697,7 +697,7 @@ void CStalkerMovementManager::check_for_bad_path	()
 	float								distance = path[point_index + 1].position.distance_to(object().Position());
 	Fvector								current_direction = Fvector().sub(path[point_index + 1].position,path[point_index].position);
 	Fvector								next_direction;
-	if (current_direction.magnitude() >= EPS_L)
+	if (current_direction.magnitude() >= XrMath::EPS_L)
 		current_direction.normalize		();
 	else
 		current_direction.set			(0.f,0.f,1.f);
@@ -712,7 +712,7 @@ void CStalkerMovementManager::check_for_bad_path	()
 		float							magnitude = next_direction.magnitude();
 		distance						+= magnitude;
 		//. how can it be?
-		if (magnitude < EPS_L)
+		if (magnitude < XrMath::EPS_L)
 			continue;
 
 		next_direction.normalize		();

@@ -130,7 +130,7 @@ void CALifeSwitchManager::switch_offline(CSE_ALifeDynamicObject *object)
 bool CALifeSwitchManager::synchronize_location(CSE_ALifeDynamicObject *I)
 {
 	START_PROFILE("ALife/switch/synchronize_location")
-#ifdef DEBUG
+#if 0
 	VERIFY3					(ai().level_graph().level_id() == ai().game_graph().vertex(I->m_tGraphID)->level_id(),*I->s_name,I->name_replace());
 	if (!I->children.empty()) {
 		u32					size = I->children.size();
@@ -170,9 +170,9 @@ void CALifeSwitchManager::try_switch_online	(CSE_ALifeDynamicObject	*I)
 #ifdef DEBUG
 		if (psAI_Flags.test(aiALife)) {
 			CSE_ALifeCreatureAbstract	*l_tpALifeCreatureAbstract = smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent));
-			if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->get_health() < EPS_L))
+			if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->get_health() < XrMath::EPS_L))
 				Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->get_health());
-			VERIFY2				(!l_tpALifeCreatureAbstract || (l_tpALifeCreatureAbstract->get_health() >= EPS_L),"Parent online, item offline...");
+			VERIFY2				(!l_tpALifeCreatureAbstract || (l_tpALifeCreatureAbstract->get_health() >= XrMath::EPS_L),"Parent online, item offline...");
 			if (objects().object(I->ID_Parent)->m_bOnline)
 				Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->get_health());
 		}
@@ -208,10 +208,10 @@ void CALifeSwitchManager::try_switch_offline(CSE_ALifeDynamicObject	*I)
 #ifdef DEBUG
 		// checking if parent is online too
 		CSE_ALifeCreatureAbstract	*l_tpALifeCreatureAbstract = smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent));
-		if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->get_health() < EPS_L))
+		if (l_tpALifeCreatureAbstract && (l_tpALifeCreatureAbstract->get_health() < XrMath::EPS_L))
 			Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->get_health());
 
-		VERIFY2				(!smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent)) || (smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent))->get_health() >= EPS_L),"Parent offline, item online...");
+		VERIFY2				(!smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent)) || (smart_cast<CSE_ALifeCreatureAbstract*>(objects().object(I->ID_Parent))->get_health() >= XrMath::EPS_L),"Parent offline, item online...");
 
 		if (!objects().object(I->ID_Parent)->m_bOnline)
 			Msg				("! uncontrolled situation [%d][%d][%s][%f]",I->ID,I->ID_Parent,l_tpALifeCreatureAbstract->name_replace(),l_tpALifeCreatureAbstract->get_health());

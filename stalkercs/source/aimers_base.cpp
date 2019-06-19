@@ -97,7 +97,7 @@ void base::aim_at_position		(
 		)
 	);
 	VERIFY2							(
-		object_direction.square_magnitude() > EPS_L,
+		object_direction.square_magnitude() > XrMath::EPS_L,
 		make_string("[%f]", object_direction.square_magnitude())
 	);
 
@@ -112,8 +112,8 @@ void base::aim_at_position		(
 
 	Fvector bone2current				= Fvector().sub(current_point, bone_position);
 	VERIFY							( _valid(bone2current) );
-	if (bone2current.magnitude() < EPS_L)
-		bone2current.set				( 0.f, 0.f, EPS_L );
+	if (bone2current.magnitude() < XrMath::EPS_L)
+		bone2current.set				( 0.f, 0.f, XrMath::EPS_L );
 	VERIFY							( _valid(bone2current) );
 
 	float const sphere_radius_sqr		= bone2current.square_magnitude();
@@ -121,14 +121,14 @@ void base::aim_at_position		(
 
 	Fvector direction_target			= Fvector().sub(m_target, bone_position);
 	VERIFY							( _valid(direction_target) );
-	if (direction_target.magnitude() < EPS_L)
-		direction_target.set			( 0.f, 0.f, EPS_L );
+	if (direction_target.magnitude() < XrMath::EPS_L)
+		direction_target.set			( 0.f, 0.f, XrMath::EPS_L );
 	VERIFY							( _valid(direction_target) );
 
 	float const invert_magnitude		= 1.f/direction_target.magnitude();
 	direction_target.mul				(invert_magnitude);
 	VERIFY2							(
-		fsimilar(direction_target.magnitude(), 1.f),
+		XrMath::fsimilar(direction_target.magnitude(), 1.f),
 		make_string(
 			"[%f][%f] [%f][%f][%f] [%f][%f][%f]",
 			direction_target.magnitude(),
@@ -151,19 +151,19 @@ void base::aim_at_position		(
 
 	Fvector projection2circle_center	= Fvector().sub(projection, circle_center);
 	VERIFY							( _valid(projection2circle_center) );
-	if (projection2circle_center.magnitude() < EPS_L)
-		projection2circle_center.set	( 0.f, 0.f, EPS_L );
+	if (projection2circle_center.magnitude() < XrMath::EPS_L)
+		projection2circle_center.set	( 0.f, 0.f, XrMath::EPS_L );
 	VERIFY							( _valid(projection2circle_center) );
 	Fvector const center2projection_direction	= projection2circle_center.normalize();
 	VERIFY							( _valid(center2projection_direction) );
 
-	float circle_radius_sqr				= sphere_radius_sqr - _sqr(to_circle_center);
+	float circle_radius_sqr				= sphere_radius_sqr - XrMath::sqr(to_circle_center);
 	VERIFY							( _valid(circle_radius_sqr) );
 	if (circle_radius_sqr < 0.f)
 		circle_radius_sqr				= 0.f;
 	VERIFY							( _valid(circle_radius_sqr) );
 
-	float const circle_radius			= _sqrt(circle_radius_sqr);
+	float const circle_radius			= XrMath::sqrt(circle_radius_sqr);
 	VERIFY							( _valid(circle_radius) );
 	Fvector const target_point			= Fvector().mad(circle_center, center2projection_direction, circle_radius);
 	VERIFY							( _valid(target_point) );
@@ -172,8 +172,8 @@ void base::aim_at_position		(
 
 	Fvector target2bone					= Fvector().sub(target_point,  bone_position);
 	VERIFY							( _valid(target2bone) );
-	if (target2bone.magnitude() < EPS_L)
-		target2bone.set					( 0.f, 0.f, EPS_L);
+	if (target2bone.magnitude() < XrMath::EPS_L)
+		target2bone.set					( 0.f, 0.f, XrMath::EPS_L);
 	VERIFY							( _valid(target2bone) );
 	Fvector const target_direction		= target2bone.normalize();
 	VERIFY							( _valid(target_direction) );
@@ -182,26 +182,26 @@ void base::aim_at_position		(
 	{
 		Fvector							cross_product = Fvector().crossproduct(current_direction, target_direction);
 		VERIFY						( _valid(cross_product) );
-		float const sin_alpha			= clampr(cross_product.magnitude(), -1.f, 1.f);
-		if (!fis_zero(sin_alpha)) {
-			float cos_alpha				= clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
+		float const sin_alpha			= XrMath::clampr(cross_product.magnitude(), -1.f, 1.f);
+		if (!XrMath::fis_zero(sin_alpha)) {
+			float cos_alpha				= XrMath::clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
 			transform0.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
 			VERIFY					( _valid(transform0) );
 		}
 		else {
-			float const dot_product		= clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
-			if (fsimilar(_abs(dot_product), 0.f))
+			float const dot_product		= XrMath::clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
+			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
 				transform0.identity		();
 			else {
-				VERIFY					(fsimilar(_abs(dot_product), 1.f));
+				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
 				cross_product.crossproduct	(current_direction, direction_target);
-				float const sin_alpha2	= clampr(cross_product.magnitude(), -1.f, 1.f);
-				if (!fis_zero(sin_alpha2)) {
-					transform0.rotation	(cross_product.div(sin_alpha2), dot_product > 0.f ? 0.f : PI);
+				float const sin_alpha2	= XrMath::clampr(cross_product.magnitude(), -1.f, 1.f);
+				if (!XrMath::fis_zero(sin_alpha2)) {
+					transform0.rotation	(cross_product.div(sin_alpha2), dot_product > 0.f ? 0.f : XrMath::M_PI);
 					VERIFY			( _valid(transform0) );
 				}
 				else {
-					transform0.rotation	( Fvector().set(0.f, 0.f, 1.f) , dot_product > 0.f ? 0.f : PI);
+					transform0.rotation	( Fvector().set(0.f, 0.f, 1.f) , dot_product > 0.f ? 0.f : XrMath::M_PI);
 					VERIFY			( _valid(transform0) );
 				}
 			}
@@ -211,25 +211,25 @@ void base::aim_at_position		(
 	Fmatrix								transform1;
 	{
 		Fvector target2target_point		= Fvector().sub(m_target, target_point);
-		if (target2target_point.magnitude() < EPS_L)
-			target2target_point.set		(0.f, 0.f, EPS_L);
+		if (target2target_point.magnitude() < XrMath::EPS_L)
+			target2target_point.set		(0.f, 0.f, XrMath::EPS_L);
 		Fvector const new_direction		= target2target_point.normalize();
 
 		Fvector							old_direction;
 		transform0.transform_dir		(old_direction, object_direction);
 		Fvector 						cross_product = Fvector().crossproduct(old_direction, new_direction);
-		float const sin_alpha			= clampr(cross_product.magnitude(), -1.f, 1.f);
-		if (!fis_zero(sin_alpha)) {
-			float const cos_alpha		= clampr(old_direction.dotproduct(new_direction), -1.f, 1.f);
+		float const sin_alpha			= XrMath::clampr(cross_product.magnitude(), -1.f, 1.f);
+		if (!XrMath::fis_zero(sin_alpha)) {
+			float const cos_alpha		= XrMath::clampr(old_direction.dotproduct(new_direction), -1.f, 1.f);
 			transform1.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
 		}
 		else {
-			float const dot_product		= clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
-			if (fsimilar(_abs(dot_product), 0.f))
+			float const dot_product		= XrMath::clampr(current_direction.dotproduct(target_direction), -1.f, 1.f);
+			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
 				transform1.identity		();
 			else {
-				VERIFY					(fsimilar(_abs(dot_product), 1.f));
-				transform1.rotation		(target_direction, dot_product > 0.f ? 0.f : PI);
+				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
+				transform1.rotation		(target_direction, dot_product > 0.f ? 0.f : XrMath::M_PI);
 			}
 		}
 	}

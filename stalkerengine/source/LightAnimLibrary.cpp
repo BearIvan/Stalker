@@ -149,13 +149,13 @@ u32 CLAItem::InterpolateBGR(int frame)
 
 u32 CLAItem::CalculateRGB(float T, int& frame)
 {
-    frame = iFloor(fmodf(T, float(iFrameCount) / fFPS)*fFPS);
+    frame = XrMath::iFloor(fmodf(T, float(iFrameCount) / fFPS)*fFPS);
     return InterpolateRGB(frame);
 }
 
 u32 CLAItem::CalculateBGR(float T, int& frame)
 {
-    frame = iFloor(fmodf(T, float(iFrameCount) / fFPS)*fFPS);
+    frame = XrMath::iFloor(fmodf(T, float(iFrameCount) / fFPS)*fFPS);
     return InterpolateBGR(frame);
 }
 

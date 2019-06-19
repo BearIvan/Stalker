@@ -150,16 +150,16 @@ void euler_extract(const EulerTableEntry &E,
 	    // Family1 cos(v) > 0
 
 	    *t[0] = asin1(v);
-	    *t[1] = angle_normalize(atan2(y[0],x[0]));
-	    *t[2] = angle_normalize(atan2(y[1],x[1]));
+	    *t[1] = XrMath::angle_normalize(atan2(y[0],x[0]));
+	    *t[2] = XrMath::angle_normalize(atan2(y[1],x[1]));
 	}
 	else
 	{
 	    // Family2 cos(v) < 0
 
 	    *t[0] = asin2(v);
-	    *t[1] = angle_normalize(atan2(-y[0],-x[0]));
-	    *t[2] = angle_normalize(atan2(-y[1],-x[1]));
+	    *t[1] = XrMath::angle_normalize(atan2(-y[0],-x[0]));
+	    *t[2] = XrMath::angle_normalize(atan2(-y[1],-x[1]));
 	}
     }
     else
@@ -208,12 +208,12 @@ void euler_extract2(const EulerTableEntry &E,
 	// Family1 cos(v) > 0
 
 	*t1[0] = asin1(v);
-	*t1[1] = angle_normalize(atan2(y[0],x[0]));
-	*t1[2] = angle_normalize(atan2(y[1],x[1]));
+	*t1[1] = XrMath::angle_normalize(atan2(y[0],x[0]));
+	*t1[2] = XrMath::angle_normalize(atan2(y[1],x[1]));
 
-	*t2[0] = angle_normalize( M_PI - *t1[0] );
-	*t2[1] = angle_normalize( *t1[1] + M_PI );
-	*t2[2] = angle_normalize( *t1[2] + M_PI );
+	*t2[0] = XrMath::angle_normalize( XrMath::M_PI - *t1[0] );
+	*t2[1] = XrMath::angle_normalize( *t1[1] + XrMath::M_PI );
+	*t2[2] = XrMath::angle_normalize( *t1[2] + XrMath::M_PI );
     }
     else
 	printf("CosType not yet implemented in euler_extract\n");

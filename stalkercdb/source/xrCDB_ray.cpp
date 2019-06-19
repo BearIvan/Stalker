@@ -198,9 +198,9 @@ public:
 		rRange2			= R*R;
 		if (!bUseSSE)	{
 			// for FPU - zero out inf
-			if (_abs(D.x)>flt_eps){}	else ray.inv_dir.x=0;
-			if (_abs(D.y)>flt_eps){}	else ray.inv_dir.y=0;
-			if (_abs(D.z)>flt_eps){}	else ray.inv_dir.z=0;
+			if (XrMath::abs(D.x)>flt_eps){}	else ray.inv_dir.x=0;
+			if (XrMath::abs(D.y)>flt_eps){}	else ray.inv_dir.y=0;
+			if (XrMath::abs(D.z)>flt_eps){}	else ray.inv_dir.z=0;
 		}
 	}
 
@@ -236,7 +236,7 @@ public:
 		det = edge1.dotproduct(pvec);
 		if (bCull)
 		{						
-			if (det < EPS)  return false;
+			if (det < XrMath::EPS)  return false;
 			tvec.sub(ray.pos, p0);						// calculate distance from vert0 to ray origin
 			u = tvec.dotproduct(pvec);					// calculate U parameter and test bounds
 			if (u < 0.f || u > det) return false;
@@ -251,7 +251,7 @@ public:
 		}
 		else
 		{			
-			if (det > -EPS && det < EPS) return false;
+			if (det > -XrMath::EPS && det < XrMath::EPS) return false;
 			inv_det = 1.0f / det;
 			tvec.sub(ray.pos, p0);						// calculate distance from vert0 to ray origin
 			u = tvec.dotproduct(pvec)*inv_det;			// calculate U parameter and test bounds

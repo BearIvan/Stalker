@@ -178,8 +178,8 @@ void CAI_Stalker::reinit			()
 //		LPCSTR							weights = pSettings->r_string(cNameSect(),"critical_wound_weights");
 		LPCSTR							weights = SpecificCharacter().critical_wound_weights();
 		string16						temp;
-		for (int i=0, n=_GetItemCount(weights); i<n; ++i)
-			m_critical_wound_weights.push_back((float)atof(_GetItem(weights,i,temp)));
+		for (int i=0, n=XrTrims::GetItemCount(weights); i<n; ++i)
+			m_critical_wound_weights.push_back((float)atof(XrTrims::GetItem(weights,i,temp)));
 	}
 
 	m_sight_enabled_before_animation_controller		= true;
@@ -360,7 +360,7 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 		Msg					("CStalkerAnimationManager::reload() : %d",Memory.mem_usage() - _start);
 #endif // DEBUG_MEMORY_MANAGER
 
-	movement().m_head.current.yaw	= movement().m_head.target.yaw = movement().m_body.current.yaw = movement().m_body.target.yaw	= angle_normalize_signed(-tpHuman->o_torso.yaw);
+	movement().m_head.current.yaw	= movement().m_head.target.yaw = movement().m_body.current.yaw = movement().m_body.target.yaw	= XrMath::angle_normalize_signed(-tpHuman->o_torso.yaw);
 	movement().m_body.current.pitch	= movement().m_body.target.pitch	= 0;
 
 	if (ai().game_graph().valid_vertex_id(tpHuman->m_tGraphID))
@@ -415,13 +415,13 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 
 	
 	CHARACTER_RANK_VALUE rank = Rank();
-	clamp(rank, 0, 100);
+	XrMath::clamp(rank, 0, 100);
 	float rank_k = float(rank)/100.f;
 	m_fRankImmunity = novice_rank_immunity + (expirienced_rank_immunity - novice_rank_immunity) * rank_k;
 	m_fRankVisibility = novice_rank_visibility + (expirienced_rank_visibility - novice_rank_visibility) * rank_k;
 	m_fRankDisperison = expirienced_rank_dispersion + (expirienced_rank_dispersion - novice_rank_dispersion) * (1-rank_k);
 
-	if (!fis_zero(SpecificCharacter().panic_threshold()))
+	if (!XrMath::fis_zero(SpecificCharacter().panic_threshold()))
 		m_panic_threshold						= SpecificCharacter().panic_threshold();
 
 	sight().setup					(CSightAction(SightManager::eSightTypeCurrentDirection));
@@ -658,7 +658,7 @@ void CAI_Stalker::UpdateCL()
 		}
 
 		if	(
-				(movement().speed(character_physics_support()->movement()) > EPS_L)
+				(movement().speed(character_physics_support()->movement()) > XrMath::EPS_L)
 				&& 
 				(eMovementTypeStand != movement().movement_type())
 				&&

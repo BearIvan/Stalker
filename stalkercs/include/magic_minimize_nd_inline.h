@@ -79,7 +79,7 @@ void _MinimizeND::GetMinimum (const float* afT0, const float* afT1,
         }
 
         const float fEpsilon = 1e-06f;
-        fLength = _sqrt(fLength);
+        fLength = XrMath::sqrt(fLength);
         if ( fLength < fEpsilon )
         {
             // New position did not change significantly from old one.

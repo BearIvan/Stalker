@@ -316,7 +316,7 @@ BOOL STextureParams::similar(STextureParams& tp1, xr_vector<AnsiString>& sel_par
         }else
         if(par_name=="Details\\Scale")
         {
-        	res = (fsimilar(detail_scale,tp1.detail_scale) );
+        	res = (XrMath::fsimilar(detail_scale,tp1.detail_scale) );
         }else
         if(par_name=="Material\\Base")
         {
@@ -324,7 +324,7 @@ BOOL STextureParams::similar(STextureParams& tp1, xr_vector<AnsiString>& sel_par
         }else
         if(par_name=="Material\\Weight")
         {
-        	res = (fsimilar(material_weight,tp1.material_weight) );
+        	res = (XrMath::fsimilar(material_weight,tp1.material_weight) );
         }else
         if(par_name=="Flags\\Binary Alpha")
         {                  
@@ -384,7 +384,7 @@ BOOL STextureParams::similar(STextureParams& tp1, xr_vector<AnsiString>& sel_par
         }else
         if(par_name=="Bump\\Virtual Height (m)")
         {
-        	res = ( fsimilar(bump_virtual_height,tp1.bump_virtual_height));
+        	res = ( XrMath::fsimilar(bump_virtual_height,tp1.bump_virtual_height));
         }else
         	Msg("! unknown filter [%s]", par_name.c_str());
        if(!res)

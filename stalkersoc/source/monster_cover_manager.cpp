@@ -86,13 +86,13 @@ void CCoverEvaluator::setup(CBaseMonster *object, const Fvector &position, float
 
 	m_dest_position			= position;
 
-	m_actuality				= m_actuality && fsimilar(m_deviation,deviation);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_deviation,deviation);
 	m_deviation				= deviation;
 
-	m_actuality				= m_actuality && fsimilar(m_min_distance,min_pos_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_min_distance,min_pos_distance);
 	m_min_distance			= min_pos_distance;
 
-	m_actuality				= m_actuality && fsimilar(m_max_distance,max_pos_distance);
+	m_actuality				= m_actuality && XrMath::fsimilar(m_max_distance,max_pos_distance);
 	m_max_distance			= max_pos_distance;
 
 }
@@ -115,7 +115,7 @@ void CCoverEvaluator::evaluate(const CCoverPoint *cover_point, float weight)
 	CMonsterSquad *squad = monster_squad().get_squad(m_object);
 	if (squad->is_locked_cover(cover_point->level_vertex_id())) return;
 
-	if (fis_zero(weight))
+	if (XrMath::fis_zero(weight))
 		return;
 
 	float					dest_distance	= m_dest_position.distance_to(cover_point->position());
@@ -184,7 +184,7 @@ const CCoverPoint *CMonsterCoverManager::find_cover(const Fvector &src_pos, cons
 // Find Less Cover Direction (e.g. look at the most open place)
 //////////////////////////////////////////////////////////////////////////
 
-#define ANGLE_DISP					PI_DIV_2
+#define ANGLE_DISP					XrMath::PI_DIV_2
 #define ANGLE_DISP_STEP				deg(10)
 #define TRACE_STATIC_DIST			3.f
 
@@ -194,15 +194,15 @@ void CMonsterCoverManager::less_cover_direction(Fvector &dir)
 
 	collide::rq_result		l_rq;
 
-	float angle_from		= angle_normalize(angle - ANGLE_DISP);
-	float angle_to			= angle_normalize(angle + ANGLE_DISP);
+	float angle_from		= XrMath::angle_normalize(angle - ANGLE_DISP);
+	float angle_to			= XrMath::angle_normalize(angle + ANGLE_DISP);
 
 	Fvector					trace_from;
 	m_object->Center		(trace_from);
 	Fvector					direction;
 
 	// trace discretely left
-	for (float ang = angle; angle_difference(ang, angle) < ANGLE_DISP; ang = angle_normalize(ang - ANGLE_DISP_STEP)) {
+	for (float ang = angle; XrMath::angle_difference(ang, angle) < ANGLE_DISP; ang = XrMath::angle_normalize(ang - ANGLE_DISP_STEP)) {
 
 		direction.setHP	(ang, 0.f);
 
@@ -215,7 +215,7 @@ void CMonsterCoverManager::less_cover_direction(Fvector &dir)
 	}
 
 	// trace discretely right
-	for (float ang = angle; angle_difference(ang, angle) < ANGLE_DISP; ang = angle_normalize(ang + ANGLE_DISP_STEP)) {
+	for (float ang = angle; XrMath::angle_difference(ang, angle) < ANGLE_DISP; ang = XrMath::angle_normalize(ang + ANGLE_DISP_STEP)) {
 
 		direction.setHP	(ang, 0.f);
 
@@ -227,7 +227,7 @@ void CMonsterCoverManager::less_cover_direction(Fvector &dir)
 		}
 	}
 
-	angle		= angle_normalize(angle_from + angle_difference(angle_from,angle_to) / 2);
+	angle		= XrMath::angle_normalize(angle_from + XrMath::angle_difference(angle_from,angle_to) / 2);
 	dir.setHP	(angle,0.f);
 }
 //////////////////////////////////////////////////////////////////////////

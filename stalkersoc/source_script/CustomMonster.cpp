@@ -160,7 +160,7 @@ void CCustomMonster::Load		(LPCSTR section)
 	*/
 	////////
 
-	Position().y			+= EPS_L;
+	Position().y			+= XrMath::EPS_L;
 
 	//	m_current			= 0;
 
@@ -226,7 +226,7 @@ void CCustomMonster::mk_orientation(Fvector &dir, Fmatrix& mR)
 	// orient only in XZ plane
 	dir.y		= 0;
 	float		len = dir.magnitude();
-	if			(len>EPS_S)
+	if			(len>XrMath::EPS_S)
 	{
 		// normalize
 		dir.x /= len;
@@ -382,9 +382,9 @@ void CCustomMonster::shedule_Update	( u32 DT )
 void CCustomMonster::net_update::lerp(CCustomMonster::net_update& A, CCustomMonster::net_update& B, float f)
 {
 	// 
-	o_model			= angle_lerp	(A.o_model,B.o_model,				f);
-	o_torso.yaw		= angle_lerp	(A.o_torso.yaw,B.o_torso.yaw,		f);
-	o_torso.pitch	= angle_lerp	(A.o_torso.pitch,B.o_torso.pitch,	f);
+	o_model			= XrMath::angle_lerp	(A.o_model,B.o_model,				f);
+	o_torso.yaw		= XrMath::angle_lerp	(A.o_torso.yaw,B.o_torso.yaw,		f);
+	o_torso.pitch	= XrMath::angle_lerp	(A.o_torso.pitch,B.o_torso.pitch,	f);
 	p_pos.lerp		(A.p_pos,B.p_pos,f);
 	fHealth	= A.fHealth*(1.f - f) + B.fHealth*f;
 }
@@ -552,7 +552,7 @@ void CCustomMonster::update_range_fov	(float &new_range, float &new_fov, float s
 		start_range
 		*
 		(
-			_min(m_far_plane_factor*current_far_plane,standard_far_plane)
+			XrMath::min(m_far_plane_factor*current_far_plane,standard_far_plane)
 			/
 			standard_far_plane
 		)
@@ -582,7 +582,7 @@ void CCustomMonster::eye_pp_s1			()
 	Fmatrix									mProject,mFull,mView;
 	mView.build_camera_dir					(eye_matrix.c,eye_matrix.k,eye_matrix.j);
 	VERIFY									(_valid(eye_matrix));
-	mProject.build_projection				(deg2rad(new_fov),1,0.1f,new_range);
+	mProject.build_projection				(XrMath::deg2rad(new_fov),1,0.1f,new_range);
 	mFull.mul								(mProject,mView);
 	feel_vision_query						(mFull,eye_matrix.c);
 	Device.Statistic->AI_Vis_Query.End		();
@@ -805,7 +805,7 @@ BOOL CCustomMonster::feel_touch_on_contact	(CObject *O)
 
 	Fsphere		sphere;
 	sphere.P	= Position();
-	sphere.R	= EPS_L;
+	sphere.R	= XrMath::EPS_L;
 	if (custom_zone->inside(sphere))
 		return	(TRUE);
 
@@ -820,7 +820,7 @@ bool CCustomMonster::feel_touch_contact		(CObject *O)
 
 	Fsphere		sphere;
 	sphere.P	= Position();
-	sphere.R	= EPS_L;
+	sphere.R	= XrMath::EPS_L;
 	if (custom_zone->inside(sphere))
 		return	(TRUE);
 
@@ -838,8 +838,8 @@ void CCustomMonster::load_killer_clsids(LPCSTR section)
 	m_killer_clsids.clear			();
 	LPCSTR							killers = pSettings->r_string(section,"killer_clsids");
 	string16						temp;
-	for (u32 i=0, n=_GetItemCount(killers); i<n; ++i)
-		m_killer_clsids.push_back	(TEXT2CLSID(_GetItem(killers,i,temp)));
+	for (u32 i=0, n=XrTrims::GetItemCount(killers); i<n; ++i)
+		m_killer_clsids.push_back	(TEXT2CLSID(XrTrims::GetItem(killers,i,temp)));
 }
 
 bool CCustomMonster::is_special_killer(CObject *obj)
@@ -1014,7 +1014,7 @@ bool CCustomMonster::update_critical_wounded	(const u16 &bone_id, const float &p
 
 	float							time_delta = m_last_hit_time ? float(Device.dwTimeGlobal - m_last_hit_time)/1000.f : 0.f;
 	m_critical_wound_accumulator	+= power - m_critical_wound_decrease_quant*time_delta;
-	clamp							(m_critical_wound_accumulator,0.f,m_critical_wound_threshold);
+	XrMath::clamp							(m_critical_wound_accumulator,0.f,m_critical_wound_threshold);
 
 #if 0//def _DEBUG
 	Msg								(
@@ -1072,7 +1072,7 @@ void CCustomMonster::OnRender()
 			for (u32 I=1; I<path.size(); ++I) {
 				const DetailPathManager::STravelPathPoint&	N1 = path[I-1];	Fvector	P1; P1.set(N1.position); P1.y+=0.1f;
 				const DetailPathManager::STravelPathPoint&	N2 = path[I];	Fvector	P2; P2.set(N2.position); P2.y+=0.1f;
-				if (!fis_zero(P1.distance_to_sqr(P2),EPS_L))
+				if (!XrMath::fis_zero(P1.distance_to_sqr(P2),XrMath::EPS_L))
 					Level().debug_renderer().draw_line			(Fidentity,P1,P2,color0);
 				if ((path.size() - 1) == I) // песледний box?
 					Level().debug_renderer().draw_aabb			(P1,radius0,radius0,radius0,color1);
@@ -1092,7 +1092,7 @@ void CCustomMonster::OnRender()
 				P2.set		(temp.position.x,ai().level_graph().vertex_plane_y(temp.vertex_id),temp.position.y);
 				P2.y		+= 0.1f;
 
-				if (!fis_zero(P1.distance_to_sqr(P2),EPS_L))
+				if (!XrMath::fis_zero(P1.distance_to_sqr(P2),XrMath::EPS_L))
 					Level().debug_renderer().draw_line		(Fidentity,P1,P2,color1);
 				Level().debug_renderer().draw_aabb			(P1,radius1,radius1,radius1,color3);
 			}

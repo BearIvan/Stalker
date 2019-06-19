@@ -158,8 +158,8 @@ vec   wander::calc_acceleration ()
 		return detail::zero_vec;
 	}
 	
-	const float cosa = _cos(m_wander_angle);
-	const float sina = _sin(m_wander_angle);
+	const float cosa = XrMath::cos(m_wander_angle);
+	const float sina = XrMath::sin(m_wander_angle);
 	
 	vec res = detail::zero_vec;
 	proj_x(res) = proj_dir.x*cosa - proj_dir.y*sina;

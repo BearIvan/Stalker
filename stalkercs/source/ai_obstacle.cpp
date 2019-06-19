@@ -89,13 +89,13 @@ IC	bool ai_obstacle::inside	(const Fvector &position, const float &radius, const
 IC	bool ai_obstacle::inside	(const u32 &vertex_id) const
 {
 	const Fvector				&position = ai().level_graph().vertex_position(vertex_id);
-	float						offset = ai().level_graph().header().cell_size()*.5f - EPS_L;
+	float						offset = ai().level_graph().header().cell_size()*.5f - XrMath::EPS_L;
 	return						(
-		inside(construct_position(vertex_id,position.x + offset,position.z + offset),EPS_L,.3f,6) || 
-		inside(construct_position(vertex_id,position.x + offset,position.z - offset),EPS_L,.3f,6) ||
-		inside(construct_position(vertex_id,position.x - offset,position.z + offset),EPS_L,.3f,6) || 
-		inside(construct_position(vertex_id,position.x - offset,position.z - offset),EPS_L,.3f,6) ||
-		inside(Fvector().set(position.x,position.y,position.z),EPS_L,.3f,6)
+		inside(construct_position(vertex_id,position.x + offset,position.z + offset),XrMath::EPS_L,.3f,6) || 
+		inside(construct_position(vertex_id,position.x + offset,position.z - offset),XrMath::EPS_L,.3f,6) ||
+		inside(construct_position(vertex_id,position.x - offset,position.z + offset),XrMath::EPS_L,.3f,6) || 
+		inside(construct_position(vertex_id,position.x - offset,position.z - offset),XrMath::EPS_L,.3f,6) ||
+		inside(Fvector().set(position.x,position.y,position.z),XrMath::EPS_L,.3f,6)
 	);
 }
 
@@ -121,7 +121,7 @@ void ai_obstacle::compute_matrix(Fmatrix &result, const Fvector &additional)
 			continue;
 		
 		const Fobb				&obb = kinematics->LL_GetData(i).obb;
-		if (fis_zero(obb.m_halfsize.square_magnitude())) {
+		if (XrMath::fis_zero(obb.m_halfsize.square_magnitude())) {
 			VERIFY				(visible_bone_count > 1);
 			--visible_bone_count;
 			continue;
@@ -181,13 +181,13 @@ void ai_obstacle::prepare_inside	(Fvector &min, Fvector &max)
 	for (int i=0; i<8; ++i) {
         matrix.transform_tiny	(points[i],local_points[i]);
 		
-		min.x					= _min(min.x,points[i].x);
-		min.y					= _min(min.y,points[i].y);
-		min.z					= _min(min.z,points[i].z);
+		min.x					= XrMath::min(min.x,points[i].x);
+		min.y					= XrMath::min(min.y,points[i].y);
+		min.z					= XrMath::min(min.z,points[i].z);
 		
-		max.x					= _max(max.x,points[i].x);
-		max.y					= _max(max.y,points[i].y);
-		max.z					= _max(max.z,points[i].z);
+		max.x					= XrMath::max(max.x,points[i].x);
+		max.y					= XrMath::max(max.y,points[i].y);
+		max.z					= XrMath::max(max.z,points[i].z);
 	}
 
 	m_box.m_planes[0].build		(points[0],points[3],points[5]);
@@ -201,12 +201,12 @@ void ai_obstacle::prepare_inside	(Fvector &min, Fvector &max)
 void ai_obstacle::correct_position	(Fvector &position)
 {
 	const Fbox					&box = ai().level_graph().header().box();
-	position.x					= _max(position.x,box.min.x);
-	position.y					= _max(position.y,box.min.y);
-	position.z					= _max(position.z,box.min.z);
-	position.x					= _min(position.x,box.max.x);
-	position.y					= _min(position.y,box.max.y);
-	position.z					= _min(position.z,box.max.z);
+	position.x					= XrMath::max(position.x,box.min.x);
+	position.y					= XrMath::max(position.y,box.min.y);
+	position.z					= XrMath::max(position.z,box.min.z);
+	position.x					= XrMath::min(position.x,box.max.x);
+	position.y					= XrMath::min(position.y,box.max.y);
+	position.z					= XrMath::min(position.z,box.max.z);
 }
 
 void ai_obstacle::compute_impl		()

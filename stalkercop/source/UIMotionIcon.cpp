@@ -65,7 +65,7 @@ void CUIMotionIcon::SetNoise(float Pos)
 	if(!IsGameTypeSingle())
 		return;
 
-	Pos	= clampr(Pos, 0.f, 100.f);
+	Pos	= XrMath::clampr(Pos, 0.f, 100.f);
 	m_noise_progress.SetPos(Pos/100.f);
 }
 
@@ -103,13 +103,13 @@ void CUIMotionIcon::Update()
 	
 	//m_luminosity_progress 
 	if(cur_pos!=m_luminosity){
-		float _diff = _abs(m_luminosity-cur_pos);
+		float _diff = XrMath::abs(m_luminosity-cur_pos);
 		if(m_luminosity>cur_pos){
 			cur_pos				+= _diff*Device.fTimeDelta;
 		}else{
 			cur_pos				-= _diff*Device.fTimeDelta;
 		}
-		clamp(cur_pos, 0.f, 100.f);
+		XrMath::clamp(cur_pos, 0.f, 100.f);
 		m_luminosity_progress.SetPos(cur_pos/100.f);
 	}
 }
@@ -125,7 +125,7 @@ void SetActorVisibility		(u16 who_id, float value)
 
 void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 {
-	clamp(value, 0.f, 1.f);
+	XrMath::clamp(value, 0.f, 1.f);
 	value		*= 100.f;
 
 	xr_vector<_npc_visibility>::iterator it = std::find(m_npc_visibility.begin(), 
@@ -139,7 +139,7 @@ void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 		v.id					= who_id;
 		v.value					= value;
 	}
-	else if( fis_zero(value) )
+	else if( XrMath::fis_zero(value) )
 	{
 		if (it!=m_npc_visibility.end())
 			m_npc_visibility.erase(it);

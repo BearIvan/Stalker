@@ -33,8 +33,8 @@ CLevelGraph::CLevelGraph		()
 	R_ASSERT					(header().version() == XRAI_CURRENT_VERSION);
 	m_reader->advance			(sizeof(CHeader));
 	m_nodes						= (CVertex*)m_reader->pointer();
-	m_row_length				= iFloor((header().box().max.z - header().box().min.z)/header().cell_size() + EPS_L + 1.5f);
-	m_column_length				= iFloor((header().box().max.x - header().box().min.x)/header().cell_size() + EPS_L + 1.5f);
+	m_row_length				= XrMath::iFloor((header().box().max.z - header().box().min.z)/header().cell_size() + XrMath::EPS_L + 1.5f);
+	m_column_length				= XrMath::iFloor((header().box().max.x - header().box().min.x)/header().cell_size() + XrMath::EPS_L + 1.5f);
 	m_access_mask.assign		(header().vertex_count(),true);
 	unpack_xz					(vertex_position(header().box().max),m_max_x,m_max_z);
 
@@ -281,10 +281,10 @@ u32 CLevelGraph::guess_vertex_id	(u32 const &current_vertex_id, Fvector const &p
 
 	CVertex const			*B = m_nodes;
 	CVertex const			*E = m_nodes + header().vertex_count();
-	u32						start_x = (u32)_max( 0, int(x) - max_guess_vertex_count);
-	u32						stop_x  = _min( max_x(), x + (u32)max_guess_vertex_count);
-	u32						start_z = (u32)_max( 0, int(z) - max_guess_vertex_count);
-	u32						stop_z  = _min(	max_z(),z + (u32)max_guess_vertex_count);
+	u32						start_x = (u32)XrMath::max( 0, int(x) - max_guess_vertex_count);
+	u32						stop_x  = XrMath::min( max_x(), x + (u32)max_guess_vertex_count);
+	u32						start_z = (u32)XrMath::max( 0, int(z) - max_guess_vertex_count);
+	u32						stop_z  = XrMath::min(	max_z(),z + (u32)max_guess_vertex_count);
 	for (u32 i = start_x; i<=stop_x; ++i) {
 		for (u32 j = start_z; j <= stop_z; ++j) {
 			u32				test_xz = i*m_row_length + j;
@@ -314,7 +314,7 @@ u32 CLevelGraph::guess_vertex_id	(u32 const &current_vertex_id, Fvector const &p
 				best_vertex_id	= vertex_id;
 			}
 
-			if (_abs(best_point.y - position.y) >= 3.f)
+			if (XrMath::abs(best_point.y - position.y) >= 3.f)
 				continue;
 
 			if (result_distance <= best_distance)

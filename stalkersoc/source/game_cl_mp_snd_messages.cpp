@@ -10,11 +10,11 @@ void	game_cl_mp::LoadSndMessage			(LPCSTR caSection, LPCSTR caLine, u32 ID)
 
 	string4096			Line;
 	std::strcpy(Line, pSettings->r_string(caSection, caLine));
-	u32 count	= _GetItemCount(Line);
+	u32 count	= XrTrims::GetItemCount(Line);
 	if (count < 2) return;
 	string4096 Name, Prior;
-	_GetItem(Line, 0, Name);
-	_GetItem(Line, 1, Prior);
+	XrTrims::GetItem(Line, 0, Name);
+	XrTrims::GetItem(Line, 1, Prior);
 	m_pSndMessages.push_back(SND_Message());
 	m_pSndMessages.back().Load(ID, atol(Prior), Name);
 }

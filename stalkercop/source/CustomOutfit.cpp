@@ -91,7 +91,7 @@ void CCustomOutfit::Load(LPCSTR section)
 
 	m_ef_equipment_type		= pSettings->r_u32(section,"ef_equipment_type");
 	m_fPowerLoss			= READ_IF_EXISTS(pSettings, r_float, section, "power_loss",    1.0f );
-	clamp					( m_fPowerLoss, 0.0f, 1.0f );
+	XrMath::clamp					( m_fPowerLoss, 0.0f, 1.0f );
 
 	m_additional_weight		= pSettings->r_float(section,"additional_inventory_weight");
 	m_additional_weight2	= pSettings->r_float(section,"additional_inventory_weight2");
@@ -105,7 +105,7 @@ void CCustomOutfit::Load(LPCSTR section)
 
 	m_full_icon_name		= pSettings->r_string( section, "full_icon_name" );
 	m_artefact_count 		= READ_IF_EXISTS( pSettings, r_u32, section, "artefact_count", 0 );
-	clamp( m_artefact_count, (u32)0, (u32)5 );
+	XrMath::clamp( m_artefact_count, (u32)0, (u32)5 );
 
 	m_BonesProtectionSect	= READ_IF_EXISTS(pSettings, r_string, section, "bones_koeff_protection",  "" );
 	bIsHelmetAvaliable		= !!READ_IF_EXISTS(pSettings, r_bool, section, "helmet_avaliable", true);
@@ -154,7 +154,7 @@ float CCustomOutfit::HitThroughArmor(float hit_power, s16 element, float ap, boo
 			return NewHitPower;
 
 		float BoneArmor = ba*GetCondition();
-		if(/*!fis_zero(ba, EPS) && */(ap > BoneArmor))
+		if(/*!XrMath::fis_zero(ba, XrMath::EPS) && */(ap > BoneArmor))
 		{
 			//пуля пробила бронь
 			if(!IsGameTypeSingle())
@@ -337,10 +337,10 @@ bool CCustomOutfit::install_upgrade_impl( LPCSTR section, bool test )
 	result |= process_if_exists( section, "bleeding_restore_speed",  &CInifile::r_float, m_fBleedingRestoreSpeed,  test );
 
 	result |= process_if_exists( section, "power_loss", &CInifile::r_float, m_fPowerLoss, test );
-	clamp( m_fPowerLoss, 0.0f, 1.0f );
+	XrMath::clamp( m_fPowerLoss, 0.0f, 1.0f );
 
 	result |= process_if_exists( section, "artefact_count", &CInifile::r_u32, m_artefact_count, test );
-	clamp( m_artefact_count, (u32)0, (u32)5 );
+	XrMath::clamp( m_artefact_count, (u32)0, (u32)5 );
 
 	return result;
 }

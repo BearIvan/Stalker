@@ -73,8 +73,8 @@ void CUIStaticItem::Render()
 	// convert&set pos
 	Fvector2		bp;
 	UI()->ClientToScreenScaled	(bp,float(iPos.x),float(iPos.y));
-	bp.x						= (float)iFloor(bp.x);
-	bp.y						= (float)iFloor(bp.y);
+	bp.x						= (float)XrMath::iFloor(bp.x);
+	bp.y						= (float)XrMath::iFloor(bp.y);
 
 	// actual rendering
 	u32							vOffset;
@@ -82,8 +82,8 @@ void CUIStaticItem::Render()
 	Fvector2					f_len;
 	UI()->ClientToScreenScaled	(f_len, iVisRect.x2, iVisRect.y2 );
 
-	int tile_x		 = fis_zero(iRemX) ? iTileX : iTileX + 1;
-	int tile_y		 = fis_zero(iRemY) ? iTileY : iTileY + 1;
+	int tile_x		 = XrMath::fis_zero(iRemX) ? iTileX : iTileX + 1;
+	int tile_y		 = XrMath::fis_zero(iRemY) ? iTileY : iTileY + 1;
 	int							x,y;
 	if (!(tile_x&&tile_y))		return;
 	// render

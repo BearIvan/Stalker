@@ -50,11 +50,11 @@ CPhysicsShellAnimator::~CPhysicsShellAnimator()
 void	CPhysicsShellAnimator::	CreateJoints( LPCSTR controled )
 {
 		CPhysicsShellHolder *obj = (*(m_pPhysicsShell->Elements().begin()))->PhysicsRefObject();
-		const u16 nb =( u16 )_GetItemCount( controled );
+		const u16 nb =( u16 )XrTrims::GetItemCount( controled );
 		for(u16 i = 0 ; nb > i ; ++i )
 		{
 			string64 n;
-			_GetItem( controled, i, n );
+			XrTrims::GetItem( controled, i, n );
 			u16 bid = m_pPhysicsShell->PKinematics()->LL_BoneID(n);
 			VERIFY2( bid != BI_NONE, make_string( "shell_animation - controled bone %s not found! object: %s, model: %s", n, obj->cName().c_str(), obj->cNameVisual().c_str() ) );
 			CPHElement *e = smart_cast<CPHElement*>( m_pPhysicsShell->get_Element( bid ) );

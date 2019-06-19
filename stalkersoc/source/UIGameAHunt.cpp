@@ -23,8 +23,8 @@
 #define REINFORCEMENT_MSG_COLOR		0xff8080ff
 #define TODO_MSG_COLOR		0xff00ff00
 
-#define DI2PX(x) float(iFloor((x+1)*float(UI_BASE_WIDTH)*0.5f))
-#define DI2PY(y) float(iFloor((y+1)*float(UI_BASE_HEIGHT)*0.5f))
+#define DI2PX(x) float(XrMath::iFloor((x+1)*float(UI_BASE_WIDTH)*0.5f))
+#define DI2PY(y) float(XrMath::iFloor((y+1)*float(UI_BASE_HEIGHT)*0.5f))
 #define SZ(x) x*UI_BASE_WIDTH
 
 CUIGameAHunt::CUIGameAHunt()

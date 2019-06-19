@@ -115,12 +115,12 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	{
 		m_bHasDifferentFireModes = true;
 		shared_str FireModesList = pSettings->r_string(section, "fire_modes");
-		int ModesCount = _GetItemCount(FireModesList.c_str());
+		int ModesCount = XrTrims::GetItemCount(FireModesList.c_str());
 		m_aFireModes.clear();
 		for (int i=0; i<ModesCount; i++)
 		{
 			string16 sItem;
-			_GetItem(FireModesList.c_str(), i, sItem);
+			XrTrims::GetItem(FireModesList.c_str(), i, sItem);
 			int FireMode = atoi(sItem);
 			m_aFireModes.push_back(FireMode);			
 		}
@@ -940,22 +940,22 @@ void CWeaponMagazined::ApplySilencerKoeffs	()
 	if (pSettings->line_exist(m_sSilencerName, "bullet_hit_power_k"))
 	{
 		BHPk = pSettings->r_float(m_sSilencerName, "bullet_hit_power_k");
-		clamp(BHPk, 0.0f, 1.0f);
+		XrMath::clamp(BHPk, 0.0f, 1.0f);
 	};
 	if (pSettings->line_exist(m_sSilencerName, "bullet_speed_k"))
 	{
 		BSk = pSettings->r_float(m_sSilencerName, "bullet_speed_k");
-		clamp(BSk, 0.0f, 1.0f);
+		XrMath::clamp(BSk, 0.0f, 1.0f);
 	};
 	if (pSettings->line_exist(m_sSilencerName, "fire_dispersion_base_k"))
 	{
 		FDB_k = pSettings->r_float(m_sSilencerName, "fire_dispersion_base_k");
-//		clamp(FDB_k, 0.0f, 1.0f);
+//		XrMath::clamp(FDB_k, 0.0f, 1.0f);
 	};
 	if (pSettings->line_exist(m_sSilencerName, "cam_dispersion_k"))
 	{
 		CD_k = pSettings->r_float(m_sSilencerName, "cam_dispersion_k");
-		clamp(CD_k, 0.0f, 1.0f);
+		XrMath::clamp(CD_k, 0.0f, 1.0f);
 	};
 
 	//fHitPower			= fHitPower*BHPk;

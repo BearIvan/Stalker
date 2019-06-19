@@ -125,7 +125,7 @@ void CCar::reload		(LPCSTR section)
 
 void CCar::cb_Steer			(CBoneInstance* B)
 {
-	VERIFY2(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones receive returns 0 matrix");
+	VERIFY2(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones receive returns 0 matrix");
 	CCar*	C			= static_cast<CCar*>(B->callback_param());
 	Fmatrix m;
 
@@ -134,7 +134,7 @@ void CCar::cb_Steer			(CBoneInstance* B)
 
 	B->mTransform.mulB_43	(m);
 #ifdef DEBUG
-	if( !fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS) ){
+	if( !XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS) ){
 	
 		Log("RotatingZ angle=",C->m_steer_angle);	
 		VERIFY2(0,"Bones callback returns BAD!!! matrix");
@@ -356,7 +356,7 @@ void CCar::RestoreNetState(CSE_PHSkeleton* po)
 		replace.transform(center);
 		activation_shape.Create(center,obj_size,this);
 		activation_shape.set_rotation(sof);
-		activation_shape.Activate(obj_size,1,1.f,M_PI/8.f);
+		activation_shape.Activate(obj_size,1,1.f,XrMath::M_PI/8.f);
 		Fvector dd;
 		dd.sub(activation_shape.Position(),center);
 		activation_shape.Destroy();
@@ -571,7 +571,7 @@ void CCar::PHHit(SHit &H)
 		vimpulse.mul( H.phys_impulse( ) );
 		vimpulse.y *=GravityFactorImpulse();
 		float mag=vimpulse.magnitude();
-		if(!fis_zero(mag))
+		if(!XrMath::fis_zero(mag))
 		{
 			 vimpulse.mul(1.f/mag);
 			 m_pPhysicsShell->applyHit(H.bone_space_position(),vimpulse,mag,H.bone(),H.type());
@@ -746,17 +746,17 @@ void CCar::ParseDefinitions()
 	m_max_power			*=		(0.8f*1000.f);
 
 	m_max_rpm			=		ini->r_float("car_definition","max_engine_rpm");
-	m_max_rpm			*=		(1.f/60.f*2.f*M_PI);
+	m_max_rpm			*=		(1.f/60.f*2.f*XrMath::M_PI);
 
 
 	m_min_rpm					=		ini->r_float("car_definition","idling_engine_rpm");
-	m_min_rpm					*=		(1.f/60.f*2.f*M_PI);
+	m_min_rpm					*=		(1.f/60.f*2.f*XrMath::M_PI);
 
 	m_power_rpm					=		ini->r_float("car_definition","max_power_rpm");
-	m_power_rpm					*=		(1.f/60.f*2.f*M_PI);//
+	m_power_rpm					*=		(1.f/60.f*2.f*XrMath::M_PI);//
 
 	m_torque_rpm				=		ini->r_float("car_definition","max_torque_rpm");
-	m_torque_rpm				*=		(1.f/60.f*2.f*M_PI);//
+	m_torque_rpm				*=		(1.f/60.f*2.f*XrMath::M_PI);//
 
 	m_power_increment_factor	=		READ_IF_EXISTS(ini,r_float,"car_definition","power_increment_factor",m_power_increment_factor);
 	m_rpm_increment_factor		=		READ_IF_EXISTS(ini,r_float,"car_definition","rpm_increment_factor",m_rpm_increment_factor);
@@ -793,8 +793,8 @@ void CCar::ParseDefinitions()
 		if(!ini->line_exist("transmission_gear_ratio",rat_num)) break;
 		Fvector gear_rat=ini->r_fvector3("transmission_gear_ratio",rat_num);
 		gear_rat[0]*=main_gear_ratio;
-		gear_rat[1]*=(1.f/60.f*2.f*M_PI);
-		gear_rat[2]*=(1.f/60.f*2.f*M_PI);
+		gear_rat[1]*=(1.f/60.f*2.f*XrMath::M_PI);
+		gear_rat[2]*=(1.f/60.f*2.f*XrMath::M_PI);
 		m_gear_ratious.push_back(gear_rat);
 	}
 
@@ -873,7 +873,7 @@ void CCar::Init()
 		
 		
 		m_bone_steer=pKinematics->LL_BoneID(ini->r_string("car_definition","steer"));
-		VERIFY2(fsimilar(DET(pKinematics->LL_GetTransform(m_bone_steer)),1.f,EPS_L),"BBADD MTX");
+		VERIFY2(XrMath::fsimilar(DET(pKinematics->LL_GetTransform(m_bone_steer)),1.f,XrMath::EPS_L),"BBADD MTX");
 		pKinematics->LL_GetBoneInstance(m_bone_steer).set_callback(bctPhysics,cb_Steer,this);
 	}
 	m_steer_angle=0.f;
@@ -1024,7 +1024,7 @@ void CCar::Drive()
 void CCar::StartEngine()
 {
 	
-	if(m_fuel<EPS||b_engine_on) return;
+	if(m_fuel<XrMath::EPS||b_engine_on) return;
 	PlayExhausts();
 	m_car_sound->Start();
 	b_engine_on=true;
@@ -1378,7 +1378,7 @@ float CCar::AntiGravityAccel()
 }
 float CCar::GravityFactorImpulse()
 {
-	return _sqrt(EffectiveGravity()/ph_world->Gravity());
+	return XrMath::sqrt(EffectiveGravity()/ph_world->Gravity());
 }
 void CCar::UpdateBack()
 {
@@ -1398,7 +1398,7 @@ void CCar::UpdateBack()
 		Fvector v;
 		m_pPhysicsShell->get_LinearVel(v);
 		//if(DriveWheelsMeanAngleRate()<m_breaks_to_back_rate)
-		if(v.dotproduct(XFORM().k)<EPS)
+		if(v.dotproduct(XFORM().k)<XrMath::EPS)
 		{
 			StopBreaking();
 			DriveBack();
@@ -1462,7 +1462,7 @@ bool CCar::Use(const Fvector& pos,const Fvector& dir,const Fvector& foot_pos)
 	
 	RQR.r_clear			();
 	collide::ray_defs	Q(pos, dir, 3.f, CDB::OPT_CULL,collide::rqtObject);  // CDB::OPT_ONLYFIRST CDB::OPT_ONLYNEAREST
-	VERIFY(!fis_zero(Q.dir.square_magnitude()));
+	VERIFY(!XrMath::fis_zero(Q.dir.square_magnitude()));
 	if (g_pGameLevel->ObjectSpace.RayQuery(RQR,collidable.model,Q))
 	{
 		collide::rq_results& R = RQR;
@@ -1563,7 +1563,7 @@ void CCar::InitParabola()
 
 	m_a=expf((m_power_rpm - m_torque_rpm)/(2.f*m_power_rpm))*m_max_power/m_power_rpm;
 	m_b=m_torque_rpm;
-	m_c=_sqrt(2.f*m_power_rpm*(m_power_rpm - m_torque_rpm));
+	m_c=XrMath::sqrt(2.f*m_power_rpm*(m_power_rpm - m_torque_rpm));
 
 
 }
@@ -1647,7 +1647,7 @@ void CCar::UpdateFuel(float time_delta)
 		m_fuel-=time_delta*(m_current_rpm-m_min_rpm)*m_fuel_consumption;
 	else
 		m_fuel-=time_delta*m_min_rpm*m_fuel_consumption;
-	if(m_fuel<EPS) StopEngine();
+	if(m_fuel<XrMath::EPS) StopEngine();
 }
 
 float CCar::AddFuel(float ammount)
@@ -1857,10 +1857,10 @@ template <class T> IC void CCar::fill_wheel_vector(LPCSTR S,xr_vector<T>& type_w
 {
 	IKinematics* pKinematics	=smart_cast<IKinematics*>(Visual());
 	string64					S1;
-	int count =					_GetItemCount(S);
+	int count =					XrTrims::GetItemCount(S);
 	for (int i=0 ;i<count; ++i) 
 	{
-		_GetItem					(S,i,S1);
+		XrTrims::GetItem					(S,i,S1);
 
 		u16 bone_id	=				pKinematics->LL_BoneID(S1);
 
@@ -1892,10 +1892,10 @@ IC void CCar::fill_exhaust_vector(LPCSTR S,xr_vector<SExhaust>& exhausts)
 {
 	IKinematics* pKinematics	=smart_cast<IKinematics*>(Visual());
 	string64					S1;
-	int count =					_GetItemCount(S);
+	int count =					XrTrims::GetItemCount(S);
 	for (int i=0 ;i<count; ++i) 
 	{
-		_GetItem					(S,i,S1);
+		XrTrims::GetItem					(S,i,S1);
 
 		u16 bone_id	=				pKinematics->LL_BoneID(S1);
 
@@ -1916,10 +1916,10 @@ IC void CCar::fill_doors_map(LPCSTR S,xr_map<u16,SDoor>& doors)
 {
 	IKinematics* pKinematics	=smart_cast<IKinematics*>(Visual());
 	string64					S1;
-	int count =					_GetItemCount(S);
+	int count =					XrTrims::GetItemCount(S);
 	for (int i=0 ;i<count; ++i) 
 	{
-		_GetItem					(S,i,S1);
+		XrTrims::GetItem					(S,i,S1);
 
 		u16 bone_id	=				pKinematics->LL_BoneID(S1);
 		SDoor						door(this);

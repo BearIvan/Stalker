@@ -130,7 +130,7 @@ void CFlare::UpdateCL()
 	if( light_render /* && HudItemData()*/ )
 	{
 		float _c 				= CurrStateTime()/1000.0f;
-		if(fsimilar(_c,m_work_time_sec)||_c>m_work_time_sec)
+		if(XrMath::fsimilar(_c,m_work_time_sec)||_c>m_work_time_sec)
 		{
 			SwitchOff			();
 			return				;

@@ -709,10 +709,10 @@ LPCSTR AddHyphens( LPCSTR c )
 
 	for ( u32 i = 0; i < sz; ++i )
 	{
-		j = i + iFloor(i/4.0f);
+		j = i + XrMath::iFloor(i/4.0f);
 		buf[j] = c[i];		
 	}
-	buf[sz + iFloor(sz/4.0f)] = 0;
+	buf[sz + XrMath::iFloor(sz/4.0f)] = 0;
 
 	return buf;
 }
@@ -722,12 +722,12 @@ LPCSTR DelHyphens( LPCSTR c )
 	static string64 buf;
 
 	u32 sz = xr_strlen( c );
-	u32 sz1 = _min( iFloor(sz/4.0f), 3 );
+	u32 sz1 = XrMath::min( XrMath::iFloor(sz/4.0f), 3 );
 
 	u32 j = 0; 
 	for ( u32 i = 0; i < sz - sz1; ++i )
 	{
-		j = i + iFloor( i/4.0f );
+		j = i + XrMath::iFloor( i/4.0f );
 		buf[i] = c[j];		
 	}
 	buf[sz - sz1] = 0;

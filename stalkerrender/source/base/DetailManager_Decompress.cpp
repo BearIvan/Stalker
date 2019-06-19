@@ -30,10 +30,10 @@ IC float	Interpolate			(float* base,		u32 x, u32 y, u32 size)
 
 IC bool		InterpolateAndDither(float* alpha255,	u32 x, u32 y, u32 sx, u32 sy, u32 size, int dither[16][16] )
 {
-	clamp 	(x,(u32)0,size-1);
-	clamp 	(y,(u32)0,size-1);
-	int		c	= iFloor(Interpolate(alpha255,x,y,size)+.5f);
-	clamp   (c,0,255);
+	XrMath::clamp 	(x,(u32)0,size-1);
+	XrMath::clamp 	(y,(u32)0,size-1);
+	int		c	= XrMath::iFloor(Interpolate(alpha255,x,y,size)+.5f);
+	XrMath::clamp   (c,0,255);
 
 	u32	row	= (y+sy) % 16;
 	u32	col	= (x+sx) % 16;
@@ -112,7 +112,7 @@ void		CDetailManager::cache_Decompress(Slot* S)
 	// Prepare to selection
 	float		density		= ps_r__Detail_density;
 	float		jitter		= density/1.7f;
-	u32			d_size		= iCeil	(dm_slot_size/density);
+	u32			d_size		= XrMath::iCeil	(dm_slot_size/density);
 	svector<int,dm_obj_in_slot>		selected;
 
     u32 p_rnd	= D.sx*D.sz; // нужно для того чтобы убрать полосы(ряды)
@@ -232,7 +232,7 @@ RDEVICE.Statistic->TEST0.End		();
 			Fbox		ItemBB;
 
 #ifndef		DBG_SWITCHOFF_RANDOMIZE
-			Item.mRotY.rotateY				(r_yaw.randF	(0,PI_MUL_2));
+			Item.mRotY.rotateY				(r_yaw.randF	(0,XrMath::PI_MUL_2));
 #else
 			Item.mRotY.rotateY				(0);
 #endif
@@ -260,8 +260,8 @@ RDEVICE.Statistic->TEST0.End		();
 			gray255[3]						=	255.f*float(c_pal->a3)/15.f;
 			*/
 			//float c_f						=	1.f;	//Interpolate		(gray255,x,z,d_size)+.5f;
-			//int c_dw						=	255;	//iFloor			(c_f);
-			//clamp							(c_dw,0,255);
+			//int c_dw						=	255;	//XrMath::iFloor			(c_f);
+			//XrMath::clamp							(c_dw,0,255);
 			//Item.C_dw						=	color_rgba		(c_dw,c_dw,c_dw,255);
 #if RENDER==R_R1
 			Item.c_rgb.x					=	DS.r_qclr	(DS.c_r,	15);

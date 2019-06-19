@@ -40,7 +40,7 @@ void CUIAnimatedStatic::Update()
 	if (m_bParamsChanged && 0 != m_uFrameCount)
 	{
 		// Пересчитаем время одного кадра
-		oneFrameDuration = iCeil(m_uAnimationDuration / static_cast<float>(m_uFrameCount));
+		oneFrameDuration = XrMath::XrMath::iCeil(m_uAnimationDuration / static_cast<float>(m_uFrameCount));
 
 		SetFrame(0);
 

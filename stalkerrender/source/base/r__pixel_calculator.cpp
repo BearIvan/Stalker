@@ -33,7 +33,7 @@ static Fvector cmDir[6]		= {{1.f,0.f,0.f}, {-1.f,0.f,0.f},{0.f,1.f,0.f}, {0.f,-1
 
 r_aabb_ssa		r_pixel_calculator::calculate	(dxRender_Visual* V)	{
 	r_aabb_ssa	result			= {0};
-	float		area			= float(_sqr(rt_dimensions));
+	float		area			= float(XrMath::sqr(rt_dimensions));
 
 	// 
 	u32	id				[6]		;
@@ -65,9 +65,9 @@ r_aabb_ssa		r_pixel_calculator::calculate	(dxRender_Visual* V)	{
 	// 
 	for (u32 it=0; it<6; it++)	{
 		float	pixels	= (float)RImplementation.HWOCC.occq_get	(id[it]);
-		float	coeff	= clampr(pixels/area,float(0),float(1));
+		float	coeff	= XrMath::clampr(pixels/area,float(0),float(1));
 		Msg		("[%d]ssa_c: %1.3f,%f/%f",it,coeff,pixels,area);
-		result.ssa	[it]= (u8)clampr(iFloor(coeff*255.f+0.5f),int(0),int(255));
+		result.ssa	[it]= (u8)XrMath::clampr(XrMath::iFloor(coeff*255.f+0.5f),int(0),int(255));
 	}
 
 	return result	;

@@ -3,7 +3,7 @@
 void CRenderTarget::mark_msaa_edges()
 {
    u32	Offset;
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 	u32	C		= color_rgba	(255,255,255,255);
 
    // Fill vertex buffer

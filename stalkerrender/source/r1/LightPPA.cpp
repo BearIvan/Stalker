@@ -65,7 +65,7 @@ void CLightR_Manager::render_point	()
 
 		// Culling
 		if (PPL.range<0.05f)														continue;
-		if (PPL.color.magnitude_sqr_rgb()<EPS)										continue;
+		if (PPL.color.magnitude_sqr_rgb()<XrMath::EPS)										continue;
 		float	alpha		= Device.vCameraPosition.distance_to(PPL.position)/MAX_DISTANCE;
 		if (alpha>=1)																continue;
 		if (!RImplementation.ViewBase.testSphere_dirty (PPL.position,PPL.range))	continue;
@@ -77,7 +77,7 @@ void CLightR_Manager::render_point	()
 		RCache.set_c		(hPPAcolor,factor.r,factor.g,factor.b,1);
 		{
 			// Build bbox
-			float				size_f	= PPL.range+EPS_L;
+			float				size_f	= PPL.range+XrMath::EPS_L;
 			Fvector				size;	
 			size.set			(size_f,size_f,size_f);
 
@@ -154,7 +154,7 @@ void CLightR_Manager::render_point	(u32 _priority)
 		//		0. Dimm & Clip
 		float	lc_dist				= lc_COP.distance_to	(L->spatial.sphere.P) - L->spatial.sphere.R;
 		float	lc_scale			= 1 - lc_dist/lc_limit;
-		if		(lc_scale<EPS)		continue;
+		if		(lc_scale<XrMath::EPS)		continue;
 		if		(L->range<0.01f)	continue;
 
 		//		1. Calculate light frustum
@@ -168,7 +168,7 @@ void CLightR_Manager::render_point	(u32 _priority)
 		L_pos.set					(L->position);			
 		//L_pos.y	+=	_camrange;
 		L_view.build_camera_dir		(L_pos,L_dir,L_up);
-		L_project.build_projection	(deg2rad(2.f),1.f,_camrange-L->range,_camrange+L->range);
+		L_project.build_projection	(XrMath::deg2rad(2.f),1.f,_camrange-L->range,_camrange+L->range);
 		L_combine.mul				(L_project,L_view);
 
 		//		2. Calculate matrix for TC-gen
@@ -186,7 +186,7 @@ void CLightR_Manager::render_point	(u32 _priority)
 
 		//		2. Set global light-params to be used by shading
 		RImplementation.r1_dlight_light		= L;
-		RImplementation.r1_dlight_scale		= clampr(lc_scale,0.f,1.f);
+		RImplementation.r1_dlight_scale		= XrMath::clampr(lc_scale,0.f,1.f);
 		RImplementation.r1_dlight_tcgen		= L_texgen;
 
 		//		3. Calculate visibility for light + build soring tree
@@ -234,18 +234,18 @@ void CLightR_Manager::render_spot	(u32 _priority)
 		//		0. Dimm & Clip
 		float	lc_dist				= lc_COP.distance_to	(L->spatial.sphere.P) - L->spatial.sphere.R;
 		float	lc_scale			= 1 - lc_dist/lc_limit;
-		if		(lc_scale<EPS)		continue;
+		if		(lc_scale<XrMath::EPS)		continue;
 
 		//		1. Calculate light frustum
 		Fvector						L_dir,L_up,L_right,L_pos;
 		Fmatrix						L_view,L_project,L_combine;
 		L_dir.set					(L->direction);			L_dir.normalize		();
-		L_up.set					(0,1,0);				if (_abs(L_up.dotproduct(L_dir))>.99f)	L_up.set(0,0,1);
+		L_up.set					(0,1,0);				if (XrMath::abs(L_up.dotproduct(L_dir))>.99f)	L_up.set(0,0,1);
 		L_right.crossproduct		(L_up,L_dir);			L_right.normalize	();
 		L_up.crossproduct			(L_dir,L_right);		L_up.normalize		();
 		L_pos.set					(L->position);
 		L_view.build_camera_dir		(L_pos,L_dir,L_up);
-		L_project.build_projection	(L->cone,1.f,SSM_near_plane,L->range+EPS_S);
+		L_project.build_projection	(L->cone,1.f,SSM_near_plane,L->range+XrMath::EPS_S);
 		L_combine.mul				(L_project,L_view);
 
 		//		2. Calculate matrix for TC-gen
@@ -263,7 +263,7 @@ void CLightR_Manager::render_spot	(u32 _priority)
 
 		//		2. Set global light-params to be used by shading
 		RImplementation.r1_dlight_light		= L;
-		RImplementation.r1_dlight_scale		= clampr(lc_scale,0.f,1.f);
+		RImplementation.r1_dlight_scale		= XrMath::clampr(lc_scale,0.f,1.f);
 		RImplementation.r1_dlight_tcgen		= L_texgen;
 
 		//		3. Calculate visibility for light + build soring tree

@@ -78,10 +78,10 @@ void SBinocVisibleObj::Update()
 		Fvector p;
 		b.getpoint		(k,p);
 		xform.transform	(p);
-		mn.x			= _min(mn.x,p.x);
-		mn.y			= _min(mn.y,p.y);
-		mx.x			= _max(mx.x,p.x);
-		mx.y			= _max(mx.y,p.y);
+		mn.x			= XrMath::min(mn.x,p.x);
+		mn.y			= XrMath::min(mn.y,p.y);
+		mx.x			= XrMath::max(mx.x,p.x);
+		mx.y			= XrMath::max(mx.y,p.y);
 	}
 	static Frect screen_rect={-1.0f, -1.0f, 1.0f, 1.0f};
 

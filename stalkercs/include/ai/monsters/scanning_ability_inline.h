@@ -25,7 +25,7 @@ void CScanningAbilityAbstract::load(LPCSTR section)
 	decrease_value			= pSettings->r_float(section,"scan_decrease_value");
 	scan_trace_time_freq	= pSettings->r_float(section,"scan_trace_time_freq");
 
-	VERIFY					(!fis_zero(scan_trace_time_freq));
+	VERIFY					(!XrMath::fis_zero(scan_trace_time_freq));
 
 	// load scan effector
 	LPCSTR ppi_section = pSettings->r_string(section, "scan_effector_section");
@@ -36,7 +36,7 @@ void CScanningAbilityAbstract::load(LPCSTR section)
 	m_effector_info.noise.intensity		= pSettings->r_float(ppi_section,"noise_intensity");
 	m_effector_info.noise.grain			= pSettings->r_float(ppi_section,"noise_grain");
 	m_effector_info.noise.fps			= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(m_effector_info.noise.fps));
+	VERIFY(!XrMath::fis_zero(m_effector_info.noise.fps));
 	
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &m_effector_info.color_base.r,	&m_effector_info.color_base.g,	&m_effector_info.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &m_effector_info.color_gray.r,	&m_effector_info.color_gray.g,	&m_effector_info.color_gray.b);

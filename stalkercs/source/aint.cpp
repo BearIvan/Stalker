@@ -51,7 +51,7 @@ inline float max(float x, float y)
 // 
 void AngleInt::SetLow(float l)
 {
-    low = angle_normalize(l);
+    low = XrMath::angle_normalize(l);
 }
 
 //
@@ -59,7 +59,7 @@ void AngleInt::SetLow(float l)
 // 
 void AngleInt::SetHigh(float h)
 {
-    high = angle_normalize(h);
+    high = XrMath::angle_normalize(h);
 }
 
 
@@ -75,7 +75,7 @@ float AngleInt::Mid() const
     if (High() > Low())
 	mid = ((High() + Low()) / 2.0f);
     else
-	mid = angle_normalize(M_PI + (High() + Low())/2.0f);
+	mid = XrMath::angle_normalize(XrMath::M_PI + (High() + Low())/2.0f);
 
     return mid;
 }
@@ -89,16 +89,16 @@ float AngleInt::Mid() const
 float AngleInt::Distance(float v) const
 {
     const float eps   = AINT_EPSILON;
-    const float TwoPi = 2*M_PI;
+    const float TwoPi = 2* XrMath::M_PI;
 
     float t1, t2;
-    v = angle_normalize(v);
+    v = XrMath::angle_normalize(v);
 
     if (IsEmpty(eps))
 	return TwoPi;
 
     if (IsFullRange(eps))
-	return -M_PI;
+	return -XrMath::M_PI;
 
     if (iszero(v) || istwopi(v))
     {
@@ -160,7 +160,7 @@ float AngleInt::Distance(float v) const
 	}
     }
 
-    return (_abs(t1) < _abs(t2)) ? t1 : t2;
+    return (XrMath::abs(t1) < XrMath::abs(t2)) ? t1 : t2;
 }
 
 
@@ -211,10 +211,10 @@ int AngleInt::merge_aux(const AngleInt &a, AngleInt &b, float eps)  const
     {
 	float mid = (Low() + High()) / 2.0f;
 	if (Low() < High())
-	    mid += M_PI;
+	    mid += XrMath::M_PI;
 
 	if (a.InRange(mid, eps))
-	    b.Set(0,2*M_PI);
+	    b.Set(0,2*XrMath::M_PI);
 	else
 	    b.Set(Low(), High());
     }
@@ -244,7 +244,7 @@ int AngleInt::merge(const AngleInt &a, AngleInt &b, float eps)  const
 // 
 float AngleInt::Range() const
 {
-    return (low < high) ? (high - low) : high + (2*M_PI - low);
+    return (low < high) ? (high - low) : high + (2*XrMath::M_PI - low);
 }
 
 void AngleIntList::add(float l, float h)
@@ -299,7 +299,7 @@ void swell(const AngleInt &a,
 	   AngleInt &c)
 {
     if (a.IsFullRange())
-	c.Set(0,2*M_PI);
+	c.Set(0,2*XrMath::M_PI);
     else
     {
 	float l = a.Low();
@@ -345,14 +345,14 @@ void AngleIntList::Add(float l, float h, float eps)
     AngleInt a(l,h);
     AngleInt b;
 
-    // interval to add is either emtpy or close to full range 0..2*M_PI
+    // interval to add is either emtpy or close to full range 0..2*XrMath::M_PI
     if (a.IsEmpty())
 	return;
 
     else if (a.IsFullRange())
     {
 	Clear();
-	add(0.0f, 2*M_PI - AINT_EPSILON);
+	add(0.0f, 2*XrMath::M_PI - AINT_EPSILON);
     }
     
     // Put a into the list taking into account it may merge with another entry
@@ -408,7 +408,7 @@ void AngleIntList::AddList(AngleIntList &dest, float eps) const
 
 float AngleIntList::Distance(float a) const
 {
-    float dist = 2*M_PI;
+    float dist = 2*XrMath::M_PI;
 
     for (AngleIntListNode *t = head; t; t = t->next)
     {
@@ -503,7 +503,7 @@ int AngleIntIterator::Next(float &a)
     if (count == n)
 	return 0;
 
-    a = angle_normalize(x);
+    a = XrMath::angle_normalize(x);
     x += dx;
     count++;
 
@@ -679,14 +679,14 @@ void AngleIntList::wrap(float eps)
 
     for (AngleIntListNode *temp = head; temp; temp = temp->next)
     {
-	if (_abs(temp->D.Low()) < eps)
+	if (XrMath::abs(temp->D.Low()) < eps)
 	{
 	    s = temp;
 	    if (t) 
 		break;
 	}
 
-	if (_abs(temp->D.High()-2*M_PI) < eps)
+	if (XrMath::abs(temp->D.High()-2* XrMath::M_PI) < eps)
 	{
 	    t = temp;
 	    if (s)

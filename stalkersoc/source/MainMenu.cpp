@@ -124,11 +124,11 @@ void CMainMenu::ReadTextureInfo()
 		string256 single_item;
 
 		itemsList = pSettings->r_string("texture_desc", "files");
-		int itemsCount	= _GetItemCount(itemsList.c_str());
+		int itemsCount	= XrTrims::GetItemCount(itemsList.c_str());
 
 		for (int i = 0; i < itemsCount; i++)
 		{
-			_GetItem(itemsList.c_str(), i, single_item);
+			XrTrims::GetItem(itemsList.c_str(), i, single_item);
 			strcat(single_item,".xml");
 			CUITextureMaster::ParseShTexInfo(single_item);
 		}		

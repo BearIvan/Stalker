@@ -31,15 +31,15 @@ bool dcTriListCollider::circleLineIntersection(const dReal* cn,const dReal* cp,d
 		
 	}
 	else{
-	t1=-B_A-_sqrt(D);
-	t2=-B_A+_sqrt(D);
+	t1=-B_A-XrMath::sqrt(D);
+	t2=-B_A+XrMath::sqrt(D);
 
 	dVector3 O1={lp[0]+lv[0]*t1,lp[1]+lv[1]*t1,lp[2]+lv[2]*t1};
 	dVector3 O2={lp[0]+lv[0]*t2,lp[1]+lv[1]*t2,lp[2]+lv[2]*t2};
 	//dVector3 test1={O1[0]-cp[0],O1[1]-cp[1],O1[2]-cp[2]};
 	//dVector3 test2={O2[0]-cp[0],O2[1]-cp[1],O2[2]-cp[2]};
-	//dReal t=_sqrt(dDOT(test1,test1));
-	//t=_sqrt(dDOT(test2,test2));
+	//dReal t=XrMath::sqrt(dDOT(test1,test1));
+	//t=XrMath::sqrt(dDOT(test2,test2));
 
 	dReal cpPr=sign*dDOT(cn,cp);
 
@@ -98,12 +98,12 @@ int dcTriListCollider::dSortedTriCyl (
 	cos1=dFabs(dDOT14(triAx,R+1));
 	//cos2=dDOT14(triAx,R+2);
 
-	//sin1=_sqrt(cos0*cos0+cos2*cos2);
+	//sin1=XrMath::sqrt(cos0*cos0+cos2*cos2);
 
 	////////////////////////
 	//another way //////////
 	cos1=cos1<REAL(1.) ? cos1 : REAL(1.); //cos1 may slightly exeed 1.f
-	sin1=_sqrt(REAL(1.)-cos1*cos1);
+	sin1=XrMath::sqrt(REAL(1.)-cos1*cos1);
 	//////////////////////////////
 
 	dReal sidePr=cos1*hlz+sin1*radius;
@@ -130,7 +130,7 @@ int dcTriListCollider::dSortedTriCyl (
 		dReal Q1 = signum*dDOT14(triAx,R+0);
 		dReal Q2 = signum*dDOT14(triAx,R+1);
 		dReal Q3 = signum*dDOT14(triAx,R+2);
-		dReal factor =_sqrt(Q1*Q1+Q3*Q3);
+		dReal factor =XrMath::sqrt(Q1*Q1+Q3*Q3);
 		dReal	C1,C3;
 		dReal centerDepth;//depth in the cirle centre
 		if(factor>0.f)
@@ -223,18 +223,18 @@ int dcTriListCollider::dSortedTriCyl (
 
 IC	bool  dcTriListCollider::cylinderCrossesLine(const dReal* p,const dReal* R,dReal hlz,
 						 const dReal* v0,const dReal* v1,const dReal* l,dVector3 pos){
-	dReal _cos=dDOT14(l,R);
+	dReal cos=dDOT14(l,R);
 
-	if(!(dFabs(_cos)<1.f)) return false;
+	if(!(dFabs(cos)<1.f)) return false;
 	
-	dReal sin2=1.f-_cos*_cos;
+	dReal sin2=1.f-cos*cos;
 
 	dVector3 vp={v0[0]-p[0],v0[1]-p[1],v0[2]-p[2]};
     dReal c1=dDOT(vp,l);
 	dReal c2=dDOT14(vp,R);
 
-	dReal t=(c2*_cos-c1)/sin2;
-	dReal q=(c2-c1*_cos)/sin2;
+	dReal t=(c2*cos-c1)/sin2;
+	dReal q=(c2-c1*cos)/sin2;
 
 	if(dFabs(q)>hlz) return false;
 
@@ -307,12 +307,12 @@ int dcTriListCollider::dTriCyl (
 cos1=dFabs(dDOT14(triAx,R+1));
 //cos2=dDOT14(triAx,R+2);
 
-//sin1=_sqrt(cos0*cos0+cos2*cos2);
+//sin1=XrMath::sqrt(cos0*cos0+cos2*cos2);
 
 ////////////////////////
 //another way //////////
 cos1=cos1<REAL(1.) ? cos1 : REAL(1.); //cos1 may slightly exeed 1.f
-sin1=_sqrt(REAL(1.)-cos1*cos1);
+sin1=XrMath::sqrt(REAL(1.)-cos1*cos1);
 //////////////////////////////
 
 dReal sidePr=cos1*hlz+sin1*radius;
@@ -573,7 +573,7 @@ cos1=dFabs(dDOT14(axis,R+1));\
 cos2=dDOT14(axis,R+2);\
 \
 \
-sin1=_sqrt(cos0*cos0+cos2*cos2);\
+sin1=XrMath::sqrt(cos0*cos0+cos2*cos2);\
 \
 sidePr=cos1*hlz+sin1*radius;\
 \
@@ -638,7 +638,7 @@ if(code==0){
   dReal Q1 = dDOT14(norm,R+0);
   dReal Q2 = dDOT14(norm,R+1);
   dReal Q3 = dDOT14(norm,R+2);
-  dReal factor =_sqrt(Q1*Q1+Q3*Q3);
+  dReal factor =XrMath::sqrt(Q1*Q1+Q3*Q3);
   dReal	C1,C3;
   dReal centerDepth;//depth in the cirle centre
   if(factor>0.f)

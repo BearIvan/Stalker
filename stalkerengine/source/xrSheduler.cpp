@@ -354,17 +354,17 @@ void CSheduler::ProcessStep()
 #endif // DEBUG
 
         // Calc next update interval
-        u32 dwMin = _max(u32(30), T.Object->shedule.t_min);
+        u32 dwMin = XrMath::max(u32(30), T.Object->shedule.t_min);
         u32 dwMax = (1000 + T.Object->shedule.t_max) / 2;
         float scale = T.Object->shedule_Scale();
-        u32 dwUpdate = dwMin + iFloor(float(dwMax - dwMin)*scale);
-        clamp(dwUpdate, u32(_max(dwMin, u32(20))), dwMax);
+        u32 dwUpdate = dwMin + XrMath::iFloor(float(dwMax - dwMin)*scale);
+        XrMath::clamp(dwUpdate, u32(XrMath::max(dwMin, u32(20))), dwMax);
 
 
 
         m_current_step_obj = T.Object;
         // try {
-        T.Object->shedule_Update(clampr(Elapsed, u32(1), u32(_max(u32(T.Object->shedule.t_max), u32(1000)))));
+        T.Object->shedule_Update(XrMath::clampr(Elapsed, u32(1), u32(XrMath::max(u32(T.Object->shedule.t_max), u32(1000)))));
         if (!m_current_step_obj)
         {
 #ifdef DEBUG_SCHEDULER
@@ -443,7 +443,7 @@ void CSheduler::Update()
     // Initialize
     Device.Statistic->Sheduler.Begin();
     cycles_start = CPU::QPC();
-    cycles_limit = CPU::qpc_freq * u64(iCeil(psShedulerCurrent)) / 1000i64 + cycles_start;
+    cycles_limit = CPU::qpc_freq * u64(XrMath::iCeil(psShedulerCurrent)) / 1000i64 + cycles_start;
     internal_Registration();
     g_bSheduleInProgress = TRUE;
 
@@ -484,7 +484,7 @@ void CSheduler::Update()
 #ifdef DEBUG_SCHEDULER
     Msg("SCHEDULER: PROCESS STEP FINISHED %d", Device.dwFrame);
 #endif // DEBUG_SCHEDULER
-    clamp(psShedulerTarget, 3.f, 66.f);
+    XrMath::clamp(psShedulerTarget, 3.f, 66.f);
     psShedulerCurrent = 0.9f*psShedulerCurrent + 0.1f*psShedulerTarget;
     Device.Statistic->fShedulerLoad = psShedulerCurrent;
 

@@ -53,7 +53,7 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 	// Common constants (light-related)
 	Fvector		L_dir,L_clr;	float L_spec;
@@ -70,17 +70,17 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 	{
 		// Fill vertex buffer
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-		pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-		pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-		pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-		pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+		pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+		pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 		RCache.set_Geometry			(g_combine);
 
 		// setup
 		float	intensity			= 0.3f*fuckingsun->color.r + 0.48f*fuckingsun->color.g + 0.22f*fuckingsun->color.b;
 		Fvector	dir					= L_dir;
-				dir.normalize().mul	(- _sqrt(intensity+EPS));
+				dir.normalize().mul	(- XrMath::sqrt(intensity+XrMath::EPS));
 		RCache.set_Element			(s_accum_mask->E[SE_MASK_DIRECT]);		// masker
 		RCache.set_c				("Ldynamic_dir",		dir.x,dir.y,dir.z,0		);
 
@@ -211,10 +211,10 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 
 		// Fill vertex buffer
 		FVF::TL2uv* pv				= (FVF::TL2uv*) RCache.Vertex.Lock	(4,g_combine_2UV->vb_stride,Offset);
-		//pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y, j0.x, j1.y);	pv++;
-		//pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y, j0.x, j0.y);	pv++;
-		//pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y, j1.x, j1.y);	pv++;
-		//pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y, j1.x, j0.y);	pv++;
+		//pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y, j0.x, j1.y);	pv++;
+		//pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y, j0.x, j0.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y, j1.x, j1.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y, j1.x, j0.y);	pv++;
 		pv->set						(-1,	-1,	d_Z,	d_W, C, 0, 1, 0,		scale_X);	pv++;
 		pv->set						(-1,	1,	d_Z,	d_W, C, 0, 0, 0,		0);	pv++;
 		pv->set						(1,		-1,	d_Z,	d_W, C, 1, 1, scale_X,	scale_X);	pv++;
@@ -338,7 +338,7 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 	// Common constants (light-related)
 	Fvector		L_dir,L_clr;	float L_spec;
@@ -355,17 +355,17 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 	{
 		// Fill vertex buffer
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-		pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-		pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-		pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-		pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+		pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+		pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 		RCache.set_Geometry			(g_combine);
 
 		// setup
 		float	intensity			= 0.3f*fuckingsun->color.r + 0.48f*fuckingsun->color.g + 0.22f*fuckingsun->color.b;
 		Fvector	dir					= L_dir;
-		dir.normalize().mul	(- _sqrt(intensity+EPS));
+		dir.normalize().mul	(- XrMath::sqrt(intensity+XrMath::EPS));
 		RCache.set_Element			(s_accum_mask->E[SE_MASK_DIRECT]);		// masker
 		RCache.set_c				("Ldynamic_dir",		dir.x,dir.y,dir.z,0		);
 
@@ -699,14 +699,14 @@ void CRenderTarget::accum_direct_blend	()
 		Fvector2					p0,p1;
 		p0.set						(.5f/_w, .5f/_h);
 		p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-		float	d_Z	= EPS_S, d_W = 1.f;
+		float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 		// Fill vertex buffer
 		FVF::TL2uv* pv				= (FVF::TL2uv*) RCache.Vertex.Lock	(4,g_combine_2UV->vb_stride,Offset);
-		//pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y, p0.x, p1.y);	pv++;
-		//pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y, p0.x, p0.y);	pv++;
-		//pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y, p1.x, p1.y);	pv++;
-		//pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y, p1.x, p0.y);	pv++;
+		//pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y, p0.x, p1.y);	pv++;
+		//pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y, p0.x, p0.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y, p1.x, p1.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y, p1.x, p0.y);	pv++;
 		pv->set						(-1,	-1,	d_Z,	d_W, C, 0, 1, 0,		1);	pv++;
 		pv->set						(-1,	1,	d_Z,	d_W, C, 0, 0, 0,		0);	pv++;
 		pv->set						(1,		-1,	d_Z,	d_W, C, 1, 1, 1,	1);	pv++;
@@ -775,7 +775,7 @@ void CRenderTarget::accum_direct_f		(u32 sub_phase)
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 
 	// Common constants (light-related)
 	Fvector		L_dir,L_clr;	float L_spec;
@@ -795,17 +795,17 @@ void CRenderTarget::accum_direct_f		(u32 sub_phase)
 
 		// Fill vertex buffer
 		FVF::TL* pv					= (FVF::TL*)	RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-		pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
-		pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
-		pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
-		pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
+		pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y);	pv++;
+		pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y);	pv++;
+		pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y);	pv++;
 		RCache.Vertex.Unlock		(4,g_combine->vb_stride);
 		RCache.set_Geometry			(g_combine);
 
 		// setup
 		float	intensity			= 0.3f*fuckingsun->color.r + 0.48f*fuckingsun->color.g + 0.22f*fuckingsun->color.b;
 		Fvector	dir					= L_dir;
-		dir.normalize().mul	(- _sqrt(intensity+EPS));
+		dir.normalize().mul	(- XrMath::sqrt(intensity+XrMath::EPS));
 		RCache.set_Element			(s_accum_mask->E[SE_MASK_DIRECT]);		// masker
 		RCache.set_c				("Ldynamic_dir",		dir.x,dir.y,dir.z,0		);
 
@@ -906,10 +906,10 @@ void CRenderTarget::accum_direct_f		(u32 sub_phase)
 
 		// Fill vertex buffer
 		FVF::TL2uv* pv				= (FVF::TL2uv*) RCache.Vertex.Lock	(4,g_combine_2UV->vb_stride,Offset);
-		//pv->set						(EPS,			float(_h+EPS),	d_Z,	d_W, C, p0.x, p1.y, j0.x, j1.y);	pv++;
-		//pv->set						(EPS,			EPS,			d_Z,	d_W, C, p0.x, p0.y, j0.x, j0.y);	pv++;
-		//pv->set						(float(_w+EPS),	float(_h+EPS),	d_Z,	d_W, C, p1.x, p1.y, j1.x, j1.y);	pv++;
-		//pv->set						(float(_w+EPS),	EPS,			d_Z,	d_W, C, p1.x, p0.y, j1.x, j0.y);	pv++;
+		//pv->set						(XrMath::EPS,			float(_h+XrMath::EPS),	d_Z,	d_W, C, p0.x, p1.y, j0.x, j1.y);	pv++;
+		//pv->set						(XrMath::EPS,			XrMath::EPS,			d_Z,	d_W, C, p0.x, p0.y, j0.x, j0.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	float(_h+XrMath::EPS),	d_Z,	d_W, C, p1.x, p1.y, j1.x, j1.y);	pv++;
+		//pv->set						(float(_w+XrMath::EPS),	XrMath::EPS,			d_Z,	d_W, C, p1.x, p0.y, j1.x, j0.y);	pv++;
 		pv->set						(-1,	-1,	d_Z,	d_W, C, 0, 1, 0,		scale_X);	pv++;
 		pv->set						(-1,	1,	d_Z,	d_W, C, 0, 0, 0,		0);	pv++;
 		pv->set						(1,		-1,	d_Z,	d_W, C, 1, 1, scale_X,	scale_X);	pv++;
@@ -981,7 +981,7 @@ void CRenderTarget::accum_direct_lum	()
 	Fvector2					p0,p1;
 	p0.set						(.5f/_w, .5f/_h);
 	p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-	float	d_Z	= EPS_S;		//, d_W = 1.f;
+	float	d_Z	= XrMath::EPS_S;		//, d_W = 1.f;
 
 	// Common constants (light-related)
 	Fvector		L_dir,L_clr;	float L_spec;
@@ -1029,10 +1029,10 @@ void CRenderTarget::accum_direct_lum	()
 		// Fill vertex buffer
 		VERIFY	(sizeof(v_aa)==g_aa_AA->vb_stride);
 		v_aa* pv					= (v_aa*) RCache.Vertex.Lock	(4,g_aa_AA->vb_stride,Offset);
-		pv->p.set(EPS,			float(_h+EPS),	EPS,1.f); pv->uv0.set(p0.x, p1.y);pv->uvJ.set(j0.x, j1.y);pv->uv1.set(p0.x-ddw,p1.y-ddh);pv->uv2.set(p0.x+ddw,p1.y+ddh);pv->uv3.set(p0.x+ddw,p1.y-ddh);pv->uv4.set(p0.x-ddw,p1.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
-		pv->p.set(EPS,			EPS,			EPS,1.f); pv->uv0.set(p0.x, p0.y);pv->uvJ.set(j0.x, j0.y);pv->uv1.set(p0.x-ddw,p0.y-ddh);pv->uv2.set(p0.x+ddw,p0.y+ddh);pv->uv3.set(p0.x+ddw,p0.y-ddh);pv->uv4.set(p0.x-ddw,p0.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
-		pv->p.set(float(_w+EPS),float(_h+EPS),	EPS,1.f); pv->uv0.set(p1.x, p1.y);pv->uvJ.set(j1.x, j1.y);pv->uv1.set(p1.x-ddw,p1.y-ddh);pv->uv2.set(p1.x+ddw,p1.y+ddh);pv->uv3.set(p1.x+ddw,p1.y-ddh);pv->uv4.set(p1.x-ddw,p1.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
-		pv->p.set(float(_w+EPS),EPS,			EPS,1.f); pv->uv0.set(p1.x, p0.y);pv->uvJ.set(j1.x, j0.y);pv->uv1.set(p1.x-ddw,p0.y-ddh);pv->uv2.set(p1.x+ddw,p0.y+ddh);pv->uv3.set(p1.x+ddw,p0.y-ddh);pv->uv4.set(p1.x-ddw,p0.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
+		pv->p.set(XrMath::EPS,			float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p0.x, p1.y);pv->uvJ.set(j0.x, j1.y);pv->uv1.set(p0.x-ddw,p1.y-ddh);pv->uv2.set(p0.x+ddw,p1.y+ddh);pv->uv3.set(p0.x+ddw,p1.y-ddh);pv->uv4.set(p0.x-ddw,p1.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
+		pv->p.set(XrMath::EPS,			XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p0.x, p0.y);pv->uvJ.set(j0.x, j0.y);pv->uv1.set(p0.x-ddw,p0.y-ddh);pv->uv2.set(p0.x+ddw,p0.y+ddh);pv->uv3.set(p0.x+ddw,p0.y-ddh);pv->uv4.set(p0.x-ddw,p0.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
+		pv->p.set(float(_w+XrMath::EPS),float(_h+XrMath::EPS),	XrMath::EPS,1.f); pv->uv0.set(p1.x, p1.y);pv->uvJ.set(j1.x, j1.y);pv->uv1.set(p1.x-ddw,p1.y-ddh);pv->uv2.set(p1.x+ddw,p1.y+ddh);pv->uv3.set(p1.x+ddw,p1.y-ddh);pv->uv4.set(p1.x-ddw,p1.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
+		pv->p.set(float(_w+XrMath::EPS),XrMath::EPS,			XrMath::EPS,1.f); pv->uv0.set(p1.x, p0.y);pv->uvJ.set(j1.x, j0.y);pv->uv1.set(p1.x-ddw,p0.y-ddh);pv->uv2.set(p1.x+ddw,p0.y+ddh);pv->uv3.set(p1.x+ddw,p0.y-ddh);pv->uv4.set(p1.x-ddw,p0.y+ddh,0,0);pv->uv5.set(0,0,0,0);pv++;
 		RCache.Vertex.Unlock		(4,g_aa_AA->vb_stride);
 		RCache.set_Geometry			(g_aa_AA);
 

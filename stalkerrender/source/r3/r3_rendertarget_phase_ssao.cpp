@@ -38,12 +38,12 @@ void CRenderTarget::phase_ssao	()
 	Fmatrix		m_v2w;			m_v2w.invert				(Device.mView		);
 
 	float		fSSAONoise = 2.0f;
-	fSSAONoise *= tan(deg2rad(67.5f));
-	fSSAONoise /= tan(deg2rad(Device.fFOV));
+	fSSAONoise *= tan(XrMath::deg2rad(67.5f));
+	fSSAONoise /= tan(XrMath::deg2rad(Device.fFOV));
 
 	float		fSSAOKernelSize = 150.0f;
-	fSSAOKernelSize *= tan(deg2rad(67.5f));
-	fSSAOKernelSize /= tan(deg2rad(Device.fFOV));
+	fSSAOKernelSize *= tan(XrMath::deg2rad(67.5f));
+	fSSAOKernelSize /= tan(XrMath::deg2rad(Device.fFOV));
 
 	// Fill VB
 	float	scale_X				= float(Device.dwWidth)	* 0.5f / float(TEX_jitter);

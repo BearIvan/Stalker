@@ -103,7 +103,7 @@ void IWriter::w_sdir(const Fvector& D)
 {
     Fvector C;
     float mag = D.magnitude();
-    if (mag > EPS_S)
+    if (mag > XrMath::EPS_S)
     {
         C.div(D, mag);
     }

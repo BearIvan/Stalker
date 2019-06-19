@@ -22,7 +22,7 @@ public:
     void Load(IReader& F);
     void Save(IWriter& F);
     float Length_sec() { return float(iFrameCount) / fFPS; }
-    u32 Length_ms() { return iFloor(Length_sec()*1000.f); }
+    u32 Length_ms() { return XrMath::iFloor(Length_sec()*1000.f); }
     u32 InterpolateRGB(int frame);
     u32 InterpolateBGR(int frame);
     u32 CalculateRGB(float T, int& frame);

@@ -534,7 +534,7 @@ void 	CModelPool::Render(dxRender_Visual* m_pVisual, const Fmatrix& mTransform, 
     case MT_SKELETON_RIGID:{
         if (_IsBoxVisible(m_pVisual,mTransform)){
             CKinematics* pV		= dynamic_cast<CKinematics*>(m_pVisual); VERIFY(pV);
-            if (fis_zero(m_fLOD,EPS)&&pV->m_lod){
+            if (XrMath::fis_zero(m_fLOD,XrMath::EPS)&&pV->m_lod){
 		        if (_IsValidShader(pV->m_lod,priority,strictB2F)){
 	                RCache.set_Shader		(pV->m_lod->shader?pV->m_lod->shader:EDevice.m_WireShader);
     	            RCache.set_xform_world	(mTransform);

@@ -276,7 +276,7 @@ bool game_sv_Deathmatch::OnKillResult(KILL_RES KillResult, game_PlayerState* pKi
 //.			pKiller->kills += 1;
 			pKiller->m_iRivalKills++;
 			pKiller->m_iKillsInRowCurr++;
-			pKiller->m_iKillsInRowMax = _max(pKiller->m_iKillsInRowCurr,pKiller->m_iKillsInRowMax);
+			pKiller->m_iKillsInRowMax = XrMath::max(pKiller->m_iKillsInRowCurr,pKiller->m_iKillsInRowMax);
 			if (pTeam)
 			{
 				s32 ResMoney = pTeam->m_iM_KillRival;
@@ -1073,11 +1073,11 @@ void game_sv_Deathmatch::LoadSkinsForTeam(const shared_str& caSection, TEAM_SKIN
 
 	// Читаем данные этого поля
 	xr_strcpy(Skins, pSettings->r_string(caSection, "skins"));
-	u32 count	= _GetItemCount(Skins);
+	u32 count	= XrTrims::GetItemCount(Skins);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(Skins, i, SkinSingleName);
+		XrTrims::GetItem(Skins, i, SkinSingleName);
 		pTeamSkins->push_back(SkinSingleName);
 	};
 };
@@ -1097,11 +1097,11 @@ void game_sv_Deathmatch::LoadDefItemsForTeam(const shared_str& caSection, DEF_IT
 
 	// Читаем данные этого поля
 	xr_strcpy(DefItems, pSettings->r_string(caSection, "default_items"));
-	u32 count	= _GetItemCount(DefItems);
+	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
 	{
-		_GetItem(DefItems, i, ItemName);
+		XrTrims::GetItem(DefItems, i, ItemName);
 		pDefItems->push_back(u16(m_strWeaponsData->GetItemIdx(ItemName)&0xffff));
 	};
 };
@@ -1468,12 +1468,12 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 			continue;
 
 		xr_strcpy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, SetName));
-		u32 count	= _GetItemCount(AnomaliesNames);
+		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		if (!count) continue;
 
 		for (u32 j=0; j<count; j++)
 		{
-			_GetItem(AnomaliesNames, j, AnomalyName);
+			XrTrims::GetItem(AnomaliesNames, j, AnomalyName);
 			AnomalySingleSet.push_back(AnomalyName);
 		};
 
@@ -1485,10 +1485,10 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 	if (Level().pLevel->line_exist(ASetBaseName, "permanent"))
 	{
 		xr_strcpy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, "permanent"));
-		u32 count	= _GetItemCount(AnomaliesNames);
+		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		for (u32 j=0; j<count; j++)
 		{
-			_GetItem(AnomaliesNames, j, AnomalyName);
+			XrTrims::GetItem(AnomaliesNames, j, AnomalyName);
 			m_AnomaliesPermanent.push_back(AnomalyName);
 		};
 	}

@@ -170,7 +170,7 @@ void CUIArtefactParams::SetInfo( shared_str const& af_section )
 	{
 		shared_str const& sect = pSettings->r_string( af_section, "hit_absorbation_sect" );
 		val	= pSettings->r_float( sect, af_immunity_section_names[i] );
-		if ( fis_zero(val) )
+		if ( XrMath::fis_zero(val) )
 		{
 			continue;
 		}
@@ -188,7 +188,7 @@ void CUIArtefactParams::SetInfo( shared_str const& af_section )
 
 	{
 		val	= pSettings->r_float( af_section, "additional_inventory_weight" );
-		if ( !fis_zero(val) )
+		if ( !XrMath::fis_zero(val) )
 		{
 			m_additional_weight->SetValue( val );
 
@@ -204,7 +204,7 @@ void CUIArtefactParams::SetInfo( shared_str const& af_section )
 	for ( u32 i = 0; i < ALife::eRestoreTypeMax; ++i )
 	{
 		val	= pSettings->r_float( af_section, af_restore_section_names[i] );
-		if ( fis_zero(val) )
+		if ( XrMath::fis_zero(val) )
 		{
 			continue;
 		}

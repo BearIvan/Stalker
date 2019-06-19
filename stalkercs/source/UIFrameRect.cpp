@@ -68,7 +68,7 @@ void CUIFrameRect::UpdateSize( bool recall )
 		Fvector2 n1;
 		n1.x = _lt.x + _rt.x;
 		n1.y = _lb.x + _rb.x;
-		new_size.x = _max( n1.x, n1.y );
+		new_size.x = XrMath::max( n1.x, n1.y );
 		resizing = true;
 	}
 	if ( size_left < 0.0f || size_right < 0.0f )
@@ -76,7 +76,7 @@ void CUIFrameRect::UpdateSize( bool recall )
 		Fvector2 n2;
 		n2.x = _lt.y + _lb.y;
 		n2.y = _rt.y + _rb.y;
-		new_size.y = _max( n2.x, n2.y );
+		new_size.y = XrMath::max( n2.x, n2.y );
 		resizing = true;
 	}
 	
@@ -90,10 +90,10 @@ void CUIFrameRect::UpdateSize( bool recall )
 
 	//Фон
 	ts.set			(_bk.x,_bk.y);
-	rem_x  			= fmod(size_top,ts.x);		rem_x = _max(rem_x, 0.0f);
-	rem_y  			= fmod(size_left,ts.y);		rem_y = _max(rem_y, 0.0f);
-	tile_x 			= iFloor(size_top/ts.x);	tile_x=_max(tile_x, 0);
-	tile_y 			= iFloor(size_left/ts.y);	tile_y=_max(tile_y, 0);
+	rem_x  			= fmod(size_top,ts.x);		rem_x = XrMath::max(rem_x, 0.0f);
+	rem_y  			= fmod(size_left,ts.y);		rem_y = XrMath::max(rem_y, 0.0f);
+	tile_x 			= XrMath::iFloor(size_top/ts.x);	tile_x=XrMath::max(tile_x, 0);
+	tile_y 			= XrMath::iFloor(size_left/ts.y);	tile_y=XrMath::max(tile_y, 0);
 
 	frame[fmBK].SetPos	(wnd_pos.x+_lt.x, wnd_pos.y+_lt.y);
 	frame[fmBK].SetTile	(tile_x,tile_y, rem_x,rem_y);
@@ -101,26 +101,26 @@ void CUIFrameRect::UpdateSize( bool recall )
 	//Обрамление
 	ts.set				(_t.x,_t.y);
 	rem_x				= fmod(size_top,ts.x);
-	tile_x				= iFloor(size_top/ts.x); tile_x=_max(tile_x, 0);
+	tile_x				= XrMath::iFloor(size_top/ts.x); tile_x=XrMath::max(tile_x, 0);
 	frame[fmT].SetPos	(wnd_pos.x+_lt.x,wnd_pos.y);	
 	frame[fmT].SetTile	(tile_x,1,rem_x,0);
 
 	ts.set				(_b.x,_b.y);
 	rem_x				= fmod(size_bottom,ts.x);
-	tile_x				= iFloor(size_bottom/ts.x); tile_x=_max(tile_x, 0);
+	tile_x				= XrMath::iFloor(size_bottom/ts.x); tile_x=XrMath::max(tile_x, 0);
 	frame[fmB].SetPos	(wnd_pos.x+_lb.x,wnd_pos.y+m_wndSize.y-ts.y);	
 	frame[fmB].SetTile	(tile_x,1,rem_x,0);
 
 
 	ts.set				(_l.x,_l.y);
 	rem_y				= fmod(size_left,ts.y);
-	tile_y				= iFloor(size_left/ts.y); tile_y=_max(tile_y, 0);
+	tile_y				= XrMath::iFloor(size_left/ts.y); tile_y=XrMath::max(tile_y, 0);
 	frame[fmL].SetPos	(wnd_pos.x, wnd_pos.y+_lt.y);	
 	frame[fmL].SetTile	(1,tile_y,0,rem_y);
 
 	ts.set				(_r.x,_r.y);
 	rem_y				= fmod(size_right,ts.y);
-	tile_y				= iFloor(size_right/ts.y); tile_y=_max(tile_y, 0);
+	tile_y				= XrMath::iFloor(size_right/ts.y); tile_y=XrMath::max(tile_y, 0);
 	frame[fmR].SetPos	(wnd_pos.x+m_wndSize.x-ts.x,wnd_pos.y+_rt.y);	
 	frame[fmR].SetTile	(1,tile_y,0,rem_y);
 
@@ -159,7 +159,7 @@ void CUIFrameRect::SetWndRect(const Frect& rect)
 void CUIFrameRect::SetWndPos(const Fvector2& pos)
 {
 	Fvector2 _old_pos = GetWndPos();
-	if(_old_pos.similar(pos,EPS))	return;
+	if(_old_pos.similar(pos,XrMath::EPS))	return;
 
 	CUISimpleWindow::SetWndPos(pos);
 	uFlags.set(flValidSize, false);
@@ -182,7 +182,7 @@ void CUIFrameRect::Draw(float x, float y)
 	Fvector2 p = GetWndPos	();
 	float dx = p.x - x;
 	float dy = p.y - y;
-	if ( !fis_zero(dx) || !fis_zero(dy))
+	if ( !XrMath::fis_zero(dx) || !XrMath::fis_zero(dy))
 		SetWndPos(Fvector2().set(x,y) );
 	
 	Draw();

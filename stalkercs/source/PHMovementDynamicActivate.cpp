@@ -140,7 +140,7 @@ public:
 		{
 			dReal mag;
 			Fvector vlinear_velocity;vlinear_velocity.set(cast_fv(linear_velocity));
-			mag=_sqrt(linear_velocity[0]*linear_velocity[0]+linear_velocity[2]*linear_velocity[2]);//
+			mag=XrMath::sqrt(linear_velocity[0]*linear_velocity[0]+linear_velocity[2]*linear_velocity[2]);//
 			if(mag>l_limit)
 			{
 				dReal f=mag/l_limit;
@@ -148,7 +148,7 @@ public:
 				vlinear_velocity.x/=f;vlinear_velocity.z/=f;
 				ret=true;
 			}
-			mag=_abs(linear_velocity[1]);
+			mag=XrMath::abs(linear_velocity[1]);
 			if(mag>y_limit)
 			{
 				vlinear_velocity.y=linear_velocity[1]/mag*y_limit;
@@ -261,18 +261,18 @@ protected:
 					othrers_torque=feedback->t1;
 				}
 
-				save_max(m_max_force_self,_sqrt(dDOT( self_force,self_force)));
-				save_max(m_max_torque_self,_sqrt(dDOT( self_torque,self_torque)));
-				save_max(m_max_force_self_y,_abs(self_force[1]));
-				save_max(m_max_force_self_sd,_sqrt(self_force[0]*self_force[0]+self_force[2]*self_force[2]));
+				save_max(m_max_force_self,XrMath::sqrt(dDOT( self_force,self_force)));
+				save_max(m_max_torque_self,XrMath::sqrt(dDOT( self_torque,self_torque)));
+				save_max(m_max_force_self_y,XrMath::abs(self_force[1]));
+				save_max(m_max_force_self_sd,XrMath::sqrt(self_force[0]*self_force[0]+self_force[2]*self_force[2]));
 				if(other_body)
 				{
 					dVector3 shoulder;dVectorSub(shoulder,dJointGetPositionContact(joint),dBodyGetPosition(other_body));
-					dReal shoulder_lenght=_sqrt(dDOT(shoulder,shoulder));
+					dReal shoulder_lenght=XrMath::sqrt(dDOT(shoulder,shoulder));
 
-					save_max(m_max_force_others,_sqrt(dDOT( othrers_force,othrers_force)));
-					if(!fis_zero(shoulder_lenght)) 
-						save_max(m_max_torque_others,_sqrt(dDOT( othrers_torque,othrers_torque))/shoulder_lenght);
+					save_max(m_max_force_others,XrMath::sqrt(dDOT( othrers_force,othrers_force)));
+					if(!XrMath::fis_zero(shoulder_lenght)) 
+						save_max(m_max_torque_others,XrMath::sqrt(dDOT( othrers_torque,othrers_torque))/shoulder_lenght);
 				}
 			}
 		}
@@ -345,9 +345,9 @@ bool CPHMovementControl:: ActivateBoxDynamic(DWORD id,int num_it/*=8*/,int num_s
 	GetCharacterVelocity(vel);
 	GetCharacterPosition(pos);
 	//const Fbox& box =Box();
-	float pass=	character_exist ? _abs(Box().getradius()-boxes[id].getradius()) : boxes[id].getradius();
+	float pass=	character_exist ? XrMath::abs(Box().getradius()-boxes[id].getradius()) : boxes[id].getradius();
 	float max_vel=pass/2.f/fnum_it/fnum_steps/fixed_step;
-	float max_a_vel=M_PI/8.f/fnum_it/fnum_steps/fixed_step;
+	float max_a_vel=XrMath::M_PI/8.f/fnum_it/fnum_steps/fixed_step;
 	dBodySetForce(GetBody(),0.f,0.f,0.f);
 	dBodySetLinearVel(GetBody(),0.f,0.f,0.f);
 	Calculate(Fvector().set(0,0,0),Fvector().set(1,0,0),0,0,0,0);

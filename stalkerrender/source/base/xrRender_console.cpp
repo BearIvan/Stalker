@@ -192,7 +192,7 @@ float		ps_r2_aa_kernel				= .5f;				// r2-only
 float		ps_r2_mblur					= .0f;				// .5f
 int			ps_r2_GI_depth				= 1;				// 1..5
 int			ps_r2_GI_photons			= 16;				// 8..64
-float		ps_r2_GI_clip				= EPS_L;			// EPS
+float		ps_r2_GI_clip				= XrMath::EPS_L;			// XrMath::EPS
 float		ps_r2_GI_refl				= .9f;				// .9f
 float		ps_r2_ls_depth_scale		= 1.00001f;			// 1.00001f
 float		ps_r2_ls_depth_bias			= -0.0003f;			// -0.0001f
@@ -253,7 +253,7 @@ class CCC_tf_Aniso		: public CCC_Integer
 public:
 	void	apply	()	{
 		if (0==HW.pDevice)	return	;
-		int	val = *value;	clamp(val,1,16);
+		int	val = *value;	XrMath::clamp(val,1,16);
 #if defined(USE_DX10) || defined(USE_DX11)
 		SSManager.SetMaxAnisotropy(val);
 #else	//	USE_DX10
@@ -315,9 +315,9 @@ public:
 			if (ps_r2_ls_flags.test(R2FLAG_GLOBALMATERIAL))	{
 				static LPCSTR	name[4]	=	{ "oren", "blin", "phong", "metal" };
 				float	mid		= *value	;
-				int		m0		= iFloor(mid)	% 4;
+				int		m0		= XrMath::iFloor(mid)	% 4;
 				int		m1		= (m0+1)		% 4;
-				float	frc		= mid - float(iFloor(mid));
+				float	frc		= mid - float(XrMath::iFloor(mid));
 				Msg		("* material set to [%s]-[%s], with lerp of [%f]",name[m0],name[m1],frc);
 			}
 		}
@@ -500,8 +500,8 @@ public:
 class CCC_DofFar : public CCC_Float
 {
 public:
-	CCC_DofFar(LPCSTR N, float* V, float _min=0.0f, float _max=10000.0f) 
-		: CCC_Float( N, V, _min, _max){}
+	CCC_DofFar(LPCSTR N, float* V, float _min=0.0f, float max_=10000.0f) 
+		: CCC_Float( N, V, _min, max_){}
 
 	virtual void Execute(LPCSTR args) 
 	{
@@ -530,8 +530,8 @@ public:
 class CCC_DofNear : public CCC_Float
 {
 public:
-	CCC_DofNear(LPCSTR N, float* V, float _min=0.0f, float _max=10000.0f) 
-		: CCC_Float( N, V, _min, _max){}
+	CCC_DofNear(LPCSTR N, float* V, float _min=0.0f, float max_=10000.0f) 
+		: CCC_Float( N, V, _min,max_){}
 
 	virtual void Execute(LPCSTR args) 
 	{
@@ -560,8 +560,8 @@ public:
 class CCC_DofFocus : public CCC_Float
 {
 public:
-	CCC_DofFocus(LPCSTR N, float* V, float _min=0.0f, float _max=10000.0f) 
-		: CCC_Float( N, V, _min, _max){}
+	CCC_DofFocus(LPCSTR N, float* V, float _min=0.0f, float max_=10000.0f) 
+		: CCC_Float( N, V, _min,max_){}
 
 	virtual void Execute(LPCSTR args) 
 	{
@@ -597,8 +597,8 @@ public:
 class CCC_Dof : public CCC_Vector3
 {
 public:
-	CCC_Dof(LPCSTR N, Fvector* V, const Fvector _min, const Fvector _max) : 
-	  CCC_Vector3(N, V, _min, _max) {;}
+	CCC_Dof(LPCSTR N, Fvector* V, const Fvector _min, const Fvector max_) : 
+	  CCC_Vector3(N, V, _min, max_) {;}
 
 	virtual void	Execute	(LPCSTR args)
 	{
@@ -742,7 +742,7 @@ void		xrRender_initconsole	()
 	CMD4(CCC_Float,		"r__d_tree_w_rot",		&ps_r__Tree_w_rot,			.01f,	100.f	);
 	CMD4(CCC_Float,		"r__d_tree_w_speed",	&ps_r__Tree_w_speed,		1.0f,	10.f	);
 
-	tw_min.set			(EPS,EPS,EPS);
+	tw_min.set			(XrMath::EPS,XrMath::EPS,XrMath::EPS);
 	tw_max.set			(2,2,2);
 	CMD4(CCC_Vector3,	"r__d_tree_wave",		&ps_r__Tree_Wave,			tw_min, tw_max	);
 #endif // DEBUG
@@ -845,10 +845,10 @@ void		xrRender_initconsole	()
 	CMD4(CCC_Float,		"r2_mblur",				&ps_r2_mblur,				0.0f,	1.0f	);
 
 	CMD3(CCC_Mask,		"r2_gi",				&ps_r2_ls_flags,			R2FLAG_GI);
-	CMD4(CCC_Float,		"r2_gi_clip",			&ps_r2_GI_clip,				EPS,	0.1f	);
+	CMD4(CCC_Float,		"r2_gi_clip",			&ps_r2_GI_clip,				XrMath::EPS,	0.1f	);
 	CMD4(CCC_Integer,	"r2_gi_depth",			&ps_r2_GI_depth,			1,		5		);
 	CMD4(CCC_Integer,	"r2_gi_photons",		&ps_r2_GI_photons,			8,		256		);
-	CMD4(CCC_Float,		"r2_gi_refl",			&ps_r2_GI_refl,				EPS_L,	0.99f	);
+	CMD4(CCC_Float,		"r2_gi_refl",			&ps_r2_GI_refl,				XrMath::EPS_L,	0.99f	);
 
 	CMD4(CCC_Integer,	"r2_wait_sleep",		&ps_r2_wait_sleep,			0,		1		);
 

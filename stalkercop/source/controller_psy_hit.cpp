@@ -258,7 +258,7 @@ void CControllerPsyHit::death_glide_start()
 	dir.normalize();
 	float h,p;
 	dir.getHP(h,p);
-	dir.setHP(h,p+PI_DIV_3);
+	dir.setHP(h,p+XrMath::PI_DIV_3);
 	Actor()->character_physics_support()->movement()->ApplyImpulse(dir,Actor()->GetMass() * 530.f);
 
 	set_sound_state					(eStart);

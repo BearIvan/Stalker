@@ -446,8 +446,8 @@ void CPHElement::PhDataUpdate(dReal step){
 		DEBUGFATALERROR12(0,"bad angular velocity");
 	}
 #endif
-	DEBUGFATALERROR1(!fis_zero(m_l_scale));
-	DEBUGFATALERROR1(!fis_zero(m_w_scale));
+	DEBUGFATALERROR1(!XrMath::fis_zero(m_l_scale));
+	DEBUGFATALERROR1(!XrMath::fis_zero(m_w_scale));
 	dBodySetLinearVel(
 		m_body,
 		linear_velocity[0]			/m_l_scale		,
@@ -465,10 +465,10 @@ void CPHElement::PhDataUpdate(dReal step){
 	///////////////////scale changes values directly so get base values after it/////////////////////////
 	/////////////////////////////base values////////////////////////////////////////////////////////////
 	dReal linear_velocity_smag	=		dDOT(linear_velocity,linear_velocity);
-	dReal linear_velocity_mag		=	_sqrt(linear_velocity_smag);
+	dReal linear_velocity_mag		=	XrMath::sqrt(linear_velocity_smag);
 
 	dReal angular_velocity_smag	=	dDOT(angular_velocity,angular_velocity);
-	dReal angular_velocity_mag	=	_sqrt(angular_velocity_smag);
+	dReal angular_velocity_mag	=	XrMath::sqrt(angular_velocity_smag);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////limit velocity & secure /////////////////////////////////////////////////////////////////////////////////////////
@@ -483,9 +483,9 @@ void CPHElement::PhDataUpdate(dReal step){
 		CutVelocity(m_l_limit,m_w_limit);
 		DEBUGFATALERROR1_BOUNDARIES2(cast_fv(dBodyGetPosition(m_body)),phBoundaries,PhysicsRefObject(),"PhDataUpdate end, body position");
 		linear_velocity_smag	=	dDOT(linear_velocity,linear_velocity);
-		linear_velocity_mag		=	_sqrt(linear_velocity_smag);
+		linear_velocity_mag		=	XrMath::sqrt(linear_velocity_smag);
 		angular_velocity_smag	=	dDOT(angular_velocity,angular_velocity);
-		angular_velocity_mag	=	_sqrt(angular_velocity_smag);
+		angular_velocity_mag	=	XrMath::sqrt(angular_velocity_smag);
 	}
 	////////////////secure position///////////////////////////////////////////////////////////////////////////////////
 	const dReal* position=dBodyGetPosition(m_body);
@@ -497,9 +497,9 @@ void CPHElement::PhDataUpdate(dReal step){
 	{
 		CutVelocity(m_l_limit,m_w_limit);
 		angular_velocity_smag	=	dDOT(angular_velocity,angular_velocity);
-		angular_velocity_mag	=	_sqrt(angular_velocity_smag);
+		angular_velocity_mag	=	XrMath::sqrt(angular_velocity_smag);
 		linear_velocity_smag	=	dDOT(linear_velocity,linear_velocity);
-		linear_velocity_mag		=	_sqrt(linear_velocity_smag);
+		linear_velocity_mag		=	XrMath::sqrt(linear_velocity_smag);
 	}
 
 	////////////////secure rotation////////////////////////////////////////////////////////////////////////////////////////
@@ -539,7 +539,7 @@ void CPHElement::PhDataUpdate(dReal step){
 	//////////////////air resistance/////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	if(!fis_zero(k_w))
+	if(!XrMath::fis_zero(k_w))
 		dBodyAddTorque(
 		m_body,
 		-angular_velocity[0]*k_w,
@@ -552,7 +552,7 @@ void CPHElement::PhDataUpdate(dReal step){
 	dReal l_air=linear_velocity_mag*k_l;//force/velocity !!!
 	if(l_air>mass.mass/fixed_step) l_air=mass.mass/fixed_step;//validate
 
-	if(!fis_zero(l_air))
+	if(!XrMath::fis_zero(l_air))
 		dBodyAddForce(
 		m_body,
 		-linear_velocity[0]*l_air,
@@ -708,7 +708,7 @@ void CPHElement::applyImpact(const SPHImpact& I)
 	dir.set(I.force);
 	float val=I.force.magnitude();
 	
-	if(!fis_zero(val)&& GeomByBoneID(I.geom))
+	if(!XrMath::fis_zero(val)&& GeomByBoneID(I.geom))
 	{
 		
 		dir.mul(1.f/val);
@@ -789,7 +789,7 @@ void CPHElement::StataticRootBonesCallBack(CBoneInstance* B)
 	Fmatrix parent;
 	DEBUGFATALERROR12( isActive(),"the element is not active");
 	DEBUGFATALERROR1(_valid(m_shell->mXFORM));
-	//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback resive 0 matrix");
+	//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback resive 0 matrix");
 	DEBUGFATALERROR1_RMATRIX(B->mTransform);
 	DEBUGFATALERROR1(valid_pos(B->mTransform.c,phBoundaries));
 	if(m_flags.test(flActivating))
@@ -816,7 +816,7 @@ void CPHElement::StataticRootBonesCallBack(CBoneInstance* B)
 			m_shell->SetNotActivating();
 		}
 		B->set_callback_overwrite(TRUE);
-		//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
+		//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
 		DEBUGFATALERROR1_RMATRIX(B->mTransform);
 		DEBUGFATALERROR1(valid_pos(B->mTransform.c,phBoundaries));
 		//return;
@@ -824,7 +824,7 @@ void CPHElement::StataticRootBonesCallBack(CBoneInstance* B)
 
 	
 
-	//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
+	//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
 	DEBUGFATALERROR1_RMATRIX(B->mTransform);
 	DEBUGFATALERROR1(valid_pos(B->mTransform.c,phBoundaries));
 	//if( !m_shell->is_active() && !m_flags.test(flUpdate)/*!bUpdate*/ ) return;
@@ -834,7 +834,7 @@ void CPHElement::StataticRootBonesCallBack(CBoneInstance* B)
 		parent.invert			(m_shell->mXFORM);
 		B->mTransform.mul_43	(parent,mXFORM);
 	}
-	//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
+	//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
 	DEBUGFATALERROR1_RMATRIX(B->mTransform);
 	DEBUGFATALERROR1(valid_pos(B->mTransform.c,phBoundaries));
 	DEBUGFATALERROR12(_valid(B->mTransform),"Bones callback returns bad matrix");
@@ -879,11 +879,11 @@ void CPHElement::GetAnimBonePos(Fmatrix &bp)
 
 IC bool put_in_range( Fvector &v, float range )
 {
-	DEBUGFATALERROR1( range > EPS_S );
+	DEBUGFATALERROR1( range > XrMath::EPS_S );
 	float sq_mag=v.square_magnitude( );
 	if( sq_mag > range*range )
 	{
-		float mag=_sqrt( sq_mag );
+		float mag=XrMath::sqrt( sq_mag );
 		v.mul( range/mag );
 		return true;
 	}
@@ -913,8 +913,8 @@ bool CPHElement::AnimToVel( float dt, float l_limit, float a_limit )
 
 	cp.invert();
 	Fmatrix diff;diff.mul_43(cp,bp);
-	if(dt<EPS_S)
-		dt = EPS_S;
+	if(dt<XrMath::EPS_S)
+		dt = XrMath::EPS_S;
 	Fvector mc1;
 	CPHGeometryOwner::get_mc_vs_transform(mc1,bp);
 	Fvector mc0 = cast_fv(dBodyGetPosition(m_body));
@@ -973,7 +973,7 @@ void CPHElement::BonesCallBack( CBoneInstance* B )
 	
 	DEBUGFATALERROR1 ( isActive() );
 	DEBUGFATALERROR1( _valid( m_shell->mXFORM ) );
-	//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback receive 0 matrix");
+	//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback receive 0 matrix");
 	DEBUGFATALERROR1_RMATRIX( B->mTransform );
 	DEBUGFATALERROR1_BOUNDARIES2( B->mTransform.c, phBoundaries, PhysicsRefObject(), "BonesCallBack incoming bone position" );
 

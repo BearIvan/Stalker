@@ -237,7 +237,7 @@ bool enemy_inaccessible (CBaseMonster * const object)
 	Fvector const enemy_vert_pos	=	ai().level_graph().vertex_position(enemy->ai_location().level_vertex_id());
 	
 	float const xz_dist_to_vertex	=	enemy_vert_pos.distance_to_xz(enemy_pos);
-	float const y_dist_to_vertex	=	_abs(enemy_vert_pos.y - enemy_pos.y);
+	float const y_dist_to_vertex	=	XrMath::abs(enemy_vert_pos.y - enemy_pos.y);
 
 	if ( xz_dist_to_vertex > 0.5f && y_dist_to_vertex > 3.f )
 		return							true;
@@ -445,7 +445,7 @@ void CBaseMonster::Hit(SHit* pHDS)
 		float &hit_power = pHDS->power;
 		float ap = pHDS->armor_piercing;
 		// пуля пробила шкуру
-		if(!fis_zero(m_fSkinArmor, EPS) && ap > m_fSkinArmor)
+		if(!XrMath::fis_zero(m_fSkinArmor, XrMath::EPS) && ap > m_fSkinArmor)
 		{
 			float d_hit_power = (ap - m_fSkinArmor) / ap;
 			if(d_hit_power < m_fHitFracMonster)
@@ -577,19 +577,19 @@ void CBaseMonster::set_state_sound(u32 type, bool once)
 				// check distance to actor
 
 				if (Actor()->Position().distance_to(Position()) > db().m_fDistantIdleSndRange) {
-					delay = u32(float(db().m_dwDistantIdleSndDelay) * _sqrt(float(objects_count)));
+					delay = u32(float(db().m_dwDistantIdleSndDelay) * XrMath::sqrt(float(objects_count)));
 					type  = MonsterSound::eMonsterSoundIdleDistant;
 				} else {
-					delay = u32(float(db().m_dwIdleSndDelay) * _sqrt(float(objects_count)));
+					delay = u32(float(db().m_dwIdleSndDelay) * XrMath::sqrt(float(objects_count)));
 				}
 				
 				break;
 			case MonsterSound::eMonsterSoundEat:
-				delay = u32(float(db().m_dwEatSndDelay) * _sqrt(float(objects_count)));
+				delay = u32(float(db().m_dwEatSndDelay) * XrMath::sqrt(float(objects_count)));
 				break;
 			case MonsterSound::eMonsterSoundAggressive:
 			case MonsterSound::eMonsterSoundPanic:
-				delay = u32(float(db().m_dwAttackSndDelay) * _sqrt(float(objects_count)));
+				delay = u32(float(db().m_dwAttackSndDelay) * XrMath::sqrt(float(objects_count)));
 				break;
 			}
 
@@ -828,7 +828,7 @@ void CBaseMonster::load_effector(LPCSTR section, LPCSTR line, SAttackEffector &e
 	effector.ppi.noise.intensity	= pSettings->r_float(ppi_section,"noise_intensity");
 	effector.ppi.noise.grain		= pSettings->r_float(ppi_section,"noise_grain");
 	effector.ppi.noise.fps			= pSettings->r_float(ppi_section,"noise_fps");
-	VERIFY(!fis_zero(effector.ppi.noise.fps));
+	VERIFY(!XrMath::fis_zero(effector.ppi.noise.fps));
 
 	sscanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &effector.ppi.color_base.r,	&effector.ppi.color_base.g,	&effector.ppi.color_base.b);
 	sscanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &effector.ppi.color_gray.r,	&effector.ppi.color_gray.g,	&effector.ppi.color_gray.b);
@@ -933,7 +933,7 @@ float   CBaseMonster::get_attack_on_move_max_go_close_time()
 float   CBaseMonster::get_attack_on_move_far_radius()
 {
 	float radius	=	override_if_debug("aom_far_radius", m_attack_on_move_params.far_radius);
-	clamp				(radius, 0.f, 100.f);
+	XrMath::clamp				(radius, 0.f, 100.f);
 	return				radius;
 }
 
@@ -1033,16 +1033,16 @@ float CBaseMonster::get_screen_space_coverage_diagonal()
 		Fvector p;
 		b.getpoint		(k,p);
 		xform.transform	(p);
-		mn.x			= _min(mn.x,p.x);
-		mn.y			= _min(mn.y,p.y);
-		mx.x			= _max(mx.x,p.x);
-		mx.y			= _max(mx.y,p.y);
+		mn.x			= XrMath::min(mn.x,p.x);
+		mn.y			= XrMath::min(mn.y,p.y);
+		mx.x			= XrMath::max(mx.x,p.x);
+		mx.y			= XrMath::max(mx.y,p.y);
 	}
 
 	float const width	=	mx.x - mn.x;
 	float const height	=	mx.y - mn.y;
 
-	float const	average_diagonal	=	_sqrt(width * height);
+	float const	average_diagonal	=	XrMath::sqrt(width * height);
 	return				average_diagonal;
 }
 

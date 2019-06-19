@@ -335,7 +335,7 @@ void execUserScript()
 		Console->ExecuteScript(Console->ConfigFile);
 	}
 }
-
+/*
 void slowdownthread(void*)
 {
     // Sleep (30*1000);
@@ -351,7 +351,7 @@ void slowdownthread(void*)
 }
 void CheckPrivilegySlowdown()
 {
-#ifdef DEBUG
+#if 0
     if (strstr(GetCommandLine(), "-slowdown"))
     {
         thread_spawn(slowdownthread, "slowdown", 0, 0);
@@ -363,7 +363,7 @@ void CheckPrivilegySlowdown()
     }
 #endif // DEBUG
 }
-
+*/
 void Startup()
 {
     InitSound1();

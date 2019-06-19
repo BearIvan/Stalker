@@ -12,10 +12,10 @@
 #endif
 moving_bones_snd_player::moving_bones_snd_player( IKinematics *K, CInifile* ini, LPCSTR section, const Fmatrix &object  ):
 	bone_id( BI_NONE ),
-	min_factor( -FLT_MAX ),
-	max_factor( -FLT_MAX ),
-	base_velocity( -FLT_MAX ),
-	smothed_velocity( -FLT_MAX ),
+	min_factor( -flt_max ),
+	max_factor( -flt_max ),
+	base_velocity( -flt_max ),
+	smothed_velocity( -flt_max ),
 	previous_position( Fidentity ),
 	kinematics( K )
 {
@@ -67,7 +67,7 @@ void moving_bones_snd_player::update( float time_delta, CGameObject &object )
 	VERIFY( min_factor > 0.f );
 	VERIFY( max_factor > 0.f );
 
-//	clamp( factor, min_factor, max_factor ); 
+//	XrMath::clamp( factor, min_factor, max_factor ); 
 	float frequency_factor = 1.f;
 	if( factor > max_factor )
 		frequency_factor = max_factor;

@@ -348,7 +348,7 @@ bool	 rendered;
 	virtual void render()
 	{
 		//if(rendered) return;
-		if(!fsimilar (dbg_text_current_height_scale,dbg_text_height_scale ) )
+		if(!XrMath::fsimilar (dbg_text_current_height_scale,dbg_text_height_scale ) )
 		{
 			UI().Font().pFontStat->SetHeight(UI().Font().pFontStat->GetHeight() * dbg_text_height_scale/dbg_text_current_height_scale );
 			dbg_text_current_height_scale = dbg_text_height_scale;
@@ -523,7 +523,7 @@ static void DBG_DrawTarckObj();
 static u32 previous_frame = u32(-1);
 void DBG_RenderUpdate( )
 {
-	if( Device.Paused() || Device.dwFrame == previous_frame || !(Device.fTimeDelta>EPS_S) )
+	if( Device.Paused() || Device.dwFrame == previous_frame || !(Device.fTimeDelta>XrMath::EPS_S) )
 		return;
 	draw_frame=!draw_frame;
 	clear_vector(dbg_draw_simple);

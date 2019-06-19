@@ -24,12 +24,12 @@ void CUICarPanel::Init			(float x, float y, float width, float height)
 /*
 	AttachChild(&UISpeedometer);
 	xml_init.InitStatic(uiXml, "speedometer", 0, &UISpeedometer);
-	UISpeedometer.InitPointer(POINTER_ARROW_TEX, 0, 0, M_PI*1.f/3.f, -M_PI*1.f/3.f);
+	UISpeedometer.InitPointer(POINTER_ARROW_TEX, 0, 0, XrMath::M_PI*1.f/3.f, -XrMath::M_PI*1.f/3.f);
 	SetSpeed(0.3f);
 
 	AttachChild(&UITachometer);
 	xml_init.InitStatic(uiXml, "tachometer", 0, &UITachometer);
-	UITachometer.InitPointer(POINTER_ARROW_TEX,  0, 0, M_PI*1.f/3.f, -M_PI*1.f/3.f);
+	UITachometer.InitPointer(POINTER_ARROW_TEX,  0, 0, XrMath::M_PI*1.f/3.f, -XrMath::M_PI*1.f/3.f);
 	SetSpeed(0.3f);
 */
 	Show(false);
@@ -45,7 +45,7 @@ void CUICarPanel::Init			(float x, float y, float width, float height)
 void CUICarPanel::SetCarHealth(float value)
 {
 	float pos = value*100;
-	clamp(pos, 0.0f, 100.0f);
+	XrMath::clamp(pos, 0.0f, 100.0f);
 	UICarHealthBar.SetProgressPos(pos);
 }
 
@@ -53,7 +53,7 @@ void CUICarPanel::SetCarHealth(float value)
 
 void CUICarPanel::SetSpeed(float speed)
 {
-//	clamp(speed,0.f,1.f);
+//	XrMath::clamp(speed,0.f,1.f);
 //	UISpeedometer.SetValue(speed);
 }
 
@@ -61,6 +61,6 @@ void CUICarPanel::SetSpeed(float speed)
 
 void CUICarPanel::SetRPM(float rpm)
 {
-//	clamp(rpm,0.f,1.f);
+//	XrMath::clamp(rpm,0.f,1.f);
 //	UITachometer.SetValue(rpm);
 }

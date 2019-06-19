@@ -637,8 +637,8 @@ void CSE_SmartCover::fill_visuals()
 
 void draw_frustum	(CDUInterface* du, float FOV, float _FAR, float A, Fvector &P, Fvector &D, Fvector &U, u32 const &CL)
 {
-	float YFov	= deg2rad(FOV*A);
-	float XFov	= deg2rad(FOV);
+	float YFov	= XrMath::deg2rad(FOV*A);
+	float XFov	= XrMath::deg2rad(FOV);
 
 	// calc window extents in camera coords
 	float wR=tanf(XFov*0.5f);
@@ -745,7 +745,7 @@ void CSE_SmartCover::load_draw_data () {
 		H.is_enterable			= false;
 		H.fov_direction			= parse_fvector(table, "fov_direction");
 
-		if (H.fov_direction.square_magnitude() < EPS_L) {
+		if (H.fov_direction.square_magnitude() < XrMath::EPS_L) {
 			Msg				("! fov direction for loophole %s is setup incorrectly", H.string_identifier.c_str());
 			H.fov_direction.set(0.f, 0.f, 1.f);
 		}
@@ -754,7 +754,7 @@ void CSE_SmartCover::load_draw_data () {
 
 		H.enter_direction		= parse_fvector(table, "enter_direction");
 
-		if (H.enter_direction.square_magnitude() < EPS_L) {
+		if (H.enter_direction.square_magnitude() < XrMath::EPS_L) {
 			Msg				("! enter direction for loophole %s is setup incorrectly", H.string_identifier.c_str());
 			H.enter_direction.set(0.f, 0.f, 1.f);
 		}
@@ -1673,8 +1673,8 @@ void CSE_ALifeObjectPhysic::UPDATE_Write	(NET_Packet	&tNetPacket)
 		);
 
 	if (State.enabled)									num_items.mask |= inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
 	//if (anim_use)										num_items.mask |= animated;
 
 	tNetPacket.w_u8					(num_items.common);
@@ -1778,7 +1778,7 @@ CSE_ALifeObjectHangingLamp::CSE_ALifeObjectHangingLamp(LPCSTR caSection) : CSE_A
 	m_virtual_size				= 0.1f;
 	m_ambient_radius			= 10.f;
     m_ambient_power				= 0.1f;
-    spot_cone_angle				= deg2rad(120.f);
+    spot_cone_angle				= XrMath::deg2rad(120.f);
     glow_radius					= 0.7f;
 	m_volumetric_quality		= 1.0f;
 	m_volumetric_intensity		= 1.0f;
@@ -1950,7 +1950,7 @@ void CSE_ALifeObjectHangingLamp::FillProps	(LPCSTR pref, PropItemVec& values)
 	PHelper().CreateChoose		(values, PrepareKey(pref,*s_name,"Light\\Main\\Bone"),			&light_main_bone,	smSkeletonBones,0,(void*)visual()->get_visual());
 	if (flags.is(flTypeSpot))
 	{
-		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	deg2rad(1.f), deg2rad(120.f));
+		PHelper().CreateAngle	(values, PrepareKey(pref,*s_name,"Light\\Main\\Cone Angle"),	&spot_cone_angle,	XrMath::deg2rad(1.f), XrMath::deg2rad(120.f));
 //		PHelper().CreateFlag16	(values, PrepareKey(pref,*s_name,"Light\\Main\\Volumetric"),	&flags,			flVolumetric);
 		P=PHelper().CreateFlag16	(values, PrepareKey(pref,*s_name,"Flags\\Volumetric"),	&flags,			flVolumetric);
 		P->OnChangeEvent.bind	(this,&CSE_ALifeObjectHangingLamp::OnChangeFlag);

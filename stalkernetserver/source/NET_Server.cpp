@@ -294,7 +294,7 @@ IPureServer::EConnect IPureServer::Connect(LPCSTR options, GameDescriptionData &
 		else
 			strncpy_s(tmpStr, ServerPort, 63);
 		dwServerPort = atol(tmpStr);
-		clamp(dwServerPort, u32(START_PORT), u32(END_PORT));
+		XrMath::clamp(dwServerPort, u32(START_PORT), u32(END_PORT));
 		bPortWasSet = TRUE; //this is not casual game
 	}
 	//-------------------------------------------------------------------

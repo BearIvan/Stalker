@@ -97,8 +97,8 @@ void CDemoPlay::stat_Stop()
     rfps_middlepoint = 0;
 
     // Filtered FPS
-    const u32 iAvgFPS = _max((u32)rfps_average, 10);
-    const u32 WindowSize = _max(16, iAvgFPS / 2);
+    const u32 iAvgFPS = XrMath::max((u32)rfps_average, (u32)10);
+    const u32 WindowSize = XrMath::max((u32)16, iAvgFPS / 2);
 
     if (stat_table.size() > WindowSize * 4)
     {
@@ -238,7 +238,7 @@ BOOL CDemoPlay::ProcessCam(SCamEffectorInfo& info)
         float ip;
         float p = fStartTime / fSpeed;
         float t = modff(p, &ip);
-        int frame = iFloor(ip);
+        int frame = XrMath::iFloor(ip);
         VERIFY(t >= 0);
 
         if (frame >= m_count)

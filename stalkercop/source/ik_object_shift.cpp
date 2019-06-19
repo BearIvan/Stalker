@@ -23,7 +23,7 @@ void object_shift::	dbg_draw			( const Fmatrix	&current_pos, const extrapolation
 
 	float time = taget_time - time_global;
 	float time_passed = time_global - current_time;
-	if(fis_zero(time))
+	if(XrMath::fis_zero(time))
 		return;
 
 	float time_quant = ( time ) / nb_points;
@@ -64,7 +64,7 @@ float	object_shift::shift	( float time_global )const
 {
 	float time_passed = time_global - current_time;
 	float lshift = current + delta_shift( time_passed );
-	clamp( lshift, -global_max_shift, global_max_shift );
+	XrMath::clamp( lshift, -global_max_shift, global_max_shift );
 	return lshift;
 }
 
@@ -81,7 +81,7 @@ bool square_equation(float a, float b, float c, float &x0, float &x1 )// returns
 	float d = b*b - 4.f * a * c;
 	if( d<0.f )
 		return false;
-	float srt_d_2a	= 0.5f * _sqrt( d )/a ;
+	float srt_d_2a	= 0.5f * XrMath::sqrt( d )/a ;
 	float b_2a		= 0.5f * b/a;
 	x0 = -b_2a - srt_d_2a;
 	x1 = -b_2a + srt_d_2a;
@@ -98,19 +98,19 @@ bool square_equation(float a, float b, float c, float &x0, float &x1 )// returns
 //	return x;
 //	float taget_speed = x/time;
 //	
-//		//clamp(taget_speed,-max_possible_shift_speed, max_possible_shift_speed );
+//		//XrMath::clamp(taget_speed,-max_possible_shift_speed, max_possible_shift_speed );
 //	save_min( taget_speed, max_possible_shift_speed_up );
 //	save_max( taget_speed, -max_possible_shift_speed_down ); 
 //
 //	float change_speed = taget_speed - speed;
 //	float avr_accel = change_speed/time;
 //
-//	//clamp( avr_accel,-max_shift_avr_accel, max_shift_avr_accel );
+//	//XrMath::clamp( avr_accel,-max_shift_avr_accel, max_shift_avr_accel );
 //	save_min( avr_accel, max_shift_avr_accel_up );
 //	save_max( avr_accel, -max_shift_avr_accel_down );
 //	taget_speed = speed + avr_accel * time;
 //
-//	//clamp(taget_speed,-max_possible_shift_speed, max_possible_shift_speed );
+//	//XrMath::clamp(taget_speed,-max_possible_shift_speed, max_possible_shift_speed );
 //	save_min( taget_speed, max_possible_shift_speed_up );
 //	save_max( taget_speed, -max_possible_shift_speed_down ); 
 //	x = taget_speed * time;
@@ -128,8 +128,8 @@ void	object_shift::set_taget		( float taget_, float time )
 {
 	if( b_freeze )
 			return;
-	clamp( taget_, -global_max_shift, global_max_shift );
-	//if( fsimilar(taget, taget_) )
+	XrMath::clamp( taget_, -global_max_shift, global_max_shift );
+	//if( XrMath::fsimilar(taget, taget_) )
 	//	return;
 	taget = taget_;
 	
@@ -137,13 +137,13 @@ void	object_shift::set_taget		( float taget_, float time )
 	
 
 
-	if( fis_zero( taget_-shift( time_global + time ) ) )
+	if( XrMath::fis_zero( taget_-shift( time_global + time ) ) )
 	{
 		taget_time		= time_global + time ;
 		return ;
 	}
 
-	if( time < EPS_S)
+	if( time < XrMath::EPS_S)
 		time = Device.fTimeDelta;
 
 	current			= shift();
@@ -178,14 +178,14 @@ void	object_shift::set_taget		( float taget_, float time )
 	if( ( x > half_shift_restrict_up || x< -half_shift_restrict_down ) &&   square_equation( aaccel/2.f, accel, speed, x0, x1 ) )
 	{
 		
-		float max_shift0 = _abs( delta_shift( x0 ) ) ;
-		float max_shift1 = _abs( delta_shift( x1 ) ) ;
-		float ax = _abs( x );
+		float max_shift0 = XrMath::abs( delta_shift( x0 ) ) ;
+		float max_shift1 = XrMath::abs( delta_shift( x1 ) ) ;
+		float ax = XrMath::abs( x );
 		bool bx0 = max_shift0 > 2.f * ax;
 		bool bx1 = max_shift1 > 2.f * ax;
 		if( 
-			( ( x0 > 0.f && x0 < time - EPS_S ) && bx0 ) ||
-			( ( x1 > 0.f && x1 < time - EPS_S ) && bx1 )
+			( ( x0 > 0.f && x0 < time - XrMath::EPS_S ) && bx0 ) ||
+			( ( x1 > 0.f && x1 < time - XrMath::EPS_S ) && bx1 )
 			)
 		{
 			aaccel	= 0.f;

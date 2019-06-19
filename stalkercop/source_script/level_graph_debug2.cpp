@@ -62,7 +62,7 @@ void CLevelGraph::draw_nodes	()
 	F->OutI				(0.f,0.5f,"%f,%f,%f",VPUSH(P));
 //	float				x,z;
 //	unpack_xz			(Local,x,z);
-//	F->Out				(0.f,0.55f,"%3d,%4d,%3d -> %d",	iFloor(x),iFloor(Local.y()),iFloor(z),u32(ID));
+//	F->Out				(0.f,0.55f,"%3d,%4d,%3d -> %d",	XrMath::iFloor(x),XrMath::iFloor(Local.y()),XrMath::iFloor(z),u32(ID));
 
 	svector<u32,128>	linked;
 	{
@@ -161,7 +161,7 @@ void CLevelGraph::draw_nodes	()
 				Device.mFullTransform.transform	(S,T);
 				if (S.z < 0 || S.z < 0)												continue;
 				if (S.x < -1.f || S.x > 1.f || S.y<-1.f || S.x>1.f)					continue;
-				F->SetHeightI	(0.05f/_sqrt(_abs(S.w)));
+				F->SetHeightI	(0.05f/XrMath::sqrt(XrMath::abs(S.w)));
 				F->SetColor	(0xffffffff);
 				F->OutI		(S.x,-S.y,"~%d",Nid);
 			}
@@ -236,14 +236,14 @@ void CLevelGraph::draw_covers	()
 		float				best_value = -1.f;
 		u32  j = 0;
 		for (u32 i=0; i<36; ++i) {
-			float				value = high_cover_in_direction(float(10*i)/180.f*PI,v);
-			direction.setHP		(float(10*i)/180.f*PI,0);
+			float				value = high_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+			direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);
 			direction.y			= position.y;
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-			value				= compute_high_square(float(10*i)/180.f*PI,PI/2.f,v);
+			value				= compute_high_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
 			if (value > best_value) {
 				best_value		= value;
 				j				= i;
@@ -262,8 +262,8 @@ void CLevelGraph::draw_covers	()
 		direction.set		(position.x,position.y,position.z - half_size*float(v->high_cover(3))/15.f);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		float				value = high_cover_in_direction(float(10*j)/180.f*PI,v);
-		direction.setHP		(float(10*j)/180.f*PI,0);
+		float				value = high_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+		direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 		direction.normalize	();
 		direction.mul		(value*half_size);
 		direction.add		(position);
@@ -281,14 +281,14 @@ void CLevelGraph::draw_covers	()
 		float				best_value = -1.f;
 
 		for (u32 i=0, j = 0; i<36; ++i) {
-			float				value = low_cover_in_direction(float(10*i)/180.f*PI,v);
-			direction.setHP		(float(10*i)/180.f*PI,0);
+			float				value = low_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+			direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);
 			direction.add		(position);
 			direction.y			= position.y;
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
-			value				= compute_low_square(float(10*i)/180.f*PI,PI/2.f,v);
+			value				= compute_low_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
 			if (value > best_value) {
 				best_value		= value;
 				j				= i;
@@ -307,8 +307,8 @@ void CLevelGraph::draw_covers	()
 		direction.set		(position.x,position.y,position.z - half_size*float(v->low_cover(3))/15.f);
 		Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-		float				value = low_cover_in_direction(float(10*j)/180.f*PI,v);
-		direction.setHP		(float(10*j)/180.f*PI,0);
+		float				value = low_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+		direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 		direction.normalize	();
 		direction.mul		(value*half_size);
 		direction.add		(position);

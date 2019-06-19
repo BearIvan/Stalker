@@ -328,7 +328,7 @@ virtual void ApplyDamage(u16 level);
 			joint=NULL;
 			state=closed;
 			torque=500.f;
-			a_vel=M_PI;
+			a_vel=XrMath::M_PI;
 		}
 	};
 
@@ -459,7 +459,7 @@ private:
 	float	 			EnginePower							()	;
 	float	 			EngineDriveSpeed					()	;
 	float	 			DriveWheelsMeanAngleRate			()	;
-IC	float	 			EngineRpmFromWheels					(){return _abs(DriveWheelsMeanAngleRate()*m_current_gear_ratio);}
+IC	float	 			EngineRpmFromWheels					(){return XrMath::abs(DriveWheelsMeanAngleRate()*m_current_gear_ratio);}
 	/////////////////////////////////////////////////////////////////////////	
 	void				SteerRight							();
 	void				SteerLeft							();

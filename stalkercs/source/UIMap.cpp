@@ -80,8 +80,8 @@ void CUICustomMap::Init_internal(const shared_str& name, CInifile& pLtx, const s
 
 void rotation_(float x, float y, const float angle, float& x_, float& y_)
 {
-	float _sc = _cos(angle);
-	float _sn = _sin(angle);
+	float _sc = XrMath::cos(angle);
+	float _sn = XrMath::sin(angle);
 	x_= x*_sc+y*_sn;
 	y_= y*_sc-x*_sn;
 }
@@ -155,7 +155,7 @@ bool CUICustomMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2
 
 	f_intersect_point.mad(f_intersect_point,f_dir,item_radius );
 
-	pos.set( iFloor(f_intersect_point.x), iFloor(f_intersect_point.y) );
+	pos.set( XrMath::iFloor(f_intersect_point.x), XrMath::iFloor(f_intersect_point.y) );
 	return true;
 }
 
@@ -326,7 +326,7 @@ float CUIGlobalMap::CalcOpenRect(const Fvector2& center_point, Frect& map_desire
 	delta_pos.set				(new_center_pt.x-vis_w*0.5f,new_center_pt.y-vis_h*0.5f);
 	// correct desired rect
 	map_desired_rect.sub		(delta_pos.x,delta_pos.y);
-	// clamp pos by vis rect
+	// XrMath::clamp pos by vis rect
 	const Frect& r				= map_desired_rect;
 	Fvector2 np					= r.lt;
 	if (r.x2<vis_w)	np.x		+= vis_w-r.x2;
@@ -400,7 +400,7 @@ void CUILevelMap::Init_internal	(const shared_str& name, CInifile& pLtx, const s
 	float kw = m_GlobalRect.width	()	/	BoundRect().width	();
 	float kh = m_GlobalRect.height	()	/	BoundRect().height	();
 
-	if(FALSE==fsimilar(kw,kh,EPS_L))
+	if(FALSE==XrMath::fsimilar(kw,kh,XrMath::EPS_L))
 	{
 		Msg(" --incorrect global rect definition for map [%s]  kw=%f kh=%f",*MapName(),kw,kh);
 		Msg(" --try x2=%f or  y2=%f",m_GlobalRect.x1+kh*BoundRect().width(), m_GlobalRect.y1+kw*BoundRect().height());
@@ -414,7 +414,7 @@ void CUILevelMap::UpdateSpots()
 {
 	DetachAll			();
 
-//.	if( fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(),MapWnd()->GlobalMap()->GetMinZoom(),EPS_L ) ) return;
+//.	if( XrMath::fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(),MapWnd()->GlobalMap()->GetMinZoom(),XrMath::EPS_L ) ) return;
 	
 	Frect				_r;
 	GetAbsoluteRect		(_r);
@@ -471,7 +471,7 @@ void CUILevelMap::Update()
 		VERIFY(m_dwFocusReceiveTime>=0);
 		if( Device.dwTimeGlobal>(m_dwFocusReceiveTime+500) )
 		{
-			if(fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(), MapWnd()->GlobalMap()->GetMinZoom(),EPS_L ))
+			if(XrMath::fsimilar(MapWnd()->GlobalMap()->GetCurrentZoom(), MapWnd()->GlobalMap()->GetMinZoom(),XrMath::EPS_L ))
 				MapWnd()->ShowHintStr(this, MapName().c_str());
 			else
 				MapWnd()->HideHint(this);

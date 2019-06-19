@@ -2,10 +2,11 @@
 #pragma hdrstop
 
 #include "Frustum.h"
-
+#define positive(x) x>=0
+#define negative(x) x<0
 //////////////////////////////////////////////////////////////////////
 void			CFrustum::fplane::cache	()	{
-	if(positive(n.x)) {
+	if(n.x>=0) {
 		if(positive(n.y)) {
 			if(positive(n.z))	aabb_overlap_id	= 0;
 			else				aabb_overlap_id	= 1;
@@ -66,7 +67,7 @@ EFC_Visible	CFrustum::testSphere			(Fvector& c, float r, u32& test_mask) const
 		if (test_mask&bit) {
 			float cls = planes[i].classify	(c);
 			if (cls>r) { test_mask=0; return fcvNone;}	// none  - return
-			if (_abs(cls)>=r) test_mask&=~bit;			// fully - no need to test this plane
+			if (XrMath::abs(cls)>=r) test_mask&=~bit;			// fully - no need to test this plane
 		}
 	}
 	return test_mask ? fcvPartial:fcvFully;
@@ -117,7 +118,7 @@ EFC_Visible	CFrustum::testSAABB			(Fvector& c, float r, const float* mM, u32& te
 		if (test_mask&bit) {
 			float cls = planes[i].classify(c);
 			if (cls>r) { test_mask=0; return fcvNone;}	// none  - return
-			if (_abs(cls)>=r) test_mask&=~bit;			// fully - no need to test this plane
+			if (XrMath::abs(cls)>=r) test_mask&=~bit;			// fully - no need to test this plane
 			else {
 				EFC_Visible	r	= AABB_OverlapPlane(planes[i],mM);
 				if (fcvFully==r)	test_mask&=~bit;					// fully - no need to test this plane
@@ -212,7 +213,7 @@ void CFrustum::SimplifyPoly_AABB(sPoly* poly, Fplane& plane)
 	Fvector		from,up,right,y;
 	from.set	((*poly)[0]);
 	y.set		(0,1,0);
-	if (_abs(plane.n.y)>0.99f) y.set(1,0,0);
+	if (XrMath::abs(plane.n.y)>0.99f) y.set(1,0,0);
 	right.crossproduct		(y,plane.n);
 	up.crossproduct			(plane.n,right);
 	mView.build_camera_dir	(from,plane.n,up);
@@ -254,14 +255,14 @@ void CFrustum::CreateOccluder(Fvector* p, int count, Fvector& vBase, CFrustum& c
 	{
 		// classify all points relative to plane #i
 		fplane &P = clip.planes[i];
-		for (int j=0; j<count; j++) cls[j]=_abs(P.classify(p[j]));
+		for (int j=0; j<count; j++) cls[j]=XrMath::abs(P.classify(p[j]));
 
 		// test edges to see which lies directly on plane
 		for (int j=0; j<count; j++) {
-			if (cls[j]<EPS_L)
+			if (cls[j]<XrMath::EPS_L)
 			{
 				int next = j+1; if (next>=count) next=0;
-				if (cls[next]<EPS_L) {
+				if (cls[next]< XrMath::EPS_L) {
 					// both points lies on plane - mark as 'open'
 					edge[j] = true;
 				}
@@ -302,7 +303,7 @@ sPoly*	CFrustum::ClipPoly(sPoly& S, sPoly& D) const
 		Fvector D; float denum,t;
 		for (u32 j=0; j<src->size()-1; j++)
 		{
-			if ((*src)[j].similar((*src)[j+1],EPS_S)) continue;
+			if ((*src)[j].similar((*src)[j+1], XrMath::EPS_S)) continue;
 
 			if (negative(cls[j]))
 			{

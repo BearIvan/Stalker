@@ -110,8 +110,8 @@ void CSE_ALifeInventoryItem::UPDATE_Write	(NET_Packet &tNetPacket)
 	);
 
 	if (State.enabled)									num_items.mask |= inventory_item_state_enabled;
-	if (fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
-	if (fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
+	if (XrMath::fis_zero(State.angular_vel.square_magnitude()))	num_items.mask |= inventory_item_angular_null;
+	if (XrMath::fis_zero(State.linear_vel.square_magnitude()))	num_items.mask |= inventory_item_linear_null;
 
 	tNetPacket.w_u8					(num_items.common);
 
@@ -123,9 +123,9 @@ void CSE_ALifeInventoryItem::UPDATE_Write	(NET_Packet &tNetPacket)
 	tNetPacket.w_float_q8			(State.quaternion.w,0.f,1.f);	
 
 	if (!check(num_items.mask,inventory_item_angular_null)) {
-		tNetPacket.w_float_q8		(State.angular_vel.x,0.f,10*PI_MUL_2);
-		tNetPacket.w_float_q8		(State.angular_vel.y,0.f,10*PI_MUL_2);
-		tNetPacket.w_float_q8		(State.angular_vel.z,0.f,10*PI_MUL_2);
+		tNetPacket.w_float_q8		(State.angular_vel.x,0.f,10* XrMath::PI_MUL_2);
+		tNetPacket.w_float_q8		(State.angular_vel.y,0.f,10* XrMath::PI_MUL_2);
+		tNetPacket.w_float_q8		(State.angular_vel.z,0.f,10* XrMath::PI_MUL_2);
 	}
 
 	if (!check(num_items.mask,inventory_item_linear_null)) {
@@ -161,9 +161,9 @@ void CSE_ALifeInventoryItem::UPDATE_Read	(NET_Packet &tNetPacket)
 	State.enabled					= check(num_items.mask,inventory_item_state_enabled);
 
 	if (!check(num_items.mask,inventory_item_angular_null)) {
-		tNetPacket.r_float_q8		(State.angular_vel.x,0.f,10*PI_MUL_2);
-		tNetPacket.r_float_q8		(State.angular_vel.y,0.f,10*PI_MUL_2);
-		tNetPacket.r_float_q8		(State.angular_vel.z,0.f,10*PI_MUL_2);
+		tNetPacket.r_float_q8		(State.angular_vel.x,0.f,10*XrMath::PI_MUL_2);
+		tNetPacket.r_float_q8		(State.angular_vel.y,0.f,10*XrMath::PI_MUL_2);
+		tNetPacket.r_float_q8		(State.angular_vel.z,0.f,10*XrMath::PI_MUL_2);
 	}
 	else
 		State.angular_vel.set		(0.f,0.f,0.f);
@@ -271,7 +271,7 @@ BOOL CSE_ALifeItem::Net_Relevant			()
 	if (attached())
 		return					(false);
 
-	if (!m_physics_disabled && !fis_zero(State.linear_vel.square_magnitude(),EPS_L))
+	if (!m_physics_disabled && !XrMath::fis_zero(State.linear_vel.square_magnitude(),XrMath::EPS_L))
 		return					(true);
 
 #ifdef XRGAME_EXPORTS

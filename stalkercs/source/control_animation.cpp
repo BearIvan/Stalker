@@ -152,7 +152,7 @@ void CControlAnimation::add_anim_event(MotionID motion, float time_perc, u32 id)
 		ANIMATION_EVENT_VEC &anim_vec = it->second;
 
 		for (ANIMATION_EVENT_VEC_IT I = anim_vec.begin(); I != anim_vec.end(); ++I) {
-			if (fsimilar(I->time_perc, time_perc)) return;
+			if (XrMath::fsimilar(I->time_perc, time_perc)) return;
 		}
 	}
 

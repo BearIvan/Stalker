@@ -50,7 +50,7 @@ void	character_shell_control::Load( LPCSTR section )
 void		character_shell_control::set_kill_hit				( SHit &H ) const
 {
 	Fvector &dir= H.dir; 
-	if( !fis_zero(m_shot_up_factor) && H.type() != ALife::eHitTypeExplosion )
+	if( !XrMath::fis_zero(m_shot_up_factor) && H.type() != ALife::eHitTypeExplosion )
 	{
 		dir.y+=m_shot_up_factor;
 		dir.normalize();

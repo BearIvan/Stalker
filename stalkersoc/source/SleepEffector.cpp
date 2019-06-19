@@ -17,11 +17,11 @@ CSleepEffectorPP::CSleepEffectorPP(const SPPInfo &ppi, float life_time, float at
 	state		= ppi;
 	m_total		= life_time;
 
-	m_attack	= ((fis_zero(attack_time)) ? 0.5f : attack_time);
-	m_release	= ((fis_zero(release_time)) ? 0.5f : release_time);
+	m_attack	= ((XrMath::fis_zero(attack_time)) ? 0.5f : attack_time);
+	m_release	= ((XrMath::fis_zero(release_time)) ? 0.5f : release_time);
 
-	VERIFY(!fsimilar(m_release, 1.0f));
-	VERIFY(!fis_zero(m_attack));
+	VERIFY(!XrMath::fsimilar(m_release, 1.0f));
+	VERIFY(!XrMath::fis_zero(m_attack));
 
 	m_eSleepState = BEGIN_SLEEP;
 }
@@ -56,7 +56,7 @@ BOOL CSleepEffectorPP::Process(SPPInfo& pp)
 	else if (AWAKING == m_eSleepState)//просыпаемся
 		factor = (1.0f - time_past_perc) / (1.0f - m_release);
 
-	clamp(factor,0.01f, 1.0f);
+	XrMath::clamp(factor,0.01f, 1.0f);
 
 	if(m_eSleepState==SLEEPING) return TRUE;
 		
@@ -69,7 +69,7 @@ BOOL CSleepEffectorPP::Process(SPPInfo& pp)
 	pp.noise.intensity	= def.noise.intensity	+ (state.noise.intensity	- def.noise.intensity)	* factor;
 	pp.noise.grain		= def.noise.grain		+ (state.noise.grain		- def.noise.grain)		* factor;
 	pp.noise.fps		= def.noise.fps			+ (state.noise.fps			- def.noise.fps)		* factor;	
-	VERIFY(!fis_zero(pp.noise.fps));
+	VERIFY(!XrMath::fis_zero(pp.noise.fps));
 
 
 	pp.color_base.set	(

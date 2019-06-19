@@ -53,7 +53,7 @@ void CSE_ALifeObject::spawn_supplies		(LPCSTR ini_string)
 			
 			if (V && xr_strlen(V)) {
 				string64			buf;
-				j					= atoi(_GetItem(V, 0, buf));
+				j					= atoi(XrTrims::GetItem(V, 0, buf));
 				if (!j)		j		= 1;
 
 				bScope				= (NULL!=strstr(V,"scope"));
@@ -62,7 +62,7 @@ void CSE_ALifeObject::spawn_supplies		(LPCSTR ini_string)
 				//probability
 				if(NULL!=strstr(V,"prob="))
 					p				= (float)atof(strstr(V,"prob=")+5);
-				if (fis_zero(p)) p	= 1.0f;
+				if (XrMath::fis_zero(p)) p	= 1.0f;
 				if(NULL!=strstr(V,"cond="))
 					f_cond			= (float)atof(strstr(V,"cond=")+5);
 			}

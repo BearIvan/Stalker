@@ -4,8 +4,8 @@
 
 IC void conv_angle(float& c)
 {
-	if (c<0)				c+=PI_MUL_2;
-	else if (c>PI_MUL_2)	c-=PI_MUL_2;
+	if (c<0)				c+=XrMath::PI_MUL_2;
+	else if (c>XrMath::PI_MUL_2)	c-=XrMath::PI_MUL_2;
 }
 
 void CCustomMonster::mk_rotation	(Fvector &dir, SRotation &R)
@@ -14,13 +14,13 @@ void CCustomMonster::mk_rotation	(Fvector &dir, SRotation &R)
 	Fvector DYaw;	
 	DYaw.set(dir.x,0.f,dir.z); 
 	DYaw.normalize_safe();
-	clamp(DYaw.x,-0.9999999f,0.9999999f);
-	clamp(DYaw.y,-0.9999999f,0.9999999f);
-	clamp(DYaw.z,-0.9999999f,0.9999999f);
+	XrMath::clamp(DYaw.x,-0.9999999f,0.9999999f);
+	XrMath::clamp(DYaw.y,-0.9999999f,0.9999999f);
+	XrMath::clamp(DYaw.z,-0.9999999f,0.9999999f);
 	if (DYaw.x>=0)	
 		R.yaw = acosf(DYaw.z);
 	else			
-		R.yaw = 2*PI-acosf(DYaw.z);
+		R.yaw = 2*XrMath::M_PI-acosf(DYaw.z);
 
 	// parse pitch
 	dir.normalize_safe	();
@@ -32,10 +32,10 @@ void CCustomMonster::Exec_Look		( float dt )
 	if (animation_movement_controlled())
 		return;
 
-	movement().m_body.current.yaw	= angle_normalize_signed	(movement().m_body.current.yaw);
-	movement().m_body.current.pitch	= angle_normalize_signed	(movement().m_body.current.pitch);
-	movement().m_body.target.yaw	= angle_normalize_signed	(movement().m_body.target.yaw);
-	movement().m_body.target.pitch	= angle_normalize_signed	(movement().m_body.target.pitch);
+	movement().m_body.current.yaw	= XrMath::angle_normalize_signed	(movement().m_body.current.yaw);
+	movement().m_body.current.pitch	= XrMath::angle_normalize_signed	(movement().m_body.current.pitch);
+	movement().m_body.target.yaw	= XrMath::angle_normalize_signed	(movement().m_body.target.yaw);
+	movement().m_body.target.pitch	= XrMath::angle_normalize_signed	(movement().m_body.target.pitch);
 	
 	float pitch_speed				= get_custom_pitch_speed(movement().m_body.speed);
 	angle_lerp_bounds				(movement().m_body.current.yaw,movement().m_body.target.yaw,movement().m_body.speed,dt);

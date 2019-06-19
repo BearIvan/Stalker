@@ -29,7 +29,7 @@ bool CUIInventoryCellItem::EqualTo(CUICellItem* itm)
 	CUIInventoryCellItem* ci = smart_cast<CUIInventoryCellItem*>(itm);
 	if(!itm)				return false;
 	return					(
-								fsimilar(object()->GetCondition(), ci->object()->GetCondition(), 0.01f) &&
+								XrMath::fsimilar(object()->GetCondition(), ci->object()->GetCondition(), 0.01f) &&
 								(object()->object().cNameSect() == ci->object()->object().cNameSect())
 							);
 }

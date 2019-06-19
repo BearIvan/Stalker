@@ -31,7 +31,7 @@ IC	T cos_apb(T sina, T cosa, T sinb, T cosb)
 
 IC	bool is_negative(float a)
 {
-	return				(!fis_zero(a) && (a < 0.f));
+	return				(!XrMath::fis_zero(a) && (a < 0.f));
 }
 
 IC	bool coincide_directions	(
@@ -43,7 +43,7 @@ IC	bool coincide_directions	(
 	float			dest_cross_product
 )
 {
-	if (fis_zero(start_cross_product)) {
+	if (XrMath::fis_zero(start_cross_product)) {
 		Fvector2		circle_tangent_point_direction = Fvector2().sub(dest_tangent_point,dest_circle_center);
 		Fvector2		start_tangent_dest_tangent_direction = Fvector2().sub(dest_tangent_point,start_tangent_point);
 		float			cp1 = start_tangent_dest_tangent_direction.crossproduct(circle_tangent_point_direction);
@@ -70,31 +70,31 @@ bool CDetailPathManager::compute_tangent(
 
 	// computing 2D cross product for start point
 	direction.sub		(start.position,start_circle.center);
-	if (fis_zero(direction.square_magnitude()))
+	if (XrMath::fis_zero(direction.square_magnitude()))
 		direction		= start.direction;
 
 	start_yaw			= direction.getH();
-	start_yaw			= start_yaw >= 0.f ? start_yaw : start_yaw + PI_MUL_2;
+	start_yaw			= start_yaw >= 0.f ? start_yaw : start_yaw + XrMath::PI_MUL_2;
 	start_cp			= start.direction.crossproduct(direction);
 	
 	// computing 2D cross product for dest point
 	direction.sub		(dest.position,dest_circle.center);
-	if (fis_zero(direction.square_magnitude()))
+	if (XrMath::fis_zero(direction.square_magnitude()))
 		direction		= dest.direction;
 
 	dest_yaw			= direction.getH();
-	dest_yaw			= dest_yaw >= 0.f ? dest_yaw : dest_yaw + PI_MUL_2;
+	dest_yaw			= dest_yaw >= 0.f ? dest_yaw : dest_yaw + XrMath::PI_MUL_2;
 	dest_cp				= dest.direction.crossproduct(direction);
 
 	// direction from the first circle to the second one
 	direction.sub		(dest_circle.center,start_circle.center);
 	yaw1				= direction.getH();
-	yaw1 = yaw2			= yaw1 >= 0.f ? yaw1 : yaw1 + PI_MUL_2;
+	yaw1 = yaw2			= yaw1 >= 0.f ? yaw1 : yaw1 + XrMath::PI_MUL_2;
 
 	if (start_cp*dest_cp >= 0.f) {
 		// so, our tangents are outside
-		if (start_circle.center.similar(dest_circle.center,EPS_S)) {
-			if  (fsimilar(start_circle.radius,dest_circle.radius,EPS_S)) {
+		if (start_circle.center.similar(dest_circle.center,XrMath::EPS_S)) {
+			if  (XrMath::fsimilar(start_circle.radius,dest_circle.radius,XrMath::EPS_S)) {
 				// so, our circles are equal
 				tangents[0]			= tangents[1] = start_circle;
 				adjust_point		(start_circle.center,dest_yaw,start_circle.radius,tangents[0].point);
@@ -115,28 +115,28 @@ bool CDetailPathManager::compute_tangent(
 			distance		= start_circle.center.distance_to(dest_circle.center);
 			// radius difference
 			float			r_diff = start_circle.radius - dest_circle.radius;
-			float			r_diff_abs = _abs(r_diff);
-			if ((r_diff_abs > distance) && !fsimilar(r_diff_abs,distance,EPS_S))
+			float			r_diff_abs = XrMath::abs(r_diff);
+			if ((r_diff_abs > distance) && !XrMath::fsimilar(r_diff_abs,distance,XrMath::EPS_S))
 				return		(false);
 			// angle between external tangents and circle centers segment
 			float			temp = r_diff/distance;
-			clamp			(temp,-.99999f,.99999f);
+			XrMath::clamp			(temp,-.99999f,.99999f);
 			alpha			= acosf(temp);
-			alpha			= alpha >= 0.f ? alpha : alpha + PI_MUL_2;
+			alpha			= alpha >= 0.f ? alpha : alpha + XrMath::PI_MUL_2;
 		}
 	}
 	else {
 		distance		= start_circle.center.distance_to(dest_circle.center);
 		// so, our tangents are inside (crossing)
-		if ((start_circle.radius + dest_circle.radius > distance) && !fsimilar(start_circle.radius + dest_circle.radius,distance,EPS_S))
+		if ((start_circle.radius + dest_circle.radius > distance) && !XrMath::fsimilar(start_circle.radius + dest_circle.radius,distance,XrMath::EPS_S))
 			return		(false);
 	
 		// angle between internal tangents and circle centers segment
 		float			temp = (start_circle.radius + dest_circle.radius)/distance;
-		clamp			(temp,-.99999f,.99999f);
+		XrMath::clamp			(temp,-.99999f,.99999f);
 		alpha			= acosf(temp);
-		alpha			= alpha >= 0.f ? alpha : alpha + PI_MUL_2;
-		yaw2			= yaw1 < PI ? yaw1 + PI : yaw1 - PI;
+		alpha			= alpha >= 0.f ? alpha : alpha + XrMath::PI_MUL_2;
+		yaw2			= yaw1 < XrMath::M_PI ? yaw1 + XrMath::M_PI : yaw1 - XrMath::M_PI;
 	}
 
 	tangents[0]			= start_circle;
@@ -147,16 +147,16 @@ bool CDetailPathManager::compute_tangent(
 	adjust_point		(dest_circle.center, yaw2 + alpha,	dest_circle.radius, tangents[1].point);
 
 	if (coincide_directions(start_circle.center,tangents[0].point,start_cp,dest_circle.center,tangents[1].point,dest_cp)) {
-		assign_angle	(tangents[0].angle,start_yaw,yaw1 + alpha < PI_MUL_2 ? yaw1 + alpha : yaw1 + alpha - PI_MUL_2,start_cp >= 0,direction_type);
-		assign_angle	(tangents[1].angle,dest_yaw, yaw2 + alpha < PI_MUL_2 ? yaw2 + alpha : yaw2 + alpha - PI_MUL_2,dest_cp  >= 0,direction_type,false);
+		assign_angle	(tangents[0].angle,start_yaw,yaw1 + alpha < XrMath::PI_MUL_2 ? yaw1 + alpha : yaw1 + alpha - XrMath::PI_MUL_2,start_cp >= 0,direction_type);
+		assign_angle	(tangents[1].angle,dest_yaw, yaw2 + alpha < XrMath::PI_MUL_2 ? yaw2 + alpha : yaw2 + alpha - XrMath::PI_MUL_2,dest_cp  >= 0,direction_type,false);
 		return			(true);
 	}
 
 	// compute external tangent points
 	adjust_point		(start_circle.center,yaw1 - alpha,	start_circle.radius,tangents[0].point);
 	adjust_point		(dest_circle.center, yaw2 - alpha,	dest_circle.radius, tangents[1].point);
-	assign_angle		(tangents[0].angle,start_yaw,yaw1 - alpha >= 0.f ? yaw1 - alpha : yaw1 - alpha + PI_MUL_2,start_cp >= 0,direction_type);
-	assign_angle		(tangents[1].angle,dest_yaw, yaw2 - alpha >= 0.f ? yaw2 - alpha : yaw2 - alpha + PI_MUL_2,dest_cp  >= 0,direction_type,false);
+	assign_angle		(tangents[0].angle,start_yaw,yaw1 - alpha >= 0.f ? yaw1 - alpha : yaw1 - alpha + XrMath::PI_MUL_2,start_cp >= 0,direction_type);
+	assign_angle		(tangents[1].angle,dest_yaw, yaw2 - alpha >= 0.f ? yaw2 - alpha : yaw2 - alpha + XrMath::PI_MUL_2,dest_cp  >= 0,direction_type,false);
 
 	return				(true);
 }
@@ -171,7 +171,7 @@ bool CDetailPathManager::build_circle_trajectory(
 	const float			min_dist = .1f;
 	STravelPathPoint	t;
 	t.velocity			= velocity;
-	if (position.radius*_abs(position.angle) <= min_dist) {
+	if (position.radius*XrMath::abs(position.angle) <= min_dist) {
 		if (!path) {
 			if (vertex_id)
 				*vertex_id	= position.vertex_id;
@@ -181,7 +181,7 @@ bool CDetailPathManager::build_circle_trajectory(
 			*vertex_id		= position.vertex_id;
 
 		t.position		= ai().level_graph().v3d(position.position);
-		if (vertex_id || (!path->empty() && !path->back().position.similar(t.position,EPS_S))) {
+		if (vertex_id || (!path->empty() && !path->back().position.similar(t.position,XrMath::EPS_S))) {
 			VERIFY			(t.velocity != u32(-1));
 			t.vertex_id		= position.vertex_id;
 			path->push_back	(t);
@@ -197,17 +197,17 @@ bool CDetailPathManager::build_circle_trajectory(
 	float				angle = position.angle;
 	int					size = path ? (int)path->size() : -1;
 
-	if (!fis_zero(direction.square_magnitude()))
+	if (!XrMath::fis_zero(direction.square_magnitude()))
 		direction.normalize	();
 	else
 		direction.set	(1.f,0.f);
 
 	float				sina, cosa, sinb, cosb, sini, cosi, temp;
 	int					n;
-	if (fis_zero(position.angular_velocity))
+	if (XrMath::fis_zero(position.angular_velocity))
 		n				= 1;
 	else {
-		int				m = _min(iFloor(_abs(angle)/position.angular_velocity*10.f + 1.5f),iFloor(position.radius*_abs(angle)/min_dist + 1.5f));
+		int				m = XrMath::min(XrMath::iFloor(XrMath::abs(angle)/position.angular_velocity*10.f + 1.5f),XrMath::iFloor(position.radius*XrMath::abs(angle)/min_dist + 1.5f));
 #ifdef DEBUG
 		if (m>=10000) {
 			Msg			("! [position.radius=%f],[angle=%f],[m=%d]",position.radius,angle,m);
@@ -223,8 +223,8 @@ bool CDetailPathManager::build_circle_trajectory(
 
 	sina				= -direction.x;
 	cosa				= direction.y;
-	sinb				= _sin(angle/float(n));
-	cosb				= _cos(angle/float(n));
+	sinb				= XrMath::sin(angle/float(n));
+	cosb				= XrMath::cos(angle/float(n));
 	sini				= 0.f;
 	cosi				= 1.f;
 
@@ -318,15 +318,15 @@ bool CDetailPathManager::build_trajectory(
 {
 	time			= flt_max;
 	SDist			dist[4];
-	float			straight_velocity = _abs(velocity(velocity2).linear_velocity);
+	float			straight_velocity = XrMath::abs(velocity(velocity2).linear_velocity);
 	{
 		for (u32 i=0; i<tangent_count; ++i) {
 			dist[i].index = i;
 			dist[i].time = 
-				_abs(tangents[i][0].angle)/start.angular_velocity +
-				_abs(tangents[i][1].angle)/dest.angular_velocity +
+				XrMath::abs(tangents[i][0].angle)/start.angular_velocity +
+				XrMath::abs(tangents[i][1].angle)/dest.angular_velocity +
 				tangents[i][0].point.distance_to(tangents[i][1].point)*
-				(fis_zero(straight_velocity) ? 0 : 1.f/straight_velocity); 
+				(XrMath::fis_zero(straight_velocity) ? 0 : 1.f/straight_velocity); 
 		}
 	}
 	
@@ -446,7 +446,7 @@ bool CDetailPathManager::compute_path(
 		}
 	}
 	
-	if (fsimilar(min_time,flt_max))
+	if (XrMath::fsimilar(min_time,flt_max))
 		return				(false);
 	
 	return					(true);
@@ -465,7 +465,7 @@ void CDetailPathManager::validate_vertex_position(STrajectoryPoint &point) const
 	center.mul				(.5f);
 	center.sub				(position);
 	center.normalize		();
-	center.mul				(EPS_L);
+	center.mul				(XrMath::EPS_L);
 	position.add			(center);
 	point.position			= ai().level_graph().v2d(position);
 	VERIFY					(ai().level_graph().inside(point.vertex_id,point.position));
@@ -504,12 +504,12 @@ bool CDetailPathManager::init_build(
 	m_corrected_dest_position.y			= ai().level_graph().vertex_plane_y(dest.vertex_id,dest.position.x,dest.position.y);
 	m_corrected_dest_position.z			= dest.position.y;
 
-	if (start.direction.square_magnitude() < EPS_L)
+	if (start.direction.square_magnitude() < XrMath::EPS_L)
 		start.direction.set				(0.f,1.f);
 	else
 		start.direction.normalize		();
 
-	if (dest.direction.square_magnitude() < EPS_L)
+	if (dest.direction.square_magnitude() < XrMath::EPS_L)
 		dest.direction.set				(0.f,1.f);
 	else
 		dest.direction.normalize		();
@@ -547,7 +547,7 @@ bool CDetailPathManager::init_build(
 		return							(false);
 
 	m_dest_params.clear					();
-	m_dest_params.push_back				(STravelParamsIndex(0.f,PI_MUL_2,u32(-1)));
+	m_dest_params.push_back				(STravelParamsIndex(0.f,XrMath::PI_MUL_2,u32(-1)));
 
 	return								(true);
 }
@@ -615,7 +615,7 @@ IC	CDetailPathManager::STravelPoint CDetailPathManager::compute_better_key_point
 	direction21.normalize		();
 	direction20.normalize		();
 	float						cos_alpha = direction21.dot(direction20);
-	clamp						(cos_alpha,-.99999f,.99999f);
+	XrMath::clamp						(cos_alpha,-.99999f,.99999f);
 	direction20					= direction21;
 	direction20.mul				(-1.f);
 	float						a = 0.f, b = 1.f, c = 1.f, d = dist12 - dist02/cos_alpha*.5f;
@@ -653,7 +653,7 @@ IC	CDetailPathManager::STravelPoint CDetailPathManager::compute_better_key_point
 			b					= c;
 		c						= (a+b)*.5f;
 	}
-	while (!fsimilar(a,b,.01f));
+	while (!XrMath::fsimilar(a,b,.01f));
 
 	return						(result);
 }
@@ -697,7 +697,7 @@ void CDetailPathManager::build_path_via_key_points(
 		if (!last_point) {
 			(STravelPoint&)d			= *I;
 			d.direction.sub				((I+1)->position,d.position);
-			VERIFY						(!fis_zero(d.direction.magnitude()));
+			VERIFY						(!XrMath::fis_zero(d.direction.magnitude()));
 			d.direction.normalize		();
 		}
 		else
@@ -719,7 +719,7 @@ void CDetailPathManager::build_path_via_key_points(
 			ai().level_graph().v2d(m_path[m_path.size() - 2].position)
 		);
 
-		if (fis_zero(s.direction.magnitude())) {
+		if (XrMath::fis_zero(s.direction.magnitude())) {
 			m_path.pop_back				();
 			VERIFY						(m_path.size() > 1);
 			s.direction.sub					(
@@ -728,7 +728,7 @@ void CDetailPathManager::build_path_via_key_points(
 			);
 		}
 
-		VERIFY							(!fis_zero(s.direction.magnitude()));
+		VERIFY							(!XrMath::fis_zero(s.direction.magnitude()));
 		s.direction.normalize			();
 		m_path.pop_back					();
 
@@ -738,7 +738,7 @@ void CDetailPathManager::build_path_via_key_points(
 				s.direction.mul			(-1.f);
 		}
 
-		VERIFY							(!fis_zero(s.direction.magnitude()));
+		VERIFY							(!XrMath::fis_zero(s.direction.magnitude()));
 	}
 
 	if ((B == E) && !compute_path(s,dest,&m_path,m_start_params,finish_params,straight_line_index,straight_line_index_negative)) {
@@ -764,7 +764,7 @@ void CDetailPathManager::postprocess_key_points(
 	if (m_key_points.size() < 3)
 		return;
 
-	if (m_key_points[m_key_points.size() - 2].position.similar(m_key_points[m_key_points.size() - 1].position,EPS_S))
+	if (m_key_points[m_key_points.size() - 2].position.similar(m_key_points[m_key_points.size() - 1].position,XrMath::EPS_S))
 		m_key_points.pop_back();
 
 	for (int i=1, n=(int)m_key_points.size() - 1; i < n; ++i) {
@@ -798,19 +798,19 @@ void CDetailPathManager::postprocess_key_points(
 			m_key_points[i]	= key_point0;
 		else
 			m_key_points[i]	= key_point1;
-		VERIFY				(!m_key_points[i].position.similar(m_key_points[i-1].position,EPS_S));
+		VERIFY				(!m_key_points[i].position.similar(m_key_points[i-1].position,XrMath::EPS_S));
 	}
 }
 
 void CDetailPathManager::add_patrol_point()
 {
 	m_last_patrol_point					= m_path.size() - 1;
-	if ((m_path.size() > 1) && m_state_patrol_path && !fis_zero(extrapolate_length())) {
+	if ((m_path.size() > 1) && m_state_patrol_path && !XrMath::fis_zero(extrapolate_length())) {
 		STravelPathPoint				t;
 		Fvector							v;
 		v.sub							(m_path.back().position,m_path[m_last_patrol_point - 1].position);
 		v.y								= 0.f;
-		if (v.magnitude() > EPS_S)
+		if (v.magnitude() > XrMath::EPS_S)
 			v.normalize					();
 		else
 			return;

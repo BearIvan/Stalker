@@ -1129,8 +1129,8 @@ shared_str game_sv_GameState::parse_level_version			(const shared_str &server_op
 shared_str game_sv_GameState::parse_level_name(const shared_str &server_options)
 {
 	string64			l_name = "";
-	VERIFY				(_GetItemCount(*server_options,'/'));
-	return				(_GetItem(*server_options,0,l_name,'/'));
+	VERIFY				(XrTrims::GetItemCount(*server_options,'/'));
+	return				(XrTrims::GetItem(*server_options,0,l_name,'/'));
 }
 
 void game_sv_GameState::on_death	(CSE_Abstract *e_dest, CSE_Abstract *e_src)

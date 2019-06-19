@@ -97,13 +97,13 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	{
 		m_bHasDifferentFireModes = true;
 		shared_str FireModesList = pSettings->r_string(section, "fire_modes");
-		int ModesCount = _GetItemCount(FireModesList.c_str());
+		int ModesCount = XrTrims::GetItemCount(FireModesList.c_str());
 		m_aFireModes.clear();
 		
 		for (int i=0; i<ModesCount; i++)
 		{
 			string16 sItem;
-			_GetItem(FireModesList.c_str(), i, sItem);
+			XrTrims::GetItem(FireModesList.c_str(), i, sItem);
 			m_aFireModes.push_back	((s8)atoi(sItem));
 		}
 		
@@ -437,7 +437,7 @@ void CWeaponMagazined::UpdateCL			()
 		case eIdle:
 			{
 				fShotTimeCounter	-=	dt;
-				clamp				(fShotTimeCounter, 0.0f, flt_max);
+				XrMath::clamp				(fShotTimeCounter, 0.0f, flt_max);
 			}break;
 		case eFire:			
 			{
@@ -1045,12 +1045,12 @@ void CWeaponMagazined::LoadSilencerKoeffs()
 		m_silencer_koef.cam_disper_inc	= READ_IF_EXISTS( pSettings, r_float, sect, "cam_dispersion_inc_k", 1.0f );
 	}
 
-	clamp( m_silencer_koef.hit_power,		0.0f, 1.0f );
-	clamp( m_silencer_koef.hit_impulse,		0.0f, 1.0f );
-	clamp( m_silencer_koef.bullet_speed,	0.0f, 1.0f );
-	clamp( m_silencer_koef.fire_dispersion,	0.0f, 3.0f );
-	clamp( m_silencer_koef.cam_dispersion,	0.0f, 1.0f );
-	clamp( m_silencer_koef.cam_disper_inc,	0.0f, 1.0f );
+	XrMath::clamp( m_silencer_koef.hit_power,		0.0f, 1.0f );
+	XrMath::clamp( m_silencer_koef.hit_impulse,		0.0f, 1.0f );
+	XrMath::clamp( m_silencer_koef.bullet_speed,	0.0f, 1.0f );
+	XrMath::clamp( m_silencer_koef.fire_dispersion,	0.0f, 3.0f );
+	XrMath::clamp( m_silencer_koef.cam_dispersion,	0.0f, 1.0f );
+	XrMath::clamp( m_silencer_koef.cam_disper_inc,	0.0f, 1.0f );
 }
 
 void CWeaponMagazined::ApplySilencerKoeffs()
@@ -1311,12 +1311,12 @@ bool CWeaponMagazined::install_upgrade_impl( LPCSTR section, bool test )
 	bool result2 = process_if_exists_set( section, "fire_modes", &CInifile::r_string, str, test );
 	if ( result2 && !test )
 	{
-		int ModesCount = _GetItemCount( str );
+		int ModesCount = XrTrims::GetItemCount( str );
 		m_aFireModes.clear();
 		for ( int i = 0; i < ModesCount; ++i )
 		{
 			string16 sItem;
-			_GetItem( str, i, sItem );
+			XrTrims::GetItem( str, i, sItem );
 			m_aFireModes.push_back( (s8)atoi(sItem) );
 		}
 		m_iCurFireMode = ModesCount - 1;

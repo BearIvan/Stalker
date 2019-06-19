@@ -34,13 +34,13 @@ void CHUDCrosshair::Load		()
 	//все размеры в процентах от длины экрана
 	//длина крестика 
 	cross_length_perc = pSettings->r_float (HUD_CURSOR_SECTION, "cross_length");
-//	cross_length = iFloor(0.5f + cross_length_perc*float(Device.dwWidth));
+//	cross_length = XrMath::iFloor(0.5f + cross_length_perc*float(Device.dwWidth));
 
 	min_radius_perc = pSettings->r_float (HUD_CURSOR_SECTION, "min_radius");
-	//min_radius = iFloor(0.5f + min_radius_perc*float(Device.dwWidth));
+	//min_radius = XrMath::iFloor(0.5f + min_radius_perc*float(Device.dwWidth));
 
 	max_radius_perc = pSettings->r_float (HUD_CURSOR_SECTION, "max_radius");
-	//max_radius = iFloor(0.5f + max_radius_perc*float(Device.dwWidth));
+	//max_radius = XrMath::iFloor(0.5f + max_radius_perc*float(Device.dwWidth));
 
 	cross_color = pSettings->r_fcolor (HUD_CURSOR_SECTION, "cross_color").get();
 }
@@ -49,13 +49,13 @@ void CHUDCrosshair::Load		()
 void CHUDCrosshair::SetDispersion	(float disp)
 { 
 	Fvector4 r;
-	Fvector R			= { VIEWPORT_NEAR*_sin(disp), 0.f, VIEWPORT_NEAR };
+	Fvector R			= { VIEWPORT_NEAR*XrMath::sin(disp), 0.f, VIEWPORT_NEAR };
 	Device.mProject.transform	(r,R);
 
 	Fvector2		scr_size;
 	scr_size.set	(float(::Render->getTarget()->get_width()), float(::Render->getTarget()->get_height()));
-	float radius_pixels		= _abs(r.x)*scr_size.x/2.0f;
-	//	clamp(radius_pixels, min_radius, max_radius);
+	float radius_pixels		= XrMath::abs(r.x)*scr_size.x/2.0f;
+	//	XrMath::clamp(radius_pixels, min_radius, max_radius);
 	target_radius		= radius_pixels; 
 }
 
@@ -63,12 +63,12 @@ void CHUDCrosshair::SetDispersion	(float disp)
 void CHUDCrosshair::SetFirstBulletDispertion(float fbdisp)
 {
 	Fvector4 r;
-	Fvector R			= { VIEWPORT_NEAR*_sin(fbdisp), 0.f, VIEWPORT_NEAR };
+	Fvector R			= { VIEWPORT_NEAR*XrMath::sin(fbdisp), 0.f, VIEWPORT_NEAR };
 	Device.mProject.transform	(r,R);
 
 	Fvector2		scr_size;
 	scr_size.set	(float(::Render->getTarget()->get_width()), float(::Render->getTarget()->get_height()));
-	fb_radius		= _abs(r.x)*scr_size.x/2.0f;
+	fb_radius		= XrMath::abs(r.x)*scr_size.x/2.0f;
 }
 
 BOOL	g_bDrawFirstBulletCrosshair = FALSE;
@@ -91,7 +91,7 @@ void CHUDCrosshair::OnRenderFirstBulletDispertion()
 	float min_radius					= min_radius_perc*scr_size.x;
 	float max_radius					= max_radius_perc*scr_size.x;
 
-	clamp								(target_radius , min_radius, max_radius);
+	XrMath::clamp								(target_radius , min_radius, max_radius);
 
 	float x_min							= min_radius + fb_radius;
 	float x_max							= x_min + cross_length;
@@ -140,7 +140,7 @@ void CHUDCrosshair::OnRender ()
 	float min_radius					= min_radius_perc*scr_size.x;
 	float max_radius					= max_radius_perc*scr_size.x;
 
-	clamp								(target_radius , min_radius, max_radius);
+	XrMath::clamp								(target_radius , min_radius, max_radius);
 
 	float x_min							= min_radius + radius;
 	float x_max							= x_min + cross_length;
@@ -171,7 +171,7 @@ void CHUDCrosshair::OnRender ()
 	UIRender->FlushPrimitive		();
 
 
-	if(!fsimilar(target_radius,radius))
+	if(!XrMath::fsimilar(target_radius,radius))
 	{
 		//here was crosshair innertion emulation
 		radius = target_radius;

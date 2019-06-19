@@ -104,7 +104,7 @@ void CLightProjector::setup		(int id)
 	recv&			R			= cache[id];
 	float			Rd			= R.O->renderable.visual->getVisData().sphere.R;
 	float			dist		= R.C.distance_to	(Device.vCameraPosition)+Rd;
-	float			factor		= _sqr(dist/clipD(Rd))*(1-ps_r1_lmodel_lerp) + ps_r1_lmodel_lerp;
+	float			factor		= XrMath::sqr(dist/clipD(Rd))*(1-ps_r1_lmodel_lerp) + ps_r1_lmodel_lerp;
 	RCache.set_c	(c_xform,	R.UVgen);
 	Fvector&	m	= R.UVclamp_min;
 	RCache.set_ca	(c_clamp,	0,m.x,m.y,m.z,factor);
@@ -196,11 +196,11 @@ void CLightProjector::calculate	()
 		// calculate projection-matrix
 		Fmatrix		mProject;
 		float		p_R			=	R.O->renderable.visual->getVisData().sphere.R * 1.1f;
-		//VERIFY2		(p_R>EPS_L,"Object has no physical size");
-		VERIFY3		(p_R>EPS_L,"Object has no physical size", R.O->renderable.visual->getDebugName().c_str());
+		//VERIFY2		(p_R>XrMath::EPS_L,"Object has no physical size");
+		VERIFY3		(p_R>XrMath::EPS_L,"Object has no physical size", R.O->renderable.visual->getDebugName().c_str());
 		float		p_hat		=	p_R/P_cam_dist;
 		float		p_asp		=	1.f;
-		float		p_near		=	P_cam_dist-EPS_L;									
+		float		p_near		=	P_cam_dist-XrMath::EPS_L;									
 		float		p_far		=	P_cam_dist+p_R+P_cam_range;	
 		mProject.build_projection_HAT	(p_hat,p_asp,p_near,p_far);
 		RCache.set_xform_project		(mProject);

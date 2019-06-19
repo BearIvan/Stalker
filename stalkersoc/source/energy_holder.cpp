@@ -58,7 +58,7 @@ void CEnergyHolder::schedule_update()
 	else 
 		m_value -= m_decline_vel * dt;
 
-	clamp(m_value, 0.f, 1.f);
+	XrMath::clamp(m_value, 0.f, 1.f);
 
 	// сохранить время последнего обновления
 	m_time_last_update = cur_time;

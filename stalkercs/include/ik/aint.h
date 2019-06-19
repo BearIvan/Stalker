@@ -33,7 +33,7 @@
 #define _AINTH
 
 //#ifdef _WINDOWS
-//#define M_PI            3.14159265358979323846
+//#define XrMath::M_PI            3.14159265358979323846
 //#endif
 
 #define AINT_EPSILON     (1e-5f)
@@ -41,18 +41,18 @@
 
 inline int equal(float x, float y, const float eps = AINT_EPSILON)
 {
-    return (_abs(x - y) < eps);
+    return (XrMath::abs(x - y) < eps);
 }
 
 
 inline int istwopi(float x, const float eps = AINT_EPSILON)
 {
-    return equal(x, 2.0f*M_PI, eps);
+    return equal(x, 2.0f*XrMath::M_PI, eps);
 }
 
 inline int iszero(float x, const float eps = AINT_EPSILON)
 {
-    return _abs(x) < eps;
+    return XrMath::abs(x) < eps;
 }
 
 inline int le(float x, float y, const float eps = AINT_EPSILON)
@@ -67,19 +67,19 @@ inline int ge(float x, float y, const float eps = AINT_EPSILON)
 			  
 
 //
-// Puts an angle in the range 0..2*PI
+// Puts an angle in the range 0..2*XrMath::XrMath::M_PI
 // 
-//inline float angle_normalize(float psi)
+//inline float XrMath::angle_normalize(float psi)
 //{
-//    if (fabs(psi-2*M_PI) < AINT_EPSILON)
-//	psi = 2*M_PI;
+//    if (fabs(psi-2*XrMath::M_PI) < AINT_EPSILON)
+//	psi = 2*XrMath::M_PI;
 //    else
-//	while (psi > 2*M_PI)  psi -= 2* M_PI;
+//	while (psi > 2*XrMath::M_PI)  psi -= 2* XrMath::M_PI;
 //
 //    if (fabs(psi) < AINT_EPSILON)
 //	psi = 0.0;
 //    else
-//	while (psi < 0) psi += 2* M_PI;
+//	while (psi < 0) psi += 2* XrMath::M_PI;
 //
 //    return psi;
 //}
@@ -93,17 +93,17 @@ inline float angle_distance(float a1, float a2)
 {
     float t1, t2; 
 
-    a1 = angle_normalize(a1);
-    a2 = angle_normalize(a2);
+    a1 = XrMath::angle_normalize(a1);
+    a2 = XrMath::angle_normalize(a2);
 
     if (a1 > a2)
     {
-	t1 = 2*M_PI - a1 + a2;
+	t1 = 2*XrMath::M_PI - a1 + a2;
 	t2 = a1 - a2;
     }
     else
     {
-	t1 = 2*M_PI - a2 + a1;
+	t1 = 2*XrMath::M_PI - a2 + a1;
 	t2 = a2 - a1;
     }
     if (t2 < t1)
@@ -143,10 +143,10 @@ public:
     void split(AngleInt &l, AngleInt &h) const
     {
 	l.Set(0, high);
-	h.Set(low, 2*M_PI);
+	h.Set(low, 2*XrMath::M_PI);
     }
 
-    AngleInt() : low(0), high(2*M_PI) {}
+    AngleInt() : low(0), high(2*XrMath::M_PI) {}
     AngleInt(float l, float h);
 
     void SetLow(float l);
@@ -158,16 +158,16 @@ public:
 
     int IsFullRange(float eps = AINT_BIG_EPSILON) const
     {
-		return _abs(high-2*M_PI) < eps && _abs(low) < eps;
+		return XrMath::abs(high-2*XrMath::M_PI) < eps && XrMath::abs(low) < eps;
     }
 
     int IsEmpty(float eps = AINT_BIG_EPSILON) const
     {
 		if (low <= high)
 			return (
-			_abs(low-high) < eps);
+			XrMath::abs(low-high) < eps);
 		else
-			return (_abs(low-2*M_PI) + _abs(high) < eps);
+			return (XrMath::abs(low-2*XrMath::M_PI) + XrMath::abs(high) < eps);
 		}
 
 		// returns T if a is in the angle range
@@ -176,7 +176,7 @@ public:
 		if (IsEmpty())
 			return 0;
 
-		a = angle_normalize(a);
+		a = XrMath::angle_normalize(a);
 		if (iszero(a) || istwopi(a))
 			return (low > high) || iszero(low) || istwopi(high);
 		else

@@ -71,9 +71,9 @@ void CBaseMonster::post_fsm_update()
 		float	dir_yaw = control().path_builder().detail().direction().getH();
 		float	yaw_target = Fvector().sub(EnemyMan.get_enemy()->Position(), Position()).getH();
 
-		float angle_diff	= angle_difference(yaw_target, dir_yaw);
+		float angle_diff	= XrMath::angle_difference(yaw_target, dir_yaw);
 
-		if ((angle_diff > PI_DIV_3) && (angle_diff < 5 * PI_DIV_6)) {
+		if ((angle_diff > XrMath::PI_DIV_3) && (angle_diff < 5 * XrMath::PI_DIV_6)) {
 			if (from_right(dir_yaw, yaw_target))	m_bRunTurnRight = true;
 			else									m_bRunTurnLeft	= true;
 		}

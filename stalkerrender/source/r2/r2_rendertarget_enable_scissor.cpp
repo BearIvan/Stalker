@@ -67,7 +67,7 @@ BOOL CRenderTarget::enable_scissor		(light* L)		// true if intersects near plane
 		plane.y							= -(M._24 + M._23);
 		plane.z							= -(M._34 + M._33);
 		plane.w							= -(M._44 + M._43);
-		float denom						= -1.0f / _sqrt(_sqr(plane.x)+_sqr(plane.y)+_sqr(plane.z));
+		float denom						= -1.0f / XrMath::sqrt(XrMath::sqr(plane.x)+XrMath::sqr(plane.y)+XrMath::sqr(plane.z));
 		plane.mul						(denom);
 		Fplane	P;	P.n.set(plane.x,plane.y,plane.z); P.d = plane.w;
 		float	p_dist					= P.classify	(L->spatial.sphere.P) - L->spatial.sphere.R;
@@ -90,10 +90,10 @@ BOOL CRenderTarget::enable_scissor		(light* L)		// true if intersects near plane
 	CSector*	S	= (CSector*)L->spatial.sector;
 	_scissor	bb	= S->r_scissor_merged;
 	Irect		R;
-	R.x1		= clampr	(iFloor	(bb.min.x*Device.dwWidth),	int(0),int(Device.dwWidth));
-	R.x2		= clampr	(iCeil	(bb.max.x*Device.dwWidth),	int(0),int(Device.dwWidth));
-	R.y1		= clampr	(iFloor	(bb.min.y*Device.dwHeight),	int(0),int(Device.dwHeight));
-	R.y2		= clampr	(iCeil	(bb.max.y*Device.dwHeight),	int(0),int(Device.dwHeight));
+	R.x1		= XrMath::clampr	(XrMath::iFloor	(bb.min.x*Device.dwWidth),	int(0),int(Device.dwWidth));
+	R.x2		= XrMath::clampr	(XrMath::iCeil	(bb.max.x*Device.dwWidth),	int(0),int(Device.dwWidth));
+	R.y1		= XrMath::clampr	(XrMath::iFloor	(bb.min.y*Device.dwHeight),	int(0),int(Device.dwHeight));
+	R.y2		= XrMath::clampr	(XrMath::iCeil	(bb.max.y*Device.dwHeight),	int(0),int(Device.dwHeight));
 	if	( (Device.dwWidth==u32(R.right - R.left)) && (Device.dwHeight==u32(R.bottom-R.top)) )
 	{
 		// full-screen -> do nothing

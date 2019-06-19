@@ -56,7 +56,7 @@ void	anim_script_callback::anim_callback		(CBlend*		B)
 	//timeCurrent += quant; // stop@end - time is not going
 
 	//bool	running_fwrd	=  ( quant > 0 );
-	//float	const END_EPS	=	SAMPLE_SPF+EPS;
+	//float	const END_EPS	=	SAMPLE_SPF+XrMath::EPS;
 	//bool	at_end			=	running_fwrd && ( timeCurrent > ( timeTotal-END_EPS ) );
 	//bool	at_begin		=	!running_fwrd && ( timeCurrent < 0.f );
 	////..............................

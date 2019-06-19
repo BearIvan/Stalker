@@ -18,10 +18,10 @@
 #include "inventory.h"
 #include "stalker_animation_manager_impl.h"
 
-const float right_forward_angle			= PI_DIV_4;
-const float left_forward_angle			= PI_DIV_4;
-const float standing_turn_angle			= PI_DIV_6;
-const float epsilon						= EPS_L;
+const float right_forward_angle			= XrMath::PI_DIV_4;
+const float left_forward_angle			= XrMath::PI_DIV_4;
+const float standing_turn_angle			= XrMath::PI_DIV_6;
+const float epsilon						= XrMath::EPS_L;
 
 const u32	direction_switch_interval 	= 500;
 
@@ -29,9 +29,9 @@ const u32	need_look_back_time_delay	= 0;
 
 const float direction_angles[]			= {
 	0.f,		//	eMovementDirectionForward
-	PI,			//	eMovementDirectionBackward
-	PI_DIV_2,	//	eMovementDirectionLeft
-	-PI_DIV_2	//	eMovementDirectionRight
+	XrMath::M_PI,			//	eMovementDirectionBackward
+	XrMath::PI_DIV_2,	//	eMovementDirectionLeft
+	-XrMath::PI_DIV_2	//	eMovementDirectionRight
 };
 
 void CStalkerAnimationManager::legs_play_callback			(CBlend *blend)
@@ -101,7 +101,7 @@ void CStalkerAnimationManager::legs_assign_direction		(float switch_factor, cons
 	}
 
 	VERIFY						(m_direction_start <= Device.dwTimeGlobal);
-	if ((Device.dwTimeGlobal - m_direction_start) <= (u32)iFloor(switch_factor*direction_switch_interval))
+	if ((Device.dwTimeGlobal - m_direction_start) <= (u32)XrMath::iFloor(switch_factor*direction_switch_interval))
 		return;
 
 	m_direction_start			= Device.dwTimeGlobal;
@@ -120,9 +120,9 @@ void CStalkerAnimationManager::legs_process_direction		(float yaw)
 		test_angle_forward		= left_forward_angle;
 		test_angle_backward		= right_forward_angle;
 	}
-	test_angle_backward			= PI - test_angle_backward;
+	test_angle_backward			= XrMath::M_PI - test_angle_backward;
 
-	float						difference = angle_difference(yaw,head_current);
+	float						difference = XrMath::angle_difference(yaw,head_current);
 
 	if (difference <= test_angle_forward)
 		legs_assign_direction			(switch_factor,eMovementDirectionForward);
@@ -170,7 +170,7 @@ MotionID CStalkerAnimationManager::legs_move_animation		()
 	float						yaw,pitch;
 	object().sight().GetDirectionAngles(yaw,pitch);
 
-	yaw							= angle_normalize_signed(-yaw);;
+	yaw							= XrMath::angle_normalize_signed(-yaw);;
 	legs_process_direction		(yaw);
 
 	float						body_current = movement.body_orientation().current.yaw;
@@ -181,10 +181,10 @@ MotionID CStalkerAnimationManager::legs_move_animation		()
 		test_angle_forward		= left_forward_angle;
 		test_angle_backward		= right_forward_angle;
 	}
-	test_angle_backward			= PI - test_angle_backward;
+	test_angle_backward			= XrMath::M_PI - test_angle_backward;
 
 	EMovementDirection			speed_direction;
-	float						difference = angle_difference(yaw,body_current);
+	float						difference = XrMath::angle_difference(yaw,body_current);
 
 	if (difference <= test_angle_forward)
 		speed_direction			= eMovementDirectionForward;
@@ -249,10 +249,10 @@ MotionID CStalkerAnimationManager::legs_no_move_animation	()
 	const SBoneRotation			&body_orientation = movement.body_orientation();
 	float						current = body_orientation.current.yaw;
 	float						target = body_orientation.target.yaw;
-	if (angle_difference(target,current) < EPS_L) {
+	if (XrMath::angle_difference(target,current) < XrMath::EPS_L) {
 
 		float					head_current = movement.head_orientation().current.yaw;
-		if ((movement.mental_state() != eMentalStateFree) || (!object().sight().turning_in_place() && (angle_difference(current,head_current) <= standing_turn_angle))) {
+		if ((movement.mental_state() != eMentalStateFree) || (!object().sight().turning_in_place() && (XrMath::angle_difference(current,head_current) <= standing_turn_angle))) {
 			if (movement.mental_state() == eMentalStateFree)
 				return			(animation[1]);
 

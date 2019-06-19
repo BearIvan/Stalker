@@ -63,8 +63,8 @@ void XRayFontRender::OnRender(CGameFont & owner)
 				xr_strlen(PS.string);
 
 			if (len) {
-				float	X = float(iFloor(PS.x));
-				float	Y = float(iFloor(PS.y));
+				float	X = float(XrMath::iFloor(PS.x));
+				float	Y = float(XrMath::iFloor(PS.y));
 				float	S = PS.height*g_current_font_scale.y;
 				float	Y2 = Y + S;
 				float fSize = 0;
@@ -75,10 +75,10 @@ void XRayFontRender::OnRender(CGameFont & owner)
 				switch (PS.align)
 				{
 				case CGameFont::alCenter:
-					X -= (iFloor(fSize * 0.5f)) * g_current_font_scale.x;
+					X -= (XrMath::iFloor(fSize * 0.5f)) * g_current_font_scale.x;
 					break;
 				case CGameFont::alRight:
-					X -= iFloor(fSize);
+					X -= XrMath::iFloor(fSize);
 					break;
 				}
 
@@ -107,7 +107,7 @@ void XRayFontRender::OnRender(CGameFont & owner)
 
 					float fTCWidth = l.z / owner.vTS.x;
 
-					if (!fis_zero(l.z))
+					if (!XrMath::fis_zero(l.z))
 					{
 						//						tu			= ( l.x / owner.vTS.x ) + ( 0.5f / owner.vTS.x );
 						//						tv			= ( l.y / owner.vTS.y ) + ( 0.5f / owner.vTS.y );

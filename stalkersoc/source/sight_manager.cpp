@@ -45,8 +45,8 @@ void CSightManager::reinit			()
 
 void CSightManager::reload			(LPCSTR section)
 {
-	m_max_left_angle			= deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_left_torso_angle",90.f));
-	m_max_right_angle			= deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_right_torso_angle",60.f));
+	m_max_left_angle			= XrMath::deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_left_torso_angle",90.f));
+	m_max_right_angle			= XrMath::deg2rad(READ_IF_EXISTS(pSettings,r_float,section,"max_right_torso_angle",60.f));
 }
 
 void CSightManager::SetPointLookAngles(const Fvector &tPosition, float &yaw, float &pitch, const CGameObject *object)
@@ -77,7 +77,7 @@ void CSightManager::SetFirePointLookAngles(const Fvector &tPosition, float &yaw,
 		}
 #endif
 		tTemp.sub		(tPosition,Fvector(tTemp));
-		if (fis_zero(tTemp.square_magnitude()))
+		if (XrMath::fis_zero(tTemp.square_magnitude()))
 			tTemp.set	(0.f,0.f,1.f);
 	}
 	else {
@@ -125,7 +125,7 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 {
 	float					fAngleOfView, range, fMaxSquare = -1.f, fBestAngle = object().movement().m_head.target.yaw;
 	m_object->update_range_fov(range,fAngleOfView,m_object->eye_range,m_object->eye_fov);
-	fAngleOfView			= (fAngleOfView/180.f*PI)/2.f;
+	fAngleOfView			= (fAngleOfView/180.f*XrMath::M_PI)/2.f;
 
 	CLevelGraph::CVertex	*tpNextNode = 0;
 	u32						node_id;
@@ -161,8 +161,8 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 			if	(
 					(fSquare1 - fSquare0 > fMaxSquare) || 
 					(
-						fsimilar(fSquare1 - fSquare0,fMaxSquare,EPS_L) && 
-						(_abs(fIncrement - object().movement().m_body.target.yaw) < _abs(fBestAngle - object().movement().m_body.target.yaw))
+						XrMath::fsimilar(fSquare1 - fSquare0,fMaxSquare,XrMath::EPS_L) && 
+						(XrMath::abs(fIncrement - object().movement().m_body.target.yaw) < XrMath::abs(fBestAngle - object().movement().m_body.target.yaw))
 					)
 				)
 			{
@@ -175,11 +175,11 @@ void CSightManager::SetLessCoverLook(const CLevelGraph::CVertex *tpNode, float f
 				fSingleIncrement = fIncrement;
 			}
 		}
-		if (_sqrt(fMaxSquare) < 0*PI_DIV_6)
+		if (XrMath::sqrt(fMaxSquare) < 0*XrMath::PI_DIV_6)
 			fBestAngle = fSingleIncrement;
 	}
 
-	object().movement().m_head.target.yaw = angle_normalize_signed(fBestAngle);
+	object().movement().m_head.target.yaw = XrMath::angle_normalize_signed(fBestAngle);
 	object().movement().m_head.target.pitch = 0;
 	VERIFY					(_valid(object().movement().m_head.target.yaw));
 }
@@ -190,24 +190,24 @@ bool CSightManager::bfIf_I_SeePosition(Fvector tPosition) const
 	Fvector				tVector;
 	tVector.sub			(tPosition,m_object->Position());
 	tVector.getHP		(yaw,pitch);
-	yaw					= angle_normalize_signed(-yaw);
-	pitch				= angle_normalize_signed(-pitch);
-	return				(angle_difference(yaw,object().movement().m_head.current.yaw) <= PI_DIV_6);// && angle_difference(pitch,object().movement().m_head.current.pitch,PI_DIV_6));
+	yaw					= XrMath::angle_normalize_signed(-yaw);
+	pitch				= XrMath::angle_normalize_signed(-pitch);
+	return				(XrMath::angle_difference(yaw,object().movement().m_head.current.yaw) <= XrMath::PI_DIV_6);// && XrMath::angle_difference(pitch,object().movement().m_head.current.pitch,XrMath::PI_DIV_6));
 }
 
 void CSightManager::vfValidateAngleDependency(float x1, float &x2, float x3)
 {
-	float	_x2	= angle_normalize_signed(x2 - x1);
-	float	_x3	= angle_normalize_signed(x3 - x1);
-	if ((_x2*_x3 <= 0.f) && (_abs(_x2) + _abs(_x3) > PI - EPS_L))
+	float	_x2	= XrMath::angle_normalize_signed(x2 - x1);
+	float	_x3	= XrMath::angle_normalize_signed(x3 - x1);
+	if ((_x2*_x3 <= 0.f) && (XrMath::abs(_x2) + XrMath::abs(_x3) > XrMath::M_PI - XrMath::EPS_L))
 		x2  = x3;
 }
 
 bool CSightManager::need_correction	(float x1, float x2, float x3)
 {
-	float	_x2	= angle_normalize_signed(x2 - x1);
-	float	_x3	= angle_normalize_signed(x3 - x1);
-	if ((_x2*_x3 <= 0) && (_abs(_x2) + _abs(_x3) > PI - EPS_L))
+	float	_x2	= XrMath::angle_normalize_signed(x2 - x1);
+	float	_x3	= XrMath::angle_normalize_signed(x3 - x1);
+	if ((_x2*_x3 <= 0) && (XrMath::abs(_x2) + XrMath::abs(_x3) > XrMath::M_PI - XrMath::EPS_L))
 		return			(true);
 	return				(false);
 }
@@ -222,16 +222,16 @@ void CSightManager::Exec_Look		(float dt)
 	CBoneRotation		&head = object().movement().m_head;
 
 	// normalizing torso angles
-	body.current.yaw	= angle_normalize_signed	(body.current.yaw);
-	body.current.pitch	= angle_normalize_signed	(body.current.pitch);
-	body.target.yaw		= angle_normalize_signed	(body.target.yaw);
-	body.target.pitch	= angle_normalize_signed	(body.target.pitch);
+	body.current.yaw	= XrMath::angle_normalize_signed	(body.current.yaw);
+	body.current.pitch	= XrMath::angle_normalize_signed	(body.current.pitch);
+	body.target.yaw		= XrMath::angle_normalize_signed	(body.target.yaw);
+	body.target.pitch	= XrMath::angle_normalize_signed	(body.target.pitch);
 
 	// normalizing head angles
-	head.current.yaw	= angle_normalize_signed	(head.current.yaw);
-	head.current.pitch	= angle_normalize_signed	(head.current.pitch);
-	head.target.yaw		= angle_normalize_signed	(head.target.yaw);
-	head.target.pitch	= angle_normalize_signed	(head.target.pitch);
+	head.current.yaw	= XrMath::angle_normalize_signed	(head.current.yaw);
+	head.current.pitch	= XrMath::angle_normalize_signed	(head.current.pitch);
+	head.target.yaw		= XrMath::angle_normalize_signed	(head.target.yaw);
+	head.target.pitch	= XrMath::angle_normalize_signed	(head.target.pitch);
 
 	float				body_speed = body.speed;
 	if (current_action().change_body_speed())
@@ -256,12 +256,12 @@ void CSightManager::Exec_Look		(float dt)
 
 #ifdef SIGHT_DEBUG
 	// normalizing torso angles
-	body.current.yaw	= angle_normalize_signed	(body.current.yaw);
-	body.current.pitch	= angle_normalize_signed	(body.current.pitch);
+	body.current.yaw	= XrMath::angle_normalize_signed	(body.current.yaw);
+	body.current.pitch	= XrMath::angle_normalize_signed	(body.current.pitch);
 
 	// normalizing head angles
-	head.current.yaw	= angle_normalize_signed	(head.current.yaw);
-	head.current.pitch	= angle_normalize_signed	(head.current.pitch);
+	head.current.yaw	= XrMath::angle_normalize_signed	(head.current.yaw);
+	head.current.pitch	= XrMath::angle_normalize_signed	(head.current.pitch);
 
 	Msg					("%6d AFTER  BODY [%f] -> [%f]",Device.dwTimeGlobal,object().movement().m_body.current.yaw,object().movement().m_body.target.yaw);
 	Msg					("%6d AFTER  HEAD [%f][%f] -> [%f][%f]",Device.dwTimeGlobal,object().movement().m_head.current.yaw,object().movement().m_head.current.pitch,object().movement().m_head.target.yaw,object().movement().m_head.target.pitch);
@@ -284,7 +284,7 @@ void CSightManager::Exec_Look		(float dt)
 	} else {
 */
 		float				h = -body.current.yaw;
-		float				_sh = _sin(h), _ch = _cos(h);
+		float				_sh = XrMath::sin(h), _ch = XrMath::cos(h);
 		m.i.set				( _ch,	0.f,	_sh); m._14_	= 0.f;
 		m.j.set				( 0.f,	1.f,	0.f); m._24_	= 0.f;
 		m.k.set				(-_sh,	0.f,	_ch); m._34_	= 0.f;
@@ -309,9 +309,9 @@ void CSightManager::update			()
 {
 	START_PROFILE("Sight Manager")
 	if (enabled()) {
-		if (fis_zero(object().movement().speed())) {
+		if (XrMath::fis_zero(object().movement().speed())) {
 			if (!m_turning_in_place) {
-				if (angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.current.yaw) > (left_angle(-object().movement().m_head.current.yaw,-object().movement().m_body.current.yaw) ? m_max_left_angle : m_max_right_angle)) {
+				if (XrMath::angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.current.yaw) > (left_angle(-object().movement().m_head.current.yaw,-object().movement().m_body.current.yaw) ? m_max_left_angle : m_max_right_angle)) {
 					m_turning_in_place	= true;
 //					Msg					("%6d started turning in place",Device.dwTimeGlobal);
 					object().movement().m_body.target.yaw	= object().movement().m_head.current.yaw;
@@ -321,7 +321,7 @@ void CSightManager::update			()
 				}
 			}
 			else {
-				if (angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.target.yaw) > EPS_L) {
+				if (XrMath::angle_difference(object().movement().m_body.current.yaw,object().movement().m_head.target.yaw) > XrMath::EPS_L) {
 //					object().movement().m_body.target.yaw	= object().movement().m_head.current.yaw;
 					object().movement().m_body.target.yaw	= object().movement().m_head.target.yaw;
 				}
@@ -368,7 +368,7 @@ bool CSightManager::GetDirectionAnglesByPrevPositions(float &yaw, float &pitch)
 	VERIFY					(_valid(tPreviousPosition.vPosition));
 	VERIFY					(_valid(tCurrentPosition.vPosition));
 	tDirection.sub			(tCurrentPosition.vPosition,tPreviousPosition.vPosition);
-	if (tDirection.magnitude() < EPS_L)	return(false);
+	if (tDirection.magnitude() < XrMath::EPS_L)	return(false);
 	tDirection.getHP		(yaw,pitch);
 	VERIFY					(_valid(yaw));
 	VERIFY					(_valid(pitch));

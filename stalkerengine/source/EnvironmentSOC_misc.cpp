@@ -27,7 +27,7 @@ float	CEnvModifierSOC::sum	(CEnvModifierSOC& M, Fvector3& view)
 {
 	float	_dist_sq	=	view.distance_to_sqr(M.position);
 	if (_dist_sq>=(M.radius*M.radius))	return 0;
-	float	_att		=	1-_sqrt(_dist_sq)/M.radius;	//[0..1];
+	float	_att		=	1- XrMath::sqrt(_dist_sq)/M.radius;	//[0..1];
 	float	_power		=	M.power*_att;
 	far_plane			+=	M.far_plane*_power;
 	fog_color.mad		(M.fog_color,_power);
@@ -49,27 +49,27 @@ void CEnvAmbientSOC::load(const shared_str& sect)
 	// sounds
 	if (pSettings->line_exist(sect,"sounds")){
 		Fvector2 t		= pSettings->r_fvector2	(sect,"sound_period");
-		sound_period.set(iFloor(t.x*1000.f),iFloor(t.y*1000.f));
+		sound_period.set(XrMath::iFloor(t.x*1000.f), XrMath::iFloor(t.y*1000.f));
 		sound_dist		= pSettings->r_fvector2	(sect,"sound_dist"); if (sound_dist[0]>sound_dist[1]) std::swap(sound_dist[0],sound_dist[1]);
 		LPCSTR snds		= pSettings->r_string	(sect,"sounds");
-		u32 cnt			= _GetItemCount(snds);
+		u32 cnt			= XrTrims::GetItemCount(snds);
 		if (cnt){
 			sounds.resize(cnt);
 			for (u32 k=0; k<cnt; ++k)
-				sounds[k].create(_GetItem(snds,k,tmp),st_Effect,sg_SourceType);
+				sounds[k].create(XrTrims::GetItem(snds,k,tmp),st_Effect,sg_SourceType);
 		}
 	}
 	// effects
 	if (pSettings->line_exist(sect,"effects")){
 		Fvector2 t		= pSettings->r_fvector2	(sect,"effect_period");
-		effect_period.set(iFloor(t.x*1000.f),iFloor(t.y*1000.f));
+		effect_period.set(XrMath::iFloor(t.x*1000.f), XrMath::iFloor(t.y*1000.f));
 		LPCSTR effs		= pSettings->r_string	(sect,"effects");
-		u32 cnt			= _GetItemCount(effs);
+		u32 cnt			= XrTrims::GetItemCount(effs);
 		if (cnt){
 			effects.resize(cnt);
 			for (u32 k=0; k<cnt; ++k){
-				_GetItem(effs,k,tmp);
-				effects[k].life_time		= iFloor(pSettings->r_float(tmp,"life_time")*1000.f);
+				XrTrims::GetItem(effs,k,tmp);
+				effects[k].life_time		= XrMath::iFloor(pSettings->r_float(tmp,"life_time")*1000.f);
 				effects[k].particles		= pSettings->r_string	(tmp,"particles");		VERIFY(effects[k].particles.size());
 				effects[k].offset			= pSettings->r_fvector3	(tmp,"offset");
 				effects[k].wind_gust_factor	= pSettings->r_float	(tmp,"wind_gust_factor");
@@ -153,20 +153,20 @@ void CEnvDescriptorSOC::load	(LPCSTR exec_tm, LPCSTR S, CEnvironmentSOC* parent)
 	sscanf					(cldclr,"%f,%f,%f,%f,%f",&clouds_color.x,&clouds_color.y,&clouds_color.z,&clouds_color.w,&multiplier);
 	save=clouds_color.w;	clouds_color.mul		(.5f*multiplier);		clouds_color.w	= save; 
 	sky_color				= pSettings->r_fvector3	(S,"sky_color");		sky_color.mul(.5f);
-	if (pSettings->line_exist(S,"sky_rotation"))	sky_rotation	= deg2rad(pSettings->r_float(S,"sky_rotation"));
+	if (pSettings->line_exist(S,"sky_rotation"))	sky_rotation	= XrMath::deg2rad(pSettings->r_float(S,"sky_rotation"));
 	else											sky_rotation	= 0;
 	far_plane				= pSettings->r_float	(S,"far_plane");
 	fog_color				= pSettings->r_fvector3	(S,"fog_color");
 	fog_density				= pSettings->r_float	(S,"fog_density");
 	fog_distance			= pSettings->r_float	(S,"fog_distance");
-	rain_density			= pSettings->r_float	(S,"rain_density");		clamp(rain_density,0.f,1.f);
+	rain_density			= pSettings->r_float	(S,"rain_density");		XrMath::clamp(rain_density,0.f,1.f);
 	rain_color				= pSettings->r_fvector3	(S,"rain_color");            
 	wind_velocity			= pSettings->r_float	(S,"wind_velocity");
-	wind_direction			= deg2rad(pSettings->r_float(S,"wind_direction"));
+	wind_direction			= XrMath::deg2rad(pSettings->r_float(S,"wind_direction"));
 	ambient					= pSettings->r_fvector3	(S,"ambient");
 	hemi_color				= pSettings->r_fvector4	(S,"hemi_color");
 	sun_color				= pSettings->r_fvector3	(S,"sun_color");
-	Fvector2 sund			= pSettings->r_fvector2	(S,"sun_dir");	sun_dir.setHP	(deg2rad(sund.y),deg2rad(sund.x));
+	Fvector2 sund			= pSettings->r_fvector2	(S,"sun_dir");	sun_dir.setHP	(XrMath::deg2rad(sund.y), XrMath::deg2rad(sund.x));
 	//VERIFY2					(sun_dir.y<0,"Invalid sun direction settings while loading");
 
 /*	lens_flare_id			= parent->eff_LensFlare->AppendDef(pSettings,pSettings->r_string(S,"flares"));

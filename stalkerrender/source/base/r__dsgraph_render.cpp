@@ -18,7 +18,7 @@ extern float		r_ssaGLOD_start,	r_ssaGLOD_end;
 
 ICF float calcLOD	(float ssa/*fDistSq*/, float R)
 {
-	return			_sqrt(clampr((ssa - r_ssaGLOD_end)/(r_ssaGLOD_start-r_ssaGLOD_end),0.f,1.f));
+	return			XrMath::sqrt(XrMath::clampr((ssa - r_ssaGLOD_end)/(r_ssaGLOD_start-r_ssaGLOD_end),0.f,1.f));
 }
 
 // NORMAL
@@ -470,12 +470,12 @@ void R_dsgraph_structure::r_dsgraph_render_hud	()
 	Fmatrix FTold				= Device.mFullTransform;
 	if(gameVersionController->getGame() == gameVersionController->SOC)
 		Device.mProject.build_projection(
-		deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/ ), 
+		XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/ ), 
 		Device.fASPECT, VIEWPORT_NEAR, 
 		ENV_SOC.CurrentEnv.far_plane);
 	else
 		Device.mProject.build_projection(
-			deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+			XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 			Device.fASPECT, VIEWPORT_NEAR,
 			ENV.CurrentEnv->far_plane);
 
@@ -538,12 +538,12 @@ void R_dsgraph_structure::r_dsgraph_render_hud_ui()
 	Fmatrix FTold				= Device.mFullTransform;
 	if (gameVersionController->getGame() == gameVersionController->SOC)
 	Device.mProject.build_projection(
-		deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/ ), 
+		XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/ ), 
 		Device.fASPECT, VIEWPORT_NEAR, 
 		ENV_SOC.CurrentEnv.far_plane);
 	else
 		Device.mProject.build_projection(
-			deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+			XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 			Device.fASPECT, VIEWPORT_NEAR,
 			ENV.CurrentEnv->far_plane);
 	Device.mFullTransform.mul	(Device.mProject, Device.mView);
@@ -609,14 +609,14 @@ void	R_dsgraph_structure::r_dsgraph_render_emissive	()
 	if (gameVersionController->getGame() == GameVersionController::SOC)
 	{
 		Device.mProject.build_projection(
-			deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+			XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 			Device.fASPECT, VIEWPORT_NEAR,
 			ENV_SOC.CurrentEnv.far_plane);
 	}
 	else
 	{
 		Device.mProject.build_projection(
-			deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
+			XrMath::deg2rad(psHUD_FOV*Device.fFOV /* *Device.fASPECT*/),
 			Device.fASPECT, VIEWPORT_NEAR,
 			ENV.CurrentEnv->far_plane);
 	}
@@ -681,7 +681,7 @@ void	R_dsgraph_structure::r_dsgraph_render_subspace	(IRender_Sector* _sector, CF
 
 	if (_precise_portals && RImplementation.rmPortals)		{
 		// Check if camera is too near to some portal - if so force DualRender
-		Fvector box_radius;		box_radius.set	(EPS_L*20,EPS_L*20,EPS_L*20);
+		Fvector box_radius;		box_radius.set	(XrMath::EPS_L*20,XrMath::EPS_L*20,XrMath::EPS_L*20);
 		RImplementation.Sectors_xrc.box_options	(CDB::OPT_FULL_TEST);
 		RImplementation.Sectors_xrc.box_query	(RImplementation.rmPortals,_cop,box_radius);
 		for (int K=0; K<RImplementation.Sectors_xrc.r_count(); K++)

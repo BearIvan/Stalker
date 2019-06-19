@@ -129,13 +129,13 @@ IC void CBlend::update_play( float dt, PlayCallback _Callback )
 		{
 			VERIFY( blendAccrue>0.f );
 			pow_dt = timeCurrent + dt - 1.f/blendAccrue;
-			clamp( pow_dt, dt, 0.f );
+			XrMath::clamp( pow_dt, dt, 0.f );
 		}
 	}
 	
 	blendAmount 		+= pow_dt*blendAccrue*blendPower;
 
-	clamp				( blendAmount, 0.f, blendPower); 
+	XrMath::clamp				( blendAmount, 0.f, blendPower); 
 
 
 	if( !update_time( dt ) )//reached end 
@@ -163,7 +163,7 @@ IC	bool CBlend::update_time			( float dt )
 	timeCurrent += quant; // stop@end - time is not going
 
 	bool	running_fwrd	=  ( quant > 0 );
-	float	const END_EPS	=	SAMPLE_SPF+EPS;
+	float	const END_EPS	=	SAMPLE_SPF+XrMath::EPS;
 	bool	at_end			=	running_fwrd && ( timeCurrent > ( timeTotal-END_EPS ) );
 	bool	at_begin		=	!running_fwrd && ( timeCurrent < 0.f );
 	
@@ -199,7 +199,7 @@ IC bool CBlend::update_falloff( float dt )
 		blendAmount 		-= dt*blendFalloff*blendPower;
 
 	bool ret			= blendAmount<=0;
-	clamp				( blendAmount, 0.f, blendPower);
+	XrMath::clamp				( blendAmount, 0.f, blendPower);
 	return ret;
 }
 

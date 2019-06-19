@@ -211,11 +211,11 @@ struct ECORE_API SBoneShape
         switch (type)
         {
         case stBox:
-            return !fis_zero(box.m_halfsize.x) && !fis_zero(box.m_halfsize.y) && !fis_zero(box.m_halfsize.z);
+            return !XrMath::fis_zero(box.m_halfsize.x) && !XrMath::fis_zero(box.m_halfsize.y) && !XrMath::fis_zero(box.m_halfsize.z);
         case stSphere:
-            return !fis_zero(sphere.R);
+            return !XrMath::fis_zero(sphere.R);
         case stCylinder:
-            return !fis_zero(cylinder.m_height) && !fis_zero(cylinder.m_radius) && !fis_zero(cylinder.m_direction.square_magnitude());
+            return !XrMath::fis_zero(cylinder.m_height) && !XrMath::fis_zero(cylinder.m_radius) && !XrMath::fis_zero(cylinder.m_direction.square_magnitude());
         };
         return true;
     }
@@ -260,11 +260,11 @@ struct ECORE_API SJointIKData
             // Kostya Slipchenko say:
             // направление вращения в ОДЕ отличается от направления вращение в X-Ray
             // поэтому меняем знак у лимитов
-            //F.w_float (_min(-limits[k].limit.x,-limits[k].limit.y)); // min (swap special for ODE)
-            //F.w_float (_max(-limits[k].limit.x,-limits[k].limit.y)); // max (swap special for ODE)
+            //F.w_float (XrMath::min(-limits[k].limit.x,-limits[k].limit.y)); // min (swap special for ODE)
+            //F.w_float (XrMath::max(-limits[k].limit.x,-limits[k].limit.y)); // max (swap special for ODE)
 
-            VERIFY(_min(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.y);
-            VERIFY(_max(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.x);
+            VERIFY(XrMath::min(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.y);
+            VERIFY(XrMath::max(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.x);
 
             F.w_float(-limits[k].limit.y); // min (swap special for ODE)
             F.w_float(-limits[k].limit.x); // max (swap special for ODE)

@@ -116,17 +116,17 @@ void CBulletManager::Load		()
 	m_fHPMaxDist			= pSettings->r_float(BULLET_MANAGER_SECTION, "hit_probability_max_dist");
 
 	LPCSTR whine_sounds		= pSettings->r_string(BULLET_MANAGER_SECTION, "whine_sounds");
-	int cnt					= _GetItemCount(whine_sounds);
+	int cnt					= XrTrims::GetItemCount(whine_sounds);
 	xr_string tmp;
 	for (int k=0; k<cnt; ++k){
 		m_WhineSounds.push_back	(ref_sound());
-		m_WhineSounds.back().create(_GetItem(whine_sounds,k,tmp),st_Effect,sg_SourceType);
+		m_WhineSounds.back().create(XrTrims::GetItem(whine_sounds,k,tmp),st_Effect,sg_SourceType);
 	}
 
 	LPCSTR explode_particles= pSettings->r_string(BULLET_MANAGER_SECTION, "explode_particles");
-	cnt						= _GetItemCount(explode_particles);
+	cnt						= XrTrims::GetItemCount(explode_particles);
 	for (int k=0; k<cnt; ++k)
-		m_ExplodeParticles.push_back	(_GetItem(explode_particles,k,tmp));
+		m_ExplodeParticles.push_back	(XrTrims::GetItem(explode_particles,k,tmp));
 }
 
 void CBulletManager::PlayExplodePS		(const Fmatrix& xf)
@@ -245,14 +245,14 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage, xr_vector<ISp
 
 	collide::ray_defs RD			(bullet->pos, bullet->dir, range, CDB::OPT_CULL, collide::rqtBoth);
 	BOOL result						= FALSE;
-	VERIFY							(!fis_zero(RD.dir.square_magnitude()));
+	VERIFY							(!XrMath::fis_zero(RD.dir.square_magnitude()));
 	result							= Level().ObjectSpace.RayQuery(rq_storage, RD, firetrace_callback, &bullet_data, test_callback, NULL);
 	
 	if (result && bullet_data.bStopTracing) 
 	{
 		range						= (rq_storage.r_begin()+rq_storage.r_count()-1)->range;
 	}
-	range							= _max				(EPS_L,range);
+	range							= XrMath::max				(XrMath::EPS_L,range);
 
 	bullet->flags.skipped_frame = (Device.dwFrame >= bullet->frame_num);
 
@@ -293,7 +293,7 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage, xr_vector<ISp
 
 		bullet->speed = bullet->dir.magnitude();
 		VERIFY(_valid(bullet->speed));
-		VERIFY(!fis_zero(bullet->speed));
+		VERIFY(!XrMath::fis_zero(bullet->speed));
 		//вместо normalize(),	 чтоб не считать 2 раза magnitude()
 #pragma todo("а как насчет bullet->speed==0")
 		bullet->dir.x /= bullet->speed;
@@ -379,7 +379,7 @@ void CBulletManager::Render	()
 		{
 			if (dist2segSqr < MinDistSqr) dist2segSqr = MinDistSqr;
 
-			width *= _sqrt(dist2segSqr/MaxDistSqr);//*MaxDistWidth/0.08f;			
+			width *= XrMath::sqrt(dist2segSqr/MaxDistSqr);//*MaxDistWidth/0.08f;			
 		}
 		if (Device.vCameraPosition.distance_to_sqr(bullet->pos)<(length*length))
 		{
@@ -388,7 +388,7 @@ void CBulletManager::Render	()
 		/*
 		//---------------------------------------------
 		Fvector vT, v0, v1;
-		vT.mad(Device.vCameraPosition, Device.vCameraDirection, _sqrt(dist2segSqr));
+		vT.mad(Device.vCameraPosition, Device.vCameraDirection, XrMath::sqrt(dist2segSqr));
 		v0.mad(vT, Device.vCameraTop, width*.5f);
 		v1.mad(vT, Device.vCameraTop, -width*.5f);
 		Fvector v0r, v1r;
@@ -396,7 +396,7 @@ void CBulletManager::Render	()
 		Device.mFullTransform.transform(v1r, v1);
 		float ViewWidth = v1r.distance_to(v0r);
 */
-//		float dist = _sqrt(dist2segSqr);
+//		float dist = XrMath::sqrt(dist2segSqr);
 //		Msg("dist - [%f]; ViewWidth - %f, [%f]", dist, ViewWidth, ViewWidth*float(Device.dwHeight));
 //		Msg("dist - [%f]", dist);
 		//---------------------------------------------

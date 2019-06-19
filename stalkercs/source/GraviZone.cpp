@@ -139,7 +139,7 @@ void CBaseGraviZone ::Affect(SZoneObjectInfo* O)
 	float dist				= throw_in_dir.magnitude();
 	float dist_to_radius	= dist/Radius();
 
-	if(!fis_zero(dist))
+	if(!XrMath::fis_zero(dist))
 		throw_in_dir.mul(1.f/dist);
 	else 
 		throw_in_dir.set(0.f,1.f,0.f);

@@ -175,7 +175,7 @@ public:
 	IC		void	contour						(SContour &contour, const CVertex *vertex) const;
 	IC		float	nearest						(Fvector &destination, const Fvector &position, const SContour &contour) const;
 	IC		bool	intersect					(Fvector &destination, const Fvector &v1, const Fvector& v2, const Fvector& v3, const Fvector& v4) const;
-	IC		float	square						(float a1, float b1, float alpha = PI_DIV_2) const;
+	IC		float	square						(float a1, float b1, float alpha = XrMath::PI_DIV_2) const;
 	IC		float	compute_square				(float angle, float AOV, float b0, float b1, float b2, float b3) const;
 	IC		float	compute_high_square			(float angle, float AOV, const CVertex *vertex) const;
 	IC		float	compute_low_square			(float angle, float AOV, const CVertex *vertex) const;

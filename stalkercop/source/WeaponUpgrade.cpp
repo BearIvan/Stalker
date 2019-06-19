@@ -16,7 +16,7 @@ static bool process_if_exists_deg2rad( LPCSTR section, LPCSTR name, float& value
 
 	if ( !test )
 	{
-		value += deg2rad( pSettings->r_float( section, name ) );
+		value += XrMath::deg2rad( pSettings->r_float( section, name ) );
 	}
 	return true;
 }
@@ -45,10 +45,10 @@ bool CWeapon::install_upgrade_ammo_class( LPCSTR section, bool test )
 	{
 		m_ammoTypes.clear();
 		string128 ammoItem;
-		int count = _GetItemCount( str );
+		int count = XrTrims::GetItemCount( str );
 		for ( int i = 0; i < count; ++i )
 		{
-			_GetItem( str, i, ammoItem );
+			XrTrims::GetItem( str, i, ammoItem );
 			m_ammoTypes.push_back( ammoItem );
 		}
 		m_ammoType = 0;
@@ -85,10 +85,10 @@ bool CWeapon::install_upgrade_disp( LPCSTR section, bool test )
 	result |= process_if_exists_deg2rad( section, "cam_max_angle_horz",   cam_recoil.MaxAngleHorz,  test );
 	result |= process_if_exists_deg2rad( section, "cam_step_angle_horz",  cam_recoil.StepAngleHorz, test );
 
-	VERIFY( !fis_zero(cam_recoil.RelaxSpeed   ) );
-	VERIFY( !fis_zero(cam_recoil.RelaxSpeed_AI) );
-	VERIFY( !fis_zero(cam_recoil.MaxAngleVert ) );
-	VERIFY( !fis_zero(cam_recoil.MaxAngleHorz ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.RelaxSpeed   ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.RelaxSpeed_AI) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.MaxAngleVert ) );
+	VERIFY( !XrMath::fis_zero(cam_recoil.MaxAngleHorz ) );
 
 	result |= process_if_exists_deg2rad( section, "zoom_cam_relax_speed",      zoom_cam_recoil.RelaxSpeed,      test );// zoom_ ...
 	result |= process_if_exists_deg2rad( section, "zoom_cam_relax_speed_ai",   zoom_cam_recoil.RelaxSpeed_AI,   test );
@@ -101,10 +101,10 @@ bool CWeapon::install_upgrade_disp( LPCSTR section, bool test )
 	result |= process_if_exists_deg2rad( section, "zoom_cam_max_angle_horz",   zoom_cam_recoil.MaxAngleHorz,  test );
 	result |= process_if_exists_deg2rad( section, "zoom_cam_step_angle_horz",  zoom_cam_recoil.StepAngleHorz, test );
 
-	VERIFY( !fis_zero(zoom_cam_recoil.RelaxSpeed   ) );
-	VERIFY( !fis_zero(zoom_cam_recoil.RelaxSpeed_AI) );
-	VERIFY( !fis_zero(zoom_cam_recoil.MaxAngleVert ) );
-	VERIFY( !fis_zero(zoom_cam_recoil.MaxAngleHorz ) );
+	VERIFY( !XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed   ) );
+	VERIFY( !XrMath::fis_zero(zoom_cam_recoil.RelaxSpeed_AI) );
+	VERIFY( !XrMath::fis_zero(zoom_cam_recoil.MaxAngleVert ) );
+	VERIFY( !XrMath::fis_zero(zoom_cam_recoil.MaxAngleHorz ) );
 
 	result |= process_if_exists( section, "PDM_disp_base",          &CInifile::r_float, m_pdm.m_fPDM_disp_base,          test );
 	result |= process_if_exists( section, "PDM_disp_vel_factor",    &CInifile::r_float, m_pdm.m_fPDM_disp_vel_factor,    test );
@@ -141,13 +141,13 @@ bool CWeapon::install_upgrade_hit( LPCSTR section, bool test )
 	if ( result2 && !test )
 	{
 		string32 buffer;
-		fvHitPower[egdMaster] = (float)atof( _GetItem( *s_sHitPower, 0, buffer ) );
+		fvHitPower[egdMaster] = (float)atof( XrTrims::GetItem( *s_sHitPower, 0, buffer ) );
 		fvHitPower[egdNovice] = fvHitPower[egdStalker] = fvHitPower[egdVeteran] = fvHitPower[egdMaster];
 
-		int num_game_diff_param = _GetItemCount( *s_sHitPower );
-		if ( num_game_diff_param > 1 ) { fvHitPower[egdVeteran]	= (float)atof( _GetItem( *s_sHitPower, 1, buffer ) ); }
-		if ( num_game_diff_param > 2 ) { fvHitPower[egdStalker]	= (float)atof( _GetItem( *s_sHitPower, 2, buffer ) ); }
-		if ( num_game_diff_param > 3 ) { fvHitPower[egdNovice]	= (float)atof( _GetItem( *s_sHitPower, 3, buffer ) ); }
+		int num_game_diff_param = XrTrims::GetItemCount( *s_sHitPower );
+		if ( num_game_diff_param > 1 ) { fvHitPower[egdVeteran]	= (float)atof( XrTrims::GetItem( *s_sHitPower, 1, buffer ) ); }
+		if ( num_game_diff_param > 2 ) { fvHitPower[egdStalker]	= (float)atof( XrTrims::GetItem( *s_sHitPower, 2, buffer ) ); }
+		if ( num_game_diff_param > 3 ) { fvHitPower[egdNovice]	= (float)atof( XrTrims::GetItem( *s_sHitPower, 3, buffer ) ); }
 	}
 	result |= result2;
 
@@ -156,13 +156,13 @@ bool CWeapon::install_upgrade_hit( LPCSTR section, bool test )
 	if ( result2 && !test )
 	{
 		string32 buffer;
-		fvHitPowerCritical[egdMaster] = (float)atof(_GetItem(*s_sHitPowerCritical,0,buffer));
+		fvHitPowerCritical[egdMaster] = (float)atof(XrTrims::GetItem(*s_sHitPowerCritical,0,buffer));
 		fvHitPowerCritical[egdNovice] = fvHitPowerCritical[egdStalker] = fvHitPowerCritical[egdVeteran] = fvHitPowerCritical[egdMaster];
 
-		int num_game_diff_param = _GetItemCount(*s_sHitPowerCritical);
-		if ( num_game_diff_param > 1 ) { fvHitPowerCritical[egdVeteran]	= (float)atof(_GetItem(*s_sHitPowerCritical,1,buffer)); }
-		if ( num_game_diff_param > 2 ) { fvHitPowerCritical[egdStalker]	= (float)atof(_GetItem(*s_sHitPowerCritical,2,buffer)); }
-		if ( num_game_diff_param > 3 ) { fvHitPowerCritical[egdNovice]	= (float)atof(_GetItem(*s_sHitPowerCritical,3,buffer)); }
+		int num_game_diff_param = XrTrims::GetItemCount(*s_sHitPowerCritical);
+		if ( num_game_diff_param > 1 ) { fvHitPowerCritical[egdVeteran]	= (float)atof(XrTrims::GetItem(*s_sHitPowerCritical,1,buffer)); }
+		if ( num_game_diff_param > 2 ) { fvHitPowerCritical[egdStalker]	= (float)atof(XrTrims::GetItem(*s_sHitPowerCritical,2,buffer)); }
+		if ( num_game_diff_param > 3 ) { fvHitPowerCritical[egdNovice]	= (float)atof(XrTrims::GetItem(*s_sHitPowerCritical,3,buffer)); }
 	}
 	result |= result2;
 
@@ -217,10 +217,10 @@ bool CWeapon::install_upgrade_addon( LPCSTR section, bool test )
 				if(pSettings->line_exist(section, "scopes_sect"))		
 				{
 					LPCSTR str = pSettings->r_string(section, "scopes_sect");
-					for(int i = 0, count = _GetItemCount(str); i < count; ++i )	
+					for(int i = 0, count = XrTrims::GetItemCount(str); i < count; ++i )	
 					{
 						string128						scope_section;
-						_GetItem						(str, i, scope_section);
+						XrTrims::GetItem						(str, i, scope_section);
 						m_scopes.push_back				(scope_section);
 					}
 				}

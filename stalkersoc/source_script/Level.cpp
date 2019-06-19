@@ -328,7 +328,7 @@ int	CLevel::get_RPID(LPCSTR /**name/**/)
 	// Search respawn point
 	svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
 	for (int i=0; i<(int)(rp.size()); ++i)
-		if (pos.similar(rp[i],EPS_L))	return i;
+		if (pos.similar(rp[i],XrMath::EPS_L))	return i;
 	*/
 	return -1;
 }
@@ -881,7 +881,7 @@ void		CLevel::UpdateDeltaUpd	( u32 LastTime )
 {
 	u32 CurrentDelta = LastTime - m_dwLastNetUpdateTime;
 	if (CurrentDelta < m_dwDeltaUpdate) 
-		CurrentDelta = iFloor(float(m_dwDeltaUpdate * 10 + CurrentDelta) / 11);
+		CurrentDelta = XrMath::iFloor(float(m_dwDeltaUpdate * 10 + CurrentDelta) / 11);
 
 	m_dwLastNetUpdateTime = LastTime;
 	m_dwDeltaUpdate = CurrentDelta;
@@ -890,13 +890,13 @@ void		CLevel::UpdateDeltaUpd	( u32 LastTime )
 	else 
 		if (g_cl_lvInterp>0)
 		{
-			lvInterpSteps = iCeil(g_cl_lvInterp / fixed_step);
+			lvInterpSteps = XrMath::iCeil(g_cl_lvInterp / fixed_step);
 		}
 };
 
 void		CLevel::ReculcInterpolationSteps ()
 {
-	lvInterpSteps			= iFloor(float(m_dwDeltaUpdate) / (fixed_step*1000));
+	lvInterpSteps			= XrMath::iFloor(float(m_dwDeltaUpdate) / (fixed_step*1000));
 	if (lvInterpSteps > 60) lvInterpSteps = 60;
 	if (lvInterpSteps < 3)	lvInterpSteps = 3;
 };

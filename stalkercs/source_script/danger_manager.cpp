@@ -288,7 +288,7 @@ void CDangerManager::add			(const CHitObject &object)
 	if (!object.m_enabled)
 		return;
 
-	if (fis_zero(object.m_amount))
+	if (XrMath::fis_zero(object.m_amount))
 		return;
 
 	if (object.m_object->ID() == m_object->ID())

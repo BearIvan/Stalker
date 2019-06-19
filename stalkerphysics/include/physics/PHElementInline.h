@@ -35,7 +35,7 @@ IC		void		CPHElement::ActivatingPos(const Fmatrix &BoneTransform)
 	//	m_shell->m_object_in_root.invert( );
 	//	m_shell->SetNotActivating( );
 	//}
-	//DEBUGFATALERROR12(fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
+	//DEBUGFATALERROR12(XrMath::fsimilar(DET(B->mTransform),1.f,DET_CHECK_EPS),"Bones callback returns 0 matrix");
 
 	DEBUGFATALERROR1_RMATRIX( BoneTransform );
 	DEBUGFATALERROR1( valid_pos( BoneTransform.c, phBoundaries ) );

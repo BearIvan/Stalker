@@ -87,7 +87,7 @@ void CUIStatic::DrawText()
 {
 	if (m_pTextControl)
 	{
-		if( !fsimilar(m_pTextControl->m_wndSize.x, m_wndSize.x) || !fsimilar(m_pTextControl->m_wndSize.y, m_wndSize.y))
+		if( !XrMath::fsimilar(m_pTextControl->m_wndSize.x, m_wndSize.x) || !XrMath::fsimilar(m_pTextControl->m_wndSize.y, m_wndSize.y))
 		{
 			m_pTextControl->m_wndSize		= m_wndSize;
 			m_pTextControl->ParseText		(true);
@@ -173,7 +173,7 @@ void CUIStatic::Update()
 			u32 clr				= m_lanim_xform.m_lanim->CalculateRGB(t-m_lanim_xform.m_lanim_start_time,frame);
 			
 			EnableHeading_int	(true);
-			float heading		= (PI_MUL_2/255.0f) * color_get_A(clr);
+			float heading		= (XrMath::PI_MUL_2/255.0f) * color_get_A(clr);
 			SetHeading			(heading);
 
 			float _value		= (float)color_get_R(clr);
@@ -237,7 +237,7 @@ CUILines* CUIStatic::TextItemControl()
 
 void CUIStatic::AdjustHeightToText()
 {
-	if( !fsimilar(TextItemControl()->m_wndSize.x, GetWidth()) )
+	if( !XrMath::fsimilar(TextItemControl()->m_wndSize.x, GetWidth()) )
 	{
 		TextItemControl()->m_wndSize.x = GetWidth();
 		TextItemControl()->ParseText(true);
@@ -278,7 +278,7 @@ CUITextWnd::CUITextWnd()
 
 void CUITextWnd::AdjustHeightToText()
 {
-	if( !fsimilar(TextItemControl().m_wndSize.x, GetWidth()) )
+	if( !XrMath::fsimilar(TextItemControl().m_wndSize.x, GetWidth()) )
 	{
 		TextItemControl().m_wndSize.x	= GetWidth();
 		TextItemControl().ParseText		(true);
@@ -296,7 +296,7 @@ void CUITextWnd::AdjustWidthToText()
 
 void CUITextWnd::Draw()
 {
-	if( !fsimilar(TextItemControl().m_wndSize.x, m_wndSize.x) || !fsimilar(TextItemControl().m_wndSize.y, m_wndSize.y))
+	if( !XrMath::fsimilar(TextItemControl().m_wndSize.x, m_wndSize.x) || !XrMath::fsimilar(TextItemControl().m_wndSize.y, m_wndSize.y))
 	{
 		TextItemControl().m_wndSize		= m_wndSize;
 		TextItemControl().ParseText		(true);

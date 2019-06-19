@@ -18,7 +18,7 @@ float blend_time( const CBlend &b )
 {
 	VERIFY(  b.timeTotal > 0.f );
 	VERIFY(  b.timeCurrent >= 0.f );
-	VERIFY( !fis_zero( b.timeTotal ) );
+	VERIFY( !XrMath::fis_zero( b.timeTotal ) );
 
 	float t	= ( b.timeCurrent/b.timeTotal ) ;
 	t	-= floor( t );
@@ -34,10 +34,10 @@ float time_to_next_mark( const CBlend &b, const motion_marks& marks )
 	VERIFY( !marks.is_empty() );
 	const float l_blend_time = blend_time( b );
 	float time = marks.time_to_next_mark( l_blend_time );
-	if( time < FLT_MAX )
+	if( time < flt_max )
 		return time;
-	time = marks.time_to_next_mark( EPS_S );
-	if( time < FLT_MAX )
+	time = marks.time_to_next_mark( XrMath::EPS_S );
+	if( time < flt_max )
 				return time + b.timeTotal - l_blend_time;
 	return b.timeTotal - l_blend_time;
 }
@@ -53,7 +53,7 @@ IC bool b_is_blending( const CBlend* current_blend, const CBlend* b )
 	return	current_blend								&&
 			current_blend->blend_state() != CBlend::eFREE_SLOT	&&
 			current_blend != b							&&
-			b->blendAmount <  b->blendPower - EPS_L;
+			b->blendAmount <  b->blendPower - XrMath::EPS_L;
 
 }
 
@@ -115,6 +115,6 @@ bool	ik_anim_state::time_step_begin	( IKinematicsAnimated *K, const CBlend& B, u
 	//if( blend_in( *current_blend, marks ) )
 	//	time = 0;
 	time = time_to_next_mark( B, marks );
-	VERIFY( time < FLT_MAX );
+	VERIFY( time < flt_max );
 	return true;
 }

@@ -123,12 +123,12 @@ IC	void CTradeParameters::process							(_action_type type, CInifile &ini_file, 
 		}
 
 		string256			temp0, temp1;
-		THROW3				(_GetItemCount(*(*I).second) == 2,"Invalid parameters in section",*section);
+		THROW3				(XrTrims::GetItemCount(*(*I).second) == 2,"Invalid parameters in section",*section);
 		_action.enable		(
 			(*I).first,
 			CTradeFactors	(
-				(float)atof(_GetItem(*(*I).second,0,temp0)),
-				(float)atof(_GetItem(*(*I).second,1,temp1))
+				(float)atof(XrTrims::GetItem(*(*I).second,0,temp0)),
+				(float)atof(XrTrims::GetItem(*(*I).second,1,temp1))
 			)
 		);
 	}

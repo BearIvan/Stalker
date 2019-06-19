@@ -101,14 +101,14 @@ float CEnvironmentSOC::TimeWeight(float val, float min_t, float max_t)
 {
 	float weight = 0.f;
 	float length = TimeDiff(min_t, max_t);
-	if (!fis_zero(length, EPS)) {
+	if (!XrMath::fis_zero(length, XrMath::EPS)) {
 		if (min_t>max_t) {
 			if ((val >= min_t) || (val <= max_t))	weight = TimeDiff(min_t, val) / length;
 		}
 		else {
 			if ((val >= min_t) && (val <= max_t))	weight = TimeDiff(min_t, val) / length;
 		}
-		clamp(weight, 0.f, 1.f);
+		XrMath::clamp(weight, 0.f, 1.f);
 	}
 	return			weight;
 }
@@ -182,7 +182,7 @@ bool CEnvironmentSOC::SetWeatherFX(shared_str name)
 			current_length = Current[1]->exec_time - Current[0]->exec_time;
 			current_weight = (fGameTime - Current[0]->exec_time) / current_length;
 		}
-		clamp(current_weight, 0.f, 1.f);
+		XrMath::clamp(current_weight, 0.f, 1.f);
 
 		std::sort(CurrentWeather->begin(), CurrentWeather->end(), sort_env_etl_pred);
 		CEnvDescriptorSOC* C0 = CurrentWeather->at(0);
@@ -350,7 +350,7 @@ void CEnvironmentSOC::OnFrame()
 
 
 	PerlinNoise1D->SetFrequency(wind_gust_factor*MAX_NOISE_FREQ);
-	wind_strength_factor = clampr(PerlinNoise1D->GetContinious(Device.fTimeGlobal) + 0.5f, 0.f, 1.f);
+	wind_strength_factor = XrMath::clampr(PerlinNoise1D->GetContinious(Device.fTimeGlobal) + 0.5f, 0.f, 1.f);
 
 	int l_id = (current_weight<0.5f) ? Current[0]->lens_flare_id : Current[1]->lens_flare_id;
 	eff_LensFlare->OnFrame(l_id);

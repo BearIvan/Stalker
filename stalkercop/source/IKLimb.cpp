@@ -46,7 +46,7 @@ const IVektor	lpos_vector		={-1,0,0};
 const IVektor	gproj_vector	={0,0,1};//. in XGlobal
 const IVektor	gpos_vector		={1,0,0};
 
-//const float		ik_timedelta_eps = EPS;
+//const float		ik_timedelta_eps = XrMath::EPS;
 
 IC bool null_frame()
 {
@@ -240,7 +240,7 @@ void	CIKLimb::GetKnee				( Fvector &knee, const SCalculateData& cd ) const
 	Fmatrix goal;
 	Fvector p0; p0.sub( foot, hip ); Fvector p1; p1.sub( cd.goal( goal ).c, hip );
 	float mp0 = p0.magnitude( );
-	if( fis_zero( mp0 ) )
+	if( XrMath::fis_zero( mp0 ) )
 		return;
 	p0.mul( 1.f/mp0 );
 	knee.sub( hip );
@@ -309,20 +309,20 @@ if( ph_dbg_draw_mask.test( phDbgDrawIKGoal ) )
 IC void set_limits( float &min, float &max, SJointLimit& l)
 {
 	min=-l.limit.y  ;max=-l.limit.x  ;
-	min += M_PI; max += M_PI;
-	clamp( min, 0.f, 2 * M_PI ); clamp( max, 0.f, 2 * M_PI );
+	min += XrMath::M_PI; max += XrMath::M_PI;
+	XrMath::clamp( min, 0.f, 2 * XrMath::M_PI ); XrMath::clamp( max, 0.f, 2 * XrMath::M_PI );
 
 }
 
 IC void free_limits( float &min, float &max)
 {
-	min = 0  ;max = 2 * M_PI  ;
+	min = 0  ;max = 2 * XrMath::M_PI  ;
 }
 
 u16 get_ik_bone( IKinematics* K, LPCSTR	S, u16 i )
 {
 	string32 sbone;
-	_GetItem			( S, i, sbone );
+	XrTrims::GetItem			( S, i, sbone );
 	u16 bone = K->LL_BoneID( sbone );
 #ifdef	DEBUG
 	if( BI_NONE == bone )
@@ -380,10 +380,10 @@ void CIKLimb::Create( u16 id, IKinematicsAnimated* K, bool collide_ )
 	set_limits( lmin[1], lmax[1], limits[1] );
 	set_limits( lmin[2], lmax[2], limits[1] );
 	//free_limits( lmin[0], lmax[0] );
-	//lmin[0] = M_PI * 3.f/4.f; 
+	//lmin[0] = XrMath::M_PI * 3.f/4.f; 
 	lmin[1]+=1.0f; lmax[1]-=0.f;
 	lmin[2]+=1.0f; lmax[2]-=0.f;
-	lmax[0] = 2* M_PI - M_PI * 2.f/3.f;
+	lmax[0] = 2* XrMath::M_PI - XrMath::M_PI * 2.f/3.f;
 
 //  lmin[2]=-1.f;lmax[2]=1.f;
 
@@ -424,7 +424,7 @@ IC float clamp_rotation( Fquaternion &q, float v )
 {
 	float angl;Fvector ax;
 	q.get_axis_angle( ax, angl );
-	float abs_angl = _abs( angl );
+	float abs_angl = XrMath::abs( angl );
 	if( abs_angl > v )
 	{
 		if( angl <  0.f ) v = -v;
@@ -475,7 +475,7 @@ void get_diff_value( const Fmatrix & m0, const Fmatrix &m1, float &l, float &a )
 	l = diff.c.magnitude( );
 	Fvector ax; 
 	get_axis_angle( diff, ax, a );
-	a = _abs( a );
+	a = XrMath::abs( a );
 }
 */
 IC void get_blend_speed_limits(float& l,float& a, const SCalculateData& cd, const ik_limb_state	&sv_state )
@@ -484,8 +484,8 @@ IC void get_blend_speed_limits(float& l,float& a, const SCalculateData& cd, cons
 	get_diff_value( sv_state.anim_pos( m ), cd.state.anim_pos, l, a );
 	l*=1.5f;//a*=1.5;
 	//l*=0.3f;a*=0.3f;
-	//clamp(l,0.f,0.1f);
-	//clamp(a,0.f,0.03f);
+	//XrMath::clamp(l,0.f,0.1f);
+	//XrMath::clamp(a,0.f,0.03f);
 	//l = 0.01f; a = 0.01f;
 }
 
@@ -539,7 +539,7 @@ void	CIKLimb::SetNewGoal	( const SIKCollideData &cld, SCalculateData& cd )
 	get_blend_speed_limits(cd.l, cd.a, cd, sv_state );
 	cd.state.foot_step		= m_foot.GetFootStepMatrix( cd.state.goal, cd, cld, true, !!ik_allign_free_foot ) && cd.state.foot_step;
 
-	VERIFY2(fsimilar( 1.f , DET( cd.state.goal.get() ), det_tolerance ), dump_string( "cd.state.goal", cd.state.goal.get() ).c_str() );
+	VERIFY2(XrMath::fsimilar( 1.f , DET( cd.state.goal.get() ), det_tolerance ), dump_string( "cd.state.goal", cd.state.goal.get() ).c_str() );
 
 	cd.state.blend_to = cd.state.goal;
 	sv_state.get_calculate_state( cd.state );
@@ -712,25 +712,25 @@ void	CIKLimb::Blending			( SCalculateData& cd )
 		{
 			blend_speed_accel( cd );
 			ik_goal_matrix m;
-			VERIFY(fsimilar( 1.f , DET( sv_state.goal( m ).get() ), det_tolerance ));
-			VERIFY(fsimilar( 1.f , DET( sv_state.blend_to( m ).get() ), det_tolerance ));
+			VERIFY(XrMath::fsimilar( 1.f , DET( sv_state.goal( m ).get() ), det_tolerance ));
+			VERIFY(XrMath::fsimilar( 1.f , DET( sv_state.blend_to( m ).get() ), det_tolerance ));
 
 			Fmatrix diff;diff.mul_43( Fmatrix().invert( sv_state.blend_to( m ).get() ), Fmatrix ( sv_state.goal( m ).get() ) );
 
-			VERIFY(fsimilar( 1.f , DET( diff ), det_tolerance ));
+			VERIFY(XrMath::fsimilar( 1.f , DET( diff ), det_tolerance ));
 
 			Fmatrix blend = Fidentity;//cd.state.blend_to;
 			cd.state.blending = !clamp_change( blend, diff, cd.l, cd.a, linear_tolerance, angualar_tolerance );//0.01f //0.005f
 
-			VERIFY(fsimilar( 1.f , DET( blend ), det_tolerance ));
-			VERIFY(fsimilar( 1.f , DET( cd.state.blend_to.get() ), det_tolerance ));
+			VERIFY(XrMath::fsimilar( 1.f , DET( blend ), det_tolerance ));
+			VERIFY(XrMath::fsimilar( 1.f , DET( cd.state.blend_to.get() ), det_tolerance ));
 
 			Fmatrix fm =Fmatrix().mul_43( cd.state.blend_to.get(), blend );
 			if( ik_collide_blend )	
 				m_foot.GetFootStepMatrix( cd.state.goal, fm, collide_data, true, true );
 			else
 				cd.state.goal.set( fm, cd.state.blend_to.collide_state() );
-			VERIFY( fsimilar( DET( cd.state.goal.get() ), 1.f, det_tolerance ) );
+			VERIFY( XrMath::fsimilar( DET( cd.state.goal.get() ), 1.f, det_tolerance ) );
 
 		} else
 		{
@@ -761,7 +761,7 @@ IC void new_foot_matrix( const ik_goal_matrix &m, SCalculateData &cd )
 	reset_blend_speed( cd );
 }
 static const float unstuck_tolerance_linear		=	0.3f;
-static const float unstuck_tolerance_angular	=	M_PI/4.f;
+static const float unstuck_tolerance_angular	=	XrMath::M_PI/4.f;
 
 void	CIKLimb::SetNewStepGoal	( const SIKCollideData &cld, SCalculateData& cd )
 {
@@ -800,7 +800,7 @@ void	CIKLimb::SetNewStepGoal	( const SIKCollideData &cld, SCalculateData& cd )
 		const Fmatrix cl_pos = cd.state.collide_pos.get();
 		//||
 		if(  !clamp_change( Fmatrix().set(cl_pos), foot.get(), unstuck_tolerance_linear, unstuck_tolerance_angular, unstuck_tolerance_linear, unstuck_tolerance_angular ) ||
-			 ( Device.dwTimeGlobal > cd.state.unstuck_time && !clamp_change( Fmatrix().set(cl_pos), foot.get(), 10.f*EPS_L, EPS_L, 10.f*EPS_L, EPS_L ) )
+			 ( Device.dwTimeGlobal > cd.state.unstuck_time && !clamp_change( Fmatrix().set(cl_pos), foot.get(), 10.f*XrMath::EPS_L, XrMath::EPS_L, 10.f*XrMath::EPS_L, XrMath::EPS_L ) )
 			)
 		{
 			new_foot_matrix( foot, cd );
@@ -906,7 +906,7 @@ void pick_dir_update( Fvector &v, const Fvector& previous_dir, const Fvector& ne
 
 	float m = dir.magnitude( );
 
-	if(m < EPS)
+	if(m < XrMath::EPS)
 		v.set( previous_dir );
 	else 
 		v.set( dir.mul( 1.f/m ) );
@@ -999,7 +999,7 @@ float	CIKLimb::ObjShiftDown( float current_shift, const SCalculateData& cd )  co
 	Fmatrix m;
 	Fvector g; g.sub( m_foot.ref_bone_to_foot( m, cd.state.goal.get() ).c, hip );
 	float l = m_limb.Length();
-	return -g.y - _sqrt( l*l - g.x*g.x - g.z*g.z );
+	return -g.y - XrMath::sqrt( l*l - g.x*g.x - g.z*g.z );
 }
 
 float	CIKLimb::get_time_to_step_begin	( const CBlend& B )	const 
@@ -1204,7 +1204,7 @@ void CIKLimb::CalculateBones( SCalculateData &cd )
 void	DBG_DrawRotationLimitsY( const Fmatrix &start, float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationY( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 255, 0 ), false, 1 );
+	DBG_DrawRotationY( start, ang - XrMath::EPS, ang + XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 0, 255, 0 ), false, 1 );
 	DBG_DrawRotationY( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 250, 0 ), true );
 #endif // DEBUG
 }
@@ -1212,7 +1212,7 @@ void	DBG_DrawRotationLimitsY( const Fmatrix &start, float ang, float l, float h 
 void	DBG_DrawRotationLimitsZ( const Fmatrix &start, float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationZ( start, ang - EPS, ang + EPS, 0.15f, D3DCOLOR_XRGB( 0, 0, 255 ), false, 1 );
+	DBG_DrawRotationZ( start, ang - XrMath::EPS, ang + XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 0, 0, 255 ), false, 1 );
 	DBG_DrawRotationZ( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 0, 0, 250 ), true );
 #endif // DEBUG
 }
@@ -1220,7 +1220,7 @@ void	DBG_DrawRotationLimitsZ( const Fmatrix &start, float ang, float l, float h 
 void	DBG_DrawRotationLimitsX( const Fmatrix &start, float ang, float l, float h )
 {
 #ifdef DEBUG
-	DBG_DrawRotationX( start, ang + EPS, ang - EPS, 0.15f, D3DCOLOR_XRGB( 255, 0, 0 ), false, 1 );
+	DBG_DrawRotationX( start, ang + XrMath::EPS, ang - XrMath::EPS, 0.15f, D3DCOLOR_XRGB( 255, 0, 0 ), false, 1 );
 	DBG_DrawRotationX( start, l, h, 0.15f, D3DCOLOR_ARGB( 50, 255, 0, 0 ), true );
 #endif // DEBUG
 }

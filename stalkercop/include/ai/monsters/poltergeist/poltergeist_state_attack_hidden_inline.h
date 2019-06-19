@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../sound_player.h"
-#include "tools/_vector3d_ext.h"
+#include "tools/Math/Xrvector3d2.h"
 
 #define TEMPLATE_SPECIALIZATION template <\
 	typename _Object\
@@ -60,7 +60,7 @@ void   CStatePoltergeistAttackHiddenAbstract::select_target_for_move ()
 	Fvector const 	enemy2self			=	-fly_radius * normalize(self2enemy) ;
 
 	float	const	move_scan_points	=	12;
-	float	const	move_scan_angle		=	deg2rad(360.f) / move_scan_points;
+	float	const	move_scan_angle		=	XrMath::deg2rad(360.f) / move_scan_points;
 
 	for (			u32	index			=	0;
 						index			<	move_scan_points;

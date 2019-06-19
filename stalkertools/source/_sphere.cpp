@@ -336,5 +336,5 @@ void Fsphere_compute(Fsphere& dest, const Fvector* verts, int count)
     mb.build();
 
     dest.P.set(mb.center());
-    dest.R = (_sqrt(mb.squared_radius()));
+    dest.R = (XrMath::sqrt(mb.squared_radius()));
 }

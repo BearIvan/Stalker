@@ -63,7 +63,7 @@ class CBlend;
 #define SOUND_ATTACK_HIT_MIN_DELAY		1000
 #define MORALE_NORMAL					0.5f
 
-#define STANDART_ATTACK					-PI_DIV_6,PI_DIV_6,-PI_DIV_6,PI_DIV_6,3.5f
+#define STANDART_ATTACK					-XrMath::PI_DIV_6,XrMath::PI_DIV_6,-XrMath::PI_DIV_6,XrMath::PI_DIV_6,3.5f
 #define SIMPLE_ENEMY_HIT_TEST
 
 
@@ -105,11 +105,11 @@ struct SVelocityParam {
 
 	void	Load (LPCSTR section, LPCSTR line) {
 		string32 buffer;
-		velocity.linear			= float(atof(_GetItem(pSettings->r_string(section,line),0,buffer)));
-		velocity.angular_real	= float(atof(_GetItem(pSettings->r_string(section,line),1,buffer)));
-		velocity.angular_path	= float(atof(_GetItem(pSettings->r_string(section,line),2,buffer)));
-		min_factor				= float(atof(_GetItem(pSettings->r_string(section,line),3,buffer)));
-		max_factor				= float(atof(_GetItem(pSettings->r_string(section,line),4,buffer)));
+		velocity.linear			= float(atof(XrTrims::GetItem(pSettings->r_string(section,line),0,buffer)));
+		velocity.angular_real	= float(atof(XrTrims::GetItem(pSettings->r_string(section,line),1,buffer)));
+		velocity.angular_path	= float(atof(XrTrims::GetItem(pSettings->r_string(section,line),2,buffer)));
+		min_factor				= float(atof(XrTrims::GetItem(pSettings->r_string(section,line),3,buffer)));
+		max_factor				= float(atof(XrTrims::GetItem(pSettings->r_string(section,line),4,buffer)));
 	}
 };
 
@@ -340,8 +340,8 @@ struct SCurrentAnimationInfo {
 	TTime		time_started;
 
 	struct {
-		IC void		_set_current	(float v)			{ current=v; VERIFY2(_abs(v)<1000,"_set_current(). monster speed is too big"); }
-		IC void		_set_target		(float v)			{ target=v;	VERIFY2(_abs(v)<1000,"_set_target(). monster speed is too big");}
+		IC void		_set_current	(float v)			{ current=v; VERIFY2(XrMath::abs(v)<1000,"_set_current(). monster speed is too big"); }
+		IC void		_set_target		(float v)			{ target=v;	VERIFY2(XrMath::abs(v)<1000,"_set_target(). monster speed is too big");}
 		IC float	_get_current	()					{ return current; }
 		IC float	_get_target		()					{ return target; }
 	private:
@@ -408,7 +408,7 @@ enum EAccelValue {
 };
 
 
-#define deg(x) (x * PI / 180)
+#define deg(x) (x * XrMath::M_PI / 180)
 
 
 ///////////////////////////////////////////////////////////////////////////////
