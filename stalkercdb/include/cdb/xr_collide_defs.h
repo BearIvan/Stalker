@@ -49,8 +49,8 @@ namespace collide
 		BOOL				similar	(const Fvector& _start, const Fvector& _dir, const float _range)
 		{
 			if (!_start.similar(start))					return FALSE;
-			if (!fsimilar(1.f,dir.dotproduct(_dir)))	return FALSE;
-			if (!fsimilar(_range,range))				return FALSE;
+			if (!XrMath::fsimilar(1.f,dir.dotproduct(_dir)))	return FALSE;
+			if (!XrMath::fsimilar(_range,range))				return FALSE;
 			return			TRUE;
 		}
 	};
