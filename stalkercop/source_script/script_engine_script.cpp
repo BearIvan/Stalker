@@ -24,7 +24,7 @@ void LuaLog(LPCSTR caMessage)
 			ai().script_engine().debugger()->Write(caMessage);
 #	endif // #ifndef USE_LUA_STUDIO
 #endif // #ifdef USE_DEBUGGER
-		Msg(caMessage);
+		//Msg(caMessage);
 }
 
 void ErrorLog(LPCSTR caMessage)
@@ -109,15 +109,17 @@ void prefetch_module(LPCSTR file_name)
 }
 
 struct profile_timer_script {
-	u64							m_start_cpu_tick_count;
-	u64							m_accumulator;
+	/*u64							m_start_cpu_tick_count;
+	u64							m_accumulator;*/
+	BearCore::BearTimer  m_timer;
+	BearCore::BearTime  m_time;
 	u64							m_count;
 	int							m_recurse_mark;
 	
 	IC								profile_timer_script	()
 	{
-		m_start_cpu_tick_count	= 0;
-		m_accumulator			= 0;
+	/*	m_start_cpu_tick_count	= 0;
+		m_accumulator			= 0;*/
 		m_count					= 0;
 		m_recurse_mark			= 0;
 	}
@@ -129,28 +131,31 @@ struct profile_timer_script {
 
 	IC		profile_timer_script&	operator=				(const profile_timer_script &profile_timer)
 	{
-		m_start_cpu_tick_count	= profile_timer.m_start_cpu_tick_count;
-		m_accumulator			= profile_timer.m_accumulator;
-		m_count					= profile_timer.m_count;
+		/*m_start_cpu_tick_count	= profile_timer.m_start_cpu_tick_count;
+		m_accumulator			= profile_timer.m_accumulator;*/
+		m_time =profile_timer. m_time;
+		m_timer = profile_timer.m_timer;
+		m_count	 				= profile_timer.m_count;
 		m_recurse_mark			= profile_timer.m_recurse_mark;
 		return					(*this);
 	}
 
 	IC		bool					operator<				(const profile_timer_script &profile_timer) const
 	{
-		return					(m_accumulator < profile_timer.m_accumulator);
+		return					(m_time.asmiliseconds() < profile_timer.m_time.asmiliseconds());
 	}
 
 	IC		void					start					()
 	{
 		if (m_recurse_mark) {
-			++m_recurse_mark;
+			++m_recurse_mark; //m_timer.restart();
 			return;
 		}
-
+			
 		++m_recurse_mark;
 		++m_count;
-		m_start_cpu_tick_count	= CPU::GetCLK();
+		m_timer.restart();
+		//m_start_cpu_tick_count	= CPU::GetCLK();
 	}
 
 	IC		void					stop					()
@@ -160,17 +165,18 @@ struct profile_timer_script {
 		
 		if (m_recurse_mark)
 			return;
-		
-		u64						finish = CPU::GetCLK();
+		m_time = m_timer.get_elapsed_time();
+		/*u64						finish = CPU::GetCLK();
+
 		if (finish > m_start_cpu_tick_count)
-			m_accumulator		+= finish - m_start_cpu_tick_count;
+			m_accumulator		+= finish - m_start_cpu_tick_count;*/
 	}
 
 	IC		float					time					() const
 	{
-		FPU::m64r				();
-		float					result = (float(double(m_accumulator)/double(CPU::clk_per_second))*1000000.f);
-		FPU::m24r				();
+		//FPU::m64r				();
+		float					result = (float(double(m_time.asmicroseconds())));
+		//FPU::m24r				();
 		return					(result);
 	}
 };
@@ -178,7 +184,7 @@ struct profile_timer_script {
 IC	profile_timer_script	operator+	(const profile_timer_script &portion0, const profile_timer_script &portion1)
 {
 	profile_timer_script	result;
-	result.m_accumulator	= portion0.m_accumulator + portion1.m_accumulator;
+	result.m_time	= portion0.m_time + portion1.m_time;
 	result.m_count			= portion0.m_count + portion1.m_count;
 	return					(result);
 }

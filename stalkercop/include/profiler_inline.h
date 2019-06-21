@@ -17,7 +17,7 @@ IC	CProfilePortion::CProfilePortion	(LPCSTR timer_id)
 		return;
 
 	m_timer_id							= timer_id;
-	m_time								= CPU::QPC();
+	m_timer.restart();
 }
 
 IC	CProfilePortion::~CProfilePortion	()
@@ -28,8 +28,7 @@ IC	CProfilePortion::~CProfilePortion	()
 	if (!psDeviceFlags.test(rsStatistic))
 		return;
 
-	u64									temp = CPU::QPC();
-	m_time								= temp - m_time;
+
 	profiler().add_profile_portion		(*this);
 }
 
@@ -42,7 +41,7 @@ IC	CProfileStats::CProfileStats		()
 {
 	m_update_time	= 0;
 	m_name			= shared_str("");
-	m_time			= 0.f;
+
 	m_min_time		= 0.f;
 	m_max_time		= 0.f;
 	m_total_time	= 0.f;

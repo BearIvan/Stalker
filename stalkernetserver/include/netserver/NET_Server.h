@@ -59,7 +59,7 @@ public:
 		u32		bVerified	: 1;
 	};
 
-                        IClient( CTimer* timer );
+                        IClient(BearCore::BearTimer* timer );
 	virtual             ~IClient();
 
 	IClientStatistic	stats;
@@ -182,7 +182,7 @@ protected:
 	
 	// Statistic
 	IServerStatistic		stats;
-	CTimer*					device_timer;
+	BearCore::BearTimer*					device_timer;
 	BOOL					m_bDedicated;
 
 	IClient*				ID_to_client		(ClientID ID, bool ScanAll = false);
@@ -199,7 +199,7 @@ protected:
 
 			void			UpdateBannedList	();
 public:
-							IPureServer			(CTimer* timer, BOOL Dedicated = FALSE);
+							IPureServer			(BearCore::BearTimer* timer, BOOL Dedicated = FALSE);
 	virtual					~IPureServer		();
 	HRESULT					net_Handler			(u32 dwMessageType, PVOID pMessage);
 	

@@ -79,7 +79,7 @@ void CRender::render_rain()
 	CSector*					cull_sector;
 	Fmatrix						cull_xform;
 	{
-		FPU::m64r					();
+		//FPU::m64r					();
 		// Lets begin from base frustum
 		Fmatrix		fullxform_inv	= ex_full_inverse;
 #ifdef	_DEBUG
@@ -208,7 +208,7 @@ void CRender::render_rain()
 		RainLight.X.D.maxY			= limit;
 
 		// full-xform
-		FPU::m24r			();
+		//FPU::m24r			();
 	}
 
 	// Begin SMAP-render

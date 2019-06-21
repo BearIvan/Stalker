@@ -93,7 +93,7 @@ void CLevel::g_sv_Spawn		(CSE_Abstract* E)
 	}
 #endif // DEBUG_MEMORY_MANAGER
 	//-----------------------------------------------------------------
-//	CTimer		T(false);
+//	BearCore::BearTimer		T(false);
 
 #ifdef DEBUG
 //	Msg					("* CLIENT: Spawn: %s, ID=%d", *E->s_name, E->ID);

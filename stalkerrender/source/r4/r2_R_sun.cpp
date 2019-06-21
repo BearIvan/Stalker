@@ -333,7 +333,7 @@ void CRender::render_sun				()
 	CSector*					cull_sector		;
 	Fmatrix						cull_xform		;
 	{
-		FPU::m64r					();
+		//FPU::m64r					();
 		// Lets begin from base frustum
 		Fmatrix		fullxform_inv	= ex_full_inverse;
 		DumbConvexVolume<false>		hull;
@@ -398,7 +398,7 @@ void CRender::render_sun				()
 
 		// full-xform
 		cull_xform.mul				(mdir_Project,mdir_View);
-		FPU::m24r					();
+		//FPU::m24r					();
 	}
 
 	// Begin SMAP-render
@@ -443,7 +443,7 @@ void CRender::render_sun				()
 	float m_fTSM_Delta= ps_r2_sun_tsm_projection;
 
 	// Compute REAL sheared xform based on receivers/casters information
-	FPU::m64r			();
+	//FPU::m64r			();
 	if	( XrMath::abs(m_fCosGamma) < 0.99f && ps_r2_ls_flags.test(R2FLAG_SUN_TSM))
 	{
 		//  get the near and the far plane (points) in eye space.
@@ -635,12 +635,12 @@ void CRender::render_sun				()
 	} else {
 		m_LightViewProj				= *((D3DXMATRIX*)(&cull_xform));
 	}
-	FPU::m24r				();
+	//FPU::m24r				();
 
 	// perform "refit" or "focusing" on relevant
 	if	(ps_r2_ls_flags.test(R2FLAG_SUN_FOCUS))
 	{
-		FPU::m64r				();
+		//FPU::m64r				();
 
 		// create clipper
 		DumbClipper	view_clipper;
@@ -716,7 +716,7 @@ void CRender::render_sun				()
 										-2.f*boxX/boxWidth,		-2.f*boxY/boxHeight,	0.f, 1.f );
 		D3DXMatrixMultiply			( &m_LightViewProj, &m_LightViewProj, &trapezoidUnitCube);
 		//D3DXMatrixMultiply( &trapezoid_space, &trapezoid_space, &trapezoidUnitCube );
-		FPU::m24r					();
+		//FPU::m24r					();
 	}
 
 	// Finalize & Cleanup
@@ -790,7 +790,7 @@ void CRender::render_sun_near	()
 	CSector*					cull_sector;
 	Fmatrix						cull_xform;
 	{
-		FPU::m64r					();
+		//FPU::m64r					();
 		// Lets begin from base frustum
 		Fmatrix		fullxform_inv	= ex_full_inverse;
 #ifdef	_DEBUG
@@ -932,7 +932,7 @@ void CRender::render_sun_near	()
 		fuckingsun->X.D.maxY			= XrMath::clampr	(XrMath::iCeil	(scissor.max.y), 0, limit);
 
 		// full-xform
-		FPU::m24r			();
+		//FPU::m24r			();
 	}
 
 	// Begin SMAP-render
@@ -1066,7 +1066,7 @@ void CRender::render_sun_cascade ( u32 cascade_ind )
 	CSector*					cull_sector;
 	Fmatrix						cull_xform;
 	{
-		FPU::m64r					();
+		//FPU::m64r					();
 		// Lets begin from base frustum
 		Fmatrix		fullxform_inv	= ex_full_inverse;
 #ifdef	_DEBUG
@@ -1266,7 +1266,7 @@ void CRender::render_sun_cascade ( u32 cascade_ind )
 			fuckingsun->X.D.maxY			= limit;
 
 		// full-xform
-		FPU::m24r			();
+		//FPU::m24r			();
 	}
 
 	// Begin SMAP-render

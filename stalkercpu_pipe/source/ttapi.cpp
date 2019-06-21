@@ -98,7 +98,7 @@ void SetThreadName( DWORD dwThreadID , LPCSTR szThreadName )
   }
 }
 
-DWORD ttapi_Init( _processor_info* ID )
+DWORD ttapi_Init( )
 {
 	if ( ttapi_initialized )
 		return ttapi_workers_count;
@@ -172,14 +172,14 @@ DWORD ttapi_Init( _processor_info* ID )
 
 	char szThreadName[64];
 	DWORD dwThreadId = 0;
-	DWORD dwAffinitiMask = ID->affinity_mask;
+	//DWORD dwAffinitiMask = 1;// ID->affinity_mask;
 	DWORD dwCurrentMask = 0x01;
 
 	// Setting affinity
-	while ( ! ( dwAffinitiMask & dwCurrentMask ) )
-		dwCurrentMask <<= 1;
+/*	while ( ! ( dwAffinitiMask & dwCurrentMask ) )
+		dwCurrentMask <<= 1;*/
 
-	SetThreadAffinityMask( GetCurrentThread() , dwCurrentMask );
+	//SetThreadAffinityMask( GetCurrentThread() , dwCurrentMask );
 	//Msg("Master Thread Affinity Mask : 0x%8.8X" , dwCurrentMask );
 
 	// Creating threads
@@ -192,11 +192,11 @@ DWORD ttapi_Init( _processor_info* ID )
 			return 0;
 
 		// Setting affinity
-		do
+	/*	do
 			dwCurrentMask <<= 1;
 		while ( ! ( dwAffinitiMask & dwCurrentMask ) );
-			
-		SetThreadAffinityMask( ttapi_threads_handles[ i ] , dwCurrentMask );
+			*/
+		//SetThreadAffinityMask( ttapi_threads_handles[ i ] , dwCurrentMask );
 		//Msg("Helper Thread #%u Affinity Mask : 0x%8.8X" , i + 1 , dwCurrentMask );
 
 		// Setting thread name

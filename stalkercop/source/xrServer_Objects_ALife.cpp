@@ -378,7 +378,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
     fp_data.inc					();
 #endif // XRSE_FACTORY_EXPORTS
 	m_flags.set					(flOfflineNoMove,FALSE);
-	seed						(u32(CPU::QPC() & 0xffffffff));
+	seed						(u32(BearCore::BearTimer::GetCurrentTime().asmiliseconds()));
 }
 
 #ifdef XRGAME_EXPORTS
@@ -1001,7 +1001,7 @@ CSE_ALifeObjectPhysic::CSE_ALifeObjectPhysic(LPCSTR caSection) : CSE_ALifeDynami
 #else
 	m_freeze_time				= 0;
 #endif
-	m_relevent_random.seed		(u32(CPU::GetCLK() & u32(-1)));
+	m_relevent_random.seed		(u32(BearCore::BearTimer::GetCurrentTime().asmiliseconds()));
 }
 
 CSE_ALifeObjectPhysic::~CSE_ALifeObjectPhysic		() 

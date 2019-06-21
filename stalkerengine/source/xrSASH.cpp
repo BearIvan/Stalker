@@ -224,7 +224,7 @@ void xrSASH::StartBenchmark()
     {
         m_aFrimeTimes.clear();
         m_aFrimeTimes.reserve(1024);
-        m_FrameTimer.Start();
+        m_FrameTimer.restart();
     }
 }
 
@@ -237,8 +237,8 @@ void xrSASH::DisplayFrame(float t)
 
     if (!m_bOpenAutomate)
     {
-        m_aFrimeTimes.push_back(m_FrameTimer.GetElapsed_sec());
-        m_FrameTimer.Start();
+        m_aFrimeTimes.push_back(m_FrameTimer.get_elapsed_time().asseconds());
+        m_FrameTimer.restart();
     }
 }
 

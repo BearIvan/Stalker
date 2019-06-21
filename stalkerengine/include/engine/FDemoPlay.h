@@ -24,8 +24,8 @@ class ENGINE_API CDemoPlay : public CEffectorCam
 
     // statistics
     BOOL stat_started;
-    CTimer stat_Timer_frame;
-    CTimer stat_Timer_total;
+    BearCore::BearTimer stat_Timer_frame;
+	BearCore::BearTimer stat_Timer_total;
     u32 stat_StartFrame;
     xr_vector<float> stat_table;
 

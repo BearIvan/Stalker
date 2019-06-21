@@ -387,11 +387,11 @@ CMovementManager::CLevelPathManager::PATH &CMovementManager::level_path_path		()
 
 void CMovementManager::build_level_path	()
 {
-//	CTimer								timer;
+//	BearCore::BearTimer								timer;
 //	timer.Start							();
 	level_path_builder().process_impl	();
 //	static int i=0;
-//	Msg									("[%6d][%6d][%4d][%f] build_level_path",Device.dwTimeGlobal,Device.dwFrame,++i,timer.GetElapsed_sec()*1000.f);
+//	Msg									("[%6d][%6d][%4d][%f] build_level_path",Device.dwTimeGlobal,Device.dwFrame,++i,timer.get_elapsed_time().asseconds()*1000.f);
 }
 
 Fvector CMovementManager::predict_position	(const float &time_delta, const Fvector &start_position, u32 &current_travel_point, const float &velocity) const

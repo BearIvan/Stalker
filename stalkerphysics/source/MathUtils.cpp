@@ -454,7 +454,8 @@ void capped_cylinder_ray_collision_test()
 	//Fcylinder::ecode code[2];
 	c.intersect(pos,dir,ir,code);
 	RAYvsCYLINDER(c,pos,dir,R,TRUE);//false
-	CTimer t;t.Start();
+	BearCore::BearTimer t;
+	t.restart();
 	for(int i=0;i<1000000;i++)
 	{
 		Fcylinder c;
@@ -467,8 +468,8 @@ void capped_cylinder_ray_collision_test()
 		dir.random_dir();pos.random_point(Fvector().set(2,2,2));
 		RAYvsCYLINDER(c,pos,dir,R,TRUE);
 	}
-	Msg("my RAYvsCYLINDE time %f ms",t.GetElapsed_sec()*1000.f);
-	t.Start();
+	Msg("my RAYvsCYLINDE time %f ms",t.get_elapsed_time().asseconds()*1000.f);
+	t.restart();
 	for(int i=0;i<1000000;i++)
 	{
 		Fcylinder c;
@@ -481,6 +482,6 @@ void capped_cylinder_ray_collision_test()
 		dir.random_dir();pos.random_point(Fvector().set(2,2,2));
 		c.intersect(pos,dir,ir,code);
 	}
-		Msg("current intersect time %f ms",t.GetElapsed_sec()*1000.f);
+		Msg("current intersect time %f ms",t.get_elapsed_time().asseconds()*1000.f);
 
 }

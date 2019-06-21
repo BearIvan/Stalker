@@ -314,7 +314,7 @@ void CSheduler::ProcessStep()
 {
     // Normal priority
     u32 dwTime = Device.dwTimeGlobal;
-    CTimer eTimer;
+    BearCore::BearTimer eTimer;
     for (int i = 0; !Items.empty() && Top().dwTimeForExecute < dwTime; ++i)
     {
         u32 delta_ms = dwTime - Top().dwTimeForExecute;
@@ -349,7 +349,7 @@ void CSheduler::ProcessStep()
         // Msg ("------- %d:",Device.dwFrame);
 #ifdef DEBUG
         T.Object->dbg_startframe = Device.dwFrame;
-        eTimer.Start();
+        eTimer.restart();
         // LPCSTR _obj_name = T.Object->shedule_Name().c_str();
 #endif // DEBUG
 
@@ -406,15 +406,15 @@ void CSheduler::ProcessStep()
 #endif // DEBUG
 
         //
-        if ((i % 3) != (3 - 1))
-            continue;
+       /* if ((i % 3) != (3 - 1))
+            continue;*/
 
-        if (Device.dwPrecacheFrame == 0 && CPU::QPC() > cycles_limit)
+       /* if (Device.dwPrecacheFrame == 0 && false)
         {
             // we have maxed out the load - increase heap
             psShedulerTarget += (psShedulerReaction * 3);
             break;
-        }
+        }*/
     }
 
     // Push "processed" back
@@ -437,13 +437,14 @@ SwitchToFiber (fiber_main);
 }
 }
 */
+#pragma FIXME("Внимание!!!")
 void CSheduler::Update()
 {
     R_ASSERT(Device.Statistic);
     // Initialize
     Device.Statistic->Sheduler.Begin();
-    cycles_start = CPU::QPC();
-    cycles_limit = CPU::qpc_freq * u64(XrMath::iCeil(psShedulerCurrent)) / 1000i64 + cycles_start;
+	cycles_start = 0;// CPU::QPC();
+	cycles_limit = 0 ;// CPU::qpc_freq * u64(XrMath::iCeil(psShedulerCurrent)) / 1000i64 + cycles_start;
     internal_Registration();
     g_bSheduleInProgress = TRUE;
 

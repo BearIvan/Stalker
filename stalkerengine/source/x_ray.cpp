@@ -909,7 +909,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         (void)filter;
 #endif // DEDICATED_SERVER
 
-        FPU::m24r();
+      //  FPU::m24r();
         InitEngine();
 		InitConsole();
         
@@ -1265,7 +1265,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
     }
 }
 
-static CTimer phase_timer;
+static BearCore::BearTimer phase_timer;
 extern ENGINE_API BOOL g_appLoaded = FALSE;
 
 void CApplication::LoadBegin()
@@ -1281,7 +1281,7 @@ void CApplication::LoadBegin()
 
         m_pRender->LoadBegin();
 #endif
-        phase_timer.Start();
+        phase_timer.restart();
         load_stage = 0;
 
         CheckCopyProtection();
@@ -1293,7 +1293,7 @@ void CApplication::LoadEnd()
     ll_dwReference--;
     if (0 == ll_dwReference)
     {
-        Msg("* phase time: %d ms", phase_timer.GetElapsed_ms());
+        Msg("* phase time: %d ms", phase_timer.get_elapsed_time().asmiliseconds());
 //        Msg("* phase cmem: %d K", Memory.mem_usage() / 1024);
         Console->Execute("stat_memory");
         g_appLoaded = TRUE;
@@ -1343,8 +1343,8 @@ void CApplication::LoadStage()
 {
     load_stage++;
     VERIFY(ll_dwReference);
-    Msg("* phase time: %d ms", phase_timer.GetElapsed_ms());
-    phase_timer.Start();
+    Msg("* phase time: %d ms", phase_timer.get_elapsed_time().asmiliseconds());
+    phase_timer.restart();
 //    Msg("* phase cmem: %d K", Memory.mem_usage() / 1024);
 
     if (g_pGamePersistent->GameType() == 1 && strstr(GetCommandLine(), "alife"))

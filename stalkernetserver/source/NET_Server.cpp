@@ -97,7 +97,7 @@ xr_string IBannedClient::BannedTimeTo() const
 	return res;
 }
 
-IClient::IClient( CTimer* timer )
+IClient::IClient( BearCore::BearTimer* timer )
   : stats(timer),
     server(NULL)
 {
@@ -207,7 +207,7 @@ IPureServer::_Recieve( const void* data, u32 data_size, u32 param )
 
 //==============================================================================
 
-IPureServer::IPureServer	(CTimer* timer, BOOL	Dedicated)
+IPureServer::IPureServer	(BearCore::BearTimer*timer, BOOL	Dedicated)
 	:	m_bDedicated(Dedicated)
 #ifdef PROFILE_CRITICAL_SECTIONS
 	,csPlayers(MUTEX_PROFILE_ID(IPureServer::csPlayers))

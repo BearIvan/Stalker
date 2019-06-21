@@ -92,7 +92,7 @@ IC	void CProfiler::convert_string	(LPCSTR str, shared_str &out, u32 max_string_s
 void CProfiler::setup_timer			(LPCSTR timer_id, const u64 &timer_time, const u32 &call_count)
 {
 	string256					m_temp;
-	float						_time = float(timer_time)*1000.f/CPU::qpc_freq;
+	//float						_time = float(timer_time)*1000.f/CPU::qpc_freq;
 	TIMERS::iterator			i = m_timers.find(timer_id);
 	if (i == m_timers.end()) {
 		xr_strcpy					(m_temp,timer_id);
@@ -108,26 +108,26 @@ void CProfiler::setup_timer			(LPCSTR timer_id, const u64 &timer_time, const u32
 		i						= m_timers.insert(std::make_pair(shared_str(timer_id),CProfileStats())).first;
 
 		CProfileStats			&current = (*i).second;
-		current.m_min_time		= _time;
+/*		current.m_min_time		= _time;
 		current.m_max_time		= _time;
-		current.m_total_time	= _time;
+		current.m_total_time	= _time;*/
 		current.m_count			= 1;
 		current.m_call_count	= call_count;
 		m_actual				= false;
 	}
 	else {
 		CProfileStats			&current = (*i).second;
-		current.m_min_time		= XrMath::min(current.m_min_time,_time);
+	/*	current.m_min_time		= XrMath::min(current.m_min_time,_time);
 		current.m_max_time		= XrMath::max(current.m_max_time,_time);
-		current.m_total_time	+= _time;
+		current.m_total_time	+= _time;*/
 		++current.m_count;
 		current.m_call_count	+= call_count;
 	}
 
-	if (_time > (*i).second.m_time)
-		(*i).second.m_time		= _time;
+	/*if (_time > (*i).second.m_timer)
+		(*i).second.m_timer		= _time;
 	else
-		(*i).second.m_time		= .01f*_time + .99f*(*i).second.m_time;
+		(*i).second.m_time		= .01f*_time + .99f*(*i).second.m_time;*/
 
 	(*i).second.m_update_time	= Device.dwTimeGlobal;
 }
@@ -190,7 +190,7 @@ void CProfiler::show_stats			(CGameFont *game_font, bool show)
 			}
 
 			++call_count;
-			timer_time			+= (*I).m_time;
+			timer_time += (*I).m_timer.get_elapsed_time().asseconds();
 		}
 		setup_timer				((*J).m_timer_id,timer_time,call_count);
 
@@ -222,11 +222,11 @@ void CProfiler::show_stats			(CGameFont *game_font, bool show)
 	TIMERS::iterator			I = m_timers.begin();
 	TIMERS::iterator			E = m_timers.end();
 	for ( ; I != E; ++I) {
-		if ((*I).second.m_update_time != Device.dwTimeGlobal)
-			(*I).second.m_time	*= .99f;
+		//if ((*I).second.m_update_time != Device.dwTimeGlobal)
+			//(*I).second.m_timer	*= .99f;
 
 		float					average = (*I).second.m_count ? (*I).second.m_total_time/float((*I).second.m_count) : 0.f;
-		if (average >= (*I).second.m_time)
+		if (average >= (*I).second.m_timer.get_elapsed_time().asseconds())
 			game_font->SetColor	(color_xrgb(127,127,127));
 		else
 			game_font->SetColor	(color_xrgb(255,255,255));
@@ -237,7 +237,7 @@ void CProfiler::show_stats			(CGameFont *game_font, bool show)
 			*(*I).second.m_name,
 			white_character,
 			white_character,
-			(*I).second.m_time,
+			(*I).second.m_timer.get_elapsed_time().asseconds(),
 			average,
 			(*I).second.m_max_time,
 			float((*I).second.m_call_count)/m_call_count,//float((*I).second.m_count),

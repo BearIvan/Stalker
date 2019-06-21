@@ -67,8 +67,8 @@ void CDemoPlay::stat_Start()
     stat_started = TRUE;
     Sleep(1);
     stat_StartFrame = Device.dwFrame;
-    stat_Timer_frame.Start();
-    stat_Timer_total.Start();
+    stat_Timer_frame.restart();
+    stat_Timer_total.restart();
     stat_table.clear();
     stat_table.reserve(1024);
     fStartTime = 0;
@@ -83,7 +83,7 @@ void CDemoPlay::stat_Stop()
     //g_SASH.EndBenchmark();
 
     stat_started = FALSE;
-    float stat_total = stat_Timer_total.GetElapsed_sec();
+	float stat_total = stat_Timer_total.get_elapsed_time().asseconds();
 
     float rfps_min, rfps_max, rfps_middlepoint, rfps_average;
 
@@ -208,8 +208,8 @@ BOOL CDemoPlay::ProcessCam(SCamEffectorInfo& info)
 
     // Per-frame statistics
     {
-        stat_table.push_back(stat_Timer_frame.GetElapsed_sec());
-        stat_Timer_frame.Start();
+        stat_table.push_back(stat_Timer_frame.get_elapsed_time().asseconds());
+        stat_Timer_frame.restart();
     }
 
     // Process motion

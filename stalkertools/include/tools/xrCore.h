@@ -185,4 +185,5 @@ public:
 #define _BGCL 
 
 extern XRCORE_API xrCore Core;
-
+#include "Timer/XrTimerController.h"
+#include "Timer/XrTimer.h"

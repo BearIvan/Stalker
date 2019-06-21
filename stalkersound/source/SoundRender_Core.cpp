@@ -43,7 +43,7 @@ CSoundRender_Core::CSoundRender_Core	()
     bListenerMoved				= FALSE;
     bReady						= FALSE;
     bLocked						= FALSE;
-	fTimer_Value				= Timer.GetElapsed_sec();
+	fTimer_Value				= Timer.get_elapsed_time().asseconds();
 	fTimer_Delta				= 0.0f;
 	m_iPauseCounter				= 1;
 }
@@ -63,7 +63,7 @@ void CSoundRender_Core::_initialize(int stage)
 {
     Log							("* sound: EAX 2.0 extension:",bEAX?"present":"absent");
     Log							("* sound: EAX 2.0 deferred:",bDeferredEAX?"present":"absent");
-	Timer.Start					( );
+	Timer.restart					( );
 
     // load environment
 	env_load					();

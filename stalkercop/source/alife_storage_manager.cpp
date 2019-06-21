@@ -169,8 +169,8 @@ bool CALifeStorageManager::load	(LPCSTR save_name_no_check)
 		}
 	}
 
-	CTimer						timer;
-	timer.Start();
+	BearCore::BearTimer						timer;
+	timer.restart();
 	string256					save;
 	strcpy_s(save, m_save_name);
 	if (!save_name) {
@@ -210,7 +210,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name_no_check)
 
 	VERIFY(graph().actor());
 
-	Msg("* Game %s is successfully loaded from file '%s' (%.3fs)", save_name, save_name, timer.GetElapsed_sec());
+	Msg("* Game %s is successfully loaded from file '%s' (%.3fs)", save_name, save_name, timer.get_elapsed_time().asseconds());
 
 	return						(true);
 }

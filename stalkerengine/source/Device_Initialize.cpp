@@ -37,8 +37,8 @@ void CRenderDevice::initialize_editor()
 PROTECT_API void CRenderDevice::Initialize()
 {
     Log("Initializing Engine...");
-    TimerGlobal.Start();
-    TimerMM.Start();
+    TimerGlobal.restart();
+    TimerMM.restart();
 
 #ifdef INGAME_EDITOR
     if (strstr(GetCommandLine(), "-editor"))

@@ -32,7 +32,7 @@ const float	CSpectator::cam_inert_value = 0.7f;
 //////////////////////////////////////////////////////////////////////
 CSpectator::CSpectator() : CGameObject()
 {
-	m_timer.Start			();
+	m_timer.restart			();
 	m_fTimeDelta			= XrMath::EPS_S;	
 	// Cameras
 	cameras[eacFirstEye]	= xr_new<CCameraFirstEye>	(this);
@@ -66,8 +66,8 @@ void CSpectator::UpdateCL()
 {
 	inherited::UpdateCL();
 	
-	float fPreviousFrameTime = m_timer.GetElapsed_sec();
-	m_timer.Start();
+	float fPreviousFrameTime = m_timer.get_elapsed_time().asseconds();
+	m_timer.restart();
 	m_fTimeDelta = 0.3f * m_fTimeDelta + 0.7f * fPreviousFrameTime;
 	
 	if (m_fTimeDelta > 0.1f)

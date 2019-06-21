@@ -23,13 +23,13 @@ CRT::~CRT			()
 
 IC	u32		btwLowestBitMask(u32 x) { return x & ~(x - 1); }
 IC	bool	btwIsPow2(u32 v) { return (btwLowestBitMask(v) == v); }
-
+bsize cnt_crt= 0;
 void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 {
 	if (pSurface)	return;
 
 	R_ASSERT	(HW.pDevice && Name && Name[0] && w && h);
-	_order		= CPU::GetCLK()	;	//RDEVICE.GetTimerGlobal()->GetElapsed_clk();
+	_order		= cnt_crt++;	//RDEVICE.GetTimerGlobal()->GetElapsed_clk();
 
 	HRESULT		_hr;
 

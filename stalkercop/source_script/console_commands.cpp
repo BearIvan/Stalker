@@ -257,10 +257,10 @@ public:
 						Msg("! invalid vertex number (%d)!",XrMath::min(id1,id2));
 					else {
 //						Sleep				(1);
-//						CTimer				timer;
+//						BearCore::BearTimer				timer;
 //						timer.Start			();
 //						float				fValue = ai().m_tpAStar->ffFindMinimalPath(id1,id2);
-//						Msg					("* %7.2f[%d] : %11I64u cycles (%.3f microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.GetElapsed_ms()*1000.f);
+//						Msg					("* %7.2f[%d] : %11I64u cycles (%.3f microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.get_elapsed_time().asmiliseconds()*1000.f);
 					}
 			else
 				Msg("! not enough parameters!");
@@ -528,8 +528,8 @@ public:
 		strncpy_s				(S, sizeof(S), args, _MAX_PATH - 1 );
 		
 #ifdef DEBUG
-		CTimer					timer;
-		timer.Start				();
+		BearCore::BearTimer					timer;
+		timer.restart				();
 #endif
 		if (!xr_strlen(S)){
 			strconcat			(sizeof(S),S,Core.UserName," - ","quicksave");
@@ -551,7 +551,7 @@ public:
 			Level().Send		(net_packet,net_flags(TRUE));
 		}
 #ifdef DEBUG
-		Msg						("Game save overhead  : %f milliseconds",timer.GetElapsed_sec()*1000.f);
+		Msg						("Game save overhead  : %f milliseconds",timer.get_elapsed_time().asseconds()*1000.f);
 #endif
 		StaticDrawableWrapper* _s		= CurrentGameUI()->AddCustomStatic("game_saved", true);
 		LPSTR						save_name;
@@ -561,12 +561,12 @@ public:
 		xr_strcat				(S,".dds");
 		
 #ifdef DEBUG
-		timer.Start				();
+		timer.restart				();
 #endif
 		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE, S);
 
 #ifdef DEBUG
-		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);
+		Msg						("Screenshot overhead : %f milliseconds",timer.get_elapsed_time().asseconds()*1000.f);
 #endif
 	}//virtual void Execute
 

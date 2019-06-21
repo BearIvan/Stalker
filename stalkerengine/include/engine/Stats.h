@@ -14,9 +14,9 @@ DECLARE_MESSAGE(Stats);
 class ENGINE_API CStatsPhysics
 {
 public:
-    CStatTimer ph_collision; // collision
-    CStatTimer ph_core; // integrate
-    CStatTimer Physics; // movement+collision
+	XrTimerStat	 ph_collision; // collision
+	XrTimerStat		 ph_core; // integrate
+	XrTimerStat	 Physics; // movement+collision
 };
 
 class ENGINE_API CStats :
@@ -32,9 +32,9 @@ public:
     u32 dwSND_Played, dwSND_Allocated; // Play/Alloc
     float fShedulerLoad;
 
-    CStatTimer EngineTOTAL; //
-    CStatTimer Sheduler; //
-    CStatTimer UpdateClient; //
+	XrTimerStat	 EngineTOTAL; //
+	XrTimerStat	 Sheduler; //
+	XrTimerStat	 UpdateClient; //
     u32 UpdateClient_updated; //
     u32 UpdateClient_crows; //
     u32 UpdateClient_active; //
@@ -45,57 +45,57 @@ public:
     // CStatTimer Physics; // movement+collision
     // CStatTimer ph_collision; // collision
     // CStatTimer ph_core; // collision
-    CStatTimer AI_Think; // thinking
-    CStatTimer AI_Range; // query: range
-    CStatTimer AI_Path; // query: path
-    CStatTimer AI_Node; // query: node
-    CStatTimer AI_Vis; // visibility detection - total
-    CStatTimer AI_Vis_Query; // visibility detection - portal traversal and frustum culling
-    CStatTimer AI_Vis_RayTests; // visibility detection - ray casting
+	XrTimerStat	 AI_Think; // thinking
+	XrTimerStat	 AI_Range; // query: range
+	XrTimerStat	 AI_Path; // query: path
+	XrTimerStat	 AI_Node; // query: node
+	XrTimerStat	 AI_Vis; // visibility detection - total
+	XrTimerStat	 AI_Vis_Query; // visibility detection - portal traversal and frustum culling
+	XrTimerStat	 AI_Vis_RayTests; // visibility detection - ray casting
 
-    CStatTimer RenderTOTAL; //
-    CStatTimer RenderTOTAL_Real;
-    CStatTimer RenderCALC; // portal traversal, frustum culling, entities "renderable_Render"
-    CStatTimer RenderCALC_HOM; // HOM rendering
-    CStatTimer Animation; // skeleton calculation
-    CStatTimer RenderDUMP; // actual primitive rendering
-    CStatTimer RenderDUMP_Wait; // ...waiting something back (queries results, etc.)
-    CStatTimer RenderDUMP_Wait_S; // ...frame-limit sync
-    CStatTimer RenderDUMP_RT; // ...render-targets
-    CStatTimer RenderDUMP_SKIN; // ...skinning
-    CStatTimer RenderDUMP_HUD; // ...hud rendering
-    CStatTimer RenderDUMP_Glows; // ...glows vis-testing,sorting,render
-    CStatTimer RenderDUMP_Lights; // ...d-lights building/rendering
-    CStatTimer RenderDUMP_WM; // ...wallmark sorting, rendering
+	XrTimerStat	 RenderTOTAL; //
+	XrTimerStat	 RenderTOTAL_Real;
+	XrTimerStat	 RenderCALC; // portal traversal, frustum culling, entities "renderable_Render"
+	XrTimerStat	 RenderCALC_HOM; // HOM rendering
+	XrTimerStat	 Animation; // skeleton calculation
+	XrTimerStat	 RenderDUMP; // actual primitive rendering
+	XrTimerStat	 RenderDUMP_Wait; // ...waiting something back (queries results, etc.)
+	XrTimerStat	 RenderDUMP_Wait_S; // ...frame-limit sync
+	XrTimerStat	 RenderDUMP_RT; // ...render-targets
+	XrTimerStat	 RenderDUMP_SKIN; // ...skinning
+	XrTimerStat	 RenderDUMP_HUD; // ...hud rendering
+	XrTimerStat	 RenderDUMP_Glows; // ...glows vis-testing,sorting,render
+	XrTimerStat	 RenderDUMP_Lights; // ...d-lights building/rendering
+	XrTimerStat	 RenderDUMP_WM; // ...wallmark sorting, rendering
     u32 RenderDUMP_WMS_Count;// ...number of static wallmark
     u32 RenderDUMP_WMD_Count;// ...number of dynamic wallmark
     u32 RenderDUMP_WMT_Count;// ...number of wallmark tri
-    CStatTimer RenderDUMP_DT_VIS; // ...details visibility detection
-    CStatTimer RenderDUMP_DT_Render;// ...details rendering
-    CStatTimer RenderDUMP_DT_Cache;// ...details slot cache access
+	XrTimerStat	 RenderDUMP_DT_VIS; // ...details visibility detection
+	XrTimerStat	 RenderDUMP_DT_Render;// ...details rendering
+	XrTimerStat	 RenderDUMP_DT_Cache;// ...details slot cache access
     u32 RenderDUMP_DT_Count;// ...number of DT-elements
-    CStatTimer RenderDUMP_Pcalc; // ...projectors building
-    CStatTimer RenderDUMP_Scalc; // ...shadows building
-    CStatTimer RenderDUMP_Srender; // ...shadows render
+	XrTimerStat	 RenderDUMP_Pcalc; // ...projectors building
+	XrTimerStat	 RenderDUMP_Scalc; // ...shadows building
+	XrTimerStat	 RenderDUMP_Srender; // ...shadows render
 
-    CStatTimer Sound; // total time taken by sound subsystem (accurate only in single-threaded mode)
-    CStatTimer Input; // total time taken by input subsystem (accurate only in single-threaded mode)
-    CStatTimer clRAY; // total: ray-testing
-    CStatTimer clBOX; // total: box query
-    CStatTimer clFRUSTUM; // total: frustum query
+	XrTimerStat	 Sound; // total time taken by sound subsystem (accurate only in single-threaded mode)
+	XrTimerStat	 Input; // total time taken by input subsystem (accurate only in single-threaded mode)
+	XrTimerStat	 clRAY; // total: ray-testing
+	XrTimerStat	 clBOX; // total: box query
+	XrTimerStat	 clFRUSTUM; // total: frustum query
 
-    CStatTimer netClient1;
-    CStatTimer netClient2;
-    CStatTimer netServer;
-    CStatTimer netClientCompressor;
-    CStatTimer netServerCompressor;
+	XrTimerStat	 netClient1;
+	XrTimerStat	 netClient2;
+	XrTimerStat	 netServer;
+	XrTimerStat	 netClientCompressor;
+	XrTimerStat	 netServerCompressor;
 
 
 
-    CStatTimer TEST0; // debug counter
-    CStatTimer TEST1; // debug counter
-    CStatTimer TEST2; // debug counter
-    CStatTimer TEST3; // debug counter
+	XrTimerStat	 TEST0; // debug counter
+	XrTimerStat	 TEST1; // debug counter
+	XrTimerStat	 TEST2; // debug counter
+	XrTimerStat	 TEST3; // debug counter
 
     shared_str eval_line_1;
     shared_str eval_line_2;

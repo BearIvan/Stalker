@@ -12,10 +12,10 @@ public class stalkercop_script:Project
 		
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 
-        IncludeInProject.Private.Add("stalkergamespy");
+        IncludeInProject.Public.Add("stalkergamespy");
         Projects.Public.Add("cs");
         Projects.Public.Add("crypto");
-       Projects.Public.Add("stalker");
+        Projects.Public.Add("stalker");
 		Projects.Public.Add("dplay");
 		Projects.Public.Add("directx");
 		Projects.Public.Add("loki");

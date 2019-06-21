@@ -85,8 +85,8 @@ public:
 protected:
 
     u32 Timer_MM_Delta;
-    CTimer_paused Timer;
-    CTimer_paused TimerGlobal;
+	XrTimerPaused Timer;
+	XrTimerPaused TimerGlobal;
 public:
 
     // Registrators
@@ -129,7 +129,7 @@ private:
     //u32 Timer_MM_Delta;
     //CTimer_paused Timer;
     //CTimer_paused TimerGlobal;
-    CTimer TimerMM;
+    BearCore::BearTimer TimerMM;
 
     void _Create(LPCSTR shName);
     void _Destroy(BOOL bKeepTextures);
@@ -230,7 +230,7 @@ public:
         window = NULL;
         b_is_Active = FALSE;
         b_is_Ready = FALSE;
-        Timer.Start();
+        Timer.restart();
         m_bNearer = FALSE;
     };
 
@@ -249,9 +249,9 @@ public:
 
     // Mode control
     void DumpFlags();
-    IC CTimer_paused* GetTimerGlobal() { return &TimerGlobal; }
-    u32 TimerAsync() { return TimerGlobal.GetElapsed_ms(); }
-    u32 TimerAsync_MMT() { return TimerMM.GetElapsed_ms() + Timer_MM_Delta; }
+    IC XrTimerPaused* GetTimerGlobal() { return &TimerGlobal; }
+    u32 TimerAsync() { return TimerGlobal.get_elapsed_time().asmiliseconds(); }
+    u32 TimerAsync_MMT() { return TimerMM.get_elapsed_time().asmiliseconds() + Timer_MM_Delta; }
 
     // Creation & Destroying
     void ConnectToRender();
@@ -266,14 +266,14 @@ public:
 public:
     void time_factor(const float& time_factor)
     {
-        Timer.time_factor(time_factor);
-        TimerGlobal.time_factor(time_factor);
+        Timer.set_time_factor(time_factor);
+        TimerGlobal.set_time_factor(time_factor);
     }
 
     IC const float& time_factor() const
     {
-        VERIFY(Timer.time_factor() == TimerGlobal.time_factor());
-        return (Timer.time_factor());
+        VERIFY(Timer.get_time_factor() == TimerGlobal.get_time_factor());
+        return (Timer.get_time_factor());
     }
 
     // Multi-threading

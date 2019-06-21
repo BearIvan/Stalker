@@ -35,8 +35,8 @@ enum	{
 	NETFLAG_LOG_CL_PACKETS		= (1<<3),
 };
 
-IC u32 TimeGlobal	(CTimer* timer)	{ return timer->GetElapsed_ms();	}
-IC u32 TimerAsync	(CTimer* timer) { return TimeGlobal	(timer);		}
+IC u32 TimeGlobal(BearCore::BearTimer *timer) { return timer->get_elapsed_time().asmiliseconds(); }
+IC u32 TimerAsync	(BearCore::BearTimer* timer) { return TimeGlobal	(timer);		}
 
 class XRNETSERVER_API IClientStatistic
 {
@@ -44,9 +44,9 @@ class XRNETSERVER_API IClientStatistic
 	u32					mps_recive, mps_receive_base;
 	u32					mps_send,	mps_send_base;
 	u32					dwBaseTime;
-	CTimer*				device_timer;
+	BearCore::BearTimer*				device_timer;
 public:
-			IClientStatistic	(CTimer* timer){ ZeroMemory(this,sizeof(*this)); device_timer=timer; dwBaseTime=TimeGlobal(device_timer); }
+			IClientStatistic	(BearCore::BearTimer* timer){ ZeroMemory(this,sizeof(*this)); device_timer=timer; dwBaseTime=TimeGlobal(device_timer); }
 
 	void	Update				(DPN_CONNECTION_INFO& CI);
 
@@ -61,7 +61,7 @@ public:
 	IC u32	getSendedPerSec		()	{ return dwBytesSendedPerSec; }
 	
 
-	IC void	Clear				()	{ CTimer* timer = device_timer; ZeroMemory(this,sizeof(*this)); device_timer=timer; dwBaseTime=TimeGlobal(device_timer); }
+	IC void	Clear				()	{ BearCore::BearTimer* timer = device_timer; ZeroMemory(this,sizeof(*this)); device_timer=timer; dwBaseTime=TimeGlobal(device_timer); }
 
 	//-----------------------------------------------------------------------
 	u32		dwTimesBlocked;

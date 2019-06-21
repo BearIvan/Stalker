@@ -295,14 +295,14 @@ void CRender::Render		()
 	Device.Statistic->RenderDUMP_Wait_S.Begin	();
 	if (1)
 	{
-		CTimer	T;							T.Start	();
+		BearCore::BearTimer	T;							T.restart();
 		BOOL	result						= FALSE;
 		HRESULT	hr							= S_FALSE;
 		//while	((hr=q_sync_point[q_sync_count]->GetData	(&result,sizeof(result),D3DGETDATA_FLUSH))==S_FALSE) {
 		while	((hr=GetData (q_sync_point[q_sync_count], &result,sizeof(result)))==S_FALSE) 
 		{
 			if (!SwitchToThread())			Sleep(ps_r2_wait_sleep);
-			if (T.GetElapsed_ms() > 500)	{
+			if (T.get_elapsed_time().asmiliseconds() > 500)	{
 				result	= FALSE;
 				break;
 			}

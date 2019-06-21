@@ -165,8 +165,8 @@ public:
 	xr_vector<ISpatial*>*			q_result;
 	u32								stat_nodes;
 	u32								stat_objects;
-	CStatTimer						stat_insert;
-	CStatTimer						stat_remove;
+	XrTimerStat						stat_insert;
+	XrTimerStat						stat_remove;
 private:
 	IC u32							_octant			(u32 x, u32 y, u32 z)			{	return z*4 + y*2 + x;	}
 	IC u32							_octant			(Fvector& base, Fvector& rel)

@@ -90,7 +90,7 @@ BOOL CRenderDevice::Begin()
     if (HW.Caps.SceneMode) overdrawBegin ();
     */
 
-    FPU::m24r();
+ //   FPU::m24r();
     g_bRendering = TRUE;
 #endif
     return TRUE;
@@ -243,8 +243,8 @@ void CRenderDevice::on_idle()
 #ifdef DEDICATED_SERVER
     u32 FrameStartTime = TimerGlobal.GetElapsed_ms();
 #endif
-    if (psDeviceFlags.test(rsStatistic)) g_bEnableStatGather = TRUE;
-    else g_bEnableStatGather = FALSE;
+  /*  if (psDeviceFlags.test(rsStatistic)) g_bEnableStatGather = TRUE;
+    else g_bEnableStatGather = FALSE;*/
     if (g_loading_events.size())
     {
         if (g_loading_events.front()())
@@ -315,7 +315,7 @@ void CRenderDevice::on_idle()
     }
     Statistic->RenderTOTAL_Real.End();
     Statistic->RenderTOTAL_Real.FrameEnd();
-    Statistic->RenderTOTAL.accum = Statistic->RenderTOTAL_Real.accum;
+//    Statistic->RenderTOTAL.accum = Statistic->RenderTOTAL_Real.accum;
 #endif // #ifndef DEDICATED_SERVER
     // *** Suspend threads
     // Capture startup point
@@ -399,7 +399,7 @@ void CRenderDevice::message_loop()
 				if (Device.b_is_Active == true)
 				{
 					Device.b_is_Active = false;
-					app_inactive_time_start = TimerMM.GetElapsed_ms();
+					app_inactive_time_start = TimerMM.get_elapsed_time().asmiliseconds();
 					Device.seqAppDeactivate.Process(rp_AppDeactivate);
 				}
 				
@@ -409,7 +409,7 @@ void CRenderDevice::message_loop()
 				{
 					Device.b_is_Active = true;
 					Device.seqAppActivate.Process(rp_AppActivate);
-					app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;;
+					app_inactive_time += TimerMM.get_elapsed_time().asmiliseconds() - app_inactive_time_start;;
 				}
 				
 				break;
@@ -477,7 +477,7 @@ void CRenderDevice::FrameMove()
 
     Core.dwFrame = dwFrame;
 
-    dwTimeContinual = TimerMM.GetElapsed_ms() - app_inactive_time;
+    dwTimeContinual = TimerMM.get_elapsed_time().asmiliseconds() - app_inactive_time;
 
     if (psDeviceFlags.test(rsConstantFPS))
     {
@@ -495,8 +495,8 @@ void CRenderDevice::FrameMove()
     else
     {
         // Timer
-        float fPreviousFrameTime = Timer.GetElapsed_sec();
-        Timer.Start(); // previous frame
+		float fPreviousFrameTime = Timer.get_elapsed_time().asseconds();
+        Timer.restart(); // previous frame
         fTimeDelta = 0.1f * fTimeDelta + 0.9f*fPreviousFrameTime; // smooth random system activity - worst case ~7% error
         //fTimeDelta = 0.7f * fTimeDelta + 0.3f*fPreviousFrameTime; // smooth random system activity
         if (fTimeDelta > .1f)
@@ -509,9 +509,9 @@ void CRenderDevice::FrameMove()
             fTimeDelta = 0.0f;
 
         // u64 qTime = TimerGlobal.GetElapsed_clk();
-        fTimeGlobal = TimerGlobal.GetElapsed_sec(); //float(qTime)*CPU::cycles2seconds;
+        fTimeGlobal = TimerGlobal.get_elapsed_time().asseconds(); //float(qTime)*CPU::cycles2seconds;
         u32 _old_global = dwTimeGlobal;
-        dwTimeGlobal = TimerGlobal.GetElapsed_ms();
+        dwTimeGlobal = TimerGlobal.get_elapsed_time().asmiliseconds();
         dwTimeDelta = dwTimeGlobal - _old_global;
     }
 
@@ -562,10 +562,10 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 
         if (bTimer && (!g_pGamePersistent || g_pGamePersistent->CanBePaused()))
         {
-            g_pauseMngr.Pause(TRUE);
+			XrTimerController::Pause(true);
 #ifdef DEBUG
             if (!xr_strcmp(reason, "li_pause_key_no_clip"))
-                TimerGlobal.Pause(FALSE);
+				XrTimerController::Pause(false);
 #endif // DEBUG
         }
 
@@ -579,10 +579,10 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
     }
     else
     {
-        if (bTimer && /*g_pGamePersistent->CanBePaused() &&*/ g_pauseMngr.Paused())
+        if (bTimer && /*g_pGamePersistent->CanBePaused() &&*/ XrTimerController::Paused())
         {
             fTimeDelta = XrMath::EPS_S + XrMath::EPS_S;
-            g_pauseMngr.Pause(FALSE);
+			XrTimerController::Pause(false);
         }
 
         if (bSound)
@@ -609,7 +609,7 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 
 BOOL CRenderDevice::Paused()
 {
-    return g_pauseMngr.Paused();
+	return  XrTimerController::Paused();
 };
 
 void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
@@ -625,7 +625,7 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
         if (Device.b_is_Active)
         {
             Device.seqAppActivate.Process(rp_AppActivate);
-            app_inactive_time += TimerMM.GetElapsed_ms() - app_inactive_time_start;
+            app_inactive_time += TimerMM.get_elapsed_time().asmiliseconds() - app_inactive_time_start;
 
 #ifndef DEDICATED_SERVER
 # ifdef INGAME_EDITOR
@@ -636,7 +636,7 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
         }
         else
         {
-            app_inactive_time_start = TimerMM.GetElapsed_ms();
+            app_inactive_time_start = TimerMM.get_elapsed_time().asmiliseconds();
             Device.seqAppDeactivate.Process(rp_AppDeactivate);
        //     ShowCursor(TRUE);
         }

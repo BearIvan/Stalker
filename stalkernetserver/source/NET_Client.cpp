@@ -340,7 +340,7 @@ IPureClient::_Recieve( const void* data, u32 data_size, u32 /*param*/ )
 
 //==============================================================================
 
-IPureClient::IPureClient	(CTimer* timer): net_Statistic(timer)
+IPureClient::IPureClient	(BearCore::BearTimer* timer): net_Statistic(timer)
 #ifdef PROFILE_CRITICAL_SECTIONS
 	,net_csEnumeration(MUTEX_PROFILE_ID(IPureClient::net_csEnumeration))
 #endif // PROFILE_CRITICAL_SECTIONS

@@ -142,15 +142,15 @@ void MainForm::cbBtOk()
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[3]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
 			break;
 		}

@@ -25,7 +25,7 @@ extern xrPLC_calc3		PLC_calc3_SSE;
 
 
 extern "C" {
-	__declspec(dllexport) void	__cdecl	xrBind_PSGP	( xrDispatchTable* T , _processor_info* ID )
+	__declspec(dllexport) void	__cdecl	xrBind_PSGP	( xrDispatchTable* T  )
 	{
 		// generic
 		T->skin1W	= xrSkin1W_x86;
@@ -46,7 +46,7 @@ extern "C" {
 		}*/
 
 		// Init helper threads
-		ttapi_Init( ID );
+		ttapi_Init(  );
 
 		if ( ttapi_GetWorkersCount() > 1 ) {
 			// We can use threading

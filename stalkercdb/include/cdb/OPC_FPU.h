@@ -32,7 +32,7 @@
 
 	//! Fast fabs for floating-point values. It just clears the sign bit.
 	//! Don't use it blindy, it can be faster or slower than the FPU comparison, depends on the context.
-	inline_ float FastFabs(float x)
+	/*inline_ float FastFabs(float x)
 	{
 		udword FloatBits = IR(x)&0x7fffffff;
 		return FR(FloatBits);
@@ -196,7 +196,7 @@
 		_asm	fcompp
 		return Res;
 	}
-*/
+
 	inline_ int ConvertToSortable(float f)
 	{
 		int& Fi = (int&)f;
@@ -232,6 +232,6 @@
 
 	FUNCTION ICECORE_API int		intChop(const float& f);
 	FUNCTION ICECORE_API int		intFloor(const float& f);
-	FUNCTION ICECORE_API int		intCeil(const float& f);
+	FUNCTION ICECORE_API int		intCeil(const float& f);*/
 
 #endif // __ICEFPU_H__

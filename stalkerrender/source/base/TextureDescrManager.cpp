@@ -179,8 +179,8 @@ void CTextureDescrMngr::LoadLTX()
 void CTextureDescrMngr::Load()
 {
 #ifdef DEBUG
-	CTimer					TT;
-	TT.Start				();
+	BearCore::BearTimer					TT;
+	TT.restart();
 #endif // #ifdef DEBUG
 
 	LoadTHM					("%textures%");
@@ -191,7 +191,7 @@ void CTextureDescrMngr::Load()
 		LoadLTX();
 	}
 #ifdef DEBUG
-	Msg("load time=%d ms",TT.GetElapsed_ms());
+	Msg("load time=%d ms",TT.get_elapsed_time().asmiliseconds());
 #endif // #ifdef DEBUG
 }
 

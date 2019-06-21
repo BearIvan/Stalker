@@ -30,7 +30,7 @@ public class stalker :Executable
 		LibrariesStatic.Private.Add("winmm.lib");
 		LibrariesStatic.Private.Add("vfw32.lib");
 		LibrariesStatic.Private.Add("dxgi.lib");
-		LibrariesStatic.Private.Add("dxguid.lib");
+		LibrariesStatic.Private.Add("dxguid.lib"); 
 		LibrariesStatic.Private.Add("dinput8.lib");
 		LibrariesStatic.Private.Add("d3d9.lib");
 		LibrariesStatic.Private.Add("d3dx9.lib");
@@ -46,10 +46,10 @@ public class stalker :Executable
 		
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
-     /*   IncludeAutonomousProjects.Add("stalker_r2");
+         IncludeAutonomousProjects.Add("stalker_r2");
 		IncludeAutonomousProjects.Add("stalker_r5");
 		IncludeAutonomousProjects.Add("stalker_r3");
-		IncludeAutonomousProjects.Add("stalker_r4");*/
+		IncludeAutonomousProjects.Add("stalker_r4");
 		
       // IncludeAutonomousProjects.Add("stalkersoc");
 		//IncludeAutonomousProjects.Add("stalkercs");

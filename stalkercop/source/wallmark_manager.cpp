@@ -124,7 +124,7 @@ void CWalmarkManager::StartWorkflow()
 	DBG_DrawAABB			(m_pos,Fvector().set(m_trace_dist,m_trace_dist,m_trace_dist),D3DCOLOR_XRGB(255,0,0));
 	DBG_DrawAABB			(m_pos,Fvector().set(0.05f,0.05f,0.05f),D3DCOLOR_XRGB(0,255,0));
 	
-	CTimer T; T.Start();
+	BearCore::BearTimer T; T.Start();
 */
 	for (CDB::RESULT* Res=R_begin; Res!=R_end; ++Res)
 	{
@@ -191,7 +191,7 @@ void CWalmarkManager::StartWorkflow()
 	Msg("c==tdBehind = %d",					_tri_behind);
 	Msg	("c!=tdPlane && dist>ndist = %d",	_tri_not_plane);
 	Msg("Wallmarks added = %d",				wm_count);
-	Msg("Time: %d",							T.GetElapsed_ms());
+	Msg("Time: %d",							T.get_elapsed_time().asmiliseconds());
 
 	DBG_ClosedCashedDraw	(10000);
 */

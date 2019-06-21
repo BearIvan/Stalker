@@ -11,7 +11,7 @@ public class stalkercop:Project
 		//Include.Private.Add(Path.Combine(ProjectPath,"include"));
 
 		Projects.Private.Add("stalkercop_script");
-		IncludeInProject.Private.Add("stalkergamespy");
+		//IncludeInProject.Private.Add("stalkergamespy");
 		
 		AddSourceFiles(Path.Combine(ProjectPath,"source"),true);
 	}

@@ -351,12 +351,12 @@ void screenshot_manager::compress_image()
 void screenshot_manager::timer_begin(LPCSTR comment)
 {
 	m_timer_comment = comment;
-	m_debug_timer.Start();
+	m_debug_timer.restart();
 }
 
 void screenshot_manager::timer_end()
 {
-	Msg("* %s : %u ms", m_timer_comment.c_str(), m_debug_timer.GetElapsed_ms());
+	Msg("* %s : %u ms", m_timer_comment.c_str(), m_debug_timer.get_elapsed_time().asmiliseconds());
 }
 
 #endif

@@ -102,8 +102,8 @@ void CAI_Space::load				(LPCSTR level_name)
 #ifdef DEBUG
 /*	Memory.mem_compact		();
 	u32						mem_usage = Memory.mem_usage();*/
-	CTimer					timer;
-	timer.Start				();
+	BearCore::BearTimer					timer;
+	timer.restart				();
 #endif
 
 	const CGameGraph::SLevel &current_level = game_graph().header().level(level_name);
@@ -134,7 +134,7 @@ void CAI_Space::load				(LPCSTR level_name)
 	m_doors_manager			= xr_new<::doors::manager>( ai().level_graph().header().box() );
 
 #ifdef DEBUG
-	Msg						("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)",timer.GetElapsed_sec(),float(0.1f)/1048576.0);
+	Msg						("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)",timer.get_elapsed_time().asseconds(),float(0.1f)/1048576.0);
 #endif
 }
 

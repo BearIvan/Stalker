@@ -6,6 +6,9 @@
 #include <mmsystem.h>
 #include <objbase.h>
 #include "xrCore.h"
+XRCORE_API Fmatrix Fidentity;
+XRCORE_API Dmatrix Didentity;
+XRCORE_API CRandom Random; 
 
 #pragma comment(lib,"winmm.lib")
 #pragma warning(push)
@@ -39,7 +42,7 @@ bool shared_str_initialized = false;
 
 void xrCore::Initialize(LogCallback cb)
 {
-	if (init_counter)return;
+	if (init_counter)return;	init_counter++;
 	DWORD sz_user = sizeof(UserName);
 	GetUserName(UserName, &sz_user);
 
@@ -56,16 +59,19 @@ void xrCore::Initialize(LogCallback cb)
 
 	SetLogCB(cb);
 
-	CPU::Detect();
-	_initialize_cpu();
+	Fidentity.identity(); 
+	Didentity.identity();
+	pvInitializeStatics();
+
 	CInifile::Initialize();
-	init_counter++;
+
 
 	g_pStringContainer = xr_new<str_container>();
 	g_pSharedMemoryContainer = xr_new<smem_container>();
 	shared_str_initialized = true;
 
 	XrThread::Initialize();
+	//XrTimerController::Initialize();
 }
 
 #ifndef _EDITOR
@@ -74,12 +80,13 @@ extern compression::ppmd::stream* trained_model;
 #endif
 void xrCore::Destroy()
 {
-	XrThread::Destroy();
-	FlushLog();
-    --init_counter;
+	
+   
 	if (0 == init_counter)
 	{
-
+		XrTimerController::Destroy();
+		XrThread::Destroy();
+		FlushLog();
 #ifndef _EDITOR
 		if (trained_model)
 		{
@@ -92,38 +99,10 @@ void xrCore::Destroy()
 		xr_delete(g_pStringContainer);
 		xr_delete(g_pSharedMemoryContainer);
 		//Memory._destroy();
+	}else
+
+	{
+		--init_counter;
 	}
 }
 
-#ifndef XRCORE_STATIC
-
-//. why ???
-#ifdef _EDITOR
-BOOL WINAPI DllEntryPoint(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvReserved)
-#else
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvReserved)
-#endif
-{
-
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    {
-      
-    }
-        //. LogFile.reserve (256);
-    break;
-    case DLL_THREAD_ATTACH:
-       
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    case DLL_PROCESS_DETACH:
-#ifdef USE_MEMORY_MONITOR
-        memory_monitor::flush_each_time(true);
-#endif // USE_MEMORY_MONITOR
-        break;
-    }
-    return TRUE;
-}
-#endif // XRCORE_STATIC

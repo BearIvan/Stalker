@@ -150,12 +150,12 @@ void CStats::Show()
         float fInv = 1.f - fOne;
         fFPS = fInv*fFPS + fOne*fps;
 
-        if (RenderTOTAL.result > XrMath::EPS_S)
+        if (RenderTOTAL.GetResult() > XrMath::EPS_S)
         {
             u32 rendered_polies = Device.m_pRender->GetCacheStatPolys();
-            fTPS = fInv*fTPS + fOne*float(rendered_polies) / (RenderTOTAL.result*1000.f);
-            //fTPS = fInv*fTPS + fOne*float(RCache.stat.polys)/(RenderTOTAL.result*1000.f);
-            fRFPS = fInv*fRFPS + fOne*1000.f / RenderTOTAL.result;
+            fTPS = fInv*fTPS + fOne*float(rendered_polies) / (RenderTOTAL.GetResult()*1000.f);
+            //fTPS = fInv*fTPS + fOne*float(RCache.stat.polys)/(RenderTOTAL.GetResult()*1000.f);
+            fRFPS = fInv*fRFPS + fOne*1000.f / RenderTOTAL.GetResult();
         }
     }
     {
@@ -201,8 +201,8 @@ void CStats::Show()
     {
         static float r_ps = 0;
         static float b_ps = 0;
-        r_ps = .99f*r_ps + .01f*(clRAY.count / clRAY.result);
-        b_ps = .99f*b_ps + .01f*(clBOX.count / clBOX.result);
+        r_ps = .99f*r_ps + .01f*(static_cast<float>(clRAY.GetCount() )/ clRAY.GetResult());
+        b_ps = .99f*b_ps + .01f*(static_cast<float>(clBOX.GetCount()) / clBOX.GetResult());
 
         CSound_stats snd_stat;
         ::Sound->statistic(&snd_stat, 0);
@@ -230,71 +230,71 @@ void CStats::Show()
         //F.OutNext ("xforms:      %d", RCache.stat.xforms);
         F.OutSkip();
 
-#define PPP(a) (100.f*float(a)/float(EngineTOTAL.result))
-        F.OutNext("*** ENGINE:  %2.2fms", EngineTOTAL.result);
+#define PPP(a) (100.f*float(a)/float(EngineTOTAL.GetResult()))
+        F.OutNext("*** ENGINE:  %2.2fms", EngineTOTAL.GetResult());
         F.OutNext("Memory:      %2.2fa", fMem_calls);
-        F.OutNext("uClients:    %2.2fms, %2.1f%%, crow(%d)/active(%d)/total(%d)", UpdateClient.result, PPP(UpdateClient.result), UpdateClient_crows, UpdateClient_active, UpdateClient_total);
-        F.OutNext("uSheduler:   %2.2fms, %2.1f%%", Sheduler.result, PPP(Sheduler.result));
+        F.OutNext("uClients:    %2.2fms, %2.1f%%, crow(%d)/active(%d)/total(%d)", UpdateClient.GetResult(), PPP(UpdateClient.GetResult()), UpdateClient_crows, UpdateClient_active, UpdateClient_total);
+        F.OutNext("uSheduler:   %2.2fms, %2.1f%%", Sheduler.GetResult(), PPP(Sheduler.GetResult()));
         F.OutNext("uSheduler_L: %2.2fms", fShedulerLoad);
         F.OutNext("uParticles:  Qstart[%d] Qactive[%d] Qdestroy[%d]", Particles_starting, Particles_active, Particles_destroy);
-        F.OutNext("spInsert:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_insert.result, PPP(g_SpatialSpace->stat_insert.result), g_SpatialSpacePhysic->stat_insert.result, PPP(g_SpatialSpacePhysic->stat_insert.result));
-        F.OutNext("spRemove:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_remove.result, PPP(g_SpatialSpace->stat_remove.result), g_SpatialSpacePhysic->stat_remove.result, PPP(g_SpatialSpacePhysic->stat_remove.result));
-        F.OutNext("Physics:     %2.2fms, %2.1f%%", Physics.result, PPP(Physics.result));
-        F.OutNext("  collider:  %2.2fms", ph_collision.result);
-        F.OutNext("  solver:    %2.2fms, %d", ph_core.result, ph_core.count);
-        F.OutNext("aiThink:     %2.2fms, %d", AI_Think.result, AI_Think.count);
-        F.OutNext("  aiRange:   %2.2fms, %d", AI_Range.result, AI_Range.count);
-        F.OutNext("  aiPath:    %2.2fms, %d", AI_Path.result, AI_Path.count);
-        F.OutNext("  aiNode:    %2.2fms, %d", AI_Node.result, AI_Node.count);
-        F.OutNext("aiVision:    %2.2fms, %d", AI_Vis.result, AI_Vis.count);
-        F.OutNext("  Query:     %2.2fms", AI_Vis_Query.result);
-        F.OutNext("  RayCast:   %2.2fms", AI_Vis_RayTests.result);
+        F.OutNext("spInsert:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_insert.GetResult(), PPP(g_SpatialSpace->stat_insert.GetResult()), g_SpatialSpacePhysic->stat_insert.GetResult(), PPP(g_SpatialSpacePhysic->stat_insert.GetResult()));
+        F.OutNext("spRemove:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_remove.GetResult(), PPP(g_SpatialSpace->stat_remove.GetResult()), g_SpatialSpacePhysic->stat_remove.GetResult(), PPP(g_SpatialSpacePhysic->stat_remove.GetResult()));
+        F.OutNext("Physics:     %2.2fms, %2.1f%%", Physics.GetResult(), PPP(Physics.GetResult()));
+        F.OutNext("  collider:  %2.2fms", ph_collision.GetResult());
+        F.OutNext("  solver:    %2.2fms, %d", ph_core.GetResult(), ph_core.GetCount());
+        F.OutNext("aiThink:     %2.2fms, %d", AI_Think.GetResult(), AI_Think.GetCount());
+        F.OutNext("  aiRange:   %2.2fms, %d", AI_Range.GetResult(), AI_Range.GetCount());
+        F.OutNext("  aiPath:    %2.2fms, %d", AI_Path.GetResult(), AI_Path.GetCount());
+        F.OutNext("  aiNode:    %2.2fms, %d", AI_Node.GetResult(), AI_Node.GetCount());
+        F.OutNext("aiVision:    %2.2fms, %d", AI_Vis.GetResult(), AI_Vis.GetCount());
+        F.OutNext("  Query:     %2.2fms", AI_Vis_Query.GetResult());
+        F.OutNext("  RayCast:   %2.2fms", AI_Vis_RayTests.GetResult());
         F.OutSkip();
 
 #undef  PPP
-#define PPP(a) (100.f*float(a)/float(RenderTOTAL.result))
-        F.OutNext("*** RENDER:  %2.2fms", RenderTOTAL.result);
-        F.OutNext("R_CALC:      %2.2fms, %2.1f%%", RenderCALC.result, PPP(RenderCALC.result));
-        F.OutNext("  HOM:       %2.2fms, %d", RenderCALC_HOM.result, RenderCALC_HOM.count);
-        F.OutNext("  Skeletons: %2.2fms, %d", Animation.result, Animation.count);
-        F.OutNext("R_DUMP:      %2.2fms, %2.1f%%", RenderDUMP.result, PPP(RenderDUMP.result));
-        F.OutNext("  Wait-L:    %2.2fms", RenderDUMP_Wait.result);
-        F.OutNext("  Wait-S:    %2.2fms", RenderDUMP_Wait_S.result);
-        F.OutNext("  Skinning:  %2.2fms", RenderDUMP_SKIN.result);
-        F.OutNext("  DT_Vis/Cnt:%2.2fms/%d", RenderDUMP_DT_VIS.result, RenderDUMP_DT_Count);
-        F.OutNext("  DT_Render: %2.2fms", RenderDUMP_DT_Render.result);
-        F.OutNext("  DT_Cache:  %2.2fms", RenderDUMP_DT_Cache.result);
-        F.OutNext("  Wallmarks: %2.2fms, %d/%d - %d", RenderDUMP_WM.result, RenderDUMP_WMS_Count, RenderDUMP_WMD_Count, RenderDUMP_WMT_Count);
-        F.OutNext("  Glows:     %2.2fms", RenderDUMP_Glows.result);
-        F.OutNext("  Lights:    %2.2fms, %d", RenderDUMP_Lights.result, RenderDUMP_Lights.count);
-        F.OutNext("  RT:        %2.2fms, %d", RenderDUMP_RT.result, RenderDUMP_RT.count);
-        F.OutNext("  HUD:       %2.2fms", RenderDUMP_HUD.result);
-        F.OutNext("  P_calc:    %2.2fms", RenderDUMP_Pcalc.result);
-        F.OutNext("  S_calc:    %2.2fms", RenderDUMP_Scalc.result);
-        F.OutNext("  S_render:  %2.2fms, %d", RenderDUMP_Srender.result, RenderDUMP_Srender.count);
+#define PPP(a) (100.f*float(a)/float(RenderTOTAL.GetResult()))
+        F.OutNext("*** RENDER:  %2.2fms", RenderTOTAL.GetResult());
+        F.OutNext("R_CALC:      %2.2fms, %2.1f%%", RenderCALC.GetResult(), PPP(RenderCALC.GetResult()));
+        F.OutNext("  HOM:       %2.2fms, %d", RenderCALC_HOM.GetResult(), RenderCALC_HOM.GetCount());
+        F.OutNext("  Skeletons: %2.2fms, %d", Animation.GetResult(), Animation.GetCount());
+        F.OutNext("R_DUMP:      %2.2fms, %2.1f%%", RenderDUMP.GetResult(), PPP(RenderDUMP.GetResult()));
+        F.OutNext("  Wait-L:    %2.2fms", RenderDUMP_Wait.GetResult());
+        F.OutNext("  Wait-S:    %2.2fms", RenderDUMP_Wait_S.GetResult());
+        F.OutNext("  Skinning:  %2.2fms", RenderDUMP_SKIN.GetResult());
+        F.OutNext("  DT_Vis/Cnt:%2.2fms/%d", RenderDUMP_DT_VIS.GetResult(), RenderDUMP_DT_Count);
+        F.OutNext("  DT_Render: %2.2fms", RenderDUMP_DT_Render.GetResult());
+        F.OutNext("  DT_Cache:  %2.2fms", RenderDUMP_DT_Cache.GetResult());
+        F.OutNext("  Wallmarks: %2.2fms, %d/%d - %d", RenderDUMP_WM.GetResult(), RenderDUMP_WMS_Count, RenderDUMP_WMD_Count, RenderDUMP_WMT_Count);
+        F.OutNext("  Glows:     %2.2fms", RenderDUMP_Glows.GetResult());
+        F.OutNext("  Lights:    %2.2fms, %d", RenderDUMP_Lights.GetResult(), RenderDUMP_Lights.GetCount());
+        F.OutNext("  RT:        %2.2fms, %d", RenderDUMP_RT.GetResult(), RenderDUMP_RT.GetCount());
+        F.OutNext("  HUD:       %2.2fms", RenderDUMP_HUD.GetResult());
+        F.OutNext("  P_calc:    %2.2fms", RenderDUMP_Pcalc.GetResult());
+        F.OutNext("  S_calc:    %2.2fms", RenderDUMP_Scalc.GetResult());
+        F.OutNext("  S_render:  %2.2fms, %d", RenderDUMP_Srender.GetResult(), RenderDUMP_Srender.GetCount());
         F.OutSkip();
-        F.OutNext("*** SOUND:   %2.2fms", Sound.result);
+        F.OutNext("*** SOUND:   %2.2fms", Sound.GetResult());
         F.OutNext("  TGT/SIM/E: %d/%d/%d", snd_stat._rendered, snd_stat._simulated, snd_stat._events);
         F.OutNext("  HIT/MISS:  %d/%d", snd_stat._cache_hits, snd_stat._cache_misses);
         F.OutSkip();
-        F.OutNext("Input:       %2.2fms", Input.result);
-        F.OutNext("clRAY:       %2.2fms, %d, %2.0fK", clRAY.result, clRAY.count, r_ps);
-        F.OutNext("clBOX:       %2.2fms, %d, %2.0fK", clBOX.result, clBOX.count, b_ps);
-        F.OutNext("clFRUSTUM:   %2.2fms, %d", clFRUSTUM.result, clFRUSTUM.count);
+        F.OutNext("Input:       %2.2fms", Input.GetResult());
+        F.OutNext("clRAY:       %2.2fms, %d, %2.0fK", clRAY.GetResult(), clRAY.GetCount(), r_ps);
+        F.OutNext("clBOX:       %2.2fms, %d, %2.0fK", clBOX.GetResult(), clBOX.GetCount(), b_ps);
+        F.OutNext("clFRUSTUM:   %2.2fms, %d", clFRUSTUM.GetResult(), clFRUSTUM.GetCount());
         F.OutSkip();
-        F.OutNext("netClientRecv:   %2.2fms, %d", netClient1.result, netClient1.count);
-        F.OutNext("netClientSend:   %2.2fms, %d", netClient2.result, netClient2.count);
-        F.OutNext("netServer:   %2.2fms, %d", netServer.result, netServer.count);
-        F.OutNext("netClientCompressor:   %2.2fms", netClientCompressor.result);
-        F.OutNext("netServerCompressor:   %2.2fms", netServerCompressor.result);
+        F.OutNext("netClientRecv:   %2.2fms, %d", netClient1.GetResult(), netClient1.GetCount());
+        F.OutNext("netClientSend:   %2.2fms, %d", netClient2.GetResult(), netClient2.GetCount());
+        F.OutNext("netServer:   %2.2fms, %d", netServer.GetResult(), netServer.GetCount());
+        F.OutNext("netClientCompressor:   %2.2fms", netClientCompressor.GetResult());
+        F.OutNext("netServerCompressor:   %2.2fms", netServerCompressor.GetResult());
 
         F.OutSkip();
 
         F.OutSkip();
-        F.OutNext("TEST 0:      %2.2fms, %d", TEST0.result, TEST0.count);
-        F.OutNext("TEST 1:      %2.2fms, %d", TEST1.result, TEST1.count);
-        F.OutNext("TEST 2:      %2.2fms, %d", TEST2.result, TEST2.count);
-        F.OutNext("TEST 3:      %2.2fms, %d", TEST3.result, TEST3.count);
+        F.OutNext("TEST 0:      %2.2fms, %d", TEST0.GetResult(), TEST0.GetCount());
+        F.OutNext("TEST 1:      %2.2fms, %d", TEST1.GetResult(), TEST1.GetCount());
+        F.OutNext("TEST 2:      %2.2fms, %d", TEST2.GetResult(), TEST2.GetCount());
+        F.OutNext("TEST 3:      %2.2fms, %d", TEST3.GetResult(), TEST3.GetCount());
 #ifdef DEBUG_MEMORY_MANAGER
         F.OutSkip();
         F.OutNext("str: cmp[%3d], dock[%3d], qpc[%3d]", Memory.stat_strcmp, Memory.stat_strdock, CPU::qpc_counter);
@@ -303,8 +303,8 @@ void CStats::Show()
         CPU::qpc_counter = 0;
 #else // DEBUG_MEMORY_MANAGER
         F.OutSkip();
-        F.OutNext("qpc[%3d]", CPU::qpc_counter);
-        CPU::qpc_counter = 0;
+     //   F.OutNext("qpc[%3d]", CPU::qpc_counter);
+       // CPU::qpc_counter = 0;
 #endif // DEBUG_MEMORY_MANAGER
         //  F.OutSet (640,0);
         F.OutSkip();
@@ -365,9 +365,9 @@ void CStats::Show()
             if (RenderDUMP_DT_Count > 1000) F.OutNext("DT_count  > 1000: %u", RenderDUMP_DT_Count);
             F.OutSkip();
             //if (fMem_calls>1500)   F.OutNext ("MMGR calls > 1500:%3.1f", fMem_calls);
-            if (Sheduler.result > 3.f)  F.OutNext("Update     > 3ms: %3.1f", Sheduler.result);
-            if (UpdateClient.result > 3.f) F.OutNext("UpdateCL   > 3ms: %3.1f", UpdateClient.result);
-            if (Physics.result > 5.f)   F.OutNext("Physics    > 5ms: %3.1f", Physics.result);
+            if (Sheduler.GetResult() > 3.f)  F.OutNext("Update     > 3ms: %3.1f", Sheduler.GetResult());
+            if (UpdateClient.GetResult() > 3.f) F.OutNext("UpdateCL   > 3ms: %3.1f", UpdateClient.GetResult());
+            if (Physics.GetResult() > 5.f)   F.OutNext("Physics    > 5ms: %3.1f", Physics.GetResult());
         }
     }
 

@@ -112,10 +112,6 @@ void stalker_movement_manager_obstacles::build_level_path					()
 	}
 #endif // MASTER_GOLD
 
-#ifdef DEBUG
-	CTimer							timer;
-	timer.Start						();
-#endif // DEBUG
 
 	if (m_last_dest_vertex_id != level_path().dest_vertex_id())
 		remove_query_objects		(object().Position(),5.f);
@@ -168,5 +164,5 @@ void stalker_movement_manager_obstacles::build_level_path					()
 	while ( !simulate_path_navigation() );
 
 	m_last_dest_vertex_id			= level_path().dest_vertex_id();
-//	Msg								("[%6d][%6d][%s][%f] build_level_path",Device.dwFrame,Device.dwTimeGlobal,*object().cName(),timer.GetElapsed_sec()*1000.f);
+//	Msg								("[%6d][%6d][%s][%f] build_level_path",Device.dwFrame,Device.dwTimeGlobal,*object().cName(),timer.get_elapsed_time().asseconds()*1000.f);
 }

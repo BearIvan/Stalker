@@ -26,7 +26,7 @@ CRT::~CRT			()
 	// release external reference
 	DEV->_DeleteRT	(this);
 }
-
+static bsize cnt_rt = 0;
 #ifdef USE_DX11
 void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount, bool useUAV )
 #else
@@ -36,7 +36,7 @@ void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 	if (pSurface)	return;
 
 	R_ASSERT	(HW.pDevice && Name && Name[0] && w && h);
-	_order		= CPU::GetCLK()	;	//Device.GetTimerGlobal()->GetElapsed_clk();
+	_order		= cnt_rt++;	//Device.GetTimerGlobal()->GetElapsed_clk();
 
 	//HRESULT		_hr;
 

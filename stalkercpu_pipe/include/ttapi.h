@@ -25,7 +25,7 @@ extern "C"  {
 
 	// Initializes subsystem
 	// Returns zero for error, and number of workers on success
-	DWORD TTAPI ttapi_Init( _processor_info* ID );
+	DWORD TTAPI ttapi_Init( /*_processor_info* ID */);
 
 	// Destroys subsystem
 	VOID TTAPI ttapi_Done();
