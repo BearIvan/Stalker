@@ -127,3 +127,58 @@ IC void* xr_malloc(size_t size) { return BearCore::BearMemory::Malloc(size, "XRA
 IC void* xr_realloc (void* P, size_t size) { return  BearCore::BearMemory::Realloc(P,size, "XRAY"); }
 
 
+
+template <class T>
+class xalloc
+{
+public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T value_type;
+
+public:
+    template<class _Other>
+    struct rebind { typedef xalloc<_Other> other; };
+public:
+    pointer address(reference _Val) const { return (&_Val); }
+    const_pointer address(const_reference _Val) const { return (&_Val); }
+    xalloc() { }
+    xalloc(const xalloc<T>&) { }
+    template<class _Other> xalloc(const xalloc<_Other>&) { }
+    template<class _Other> xalloc<T>& operator= (const xalloc<_Other>&) { return (*this); }
+    pointer allocate(size_type n, const void* p = 0) const { return xr_alloc<T>((u32)n); }
+    char* _charalloc(size_type n) { return (char*)allocate(n); }
+    void deallocate(pointer p, size_type n) const { xr_free(p); }
+    void deallocate(void* p, size_type n) const { xr_free(p); }
+	template<class C,class T>
+    void construct(C* p, const T& _Val) { ::new ((void*)p) C(_Val); }
+	template<class C>
+	void destroy(C* p) { p->~C(); }
+    size_type max_size() const { size_type _Count = (size_type)(-1) / sizeof(T); return (0 < _Count ? _Count : 1); }
+};
+
+struct xr_allocator
+{
+    template <typename T>
+    struct helper
+    {
+        typedef xalloc<T> result;
+    };
+
+    static void* alloc(const u32& n) { return xr_malloc((u32)n); }
+    template <typename T>
+    static void dealloc(T*& p) { xr_free(p); }
+};
+
+template<class _Ty, class _Other> inline bool operator==(const xalloc<_Ty>&, const xalloc<_Other>&) { return (true); }
+template<class _Ty, class _Other> inline bool operator!=(const xalloc<_Ty>&, const xalloc<_Other>&) { return (false); }
+
+namespace std
+{
+template<class _Tp1, class _Tp2> inline xalloc<_Tp2>& __stl_alloc_rebind(xalloc<_Tp1>& __a, const _Tp2*) { return (xalloc<_Tp2>&)(__a); }
+template<class _Tp1, class _Tp2> inline xalloc<_Tp2> __stl_alloc_create(xalloc<_Tp1>&, const _Tp2*) { return xalloc<_Tp2>(); }
+};

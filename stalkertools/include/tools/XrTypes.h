@@ -55,4 +55,25 @@ typedef char string1024[1024];
 typedef char string2048[2048];
 typedef char string4096[4096];
 
-typedef char string_path[2 * _MAX_PATH];
+typedef BearCore::BearStringPath string_path;
+
+#ifndef DEBUG
+# define MASTER_GOLD
+#endif // DEBUG
+
+# define BENCH_SEC_CALLCONV
+# define BENCH_SEC_SCRAMBLEVTBL1
+# define BENCH_SEC_SCRAMBLEVTBL2
+# define BENCH_SEC_SCRAMBLEVTBL3
+# define BENCH_SEC_SIGN
+# define BENCH_SEC_SCRAMBLEMEMBER1
+# define BENCH_SEC_SCRAMBLEMEMBER2
+
+#define XRAY_EXCEPTIONS 0 // XRAY
+
+#define _inline inline
+#define __inline inline
+#define IC inline
+#define ICF __forceinline 
+# define ICN __declspec (noinline)
+#define ALIGN(a) __declspec(align(a))

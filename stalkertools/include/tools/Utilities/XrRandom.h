@@ -36,7 +36,7 @@ public:
     IC s32 randIs(s32 range, s32 offs) { return offs + randIs(range); }
 
     IC float maxF() { return 32767.f; }
-    IC float randF() { return float(randI()) / maxF(); }
+    IC float randF() { return float(randI()) /	maxF(); }
     IC float randF(float max) { return randF()*max; }
     IC float randF(float min, float max) { return min + randF(max - min); }
     IC float randFs(float range) { return randF(-range, range); }

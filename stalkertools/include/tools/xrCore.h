@@ -1,41 +1,6 @@
 #pragma once
 #include "BearCore.hpp"
 
-#ifndef DEBUG
-# define MASTER_GOLD
-#endif // DEBUG
-
-# define BENCH_SEC_CALLCONV
-# define BENCH_SEC_SCRAMBLEVTBL1
-# define BENCH_SEC_SCRAMBLEVTBL2
-# define BENCH_SEC_SCRAMBLEVTBL3
-# define BENCH_SEC_SIGN
-# define BENCH_SEC_SCRAMBLEMEMBER1
-# define BENCH_SEC_SCRAMBLEMEMBER2
-
-#define XRAY_EXCEPTIONS 0 // XRAY
-
-# include "xrCore_platform.h"
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <math.h>
-#include <string.h>
-#include <typeinfo.h>
-
-#define _inline inline
-#define __inline inline
-#define IC inline
-#define ICF __forceinline 
-# define ICN __declspec (noinline)
-
-
-#include <time.h>
-
-#define ALIGN(a) __declspec(align(a))
-#include <sys\utime.h>
 
 // Warnings
 #pragma warning (disable : 4251 ) // object needs DLL interface
@@ -50,8 +15,8 @@
 #pragma warning (disable : 4189 ) // local variable is initialized but not refenced
 #endif 
 
-
-
+#include <time.h>
+#include <sys\utime.h>
 // stl
 #pragma warning (push)
 #pragma warning (disable:4702)
@@ -62,12 +27,10 @@
 #include <list>
 #include <set>
 #include <map>
-
 #ifndef _EDITOR
 # include <unordered_map>
 # include <unordered_set>
 #endif
-
 #include <string>
 #pragma warning (pop)
 #pragma warning (disable : 4100 ) // unreferenced formal parameter
@@ -78,97 +41,70 @@
 # define XRCORE_API BEARPROJECT_IMPORT
 # endif
 
-#include "xrDebug.h"
-
 #include "XrTypes.h"
+
+#include "Debug/XrDebug.h"
+#include "Debug/XrLog.h"
+
+#include "Template/XrFastdelegate.h"
+
 #include "Utilities/XrRandom.h"
+
 #include "Math/XrMath.h"
+#include "Utilities/XrColor.h"
 
+#include "Utilities/XrClsid.h"
 
-#include "vector.h"
-
-#include "clsid.h"
-#include "Utilities/XrSyncronize.h"
 #include "Utilities/xrMemory.h"
-#include "xrDebug.h"
+#include "Utilities/XrString.h"
 
-#include "_stl_extensions.h"
-#include "xrsharedmem.h"
-#include "xrstring.h"
-#include "xr_resource.h"
-#include "rt_compressor.h"
-#include "xr_shared.h"
-#include "string_concatenations.h"
+#include "Template/XrDeque.h"
+#include "Template/XrHashMap.h"
+#include "Template/XrList.h"
+#include "Template/XrMap.h"
+#include "Template/XrMultimap.h"
+#include "Template/XrSet.h"
+#include "Template/XrStack.h"
+#include "Template/XrVector.h"
+#include  "Template/XrAlgorithm.h"
+#include  "Template/XrTypeTraits.h"
+#include "Template/XrBufferVector.h"
+#include  "Template/XrFixedVector.h"
+#include  "Template/XrFixedSet.h"
+#include  "Template/XrFixedMap.h"
+
+#include "Utilities/XrClipboard.h"
+
+#include "Net/XrNetUtils.h"
+
+#include "Compressor/XrPPMDStream.h"
+#include "Compressor/XrCompressor.h"
+
+#include "Filesystem/XrFS.h"
+
+#include "Timer/XrTimerController.h"
+#include "Timer/XrTimer.h"
+
+#include "Utilities/XrSyncronize.h"
+
+#include "Utilities/XrStringContainer.h"
+#include "Utilities/XrFlags.h"
+
 #include "Utilities/XrThread.h"
-// stl ext
-struct XRCORE_API xr_rtoken
-{
-    shared_str name;
-    int id;
-    xr_rtoken(LPCSTR _nm, int _id) { name = _nm; id = _id; }
-public:
-    void rename(LPCSTR _nm) { name = _nm; }
-    bool equal(LPCSTR _nm) { return (0 == xr_strcmp(*name, _nm)); }
-};
+#include "Parsers/XrTrims.h"
 
-#pragma pack (push,1)
-struct XRCORE_API xr_shortcut
-{
-    enum
-    {
-        flShift = 0x20,
-        flCtrl = 0x40,
-        flAlt = 0x80,
-    };
-    union
-    {
-        struct
-        {
-            u8 key;
-            Flags8 ext;
-        };
-        u16 hotkey;
-    };
-    xr_shortcut(u8 k, BOOL a, BOOL c, BOOL s) :key(k) { ext.assign(u8((a ? flAlt : 0) | (c ? flCtrl : 0) | (s ? flShift : 0))); }
-    xr_shortcut() { ext.zero(); key = 0; }
-    bool similar(const xr_shortcut& v)const { return ext.equal(v.ext) && (key == v.key); }
-};
-#pragma pack (pop)
+#include "Parsers/XrINI.h"
 
-DEFINE_VECTOR(shared_str, RStringVec, RStringVecIt);
-DEFINE_SET(shared_str, RStringSet, RStringSetIt);
-DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
+#include "Utilities/XrPool.h"
+#include "Utilities/XrResource.h"
 
-#define xr_pure_interface __interface
+#include "Utilities/XrShared.h"
+#include "Utilities/XrStringConcatenations.h"
 
-#include "FS.h"
-#include "log.h"
-#include "Utilities/XrTrims.h"
-#include "xr_ini.h"
-#include "FTimer.h"
-#include "fastdelegate.h"
-#include "intrusive_ptr.h"
+#include "Debug/XrDumpString.h"
 
-#include "net_utils.h"
+#include "Utilities/XrSharedMemory.h"
 
-// destructor
-template <class T>
-class destructor
-{
-    T* ptr;
-public:
-    destructor(T* p) { ptr = p; }
-    ~destructor() { xr_delete(ptr); }
-    IC T& operator() ()
-    {
-        return *ptr;
-    }
-};
-
-// ********************************************** The Core definition
-
-
-#include "XrayToBearCore.h"
 class XRCORE_API xrCore
 {
 public:
@@ -177,13 +113,10 @@ public:
 	static u32 dwFrame;
 
 public:
-    static void Initialize(LogCallback cb = 0);
+    static void Initialize();
 	static void Destroy();
 };
 
 #define _BCL 
 #define _BGCL 
 
-extern XRCORE_API xrCore Core;
-#include "Timer/XrTimerController.h"
-#include "Timer/XrTimer.h"
