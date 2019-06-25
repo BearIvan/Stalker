@@ -22,19 +22,19 @@ static float const UI_BASE_HEIGHT = 768.0f;
 static float const LDIST = 0.05f;
 static u32 const cmd_history_max = 64;
 
-static u32 const prompt_font_color = color_rgba(228, 228, 255, 255);
-static u32 const tips_font_color = color_rgba(230, 250, 230, 255);
-static u32 const cmd_font_color = color_rgba(138, 138, 245, 255);
-static u32 const cursor_font_color = color_rgba(255, 255, 255, 255);
-static u32 const total_font_color = color_rgba(250, 250, 15, 180);
-static u32 const default_font_color = color_rgba(250, 250, 250, 250);
+static u32 const prompt_font_color = XrColor::color_rgba(228, 228, 255, 255);
+static u32 const tips_font_color = XrColor::color_rgba(230, 250, 230, 255);
+static u32 const cmd_font_color = XrColor::color_rgba(138, 138, 245, 255);
+static u32 const cursor_font_color = XrColor::color_rgba(255, 255, 255, 255);
+static u32 const total_font_color = XrColor::color_rgba(250, 250, 15, 180);
+static u32 const default_font_color = XrColor::color_rgba(250, 250, 250, 250);
 
-static u32 const back_color = color_rgba(20, 20, 20, 200);
-static u32 const tips_back_color = color_rgba(20, 20, 20, 200);
-static u32 const tips_select_color = color_rgba(90, 90, 140, 230);
-static u32 const tips_word_color = color_rgba(5, 100, 56, 200);
-static u32 const tips_scroll_back_color = color_rgba(15, 15, 15, 230);
-static u32 const tips_scroll_pos_color = color_rgba(70, 70, 70, 240);
+static u32 const back_color = XrColor::color_rgba(20, 20, 20, 200);
+static u32 const tips_back_color = XrColor::color_rgba(20, 20, 20, 200);
+static u32 const tips_select_color = XrColor::color_rgba(90, 90, 140, 230);
+static u32 const tips_word_color = XrColor::color_rgba(5, 100, 56, 200);
+static u32 const tips_scroll_back_color = XrColor::color_rgba(15, 15, 15, 230);
+static u32 const tips_scroll_pos_color = XrColor::color_rgba(70, 70, 70, 240);
 
 
 ENGINE_API CConsole* Console = NULL;
@@ -56,43 +56,43 @@ u32 CConsole::get_mark_color(Console_mark type)
     switch (type)
     {
     case mark0:
-        color = color_rgba(255, 255, 0, 255);
+        color = XrColor::color_rgba(255, 255, 0, 255);
         break;
     case mark1:
-        color = color_rgba(255, 0, 0, 255);
+        color = XrColor::color_rgba(255, 0, 0, 255);
         break;
     case mark2:
-        color = color_rgba(100, 100, 255, 255);
+        color = XrColor::color_rgba(100, 100, 255, 255);
         break;
     case mark3:
-        color = color_rgba(0, 222, 205, 155);
+        color = XrColor::color_rgba(0, 222, 205, 155);
         break;
     case mark4:
-        color = color_rgba(255, 0, 255, 255);
+        color = XrColor::color_rgba(255, 0, 255, 255);
         break;
     case mark5:
-        color = color_rgba(155, 55, 170, 155);
+        color = XrColor::color_rgba(155, 55, 170, 155);
         break;
     case mark6:
-        color = color_rgba(25, 200, 50, 255);
+        color = XrColor::color_rgba(25, 200, 50, 255);
         break;
     case mark7:
-        color = color_rgba(255, 255, 0, 255);
+        color = XrColor::color_rgba(255, 255, 0, 255);
         break;
     case mark8:
-        color = color_rgba(128, 128, 128, 255);
+        color = XrColor::color_rgba(128, 128, 128, 255);
         break;
     case mark9:
-        color = color_rgba(0, 255, 0, 255);
+        color = XrColor::color_rgba(0, 255, 0, 255);
         break;
     case mark10:
-        color = color_rgba(55, 155, 140, 255);
+        color = XrColor::color_rgba(55, 155, 140, 255);
         break;
     case mark11:
-        color = color_rgba(205, 205, 105, 255);
+        color = XrColor::color_rgba(205, 205, 105, 255);
         break;
     case mark12:
-        color = color_rgba(128, 128, 250, 255);
+        color = XrColor::color_rgba(128, 128, 250, 255);
         break;
     case no_mark:
     default:
@@ -383,9 +383,9 @@ void CConsole::OnRender()
         pFont->SetColor(cursor_font_color);
         pFont->OutI(-1.0f + str_length * scr_x, ypos, "%s", ch_cursor);
     }
-
+	auto &str = BearCore::BearLog::Lock();
     // ---------------------
-    u32 log_line = LogFile->size() - 1;
+    u32 log_line = str.size() - 1;
     ypos -= LDIST;
     for (int i = log_line - scroll_delta; i >= 0; --i)
     {
@@ -394,7 +394,7 @@ void CConsole::OnRender()
         {
             break;
         }
-        LPCSTR ls = ((*LogFile)[i]).c_str();
+		LPCSTR ls = *str[i];
 
         if (!ls)
         {
@@ -406,7 +406,7 @@ void CConsole::OnRender()
         //OutFont( ls + b, ypos );
         OutFont(ls, ypos);
     }
-
+	BearCore::BearLog::Unlock();
     string16 q;
     itoa(log_line, q, 10);
     u32 qn = xr_strlen(q);

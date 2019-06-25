@@ -72,7 +72,7 @@ void CUIEditKeyBind::OnFocusLost()
 {
 	CUIStatic::OnFocusLost		();
 	SetEditMode					(false);
-	TextItemControl()->SetTextColor	((subst_alpha(TextItemControl()->GetTextColor(), color_get_A(0xffffffff))));
+	TextItemControl()->SetTextColor	((XrColor::subst_alpha(TextItemControl()->GetTextColor(), XrColor::color_get_A(0xffffffff))));
 }
 
 bool CUIEditKeyBind::OnMouseDown(int mouse_btn)

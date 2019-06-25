@@ -111,14 +111,14 @@ void CPortalTraverser::fade_render	()
 	{
 		auto& env = ENV_SOC;
 		Fvector		_ambient_f = env.CurrentEnv.ambient;;
-					_ambient = color_rgba_f(_ambient_f.x, _ambient_f.y, _ambient_f.z, 0);
+					_ambient =XrColor::color_rgba_f(_ambient_f.x, _ambient_f.y, _ambient_f.z, 0);
 		
 	}
 	else
 	{
 		auto& env = ENV;
 		Fvector		_ambient_f = env.CurrentEnv->ambient;;
-					_ambient = color_rgba_f(_ambient_f.x, _ambient_f.y, _ambient_f.z, 0);
+					_ambient =XrColor::color_rgba_f(_ambient_f.x, _ambient_f.y, _ambient_f.z, 0);
 		
 	}
 	for (u32 _it = 0; _it < f_portals.size(); _it++)
@@ -129,7 +129,7 @@ void CPortalTraverser::fade_render	()
 		float		ssaDiff = _ssa - r_ssaLOD_B;
 		float		ssaScale = ssaDiff / ssaRange;
 		int			iA = XrMath::iFloor((1 - ssaScale)*255.5f);	XrMath::clamp(iA, 0, 255);
-		u32							_clr = subst_alpha(_ambient, u32(iA));
+		u32							_clr = XrColor::subst_alpha(_ambient, u32(iA));
 
 		// fill polys
 		u32			_polys = _P->getPoly().size() - 2;

@@ -13,7 +13,6 @@
 #include "gamespy/GameSpy_GP.h"
 
 #include <dinput.h>
-#include "tools/os_clipboard.h"
 
 extern string64	gsCDKey;
 LPCSTR AddHyphens( LPCSTR c );
@@ -51,7 +50,7 @@ struct inappropriate_characters {
 void CUICDkey::paste_from_clipboard	( )
 {
 	string32			temp;
-	os_clipboard::paste_from_clipboard( &temp[0], sizeof(temp) );
+	XrClipboard::paste_from_clipboard( &temp[0], sizeof(temp) );
 	LPSTR const new_end	= std::remove_if( &temp[0], &temp[0] + xr_strlen(temp), inappropriate_characters() );
 	*new_end			= 0;
 	temp[16]			= 0;

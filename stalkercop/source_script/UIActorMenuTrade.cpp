@@ -105,11 +105,11 @@ void CUIActorMenu::ColorizeItem(CUICellItem* itm, bool colorize)
 {
 	if( colorize )
 	{
-		itm->SetTextureColor( color_rgba(255,100,100,255) );
+		itm->SetTextureColor( XrColor::color_rgba(255,100,100,255) );
 	}
 	else
 	{
-		itm->SetTextureColor( color_rgba(255,255,255,255) );
+		itm->SetTextureColor( XrColor::color_rgba(255,255,255,255) );
 	}
 }
 

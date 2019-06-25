@@ -6,23 +6,22 @@ class XRCORE_API XrCompressor
 	static void Destroy();
 public:
 	BEAR_CLASS_STATIC(XrCompressor);
-	static bsize  PPMdCompress(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size);
-	static bsize  PPMdTrainedCompress(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size, XrPPDStream* tmodel);
-	static bsize  PPMdDecompress(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size);
-	static bsize  PPMdTrainedDecompress(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size, XrPPDStream* tmodel);
-
-	typedef fastdelegate::FastDelegate<void()> ppmd_yield_callback_t;
-	static bsize  PPMdCompressMt(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size, ppmd_yield_callback_t ycb);
-	static bsize  PPMdDecompressMt(void* dest_buffer, const bsize& dest_buffer_size, const void* source_buffer, const bsize& source_buffer_size, ppmd_yield_callback_t ycb);
 
 	static uint16 PvCompress(const Fvector& vec);
 	static void   PvDecompress(Fvector& vec, uint16 mVec);
 
-	 bsize RtcCompress(void* dst, bsize dst_len, const void* src, bsize src_len);
-	 bsize RtcDecompress(void* dst, bsize dst_len, const void* src, bsize src_len);
-	 bsize RtcSize(bsize in);
+	static bsize RtcCompress(void* dst, bsize dst_len, const void* src, bsize src_len);
+	static bsize RtcDecompress(void* dst, bsize dst_len, const void* src, bsize src_len);
+	static bsize RtcSize(bsize in);
 
-	 bsize Rtc9Compress(void* dst, bsize dst_len, const void* src, bsize src_len);
-	 bsize Rtc9Decompress(void* dst, bsize dst_len, const void* src, bsize src_len);
-	 bsize Rtc9Size(bsize in);
-};
+	static bsize Rtc9Compress(void* dst, bsize dst_len, const void* src, bsize src_len);
+	static bsize Rtc9Decompress(void* dst, bsize dst_len, const void* src, bsize src_len);
+	static bsize Rtc9Size(bsize in);
+
+	static bsize LZWrite(int hf, void* d, bsize size);
+	static bsize LZRead(int hf, void*& d, bsize size);
+
+	static void LZCompress(u8** dest, bsize* dest_sz, void* src, bsize src_sz);
+	static void LZDecompress(u8** dest, bsize* dest_sz, void* src, bsize src_sz);
+
+}; 

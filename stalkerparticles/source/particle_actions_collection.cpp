@@ -1406,7 +1406,7 @@ void PASource::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			color.Generate		(col);
 			float ag 			= age + NRand(age_sigma);
 
-			effect->Add			(pos, pos, siz, rt, vel, color_argb_f(alpha, col.x, col.y, col.z), ag);
+			effect->Add			(pos, pos, siz, rt, vel, XrColor::color_argb_f(alpha, col.x, col.y, col.z), ag);
 		}
 	}else{
 		for(int i = 0; i < rate; i++){
@@ -1417,7 +1417,7 @@ void PASource::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 			color.Generate		(col);
 			float ag 			= age + NRand(age_sigma);
 
-			effect->Add			(pos, posB, siz, rt, vel, color_argb_f(alpha, col.x, col.y, col.z), ag);
+			effect->Add			(pos, posB, siz, rt, vel, XrColor::color_argb_f(alpha, col.x, col.y, col.z), ag);
 		}
 	}
 }

@@ -33,14 +33,14 @@ CUICustomSpin::CUICustomSpin()
 	m_pLines->SetTextAlignment	(CGameFont::alLeft);
 	m_pLines->SetVTextAlignment	(valCenter);
 	m_pLines->SetFont			(UI().Font().pFontLetterica16Russian);
-	m_pLines->SetTextColor		(color_argb(255,235,219,185));
+	m_pLines->SetTextColor		(XrColor::color_argb(255,235,219,185));
 
 	m_time_begin				= 0;
 	m_p_delay					= 500;
 	m_u_delay					= 0;
 
-	m_textColor[0]				= color_argb(255,235,219,185);
-	m_textColor[1]				= color_argb(255,100,100,100);
+	m_textColor[0]				= XrColor::color_argb(255,235,219,185);
+	m_textColor[1]				= XrColor::color_argb(255,100,100,100);
 }
 
 CUICustomSpin::~CUICustomSpin()

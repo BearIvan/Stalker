@@ -1,7 +1,4 @@
-#ifndef _FIXEDMAP_H
-#define _FIXEDMAP_H
 #pragma once
-
 template<class K, class T, class allocator = xr_allocator>
 class FixedMAP
 {
@@ -296,4 +293,3 @@ public:
             CB(nodes + i);
     }
 };
-#endif

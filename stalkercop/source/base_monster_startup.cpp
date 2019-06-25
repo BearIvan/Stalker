@@ -467,7 +467,7 @@ void CBaseMonster::settings_load(LPCSTR section)
 
 	settings_read			(pSettings, section, data);
 
-	u32 crc					= crc32(&data,sizeof(SMonsterSettings));
+	u32 crc					= BearCore::BearCheckSum::CRC32(&data,sizeof(SMonsterSettings));
 	m_base_settings.create	(crc,1,&data);
 }
 
@@ -481,7 +481,7 @@ void CBaseMonster::settings_overrides()
 		settings_read			(spawn_ini(),"settings_overrides", (*data));
 	}
 
-	u32 crc						= crc32(data,sizeof(SMonsterSettings));
+	u32 crc						= BearCore::BearCheckSum::CRC32(data,sizeof(SMonsterSettings));
 	m_current_settings.create	(crc,1,data);
 }
 

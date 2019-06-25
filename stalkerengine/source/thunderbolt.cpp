@@ -215,7 +215,7 @@ void CEffect_Thunderbolt::OnFrame(int id, float period, float duration)
 		Fvector fClr;
 		int frame;
 		u32 uClr = current->color_anim->CalculateRGB(current_time / life_time, frame);
-		fClr.set(float(color_get_R(uClr)) / 255.f, float(color_get_G(uClr) / 255.f), float(color_get_B(uClr) / 255.f));
+		fClr.set(float(XrColor::color_get_R(uClr)) / 255.f, float(XrColor::color_get_G(uClr) / 255.f), float(XrColor::color_get_B(uClr) / 255.f));
 
 		lightning_phase = 1.5f*(current_time / life_time);
 		XrMath::clamp(lightning_phase, 0.f, 1.f);
@@ -397,9 +397,9 @@ void CEffect_Thunderbolt::OnFrame(shared_str id, float period, float duration)
         int frame;
         u32 uClr = current->color_anim->CalculateRGB(current_time / life_time, frame);
         fClr.set(
-			XrMath::clampr(float(color_get_R(uClr) / 255.f), 0.f, 1.f),
-			XrMath::clampr(float(color_get_G(uClr) / 255.f), 0.f, 1.f),
-			XrMath::clampr(float(color_get_B(uClr) / 255.f), 0.f, 1.f)
+			XrMath::clampr(float(XrColor::color_get_R(uClr) / 255.f), 0.f, 1.f),
+			XrMath::clampr(float(XrColor::color_get_G(uClr) / 255.f), 0.f, 1.f),
+			XrMath::clampr(float(XrColor::color_get_B(uClr) / 255.f), 0.f, 1.f)
         );
 
         lightning_phase = 1.5f*(current_time / life_time);

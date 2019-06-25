@@ -316,7 +316,7 @@ void CLightShadows::calculate	()
 	RCache.set_xform_view		(Device.mView);
 }
 
-#define CLS(a)	color_rgba	(a,a,a,a)
+#define CLS(a)	XrColor::color_rgba	(a,a,a,a)
 
 IC	bool		cache_search(const CLightShadows::cache_item& A, const CLightShadows::cache_item& B)
 {

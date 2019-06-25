@@ -100,7 +100,7 @@ void		CWallmarksEngine::static_wm_render		(CWallmarksEngine::static_wallmark*	W,
 {
 	float		a		= 1-(W->ttl/ps_r__WallmarkTTL);
 	int			aC		= XrMath::iFloor	( a * 255.f);	XrMath::clamp	(aC,0,255);
-	u32			C		= color_rgba(128,128,128,aC);
+	u32			C		=XrColor::color_rgba(128,128,128,aC);
 	FVF::LIT*	S		= &*W->verts.begin	();
 	FVF::LIT*	E		= &*W->verts.end	();
 	for (; S!=E; S++, V++){

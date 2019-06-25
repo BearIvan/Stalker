@@ -7,7 +7,6 @@
 #pragma once
 
 #include "r_constants.h"
-#include "tools//xr_resource.h"
 
 #include "sh_atomic.h"
 #include "sh_texture.h"

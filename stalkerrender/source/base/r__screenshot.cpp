@@ -4,10 +4,35 @@
 #include "dxRenderDeviceRender.h"
 #include "xrRender/tga.h"
 #include "engine/xrImage_Resampler.h"
-
+#include <time.h> 
 #if defined(USE_DX10) || defined(USE_DX11)
 #include "directx\d3dx9.h"
 #endif	//	USE_DX10
+
+char*							timestamp(string64& dest)
+{
+	string64	temp;
+
+	/* Set time zone from TZ environment variable. If TZ is not set,
+	* the operating system is queried to obtain the default value
+	* for the variable.
+	*/
+	_tzset();
+	u32			it;
+
+	// date
+	_strdate(temp);
+	for (it = 0; it < xr_strlen(temp); it++)
+		if ('/' == temp[it]) temp[it] = '-';
+	strconcat(sizeof(dest), dest, temp, "_");
+
+	// time
+	_strtime(temp);
+	for (it = 0; it < xr_strlen(temp); it++)
+		if (':' == temp[it]) temp[it] = '-';
+	xr_strcat(dest, sizeof(dest), temp);
+	return dest;
+}
 
 #define	GAMESAVE_SIZE	128
 
@@ -159,7 +184,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				string64			t_stemp;
 				string_path			buf;
-				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob			*saved	= 0;
 #ifdef USE_DX11
 				CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_JPG, &saved, 0));
@@ -173,7 +198,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 
 				if (strstr(GetCommandLine(),"-ss_tga"))	
 				{ // hq
-					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 					ID3DBlob*		saved	= 0;
 #ifdef USE_DX11
 					CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved, 0));
@@ -196,7 +221,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				string64			t_stemp;
 				string_path			buf;
 				VERIFY				(name);
-				strconcat			(sizeof(buf),buf,"ss_",Core.UserName,"_",timestamp(t_stemp),"_#",name);
+				strconcat			(sizeof(buf),buf,"ss_",xrCore::UserName,"_",timestamp(t_stemp),"_#",name);
 				xr_strcat				(buf,".tga");
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				TGAdesc				p;
@@ -269,10 +294,10 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 	}
 	for (;pPixel!=pEnd; pPixel++)	{
 		u32 p = *pPixel;
-		*pPixel = color_xrgb	(
-			G.red	[color_get_R(p)],
-			G.green	[color_get_G(p)],
-			G.blue	[color_get_B(p)]
+		*pPixel =XrColor::color_xrgb	(
+			G.red	[XrColor::color_get_R(p)],
+			G.green	[XrColor::color_get_G(p)],
+			G.blue	[XrColor::color_get_B(p)]
 			);
 	}
 	*/
@@ -281,10 +306,10 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 	for (;pPixel!=pEnd; pPixel++)	
 	{
 		u32 p = *pPixel;
-		*pPixel = color_xrgb	(
-			color_get_R(p),
-			color_get_G(p),
-			color_get_B(p)
+		*pPixel =XrColor::color_xrgb	(
+			XrColor::color_get_R(p),
+			XrColor::color_get_G(p),
+			XrColor::color_get_B(p)
 		);
 	}
 
@@ -371,7 +396,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				string64			t_stemp;
 				string_path			buf;
-				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 				ID3DBlob*		saved	= 0;
 				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_JPG,pFB,0,0));
 				IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
@@ -379,7 +404,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				XRayBearWriter::Destroy		(fs);
 				_RELEASE			(saved);
 				if (strstr(GetCommandLine(),"-ss_tga"))	{ // hq
-					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
+					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
 					ID3DBlob*		saved	= 0;
 					CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
 					IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
@@ -475,10 +500,10 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 		for (;pPixel!=pEnd; pPixel++)	
 		{
 			u32 p = *pPixel;
-			*pPixel = color_xrgb	(
-				color_get_B(p),
-				color_get_G(p),
-				color_get_R(p)
+			*pPixel =XrColor::color_xrgb	(
+				XrColor::color_get_B(p),
+				XrColor::color_get_G(p),
+				XrColor::color_get_R(p)
 				);
 		}
 
@@ -540,7 +565,7 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 
 			for ( int i=0; i<iProcessPixels; ++i)
 			{
-				*pPixel = color_argb_f	(
+				*pPixel =XrColor::color_argb_f	(
 					1.0f,
 					tmpArray[i*4],
 					tmpArray[i*4+1],
@@ -559,10 +584,10 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 		for (;pPixel!=pEnd; pPixel++)	
 		{
 			u32 p = *pPixel;
-			*pPixel = color_xrgb	(
-				color_get_R(p),
-				color_get_G(p),
-				color_get_B(p)
+			*pPixel =XrColor::color_xrgb	(
+				XrColor::color_get_R(p),
+				XrColor::color_get_G(p),
+				XrColor::color_get_B(p)
 				);
 		}
 	}

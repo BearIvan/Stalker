@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "phcollisiondamagereceiver.h"
 #include "physics/IPhysicsShellHolder.h"
-#include "tools/xr_ini.h"
 #include "xrRender/Kinematics.h"
 #include "physics/geometry.h"
 #include "physics/PhysicsShell.h"

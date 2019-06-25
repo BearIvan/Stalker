@@ -9,6 +9,10 @@
 #include <direct.h>
 #pragma warning(pop)
 
+#pragma warning(push)
+#pragma warning(disable:4091)
+#include <dbghelp.h>
+#pragma warning(pop)
 extern bool shared_str_initialized;
 
 # define DEBUG_INVOKE BearCore::DebugBreak();
@@ -18,7 +22,7 @@ extern bool shared_str_initialized;
 #endif
 
 
-#include <dbghelp.h> // MiniDump flags
+//#include <dbghelp.h> // MiniDump flags
 
 
 #include <new.h> // for _set_new_mode
@@ -230,12 +234,13 @@ void XrDebug::backend(const char* expression, const char* description, const cha
 }
 
 
-void XrDebug::error(long hr, const char* expr, const char* file, int line, const char* function, bool& ignore_always)
+
+void XrDebug::error(int32 hr, const char* expr, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(error2string(hr), expr, 0, 0, file, line, function, ignore_always);
 }
 
-void XrDebug::error(long hr, const char* expr, const char* e2, const char* file, int line, const char* function, bool& ignore_always)
+void XrDebug::error(int32 hr, const char* expr, const char* e2, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(error2string(hr), expr, e2, 0, file, line, function, ignore_always);
 }
@@ -271,7 +276,7 @@ void __cdecl XrDebug::fatal(const char* file, int line, const char* function, co
 
     va_list p;
     va_start(p, F);
-    vsprintf(buffer, F, p);
+    BearCore::BearString::Printf(buffer, F, p);
     va_end(p);
 
     bool ignore_always = true;
@@ -290,8 +295,8 @@ int out_of_memory_handler(size_t size)
     {
 //        Memory.mem_compact();
 //        size_t process_heap = Memory.mem_usage();
-        int eco_strings = (int)g_pStringContainer->stat_economy();
-        int eco_smem = (int)g_pSharedMemoryContainer->stat_economy();
+        int eco_strings = (int)XrStringContainer::stat_economy();
+        int eco_smem = (int)XrSharedMemoryContainer::stat_economy();
     //    Msg("* [x-ray]: process heap[%u K]", process_heap / 1024, process_heap / 1024);
         Msg("* [x-ray]: economy: strings[%d K], smem[%d K]", eco_strings / 1024, eco_smem);
     }

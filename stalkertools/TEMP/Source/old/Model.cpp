@@ -19,7 +19,7 @@ using namespace ppmd;
 enum { UP_FREQ=5, INT_BITS=7, PERIOD_BITS=7, TOT_BITS=INT_BITS+PERIOD_BITS,
     INTERVAL=1 << INT_BITS, BIN_SCALE=1 << TOT_BITS, MAX_FREQ=124, O_BOUND=9 };
 
-XrPPDStream *trained_model = 0;
+compression::ppmd::stream *trained_model = 0;
 
 
 template <class TMP_TYPE>

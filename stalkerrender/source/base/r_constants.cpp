@@ -12,7 +12,6 @@
 
 #include "ResourceManager.h"
 
-#include "tools/xrPool.h"
 #include "r_constants.h"
 
 #include "xrRender/dxRenderDeviceRender.h"

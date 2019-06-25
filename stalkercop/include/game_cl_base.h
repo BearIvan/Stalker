@@ -1,7 +1,6 @@
 #pragma once
 
 #include "game_base.h"
-#include "tools/client_id.h"
 #include "WeaponAmmo.h"
 
 class	NET_Packet;

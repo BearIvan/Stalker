@@ -27,7 +27,7 @@ void CUIColorAnimConrollerContainer::ColorAnimationSetTextureColor(u32 color, bo
 	{
 		ITextureOwner* TO = smart_cast<ITextureOwner*>(*it);
 		if(TO)
-			TO->SetTextureColor( (only_alpha)? subst_alpha(TO->GetTextureColor(), color): color);
+			TO->SetTextureColor( (only_alpha)? XrColor::subst_alpha(TO->GetTextureColor(), color): color);
 	}
 }
 

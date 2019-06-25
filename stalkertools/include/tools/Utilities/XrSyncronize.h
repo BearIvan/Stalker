@@ -1,27 +1,26 @@
 #pragma once
 // Desc: Simple wrapper for critical section
-class XRCORE_API xrCriticalSection
+class xrCriticalSection
 {
 	BEAR_CLASS_NO_COPY(xrCriticalSection);
 public:
-    class XRCORE_API raii
-    {
-    public:
-        raii(xrCriticalSection*);
-        ~raii();
+	class XRCORE_API raii
+	{
+	public:
+		raii(xrCriticalSection*);
+		~raii();
 
-    private:
-        xrCriticalSection* critical_section;
-    };
+	private:
+		xrCriticalSection* critical_section;
+	};
 
 private:
-    void* pmutex;
-
+	BearCore::BearMutex m_mutex;
 public:
-    xrCriticalSection();
-    ~xrCriticalSection();
+	xrCriticalSection() {}
+	IC ~xrCriticalSection() {}
 
-    void Enter();
-    void Leave();
-    BOOL TryEnter();
+	IC void Enter(){m_mutex.Lock();}
+	IC void Leave() { m_mutex.Unlock(); }
+	IC BOOL TryEnter() { m_mutex.TryLock(); }
 };

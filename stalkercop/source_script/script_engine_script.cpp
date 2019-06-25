@@ -52,7 +52,7 @@ void ErrorLog(LPCSTR caMessage)
 void FlushLogs()
 {
 #ifdef DEBUG
-	FlushLog();
+	BearCore::BearLog::Flush();
 	ai().script_engine().flush_log();
 #endif // DEBUG
 }
@@ -100,7 +100,7 @@ int bit_not(int i)
 
 LPCSTR user_name()
 {
-	return			(Core.UserName);
+	return			(XrCore::UserName);
 }
 
 void prefetch_module(LPCSTR file_name)

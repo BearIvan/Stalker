@@ -7,9 +7,6 @@
 #include	"AnimationKeyCalculate.h"
 #include	"SkeletonX.h"
 #include	"engine/fmesh.h"
-#ifdef DEBUG
-#include	"tools/dump_string.h"
-#endif
 extern int	psSkeletonUpdate;
 using	namespace animation;
 //////////////////////////////////////////////////////////////////////////
@@ -879,7 +876,7 @@ void	CKinematicsAnimated::LL_BoneMatrixBuild	( CBoneInstance &bi, const Fmatrix 
 		float box_size = 100000.f;
 		dbg_box.set( -box_size, -box_size, -box_size, box_size, box_size, box_size );
 		//VERIFY(dbg_box.contains(bi.mTransform.c));
-		VERIFY2( dbg_box.contains(bi.mTransform.c), ( make_string( "model: %s has strange bone position, matrix : ", getDebugName().c_str() ) + get_string( bi.mTransform ) ).c_str() );
+		VERIFY2( dbg_box.contains(bi.mTransform.c), ( make_string( "model: %s has strange bone position, matrix : ", getDebugName().c_str() ) + XrDumpString::get_string( bi.mTransform ) ).c_str() );
 
 		//if(!is_similar(PrevTransform,RES,0.3f))
 		//{

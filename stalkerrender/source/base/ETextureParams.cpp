@@ -364,7 +364,7 @@ BOOL STextureParams::similar(STextureParams& tp1, xr_vector<AnsiString>& sel_par
         }else
         if(par_name=="Fade\\Alpha")
         {
-        	res = (color_get_A(fade_color)==color_get_A(tp1.fade_color));
+        	res = (XrColor::color_get_A(fade_color)==XrColor::color_get_A(tp1.fade_color));
         }else
         if(par_name=="Border\\Enabled Color")
         {

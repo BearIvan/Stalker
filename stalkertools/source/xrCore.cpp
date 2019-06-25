@@ -5,7 +5,6 @@
 
 
 
-#include "xrCore.h"
 XRCORE_API Fmatrix Fidentity;
 XRCORE_API Dmatrix Didentity;
 XRCORE_API CRandom Random; 
@@ -16,28 +15,23 @@ auto __vsnprintf = _vsnprintf;
 #pragma warning(pop)
 
 
-XRCORE_API xrCore Core;
 XRCORE_API u32 build_id;
 XRCORE_API LPCSTR build_date;
 
-namespace CPU
-{
-extern void Detect();
-};
 
 static u32 init_counter = 0;
 
 extern char g_application_path[256];
 
 //. extern xr_vector<shared_str>* LogFile;
-string64 xrCore::UserName;
-string64 xrCore::CompName;
-u32 xrCore::dwFrame=0;
+string64 XrCore::UserName;
+string64 XrCore::CompName;
+u32 XrCore::dwFrame=0;
 
 
 bool shared_str_initialized = false;
 
-void xrCore::Initialize()
+void XrCore::Initialize()
 {
 	if (init_counter)return;	init_counter++;
 	DWORD sz_user = sizeof(UserName);
@@ -49,15 +43,15 @@ void xrCore::Initialize()
 	Fidentity.identity(); 
 	Didentity.identity();
 	XrCompressor::Initialize();
-	XrStringContainer::Initilize();
-	XrSharedMemoryContainer::Initilize();
+	XrStringContainer::Initialize();
+	XrSharedMemoryContainer::Initialize();
 	CInifile::Initialize();
 	XrThread::Initialize();
 	//XrTimerController::Initialize();
 }
 
 
-void xrCore::Destroy()
+void XrCore::Destroy()
 {
 
 	if (0 == init_counter)
@@ -65,7 +59,7 @@ void xrCore::Destroy()
 		XrCompressor::Destroy();
 		XrStringContainer::Destroy();
 		XrSharedMemoryContainer::Destroy();
-		CInifile::Destroy();
+		//CInifile::Destroy();
 		XrThread::Destroy();
 		XrCompressor::Destroy();
 	}else

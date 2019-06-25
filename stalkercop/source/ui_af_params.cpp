@@ -9,8 +9,8 @@
 #include "ui\uiHelper.h"
 #include "string_table.h"
 
-u32 const red_clr   = color_argb(255,210,50,50);
-u32 const green_clr = color_argb(255,170,170,170);
+u32 const red_clr   = XrColor::color_argb(255,210,50,50);
+u32 const green_clr = XrColor::color_argb(255,170,170,170);
 
 CUIArtefactParams::CUIArtefactParams()
 {

@@ -68,7 +68,7 @@ void dxRainRender::Render(CEffect_Rain &owner)
 	// visual
 	float		factor_visual	= factor/2.f+.5f;
 
-	u32			u_rain_color	= color_rgba_f(f_rain_color.x,f_rain_color.y,f_rain_color.z,factor_visual);
+	u32			u_rain_color	=XrColor::color_rgba_f(f_rain_color.x,f_rain_color.y,f_rain_color.z,factor_visual);
 
 	// born _new_ if needed
 	float	b_radius_wrap_sqr	= XrMath::sqr((source_radius+.5f));

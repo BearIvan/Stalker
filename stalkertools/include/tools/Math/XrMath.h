@@ -1,8 +1,24 @@
 #pragma once
 #undef min
 #undef max
+IC bool _valid(const float x)
+{
+	// check for: Signaling NaN, Quiet NaN, Negative infinity ( –INF), Positive infinity (+INF), Negative denormalized, Positive denormalized
+	int cls = _fpclass(double(x));
+	if (cls&(_FPCLASS_SNAN + _FPCLASS_QNAN + _FPCLASS_NINF + _FPCLASS_PINF + _FPCLASS_ND + _FPCLASS_PD))
+		return false;
+
+	/* *****other cases are*****
+	_FPCLASS_NN Negative normalized non-zero
+	_FPCLASS_NZ Negative zero ( – 0)
+	_FPCLASS_PZ Positive 0 (+0)
+	_FPCLASS_PN Positive normalized non-zero
+	*/
+	return true;
+}
 class  XrMath
 {
+
 public:
 	static constexpr  float EPS_S = 0.0000001f;
 	static constexpr  float EPS = 0.0000100f;
@@ -436,3 +452,4 @@ IC _quaternion<T>& _quaternion<T>::set(const _matrix<T>& M)
 }
 #undef TRACE_QZERO_TOLERANCE
 #pragma pack(pop)
+

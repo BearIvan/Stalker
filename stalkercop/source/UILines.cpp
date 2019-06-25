@@ -505,7 +505,7 @@ u32 CUILines::GetColorFromText(const xr_string& str)const
 	single_color = str.substr(comma3_pos + 1, end - 1);
 	b = atoi(single_color.c_str());
 
-    return color_argb(a,r,g,b);
+    return XrColor::XrColor::color_argb(a,r,g,b);
 }
 
 CUILine* CUILines::ParseTextToColoredLine(const xr_string& str)
@@ -518,7 +518,7 @@ CUILine* CUILines::ParseTextToColoredLine(const xr_string& str)
 	do 
 	{
 		CutFirstColoredTextEntry(entry, color, tmp);		
-		line->AddSubLine(entry, subst_alpha(color, color_get_A(GetTextColor())));
+		line->AddSubLine(entry, XrColor::subst_alpha(color, XrColor::XrColor::color_get_A(GetTextColor())));
 	} 
 	while (tmp.size()>0);
 

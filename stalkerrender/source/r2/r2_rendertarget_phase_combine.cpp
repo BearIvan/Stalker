@@ -271,7 +271,7 @@ void	CRenderTarget::phase_combine	()
 			RCache.set_CullMode			(CULL_CCW);
 			RCache.set_Stencil			(FALSE);
 			RCache.set_ColorWriteEnable	();
-			CHK_DX(HW.pDevice->Clear	( 0L, NULL, D3DCLEAR_TARGET, color_rgba(127,127,0,127), 1.0f, 0L));
+			CHK_DX(HW.pDevice->Clear	( 0L, NULL, D3DCLEAR_TARGET,XrColor::color_rgba(127,127,0,127), 1.0f, 0L));
 			RImplementation.r_dsgraph_render_distort	();
 			if (g_pGamePersistent)	g_pGamePersistent->OnRenderPPUI_PP()	;	// PP-UI
 		}
@@ -421,7 +421,7 @@ void	CRenderTarget::phase_combine	()
 	// ********************* Debug
 	/*
 	if (0)		{
-		u32		C					= color_rgba	(255,255,255,255);
+		u32		C					=XrColor::color_rgba	(255,255,255,255);
 		float	_w					= float(Device.dwWidth)/3;
 		float	_h					= float(Device.dwHeight)/3;
 

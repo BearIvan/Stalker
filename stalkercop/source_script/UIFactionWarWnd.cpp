@@ -357,9 +357,9 @@ void CUIFactionWarWnd::set_amount_our_bonus( int value )
 {
 	for ( u32 i = 0; i < max_bonuce; ++i )
 	{
-		m_our_bonuces[i]->SetColor( color_rgba( 255, 255, 255, 70) );
+		m_our_bonuces[i]->SetColor( XrColor::color_rgba( 255, 255, 255, 70) );
 	}
-	u32 cr = color_rgba( 0, 255, 0, 255);
+	u32 cr = XrColor::color_rgba( 0, 255, 0, 255);
 	for ( int i = 0; i < value; ++i )
 	{
 		m_our_bonuces[i]->SetColor( cr );
@@ -370,9 +370,9 @@ void CUIFactionWarWnd::set_amount_enemy_bonus( int value )
 {
 	for ( u32 i = 0; i < max_bonuce; ++i )
 	{
-		m_enemy_bonuces[i]->SetColor( color_rgba( 255, 255, 255, 70) );
+		m_enemy_bonuces[i]->SetColor( XrColor::color_rgba( 255, 255, 255, 70) );
 	}
-	u32 cr = color_rgba( 0, 255, 0, 255);
+	u32 cr = XrColor::color_rgba( 0, 255, 0, 255);
 	for ( int i = 0; i < value; ++i )
 	{
 		m_enemy_bonuces[i]->SetColor( cr );

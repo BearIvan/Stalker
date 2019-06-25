@@ -350,7 +350,7 @@ void CStats::Show()
     if (!g_bDisableRedText)
     {
         CGameFont& F = *((CGameFont*)pFont);
-        F.SetColor(color_rgba(255, 16, 16, 255));
+        F.SetColor(XrColor::color_rgba(255, 16, 16, 255));
         F.OutSet(300, 300);
         F.SetHeightI(f_base_size * 2);
         if (fFPS < 30)     F.OutNext("FPS       < 30:   %3.1f", fFPS);
@@ -376,7 +376,7 @@ void CStats::Show()
     if (!g_bDisableRedText && errors.size())
     {
         CGameFont& F = *((CGameFont*)pFont);
-        F.SetColor(color_rgba(255, 16, 16, 191));
+        F.SetColor(XrColor::color_rgba(255, 16, 16, 191));
         F.OutSet(200, 0);
         F.SetHeightI(f_base_size);
 #if 0
@@ -479,13 +479,13 @@ void CStats::OnDeviceCreate()
 
     //
 #ifdef DEBUG
-    if (!g_bDisableRedText)   SetLogCB(_LogCallback);
+    if (!g_bDisableRedText) BearCore::BearLog::SetCallBack(_LogCallback);
 #endif
 }
 
 void CStats::OnDeviceDestroy()
 {
-    SetLogCB(0);
+	BearCore::BearLog::SetCallBack(0);
     xr_delete(pFont);
 }
 

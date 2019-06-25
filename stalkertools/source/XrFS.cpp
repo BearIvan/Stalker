@@ -21,7 +21,7 @@ CMemoryWriter::~CMemoryWriter()
     xr_free(data);
 }
 
-void CMemoryWriter::w(const void* ptr, u32 count)
+void CMemoryWriter::w(const void* ptr, bsize count)
 {
     if (position + count > mem_size)
     {
@@ -66,23 +66,23 @@ void IWriter::close_chunk()
 {
     VERIFY(!chunk_pos.empty());
 
-    int pos = tell();
+    bsize pos = tell();
     seek(chunk_pos.top());
-    w_u32(pos - chunk_pos.top() - 4);
+    w_u32(static_cast<uint32>(pos - chunk_pos.top() - 4));
     seek(pos);
     chunk_pos.pop();
 }
-u32 IWriter::chunk_size() // returns size of currently opened chunk, 0 otherwise
+bsize IWriter::chunk_size() // returns size of currently opened chunk, 0 otherwise
 {
     if (chunk_pos.empty()) return 0;
     return tell() - chunk_pos.top() - 4;
 }
 
-void IWriter::w_compressed(void* ptr, u32 count)
+void IWriter::w_compressed(void* ptr, bsize count)
 {
     BYTE* dest = 0;
-    unsigned dest_sz = 0;
-    _compressLZ(&dest, &dest_sz, ptr, count);
+    bsize dest_sz = 0;
+    XrCompressor::LZCompress(&dest, &dest_sz, ptr, count);
 
     // if (g_dummy_stuff)
     // g_dummy_stuff (dest,dest_sz,dest);
@@ -92,7 +92,7 @@ void IWriter::w_compressed(void* ptr, u32 count)
     xr_free(dest);
 }
 
-void IWriter::w_chunk(u32 type, void* data, u32 size)
+void IWriter::w_chunk(u32 type, void* data, bsize size)
 {
     open_chunk(type);
     if (type & CFS_CompressMark) w_compressed(data, size);
@@ -135,14 +135,14 @@ IReader* IReader::open_chunk(u32 ID)
 {
 	BOOL bCompressed;
 
-	u32 dwSize = find_chunk(ID, &bCompressed);
+	bsize dwSize = find_chunk(ID, &bCompressed);
 	if (dwSize != 0)
 	{
 		if (bCompressed)
 		{
 			BYTE* dest;
-			unsigned dest_sz;
-			_decompressLZ(&dest, &dest_sz, pointer(), dwSize);
+			bsize dest_sz;
+			XrCompressor::LZDecompress(&dest, &dest_sz, pointer(), dwSize);
 			return xr_new<CTempReader>(dest, dest_sz, tell() + dwSize);
 		}
 		else
@@ -161,7 +161,7 @@ void IReader::close()
 	}
 }
 
-#include "FS_impl.h"
+//#include "XrFS_impl.h"
 
 #ifdef TESTING_IREADER
 IReaderTestPolicy::~IReaderTestPolicy()
@@ -174,7 +174,7 @@ IReaderTestPolicy::~IReaderTestPolicy()
 find_chunk_counter g_find_chunk_counter;
 #endif // FIND_CHUNK_BENCHMARK_ENABLE
 
-u32 IReader::find_chunk(u32 ID, BOOL* bCompressed)
+bsize IReader::find_chunk(u32 ID, BOOL* bCompressed)
 {
 	return inherited::find_chunk(ID, bCompressed);
 }
@@ -201,8 +201,8 @@ IReader* IReader::open_chunk_iterator(u32& ID, IReader* _prev)
 	{
 		// compressed
 		u8* dest;
-		unsigned dest_sz;
-		_decompressLZ(&dest, &dest_sz, pointer(), _size);
+		bsize dest_sz;
+		XrCompressor::LZDecompress(&dest, &dest_sz, pointer(), _size);
 		return xr_new<CTempReader>(dest, dest_sz, tell() + _size);
 	}
 	else
@@ -212,7 +212,7 @@ IReader* IReader::open_chunk_iterator(u32& ID, IReader* _prev)
 	}
 }
 
-void IReader::r(void* p, int cnt)
+void IReader::r(void* p, bsize cnt)
 {
 	VERIFY(Pos + cnt <= Size);
 	CopyMemory(p, pointer(), cnt);
@@ -298,17 +298,17 @@ XRayBearWriter::~XRayBearWriter()
 {
 }
 
-void XRayBearWriter::seek(u32 pos)
+void XRayBearWriter::seek(bsize pos)
 {
 	m_stream->Seek(pos);
 }
 
-u32 XRayBearWriter::tell()
+bsize XRayBearWriter::tell()
 {
 	return m_stream->Tell();
 }
 
-void XRayBearWriter::w(const void * ptr, u32 count)
+void XRayBearWriter::w(const void * ptr, bsize count)
 {
 	m_stream->Write((void*)ptr, count);
 }

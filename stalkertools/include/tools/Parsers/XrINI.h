@@ -1,6 +1,5 @@
 #pragma once
 
-struct xr_token;
 class XRCORE_API CInifile
 {
 public:

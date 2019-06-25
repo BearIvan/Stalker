@@ -1,5 +1,4 @@
-#ifndef __M__
-#define __M__
+#pragma once
 /*
 * DirectX-compliant, ie row-column order, ie m[Row][Col].
 * Same as:
@@ -799,5 +798,3 @@ BOOL _valid(const _matrix<T>& m)
 
 extern XRCORE_API Fmatrix Fidentity;
 extern XRCORE_API Dmatrix Didentity;
-
-#endif

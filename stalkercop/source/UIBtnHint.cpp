@@ -35,7 +35,7 @@ void CUIButtonHint::OnRender	()
 	if(m_enabledOnFrame)
 	{
 		m_text->Update		();
-		SetTextureColor		(color_rgba(255,255,255,color_get_A(m_text->GetTextColor())));
+		SetTextureColor		(XrColor::color_rgba(255,255,255,XrColor::color_get_A(m_text->GetTextColor())));
 		Draw				();
 		m_enabledOnFrame	= false;
 	}

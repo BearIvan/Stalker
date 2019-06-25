@@ -412,7 +412,7 @@ void CObjectFactory::register_classes	()
 
 	ADD(CInventoryBox			,CSE_ALifeInventoryBox			,CLSID_INVENTORY_BOX			,"inventory_box");
 #ifndef NO_SINGLE
-	ADD(smart_cover::object		,CSE_SmartCover					,TEXT2CLSID("SMRTCOVR")			,"smart_cover");
+	ADD(smart_cover::object		,CSE_SmartCover					,XrClsid::String2Clsid("SMRTCOVR")			,"smart_cover");
 #endif // #ifndef NO_SINGLE
 
 #ifndef NO_XR_GAME
@@ -423,32 +423,32 @@ void CObjectFactory::register_classes	()
 	if (!g_dedicated_server)
 		return;
 
-	ADD(CElectricBall			,CSE_ALifeItemArtefact			,TEXT2CLSID("SCRPTART")			,"artefact_s");
-//	ADD(CtaGameArtefact			,CSE_ALifeItemArtefact			,TEXT2CLSID("AF_CTA")			,"ctaartefact_s");
-	ADD(CTorch					,CSE_ALifeItemTorch				,TEXT2CLSID("TORCH_S")			,"device_torch_s");
-	ADD(CStalkerOutfit			,CSE_ALifeItemCustomOutfit		,TEXT2CLSID("E_STLK")			,"equ_stalker_s");
-	ADD(CScope					,CSE_ALifeItem					,TEXT2CLSID("WP_SCOPE")			,"wpn_scope_s");
-	ADD(CWeaponAK74				,CSE_ALifeItemWeaponMagazinedWGL,TEXT2CLSID("WP_AK74")			,"wpn_ak74_s");
-	ADD(CWeaponLR300			,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_LR300")			,"wpn_lr300_s");
-	ADD(CWeaponBinoculars		,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_BINOC")			,"wpn_binocular_s");
-	ADD(CWeaponBM16				,CSE_ALifeItemWeaponShotGun		,TEXT2CLSID("WP_BM16")			,"wpn_bm16_s");
-	ADD(CWeaponGroza			,CSE_ALifeItemWeaponMagazinedWGL,TEXT2CLSID("WP_GROZA")			,"wpn_groza_s");
-	ADD(CWeaponSVD				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_SVD")			,"wpn_svd_s");
-	ADD(CWeaponHPSA				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_HPSA")			,"wpn_hpsa_s");
-	ADD(CWeaponKnife			,CSE_ALifeItemWeapon			,TEXT2CLSID("WP_KNIFE")			,"wpn_knife_s");
-	ADD(CWeaponPM				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_PM")			,"wpn_pm_s");
-	ADD(CWeaponRG6				,CSE_ALifeItemWeaponShotGun		,TEXT2CLSID("WP_RG6")			,"wpn_rg6_s");
-	ADD(CWeaponRPG7				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_RPG7")			,"wpn_rpg7_s");
-	ADD(CWeaponShotgun			,CSE_ALifeItemWeaponShotGun		,TEXT2CLSID("WP_SHOTG")			,"wpn_shotgun_s");
-	ADD(CWeaponSVU				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_SVU")			,"wpn_svu_s");
-	ADD(CWeaponUSP45			,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_USP45")			,"wpn_usp45_s");
-	ADD(CWeaponVal				,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_VAL")			,"wpn_val_s");
-	ADD(CWeaponVintorez			,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_VINT")			,"wpn_vintorez_s");
-	ADD(CWeaponWalther			,CSE_ALifeItemWeaponMagazined	,TEXT2CLSID("WP_WALTH")			,"wpn_walther_s");
-	ADD(CHairsZone				,CSE_ALifeZoneVisual			,TEXT2CLSID("ZS_BFUZZ")			,"zone_bfuzz_s");
-	ADD(CMosquitoBald			,CSE_ALifeAnomalousZone			,TEXT2CLSID("ZS_MBALD")			,"zone_mbald_s");
-	ADD(CMincer					,CSE_ALifeAnomalousZone			,TEXT2CLSID("ZS_GALAN")			,"zone_galant_s");
-	ADD(CMincer					,CSE_ALifeAnomalousZone			,TEXT2CLSID("ZS_MINCE")			,"zone_mincer_s");
-	ADD(CSpaceRestrictor		,CSE_ALifeSpaceRestrictor		,TEXT2CLSID("SPC_RS_S")			,"script_restr");
+	ADD(CElectricBall			,CSE_ALifeItemArtefact			,XrClsid::String2Clsid("SCRPTART")			,"artefact_s");
+//	ADD(CtaGameArtefact			,CSE_ALifeItemArtefact			,XrClsid::String2Clsid("AF_CTA")			,"ctaartefact_s");
+	ADD(CTorch					,CSE_ALifeItemTorch				,XrClsid::String2Clsid("TORCH_S")			,"device_torch_s");
+	ADD(CStalkerOutfit			,CSE_ALifeItemCustomOutfit		,XrClsid::String2Clsid("E_STLK")			,"equ_stalker_s");
+	ADD(CScope					,CSE_ALifeItem					,XrClsid::String2Clsid("WP_SCOPE")			,"wpn_scope_s");
+	ADD(CWeaponAK74				,CSE_ALifeItemWeaponMagazinedWGL,XrClsid::String2Clsid("WP_AK74")			,"wpn_ak74_s");
+	ADD(CWeaponLR300			,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_LR300")			,"wpn_lr300_s");
+	ADD(CWeaponBinoculars		,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_BINOC")			,"wpn_binocular_s");
+	ADD(CWeaponBM16				,CSE_ALifeItemWeaponShotGun		,XrClsid::String2Clsid("WP_BM16")			,"wpn_bm16_s");
+	ADD(CWeaponGroza			,CSE_ALifeItemWeaponMagazinedWGL,XrClsid::String2Clsid("WP_GROZA")			,"wpn_groza_s");
+	ADD(CWeaponSVD				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_SVD")			,"wpn_svd_s");
+	ADD(CWeaponHPSA				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_HPSA")			,"wpn_hpsa_s");
+	ADD(CWeaponKnife			,CSE_ALifeItemWeapon			,XrClsid::String2Clsid("WP_KNIFE")			,"wpn_knife_s");
+	ADD(CWeaponPM				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_PM")			,"wpn_pm_s");
+	ADD(CWeaponRG6				,CSE_ALifeItemWeaponShotGun		,XrClsid::String2Clsid("WP_RG6")			,"wpn_rg6_s");
+	ADD(CWeaponRPG7				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_RPG7")			,"wpn_rpg7_s");
+	ADD(CWeaponShotgun			,CSE_ALifeItemWeaponShotGun		,XrClsid::String2Clsid("WP_SHOTG")			,"wpn_shotgun_s");
+	ADD(CWeaponSVU				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_SVU")			,"wpn_svu_s");
+	ADD(CWeaponUSP45			,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_USP45")			,"wpn_usp45_s");
+	ADD(CWeaponVal				,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_VAL")			,"wpn_val_s");
+	ADD(CWeaponVintorez			,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_VINT")			,"wpn_vintorez_s");
+	ADD(CWeaponWalther			,CSE_ALifeItemWeaponMagazined	,XrClsid::String2Clsid("WP_WALTH")			,"wpn_walther_s");
+	ADD(CHairsZone				,CSE_ALifeZoneVisual			,XrClsid::String2Clsid("ZS_BFUZZ")			,"zone_bfuzz_s");
+	ADD(CMosquitoBald			,CSE_ALifeAnomalousZone			,XrClsid::String2Clsid("ZS_MBALD")			,"zone_mbald_s");
+	ADD(CMincer					,CSE_ALifeAnomalousZone			,XrClsid::String2Clsid("ZS_GALAN")			,"zone_galant_s");
+	ADD(CMincer					,CSE_ALifeAnomalousZone			,XrClsid::String2Clsid("ZS_MINCE")			,"zone_mincer_s");
+	ADD(CSpaceRestrictor		,CSE_ALifeSpaceRestrictor		,XrClsid::String2Clsid("SPC_RS_S")			,"script_restr");
 #endif // NO_XR_GAME
 }

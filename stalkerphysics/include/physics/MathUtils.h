@@ -388,7 +388,7 @@ const float				DET_CHECK_FATAL_EPS =0.8f					;//scale -35%  !? ;)
 	float d=DET(M);\
 	if( !XrMath::fsimilar(d,1.f,DET_CHECK_EPS) ){\
 		\
-		Msg("! matrix: %s ",get_string(M).c_str());	\
+		Msg("! matrix: %s ",XrDumpString::get_string(M).c_str());	\
 		Msg("! determinant: %f ",d);	\
 		Msg("! Is not valid rotational matrix");\
 		DEBUGFATALERROR1(XrMath::fsimilar(d,1.f,DET_CHECK_FATAL_EPS));\

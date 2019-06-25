@@ -731,7 +731,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #ifdef DEDICATED_SERVER
     Debug._initialize(true);
 #else // DEDICATED_SERVER
-    Debug._initialize(false);
+    //Debug.();
 #endif // DEDICATED_SERVER
 	BearCore::Initialize(TEXT("stalker"), TEXT(""));
 #ifdef NO_MULTI_INSTANCES
@@ -891,7 +891,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	}
 
 
-	xrCore::Initialize( NULL);
+	XrCore::Initialize();
 
 
     InitSettings();
@@ -899,8 +899,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     // Adjust player & computer name for Asian
     if (pSettings->line_exist("string_table", "no_native_input"))
     {
-        xr_strcpy(Core.UserName, sizeof(Core.UserName), "Player");
-        xr_strcpy(Core.CompName, sizeof(Core.CompName), "Computer");
+        xr_strcpy(XrCore::UserName, sizeof(XrCore::UserName), "Player");
+        xr_strcpy(XrCore::CompName, sizeof(XrCore::CompName), "Computer");
     }
 
 #ifndef DEDICATED_SERVER
@@ -963,7 +963,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         Console->Execute("stat_memory");
 	
         Startup();
-        xrCore::Destroy();
+        XrCore::Destroy();
 
         // check for need to execute something external
         if (/*xr_strlen(g_sLaunchOnExit_params) && */xr_strlen(g_sLaunchOnExit_app))

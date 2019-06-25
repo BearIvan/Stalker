@@ -48,7 +48,12 @@ const bchar* XrTrims::CopyVal(const bchar* src,  bchar* dst, char separator)
     size_t n;
     p = strchr(src, separator);
     n = (p > 0) ? (p - src) : xr_strlen(src);
-    strncpy(dst, src, n);
+	for (int i = 0; i < n; i++)
+	{
+		dst[i] = src[i];
+	}
+	//BearCore::BearString::Copy(dst, n + 1, src);
+   // strncpy(dst, src, n);
     dst[n] = 0;
     return dst;
 }
@@ -100,7 +105,7 @@ bsize XrTrims::GetItemCount(const bchar* src, char separator)
 bsize XrTrims::ParseItem(const bchar* src, xr_token* token_list)
 {
     for (bsize i = 0; token_list[i].name; i++)
-        if (!stricmp(src, token_list[i].name))
+        if (!_stricmp(src, token_list[i].name))
             return token_list[i].id;
     return bsize(-1);
 }

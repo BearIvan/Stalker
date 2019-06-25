@@ -545,7 +545,7 @@ void CMapLocation::UpdateSpotPointer(CUICustomMap* map, CMapSpotPointer* sp )
 			else
 				a=100;
 
-			sp->SetTextureColor( subst_alpha(clr,a));
+			sp->SetTextureColor( XrColor::subst_alpha(clr,a));
 		}
 	}
 }

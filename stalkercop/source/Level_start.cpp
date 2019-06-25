@@ -38,7 +38,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 
 	if ( xr_strlen(player_name) == 0 )
 	{
-		xr_strcpy( player_name, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName );
+		xr_strcpy( player_name, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
 	}
 	VERIFY( xr_strlen(player_name) );
 

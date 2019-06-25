@@ -113,12 +113,12 @@ void CCar::DbgUbdateCl()
 			m_pPhysicsShell->get_LinearVel(v);
 			string32 s;
 			xr_sprintf									(s,"speed, %f km/hour",v.magnitude()/1000.f*3600.f)								;
-			UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+			UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			UI().Font().pFontStat->OutSet			(120,530)																		;
 			UI().Font().pFontStat->OutNext		(s)																				;
 			UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(255,!b_transmission_switching*255,!b_transmission_switching*255));
 			UI().Font().pFontStat->OutNext		("Transmission num:      [%d]",m_current_transmission_num)						;
-			UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;	
+			UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;	
 			UI().Font().pFontStat->OutNext		("gear ratio:			  [%3.2f]",m_current_gear_ratio)						;
 			UI().Font().pFontStat->OutNext		("Power:      [%3.2f]",m_current_engine_power/(0.8f*1000.f))					;
 			UI().Font().pFontStat->OutNext		("rpm:      [%3.2f]",m_current_rpm/(1.f/60.f*2.f*XrMath::M_PI))							;
@@ -129,31 +129,31 @@ void CCar::DbgUbdateCl()
 			{
 				UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(0,255,0))														;
 				UI().Font().pFontStat->OutNext		("CLUTCH")																		;
-				UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+				UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			}
 			if(b_engine_on)
 			{
 				UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(0,255,0))														;
 				UI().Font().pFontStat->OutNext		("ENGINE ON")																		;
-				UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+				UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			}
 			if(b_stalling)
 			{
 				UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(255,0,0))														;
 				UI().Font().pFontStat->OutNext		("STALLING")																		;
-				UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+				UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			}
 			if(b_starting)
 			{
 				UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(255,0,0))														;
 				UI().Font().pFontStat->OutNext		("STARTER")																		;
-				UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+				UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			}
 			if(b_breaks)
 			{
 				UI().Font().pFontStat->SetColor		(D3DCOLOR_XRGB(255,0,0))														;
 				UI().Font().pFontStat->OutNext		("BREAKS")																		;
-				UI().Font().pFontStat->SetColor		(color_rgba(0xff,0xff,0xff,0xff))												;
+				UI().Font().pFontStat->SetColor		(XrColor::color_rgba(0xff,0xff,0xff,0xff))												;
 			}
 			//HUD().pFontStat->OutNext("Vel Magnitude: [%3.2f]",m_PhysicMovementControl->GetVelocityMagnitude());
 			//HUD().pFontStat->OutNext("Vel Actual:    [%3.2f]",m_PhysicMovementControl->GetVelocityActual());

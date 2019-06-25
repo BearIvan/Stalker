@@ -91,7 +91,7 @@ void	CRenderTarget::phase_scene_end		()
 
 	// common calc for quad-rendering
 	u32		Offset;
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;

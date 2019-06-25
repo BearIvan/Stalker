@@ -231,7 +231,7 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
                     int G = XrMath::clampr((298 * C - 100 * D - 208 * E + 128) >> 8, 0, 255);
                     int B = XrMath::clampr((298 * C + 516 * D + 128) >> 8, 0, 255);
 
-                    data[pos] = color_rgba(R, G, B, 255);
+                    data[pos] = XrColor::color_rgba(R, G, B, 255);
 
                     pos++;
                 }
@@ -294,7 +294,7 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
             {
                 u8 y = Y[w];
                 u32& clr = data[++pos];
-                clr = subst_alpha(clr, XrMath::iFloor(float((y - 16)) / K));
+                clr = XrColor::subst_alpha(clr, XrMath::iFloor(float((y - 16)) / K));
             }
         }
     }

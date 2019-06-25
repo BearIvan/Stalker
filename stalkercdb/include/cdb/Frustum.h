@@ -8,9 +8,6 @@
 #include "xrCDB.h"
 
 //#pragma once
-
-#include "tools/fixedvector.h"
-
 #pragma pack(push,4)
 
 enum EFC_Visible {

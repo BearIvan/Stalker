@@ -224,7 +224,7 @@ void dxEnvironmentRender::OnFrame(EnvironmentRef *env)
 		fog_color = (*dynamic_cast<CEnvironment*>(env)).CurrentEnv->fog_color;
 #endif	//	RENDER==R_R1
 
-	CHK_DX(HW.pDevice->SetRenderState(D3DRS_FOGCOLOR, color_rgba_f(fog_color.x, fog_color.y, fog_color.z, 0)));
+	CHK_DX(HW.pDevice->SetRenderState(D3DRS_FOGCOLOR,XrColor::color_rgba_f(fog_color.x, fog_color.y, fog_color.z, 0)));
 		if (gameVersionController->getGame() == gameVersionController->SOC)
 		{
 			CHK_DX(HW.pDevice->SetRenderState(D3DRS_FOGSTART, *(u32 *)(&(*dynamic_cast<CEnvironmentSOC*>(env)).CurrentEnv.fog_near)));
@@ -278,7 +278,7 @@ void dxEnvironmentRender::RenderSky(EnvironmentRef *env_)
 		mSky.translate_over(Device.vCameraPosition);
 
 		u32		i_offset, v_offset;
-		u32		C = color_rgba(XrMath::iFloor(env.CurrentEnv.sky_color.x*255.f), XrMath::iFloor(env.CurrentEnv.sky_color.y*255.f), XrMath::iFloor(env.CurrentEnv.sky_color.z*255.f), XrMath::iFloor(env.CurrentEnv.weight*255.f));
+		u32		C =XrColor::color_rgba(XrMath::iFloor(env.CurrentEnv.sky_color.x*255.f), XrMath::iFloor(env.CurrentEnv.sky_color.y*255.f), XrMath::iFloor(env.CurrentEnv.sky_color.z*255.f), XrMath::iFloor(env.CurrentEnv.weight*255.f));
 
 		// Fill index buffer
 		u16*	pib = RCache.Index.Lock(20 * 3, i_offset);
@@ -325,7 +325,7 @@ void dxEnvironmentRender::RenderSky(EnvironmentRef *env_)
 		mSky.translate_over(Device.vCameraPosition);
 
 		u32		i_offset, v_offset;
-		u32		C = color_rgba(XrMath::iFloor(env.CurrentEnv->sky_color.x*255.f), XrMath::iFloor(env.CurrentEnv->sky_color.y*255.f), XrMath::iFloor(env.CurrentEnv->sky_color.z*255.f), XrMath::iFloor(env.CurrentEnv->weight*255.f));
+		u32		C =XrColor::color_rgba(XrMath::iFloor(env.CurrentEnv->sky_color.x*255.f), XrMath::iFloor(env.CurrentEnv->sky_color.y*255.f), XrMath::iFloor(env.CurrentEnv->sky_color.z*255.f), XrMath::iFloor(env.CurrentEnv->weight*255.f));
 
 		// Fill index buffer
 		u16*	pib = RCache.Index.Lock(20 * 3, i_offset);
@@ -384,8 +384,8 @@ void dxEnvironmentRender::RenderClouds(EnvironmentRef *env_)
 		wd1.setHP(XrMath::PI_DIV_4 + XrMath::PI_DIV_8, 0);
 		wind_dir.set(wd0.x, wd0.z, wd1.x, wd1.z).mul(0.5f).add(0.5f).mul(255.f);
 		u32		i_offset, v_offset;
-		u32		C0 = color_rgba(XrMath::iFloor(wind_dir.x), XrMath::iFloor(wind_dir.y), XrMath::iFloor(wind_dir.w), XrMath::iFloor(wind_dir.z));
-		u32		C1 = color_rgba(XrMath::iFloor(env.CurrentEnv.clouds_color.x*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.y*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.z*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.w*255.f));
+		u32		C0 =XrColor::color_rgba(XrMath::iFloor(wind_dir.x), XrMath::iFloor(wind_dir.y), XrMath::iFloor(wind_dir.w), XrMath::iFloor(wind_dir.z));
+		u32		C1 =XrColor::color_rgba(XrMath::iFloor(env.CurrentEnv.clouds_color.x*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.y*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.z*255.f), XrMath::iFloor(env.CurrentEnv.clouds_color.w*255.f));
 
 		// Fill index buffer
 		u16*	pib = RCache.Index.Lock(env.CloudsIndices.size(), i_offset);
@@ -425,8 +425,8 @@ void dxEnvironmentRender::RenderClouds(EnvironmentRef *env_)
 		wd1.setHP(XrMath::PI_DIV_4 + XrMath::PI_DIV_8, 0);
 		wind_dir.set(wd0.x, wd0.z, wd1.x, wd1.z).mul(0.5f).add(0.5f).mul(255.f);
 		u32		i_offset, v_offset;
-		u32		C0 = color_rgba(XrMath::iFloor(wind_dir.x), XrMath::iFloor(wind_dir.y), XrMath::iFloor(wind_dir.w), XrMath::iFloor(wind_dir.z));
-		u32		C1 = color_rgba(XrMath::iFloor(env.CurrentEnv->clouds_color.x*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.y*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.z*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.w*255.f));
+		u32		C0 =XrColor::color_rgba(XrMath::iFloor(wind_dir.x), XrMath::iFloor(wind_dir.y), XrMath::iFloor(wind_dir.w), XrMath::iFloor(wind_dir.z));
+		u32		C1 =XrColor::color_rgba(XrMath::iFloor(env.CurrentEnv->clouds_color.x*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.y*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.z*255.f), XrMath::iFloor(env.CurrentEnv->clouds_color.w*255.f));
 
 		// Fill index buffer
 		u16*	pib = RCache.Index.Lock(env.CloudsIndices.size(), i_offset);

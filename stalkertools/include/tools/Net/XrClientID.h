@@ -1,5 +1,3 @@
-#ifndef client_idH
-#define client_idH
 #pragma once
 
 #pragma pack(push,1)
@@ -18,5 +16,3 @@ public:
     bool operator < (const ClientID& other)const { return value() < other.value(); };
 };
 #pragma pack(pop)
-
-#endif

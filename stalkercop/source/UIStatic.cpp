@@ -173,10 +173,10 @@ void CUIStatic::Update()
 			u32 clr				= m_lanim_xform.m_lanim->CalculateRGB(t-m_lanim_xform.m_lanim_start_time,frame);
 			
 			EnableHeading_int	(true);
-			float heading		= (XrMath::PI_MUL_2/255.0f) * color_get_A(clr);
+			float heading		= (XrMath::PI_MUL_2/255.0f) * XrColor::color_get_A(clr);
 			SetHeading			(heading);
 
-			float _value		= (float)color_get_R(clr);
+			float _value		= (float)XrColor::color_get_R(clr);
 			
 			float f_scale		= _value / 64.0f;
 			Fvector2 _sz;
@@ -255,12 +255,12 @@ void CUIStatic::AdjustWidthToText()
 
 void CUIStatic::ColorAnimationSetTextureColor(u32 color, bool only_alpha)
 {
-	SetTextureColor( (only_alpha)?subst_alpha(GetTextureColor(),color) : color);
+	SetTextureColor( (only_alpha)?XrColor::subst_alpha(GetTextureColor(),color) : color);
 }
 
 void CUIStatic::ColorAnimationSetTextColor(u32 color, bool only_alpha)
 {
-	TextItemControl()->SetTextColor( (only_alpha)?subst_alpha(TextItemControl()->GetTextColor(),color) : color);
+	TextItemControl()->SetTextColor( (only_alpha)?XrColor::subst_alpha(TextItemControl()->GetTextColor(),color) : color);
 }
 
 
@@ -316,6 +316,6 @@ void CUITextWnd::Update()
 
 void CUITextWnd::ColorAnimationSetTextColor(u32 color, bool only_alpha)
 {
-	SetTextColor( (only_alpha)?subst_alpha(GetTextColor(),color) : color);
+	SetTextColor( (only_alpha)?XrColor::subst_alpha(GetTextColor(),color) : color);
 }
 

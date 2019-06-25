@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Text_Console.h"
 #include "line_editor.h"
-
+#define     GetStockBrush(i)     ((HBRUSH)GetStockObject(i))
 extern char const* const ioc_prompt;
 extern char const* const ch_cursor;
 int g_svTextConsoleUpdateRate = 1;
@@ -85,7 +85,7 @@ void CTextConsole::CreateLogWnd()
     WNDCLASS wndClass = {0, TextConsole_LogWndProc, 0, 0, hInstance,
                          NULL,
                          LoadCursor(NULL, IDC_ARROW),
-                         GetStockBrush(BLACK_BRUSH),
+                       GetStockBrush(BLACK_BRUSH),
                          NULL, wndclass
                         };
     RegisterClass(&wndClass);
@@ -262,11 +262,14 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
     SetTextColor(hDC, RGB(255, 255, 255));
     TextOut(hDC, 0, Height - tm.tmHeight - 3, ioc_prompt, xr_strlen(ioc_prompt)); // ">>> "
 
-    SetTextColor(hDC, (COLORREF)bgr2rgb(get_mark_color(mark11)));
+    SetTextColor(hDC, (COLORREF)XrColor::bgr2rgb(get_mark_color(mark11)));
     TextOut(hDC, xb, Height - tm.tmHeight - 3, s_edt, xr_strlen(s_edt));
 
     SetTextColor(hDC, RGB(205, 205, 225));
-    u32 log_line = LogFile->size() - 1;
+
+	auto &str = BearCore::BearLog::Lock();
+
+    u32 log_line = str.size() - 1;
     string16 q, q2;
     itoa(log_line, q, 10);
     xr_strcpy(q2, sizeof(q2), "[");
@@ -277,21 +280,22 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
     TextOut(hDC, Width - 8 * qn, Height - tm.tmHeight - tm.tmHeight, q2, qn);
 
     int ypos = Height - tm.tmHeight - tm.tmHeight;
-    for (int i = LogFile->size() - 1 - scroll_delta; i >= 0; --i)
+
+    for (int i = str.size() - 1 - scroll_delta; i >= 0; --i)
     {
         ypos -= tm.tmHeight;
         if (ypos < y_top_max)
         {
             break;
         }
-        LPCSTR ls = ((*LogFile)[i]).c_str();
+        LPCSTR ls = *str[i];
 
         if (!ls)
         {
             continue;
         }
         Console_mark cm = (Console_mark)ls[0];
-        COLORREF c2 = (COLORREF)bgr2rgb(get_mark_color(cm));
+        COLORREF c2 = (COLORREF)XrColor::bgr2rgb(get_mark_color(cm));
         SetTextColor(hDC, c2);
         u8 b = (is_mark(cm)) ? 2 : 0;
         LPCSTR pOut = ls + b;
@@ -323,6 +327,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
             break;
         }
     }
+	BearCore::BearLog::Unlock();
 }
 /*
 void CTextConsole::IR_OnKeyboardPress( int dik ) !!!!!!!!!!!!!!!!!!!!!

@@ -1147,7 +1147,7 @@ void CUIXmlInit::InitColorDefs()
 		b		= uiXml.ReadAttribInt("color", i, "b", 0);
 		a		= uiXml.ReadAttribInt("color", i, "a", 255);
 		
-		(*m_pColorDefs)[name] = color_argb(a,r,g,b);
+		(*m_pColorDefs)[name] = XrColor::color_argb(a,r,g,b);
 	}
 }
 
@@ -1289,7 +1289,7 @@ u32	CUIXmlInit::GetColor(CUIXml& xml_doc, LPCSTR path, int index, u32 def_clr)
 		int g = xml_doc.ReadAttribInt(path, index, "g", def_clr);
 		int b = xml_doc.ReadAttribInt(path, index, "b", def_clr);
 		int a = xml_doc.ReadAttribInt(path, index, "a", 0xff);
-		return color_argb(a,r,g,b);
+		return XrColor::color_argb(a,r,g,b);
 	}
 
 }

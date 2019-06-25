@@ -23,8 +23,8 @@
 #	include <boost/crc.hpp>
 
 #	if NET_USE_LZO_COMPRESSION
-#		define	ENCODE	rtc9_compress
-#		define	DECODE	rtc9_decompress
+#		define	ENCODE	XrCompressor::Rtc9Compress
+#		define	DECODE XrCompressor::Rtc9Decompress
 #	else // NET_USE_LZO_COMPRESSION
 #		include "../StalkerTools/ppmd_compressor.h"
 #		define	ENCODE	ppmd_compress
@@ -311,7 +311,7 @@ u16 NET_Compressor::compressed_size	(const u32 &count)
 #if NET_USE_COMPRESSION
 
     #if NET_USE_LZO_COMPRESSION
-		u32			result = rtc_csize(count) + 1;
+		u32			result = XrCompressor::RtcSize(count) + 1;
     #else // NET_USE_LZO_COMPRESSION
 		u32			result = 64 + (count/8 + 1)*10;
     #endif // NET_USE_LZO_COMPRESSION

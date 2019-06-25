@@ -82,7 +82,7 @@ void CLevelGraph::draw_nodes	()
 	//RCache.set_Shader	(sh_debug);
 	DRender->SetShader(sh_debug);
 
-	F->SetColor			(color_rgba(255,255,255,255));
+	F->SetColor			(XrColor::color_rgba(255,255,255,255));
 
 	//////////////////////////////////////////////////////////////////////////
 	Fvector min_position,max_position;
@@ -134,7 +134,7 @@ void CLevelGraph::draw_nodes	()
 
 			// unpack plane
 			Fplane PL; Fvector vNorm;
-			pvDecompress(vNorm,N.plane());
+			XrCompressor::PvDecompress(vNorm,N.plane());
 			PL.build	(PC,vNorm);
 
 			// create vertices

@@ -50,7 +50,8 @@ void CRenderDevice::Destroy(void)
     RenderFactory->DestroyRenderDeviceRender(m_pRender);
     m_pRender = 0;
     xr_delete(Statistic);
-	
+	Timer.~XrTimerPaused();
+	TimerGlobal.~TimerGlobal();
 }
 
 #include "IGame_Level.h"

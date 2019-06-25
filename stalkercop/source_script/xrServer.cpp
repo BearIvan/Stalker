@@ -371,8 +371,16 @@ void xrServer::SendUpdatesToAll()
 }
 
 xr_vector<shared_str>	_tmp_log;
+void _LogCallback3(LPCSTR string)
+{
+#ifdef DEBUG
+	if (string && '!' == string[0] && ' ' == string[1])
+		Device.Statistic->errors.push_back(shared_str(string));
+#endif
+}
 void console_log_cb(LPCSTR text)
 {
+	_LogCallback3(text);
 	_tmp_log.push_back	(text);
 }
 
@@ -404,14 +412,14 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 				string1024			buff;
 				P.r_stringZ			(buff);
 				Msg("* Radmin [%s] is running command: %s", CL->ps->getName(), buff);
-				SetLogCB			(console_log_cb);
+				BearCore::BearLog::SetCallBack			(console_log_cb);
 				_tmp_log.clear		();
 				LPSTR		result_command;
 				string64	tmp_number_str;
 				xr_sprintf(tmp_number_str, " raid:%u", CL->ID.value());
 				STRCONCAT(result_command, buff, tmp_number_str);
 				Console->Execute	(result_command);
-				SetLogCB			(NULL);
+				BearCore::BearLog::SetCallBack(_LogCallback3);
 
 				NET_Packet			P_answ;			
 				for(u32 i=0; i<_tmp_log.size(); ++i)

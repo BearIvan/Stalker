@@ -1,6 +1,4 @@
-#ifndef _LOCAL_RAND
-#define _LOCAL_RAND
-
+#pragma once
 /*
 u32 dwRandSeed;
 IC u32 dwfRandom(u32 dwRange)
@@ -45,4 +43,3 @@ public:
 
 XRCORE_API extern CRandom Random;
 
-#endif

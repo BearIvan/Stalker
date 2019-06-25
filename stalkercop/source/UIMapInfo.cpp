@@ -89,10 +89,10 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
 		string64				txt_color_tag;
 		xr_sprintf				(	txt_color_tag, 
 									"%s[%u,%u,%u,%u]", "%c", 
-									color_get_A(txt_color), 
-									color_get_R(txt_color), 
-									color_get_G(txt_color),
-									color_get_B(txt_color) );
+									XrColor::color_get_A(txt_color), 
+									XrColor::color_get_R(txt_color), 
+									XrColor::color_get_G(txt_color),
+									XrColor::color_get_B(txt_color) );
 
 		ADD_TEXT("mp_players",		"players",		"Unknown");
 

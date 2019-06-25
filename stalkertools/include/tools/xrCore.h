@@ -44,13 +44,15 @@
 #include "XrTypes.h"
 
 #include "Debug/XrDebug.h"
-#include "Debug/XrLog.h"
 
 #include "Template/XrFastdelegate.h"
 
 #include "Utilities/XrRandom.h"
 
 #include "Math/XrMath.h"
+
+#include "Debug/XrLog.h"
+
 #include "Utilities/XrColor.h"
 
 #include "Utilities/XrClsid.h"
@@ -63,6 +65,7 @@
 #include "Template/XrList.h"
 #include "Template/XrMap.h"
 #include "Template/XrMultimap.h"
+#include "Template/XrMultiset.h"
 #include "Template/XrSet.h"
 #include "Template/XrStack.h"
 #include "Template/XrVector.h"
@@ -73,24 +76,31 @@
 #include  "Template/XrFixedSet.h"
 #include  "Template/XrFixedMap.h"
 
+using std::swap;
+
 #include "Utilities/XrClipboard.h"
-
-#include "Net/XrNetUtils.h"
-
-#include "Compressor/XrPPMDStream.h"
-#include "Compressor/XrCompressor.h"
-
-#include "Filesystem/XrFS.h"
-
-#include "Timer/XrTimerController.h"
-#include "Timer/XrTimer.h"
 
 #include "Utilities/XrSyncronize.h"
 
 #include "Utilities/XrStringContainer.h"
+
+#include "Utilities/XrToken.h"
+
+#include "Compressor/XrCompressor.h"
+
+#include "Filesystem/XrFS.h"
+
+#include "Net/XrNetUtils.h"
+
+#include "Timer/XrTimerController.h"
+#include "Timer/XrTimer.h"
+
 #include "Utilities/XrFlags.h"
 
 #include "Utilities/XrThread.h"
+
+DEFINE_VECTOR(shared_str, RStringVec, RStringVecIt);
+
 #include "Parsers/XrTrims.h"
 
 #include "Parsers/XrINI.h"
@@ -105,7 +115,13 @@
 
 #include "Utilities/XrSharedMemory.h"
 
-class XRCORE_API xrCore
+#include "Template/XrDestructor.h"
+
+#include "Utilities/XrShortcut.h"
+
+#include "Utilities/XrIntrusivePtr.h"
+
+class XRCORE_API XrCore
 {
 public:
 	static  string64 UserName;

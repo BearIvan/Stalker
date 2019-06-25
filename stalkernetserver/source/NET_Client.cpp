@@ -116,7 +116,7 @@ void	dump_URL	(LPCSTR p, IDirectPlay8Address* A)
 	string256	aaaa;
 	DWORD		aaaa_s			= sizeof(aaaa);
 	R_CHK		(A->GetURLA(aaaa,&aaaa_s));
-	Log			(p,aaaa);
+	Msg			("%s %s",p,aaaa);
 }
 
 // 
@@ -971,7 +971,7 @@ void	IPureClient::SendTo_LL(void* data, u32 size, u32 dwFlags, u32 dwTimeout)
 //	Msg("- Client::SendTo_LL [%d]", size);
 	if( FAILED(hr) )	
 	{
-		Msg	("! ERROR: Failed to send net-packet, reason: %s",::Debug.error2string(hr));
+		Msg	("! ERROR: Failed to send net-packet, reason: 0x%x", hr);
 //		const char* x = DXGetErrorString9(hr);
 		string1024 tmp="";
 		DXTRACE_ERR(tmp, hr);

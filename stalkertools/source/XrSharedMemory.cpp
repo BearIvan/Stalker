@@ -54,13 +54,14 @@ XrSharedMemoryValue* XrSharedMemoryContainer::dock(u32 dwCRC, u32 dwLength, void
     // if not found - create new entry
     if (0 == result)
     {
-        result = (XrSharedMemoryValue*)BearCore::BearMemory::Malloc(4 * sizeof(u32) + dwLength
+        result = (XrSharedMemoryValue*)BearCore::BearMemory::Malloc(sizeof(XrSharedMemoryValue) + dwLength
                                                , "storage: smem"
                                               );
         result->dwReference = 0;
         result->dwCRC = dwCRC;
         result->dwLength = dwLength;
-        CopyMemory(result->value, ptr, dwLength);
+        CopyMemory((uint8*)result+ sizeof(XrSharedMemoryValue), ptr, dwLength);
+		result->value = (uint8*)result + sizeof(XrSharedMemoryValue);
         container->insert(saved_place, result);
     }
 
@@ -82,14 +83,15 @@ void XrSharedMemoryContainer::clean()
 
 void XrSharedMemoryContainer::dump()
 {
-    cs->Enter();
+	return;
+   /* cs->Enter();
     cdb::iterator it = container->begin();
     cdb::iterator end = container->end();
-    FILE* F = fopen("x:\\$smem_dump$.txt", "w");
+   /* FILE* F = fopen("x:\\$smem_dump$.txt", "w");
     for (; it != end; it++)
         fprintf(F, "%4u : crc[%6x], %u bytes\n", (*it)->dwReference, (*it)->dwCRC, (*it)->dwLength);
     fclose(F);
-    cs->Leave();
+    cs->Leave();*/
 }
 
 u32 XrSharedMemoryContainer::stat_economy()

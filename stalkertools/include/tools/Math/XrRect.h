@@ -12,7 +12,7 @@ public:
     typedef _vector2<T> Tvector;
 public:
     union
-    {
+    { 
         struct
         {
             T x1, y1, x2, y2;

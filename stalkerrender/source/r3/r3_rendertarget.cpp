@@ -114,7 +114,7 @@ void	CRenderTarget::u_stencil_optimize	(eStencilOptimizeMode eSOM)
 	u32		Offset;
 	float	_w					= float(Device.dwWidth);
 	float	_h					= float(Device.dwHeight);
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	eps					= 0;
 	float	_dw					= 0.5f;
 	float	_dh					= 0.5f;
@@ -258,7 +258,7 @@ void	generate_jitter	(DWORD*	dest, u32 elem_count)
 		if (valid)	samples.push_back	(test);
 	}
 	for	(u32 it=0; it<elem_count; it++, dest++)
-		*dest	= color_rgba(samples[2*it].x,samples[2*it].y,samples[2*it+1].y,samples[2*it+1].x);
+		*dest	=XrColor::color_rgba(samples[2*it].x,samples[2*it].y,samples[2*it+1].y,samples[2*it+1].x);
 }
 
 CRenderTarget::CRenderTarget		()
@@ -290,9 +290,9 @@ CRenderTarget::CRenderTarget		()
 	im_noise_shift_w	= 0;
 	im_noise_shift_h	= 0;
 
-	param_color_base	= color_rgba(127,127,127,	0);
-	param_color_gray	= color_rgba(85,85,85,		0);
-	//param_color_add		= color_rgba(0,0,0,			0);
+	param_color_base	=XrColor::color_rgba(127,127,127,	0);
+	param_color_gray	=XrColor::color_rgba(85,85,85,		0);
+	//param_color_add		=XrColor::color_rgba(0,0,0,			0);
 	param_color_add.set( 0.0f, 0.0f, 0.0f );
 
 	dwAccumulatorClearMark			= 0;
@@ -1050,7 +1050,7 @@ void CRenderTarget::reset_light_marker( bool bResetStencil)
 		u32		Offset;
 		float	_w					= float(Device.dwWidth);
 		float	_h					= float(Device.dwHeight);
-		u32		C					= color_rgba	(255,255,255,255);
+		u32		C					=XrColor::color_rgba	(255,255,255,255);
 		float	eps					= 0;
 		float	_dw					= 0.5f;
 		float	_dh					= 0.5f;

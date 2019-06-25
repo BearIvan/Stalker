@@ -92,14 +92,14 @@ public:
 			if(m_lanim_clr.m_lanimFlags.test(LA_TEXTURECOLOR))
 			{
 				if(m_lanim_clr.m_lanimFlags.test(LA_ONLYALPHA))
-					ColorAnimationSetTextureColor	(color_get_A(clr), true);
+					ColorAnimationSetTextureColor	(XrColor::XrColor::color_get_A(clr), true);
 				else
 					ColorAnimationSetTextureColor	(clr, false);
 			}
 			if(m_lanim_clr.m_lanimFlags.test(LA_TEXTCOLOR))
 			{
 				if(m_lanim_clr.m_lanimFlags.test(LA_ONLYALPHA))
-					ColorAnimationSetTextColor				(color_get_A(clr), true);
+					ColorAnimationSetTextColor				(XrColor::XrColor::color_get_A(clr), true);
 				else
 					ColorAnimationSetTextColor				(clr, false);
 			}

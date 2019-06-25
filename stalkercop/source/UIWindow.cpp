@@ -73,7 +73,7 @@ void draw_wnds_rects()
 		Frect& r = *it;
 		UI().ClientToScreenScaled(r.lt, r.lt.x, r.lt.y);
 		UI().ClientToScreenScaled(r.rb, r.rb.x, r.rb.y);
-		draw_rect				(r,color_rgba(255,0,0,255));
+		draw_rect				(r,XrColor::color_rgba(255,0,0,255));
 	};
 
 	g_wnds_rects.clear();

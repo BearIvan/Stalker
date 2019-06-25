@@ -334,13 +334,13 @@ void CUIHudStatesWnd::UpdateActiveItemInfo( CActor* actor )
 		CWeaponMagazinedWGrenade* wpn = smart_cast<CWeaponMagazinedWGrenade*>(item);
 		if(wpn && wpn->m_bGrenadeMode)
 		{
-			m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238,155,23,150));
-			m_ui_grenade->SetTextColor(color_rgba(238,155,23,255));
+			m_ui_weapon_fmj_ammo->SetTextColor(XrColor::color_rgba(238,155,23,150));
+			m_ui_grenade->SetTextColor(XrColor::color_rgba(238,155,23,255));
 		}
 		else
 		{
-			m_ui_weapon_fmj_ammo->SetTextColor(color_rgba(238,155,23,255));
-			m_ui_grenade->SetTextColor(color_rgba(238,155,23,150));
+			m_ui_weapon_fmj_ammo->SetTextColor(XrColor::color_rgba(238,155,23,255));
+			m_ui_grenade->SetTextColor(XrColor::color_rgba(238,155,23,150));
 		}
 	}
 	else
@@ -547,10 +547,10 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 	}
 
 /*	
-	u32 c_white  = color_rgba( 255, 255, 255, 255 );
-	u32 c_green  = color_rgba( 0, 255, 0, 255 );
-	u32 c_yellow = color_rgba( 255, 255, 0, 255 );
-	u32 c_red    = color_rgba( 255, 0, 0, 255 );
+	u32 c_white  = XrColor::color_rgba( 255, 255, 255, 255 );
+	u32 c_green  = XrColor::color_rgba( 0, 255, 0, 255 );
+	u32 c_yellow = XrColor::color_rgba( 255, 255, 0, 255 );
+	u32 c_red    = XrColor::color_rgba( 255, 0, 0, 255 );
 */
 	LPCSTR texture = "";
 	string128 str;

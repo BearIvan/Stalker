@@ -661,7 +661,7 @@ void			CGameObject::dbg_DrawSkeleton	()
 				Fmatrix M;
 				M.invert			(I->b_IM);
 				Fvector h_size		= I->b_hsize;
-				Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 255, 0, 255));
+				Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 255, 0, 255));
 								   }break;
 			case SBoneShape::stCylinder:{
 				Fmatrix M;
@@ -670,13 +670,13 @@ void			CGameObject::dbg_DrawSkeleton	()
 				Fvector				h_size;
 				h_size.set			(I->c_cylinder.m_radius,I->c_cylinder.m_radius,I->c_cylinder.m_height*0.5f);
 				Fvector::generate_orthonormal_basis(M.k,M.j,M.i);
-				Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 127, 255, 255));
+				Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 127, 255, 255));
 										}break;
 			case SBoneShape::stSphere:{
 				Fmatrix				l_ball;
 				l_ball.scale		(I->s_sphere.R, I->s_sphere.R, I->s_sphere.R);
 				l_ball.translate_add(I->s_sphere.P);
-				Level().debug_renderer().draw_ellipse(l_ball, color_rgba(0, 255, 0, 255));
+				Level().debug_renderer().draw_ellipse(l_ball, XrColor::color_rgba(0, 255, 0, 255));
 									  }break;
 		};
 	};	
@@ -851,14 +851,15 @@ LPCSTR CGameObject::Name () const
 
 u32	CGameObject::ef_creature_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid creature type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }
 
 u32	CGameObject::ef_equipment_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid equipment type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(6);
@@ -866,7 +867,7 @@ u32	CGameObject::ef_equipment_type		() const
 
 u32	CGameObject::ef_main_weapon_type	() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid main weapon type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(5);
@@ -874,14 +875,14 @@ u32	CGameObject::ef_main_weapon_type	() const
 
 u32	CGameObject::ef_anomaly_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid anomaly type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }
 
 u32	CGameObject::ef_weapon_type			() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid weapon type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(u32(0));
@@ -889,7 +890,7 @@ u32	CGameObject::ef_weapon_type			() const
 
 u32	CGameObject::ef_detector_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp;  XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid detector type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }
@@ -1128,8 +1129,8 @@ void CGameObject::OnRender			()
 		float						half_cell_size = 1.f*ai().level_graph().header().cell_size()*.5f;
 		Fvector						additional = Fvector().set(half_cell_size,half_cell_size,half_cell_size);
 
-		render_box					(Visual(),XFORM(),Fvector().set(0.f,0.f,0.f),true,color_rgba(0,0,255,255));
-		render_box					(Visual(),XFORM(),additional,false,color_rgba(0,255,0,255));
+		render_box					(Visual(),XFORM(),Fvector().set(0.f,0.f,0.f),true,XrColor::color_rgba(0,0,255,255));
+		render_box					(Visual(),XFORM(),additional,false,XrColor::color_rgba(0,255,0,255));
 	}
 
 	if (0) {
@@ -1141,7 +1142,7 @@ void CGameObject::OnRender			()
 		M.scale						(bd);
 		Fmatrix						T = XFORM();
 		T.c.add						(bc);
-		renderer.draw_obb			(T,bd,color_rgba(255,255,255,255));
+		renderer.draw_obb			(T,bd,XrColor::color_rgba(255,255,255,255));
 	}
 }
 #endif // DEBUG

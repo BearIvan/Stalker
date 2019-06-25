@@ -109,6 +109,6 @@ private:
 template <typename T>
 inline void swap(buffer_vector<T>& left, buffer_vector<T>& right);
 
-#include "buffer_vector_inline.h"
+#include "XrBufferVector_Inline.h"
 
 #endif // BUFFER_VECTOR_H_INCLUDED

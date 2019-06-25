@@ -18,7 +18,7 @@
 
 // must be defined before include of FS_impl.h
 #define INCLUDE_FROM_ENGINE
-#include "tools/FS_impl.h"
+//#include "tools/FS_impl.h"
 
 #ifdef INGAME_EDITOR
 # include "../editor/ide.hpp"
@@ -475,7 +475,7 @@ void CRenderDevice::FrameMove()
 {
     dwFrame++;
 
-    Core.dwFrame = dwFrame;
+//    Core.dwFrame = dwFrame;
 
     dwTimeContinual = TimerMM.get_elapsed_time().asmiliseconds() - app_inactive_time;
 

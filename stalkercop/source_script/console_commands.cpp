@@ -160,8 +160,8 @@ static void full_memory_stats	( )
 	//u32		_game_lua		= game_lua_memory_usage();
 	u32		_render			= ::Render->memory_usage();
 #endif // SEVERAL_ALLOCATORS
-	int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
-	int		_eco_smem		= (int)g_pSharedMemoryContainer->stat_economy	();
+	int		_eco_strings	= (int)XrStringContainer::stat_economy()		;
+	int		_eco_smem		= (int)XrSharedMemoryContainer::stat_economy();
 	u32		m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;
 
 
@@ -532,7 +532,7 @@ public:
 		timer.restart				();
 #endif
 		if (!xr_strlen(S)){
-			strconcat			(sizeof(S),S,Core.UserName," - ","quicksave");
+			strconcat			(sizeof(S),S,XrCore::UserName," - ","quicksave");
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
@@ -715,7 +715,7 @@ class CCC_FlushLog : public IConsole_Command {
 public:
 	CCC_FlushLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR /**args/**/) {
-		FlushLog();
+		BearCore::BearLog::Flush();
 		Msg		("* Log file has been saved successfully!");
 	}
 };
@@ -724,8 +724,8 @@ class CCC_ClearLog : public IConsole_Command {
 public:
 	CCC_ClearLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR) {
-		LogFile->clear_not_free	();
-		FlushLog				();
+		//LogFile->clear_not_free	();
+		BearCore::BearLog::Flush				();
 		Msg						("* Log file has been cleaned successfully!");
 	}
 };

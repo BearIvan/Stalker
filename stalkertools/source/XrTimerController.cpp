@@ -20,7 +20,6 @@ void XrTimerController::UnRegister(XrTimerPaused *a)
 			return;
 		}
 	}
-	BEAR_ASSERT(false);
 }
 
 void XrTimerController::Initialize()
@@ -31,6 +30,7 @@ void XrTimerController::Initialize()
 void XrTimerController::Destroy()
 {
 	BEAR_ASSERT(m_timers);
+	BEAR_ASSERT(m_timers->size()==0);
 	BearCore::bear_delete(m_timers);
 }
 

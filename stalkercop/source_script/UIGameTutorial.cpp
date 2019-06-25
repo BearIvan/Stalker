@@ -118,11 +118,11 @@ void CUISequencer::Start(LPCSTR tutor_name)
 	CUIXmlInit xml_init;
 	if(UI().is_widescreen() && uiXml.NavigateToNode("global_wnd_16", 0) )
 	{
-		xml_init.AssignColor	("tut_gray", color_rgba(255,255,255,255));
+		xml_init.AssignColor	("tut_gray", XrColor::color_rgba(255,255,255,255));
 		xml_init.InitWindow		(uiXml, "global_wnd_16", 0, m_UIWindow);
 	}else
 	{
-		xml_init.AssignColor	("tut_gray", color_rgba(100,100,100,255));
+		xml_init.AssignColor	("tut_gray", XrColor::color_rgba(100,100,100,255));
 		xml_init.InitWindow		(uiXml, "global_wnd", 0, m_UIWindow);
 	}
 

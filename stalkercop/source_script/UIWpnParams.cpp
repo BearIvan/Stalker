@@ -173,11 +173,11 @@ void CUIWpnParams::SetInfo( CInventoryItem* slot_wpn, CInventoryItem& cur_wpn )
 		}
 
 		if(ammo_count==ammo_count2)
-			m_textAmmoCount2.SetTextColor(color_rgba(170,170,170,255));
+			m_textAmmoCount2.SetTextColor(XrColor::color_rgba(170,170,170,255));
 		else if(ammo_count<ammo_count2)
-			m_textAmmoCount2.SetTextColor(color_rgba(255,0,0,255));
+			m_textAmmoCount2.SetTextColor(XrColor::color_rgba(255,0,0,255));
 		else
-			m_textAmmoCount2.SetTextColor(color_rgba(0,255,0,255));
+			m_textAmmoCount2.SetTextColor(XrColor::color_rgba(0,255,0,255));
 
 		string128 str;
 		xr_sprintf(str, sizeof(str), "%d", ammo_count);

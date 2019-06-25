@@ -82,7 +82,7 @@ void					CRender::create					()
 	if (gameVersionController->getGame() != gameVersionController->COP)
 		o.color_mapping = 0;
 
-	Msg				("* color_mapping: %s, dev(%d),need(%d)",o.color_mapping?"used":"unavailable",v_dev,v_need);
+	Msg				("*color_mapping: %s, dev(%d),need(%d)",o.color_mapping?"used":"unavailable",v_dev,v_need);
 
 	m_skinning					= -1;
 

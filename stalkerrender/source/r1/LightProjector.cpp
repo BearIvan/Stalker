@@ -266,7 +266,7 @@ void CLightProjector::calculate	()
 
 		// Clear color to ambience
 		Fvector&	cap			=	LT->get_approximate();
-		CHK_DX					(HW.pDevice->Clear(0,0, D3DCLEAR_TARGET, color_rgba_f(cap.x,cap.y,cap.z, (cap.x+cap.y+cap.z)/4.f), 1, 0 ));
+		CHK_DX					(HW.pDevice->Clear(0,0, D3DCLEAR_TARGET,XrColor::color_rgba_f(cap.x,cap.y,cap.z, (cap.x+cap.y+cap.z)/4.f), 1, 0 ));
 
 		// calculate uv-gen matrix and clamper
 		Fmatrix					mCombine;		mCombine.mul	(mProject,mView);
@@ -333,7 +333,7 @@ void CLightProjector::calculate	()
 void CLightProjector::render	()
 {
 	/*
-	#define CLS(a) color_rgba(a,a,a,a)
+	#define CLS(a)XrColor::color_rgba(a,a,a,a)
 	RCache.set_xform_world		(Fidentity);
 	Device.Resources->OnFrameEnd	();
 	for (u32 it=0; it<boxes.size(); it++)

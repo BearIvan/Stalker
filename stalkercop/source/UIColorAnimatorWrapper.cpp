@@ -87,7 +87,7 @@ void CUIColorAnimatorWrapper::Update()
 			{
 				currColor		= colorAnimation->CalculateBGR(std::abs(animationTime - kRev), currFrame);
 				//Msg("name: %s, color: %x, frame: %d", *colorAnimation->cName,currColor, currFrame);
-				currColor		= color_rgba(color_get_B(currColor), color_get_G(currColor), color_get_R(currColor), color_get_A(currColor));
+				currColor		= XrColor::color_rgba(XrColor::color_get_B(currColor), XrColor::color_get_G(currColor), XrColor::color_get_R(currColor), XrColor::color_get_A(currColor));
 				// обновим время
 				animationTime	+= Device.dwTimeContinual/1000.0f - prevGlobalTime;
 			}
@@ -95,7 +95,7 @@ void CUIColorAnimatorWrapper::Update()
 			{
 				// В любом случае (при любом ФПС) последним кадром должен быть последний кадр анимации
 				currColor	= colorAnimation->CalculateBGR((colorAnimation->iFrameCount - 1) / colorAnimation->fFPS - kRev, currFrame);
-				currColor	= color_rgba(color_get_B(currColor), color_get_G(currColor), color_get_R(currColor), color_get_A(currColor));
+				currColor	= XrColor::color_rgba(XrColor::color_get_B(currColor), XrColor::color_get_G(currColor), XrColor::color_get_R(currColor), XrColor::color_get_A(currColor));
 				// Индицируем конец анимации
 				isDone = true;
 			}
@@ -103,7 +103,7 @@ void CUIColorAnimatorWrapper::Update()
 		else
 		{
 			currColor	= colorAnimation->CalculateBGR(Device.dwTimeContinual/1000.0f, currFrame);
-			currColor	= color_rgba(color_get_B(currColor), color_get_G(currColor), color_get_R(currColor), color_get_A(currColor));
+			currColor	= XrColor::color_rgba(XrColor::color_get_B(currColor), XrColor::color_get_G(currColor), XrColor::color_get_R(currColor), XrColor::color_get_A(currColor));
 		}
 
 		if (color)

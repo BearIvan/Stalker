@@ -8,7 +8,7 @@ public:
     typedef typename allocator allocator_type;
     typedef typename allocator_type::value_type value_type;
     typedef typename allocator_type::size_type size_type;
-    u32 size() const { return (u32)__super::size(); }
+    bsize size() const { return (bsize)__super::size(); }
 };
 
 #define DEF_DEQUE(N,T) typedef xr_deque< T > N; typedef N::iterator N##_it;

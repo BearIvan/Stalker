@@ -2,7 +2,6 @@
 #define r_constantsH
 #pragma once
 
-#include "tools//xr_resource.h"
 
 
 #if defined(USE_DX10) || defined(USE_DX11)

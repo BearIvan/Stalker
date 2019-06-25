@@ -246,7 +246,7 @@ RDEVICE.Statistic->TEST0.End		();
 #ifndef _EDITOR
 #ifdef		DEBUG
 			if(det_render_debug)
-				draw_obb(  mXform, color_rgba		(255,0,0,255) );//Fmatrix().mul_43( mXform, Fmatrix().scale(5,5,5) )
+				draw_obb(  mXform,XrColor::color_rgba		(255,0,0,255) );//Fmatrix().mul_43( mXform, Fmatrix().scale(5,5,5) )
 #endif
 #endif
 
@@ -262,7 +262,7 @@ RDEVICE.Statistic->TEST0.End		();
 			//float c_f						=	1.f;	//Interpolate		(gray255,x,z,d_size)+.5f;
 			//int c_dw						=	255;	//XrMath::iFloor			(c_f);
 			//XrMath::clamp							(c_dw,0,255);
-			//Item.C_dw						=	color_rgba		(c_dw,c_dw,c_dw,255);
+			//Item.C_dw						=	XrColor::color_rgba		(c_dw,c_dw,c_dw,255);
 #if RENDER==R_R1
 			Item.c_rgb.x					=	DS.r_qclr	(DS.c_r,	15);
 			Item.c_rgb.y					=	DS.r_qclr	(DS.c_g,	15);

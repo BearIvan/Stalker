@@ -18,7 +18,7 @@ void CBlender_DESC::Setup	(LPCSTR N)
 	xr_strcpy(cName,N);
 	strlwr(cName);
 	
-	xr_strcpy(cComputer,Core.CompName);			// Computer
+	xr_strcpy(cComputer,XrCore::CompName);			// Computer
 #ifndef _EDITOR
 	_tzset(); _time32( (__time32_t*)&cTime );	// Time
 #else

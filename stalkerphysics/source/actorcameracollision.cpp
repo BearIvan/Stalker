@@ -111,12 +111,12 @@ static void get_viewport_geom(Fvector &box, Fmatrix &form, const CCameraBase &ca
 #ifdef DEBUG
 	if( !_valid( form ) )
 	{
-		dump( "form", form );
-		dump( "camera.Right()", camera.Right() );
-		dump( "camera.Up()", camera.Up() );
-		dump( "camera.Direction()", camera.Direction() );
-		dump( "camera.Position()", camera.Position() );
-		dump( "box", box );
+		XrDumpString::dump( "form", form );
+		XrDumpString::dump( "camera.Right()", camera.Right() );
+		XrDumpString::dump( "camera.Up()", camera.Up() );
+		XrDumpString::dump( "camera.Direction()", camera.Direction() );
+		XrDumpString::dump( "camera.Position()", camera.Position() );
+		XrDumpString::dump( "box", box );
 		DEBUGFATALERROR1(false);
 	}
 #endif

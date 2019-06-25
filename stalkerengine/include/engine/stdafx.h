@@ -49,11 +49,7 @@
 // Our headers
 #include "engine.h"
 #include "defines.h"
-#ifndef NO_XRLOG
-#include "tools/log.h"
-#endif
 #include "device.h"
-#include "tools/fs.h"
 
 #include "cdb/xrXRC.h"
 

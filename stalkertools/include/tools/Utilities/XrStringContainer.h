@@ -5,19 +5,21 @@ struct XrStringContainerValue
 	bsize dwLength;
 	u32 dwCRC;
 	XrStringContainerValue* next;
-	char value[];
+	char *value;
 };
 namespace Impl
 {
 	struct XrStringContainer;
 }
+class IWriter; 
  class XRCORE_API XrStringContainer
 {
+	 friend class XRCORE_API XrCore;
 	 BEAR_CLASS_STATIC(XrStringContainer);
 
 	static xrCriticalSection *cs;
 	static Impl::XrStringContainer* impl;
-	friend class XRCORE_API XrCore;
+	
 	static void Initialize();
 	static void Destroy();
 public:
@@ -27,7 +29,7 @@ public:
 	static void dump();
 	static void dump(IWriter* W);
 	static void verify();
-	static u32 stat_economy();
+	static bsize stat_economy();
 };
 class shared_str
 {
@@ -60,7 +62,7 @@ public:
 	IC const bchar*  c_str() const { return p_ ? p_->value : 0; }
 
 	// misc func
-	IC u32 size() const { if (0 == p_) return 0; else return p_->dwLength; }
+	IC bsize size() const { if (0 == p_) return 0; else return p_->dwLength; }
 	IC void swap(shared_str& rhs) { XrStringContainerValue* tmp = p_; p_ = rhs.p_; rhs.p_ = tmp; }
 	IC bool equal(const shared_str& rhs) const { return (p_ == rhs.p_); }
 	IC shared_str& __cdecl printf(const char* format, ...)
@@ -75,3 +77,21 @@ public:
 		return (shared_str&)*this;
 	}
 };
+IC bool operator == (shared_str const& a, shared_str const& b) { return a._get() == b._get(); }
+IC bool operator != (shared_str const& a, shared_str const& b) { return a._get() != b._get(); }
+IC bool operator < (shared_str const& a, shared_str const& b) { return a._get() < b._get(); }
+IC bool operator > (shared_str const& a, shared_str const& b) { return a._get() > b._get(); }
+
+// externally visible standart functionality
+IC void swap(shared_str& lhs, shared_str& rhs) { lhs.swap(rhs); }
+DEFINE_SET(shared_str, RStringSet, RStringSetIt);
+
+IC bsize xr_strlen(shared_str& a) { return a.size(); }
+IC int xr_strcmp(const shared_str& a, const char* b) { return xr_strcmp(*a, b); }
+IC int xr_strcmp(const char* a, const shared_str& b) { return xr_strcmp(a, *b); }
+IC int xr_strcmp(const shared_str& a, const shared_str& b)
+{
+	if (a.equal(b)) return 0;
+	else return xr_strcmp(*a, *b);
+}
+IC void xr_strlwr(shared_str& src) { if (*src) { LPSTR lp = xr_strdup(*src); xr_strlwr(lp); src = lp; xr_free(lp); } }

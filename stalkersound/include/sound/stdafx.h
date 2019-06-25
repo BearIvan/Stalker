@@ -32,7 +32,6 @@
 
 #define ENGINE_API
 
-#include "tools/xr_resource.h"
 
 #ifdef _EDITOR    
 # 	include "ETools.h"

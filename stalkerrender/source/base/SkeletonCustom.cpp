@@ -714,7 +714,7 @@ void CKinematics::RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT* 
 			wm->XFORM()->transform_tiny	(V->p,P);
 			V->t.set					(F.uv[k]);
 			int			aC				= XrMath::iFloor	( w * 255.f);	XrMath::clamp	(aC,0,255);
-			V->color					= color_rgba(128,128,128,aC);
+			V->color					=XrColor::color_rgba(128,128,128,aC);
 			V++;
 		}
 	}

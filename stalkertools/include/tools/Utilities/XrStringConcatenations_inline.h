@@ -1,4 +1,4 @@
-
+#pragma once
 
 class XrStringTupples
 {
@@ -61,13 +61,13 @@ public:
         helper<5>::add_string(*this, p5);
     }
 
-    void error_process() const;
+    XRCORE_API void error_process() const;
 
-    inline u32 size() const
+    inline bsize size() const
     {
         VERIFY(m_count > 0);
 
-        u32 result = m_strings[0].second;
+		bsize result = m_strings[0].second;
 
         for (u32 j = 1; j < m_count; ++j)
             result += m_strings[j].second;
@@ -105,7 +105,7 @@ private:
     };
 
 private:
-    template <u32 index>
+    template <bsize index>
     struct helper
     {
 
@@ -151,8 +151,9 @@ private:
     }; // struct helper
 
 private:
-    typedef std::pair<LPCSTR, u32> StringPair;
-	static void  check_stack_overflow(u32 stack_increment);
+    typedef std::pair<LPCSTR, bsize> StringPair;
+	public:
+		XRCORE_API static  void  check_stack_overflow(u32 stack_increment);
 
 private:
     StringPair m_strings[max_item_count];
@@ -161,8 +162,4 @@ private:
 
 
 
-} // namespace detail
 
-} // namespace core
-
-} // namespace xray

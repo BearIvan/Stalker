@@ -2,10 +2,6 @@
 #define _PURE_H_AAA_
 #include "engine.h"
 #include "defines.h"
-#ifndef NO_XRLOG
-#include "tools/log.h"
-#endif
-#include "tools/fs.h"
 
 #include "cdb/xrXRC.h"
 

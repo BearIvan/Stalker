@@ -8,7 +8,6 @@
 #include "stdafx.h"
 #include "line_edit_control.h"
 
-#include "tools/os_clipboard.h"
 #include "object_broker.h"
 #include "xr_input.h"
 
@@ -625,14 +624,14 @@ void line_edit_control::copy_to_clipboard()
     PSTR buf = (PSTR)malloc((edit_len + 1) * sizeof(char));
     strncpy_s(buf, edit_len + 1, m_edit_str + m_p1, m_p2 - m_p1);
     buf[edit_len] = 0;
-    os_clipboard::copy_to_clipboard(buf);
+    XrClipboard::copy_to_clipboard(buf);
 	free(buf);
     m_mark = false;
 }
 
 void line_edit_control::paste_from_clipboard()
 {
-    os_clipboard::paste_from_clipboard(m_inserted, m_buffer_size - 1);
+	XrClipboard::paste_from_clipboard(m_inserted, m_buffer_size - 1);
 }
 
 void line_edit_control::cut_to_clipboard()

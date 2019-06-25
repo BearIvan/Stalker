@@ -58,7 +58,7 @@ void CUIDragDropReferenceList::SetItem(CUICellItem* itm, Ivector2 cell_pos)
 	ref->SetShader(itm->GetShader());
 	ref->SetTextureRect(itm->GetTextureRect());
 	ref->TextureOn();
-	ref->SetTextureColor(color_rgba(255,255,255,255));
+	ref->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,255));
 	ref->SetStretchTexture(true);
 
 	CUICell& C = m_container->GetCellAt(cell_pos);
@@ -77,7 +77,7 @@ CUICellItem* CUIDragDropReferenceList::RemoveItem(CUICellItem* itm, bool force_r
 	{
 		u8 index = u8(vec2.x);
 		xr_strcpy(ACTOR_DEFS::g_quick_use_slots[index], "");
-		m_references[index]->SetTextureColor(color_rgba(255,255,255,0));
+		m_references[index]->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,0));
 	}
 	inherited::RemoveItem(itm, force_root);
 	return NULL;
@@ -95,7 +95,7 @@ void CUIDragDropReferenceList::LoadItemTexture(LPCSTR section, Ivector2 cell_pos
 	texture_rect.rb.add(texture_rect.lt);
 	ref->SetTextureRect(texture_rect);
 	ref->TextureOn();
-	ref->SetTextureColor(color_rgba(255,255,255,255));
+	ref->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,255));
 	ref->SetStretchTexture(true);
 }
 
@@ -124,12 +124,12 @@ void CUIDragDropReferenceList::ReloadReferences(CInventoryOwner* pActor)
 			else
 			{
 				LoadItemTexture(item_name, Ivector2().set(i, 0));
-				ref->SetTextureColor(color_rgba(255,255,255,100));
+				ref->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,100));
 			}
 		}
 		else
 		{
-			ref->SetTextureColor(color_rgba(255,255,255,0));
+			ref->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,0));
 		}
 	}
 }
@@ -149,7 +149,7 @@ void CUIDragDropReferenceList::OnItemDBClick(CUIWindow* w, void* pData)
 				inherited::RemoveItem(GetCellAt(Ivector2().set(index, 0)).m_item, false);
 		}
 		xr_strcpy(ACTOR_DEFS::g_quick_use_slots[index], "");
-		(*it)->SetTextureColor(color_rgba(255,255,255,0));
+		(*it)->SetTextureColor(XrColor::XrColor::color_rgba(255,255,255,0));
 	}
 }
 

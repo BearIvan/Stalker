@@ -8,7 +8,7 @@ struct XrSharedMemoryValue
     u32 dwCRC;
     u32 dwLength;
     u32 _align_16;
-    u8 value[];
+    u8 *value;
 };
 IC bool smem_sort(const XrSharedMemoryValue* A, const XrSharedMemoryValue* B)
 {
@@ -70,7 +70,7 @@ public:
 
     void create(u32 dwCRC, u32 dwLength, T* ptr)
     {
-		XrSharedMemoryContainer::dock(dwCRC, dwLength*sizeof(T), ptr);
+		auto v= XrSharedMemoryContainer::dock(dwCRC, dwLength*sizeof(T), ptr);
         if (0 != v) v->dwReference++;
         _dec();
         p_ = v;

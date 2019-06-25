@@ -521,7 +521,7 @@ void CSE_ALifeObject::FillProps				(LPCSTR pref, PropItemVec& items)
 
 u32	CSE_ALifeObject::ef_equipment_type		() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife equipment type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 //	return		(6);
@@ -529,7 +529,7 @@ u32	CSE_ALifeObject::ef_equipment_type		() const
 
 u32	 CSE_ALifeObject::ef_main_weapon_type	() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife main weapon type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 //	return		(5);
@@ -537,7 +537,7 @@ u32	 CSE_ALifeObject::ef_main_weapon_type	() const
 
 u32	 CSE_ALifeObject::ef_weapon_type		() const
 {
-//	string16					temp; CLSID2TEXT(m_tClassID,temp);
+//	string16					temp;  XrClsid::Clsid2String(m_tClassID,temp);
 //	R_ASSERT3	(false,"Invalid alife weapon type request, virtual function is not properly overloaded!",temp);
 //	return		(u32(-1));
 	return		(0);
@@ -545,7 +545,7 @@ u32	 CSE_ALifeObject::ef_weapon_type		() const
 
 u32	CSE_ALifeObject::ef_detector_type		() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife detector type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 }
@@ -1642,28 +1642,28 @@ CSE_Abstract *CSE_ALifeSchedulable::init	()
 
 u32	CSE_ALifeSchedulable::ef_creature_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife creature type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_anomaly_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife anomaly type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_weapon_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife weapon type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_detector_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp;  XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife detector type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }

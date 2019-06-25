@@ -79,15 +79,15 @@ struct	vertHW_1W
 		_P[1]		= q_P(P.y);
 		_P[2]		= q_P(P.z);
 		_P[3]		= q_P(1);
-		_N_I		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(index));
-		_T			= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), 0);
-		_B			= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), 0);
+		_N_I		=XrColor::color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(index));
+		_T			=XrColor::color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), 0);
+		_B			=XrColor::color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), 0);
 		_tc[0]		= q_tc(tc.x);
 		_tc[1]		= q_tc(tc.y);
 	}
 	u16 get_bone() const
 	{
-		return	(u16)color_get_A(_N_I)/3;
+		return	(u16)XrColor::color_get_A(_N_I)/3;
 	}
 	void get_pos_bones( Fvector& p, CKinematics* Parent ) const
 	{
@@ -127,9 +127,9 @@ struct	vertHW_2W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w*255.f+.5f),0,255)));
-		_T			= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), 0);
-		_B			= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), 0);
+		_N_w		=XrColor::color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w*255.f+.5f),0,255)));
+		_T			=XrColor::color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), 0);
+		_B			=XrColor::color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), 0);
 		_tc_i[0]	= q_tc	(tc.x);
 		_tc_i[1]	= q_tc	(tc.y);
 		_tc_i[2]	= s16	(index0);
@@ -137,7 +137,7 @@ struct	vertHW_2W
 	}
 	float get_weight() const
 	{
-		return	float(color_get_A(_N_w))/255.f;
+		return	float(XrColor::color_get_A(_N_w))/255.f;
 	}
 	u16 get_bone(u16 w) const
 	{
@@ -184,9 +184,9 @@ struct	vertHW_3W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
-		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
-		_B_i		= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(index2));
+		_N_w		=XrColor::color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
+		_T_w		=XrColor::color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
+		_B_i		=XrColor::color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(index2));
 		_tc_i[0]	= q_tc	(tc.x);
 		_tc_i[1]	= q_tc	(tc.y);
 		_tc_i[2]	= s16	(index0);
@@ -194,11 +194,11 @@ struct	vertHW_3W
 	}
 	float get_weight0() const
 	{
-		return	float(color_get_A(_N_w))/255.f;
+		return	float(XrColor::color_get_A(_N_w))/255.f;
 	}
 	float get_weight1() const
 	{
-		return	float(color_get_A(_T_w))/255.f;
+		return	float(XrColor::color_get_A(_T_w))/255.f;
 	}
 	u16 get_bone(u16 w) const
 	{
@@ -208,7 +208,7 @@ struct	vertHW_3W
 		case 1:
 			return	(u16)_tc_i[w+2]/3;
 		case 2:
-			return	(u16)color_get_A(_B_i)/3;
+			return	(u16)XrColor::color_get_A(_B_i)/3;
 		}
 		R_ASSERT(0);
 		return 0;
@@ -266,37 +266,37 @@ struct	vertHW_4W
 		_P[1]		= q_P	(P.y);
 		_P[2]		= q_P	(P.z);
 		_P[3]		= 1;
-		_N_w		= color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
-		_T_w		= color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
-		_B_w		= color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(XrMath::clampr(XrMath::iFloor(w2*255.f+.5f),0,255)));
+		_N_w		=XrColor::color_rgba(q_N(N.x), q_N(N.y), q_N(N.z), u8(XrMath::clampr(XrMath::iFloor(w0*255.f+.5f),0,255)));
+		_T_w		=XrColor::color_rgba(q_N(T.x), q_N(T.y), q_N(T.z), u8(XrMath::clampr(XrMath::iFloor(w1*255.f+.5f),0,255)));
+		_B_w		=XrColor::color_rgba(q_N(B.x), q_N(B.y), q_N(B.z), u8(XrMath::clampr(XrMath::iFloor(w2*255.f+.5f),0,255)));
 		_tc[0]		= q_tc	(tc.x);
 		_tc[1]		= q_tc	(tc.y);
-		_i		= color_rgba( u8(index0), u8(index1), u8(index2), u8(index3));
+		_i		=XrColor::color_rgba( u8(index0), u8(index1), u8(index2), u8(index3));
 	}
 	float get_weight0() const
 	{
-		return	float(color_get_A(_N_w))/255.f;
+		return	float(XrColor::color_get_A(_N_w))/255.f;
 	}
 	float get_weight1() const
 	{
-		return	float(color_get_A(_T_w))/255.f;
+		return	float(XrColor::color_get_A(_T_w))/255.f;
 	}
 	float get_weight2() const
 	{
-		return	float(color_get_A(_B_w))/255.f;
+		return	float(XrColor::color_get_A(_B_w))/255.f;
 	}
 	u16 get_bone(u16 w) const
 	{
 		switch(w)
 		{
 		case 0:
-			return	(u16)color_get_R(_i)/3;
+			return	(u16)XrColor::color_get_R(_i)/3;
 		case 1:
-			return	(u16)color_get_G(_i)/3;
+			return	(u16)XrColor::color_get_G(_i)/3;
 		case 2:
-			return	(u16)color_get_B(_i)/3;
+			return	(u16)XrColor::color_get_B(_i)/3;
 		case 3:
-			return	(u16)color_get_A(_i)/3;
+			return	(u16)XrColor::color_get_A(_i)/3;
 		}
 		R_ASSERT(0);
 		return 0;
@@ -420,7 +420,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned1W);
-				u32 crc					= crc32( _verts_, size);
+				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
 				Vertices1W.create		( crc, V.vCount, (vertBoned1W*)_verts_);
 			}
 
@@ -461,7 +461,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned2W);
-				u32 crc					= crc32( _verts_, size);
+				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
 				Vertices2W.create		( crc, V.vCount, (vertBoned2W*)_verts_);
 			}
 
@@ -502,7 +502,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned3W);
-				u32 crc					= crc32( _verts_, size);
+				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
 				Vertices3W.create		( crc, V.vCount, (vertBoned3W*)_verts_);
 			}
 
@@ -546,7 +546,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned4W);
-				u32 crc					= crc32( _verts_, size);
+				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
 				Vertices4W.create		( crc, V.vCount, (vertBoned4W*)_verts_);
 			}
 
@@ -710,9 +710,9 @@ static void verify_vertex( const vertex_type& v, const Fvisual* V, const CKinema
 			Msg( "v.get_bone_id(i): %d, Parent->LL_BoneCount() %d ", v.get_bone_id(i), Parent->LL_BoneCount() );
 			Msg( "&v: %p, &V: %p, indices: %p", &v, V, indices );
 			Msg( " iBase: %d, iCount: %d, V->iBase %d, V->iCount %d, V->vBase: %d,  V->vCount  %d, vertex_idx: %d, idx: %d", iBase, iCount, V->iBase, V->iCount, V->vBase, V->vCount, vertex_idx, idx  );
-			Msg( " v.P: %s , v.N: %s, v.T: %s, v.B: %s", get_string( v.P ).c_str(),get_string(  v.N ).c_str(),get_string(  v.T ).c_str(),get_string(  v.B  ).c_str());
+			Msg( " v.P: %s , v.N: %s, v.T: %s, v.B: %s", XrDumpString::get_string( v.P ).c_str(), XrDumpString::get_string(  v.N ).c_str(), XrDumpString::get_string(  v.T ).c_str(), XrDumpString::get_string(  v.B  ).c_str());
 			Msg( "Parent->dbg_name: %s ", Parent->dbg_name.c_str() );
-			FlushLog();
+			BearCore::BearLog::Flush();
 			FATAL( "v.get_bone_id(i) >= Parent->LL_BoneCount()" );
 		}
 #endif        

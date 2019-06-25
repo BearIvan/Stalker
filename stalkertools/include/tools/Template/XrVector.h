@@ -14,11 +14,11 @@ public:
 	xr_vector() : inherited() {}
 	xr_vector(size_t _count, const T& _value) : inherited(_count, _value) {}
 	explicit xr_vector(size_t _count) : inherited(_count) {}
-	u32 size() const { return (u32)inherited::size(); }
+	bsize size() const { return (bsize)inherited::size(); }
 
 	void clear_and_free() { inherited::clear(); }
 	void clear_not_free() { erase(begin(), end()); }
-	void clear_and_reserve() { if (capacity() <= (size() + size() / 4)) clear_not_free(); else { u32 old = size(); clear_and_free(); reserve(old); } }
+	void clear_and_reserve() { if (capacity() <= (size() + size() / 4)) clear_not_free(); else { bsize old = size(); clear_and_free(); reserve(old); } }
 
 	void clear() { clear_and_free(); }
 
@@ -33,7 +33,7 @@ private:
     typedef std::vector<bool, xalloc<bool> > inherited;
 
 public:
-    u32 size() const { return (u32)inherited::size(); }
+    bsize size() const { return (bsize)inherited::size(); }
     void clear() { erase(begin(), end()); }
 };
 
@@ -44,7 +44,7 @@ private:
     typedef std::vector<bool, allocator> inherited;
 
 public:
-    u32 size() const { return (u32)inherited::size(); }
+    bsize size() const { return (bsize)inherited::size(); }
     void clear() { erase(begin(), end()); }
 };
 

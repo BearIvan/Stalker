@@ -1,11 +1,8 @@
-#include "BearCore.hpp"
+#include "tools/xrCore.h"
+using namespace BearCore;
 #include "BearGraphics.hpp"
 #include "BearUI.hpp"
 
-
-using namespace BearCore;
-
-#include "tools/xrCore.h"
 #include "api/StalkerAPI.h"
 
 #include "engine/XRayExports.h"

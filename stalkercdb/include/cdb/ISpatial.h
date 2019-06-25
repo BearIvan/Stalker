@@ -2,7 +2,6 @@
 #define XRENGINE_ISPATIAL_H_INCLUDED
 
 //#pragma once
-#include "tools/xrPool.h"
 
 #include "xr_collide_defs.h"
 

@@ -298,11 +298,11 @@ void UIUpgrade::update_item( CInventoryItem* inv_item )
 
 	inventory::upgrade::UpgradeStateResult res = get_upgrade()->can_install( *inv_item, false );
 	
-	m_item->SetTextureColor(color_rgba(100,100,100,255));
+	m_item->SetTextureColor(XrColor::color_rgba(100,100,100,255));
 	switch( res )
 	{
 	case inventory::upgrade::result_ok:
-		m_item->SetTextureColor(color_rgba(255,255,255,255));
+		m_item->SetTextureColor(XrColor::color_rgba(255,255,255,255));
 		m_state = STATE_ENABLED;
 		m_state_lock = false;
 		break;
@@ -311,7 +311,7 @@ void UIUpgrade::update_item( CInventoryItem* inv_item )
 		m_state_lock = true;
 		break;
 	case inventory::upgrade::result_e_installed: // has_upgrade
-		m_item->SetTextureColor(color_rgba(255,255,255,255));
+		m_item->SetTextureColor(XrColor::color_rgba(255,255,255,255));
 		m_state = STATE_SELECTED;
 		m_state_lock = true;
 		break;
@@ -320,7 +320,7 @@ void UIUpgrade::update_item( CInventoryItem* inv_item )
 		m_state_lock = false;
 		break;
 	case inventory::upgrade::result_e_group:
-		m_item->SetTextureColor(color_rgba(255,255,255,255));
+		m_item->SetTextureColor(XrColor::color_rgba(255,255,255,255));
 		m_state = STATE_DISABLED_GROUP;
 		m_state_lock = true;
 		break;

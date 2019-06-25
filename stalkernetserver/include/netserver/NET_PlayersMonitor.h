@@ -3,8 +3,6 @@
 
 #include "net_shared.h"
 #include "NET_Common.h"
-#include "tools/fastdelegate.h"
-
 class IClient;
 
 class PlayersMonitor

@@ -92,7 +92,7 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 				V->p1.add	(FA.v[id].v,shift)		;
 				V->n0		= FB.N					;
 				V->n1		= FA.N					;
-				V->sun_af	= color_rgba			(FB.v[id].c_sun,FA.v[id].c_sun,uA,uF);
+				V->sun_af	=XrColor::color_rgba			(FB.v[id].c_sun,FA.v[id].c_sun,uA,uF);
 				V->t0		= FB.v[id].t			;
 				V->t1		= FA.v[id].t			;
 				V->rgbh0	= FB.v[id].c_rgb_hemi	;

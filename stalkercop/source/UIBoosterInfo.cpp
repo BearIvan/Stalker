@@ -272,7 +272,7 @@ void UIBoosterInfoItem::SetValue(float value)
 	m_value->SetText(str);
 
 	bool positive = (value >= 0.0f);
-	m_value->SetTextColor(color_rgba(170,170,170,255));
+	m_value->SetTextColor(XrColor::color_rgba(170,170,170,255));
 
 	if(m_texture_minus.size())
 	{

@@ -174,15 +174,13 @@ CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
 
 	if (bLoad)
 	{
-		string_path path, folder;
-		_splitpath(m_file_name, path, folder, 0, 0);
-		xr_strcat(path, sizeof(path), folder);
+		BearCore::BearString path = BearCore::BearFileManager::GetPathFile(m_file_name);
 		if (FS.ExistFile(FsPath, szFileName))
 		{
 			IReader* R = XRayBearReader::Create(FS.Read(FsPath, szFileName));
 			if (sect_count)
 				DATA.reserve(sect_count);
-			Load(R, FsPath, path
+			Load(R, FsPath, *path
 #ifndef _EDITOR
 				, allow_include_func
 #endif
@@ -197,7 +195,7 @@ CInifile::~CInifile()
     if (!m_flags.test(eReadOnly) && m_flags.test(eSaveAtEnd))
     {
         if (!save_as())
-            Log("!Can't save inifile:", m_file_name);
+            Msg("!Can't save inifile:%s", m_file_name);
     }
 
     RootIt I = DATA.begin();
@@ -288,16 +286,16 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
             string_path inc_name;
             if (XrTrims::GetItem(str, 1, inc_name, '"'))
             {
-                string_path fn, inc_path, folder;
-                strconcat(sizeof(fn), fn, path, inc_name);
-                _splitpath(fn, inc_path, folder, 0, 0);
-                xr_strcat(inc_path, sizeof(inc_path), folder);
+                string_path fn;
+		
+				strconcat(sizeof(fn), fn, path,BEAR_PATH, inc_name);
+				BearCore::BearString path_inc = BearCore::BearFileManager::GetPathFile(fn);
 #ifndef _EDITOR
 				if (!allow_include_func || allow_include_func(fn))
 #endif
 				{
 					IReader* R = XRayBearReader::Create(FS.Read(FsPath, fn));
-						Load(R, FsPath, inc_path
+						Load(R, FsPath, *path_inc
 #ifndef _EDITOR
 							, allow_include_func
 #endif
@@ -329,9 +327,9 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
             {
                 VERIFY2(m_flags.test(eReadOnly), "Allow for readonly mode only.");
                 inherited_names += 2;
-                u32 cnt = XrTrims::GetItemCount(inherited_names);
-                u32 total_count = 0;
-                u32 k = 0;
+                bsize cnt = XrTrims::GetItemCount(inherited_names);
+				bsize total_count = 0;
+				bsize k = 0;
                 for (k = 0; k < cnt; ++k)
                 {
                     string512 tmp;
@@ -352,7 +350,9 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                 }
             }
             *strchr(str, ']') = 0;
-            Current->Name = strlwr(str + 1);
+		
+             BearCore::BearString::ToLower(str + 1);
+			 Current->Name = str + 1;
         }
         else // name = value
         {
@@ -549,7 +549,7 @@ CInifile::Sect& CInifile::r_section(LPCSTR S)const
 {
     char section[256];
     xr_strcpy(section, sizeof(section), S);
-    strlwr(section);
+	BearCore::BearString::ToLower(section);
     RootCIt I = std::lower_bound(DATA.begin(), DATA.end(), section, sect_pred);
     if (!(I != DATA.end() && xr_strcmp(*(*I)->Name, section) == 0))
     {
@@ -658,7 +658,7 @@ Fcolor CInifile::r_fcolor(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fcolor V = {0, 0, 0, 0};
-    sscanf(C, "%f,%f,%f,%f", &V.r, &V.g, &V.b, &V.a);
+    BearCore::BearString::Scanf(C, "%f,%f,%f,%f", &V.r, &V.g, &V.b, &V.a);
     return V;
 }
 
@@ -666,7 +666,7 @@ u32 CInifile::r_color(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     u32 r = 0, g = 0, b = 0, a = 255;
-    sscanf(C, "%d,%d,%d,%d", &r, &g, &b, &a);
+	BearCore::BearString::Scanf(C, "%d,%d,%d,%d", &r, &g, &b, &a);
     return XrColor::color_rgba(r, g, b, a);
 }
 
@@ -674,7 +674,7 @@ Ivector2 CInifile::r_ivector2(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector2 V = {0, 0};
-    sscanf(C, "%d,%d", &V.x, &V.y);
+	BearCore::BearString::Scanf(C, "%d,%d", &V.x, &V.y);
     return V;
 }
 
@@ -682,7 +682,7 @@ Ivector3 CInifile::r_ivector3(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector V = {0, 0, 0};
-    sscanf(C, "%d,%d,%d", &V.x, &V.y, &V.z);
+	BearCore::BearString::Scanf(C, "%d,%d,%d", &V.x, &V.y, &V.z);
     return V;
 }
 
@@ -690,7 +690,7 @@ Ivector4 CInifile::r_ivector4(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector4 V = {0, 0, 0, 0};
-    sscanf(C, "%d,%d,%d,%d", &V.x, &V.y, &V.z, &V.w);
+	BearCore::BearString::Scanf(C, "%d,%d,%d,%d", &V.x, &V.y, &V.z, &V.w);
     return V;
 }
 
@@ -698,7 +698,7 @@ Fvector2 CInifile::r_fvector2(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector2 V = {0.f, 0.f};
-    sscanf(C, "%f,%f", &V.x, &V.y);
+	BearCore::BearString::Scanf(C, "%f,%f", &V.x, &V.y);
     return V;
 }
 
@@ -706,7 +706,7 @@ Fvector3 CInifile::r_fvector3(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector3 V = {0.f, 0.f, 0.f};
-    sscanf(C, "%f,%f,%f", &V.x, &V.y, &V.z);
+	BearCore::BearString::Scanf(C, "%f,%f,%f", &V.x, &V.y, &V.z);
     return V;
 }
 
@@ -714,7 +714,7 @@ Fvector4 CInifile::r_fvector4(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector4 V = {0.f, 0.f, 0.f, 0.f};
-    sscanf(C, "%f,%f,%f,%f", &V.x, &V.y, &V.z, &V.w);
+	BearCore::BearString::Scanf(C, "%f,%f,%f,%f", &V.x, &V.y, &V.z, &V.w);
     return V;
 }
 
@@ -733,7 +733,7 @@ BOOL CInifile::r_bool(LPCSTR S, LPCSTR L)const
     char B[8];
     strncpy_s(B, sizeof(B), C, 7);
     B[7] = 0;
-    strlwr(B);
+    BearCore::BearString::ToLower(B);
     return IsBOOL(B);
 }
 
@@ -747,7 +747,7 @@ int CInifile::r_token(LPCSTR S, LPCSTR L, const xr_token* token_list)const
 {
     LPCSTR C = r_string(S, L);
     for (int i = 0; token_list[i].name; i++)
-        if (!stricmp(C, token_list[i].name))
+        if (!_stricmp(C, token_list[i].name))
             return token_list[i].id;
     return 0;
 }
@@ -781,7 +781,7 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
     // section
     string256 sect;
     _parse(sect, S);
-    _strlwr(sect);
+    BearCore::BearString::ToLower(sect);
 
     if (!section_exist(sect))
     {

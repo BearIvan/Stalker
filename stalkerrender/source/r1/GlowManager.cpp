@@ -307,7 +307,7 @@ void CGlowManager::render_selected()
 			if (G.fade*scale<=1.f)		continue;
 
 			u32 C			= XrMath::iFloor(G.fade*scale*(1-(dist_sq/dlim2)));
-			u32 clr			= color_rgba(C,C,C,C);
+			u32 clr			=XrColor::color_rgba(C,C,C,C);
 			Fvector	gp		;
 					gp.mad	(G.position,dir,G.radius*scale);
 			FillSprite		(pv,G.position,G.radius,clr);

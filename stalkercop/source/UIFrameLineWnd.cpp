@@ -6,7 +6,7 @@ CUIFrameLineWnd::CUIFrameLineWnd()
 :bHorizontal(true),
 m_bTextureVisible(false)
 {
-	m_texture_color				= color_argb(255,255,255,255);
+	m_texture_color				= XrColor::color_argb(255,255,255,255);
 }
 
 void CUIFrameLineWnd::InitFrameLineWnd(LPCSTR base_name, Fvector2 pos, Fvector2 size, bool horizontal)

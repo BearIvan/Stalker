@@ -202,7 +202,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
             if (M.test_flag(flRKeyAbsent))
             {
                 CKeyQR* r = (CKeyQR*)MS->pointer();
-                u32 crc_q = crc32(r, sizeof(CKeyQR));
+                u32 crc_q = BearCore::BearCheckSum::CRC32(r, sizeof(CKeyQR));
                 M._keysR.create(crc_q, 1, r);
                 MS->advance(1 * sizeof(CKeyQR));
             }

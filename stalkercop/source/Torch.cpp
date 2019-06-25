@@ -383,7 +383,7 @@ void CTorch::UpdateCL()
 	u32 clr					= lanim->CalculateBGR(Device.fTimeGlobal,frame); 
 
 	Fcolor					fclr;
-	fclr.set				((float)color_get_B(clr),(float)color_get_G(clr),(float)color_get_R(clr),1.f);
+	fclr.set				((float)XrColor::XrColor::color_get_B(clr),(float)XrColor::XrColor::color_get_G(clr),(float)XrColor::XrColor::color_get_R(clr),1.f);
 	fclr.mul_rgb			(fBrightness/255.f);
 	if (can_use_dynamic_lights())
 	{

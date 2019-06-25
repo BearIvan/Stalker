@@ -22,7 +22,7 @@
 #include "engine/device.h"
 #include "engine/defines.h"
 #include "cdb/xr_area.h"
-#include "tools/fs_internal.h"
+#include "tools/Utilities/XrIntrusivePtr.h"
 #ifdef	DEBUG
 //				void DBG_ObjAfterPhDataUpdate	( CPHObject *obj );
 //				void DBG_ObjBeforePhDataUpdate	( CPHObject *obj );

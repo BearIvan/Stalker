@@ -4,7 +4,7 @@ void CRenderTarget::create_minmax_SM()
 {
    u32	Offset;
 	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
-	u32	C		= color_rgba	(255,255,255,255);
+	u32	C		=XrColor::color_rgba	(255,255,255,255);
 
    // Fill vertex buffer
 	FVF::TL2uv* pv				= (FVF::TL2uv*) RCache.Vertex.Lock	(4,g_combine_2UV->vb_stride,Offset);

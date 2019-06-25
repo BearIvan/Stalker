@@ -57,6 +57,7 @@ const int MAX_O=16;                         /* maximum allowed model order  */
 #endif // VERIFY
  typedef unsigned char u8;
  typedef unsigned int u32;
+# include "compression_ppmd_stream.h"
 
 #ifdef VERIFY_is_defined_in_ppmdtype_h
 # undef VERIFY
@@ -64,7 +65,8 @@ const int MAX_O=16;                         /* maximum allowed model order  */
 # undef VERIFY_is_defined_in_ppmdtype_h
 #endif // VERIFY_is_defined_in_ppmdtype_h
 
-typedef XrPPDStream _PPMD_FILE;
+#include "compression_ppmd_stream.h"
+typedef compression::ppmd::stream _PPMD_FILE;
 #define _PPMD_E_GETC(fp)   fp->get_char()
 #define _PPMD_E_PUTC(c,fp) fp->put_char((c))
 #define _PPMD_D_GETC(fp)   fp->get_char()

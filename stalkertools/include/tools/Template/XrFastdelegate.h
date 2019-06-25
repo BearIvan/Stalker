@@ -45,12 +45,7 @@
 //                * Bugfix for Metrowerks: empty() was buggy because a valid MFP can be 0 on MWCC!
 //                * More optimal assignment,== and != operators for static function pointers.
 
-#ifndef FASTDELEGATE_H
-#define FASTDELEGATE_H
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 #include <memory.h> // to allow <,> comparisons
 
 //////////////////////////////////////////////////
@@ -2120,5 +2115,3 @@ template <typename A,typename B,typename C>
 #undef FASTDLGT_RETTYPE
 
 } // namespace fastdelegate
-
-#endif // !defined(FASTDELEGATE_H)

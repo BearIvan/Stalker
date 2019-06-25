@@ -58,7 +58,7 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 	// top
 	{
 		u32 c_val		= XrMath::iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
-		u32 c			= color_rgba(c_val,c_val,c_val,c_val);
+		u32 c			=XrColor::color_rgba(c_val,c_val,c_val,c_val);
 		vecSx.mul		(Device.vCameraRight, 	owner.current->m_GradientTop->fRadius.x*owner.lightning_size);
 		vecSy.mul		(Device.vCameraTop, 	-owner.current->m_GradientTop->fRadius.y*owner.lightning_size);
 		pv->set			(owner.current_xform.c.x+vecSx.x-vecSy.x, owner.current_xform.c.y+vecSx.y-vecSy.y, owner.current_xform.c.z+vecSx.z-vecSy.z, c, 0, 0); pv++;
@@ -69,7 +69,7 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 	// center
 	{
 		u32 c_val		= XrMath::iFloor(owner.current->m_GradientTop->fOpacity*owner.lightning_phase*255.f);
-		u32 c			= color_rgba(c_val,c_val,c_val,c_val);
+		u32 c			=XrColor::color_rgba(c_val,c_val,c_val,c_val);
 		vecSx.mul		(Device.vCameraRight, 	owner.current->m_GradientCenter->fRadius.x*owner.lightning_size);
 		vecSy.mul		(Device.vCameraTop, 	-owner.current->m_GradientCenter->fRadius.y*owner.lightning_size);
 		pv->set			(owner.lightning_center.x+vecSx.x-vecSy.x, owner.lightning_center.y+vecSx.y-vecSy.y, owner.lightning_center.z+vecSx.z-vecSy.z, c, 0, 0); pv++;

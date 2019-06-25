@@ -47,7 +47,7 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 
 	// Common calc for quad-rendering
 	u32		Offset;
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;
@@ -332,7 +332,7 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 
 	// Common calc for quad-rendering
 	u32		Offset;
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;
@@ -695,7 +695,7 @@ void CRenderTarget::accum_direct_blend	()
 		//	TODO: DX10: remove half pixel offset
 		// Common calc for quad-rendering
 		u32		Offset;
-		u32		C					= color_rgba	(255,255,255,255);
+		u32		C					=XrColor::color_rgba	(255,255,255,255);
 		float	_w					= float			(Device.dwWidth);
 		float	_h					= float			(Device.dwHeight);
 		Fvector2					p0,p1;
@@ -771,7 +771,7 @@ void CRenderTarget::accum_direct_f		(u32 sub_phase)
 
 	// Common calc for quad-rendering
 	u32		Offset;
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;
@@ -977,7 +977,7 @@ void CRenderTarget::accum_direct_lum	()
 
 	// Common calc for quad-rendering
 	u32		Offset;
-	// u32		C					= color_rgba	(255,255,255,255);
+	// u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;

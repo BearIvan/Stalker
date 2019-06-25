@@ -1,5 +1,4 @@
-#ifndef xrDebugH
-#define xrDebugH
+
 #pragma once
 
 typedef void crashhandler(void);
@@ -29,14 +28,19 @@ public:
     {
         gather_info(expression, description, argument0, argument1, file, line, function, assertion_info, count);
     }
-
+	IC const bchar*error2string(int32 hr)
+	{
+		static BearCore::BearString64 error2string_str;
+		BearCore::BearString::Printf(error2string_str, "%Error Core:0x%x", hr);
+		return error2string_str;
+	}
     void fail(const char* e1, const char* file, int line, const char* function, bool& ignore_always);
     void fail(const char* e1, const std::string& e2, const char* file, int line, const char* function, bool& ignore_always);
     void fail(const char* e1, const char* e2, const char* file, int line, const char* function, bool& ignore_always);
     void fail(const char* e1, const char* e2, const char* e3, const char* file, int line, const char* function, bool& ignore_always);
     void fail(const char* e1, const char* e2, const char* e3, const char* e4, const char* file, int line, const char* function, bool& ignore_always);
-    void error(long code, const char* e1, const char* file, int line, const char* function, bool& ignore_always);
-    void error(long code, const char* e1, const char* e2, const char* file, int line, const char* function, bool& ignore_always);
+    void error(int32 code, const char* e1, const char* file, int line, const char* function, bool& ignore_always);
+    void error(int32 code, const char* e1, const char* e2, const char* file, int line, const char* function, bool& ignore_always);
     void _cdecl fatal(const char* file, int line, const char* function, const char* F, ...);
     void backend(const char* reason, const char* expression, const char* argument0, const char* argument1, const char* file, int line, const char* function, bool& ignore_always);
     void do_exit(const std::string& message);
@@ -60,5 +64,3 @@ extern XRCORE_API XrDebug Debug;
 //XRCORE_API void LogStackTrace(LPCSTR header);
 
 #include "XrDebugDefines.h"
-
-#endif // xrDebugH

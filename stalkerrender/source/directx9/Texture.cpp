@@ -249,40 +249,40 @@ IC	void	TW_Iterate_2OP
 	}
 }
 
-IC u32 it_gloss_rev		(u32 d, u32 s)	{	return	color_rgba	(
-	color_get_A(s),		// gloss
-	color_get_B(d),
-	color_get_G(d),
-	color_get_R(d)		);
+IC u32 it_gloss_rev		(u32 d, u32 s)	{	return	XrColor::color_rgba	(
+	XrColor::color_get_A(s),		// gloss
+	XrColor::color_get_B(d),
+	XrColor::color_get_G(d),
+	XrColor::color_get_R(d)		);
 }
 IC u32 it_gloss_rev_base(u32 d, u32 s)	{	
-	u32		occ		= color_get_A(d)/3;
+	u32		occ		=XrColor::color_get_A(d)/3;
 	u32		def		= 8;
 	u32		gloss	= (occ*1+def*3)/4;
-	return	color_rgba	(
+	return	XrColor::color_rgba	(
 		gloss,			// gloss
-		color_get_B(d),
-		color_get_G(d),
-		color_get_R(d)
+		XrColor::color_get_B(d),
+		XrColor::color_get_G(d),
+		XrColor::color_get_R(d)
 	);
 }
-IC u32 it_difference	(u32 d, u32 orig, u32 ucomp)	{	return	color_rgba(
-	128+(int(color_get_R(orig))-int(color_get_R(ucomp)))*2,		// R-error
-	128+(int(color_get_G(orig))-int(color_get_G(ucomp)))*2,		// G-error
-	128+(int(color_get_B(orig))-int(color_get_B(ucomp)))*2,		// B-error
-	128+(int(color_get_A(orig))-int(color_get_A(ucomp)))*2	);	// A-error	
+IC u32 it_difference	(u32 d, u32 orig, u32 ucomp)	{	return	XrColor::color_rgba(
+	128+(int(XrColor::color_get_R(orig))-int(XrColor::color_get_R(ucomp)))*2,		// R-error
+	128+(int(XrColor::color_get_G(orig))-int(XrColor::color_get_G(ucomp)))*2,		// G-error
+	128+(int(XrColor::color_get_B(orig))-int(XrColor::color_get_B(ucomp)))*2,		// B-error
+	128+(int(XrColor::color_get_A(orig))-int(XrColor::color_get_A(ucomp)))*2	);	// A-error	
 }
-IC u32 it_height_rev	(u32 d, u32 s)	{	return	color_rgba	(
-	color_get_A(d),					// diff x
-	color_get_B(d),					// diff y
-	color_get_G(d),					// diff z
-	color_get_R(s)	);				// height
+IC u32 it_height_rev	(u32 d, u32 s)	{	return	XrColor::color_rgba	(
+	XrColor::color_get_A(d),					// diff x
+	XrColor::color_get_B(d),					// diff y
+	XrColor::color_get_G(d),					// diff z
+	XrColor::color_get_R(s)	);				// height
 }
-IC u32 it_height_rev_base(u32 d, u32 s)	{	return	color_rgba	(
-	color_get_A(d),					// diff x
-	color_get_B(d),					// diff y
-	color_get_G(d),					// diff z
-	(color_get_R(s)+color_get_G(s)+color_get_B(s))/3	);	// height
+IC u32 it_height_rev_base(u32 d, u32 s)	{	return	XrColor::color_rgba	(
+	XrColor::color_get_A(d),					// diff x
+	XrColor::color_get_B(d),					// diff y
+	XrColor::color_get_G(d),					// diff z
+	(XrColor::color_get_R(s)+XrColor::color_get_G(s)+XrColor::color_get_B(s))/3	);	// height
 }
 
 ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize)

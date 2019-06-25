@@ -36,7 +36,7 @@ static Fvector boxvert[boxvertcount];
 #	define DU_DRAW_SH(a){dxRenderDeviceRender::Instance().SetShader(a);dxRenderDeviceRender::Instance().SetRS(D3DRS_TEXTUREFACTOR,0xFFFFFFFF);}
 #else
 #	define DU_DRAW_RS	RCache.dbg_SetRS
-#	define DU_DRAW_SH_C(sh,c){RCache.set_Shader(sh);	RCache.set_c	("tfactor",float(color_get_R(c))/255.f,float(color_get_G(c))/255.f,float(color_get_B(c))/255.f,float(color_get_A(c))/255.f);}
+#	define DU_DRAW_SH_C(sh,c){RCache.set_Shader(sh);	RCache.set_c	("tfactor",float(XrColor::color_get_R(c))/255.f,float(XrColor::color_get_G(c))/255.f,float(XrColor::color_get_B(c))/255.f,float(XrColor::color_get_A(c))/255.f);}
 #	define DU_DRAW_SH(sh){RCache.set_Shader(sh);		RCache.set_c	("tfactor",1,1,1,1);}
 #endif
 
@@ -470,7 +470,7 @@ void CDrawUtilities::DrawIdentCone	(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_
 		m_WireCone.Render	();
     }
     if (bSolid){
-        DU_DRAW_SH_C		(color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,	clr_s);
+        DU_DRAW_SH_C		(XrColor::color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,	clr_s);
     	m_SolidCone.Render	();
     }
 	DU_DRAW_RS	(D3DRS_TEXTUREFACTOR,	0xffffffff);
@@ -483,7 +483,7 @@ void CDrawUtilities::DrawIdentSphere	(BOOL bSolid, BOOL bWire, u32 clr_s, u32 cl
      	m_WireSphere.Render	();
     }
     if (bSolid){
-        DU_DRAW_SH_C	(color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
+        DU_DRAW_SH_C	(XrColor::color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
     	m_SolidSphere.Render();
     }
 	DU_DRAW_RS	(D3DRS_TEXTUREFACTOR,	0xffffffff);
@@ -496,7 +496,7 @@ void CDrawUtilities::DrawIdentSpherePart(BOOL bSolid, BOOL bWire, u32 clr_s, u32
      	m_WireSpherePart.Render	();
     }
     if (bSolid){
-        DU_DRAW_SH_C	(color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
+        DU_DRAW_SH_C	(XrColor::color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
     	m_SolidSpherePart.Render();
     }
 	DU_DRAW_RS	(D3DRS_TEXTUREFACTOR,	0xffffffff);
@@ -509,7 +509,7 @@ void CDrawUtilities::DrawIdentCylinder	(BOOL bSolid, BOOL bWire, u32 clr_s, u32 
     	m_WireCylinder.Render	();
     }
     if (bSolid){
-        DU_DRAW_SH_C	(color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
+        DU_DRAW_SH_C	(XrColor::color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
     	m_SolidCylinder.Render	();
     }
 	DU_DRAW_RS	(D3DRS_TEXTUREFACTOR,	0xffffffff);
@@ -522,7 +522,7 @@ void CDrawUtilities::DrawIdentBox(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_w)
     	m_WireBox.Render	();
     }
     if (bSolid){
-        DU_DRAW_SH_C	(color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
+        DU_DRAW_SH_C	(XrColor::color_get_A(clr_s)>=254?dxRenderDeviceRender::Instance().m_WireShader:dxRenderDeviceRender::Instance().m_SelectionShader,clr_s);
     	m_SolidBox.Render	();
     }
 	DU_DRAW_RS	(D3DRS_TEXTUREFACTOR,	0xffffffff);

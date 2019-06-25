@@ -9,7 +9,7 @@ void draw_rect(Fvector2 LTp, Fvector2 RBp, Fvector2 LTt, Fvector2 RBt, u32 clr, 
 CUIFrameWindow::CUIFrameWindow()
 :m_bTextureVisible(false)
 {
-	m_texture_color	= color_argb(255,255,255,255);
+	m_texture_color	= XrColor::color_argb(255,255,255,255);
 }
 
 void CUIFrameWindow::SetWndSize(const Fvector2& sz)

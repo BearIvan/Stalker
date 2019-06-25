@@ -15,7 +15,6 @@
 #include "defines.h"
 #include "pure.h"
 //#include "hw.h"
-#include "tools/ftimer.h"
 #include "stats.h"
 //#include "shader.h"
 //#include "R_Backend.h"

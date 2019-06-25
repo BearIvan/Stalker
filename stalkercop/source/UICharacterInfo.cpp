@@ -64,7 +64,7 @@ void CUICharacterInfo::InitCharacterInfo(Fvector2 pos, Fvector2 size, CUIXml* xm
 	Init_IconInfoItem( *xml_doc, "commumity_big_icon_over", eCommunityBigIconOver );
 */
 	VERIFY( m_icons[eIcon] );
-	m_deadbody_color = color_argb(160,160,160,160);
+	m_deadbody_color = XrColor::color_argb(160,160,160,160);
 	if ( xml_doc->NavigateToNode( "icon:deadbody", 0 ) )
 	{
 		m_deadbody_color = CUIXmlInit::GetColor( *xml_doc, "icon:deadbody", 0, m_deadbody_color );
@@ -321,7 +321,7 @@ void CUICharacterInfo::Update()
 			CSE_ALifeCreatureAbstract*		pCreature = smart_cast<CSE_ALifeCreatureAbstract*>(T);
 			if ( pCreature && !pCreature->g_Alive() )
 			{
-				m_icons[eIcon]->SetTextureColor(color_argb(255,255,160,160));
+				m_icons[eIcon]->SetTextureColor(XrColor::color_argb(255,255,160,160));
 			}
 		}
 	}

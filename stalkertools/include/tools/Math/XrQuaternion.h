@@ -1,6 +1,4 @@
-#ifndef __Q__
-#define __Q__
-
+#pragma once
 /***************************************************************************
  The quatern module contains basic support for a quaternion object.
 
@@ -475,5 +473,3 @@ BOOL _valid(const _quaternion<T>& s) { return _valid(s.x) && _valid(s.y) && _val
 #undef TRACE_QZERO_TOLERANCE
 #undef AA_QZERO_TOLERANCE
 #undef QEPSILON
-
-#endif

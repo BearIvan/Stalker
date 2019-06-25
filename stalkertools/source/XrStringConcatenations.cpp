@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "XrStringConcatenations_inline.h"
+#include "Utilities/XrStringConcatenations_inline.h"
 
 namespace strconcat_error
 {

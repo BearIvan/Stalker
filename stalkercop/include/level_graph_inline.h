@@ -209,7 +209,7 @@ IC float CLevelGraph::vertex_plane_y	(const CLevelGraph::CVertex &vertex, const 
 	Fplane				PL; 
 
 	DUP.set				(0,1,0);
-	pvDecompress		(normal,vertex.plane());
+	XrCompressor::PvDecompress		(normal,vertex.plane());
 	vertex_position		(P,vertex.position());
 	PL.build			(P,normal);
 	v.set				(X,P.y,Z);	
@@ -522,7 +522,7 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 						VPUSH(v3d(start_point)),
 						VPUSH(v3d(finish_point))
 					);
-					FlushLog	();
+		
 					R_ASSERT2	(false,"Loop became infinite :-( call Dima and SAVE YOUR LOG!");
 				}
 #endif
@@ -547,7 +547,7 @@ IC	void CLevelGraph::assign_y_values		(xr_vector<T> &path)
 	for ( ; I != E; ++I) {
 		if (prev_id != (*I).get_vertex_id()) {
 			_vertex				= vertex((*I).get_vertex_id());
-			pvDecompress		(normal,_vertex->plane());
+			XrCompressor::PvDecompress(normal,_vertex->plane());
 			vertex_position		(P,_vertex->position());
 			PL.build			(P,normal);
 			prev_id				= (*I).get_vertex_id();

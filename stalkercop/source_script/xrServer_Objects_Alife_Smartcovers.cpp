@@ -575,16 +575,16 @@ void CSE_SmartCover::on_render	(CDUInterface* du, ISE_AbstractLEOwner* owner, bo
 		Fvector pos = H.point_position;
 		parent.transform_tiny	(pos);
 
-		du->OutText(pos, H.string_identifier.c_str(), color_rgba(255,255,255,255));
+		du->OutText(pos, H.string_identifier.c_str(), XrColor::color_rgba(255,255,255,255));
 
-		//du->DrawBox(H.point_position,Fvector().set(0.2f,0.2f,0.2f),TRUE,TRUE,color_rgba(255,0,0,80),color_rgba(0,255,0,255));
-		//du->DrawFlag(H.point_position, 0, 1.0f, 1, 1, color_rgba(0,255,0,255), FALSE);
-		//du->DrawCylinder(Fidentity, pos, Fvector().set(0.f, 1.f, 0.f), 1.f, .05f, color_rgba(0,255,0,255), color_rgba(0,255,0,255), TRUE, FALSE);
+		//du->DrawBox(H.point_position,Fvector().set(0.2f,0.2f,0.2f),TRUE,TRUE,XrColor::color_rgba(255,0,0,80),XrColor::color_rgba(0,255,0,255));
+		//du->DrawFlag(H.point_position, 0, 1.0f, 1, 1, XrColor::color_rgba(0,255,0,255), FALSE);
+		//du->DrawCylinder(Fidentity, pos, Fvector().set(0.f, 1.f, 0.f), 1.f, .05f, XrColor::color_rgba(0,255,0,255), XrColor::color_rgba(0,255,0,255), TRUE, FALSE);
 
 		Fvector dir = H.fov_direction;
 		parent.transform_dir(dir);
 		Fvector up = parent.j;
-		draw_frustum(du, H.fov, H.range, 1.f, pos, dir, up, color_rgba(255,0,0,255));
+		draw_frustum(du, H.fov, H.range, 1.f, pos, dir, up, XrColor::color_rgba(255,0,0,255));
 	}
 }
 #endif // #ifdef XRSE_FACTORY_EXPORTS

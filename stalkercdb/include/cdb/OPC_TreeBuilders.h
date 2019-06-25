@@ -21,7 +21,6 @@
 #define __OPC_TREEBUILDERS_H__
 
 #include "opc_aabbtree.h"
-#include "tools/xrPool.h"
 
 	//! Tree splitting rules
 	enum SplittingRules			{

@@ -36,7 +36,7 @@ void CObjectFactory::register_script_class	(LPCSTR client_class, LPCSTR server_c
 			client,
 #endif
 			server,
-			TEXT2CLSID(clsid),
+			XrClsid::String2Clsid(clsid),
 			script_clsid
 		)
 	);
@@ -55,7 +55,7 @@ void CObjectFactory::register_script_class			(LPCSTR unknown_class, LPCSTR clsid
 			creator,
 #endif
 			creator,
-			TEXT2CLSID(clsid),
+			XrClsid::String2Clsid(clsid),
 			script_clsid
 		)
 	);

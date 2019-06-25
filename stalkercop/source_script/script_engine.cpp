@@ -23,7 +23,7 @@
 		static create_world_function_type	s_create_world				= 0;
 		static destroy_world_function_type	s_destroy_world				= 0;
 		static HMODULE						s_script_debugger_handle	= 0;
-		static LogCallback					s_old_log_callback			= 0;
+		//static LogCallback					s_old_log_callback			= 0;
 #	endif // #ifndef USE_LUA_STUDIO
 #endif
 
@@ -37,10 +37,14 @@
 void jit_command(lua_State*, LPCSTR);
 
 #if defined(USE_DEBUGGER) && defined(USE_LUA_STUDIO)
-static void log_callback			(LPCSTR message)
+void _LogCallback2(LPCSTR string)
 {
-	if (s_old_log_callback)
-		s_old_log_callback			(message);
+	if (string && '!' == string[0] && ' ' == string[1])
+		Device.Statistic->errors.push_back(shared_str(string));
+}
+void log_callback			(LPCSTR message)
+{
+		_LogCallback2(message);
 
 	if (!ai().script_engine().debugger())
 		return;
@@ -81,7 +85,7 @@ static void initialize_lua_studio	( lua_State* state, cs::lua_studio::world*& wo
 	world							= s_create_world( *engine, false, false );
 	DEBUGFATALERROR1							(world);
 
-	s_old_log_callback				= SetLogCB(&log_callback);
+	BearCore::BearLog::SetCallBack(&log_callback);
 
 	jit_command						(state, "debug=2");
 	jit_command						(state, "off");
@@ -103,7 +107,7 @@ static void finalize_lua_studio		( lua_State* state, cs::lua_studio::world*& wor
 	FreeLibrary						(s_script_debugger_handle);
 	s_script_debugger_handle		= 0;
 
-	SetLogCB						(s_old_log_callback);
+	BearCore::BearLog::SetCallBack(0);
 }
 
 void CScriptEngine::try_connect_to_debugger		()

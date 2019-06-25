@@ -84,8 +84,8 @@ void CServerList::Update()
 	if (m_bAnimation)
 	{
 //		m_pAnimation->Update();
-//		m_frame[LST_SRV_PROP].SetColor(subst_alpha(0xffffffff, color_get_A(m_pAnimation->GetColor())));
-//		m_frame[LST_PLAYERS].SetColor(subst_alpha(0xffffffff, color_get_A(m_pAnimation->GetColor())));
+//		m_frame[LST_SRV_PROP].SetColor(XrColor::subst_alpha(0xffffffff, XrColor::color_get_A(m_pAnimation->GetColor())));
+//		m_frame[LST_PLAYERS].SetColor(XrColor::subst_alpha(0xffffffff, XrColor::color_get_A(m_pAnimation->GetColor())));
 
 
 		if ( true /*m_pAnimation->Done()*/)

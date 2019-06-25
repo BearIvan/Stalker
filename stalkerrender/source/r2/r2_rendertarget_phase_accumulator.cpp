@@ -20,7 +20,7 @@ void	CRenderTarget::phase_accumulator()
 
 			reset_light_marker();
 		}
-		u32		clr4clear					= color_rgba(0,0,0,0);	// 0x00
+		u32		clr4clear					=XrColor::color_rgba(0,0,0,0);	// 0x00
 		CHK_DX	(HW.pDevice->Clear			( 0L, NULL, D3DCLEAR_TARGET, clr4clear, 1.0f, 0L));
 
 		//	Do it after the sun to preserve data.
@@ -51,7 +51,7 @@ void	CRenderTarget::phase_vol_accumulator()
 		m_bHasActiveVolumetric = true;
 		
 		u_setrt								(rt_Generic_2,		NULL,NULL,HW.pBaseZB);
-		u32		clr4clearVol				= color_rgba(0,0,0,0);	// 0x00
+		u32		clr4clearVol				=XrColor::color_rgba(0,0,0,0);	// 0x00
 		CHK_DX	(HW.pDevice->Clear			( 0L, NULL, D3DCLEAR_TARGET, clr4clearVol, 1.0f, 0L));
 	}
 	else

@@ -7,7 +7,6 @@
 #include "std_classes.h"
 
 #include "xr_object.h"
-#include "tools/net_utils.h"
 
 #include "CustomHUD.h"
 

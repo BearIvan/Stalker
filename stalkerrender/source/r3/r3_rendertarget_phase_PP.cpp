@@ -64,16 +64,16 @@ BOOL CRenderTarget::u_need_PP	()
 
 	bool	_cbase	= false;
 	{
-		int		_r	= color_get_R(param_color_base)	; _r=XrMath::abs(_r-int(0x7f));
-		int		_g	= color_get_G(param_color_base)	; _g=XrMath::abs(_g-int(0x7f));
-		int		_b	= color_get_B(param_color_base)	; _b=XrMath::abs(_b-int(0x7f));
+		int		_r	=XrColor::color_get_R(param_color_base)	; _r=XrMath::abs(_r-int(0x7f));
+		int		_g	=XrColor::color_get_G(param_color_base)	; _g=XrMath::abs(_g-int(0x7f));
+		int		_b	=XrColor::color_get_B(param_color_base)	; _b=XrMath::abs(_b-int(0x7f));
 		if (_r>2 || _g>2 || _b>2)	_cbase	= true	;
 	}
 	bool	_cadd	= false;
 	{
-		//int		_r	= color_get_R(param_color_add)	;
-		//int		_g	= color_get_G(param_color_add)	;
-		//int		_b	= color_get_B(param_color_add)	;
+		//int		_r	=XrColor::color_get_R(param_color_add)	;
+		//int		_g	=XrColor::color_get_G(param_color_add)	;
+		//int		_b	=XrColor::color_get_B(param_color_add)	;
 		//if (_r>2 || _g>2 || _b>2)	_cadd	= true	;
 		int		_r	= XrMath::abs((int)(param_color_add.x*255));
 		int		_g	= XrMath::abs((int)(param_color_add.y*255));
@@ -124,13 +124,13 @@ void CRenderTarget::phase_pp		()
 
 	int		gblend		= XrMath::clampr		(XrMath::iFloor((1-param_gray)*255.f),0,255);
 	int		nblend		= XrMath::clampr		(XrMath::iFloor((1-param_noise)*255.f),0,255);
-	u32					p_color			= subst_alpha		(param_color_base,nblend);
-	u32					p_gray			= subst_alpha		(param_color_gray,gblend);
+	u32					p_color			= XrColor::subst_alpha		(param_color_base,nblend);
+	u32					p_gray			= XrColor::subst_alpha		(param_color_gray,gblend);
 	Fvector				p_brightness	= param_color_add	;
 	// Msg				("param_gray:%f(%d),param_noise:%f(%d)",param_gray,gblend,param_noise,nblend);
-	// Msg				("base: %d,%d,%d",	color_get_R(p_color),		color_get_G(p_color),		color_get_B(p_color));
-	// Msg				("gray: %d,%d,%d",	color_get_R(p_gray),		color_get_G(p_gray),		color_get_B(p_gray));
-	// Msg				("add:  %d,%d,%d",	color_get_R(p_brightness),	color_get_G(p_brightness),	color_get_B(p_brightness));
+	// Msg				("base: %d,%d,%d",	XrColor::color_get_R(p_color),		XrColor::color_get_G(p_color),		XrColor::color_get_B(p_color));
+	// Msg				("gray: %d,%d,%d",	XrColor::color_get_R(p_gray),		XrColor::color_get_G(p_gray),		XrColor::color_get_B(p_gray));
+	// Msg				("add:  %d,%d,%d",	XrColor::color_get_R(p_brightness),	XrColor::color_get_G(p_brightness),	XrColor::color_get_B(p_brightness));
 	
 	// Draw full-screen quad textured with our scene image
 	u32		Offset;

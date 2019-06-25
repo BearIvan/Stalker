@@ -1,7 +1,6 @@
 #ifndef sh_atomicH
 #define sh_atomicH
 #pragma once
-#include "tools//xr_resource.h"
 #include "tss_def.h"
 #include "xrD3DDefs.h"
 #if defined(USE_DX10) || defined(USE_DX11)

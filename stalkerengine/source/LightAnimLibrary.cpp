@@ -144,7 +144,7 @@ u32 CLAItem::InterpolateRGB(int frame)
 u32 CLAItem::InterpolateBGR(int frame)
 {
     u32 c = InterpolateRGB(frame);
-    return color_rgba(color_get_B(c), color_get_G(c), color_get_R(c), color_get_A(c));
+    return XrColor::color_rgba(XrColor::color_get_B(c), XrColor::color_get_G(c), XrColor::color_get_R(c), XrColor::color_get_A(c));
 }
 
 u32 CLAItem::CalculateRGB(float T, int& frame)
@@ -238,7 +238,7 @@ __declspec(dllexport) void ELightAnimLibrary::Load()
                 if (version == 0)
                 {
                     for (CLAItem::KeyPairIt it = I->Keys.begin(); it != I->Keys.end(); it++)
-                        it->second = subst_alpha(bgr2rgb(it->second), color_get_A(it->second));
+                        it->second = XrColor::subst_alpha(XrColor::bgr2rgb(it->second), XrColor::color_get_A(it->second));
                 }
                 Items.push_back(I);
                 O->close();

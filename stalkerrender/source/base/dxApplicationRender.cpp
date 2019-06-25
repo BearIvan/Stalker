@@ -207,7 +207,7 @@ void dxApplicationRender::load_draw_internal(CApplication &owner)
 	// Draw title
 	VERIFY							(owner.pFontSystem);
 	owner.pFontSystem->Clear		();
-	owner.pFontSystem->SetColor		(color_rgba(103,103,103,255));
+	owner.pFontSystem->SetColor		(XrColor::color_rgba(103,103,103,255));
 	owner.pFontSystem->SetAligment	(CGameFont::alCenter);
 	back_size.set					(_w/2,622.0f*k.y);
 	owner.pFontSystem->OutSet		(back_size.x, back_size.y);
@@ -276,7 +276,7 @@ u32 calc_progress_color(u32 idx, u32 total, int stage, int max_stage)
 	float kk			= (float(stage+1)/float(max_stage))*(total);
 	float f				= 1/(exp((float(idx)-kk)*0.5f)+1.0f);
 
-	return color_argb_f		(f,1.0f,1.0f,1.0f);
+	return XrColor::color_argb_f		(f,1.0f,1.0f,1.0f);
 }
 
 #define IsSpace(ch)       ((ch) == ' ' || (ch) == '\t' || (ch) == '\r' || (ch) == '\n' || (ch) == ',' || (ch) == '.' || (ch) == ':' || (ch) == '!')
@@ -439,7 +439,7 @@ u32 calc_progress_color_soc(u32 idx, u32 total, int stage, int max_stage)
 	float kk = (float(stage + 1) / float(max_stage))*(total / 2.0f);
 	float f = 1 / (exp((float(idx) - kk)*0.5f) + 1.0f);
 
-	return color_argb_f(f, 1.0f, 1.0f, 1.0f);
+	return XrColor::color_argb_f(f, 1.0f, 1.0f, 1.0f);
 }
 
 void dxApplicationRenderSOC::load_draw_internal(CApplication & owner)
@@ -525,7 +525,7 @@ void dxApplicationRenderSOC::load_draw_internal(CApplication & owner)
 	// Draw title
 	VERIFY(pFontSystem);
 	pFontSystem->Clear();
-	pFontSystem->SetColor(color_rgba(157, 140, 120, 255));
+	pFontSystem->SetColor(XrColor::color_rgba(157, 140, 120, 255));
 	pFontSystem->SetAligment(CGameFont::alCenter);
 	pFontSystem->OutI(0.f, 0.815f, app_title);
 	pFontSystem->OnRender();

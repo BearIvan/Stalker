@@ -8,7 +8,7 @@ void XrClsid::Clsid2String(CLASS_ID id, bchar * text)
 
 CLASS_ID XrClsid::String2Clsid(const bchar * text)
 {
-	BEAR_ASSERT(BearCore::BearString::GetSize(text) <= 8, "Beer from creator CLASS_ID");
+	BEAR_ASSERT(BearCore::BearString::GetSize(text) <= 8);
 	char buf[9];
 	buf[8] = 0;
 	strncpy_s(buf, sizeof(buf), text, 8);

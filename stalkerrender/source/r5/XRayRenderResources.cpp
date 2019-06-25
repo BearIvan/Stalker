@@ -552,7 +552,7 @@ XRayBlender * XRayRenderResource::CreateBlender(CLASS_ID ID)
 	default:
 	{
 		BearString16 name;
-		CLSID2TEXT(ID, name);
+		XrClsid::Clsid2String(ID, name);
 		BEAR_FATALERROR(false, TEXT("Неизветный класс бендера[" BEAR_PRINT_CURRENT "]"), name);
 		return 0;
 	}

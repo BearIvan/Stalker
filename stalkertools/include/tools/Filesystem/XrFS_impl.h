@@ -1,18 +1,7 @@
 #ifndef FS_IMPL_H_INCLUDED
 #define FS_IMPL_H_INCLUDED
 
-// 1: default
-// 1.5: check next chunk first heuristics
-// 2: vector population heuristics
-// 3: dynamic map population heuristics
-
 #define FIND_CHUNK_HEU
-//#define FIND_CHUNK_STD
-//#define FIND_CHUNK_VEC
-//#define FIND_CHUNK_MAP
-
-// Uncomment to log time of find_chunk (search
-//#define FIND_CHUNK_BENCHMARK_ENABLE
 
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
 
@@ -107,7 +96,7 @@ struct IReaderBase_Test {};
 #pragma warning (disable:4701)
 
 template <typename T>
-IC  u32 IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
+IC  bsize IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
 {
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
     find_chunk_auto_timer timer;
@@ -135,7 +124,7 @@ IC  u32 IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
         while (!eof())
         {
             dwType = r_u32();
-            dwSize = r_u32();
+            dwSize = static_cast<bsize>(r_u32());
             if ((dwType & (~CFS_CompressMark)) == ID)
             {
                 success = true;
@@ -154,11 +143,11 @@ IC  u32 IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
         }
     }
 
-    VERIFY((u32)impl().tell() + dwSize <= (u32)impl().length());
+    VERIFY((u32)impl().tell() + dwSize <= (bsize)impl().length());
     if (bCompressed) *bCompressed = dwType & CFS_CompressMark;
 
-    const int dwPos = impl().tell();
-    if (dwPos + dwSize < (u32)impl().length())
+    const bsize dwPos = impl().tell();
+    if (dwPos + dwSize < (bsize)impl().length())
     {
         m_last_pos = dwPos + dwSize;
     }

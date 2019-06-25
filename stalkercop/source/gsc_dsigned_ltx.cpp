@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "gsc_dsigned_ltx.h"
-#include "tools/xr_ini.h"
 
 gsc_dsigned_ltx_writer::gsc_dsigned_ltx_writer(u8 const p_number[crypto::xr_dsa::public_key_length],
 											   u8 const q_number[crypto::xr_dsa::private_key_length],

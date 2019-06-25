@@ -35,7 +35,7 @@ struct XRCORE_API IIniFileStream
     virtual void __stdcall r_s32(s32&) = 0;
     virtual void __stdcall r_s64(s64&) = 0;
 
-    virtual void __stdcall r_string(LPSTR dest, u32 dest_size) = 0;
+    virtual void __stdcall r_string(LPSTR dest, bsize dest_size) = 0;
     // virtual void __stdcall r_tell () = 0;
     // virtual void __stdcall r_seek (u32 pos) = 0;
     virtual void __stdcall skip_stringZ() = 0;
@@ -57,7 +57,7 @@ if(inistream)\
 struct NET_Buffer
 {
     BYTE data[NET_PacketSizeLimit];
-    u32 count;
+    bsize count;
 };
 
 class XRCORE_API NET_Packet
@@ -72,7 +72,7 @@ public:
     }
 
     NET_Buffer B;
-    u32 r_pos;
+	bsize r_pos;
     u32 timeReceive;
     bool w_allow;
 public:
@@ -87,7 +87,7 @@ public:
         W_guard(bool* b) :guarded(b) { *b = true; }
         ~W_guard() { *guarded = false; }
     };
-    IC void w(const void* p, u32 count)
+    IC void w(const void* p, bsize count)
     {
         R_ASSERT(inistream == NULL || w_allow);
         VERIFY(p && count);
@@ -96,8 +96,8 @@ public:
         B.count += count;
         VERIFY(B.count < NET_PacketSizeLimit);
     }
-    IC void w_seek(u32 pos, const void* p, u32 count);
-    IC u32 w_tell() { return B.count; }
+    IC void w_seek(bsize pos, const void* p, bsize count);
+    IC bsize w_tell() { return B.count; }
 
     // writing - utilities
     IC void w_float(float a) { W_guard g(&w_allow); w(&a, 4); INI_W(w_float(a)); } // float
@@ -143,7 +143,7 @@ public:
         w_dir(C);
         w_float(mag);
     }
-    IC void w_stringZ(LPCSTR S) { W_guard g(&w_allow); w(S, (u32)xr_strlen(S) + 1); INI_W(w_stringZ(S)); }
+    IC void w_stringZ(LPCSTR S) { W_guard g(&w_allow); w(S, (bsize)xr_strlen(S) + 1); INI_W(w_stringZ(S)); }
     IC void w_stringZ(const shared_str& p)
     {
         W_guard g(&w_allow);
@@ -169,32 +169,32 @@ public:
 
     IC void w_clientID(ClientID& C) { w_u32(C.value()); }
 
-    IC void w_chunk_open8(u32& position)
+    IC void w_chunk_open8(bsize& position)
     {
         position = w_tell();
         w_u8(0);
         INI_ASSERT(w_chunk_open8)
     }
 
-    IC void w_chunk_close8(u32 position)
+    IC void w_chunk_close8(bsize position)
     {
-        u32 size = u32(w_tell() - position) - sizeof(u8);
+		bsize size = bsize(w_tell() - position) - sizeof(u8);
         VERIFY(size < 256);
         u8 _size = (u8)size;
         w_seek(position, &_size, sizeof(_size));
         INI_ASSERT(w_chunk_close8)
     }
 
-    IC void w_chunk_open16(u32& position)
+    IC void w_chunk_open16(bsize& position)
     {
         position = w_tell();
         w_u16(0);
         INI_ASSERT(w_chunk_open16)
     }
 
-    IC void w_chunk_close16(u32 position)
+    IC void w_chunk_close16(bsize position)
     {
-        u32 size = u32(w_tell() - position) - sizeof(u16);
+		bsize size = bsize(w_tell() - position) - sizeof(u16);
         VERIFY(size < 65536);
         u16 _size = (u16)size;
         w_seek(position, &_size, sizeof(_size));
@@ -203,11 +203,11 @@ public:
 
     // reading
     void read_start();
-    u32 r_begin(u16& type);
-    void r_seek(u32 pos);
-    u32 r_tell();
+	u32 r_begin(u16& type);
+    void r_seek(bsize pos);
+	bsize r_tell();
 
-    IC void r(void* p, u32 count)
+    IC void r(void* p, bsize count)
     {
         R_ASSERT(inistream == NULL);
         VERIFY(p && count);
@@ -216,8 +216,8 @@ public:
         VERIFY(r_pos <= B.count);
     }
     BOOL r_eof();
-    u32 r_elapsed();
-    void r_advance(u32 size);
+	bsize r_elapsed();
+    void r_advance(bint size);
 
     // reading - utilities
     void r_vec3(Fvector& A);
@@ -260,9 +260,9 @@ public:
 
     void skip_stringZ();
 
-    void r_stringZ_s(LPSTR string, u32 size);
+    void r_stringZ_s(LPSTR string, bsize size);
 
-    template <u32 size>
+    template <bsize size>
     inline void r_stringZ_s(char(&string)[size])
     {
         r_stringZ_s(string, size);

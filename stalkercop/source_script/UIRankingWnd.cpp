@@ -205,7 +205,7 @@ void CUIRankingWnd::get_statistic()
 {
 	string128 buf;
 	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), Level().GetStartGameTime(), Level().GetGameTime());
-	m_stat_info[0]->SetTextColor(color_rgba(170,170,170,255));
+	m_stat_info[0]->SetTextColor(XrColor::color_rgba(170,170,170,255));
 	m_stat_info[0]->SetText(buf);
 
 	for(u8 i = 1; i < m_stat_count; ++i)
@@ -213,7 +213,7 @@ void CUIRankingWnd::get_statistic()
 		luabind::functor<LPCSTR> funct;
 		R_ASSERT( ai().script_engine().functor("pda.get_stat", funct));
 		LPCSTR str = funct(i);
-		m_stat_info[i]->SetTextColor(color_rgba(170,170,170,255));
+		m_stat_info[i]->SetTextColor(XrColor::color_rgba(170,170,170,255));
 		m_stat_info[i]->SetTextST(str);
 	}
 
@@ -270,7 +270,7 @@ void CUIRankingWnd::get_favorite_weapon()
 			tex_rect.rb.add		(tex_rect.lt);
 			m_favorite_weapon_icon->SetTextureRect(tex_rect);
 			m_favorite_weapon_icon->TextureOn();
-			m_favorite_weapon_icon->SetTextureColor(color_rgba(255,255,255,255));
+			m_favorite_weapon_icon->SetTextureColor(XrColor::color_rgba(255,255,255,255));
 			m_favorite_weapon_icon->SetWndSize(Fvector2().set((tex_rect.x2-tex_rect.x1)*UI().get_current_kx()*0.8, (tex_rect.y2-tex_rect.y1)*0.8));
 			m_favorite_weapon_icon->SetStretchTexture(true);
 		}

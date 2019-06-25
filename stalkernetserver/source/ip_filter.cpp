@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ip_filter.h"
-#include "tools\xr_ini.h"
 
 ip_filter::ip_filter()
 {

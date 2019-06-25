@@ -17,17 +17,17 @@ public:
     typedef void __fastcall callback(TNode*);
 private:
     TNode* nodes;
-    u32 pool;
-    u32 limit;
+    bsize pool;
+    bsize limit;
 
-    IC u32 Size(u32 Count)
+    IC bsize Size(bsize Count)
     {
         return Count*sizeof(TNode);
     }
 
     void Realloc()
     {
-        u32 newLimit = limit + SG_REALLOC_ADVANCE;
+        bsize newLimit = limit + SG_REALLOC_ADVANCE;
         VERIFY(newLimit%SG_REALLOC_ADVANCE == 0);
         TNode* newNodes = (TNode*)allocator::alloc(sizeof(TNode)*newLimit);
         VERIFY(newNodes);
@@ -35,7 +35,7 @@ private:
         ZeroMemory(newNodes, Size(newLimit));
         if (limit) CopyMemory(newNodes, nodes, Size(limit));
 
-        for (u32 I = 0; I < pool; I++)
+        for (bsize I = 0; I < pool; I++)
         {
             VERIFY(nodes);
             TNode* Nold = nodes + I;
@@ -43,12 +43,12 @@ private:
 
             if (Nold->left)
             {
-                u32 Lid = u32(Nold->left - nodes);
+                bsize Lid = bsize(Nold->left - nodes);
                 Nnew->left = newNodes + Lid;
             }
             if (Nold->right)
             {
-                u32 Rid = u32(Nold->right - nodes);
+                bsize Rid = bsize(Nold->right - nodes);
                 Nnew->right = newNodes + Rid;
             }
         }
@@ -69,7 +69,7 @@ private:
     }
     IC TNode* CreateChild(TNode*& parent, const K& key)
     {
-        u32 PID = u32(parent - nodes);
+        bsize PID = bsize(parent - nodes);
         TNode* N = Alloc(key);
         parent = nodes + PID;
         return N;
@@ -187,7 +187,7 @@ public:
     IC TNode* begin() { return nodes; }
     IC TNode* end() { return nodes + pool; }
     IC TNode* last() { return nodes + limit; } // for setup only
-    IC u32 size() { return pool; }
+    IC bsize size() { return pool; }
     IC TNode& operator[] (int v) { return nodes[v]; }
 
     IC void traverseLR(callback CB)

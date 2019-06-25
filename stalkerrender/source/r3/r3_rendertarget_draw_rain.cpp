@@ -7,7 +7,7 @@ void CRenderTarget::draw_rain( light &RainSetup )
 
 	// Common calc for quad-rendering
 	u32		Offset;
-	u32		C					= color_rgba	(255,255,255,255);
+	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
 	Fvector2					p0,p1;

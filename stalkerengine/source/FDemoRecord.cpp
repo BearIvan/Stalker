@@ -313,7 +313,7 @@ BOOL CDemoRecord::ProcessCam(SCamEffectorInfo& info)
         if (IR_GetKeyState(DIK_F1))
         {
 
-            pApp->pFontSystem->SetColor(color_rgba(255, 0, 0, 255));
+            pApp->pFontSystem->SetColor(XrColor::color_rgba(255, 0, 0, 255));
             pApp->pFontSystem->SetAligment(CGameFont::alCenter);
             pApp->pFontSystem->OutSetI(0, -.05f);
             pApp->pFontSystem->OutNext("%s", "RECORDING");

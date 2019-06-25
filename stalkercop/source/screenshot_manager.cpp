@@ -2,7 +2,6 @@
 #include "screenshot_manager.h"
 #include "level.h"
 #include "game_cl_mp.h"
-#include "tools/ppmd_compressor.h"
 #include "screenshots_writer.h"
 
 #ifdef DEBUG
@@ -336,14 +335,15 @@ void screenshot_manager::realloc_compress_buffer(u32 need_size)
 
 void screenshot_manager::compress_image()
 {
+	BEAR_RASSERT(false);
 	realloc_compress_buffer(m_jpeg_buffer_size);
 
-	m_buffer_for_compress_size = ppmd_compress(
+	/*m_buffer_for_compress_size = ppmd_compress(
 		m_buffer_for_compress,
 		m_buffer_for_compress_capacity,
 		m_jpeg_buffer,
 		m_jpeg_buffer_size
-	);
+	);*/
 }
 
 #ifdef DEBUG

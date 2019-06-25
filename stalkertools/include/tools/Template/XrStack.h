@@ -13,7 +13,7 @@ public:
     //explicit stack(const allocator_type& _Al = allocator_type()) : c(_Al) {}
     allocator_type get_allocator() const { return (c.get_allocator()); }
     bool empty() const { return (c.empty()); }
-    u32 size() const { return c.size(); }
+    bsize size() const { return c.size(); }
     value_type& top() { return (c.back()); }
     const value_type& top() const { return (c.back()); }
     void push(const value_type& _X) { c.push_back(_X); }

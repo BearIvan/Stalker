@@ -16,7 +16,6 @@
 #include "gamespy/GameSpy_Available.h"
 #include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
-#include "tools/os_clipboard.h"
 
 #include "DemoInfo.h"
 #include "DemoInfo_Loader.h"
@@ -278,7 +277,7 @@ bool CMainMenu::ReloadUI()
 			m_startDialog->HideDialog		();
 		CleanInternals						();
 	}
-	DLL_Pure* dlg = NEW_INSTANCE(TEXT2CLSID("MAIN_MNU"));
+	DLL_Pure* dlg = NEW_INSTANCE(XrClsid::String2Clsid("MAIN_MNU"));
 	if(!dlg) 
 	{
 		m_Flags.set				(flActive|flNeedChangeCapture,FALSE);
@@ -838,7 +837,7 @@ void CMainMenu::Show_DownloadMPMap(LPCSTR text, LPCSTR url)
 void CMainMenu::OnDownloadMPMap_CopyURL(CUIWindow* w, void* d)
 {
 	LPCSTR url = m_downloaded_mp_map_url.c_str();
-	os_clipboard::copy_to_clipboard( url );
+	XrClipboard::copy_to_clipboard( url );
 }
 
 void CMainMenu::OnDownloadMPMap(CUIWindow* w, void* d)

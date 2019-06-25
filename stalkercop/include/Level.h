@@ -7,7 +7,6 @@
 #include "engine/StatGraph.h"
 #include "xrMessages.h"
 #include "alife_space.h"
-#include "tools/xrDebug.h"
 #include "xrServer.h"
 #include "GlobalFeelTouch.hpp"
 #include "Level_network_map_sync.h"
@@ -318,8 +317,7 @@ public:
     void remove_objects();
     virtual void OnSessionTerminate(LPCSTR reason);
     file_transfer::client_site* m_file_transfer = nullptr;
-    compression::ppmd_trained_stream* m_trained_stream = nullptr;
-    compression::lzo_dictionary_buffer m_lzo_dictionary;
+
     // aligned to 16 bytes m_lzo_working_buffer
     u8* m_lzo_working_memory = nullptr;
     u8* m_lzo_working_buffer = nullptr;

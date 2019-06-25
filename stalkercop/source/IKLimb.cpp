@@ -538,8 +538,8 @@ void	CIKLimb::SetNewGoal	( const SIKCollideData &cld, SCalculateData& cd )
 						return;
 	get_blend_speed_limits(cd.l, cd.a, cd, sv_state );
 	cd.state.foot_step		= m_foot.GetFootStepMatrix( cd.state.goal, cd, cld, true, !!ik_allign_free_foot ) && cd.state.foot_step;
-
-	VERIFY2(XrMath::fsimilar( 1.f , DET( cd.state.goal.get() ), det_tolerance ), dump_string( "cd.state.goal", cd.state.goal.get() ).c_str() );
+	
+	VERIFY2(XrMath::fsimilar( 1.f , DET( cd.state.goal.get() ), det_tolerance ), XrDumpString::dump_string( "cd.state.goal", cd.state.goal.get() ).c_str() );
 
 	cd.state.blend_to = cd.state.goal;
 	sv_state.get_calculate_state( cd.state );

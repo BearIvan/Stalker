@@ -15,21 +15,21 @@ u32 NET_Packet::r_begin(u16& type) // returns time of receiving
     return timeReceive;
 }
 
-void NET_Packet::w_seek(u32 pos, const void* p, u32 count)
+void NET_Packet::w_seek(bsize pos, const void* p, bsize count)
 {
     VERIFY(p && count && (pos + count <= B.count));
     CopyMemory(&B.data[pos], p, count);
     //. INI_ASSERT (w_seek)
 }
 
-void NET_Packet::r_seek(u32 pos)
+void NET_Packet::r_seek(bsize pos)
 {
     INI_ASSERT(r_seek)
     VERIFY(pos < B.count);
     r_pos = pos;
 }
 
-u32 NET_Packet::r_tell()
+bsize NET_Packet::r_tell()
 {
     INI_ASSERT(r_tell)
     return r_pos;
@@ -41,13 +41,13 @@ BOOL NET_Packet::r_eof()
     return (r_pos >= B.count);
 }
 
-u32 NET_Packet::r_elapsed()
+bsize NET_Packet::r_elapsed()
 {
     INI_ASSERT(r_elapsed)
     return (B.count - r_pos);
 }
 
-void NET_Packet::r_advance(u32 size)
+void NET_Packet::r_advance(bint size)
 {
     INI_ASSERT(r_advance)
     r_pos += size;
@@ -355,7 +355,7 @@ void NET_Packet::r_clientID(ClientID& C)
     C.set(tmp);
 }
 
-void NET_Packet::r_stringZ_s(LPSTR string, u32 const size)
+void NET_Packet::r_stringZ_s(LPSTR string, bsize const size)
 {
     if (inistream)
     {

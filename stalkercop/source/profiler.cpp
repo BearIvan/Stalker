@@ -227,9 +227,9 @@ void CProfiler::show_stats			(CGameFont *game_font, bool show)
 
 		float					average = (*I).second.m_count ? (*I).second.m_total_time/float((*I).second.m_count) : 0.f;
 		if (average >= (*I).second.m_timer.get_elapsed_time().asseconds())
-			game_font->SetColor	(color_xrgb(127,127,127));
+			game_font->SetColor	(XrColor::XrColor::color_xrgb(127,127,127));
 		else
-			game_font->SetColor	(color_xrgb(255,255,255));
+			game_font->SetColor	(XrColor::XrColor::color_xrgb(255,255,255));
 
 		game_font->OutNext		(
 //			"%s.. %8.3f %8.3f %8.3f %8.3f %8.3f %8d %12.3f",
@@ -247,7 +247,7 @@ void CProfiler::show_stats			(CGameFont *game_font, bool show)
 		);
 	}
 
-	game_font->SetColor			(color_xrgb(255,255,255));
+	game_font->SetColor			(XrColor::XrColor::color_xrgb(255,255,255));
 }
 
 void CProfiler::add_profile_portion	(const CProfileResultPortion &profile_portion)

@@ -277,7 +277,7 @@ void CUIMainIngameWnd::Draw()
 	else {
 		u32		alpha			= XrMath::clampr(XrMath::iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
 		UIStaticDiskIO->Show		( true  ); 
-		UIStaticDiskIO->SetTextureColor(color_rgba(255,255,255,alpha));
+		UIStaticDiskIO->SetTextureColor(XrColor::color_rgba(255,255,255,alpha));
 	}
 //	FS.dwOpenCounter = 0;
 
@@ -613,7 +613,7 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	UIPickUpItemIcon->SetWndPos(Fvector2().set(	m_iPickUpItemIconX+(m_iPickUpItemIconWidth-UIPickUpItemIcon->GetWidth())/2.0f,
 												m_iPickUpItemIconY+(m_iPickUpItemIconHeight-UIPickUpItemIcon->GetHeight())/2.0f) );
 
-	UIPickUpItemIcon->SetTextureColor(color_rgba(255,255,255,192));
+	UIPickUpItemIcon->SetTextureColor(XrColor::color_rgba(255,255,255,192));
 	UIPickUpItemIcon->Show(true);
 };
 
@@ -871,21 +871,21 @@ void CUIMainIngameWnd::UpdateQuickSlots()
 				main_slot->SetStretchTexture(true);
 				if(!count)
 				{
-					wnd->SetTextureColor(color_rgba(255,255,255,0));
-					wnd->TextItemControl()->SetTextColor(color_rgba(255,255,255,0));
-					m_quick_slots_icons[i]->SetTextureColor(color_rgba(255,255,255,100));
+					wnd->SetTextureColor(XrColor::color_rgba(255,255,255,0));
+					wnd->TextItemControl()->SetTextColor(XrColor::color_rgba(255,255,255,0));
+					m_quick_slots_icons[i]->SetTextureColor(XrColor::color_rgba(255,255,255,100));
 				}
 				else
 				{
-					wnd->SetTextureColor(color_rgba(255,255,255,255));
-					wnd->TextItemControl()->SetTextColor(color_rgba(255,255,255,255));
-					m_quick_slots_icons[i]->SetTextureColor(color_rgba(255,255,255,255));
+					wnd->SetTextureColor(XrColor::color_rgba(255,255,255,255));
+					wnd->TextItemControl()->SetTextColor(XrColor::color_rgba(255,255,255,255));
+					m_quick_slots_icons[i]->SetTextureColor(XrColor::color_rgba(255,255,255,255));
 				}
 			}
 			else
 			{
 				wnd->Show(false);
-				m_quick_slots_icons[i]->SetTextureColor(color_rgba(255,255,255,0));
+				m_quick_slots_icons[i]->SetTextureColor(XrColor::color_rgba(255,255,255,0));
 //				m_quick_slots_icons[i]->Show(false);
 			}
 		}

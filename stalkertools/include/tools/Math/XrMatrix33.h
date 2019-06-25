@@ -1,6 +1,4 @@
-#ifndef _matrix33H_
-#define _matrix33H_
-
+#pragma once
 template <class T>
 struct _matrix33
 {
@@ -472,6 +470,3 @@ BOOL _valid(const _matrix33<T>& m)
         _valid(m.j) &&
         _valid(m.k);
 }
-
-#endif
-

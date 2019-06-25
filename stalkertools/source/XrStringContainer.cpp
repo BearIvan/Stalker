@@ -1,5 +1,5 @@
 #include "stdafx.h"
-constexpr bsize  HEADER = 12;
+constexpr bsize  HEADER = sizeof(XrStringContainerValue);
 namespace Impl
 {
 	struct XrStringContainer
@@ -72,9 +72,9 @@ namespace Impl
 				while (value)
 				{
 					u32 crc = BearCore::BearCheckSum::CRC32(value->value, value->dwLength);
-					string32 crc_str;
-					R_ASSERT3(crc == value->dwCRC, "CorePanic: read-only memory corruption (shared_strings)", itoa(value->dwCRC, crc_str, 16));
-					R_ASSERT3(value->dwLength == xr_strlen(value->value), "CorePanic: read-only memory corruption (shared_strings, internal structures)", value->value);
+					//string32 crc_str;
+					BEAR_RASSERT(crc == value->dwCRC);
+					BEAR_RASSERT(value->dwLength == xr_strlen(value->value));
 					value = value->next;
 				}
 			}
@@ -83,7 +83,7 @@ namespace Impl
 
 		void dump(FILE* f) const
 		{
-			for (u32 i = 0; i < buffer_size; ++i)
+			/*for (u32 i = 0; i < buffer_size; ++i)
 			{
 				XrStringContainerValue* value = buffer[i];
 				while (value)
@@ -91,12 +91,12 @@ namespace Impl
 					fprintf(f, "ref[%4u]-len[%3u]-crc[%8X] : %s\n", value->dwReference, value->dwLength, value->dwCRC, value->value);
 					value = value->next;
 				}
-			}
+			}*/
 		}
 
 		void dump(IWriter* f) const
 		{
-			for (u32 i = 0; i < buffer_size; ++i)
+			/*for (u32 i = 0; i < buffer_size; ++i)
 			{
 				XrStringContainerValue* value = buffer[i];
 				string4096 temp;
@@ -106,12 +106,12 @@ namespace Impl
 					f->w_string(temp);
 					value = value->next;
 				}
-			}
+			}*/
 		}
 
-		int stat_economy()
+		bsize stat_economy()
 		{
-			int counter = 0;
+			bsize counter = 0;
 			for (u32 i = 0; i < buffer_size; ++i)
 			{
 				XrStringContainerValue* value = buffer[i];
@@ -200,7 +200,9 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 		result->dwReference = 0;
 		result->dwLength = sv->dwLength;
 		result->dwCRC = sv->dwCRC;
-		CopyMemory(result->value, value, s_len_with_zero);
+		result->next = 0;
+		CopyMemory((uint8*)result+ HEADER, value, s_len_with_zero);
+		result->value = (bchar8*)result + HEADER;
 
 		impl->insert(result);
 	}
@@ -225,24 +227,25 @@ void XrStringContainer::verify()
 
 void XrStringContainer::dump()
 {
+	return;/*
 	cs->Enter();
-	FILE* F = fopen("d:\\$str_dump$.txt", "w");
+/*	FILE* F = fopen("d:\\$str_dump$.txt", "w");
 	impl->dump(F);
 	fclose(F);
-	cs->Leave();
+	cs->Leave();*/
 }
 
 void XrStringContainer::dump(IWriter* W)
 {
 	cs->Enter();
-	impl->dump(W);
+	impl->dump(W); 
 	cs->Leave();
 }
 
-u32 XrStringContainer::stat_economy()
+bsize XrStringContainer::stat_economy()
 {
 	cs->Enter();
-	int counter = 0;
+	bsize counter = 0;
 	counter -= sizeof(XrStringContainer);
 	counter += impl->stat_economy();
 	cs->Leave();
