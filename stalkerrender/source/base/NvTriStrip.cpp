@@ -83,8 +83,8 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
 	//put data in format that the stripifier likes
 	WordVec				tempIndices;
 	tempIndices.resize	(in_numIndices);
-	int i;
-	for(i = 0; i < in_numIndices; i++)
+
+	for(int i = 0; i < in_numIndices; i++)
 		tempIndices[i] = in_indices[i];
 	NvStripInfoVec		tempStrips;
 	NvFaceInfoVec		tempFaces;
@@ -241,7 +241,7 @@ void RemapIndices(const xr_vector<PrimitiveGroup> &in_primGroups, const u16 numV
 	//caches oldIndex --> newIndex conversion
 	int			*indexCache;
 	indexCache	= xr_alloc<int> (numVerts);
-	FillMemory	(indexCache, sizeof(int)*numVerts, -1);
+	FillMemory	(indexCache, sizeof(int)*numVerts, 0xFF);
 	
 	//loop over primitive groups
 	unsigned int indexCtr = 0;

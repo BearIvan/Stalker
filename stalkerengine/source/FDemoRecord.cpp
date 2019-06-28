@@ -271,10 +271,12 @@ void CDemoRecord::MakeCubeMapFace(Fvector& D, Fvector& N)
     case 5:
         N.set(cmNorm[m_Stage]);
         D.set(cmDir[m_Stage]);
-        Render->Screenshot(IRender_interface::SM_FOR_CUBEMAP, itoa(m_Stage, buf, 10));
+		BearCore::BearString::Printf(buf, "%u", buf);
+        Render->Screenshot(IRender_interface::SM_FOR_CUBEMAP, buf);
         break;
     case 6:
-        Render->Screenshot(IRender_interface::SM_FOR_CUBEMAP, itoa(m_Stage, buf, 10));
+		BearCore::BearString::Printf(buf, "%u", buf);
+        Render->Screenshot(IRender_interface::SM_FOR_CUBEMAP, buf);
         N.set(m_Camera.j);
         D.set(m_Camera.k);
         psHUD_Flags.assign(s_hud_flag);

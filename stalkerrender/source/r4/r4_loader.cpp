@@ -397,7 +397,6 @@ void CRender::Load3DFluid()
 	if (!RImplementation.o.volumetricfog)
 		return;
 
-	string_path fn_game;
 	if (FS.ExistFile("%level%", "level.fog_vol"))
 	{
 		IReader *F = XRayBearReader::Create(FS.Read("%level%", "level.fog_vol"));

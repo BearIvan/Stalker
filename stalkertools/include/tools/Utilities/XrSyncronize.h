@@ -22,5 +22,5 @@ public:
 
 	IC void Enter(){m_mutex.Lock();}
 	IC void Leave() { m_mutex.Unlock(); }
-	IC BOOL TryEnter() { m_mutex.TryLock(); }
+	IC BOOL TryEnter() { return m_mutex.TryLock(); }
 };

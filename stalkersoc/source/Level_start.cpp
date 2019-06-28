@@ -24,7 +24,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 		string512 tmp;
 		strcpy_s(tmp, op_client);
 		strcat_s(tmp, "/name=");
-		strcat_s(tmp, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
+		strcat_s(tmp, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
@@ -35,7 +35,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 			string1024 tmpstr;
 			strcpy_s(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
-			strcat_s(tmpstr, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName);
+			strcat_s(tmpstr, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName);
 			const char* ptmp = strstr(strstr(op_client, "name="), "/");
 			if (ptmp)
 				strcat_s(tmpstr, ptmp);

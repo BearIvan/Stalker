@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #pragma hdrstop
-
+#include "ttapi.h"
 typedef struct TTAPI_WORKER_PARAMS {
 	volatile LONG			vlFlag;
 	LPPTTAPI_WORKER_FUNC	lpWorkerFunc;
@@ -17,8 +17,8 @@ static DWORD ttapi_threads_count = 0;
 static DWORD ttapi_assigned_workers = 0;
 static LPTTAPI_WORKER_PARAMS ttapi_worker_params = NULL;
 
-static DWORD ttapi_dwFastIter = 0;
-static DWORD ttapi_dwSlowIter = 0;
+static LONGLONG ttapi_dwFastIter = 0;
+static LONGLONG ttapi_dwSlowIter = 0;
 
 struct {
 	volatile LONG size;
@@ -28,7 +28,7 @@ struct {
 DWORD WINAPI ttapiThreadProc( LPVOID lpParameter )
 {
 	LPTTAPI_WORKER_PARAMS pParams = ( LPTTAPI_WORKER_PARAMS ) lpParameter;
-	DWORD i , dwFastIter = ttapi_dwFastIter , dwSlowIter = ttapi_dwSlowIter;
+	LONGLONG i , dwFastIter = ttapi_dwFastIter , dwSlowIter = ttapi_dwSlowIter;
 
 	while( TRUE ) {		
 		// Wait
@@ -98,7 +98,7 @@ void SetThreadName( DWORD dwThreadID , LPCSTR szThreadName )
   }
 }
 
-DWORD ttapi_Init( )
+PARTICLES_API DWORD ttapi_Init( )
 {
 	if ( ttapi_initialized )
 		return ttapi_workers_count;
@@ -167,13 +167,12 @@ DWORD ttapi_Init( )
 		return 0;
 
 	// Clearing params
-	for ( DWORD i = 0 ; i < ttapi_workers_count ; i++ )
-		memset( &ttapi_worker_params[ i ] , 0 , sizeof( TTAPI_WORKER_PARAMS ) );
+	for ( DWORD i1 = 0 ; i1 < ttapi_workers_count ; i1++ )
+		memset( &ttapi_worker_params[ i1 ] , 0 , sizeof( TTAPI_WORKER_PARAMS ) );
 
 	char szThreadName[64];
 	DWORD dwThreadId = 0;
 	//DWORD dwAffinitiMask = 1;// ID->affinity_mask;
-	DWORD dwCurrentMask = 0x01;
 
 	// Setting affinity
 /*	while ( ! ( dwAffinitiMask & dwCurrentMask ) )
@@ -183,12 +182,12 @@ DWORD ttapi_Init( )
 	//Msg("Master Thread Affinity Mask : 0x%8.8X" , dwCurrentMask );
 
 	// Creating threads
-	for ( DWORD i = 0 ; i < ttapi_threads_count ; i++ ) {
+	for ( DWORD i1 = 0 ; i1 < ttapi_threads_count ; i1++ ) {
 
 		// Initializing "enter" "critical section"
-		ttapi_worker_params[ i ].vlFlag = 1;
+		ttapi_worker_params[ i1 ].vlFlag = 1;
 
-		if ( ( ttapi_threads_handles[ i ] = CreateThread( NULL , 0 , &ttapiThreadProc , &ttapi_worker_params[ i ] , 0 , &dwThreadId ) ) == NULL )
+		if ( ( ttapi_threads_handles[ i1 ] = CreateThread( NULL , 0 , &ttapiThreadProc , &ttapi_worker_params[ i ] , 0 , &dwThreadId ) ) == NULL )
 			return 0;
 
 		// Setting affinity
@@ -200,7 +199,7 @@ DWORD ttapi_Init( )
 		//Msg("Helper Thread #%u Affinity Mask : 0x%8.8X" , i + 1 , dwCurrentMask );
 
 		// Setting thread name
-		sprintf_s( szThreadName , "Helper Thread #%u" , i );
+		sprintf_s( szThreadName , "Helper Thread #%u" , i1 );
 		SetThreadName( dwThreadId , szThreadName );
 	}
 
@@ -209,14 +208,14 @@ DWORD ttapi_Init( )
 	return ttapi_workers_count;
 }
 
-DWORD ttapi_GetWorkersCount()
+PARTICLES_API DWORD ttapi_GetWorkersCount()
 {
 	return ttapi_workers_count;
 }
 
 // We do not check for overflow here to be faster
 // Assume that caller is smart enough to use ttapi_GetWorkersCount() to get number of available slots
-VOID ttapi_AddWorker( LPPTTAPI_WORKER_FUNC lpWorkerFunc , LPVOID lpvWorkerFuncParams )
+PARTICLES_API VOID ttapi_AddWorker( LPPTTAPI_WORKER_FUNC lpWorkerFunc , LPVOID lpvWorkerFuncParams )
 {	
 	// Assigning parameters
 	ttapi_worker_params[ ttapi_assigned_workers ].lpWorkerFunc = lpWorkerFunc;
@@ -225,8 +224,9 @@ VOID ttapi_AddWorker( LPPTTAPI_WORKER_FUNC lpWorkerFunc , LPVOID lpvWorkerFuncPa
 	ttapi_assigned_workers++;	
 }
 
-VOID ttapi_RunAllWorkers()
+PARTICLES_API VOID ttapi_RunAllWorkers()
 {	
+
 	DWORD ttapi_thread_workers = ( ttapi_assigned_workers - 1 );
 	//unsigned __int64 Start,Stop;
 
@@ -257,7 +257,7 @@ VOID ttapi_RunAllWorkers()
 	ttapi_assigned_workers = 0;
 }
 
-VOID ttapi_Done()
+PARTICLES_API VOID ttapi_Done()
 {
 	if ( ! ttapi_initialized )
 		return;

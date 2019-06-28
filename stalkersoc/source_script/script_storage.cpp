@@ -689,7 +689,7 @@ void CScriptStorage::print_error(lua_State *L, int iErrorCode)
 void CScriptStorage::flush_log()
 {
 	string_path			log_file_name;
-	strconcat           (sizeof(log_file_name),log_file_name,"stalker","_",Core.UserName,"_lua.log");
+	strconcat           (sizeof(log_file_name),log_file_name,"stalker","_",XrCore::UserName,"_lua.log");
 	BearCore::BearStringPath Path;
 	FS.UpdatePath      ("%logs%",0, Path);
 	BearCore::BearString::Contact(Path, BEAR_PATH);

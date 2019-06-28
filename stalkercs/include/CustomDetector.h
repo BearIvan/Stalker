@@ -82,7 +82,7 @@ public:
 			if(pSettings->line_exist(sect,temp))
 			{
 				LPCSTR z_Class			= pSettings->r_string(sect,temp);
-				CLASS_ID item_cls		= TEXT2CLSID(pSettings->r_string(z_Class,"class"));
+				CLASS_ID item_cls		= XrClsid::String2Clsid(pSettings->r_string(z_Class,"class"));
 
 				m_TypesMap.insert		(std::make_pair(item_cls,ITEM_TYPE()));
 				ITEM_TYPE& item_type	= m_TypesMap[item_cls];

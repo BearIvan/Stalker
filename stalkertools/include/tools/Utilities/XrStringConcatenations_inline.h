@@ -111,7 +111,7 @@ private:
 
         static inline u32 length(LPCSTR string)
         {
-            return (string ? (unsigned int)xr_strlen(string) : 0);
+            return (string ? (unsigned int)BearCore::BearString::GetSize(string) : 0);
         }
 
         static inline LPCSTR string(LPCSTR string)

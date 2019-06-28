@@ -17,9 +17,6 @@
 #include "xrRender/dxUIShader.h"
 //#include "../../xrServerEntities/smart_cast.h"
 #include "api/XrGameVersionController.h"
-#ifndef _EDITOR
-#include "ttapi.h"
-#endif
 
  
 using	namespace		R_dsgraph;
@@ -496,8 +493,8 @@ void CRender::Calculate				()
 							// rendering
 							if (o_it==uID_LTRACK && renderable->renderable_ROS())	{
 								// track lighting environment
-								CROS_impl*		T = (CROS_impl*)renderable->renderable_ROS();
-								T->update			(renderable);
+								CROS_impl*		T1 = (CROS_impl*)renderable->renderable_ROS();
+								T1->update			(renderable);
 							}
 							set_Object						(renderable);
 							renderable->renderable_Render	();
@@ -783,14 +780,14 @@ static HRESULT create_shader				(
 
 	if (disasm)
 	{
-		ID3DXBuffer*	disasm	= 0;
-		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm );
+		ID3DXBuffer*	disasm1	= 0;
+		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm1 );
 		string_path		dname;
 		strconcat		(sizeof(dname),dname,"disasm\\",file_name,('v'==pTarget[0])?".vs":".ps" );
 		IWriter*		W =XRayBearWriter::Create( FS.Write("%logs%",dname,0));
-		W->w			(disasm->GetBufferPointer(),disasm->GetBufferSize());
+		W->w			(disasm1->GetBufferPointer(),disasm1->GetBufferSize());
 		XRayBearWriter::Destroy		(W);
-		_RELEASE		(disasm);
+		_RELEASE		(disasm1);
 	}
 
 	return				_result;
@@ -873,7 +870,7 @@ HRESULT	CRender::shader_compile			(
 
 	HRESULT		_result = E_FAIL;
 
-	string_path	folder_name, folder;
+	string_path	 folder;
 	xr_strcpy		( folder, name );
 	xr_strcat		( folder, "." );
 

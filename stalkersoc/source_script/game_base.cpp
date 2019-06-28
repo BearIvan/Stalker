@@ -187,38 +187,38 @@ CLASS_ID game_GameState::getCLASS_ID(LPCSTR game_type_name, bool isServer)
 		if(clsid.size()==0)
 			Debug.fatal		(DEBUG_INFO,"Unknown game type: %s",game_type_name);
 
-		return				(TEXT2CLSID(*clsid));
+		return				(XrClsid::String2Clsid(*clsid));
 	}
 
 	if (isServer) {
 		if (!xr_strcmp(game_type_name,"single"))
-			return			(TEXT2CLSID("SV_SINGL"));
+			return			(XrClsid::String2Clsid("SV_SINGL"));
 
 		if (!xr_strcmp(game_type_name,"deathmatch"))
-			return			(TEXT2CLSID("SV_DM"));
+			return			(XrClsid::String2Clsid("SV_DM"));
 
 		if (!xr_strcmp(game_type_name,"teamdeathmatch"))
-			return			(TEXT2CLSID("SV_TDM"));
+			return			(XrClsid::String2Clsid("SV_TDM"));
 
 		if (!xr_strcmp(game_type_name,"artefacthunt"))
-			return			(TEXT2CLSID("SV_AHUNT"));
+			return			(XrClsid::String2Clsid("SV_AHUNT"));
 
-		return				(TEXT2CLSID(""));
+		return				(XrClsid::String2Clsid(""));
 	}		
 
 	if (!xr_strcmp(game_type_name,"single"))
-		return				(TEXT2CLSID("CL_SINGL"));
+		return				(XrClsid::String2Clsid("CL_SINGL"));
 
 	if (!xr_strcmp(game_type_name,"deathmatch"))
-		return				(TEXT2CLSID("CL_DM"));
+		return				(XrClsid::String2Clsid("CL_DM"));
 
 	if (!xr_strcmp(game_type_name,"teamdeathmatch"))
-		return				(TEXT2CLSID("CL_TDM"));
+		return				(XrClsid::String2Clsid("CL_TDM"));
 
 	if (!xr_strcmp(game_type_name,"artefacthunt"))
-		return				(TEXT2CLSID("CL_AHUNT"));
+		return				(XrClsid::String2Clsid("CL_AHUNT"));
 
-	return					(TEXT2CLSID(""));
+	return					(XrClsid::String2Clsid(""));
 }
 
 void game_GameState::switch_Phase		(u32 new_phase)

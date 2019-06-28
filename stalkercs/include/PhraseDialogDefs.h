@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tools/intrusive_ptr.h"
+#include "tools/Utilities/XrIntrusivePtr.h"
 
 class CPhraseDialog;
 

@@ -104,7 +104,7 @@ void	game_sv_ArtefactHunt::Create					(shared_str& options)
 	m_iMoney_for_BuySpawn = READ_IF_EXISTS(pSettings, r_s32, "artefacthunt_gamedata", "spawn_cost", -10000);
 	//---------------------------------------------------------------
 	Set_RankUp_Allowed			( false );
-	ArtefactChooserRandom.seed	( u32(CPU::QPC() & 0xffffffff) );
+	ArtefactChooserRandom.seed	( BearCore::BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 void game_sv_ArtefactHunt::OnRoundStart()

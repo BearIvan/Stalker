@@ -1,7 +1,6 @@
 #pragma once
 #include "uigamecustom.h"
 #include "ui/UIDialogWnd.h"
-#include "tools/net_utils.h"
 #include "game_graph_space.h"
 
 class CUIInventoryWnd;

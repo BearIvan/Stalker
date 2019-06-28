@@ -20,10 +20,10 @@ void fix_texture_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-	  (0==stricmp(_ext,".tga")	||
-		0==stricmp(_ext,".dds")	||
-		0==stricmp(_ext,".bmp")	||
-		0==stricmp(_ext,".ogm")	) )
+	  (0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
@@ -362,7 +362,7 @@ _DDS:
 
 _DDS_CUBE:
 		{
-			HRESULT const result	=
+			HRESULT const result1	=
 				D3DXCreateCubeTextureFromFileInMemoryEx(
 					HW.pDevice,
 					S->pointer(),S->length(),
@@ -377,7 +377,7 @@ _DDS_CUBE:
 				);
 			XRayBearReader::Destroy(S);
 
-			if ( FAILED(result) ) {
+			if ( FAILED(result1) ) {
 				Msg("! Can't load texture'%s'", fname);
 				XRayBearReader::Destroy(S);
 				xr_strcpy(fname, "ed\\ed_not_existing_texture");
@@ -394,10 +394,10 @@ _DDS_CUBE:
 		}
 _DDS_2D:
 		{
-			strlwr					(fname);
+			BearCore::BearString::ToLower					(fname);
 			// Load   SYS-MEM-surface, bound to device restrictions
 			ID3DTexture2D*		T_sysmem;
-			HRESULT const result	=
+			HRESULT const result1	=
 				D3DXCreateTextureFromFileInMemoryEx(
 					HW.pDevice,S->pointer(),S->length(),
 					D3DX_DEFAULT,D3DX_DEFAULT,
@@ -411,7 +411,7 @@ _DDS_2D:
 				);
 			XRayBearReader::Destroy(S);
 
-			if ( FAILED(result) ) {
+			if ( FAILED(result1) ) {
 				Msg("! Can't load texture'%s'", fname);
 				XRayBearReader::Destroy(S);
 				xr_strcpy(fname, "ed\\ed_not_existing_texture");

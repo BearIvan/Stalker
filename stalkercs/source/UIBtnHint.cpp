@@ -38,7 +38,7 @@ void CUIButtonHint::OnRender	()
 	if(m_enabledOnFrame){
 		m_text->Update		();
 		m_border->Update	();
-		m_border->SetColor	(color_rgba(255,255,255,color_get_A(m_text->GetTextColor())));
+		m_border->SetColor	(XrColor::color_rgba(255,255,255,XrColor::color_get_A(m_text->GetTextColor())));
 		Draw				();
 		m_enabledOnFrame	= false;
 	}

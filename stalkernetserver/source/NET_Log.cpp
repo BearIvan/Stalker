@@ -68,8 +68,7 @@ INetLog::INetLog(LPCSTR sFileName, u32 dwStartTime)
 {
 	xr_strcpy(m_cFileName, sFileName);
 
-	m_pLogFile = NULL;
-	m_pLogFile = fopen(sFileName, "wb");
+	if(!m_pLogFile.Open(sFileName, m_pLogFile.M_Write))m_cFileName[0]=0;
 	m_dwStartTime = 0;//dwStartTime;
 
 }
@@ -77,22 +76,23 @@ INetLog::INetLog(LPCSTR sFileName, u32 dwStartTime)
 INetLog::~INetLog() 
 {
 	FlushLog();
-	if (m_pLogFile) fclose(m_pLogFile);
-	m_pLogFile = NULL;
 }
 
 void	INetLog::FlushLog()
 {
-	if (m_pLogFile)
+	if (m_cFileName[0])
 	{
 		for(xr_vector<SLogPacket>::iterator it = m_aLogPackets.begin(); it != m_aLogPackets.end(); it++)
 		{
 			SLogPacket* pLPacket = &(*it);
+			BearCore::BearString str;
 			if (pLPacket->m_u16Type >= sizeof(PacketName)/sizeof(PacketName[0]))
-				fprintf(m_pLogFile, "%s %10u %10u %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, pLPacket->m_u16Type, pLPacket->m_u32Size);
+				str.assign_printf( "%s %10u %10u %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, pLPacket->m_u16Type, pLPacket->m_u32Size);
 			else
-				fprintf(m_pLogFile, "%s %10u %10s %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, PacketName[pLPacket->m_u16Type], pLPacket->m_u32Size);
+				str.assign_printf("%s %10u %10s %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, PacketName[pLPacket->m_u16Type], pLPacket->m_u32Size);
+			m_pLogFile.WriteString(str, BearCore::BearEncoding::UTF8, false);
 		};
+
 	};
 
 	m_aLogPackets.clear();

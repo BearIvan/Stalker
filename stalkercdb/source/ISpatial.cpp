@@ -1,10 +1,12 @@
 
 #include "stdafx.h"
-#include "engine/render.h"
+
+#include "engine/EngineAPI.h"
 #ifdef DEBUG
 #include "engine/xr_object.h"
 #include "engine/PS_Instance.h"
 #endif
+#include "engine/render.h"
 #include "ispatial.h"
 
 

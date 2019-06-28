@@ -138,11 +138,11 @@ void	CRender::render_lights	(light_Package& LP)
   
 		//		if (has_point_unshadowed)	-> 	accum point unshadowed
 		if		(!LP.v_point.empty())	{
-			light*	L	= LP.v_point.back	();		LP.v_point.pop_back		();
-			L->vis_update				();
-			if (L->vis.visible)			{ 
-				Target->accum_point		(L);
-				render_indirect			(L);
+			light*	L1	= LP.v_point.back	();		LP.v_point.pop_back		();
+			L1->vis_update				();
+			if (L1->vis.visible)			{ 
+				Target->accum_point		(L1);
+				render_indirect			(L1);
 			}
 		}
 
@@ -150,12 +150,12 @@ void	CRender::render_lights	(light_Package& LP)
 
       //		if (has_spot_unshadowed)	-> 	accum spot unshadowed
 		if		(!LP.v_spot.empty())	{
-			light*	L	= LP.v_spot.back	();		LP.v_spot.pop_back			();
-			L->vis_update				();
-			if (L->vis.visible)			{ 
-				LR.compute_xf_spot		(L);
-				Target->accum_spot		(L);
-				render_indirect			(L);
+			light*	L1	= LP.v_spot.back	();		LP.v_spot.pop_back			();
+			L1->vis_update				();
+			if (L1->vis.visible)			{ 
+				LR.compute_xf_spot		(L1);
+				Target->accum_spot		(L1);
+				render_indirect			(L1);
 			}
 		}
 

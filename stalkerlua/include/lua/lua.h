@@ -8,7 +8,11 @@
 
 #ifndef lua_h
 #define lua_h
-
+#ifdef LUA_LIB
+#ifdef _MSC_VER
+#pragma warning(disable:4996 4005 4127 4100)
+#endif
+#endif
 #include <stdarg.h>
 #include <stddef.h>
 

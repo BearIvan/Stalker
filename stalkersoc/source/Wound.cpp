@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "wound.h"
-#include "tools/net_utils.h"
 #include "engine/bone.h"
 
 CWound::CWound(u16 bone_num)

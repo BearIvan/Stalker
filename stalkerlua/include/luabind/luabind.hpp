@@ -23,11 +23,16 @@
 
 #ifndef LUABIND_BIND_HPP_INCLUDED
 #define LUABIND_BIND_HPP_INCLUDED
-
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4458)
+#endif
 #include "config.hpp"
 #include "class.hpp"
 #include "function.hpp"
 #include "functor.hpp"
 #include "open.hpp"
-
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 #endif // LUABIND_BIND_HPP_INCLUDED

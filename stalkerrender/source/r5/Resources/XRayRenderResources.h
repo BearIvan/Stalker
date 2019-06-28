@@ -1,5 +1,5 @@
 #pragma once
-#define REGISTER(name,byte,size) name=byte,
+#define REGISTER(name,byte,size,a1,a2) name=byte,
 enum D3DVertexState
 {
 #include "D3D9VertexState.h"

@@ -143,7 +143,6 @@ bool IGame_Level::Load(u32 dwNum)
 }
 
 #ifndef _EDITOR
-#include "ttapi.h"
 #endif
 
 int psNET_DedicatedSleep = 5;

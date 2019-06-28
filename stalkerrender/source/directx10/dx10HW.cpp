@@ -738,9 +738,7 @@ BOOL CHW::support( D3DFORMAT fmt, DWORD type, DWORD usage)
 void CHW::updateWindowProps(HWND m_hWnd)
 {
 	//	BOOL	bWindowed				= strstr(Core.Params,"-dedicated") ? TRUE : !psDeviceFlags.is	(rsFullscreen);
-	BOOL	bWindowed				= !psDeviceFlags.is	(rsFullscreen);
 
-	u32		dwWindowStyle			= 0;
 	// Set window properties depending on what mode were in.
 	/*if (bWindowed)		{
 		if (m_move_window) {
@@ -793,7 +791,7 @@ struct _uniq_mode
 {
 	_uniq_mode(LPCSTR v):_val(v){}
 	LPCSTR _val;
-	bool operator() (LPCSTR _other) {return !stricmp(_val,_other);}
+	bool operator() (LPCSTR _other) {return !BearCore::BearString::CompareWithoutCase(_val,_other);}
 };
 
 #ifndef _EDITOR

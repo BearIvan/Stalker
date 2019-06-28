@@ -1756,44 +1756,48 @@ void PATurbulenceExecuteStream( LPVOID lpvParams )
 
 }
 
-
+static bool init = false;
 void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
-	#ifdef _GPA_ENABLED	
-		TAL_SCOPED_TASK_NAMED( "PATurbulence::Execute()" );
-	#endif // _GPA_ENABLED
-
-	if ( noise_start ) {
+#ifdef _GPA_ENABLED	
+	TAL_SCOPED_TASK_NAMED("PATurbulence::Execute()");
+#endif // _GPA_ENABLED
+	if (!init)
+	{
+		init = true;
+		ttapi_Init();
+	}
+	if (noise_start) {
 		noise_start = 0;
 		noise3Init();
 	};
 
-    age		+= dt;
+	age += dt;
 
 	u32 p_cnt = effect->p_count;
 
-	if ( ! p_cnt )
+	if (!p_cnt)
 		return;
 
 	u32 nWorkers = ttapi_GetWorkersCount();
 
-	if ( p_cnt < nWorkers * 20 )
+	if (p_cnt < nWorkers * 20)
 		nWorkers = 1;
 
-	TES_PARAMS* tesParams = (TES_PARAMS*) _alloca( sizeof(TES_PARAMS) * nWorkers );
+	TES_PARAMS* tesParams = (TES_PARAMS*)_alloca(sizeof(TES_PARAMS) * nWorkers);
 
 	// Give ~1% more for the last worker
 	// to minimize wait in final spin
-	u32 nSlice = p_cnt / 128; 
+	u32 nSlice = p_cnt / 128;
 
-	u32 nStep = ( ( p_cnt - nSlice ) / nWorkers );
+	u32 nStep = ((p_cnt - nSlice) / nWorkers);
 	//u32 nStep = ( p_cnt / nWorkers );
 
 	//Msg( "Trb: %u" , nStep );
 
-	for ( u32 i = 0 ; i < nWorkers ; ++i ) {
+	for (u32 i = 0; i < nWorkers; ++i) {
 		tesParams[i].p_from = i * nStep;
-		tesParams[i].p_to = ( i == ( nWorkers - 1 ) ) ? p_cnt : ( tesParams[i].p_from + nStep );
+		tesParams[i].p_to = (i == (nWorkers - 1)) ? p_cnt : (tesParams[i].p_from + nStep);
 
 		tesParams[i].effect = effect;
 		tesParams[i].offset = offset;
@@ -1803,13 +1807,12 @@ void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max
 		tesParams[i].octaves = octaves;
 		tesParams[i].magnitude = magnitude;
 
-		ttapi_AddWorker( PATurbulenceExecuteStream , (LPVOID) &tesParams[i] );
+		ttapi_AddWorker(PATurbulenceExecuteStream, (LPVOID)&tesParams[i]);
 	}
 
 	ttapi_RunAllWorkers();
 
 }
-
 #else
 
 void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max)

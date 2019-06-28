@@ -75,7 +75,7 @@ CSavedGameWrapper::CSavedGameWrapper			(LPCSTR saved_game_name)
 
 	u32							source_count = stream->r_u32();
 	void						*source_data = xr_malloc(source_count);
-	rtc_decompress(source_data, source_count, stream->pointer(), stream->length() - 3 * sizeof(u32));
+	XrCompressor::RtcDecompress(source_data, source_count, stream->pointer(), stream->length() - 3 * sizeof(u32));
 	XRayBearReader::Destroy(stream);
 
 

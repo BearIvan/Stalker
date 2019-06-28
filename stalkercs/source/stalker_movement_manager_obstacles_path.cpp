@@ -113,8 +113,8 @@ void stalker_movement_manager_obstacles::build_level_path					()
 #endif // MASTER_GOLD
 
 #ifdef DEBUG
-	CTimer							timer;
-	timer.Start						();
+	BearCore::BearTimer							timer;
+	timer.restart						();
 #endif // DEBUG
 
 	if (m_last_dest_vertex_id != level_path().dest_vertex_id())

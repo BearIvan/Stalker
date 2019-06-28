@@ -205,7 +205,7 @@ bool CUIXmlInit::InitStatic(CUIXml& xml_doc, LPCSTR path,
 		u32 hR = static_cast<u32>(xml_doc.ReadAttribInt(path, index, "hR", 255));
 		u32 hG = static_cast<u32>(xml_doc.ReadAttribInt(path, index, "hG", 255));
 		u32 hB = static_cast<u32>(xml_doc.ReadAttribInt(path, index, "hB", 255));
-		pWnd->SetHighlightColor(color_argb(hA, hR, hG, hB));
+		pWnd->SetHighlightColor(XrColor::color_argb(hA, hR, hG, hB));
 
 	}
 
@@ -1189,7 +1189,7 @@ void CUIXmlInit::InitColorDefs()
 		b		= uiXml.ReadAttribInt("color", i, "b", 0);
 		a		= uiXml.ReadAttribInt("color", i, "a", 255);
 		
-		(*m_pColorDefs)[name] = color_argb(a,r,g,b);
+		(*m_pColorDefs)[name] = XrColor::color_argb(a,r,g,b);
 	}
 }
 
@@ -1347,7 +1347,7 @@ u32	CUIXmlInit::GetColor(CUIXml& xml_doc, const char* path, int index, u32 def_c
 		int g = xml_doc.ReadAttribInt(path, index, "g", def_clr);
 		int b = xml_doc.ReadAttribInt(path, index, "b", def_clr);
 		int a = xml_doc.ReadAttribInt(path, index, "a", 0xff);
-		return color_argb(a,r,g,b);
+		return XrColor::color_argb(a,r,g,b);
 	}
 
 }

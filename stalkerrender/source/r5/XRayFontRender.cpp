@@ -31,7 +31,7 @@ void XRayFontRender::OnRender(CGameFont & owner)
 		// calculate first-fit
 		int		count = 1;
 
-		int length = owner.smart_strlen(owner.strings[i].string);
+		bsize length = owner.smart_strlen(owner.strings[i].string);
 
 		while ((i + count) < owner.strings.size()) {
 			int L = owner.smart_strlen(owner.strings[i + count].string);
@@ -43,8 +43,6 @@ void XRayFontRender::OnRender(CGameFont & owner)
 			else		break;
 		}
 
-		// lock AGP memory
-		u32	vOffset = 0;
 		if(m_vertex_count< length * 4)
 		m_vertex_buffer.Create(length * 4 * sizeof(FVF::TL));
 
@@ -139,23 +137,23 @@ void XRayFontRender::OnRender(CGameFont & owner)
 		m_vertex_buffer.Unlock();
 
 		if (vCount) {
-			bsize count = vCount / 4 * 6;
+			bsize count1 = vCount / 4 * 6;
 			BearGraphics::BearRenderInterface::SetVertexBuffer(m_vertex_buffer);
-			if (m_index_count < count)
+			if (m_index_count < count1)
 			{
 			
-				m_index_buffer.Create(count * sizeof(uint32));
+				m_index_buffer.Create(count1 * sizeof(uint32));
 				uint32*list = (uint32*)m_index_buffer.Lock();
-				bear_fill(list, count);
-				m_index_count = count;
-				for (bsize i = 0; i < count/6; i++)
+				bear_fill(list, count1);
+				m_index_count = count1;
+				for (bsize i1 = 0; i1 < count1/6; i1++)
 				{
-					list[i * 6+0] = i * 4 + 0;
-					list[i * 6+1] = i * 4 + 1;
-					list[i * 6+2] = i * 4 + 2;
-					list[i * 6+3] = i *4 + 1;
-					list[i * 6+4] = i * 4 + 3;
-					list[i * 6+5] = i *4 + 2;
+					list[i1 * 6+0] = i1 * 4 + 0;
+					list[i1 * 6+1] = i1 * 4 + 1;
+					list[i1 * 6+2] = i1 * 4 + 2;
+					list[i1 * 6+3] = i1 *4 + 1;
+					list[i1 * 6+4] = i1 * 4 + 3;
+					list[i1 * 6+5] = i1 *4 + 2;
 					
 				}
 				m_index_buffer.Unlock();

@@ -128,7 +128,7 @@ void CUIProgressShape::Draw()
 	for ( u32 i = 0; i < m_sectorCount; ++i )
 	{
 		float ffff					= calc_color		(i+1, m_sectorCount, m_stage, 1.0f, m_blend);
-		u32 color					= color_argb_f		(ffff,1.0f,1.0f,1.0f); 
+		u32 color					= XrColor::XrColor::color_argb_f		(ffff,1.0f,1.0f,1.0f); 
 
 		UIRender->PushPoint(center_pos.x, center_pos.y, 0, color, center_tex.x, center_tex.y);
 

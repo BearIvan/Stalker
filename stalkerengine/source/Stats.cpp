@@ -150,7 +150,7 @@ void CStats::Show()
         float fInv = 1.f - fOne;
         fFPS = fInv*fFPS + fOne*fps;
 
-        if (RenderTOTAL.GetResult() > XrMath::EPS_S)
+        if (RenderTOTAL_Real.GetResult() > XrMath::EPS_S)
         {
             u32 rendered_polies = Device.m_pRender->GetCacheStatPolys();
             fTPS = fInv*fTPS + fOne*float(rendered_polies) / (RenderTOTAL.GetResult()*1000.f);
@@ -349,25 +349,25 @@ void CStats::Show()
     // PERF ALERT
     if (!g_bDisableRedText)
     {
-        CGameFont& F = *((CGameFont*)pFont);
-        F.SetColor(XrColor::color_rgba(255, 16, 16, 255));
-        F.OutSet(300, 300);
-        F.SetHeightI(f_base_size * 2);
-        if (fFPS < 30)     F.OutNext("FPS       < 30:   %3.1f", fFPS);
-        //if (RCache.stat.verts>500000) F.OutNext ("Verts     > 500k: %d", RCache.stat.verts);
-        m_pRender->GuardVerts(F);
-        ////if (RCache.stat.polys>500000) F.OutNext ("Polys     > 500k: %d", RCache.stat.polys);
+        CGameFont& F1 = *((CGameFont*)pFont);
+        F1.SetColor(XrColor::color_rgba(255, 16, 16, 255));
+        F1.OutSet(300, 300);
+        F1.SetHeightI(f_base_size * 2);
+        if (fFPS < 30)     F1.OutNext("FPS       < 30:   %3.1f", fFPS);
+        //if (RCache.stat.verts>500000) F1.OutNext ("Verts     > 500k: %d", RCache.stat.verts);
+        m_pRender->GuardVerts(F1);
+        ////if (RCache.stat.polys>500000) F1.OutNext ("Polys     > 500k: %d", RCache.stat.polys);
         if (psDeviceFlags.test(rsStatistic))
         {
-            m_pRender->GuardDrawCalls(F);
-            //if (RCache.stat.calls>1000)  F.OutNext ("DIP/DP    > 1k:   %d", RCache.stat.calls);
-            ////if (RCache.stat.textures>1000)F.OutNext ("T_change  > 500:  %d", RCache.stat.textures);
-            if (RenderDUMP_DT_Count > 1000) F.OutNext("DT_count  > 1000: %u", RenderDUMP_DT_Count);
-            F.OutSkip();
-            //if (fMem_calls>1500)   F.OutNext ("MMGR calls > 1500:%3.1f", fMem_calls);
-            if (Sheduler.GetResult() > 3.f)  F.OutNext("Update     > 3ms: %3.1f", Sheduler.GetResult());
-            if (UpdateClient.GetResult() > 3.f) F.OutNext("UpdateCL   > 3ms: %3.1f", UpdateClient.GetResult());
-            if (Physics.GetResult() > 5.f)   F.OutNext("Physics    > 5ms: %3.1f", Physics.GetResult());
+            m_pRender->GuardDrawCalls(F1);
+            //if (RCache.stat.calls>1000)  F1.OutNext ("DIP/DP    > 1k:   %d", RCache.stat.calls);
+            ////if (RCache.stat.textures>1000)F1.OutNext ("T_change  > 500:  %d", RCache.stat.textures);
+            if (RenderDUMP_DT_Count > 1000) F1.OutNext("DT_count  > 1000: %u", RenderDUMP_DT_Count);
+            F1.OutSkip();
+            //if (fMem_calls>1500)   F1.OutNext ("MMGR calls > 1500:%3.1f", fMem_calls);
+            if (Sheduler.GetResult() > 3.f)  F1.OutNext("Update     > 3ms: %3.1f", Sheduler.GetResult());
+            if (UpdateClient.GetResult() > 3.f) F1.OutNext("UpdateCL   > 3ms: %3.1f", UpdateClient.GetResult());
+            if (Physics.GetResult() > 5.f)   F1.OutNext("Physics    > 5ms: %3.1f", Physics.GetResult());
         }
     }
 
@@ -375,18 +375,18 @@ void CStats::Show()
     // Show errors
     if (!g_bDisableRedText && errors.size())
     {
-        CGameFont& F = *((CGameFont*)pFont);
-        F.SetColor(XrColor::color_rgba(255, 16, 16, 191));
-        F.OutSet(200, 0);
-        F.SetHeightI(f_base_size);
+        CGameFont& F1 = *((CGameFont*)pFont);
+        F1.SetColor(XrColor::color_rgba(255, 16, 16, 191));
+        F1.OutSet(200, 0);
+        F1.SetHeightI(f_base_size);
 #if 0
         for (u32 it = 0; it < errors.size(); it++)
-            F.OutNext("%s", errors[it].c_str());
+            F1.OutNext("%s", errors[it].c_str());
 #else
         for (u32 it = (u32)XrMath::max(int(0), (int)errors.size() - g_ErrorLineCount); it < errors.size(); it++)
-            F.OutNext("%s", errors[it].c_str());
+            F1.OutNext("%s", errors[it].c_str());
 #endif
-        F.OnRender();
+        F1.OnRender();
     }
 #endif
 

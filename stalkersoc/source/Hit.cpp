@@ -3,7 +3,6 @@
 #include "hit.h"
 #include "ode_include.h"
 #include "engine/bone.h"
-#include "tools/net_utils.h"
 #include "xrMessages.h"
 #include "Level.h"
 

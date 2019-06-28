@@ -523,7 +523,7 @@ void CCharacterPhysicsSupport::CreateSkeleton(CPhysicsShell* &pShell)
 	if (!m_EntityAlife.Visual())
 		return;
 #ifdef DEBUG
-	CTimer t;t.Start();
+	BearCore::BearTimer t;t.restart();
 #endif	
 	pShell		= P_create_Shell();
 	pShell->preBuild_FromKinematics(smart_cast<IKinematics*>(m_EntityAlife.Visual()));
@@ -537,7 +537,7 @@ void CCharacterPhysicsSupport::CreateSkeleton(CPhysicsShell* &pShell)
 
 	pShell->Build();
 #ifdef DEBUG	
-	Msg("shell for %s[%d] created in %f ms",*m_EntityAlife.cName(),m_EntityAlife.ID(),t.GetElapsed_sec()*1000.f);
+	Msg("shell for %s[%d] created in %f ms",*m_EntityAlife.cName(),m_EntityAlife.ID(),t.get_elapsed_time().asseconds()*1000.f);
 #endif
 }
 void CCharacterPhysicsSupport::CreateSkeleton()

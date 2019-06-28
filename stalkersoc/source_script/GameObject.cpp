@@ -21,7 +21,6 @@
 #include "ai_debug.h"
 #include "engine/igame_level.h"
 #include "level.h"
-#include "tools/net_utils.h"
 #include "script_callback_ex.h"
 #include "MathUtils.h"
 #include "game_cl_base_weapon_usage_statistic.h"
@@ -555,7 +554,7 @@ void CGameObject::validate_ai_locations			(bool decrement_reference)
 		return;
 	}
 
-//	CTimer							timer;
+//	BearCore::BearTimer							timer;
 //	timer.Start						();
 	Fvector							center;
 	Center							(center);
@@ -615,7 +614,7 @@ void			CGameObject::dbg_DrawSkeleton	()
 				Fmatrix M;
 				M.invert			(I->b_IM);
 				Fvector h_size		= I->b_hsize;
-				Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 255, 0, 255));
+				Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 255, 0, 255));
 								   }break;
 			case SBoneShape::stCylinder:{
 				Fmatrix M;
@@ -624,13 +623,13 @@ void			CGameObject::dbg_DrawSkeleton	()
 				Fvector				h_size;
 				h_size.set			(I->c_cylinder.m_radius,I->c_cylinder.m_radius,I->c_cylinder.m_height*0.5f);
 				Fvector::generate_orthonormal_basis(M.k,M.j,M.i);
-				Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 127, 255, 255));
+				Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 127, 255, 255));
 										}break;
 			case SBoneShape::stSphere:{
 				Fmatrix				l_ball;
 				l_ball.scale		(I->s_sphere.R, I->s_sphere.R, I->s_sphere.R);
 				l_ball.translate_add(I->s_sphere.P);
-				Level().debug_renderer().draw_ellipse(l_ball, color_rgba(0, 255, 0, 255));
+				Level().debug_renderer().draw_ellipse(l_ball, XrColor::color_rgba(0, 255, 0, 255));
 									  }break;
 		};
 	};	
@@ -701,7 +700,7 @@ void CGameObject::OnRender()
 		Fvector bc,bd; 
 		Visual()->getVisData().box.get_CD	(bc,bd);
 		Fmatrix	M = XFORM();		M.c.add (bc);
-		Level().debug_renderer().draw_obb			(M,bd,color_rgba(0,0,255,255));
+		Level().debug_renderer().draw_obb			(M,bd,XrColor::color_rgba(0,0,255,255));
 	}	
 }
 #endif
@@ -820,14 +819,14 @@ LPCSTR CGameObject::Name () const
 
 u32	CGameObject::ef_creature_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid creature type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }
 
 u32	CGameObject::ef_equipment_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid equipment type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(6);
@@ -835,7 +834,7 @@ u32	CGameObject::ef_equipment_type		() const
 
 u32	CGameObject::ef_main_weapon_type	() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid main weapon type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(5);
@@ -843,14 +842,14 @@ u32	CGameObject::ef_main_weapon_type	() const
 
 u32	CGameObject::ef_anomaly_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid anomaly type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }
 
 u32	CGameObject::ef_weapon_type			() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid weapon type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 //	return		(u32(0));
@@ -858,7 +857,7 @@ u32	CGameObject::ef_weapon_type			() const
 
 u32	CGameObject::ef_detector_type		() const
 {
-	string16	temp; CLSID2TEXT(CLS_ID,temp);
+	string16	temp; XrClsid::Clsid2String(CLS_ID,temp);
 	R_ASSERT3	(false,"Invalid detector type request, virtual function is not properly overridden!",temp);
 	return		(u32(-1));
 }

@@ -83,43 +83,43 @@ void	CRender::render_lights	(light_Package& LP)
 		// generate spot shadowmap
 		Target->phase_smap_spot_clear	();
 		xr_vector<light*>&	source		= LP.v_shadowed;
-		light*		L		= source.back	()	;
-		u16			sid		= L->vis.smap_ID	;
+		light*		L1		= source.back	()	;
+		u16			sid		= L1->vis.smap_ID	;
 		while (true)	
 		{
 			if	(source.empty())		break;
-			L	= source.back			();
-			if	(L->vis.smap_ID!=sid)	break;
+			L1	= source.back			();
+			if	(L1->vis.smap_ID!=sid)	break;
 			source.pop_back				();
-			Lights_LastFrame.push_back	(L);
+			Lights_LastFrame.push_back	(L1);
 
 			// render
 			phase									= PHASE_SMAP;
 			if (RImplementation.o.Tshadows)	r_pmask	(true,true	);
 			else							r_pmask	(true,false	);
-			L->svis.begin							();
-			r_dsgraph_render_subspace				(L->spatial.sector, L->X.S.combine, L->position, TRUE);
+			L1->svis.begin							();
+			r_dsgraph_render_subspace				(L1->spatial.sector, L1->X.S.combine, L1->position, TRUE);
 			bool	bNormal							= mapNormalPasses[0][0].size() || mapMatrixPasses[0][0].size();
 			bool	bSpecial						= mapNormalPasses[1][0].size() || mapMatrixPasses[1][0].size() || mapSorted.size();
 			if ( bNormal || bSpecial)	{
 				stats.s_merged						++;
-				L_spot_s.push_back					(L);
-				Target->phase_smap_spot				(L);
+				L_spot_s.push_back					(L1);
+				Target->phase_smap_spot				(L1);
 				RCache.set_xform_world				(Fidentity);
-				RCache.set_xform_view				(L->X.S.view);
-				RCache.set_xform_project			(L->X.S.project);
+				RCache.set_xform_view				(L1->X.S.view);
+				RCache.set_xform_project			(L1->X.S.project);
 				r_dsgraph_render_graph				(0);
-				L->X.S.transluent					= FALSE;
+				L1->X.S.transluent					= FALSE;
 				if (bSpecial)						{
-					L->X.S.transluent					= TRUE;
-					Target->phase_smap_spot_tsh			(L);
+					L1->X.S.transluent					= TRUE;
+					Target->phase_smap_spot_tsh			(L1);
 					r_dsgraph_render_graph				(1);			// normal level, secondary priority
 					r_dsgraph_render_sorted				( );			// strict-sorted geoms
 				}
 			} else {
 				stats.s_finalclip					++;
 			}
-			L->svis.end								();
+			L1->svis.end								();
 			r_pmask									(true,false);
 		}
 
@@ -129,11 +129,11 @@ void	CRender::render_lights	(light_Package& LP)
 
 		//		if (has_point_unshadowed)	-> 	accum point unshadowed
 		if		(!LP.v_point.empty())	{
-			light*	L	= LP.v_point.back	();		LP.v_point.pop_back		();
-			L->vis_update				();
-			if (L->vis.visible)			{ 
-				Target->accum_point		(L);
-				render_indirect			(L);
+			light*	L2	= LP.v_point.back	();		LP.v_point.pop_back		();
+			L2->vis_update				();
+			if (L2->vis.visible)			{ 
+				Target->accum_point		(L2);
+				render_indirect			(L2);
 			}
 		}
 

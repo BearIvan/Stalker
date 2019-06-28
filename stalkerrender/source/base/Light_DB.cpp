@@ -104,7 +104,6 @@ void CLight_DB::Load			(IReader *fs)
 #if RENDER != R_R1
 void	CLight_DB::LoadHemi	()
 {
-	string_path fn_game;
 	if ( FS.ExistFile("%level%", "build.lights" ) )
 	{
 		IReader *F	=XRayBearReader::Create( FS.Read("%level%", "build.lights"));

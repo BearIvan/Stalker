@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "phcollisiondamagereceiver.h"
 #include "PhysicsShellHolder.h"
-#include "tools/xr_ini.h"
 #include "XrRender/skeletoncustom.h"
 #include "geometry.h"
 #include "PhysicsShell.h"
 #include "GameMtlLib.h"
 #include "Physics.h"
-#include "tools/net_utils.h"
 #include "xrMessages.h"
 #include "CharacterPhysicsSupport.h"
 void CPHCollisionDamageReceiver::BoneInsert(u16 id,float k)

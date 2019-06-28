@@ -5,7 +5,6 @@
 #include "alife_object_registry.h"
 #include "alife_graph_registry.h"
 #include "alife_time_manager.h"
-#include "tools/net_utils.h"
 #include "engine/object_broker.h"
 #include "gamepersistent.h"
 #include "xrServer.h"

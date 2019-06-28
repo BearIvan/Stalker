@@ -839,7 +839,7 @@ void CCustomMonster::load_killer_clsids(LPCSTR section)
 	LPCSTR							killers = pSettings->r_string(section,"killer_clsids");
 	string16						temp;
 	for (u32 i=0, n=XrTrims::GetItemCount(killers); i<n; ++i)
-		m_killer_clsids.push_back	(TEXT2CLSID(XrTrims::GetItem(killers,i,temp)));
+		m_killer_clsids.push_back	(XrClsid::String2Clsid(XrTrims::GetItem(killers,i,temp)));
 }
 
 bool CCustomMonster::is_special_killer(CObject *obj)

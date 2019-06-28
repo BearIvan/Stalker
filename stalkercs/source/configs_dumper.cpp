@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "configs_dumper.h"
 #include "configs_common.h"
-#include "tools/ppmd_compressor.h"
-#include "tools/xr_ini.h"
 
 #include "GameObject.h"
 #include "level.h"
@@ -242,7 +240,8 @@ void configs_dumper::dump_config(complete_callback_t complete_cb)
 
 void configs_dumper::compress_configs	()
 {
-	realloc_compress_buffer(m_dump_result.size());
+	BEAR_ASSERT(true);
+	/*realloc_compress_buffer(m_dump_result.size());
 	ppmd_yield_callback_t ts_cb;
 	if (m_yield_cb)
 	{
@@ -254,7 +253,7 @@ void configs_dumper::compress_configs	()
 		m_dump_result.pointer(),
 		m_dump_result.size(),
 		ts_cb
-	);
+	);*/
 }
 
 void configs_dumper::dumper_thread(void* my_ptr)
@@ -309,12 +308,12 @@ void configs_dumper::realloc_compress_buffer(u32 need_size)
 void configs_dumper::timer_begin(LPCSTR comment)
 {
 	m_timer_comment = comment;
-	m_debug_timer.Start();
+	m_debug_timer.restart();
 }
 
 void configs_dumper::timer_end()
 {
-	Msg("* %s : %u ms", m_timer_comment.c_str(), m_debug_timer.GetElapsed_ms());
+	Msg("* %s : %u ms", m_timer_comment.c_str(), m_debug_timer.get_elapsed_time().asmiliseconds());
 }
 #endif
 

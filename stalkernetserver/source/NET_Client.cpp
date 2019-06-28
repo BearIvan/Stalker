@@ -516,7 +516,7 @@ if(!psNET_direct_connect)
 
 		R_CHK(NET->SetClientInfo	(&Pinfo,0,0,DPNSETCLIENTINFO_SYNC));
 	}
-		if ( stricmp( server_name, "localhost" ) == 0 )	
+		if ( BearCore::BearString::CompareWithoutCase( server_name, "localhost" ) == 0 )	
 	{
 		WCHAR	SessionPasswordUNICODE[4096];
 			if ( xr_strlen( password_str ) )
@@ -648,8 +648,8 @@ if(!psNET_direct_connect)
 					Msg("! IPureClient : port %d is BUSY!", c_port);
 
 //				const char* x = DXGetErrorString9(res);
-				string1024 tmp = "";
-				DXTRACE_ERR(tmp, res);
+				string1024 tmp1 = "";
+				DXTRACE_ERR(tmp1, res);
 #endif				
 				c_port++;
 			}
@@ -698,8 +698,8 @@ if(!psNET_direct_connect)
 		_RELEASE					(pHostAddress);
 #ifdef DEBUG	
 //		const char* x = DXGetErrorString9(res);
-		string1024 tmp = "";
-		DXTRACE_ERR(tmp, res);
+		string1024 tmp1 = "";
+		DXTRACE_ERR(tmp1, res);
 #endif
 		switch (res)
 		{

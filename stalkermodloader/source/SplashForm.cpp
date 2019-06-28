@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-SplashForm::SplashForm(BearGraphics::BearTexture2DRef&texture_) :BearUI(texture_.GetSize().x, texture_.GetSize().y)
+SplashForm::SplashForm(BearGraphics::BearTexture2DRef&texture_) :BearUI(static_cast<bsize>(texture_.GetSize().x),static_cast<bsize>( texture_.GetSize().y))
 {
 	texture.Texture.Clear();
 	texture.Texture = texture_;
@@ -25,7 +25,7 @@ int32 UpdateThread()
 	BearUI::BearViewport viewport(image.GetSize().x, image.GetSize().y, false, BearUI::BearViewport::TW_POPUP | BearUI::BearViewport::TW_WIHTOUT_CLOSED);
 	SplashForm splash(texture);
 	BearGraphics::BearRenderInterface::AttachRenderTargetView( viewport);
-	BearGraphics::BearRenderInterface::SetViewport(0, 0, image.GetSize().x, image.GetSize().y);
+	BearGraphics::BearRenderInterface::SetViewport(0, 0,static_cast<float>( image.GetSize().x),static_cast<float>( image.GetSize().y));
 	if (SplashStatus < 0)return 0;
 	SplashMutex.Unlock();
 	while (true)

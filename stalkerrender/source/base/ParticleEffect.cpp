@@ -2,10 +2,9 @@
 #pragma hdrstop
 
 #include "ParticleEffect.h"
-
+#include "particles/stdafx.h"
 #ifndef _EDITOR
 #include <xmmintrin.h>
-#include "ttapi.h"
 
 #endif
 #include "engine/EnvironmentSOC.h"
@@ -462,7 +461,7 @@ void ParticleRenderStream( LPVOID lpvParams )
 
 				float r_x		= m.size.x*0.5f;
 				float r_y		= m.size.y*0.5f;
-				float speed;
+				float speed=0;
 				BOOL speed_calculated = FALSE;
 
 				if (pPE.m_Def->m_Flags.is(CPEDef::dfVelocityScale)){

@@ -28,13 +28,13 @@ void CInifile::Destroy(CInifile* ini)
 
 bool sect_pred(const CInifile::Sect* x, LPCSTR val)
 {
-    return xr_strcmp(*x->Name, val) < 0;
+    return BearCore::BearString::Compare(*x->Name, val) < 0;
 };
 
 bool item_pred(const CInifile::Item& x, LPCSTR val)
 {
     if ((!x.first) || (!val)) return x.first < val;
-    else return xr_strcmp(*x.first, val) < 0;
+    else return  BearCore::BearString::Compare(*x.first, val) < 0;
 }
 
 //------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ XRCORE_API void _decorate(LPSTR dest, LPCSTR src)
 BOOL CInifile::Sect::line_exist(LPCSTR L, LPCSTR* val)
 {
     SectCIt A = std::lower_bound(Data.begin(), Data.end(), L, item_pred);
-    if (A != Data.end() && xr_strcmp(*A->first, L) == 0)
+    if (A != Data.end() && BearCore::BearString::Compare(*A->first, L) == 0)
     {
         if (val) *val = *A->second;
         return TRUE;
@@ -167,7 +167,7 @@ CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
     m_file_name[0] = 0;
     m_flags.zero();
     if (szFileName)
-        xr_strcpy(m_file_name, sizeof(m_file_name), szFileName);
+        BearCore::BearString::Copy(m_file_name, sizeof(m_file_name), szFileName);
 
     m_flags.set(eSaveAtEnd, SaveAtEnd);
     m_flags.set(eReadOnly, ReadOnly);
@@ -366,29 +366,29 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                     *t = 0;
                     XrTrims::Trim(name);
                     ++t;
-                    xr_strcpy(value_raw, sizeof(value_raw), t);
+                    BearCore::BearString::Copy(value_raw, sizeof(value_raw), t);
                     bInsideSTR = _parse(str2, value_raw);
                     if (bInsideSTR)//multiline str value
                     {
                         while (bInsideSTR)
                         {
-                            xr_strcat(value_raw, sizeof(value_raw), "\r\n");
+							BearCore::BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
                             string4096 str_add_raw;
                             F->r_string(str_add_raw, sizeof(str_add_raw));
                             R_ASSERT2(
-                                xr_strlen(value_raw) + xr_strlen(str_add_raw) < sizeof(value_raw),
+                                BearCore::BearString::GetSize(value_raw) + BearCore::BearString::GetSize(str_add_raw) < sizeof(value_raw),
                                 make_string(
                                     "Incorrect inifile format: section[%s], variable[%s]. Odd number of quotes (\") found, but should be even.",
                                     Current->Name.c_str(),
                                     name
                                 )
                             );
-                            xr_strcat(value_raw, sizeof(value_raw), str_add_raw);
+							BearCore::BearString::Contact(value_raw, sizeof(value_raw), str_add_raw);
                             bInsideSTR = _parse(str2, value_raw);
                             if (bInsideSTR)
                             {
                                 if (is_empty_line_now(F))
-                                    xr_strcat(value_raw, sizeof(value_raw), "\r\n");
+									BearCore::BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
                             }
                         }
                     }
@@ -438,11 +438,11 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
     string4096 temp, val;
     for (RootCIt r_it = DATA.begin(); r_it != DATA.end(); ++r_it)
     {
-        xr_sprintf(temp, sizeof(temp), "[%s]", (*r_it)->Name.c_str());
+		BearCore::BearString::Printf(temp, "[%s]", (*r_it)->Name.c_str());
         writer.w_string(temp);
         if (bcheck)
         {
-            xr_sprintf(temp, sizeof(temp), "; %d %d %d", (*r_it)->Name._get()->dwCRC,
+            BearCore::BearString::Printf(temp, "; %d %d %d", (*r_it)->Name._get()->dwCRC,
                        (*r_it)->Name._get()->dwReference,
                        (*r_it)->Name._get()->dwLength);
             writer.w_string(temp);
@@ -457,12 +457,12 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
                 {
                     _decorate(val, *I.second);
                     // only name and value
-                    xr_sprintf(temp, sizeof(temp), "%8s%-32s = %-32s", " ", I.first.c_str(), val);
+                    BearCore::BearString::Printf(temp, "%8s%-32s = %-32s", " ", I.first.c_str(), val);
                 }
                 else
                 {
                     // only name
-                    xr_sprintf(temp, sizeof(temp), "%8s%-32s = ", " ", I.first.c_str());
+                    BearCore::BearString::Printf(temp, "%8s%-32s = ", " ", I.first.c_str());
                 }
             }
             else
@@ -485,7 +485,7 @@ bool CInifile::save_as(LPCSTR new_fname)
 
 		// save if needed
 		if (new_fname && new_fname[0])
-			xr_strcpy(m_file_name, sizeof(m_file_name), new_fname);
+			BearCore::BearString::Copy(m_file_name, sizeof(m_file_name), new_fname);
 
 		R_ASSERT(m_file_name&&m_file_name[0]);
 		auto fs = BearCore::bear_new<BearCore::BearFileStream>();
@@ -510,7 +510,7 @@ bool CInifile::save_as(LPCSTR new_fname)
 BOOL CInifile::section_exist(LPCSTR S)const
 {
     RootCIt I = std::lower_bound(DATA.begin(), DATA.end(), S, sect_pred);
-    return (I != DATA.end() && xr_strcmp(*(*I)->Name, S) == 0);
+    return (I != DATA.end() && BearCore::BearString::Compare(*(*I)->Name, S) == 0);
 }
 
 BOOL CInifile::line_exist(LPCSTR S, LPCSTR L)const
@@ -518,7 +518,7 @@ BOOL CInifile::line_exist(LPCSTR S, LPCSTR L)const
     if (!section_exist(S)) return FALSE;
     Sect& I = r_section(S);
     SectCIt A = std::lower_bound(I.Data.begin(), I.Data.end(), L, item_pred);
-    return (A != I.Data.end() && xr_strcmp(*A->first, L) == 0);
+    return (A != I.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0);
 }
 
 u32 CInifile::line_count(LPCSTR Sname)const
@@ -548,10 +548,10 @@ BOOL CInifile::section_exist(const shared_str& S)const { return section_exist(*S
 CInifile::Sect& CInifile::r_section(LPCSTR S)const
 {
     char section[256];
-    xr_strcpy(section, sizeof(section), S);
+    BearCore::BearString::Copy(section, sizeof(section), S);
 	BearCore::BearString::ToLower(section);
     RootCIt I = std::lower_bound(DATA.begin(), DATA.end(), section, sect_pred);
-    if (!(I != DATA.end() && xr_strcmp(*(*I)->Name, section) == 0))
+    if (!(I != DATA.end() && BearCore::BearString::Compare(*(*I)->Name, section) == 0))
     {
 
         //g_pStringContainer->verify();
@@ -575,7 +575,7 @@ LPCSTR CInifile::r_string(LPCSTR S, LPCSTR L)const
 {
     Sect const& I = r_section(S);
     SectCIt A = std::lower_bound(I.Data.begin(), I.Data.end(), L, item_pred);
-    if (A != I.Data.end() && xr_strcmp(*A->first, L) == 0) return *A->second;
+    if (A != I.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0) return *A->second;
     else
         Debug.fatal(DEBUG_INFO, "Can't find variable %s in [%s]", L, S);
     return 0;
@@ -588,8 +588,8 @@ shared_str CInifile::r_string_wb(LPCSTR S, LPCSTR L)const
     if (0 == _base) return shared_str(0);
 
     string4096 _original;
-    xr_strcpy(_original, sizeof(_original), _base);
-    u32 _len = xr_strlen(_original);
+    BearCore::BearString::Copy(_original, sizeof(_original), _base);
+    u32 _len = BearCore::BearString::GetSize(_original);
     if (0 == _len) return shared_str("");
     if ('"' == _original[_len - 1]) _original[_len - 1] = 0; // skip end
     if ('"' == _original[0]) return shared_str(&_original[0] + 1); // skip begin
@@ -722,7 +722,7 @@ BOOL CInifile::r_bool(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     VERIFY2(
-        xr_strlen(C) <= 5,
+        BearCore::BearString::GetSize(C) <= 5,
         make_string(
             "\"%s\" is not a valid bool value, section[%s], line[%s]",
             C,
@@ -812,7 +812,7 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
     if (it != data.Data.end())
     {
         // Check for "first" matching
-        if (0 == xr_strcmp(*it->first, *I.first))
+        if (0 == BearCore::BearString::Compare(*it->first, *I.first))
         {
             BOOL b = m_flags.test(eOverrideNames);
             R_ASSERT2(b, make_string("name[%s] already exist in section[%s]", line, sect).c_str());
@@ -831,19 +831,19 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
 void CInifile::w_u8(LPCSTR S, LPCSTR L, u8 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_u16(LPCSTR S, LPCSTR L, u16 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_u32(LPCSTR S, LPCSTR L, u32 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 
@@ -872,79 +872,79 @@ void CInifile::w_s64(LPCSTR S, LPCSTR L, s64 V, LPCSTR comment)
 void CInifile::w_s8(LPCSTR S, LPCSTR L, s8 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_s16(LPCSTR S, LPCSTR L, s16 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_s32(LPCSTR S, LPCSTR L, s32 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d", V);
+    BearCore::BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_float(LPCSTR S, LPCSTR L, float V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%f", V);
+    BearCore::BearString::Printf(temp,  "%f", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_fcolor(LPCSTR S, LPCSTR L, const Fcolor& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%f,%f,%f,%f", V.r, V.g, V.b, V.a);
+    BearCore::BearString::Printf(temp,  "%f,%f,%f,%f", V.r, V.g, V.b, V.a);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_color(LPCSTR S, LPCSTR L, u32 V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d,%d,%d,%d", XrColor::color_get_R(V), XrColor::color_get_G(V), XrColor::color_get_B(V), XrColor::color_get_A(V));
+    BearCore::BearString::Printf(temp,  "%d,%d,%d,%d", XrColor::color_get_R(V), XrColor::color_get_G(V), XrColor::color_get_B(V), XrColor::color_get_A(V));
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector2(LPCSTR S, LPCSTR L, const Ivector2& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d,%d", V.x, V.y);
+    BearCore::BearString::Printf(temp,  "%d,%d", V.x, V.y);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector3(LPCSTR S, LPCSTR L, const Ivector3& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d,%d,%d", V.x, V.y, V.z);
+    BearCore::BearString::Printf(temp,  "%d,%d,%d", V.x, V.y, V.z);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector4(LPCSTR S, LPCSTR L, const Ivector4& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%d,%d,%d,%d", V.x, V.y, V.z, V.w);
+    BearCore::BearString::Printf(temp,  "%d,%d,%d,%d", V.x, V.y, V.z, V.w);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_fvector2(LPCSTR S, LPCSTR L, const Fvector2& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%f,%f", V.x, V.y);
+    BearCore::BearString::Printf(temp,  "%f,%f", V.x, V.y);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_fvector3(LPCSTR S, LPCSTR L, const Fvector3& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%f,%f,%f", V.x, V.y, V.z);
+    BearCore::BearString::Printf(temp,  "%f,%f,%f", V.x, V.y, V.z);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_fvector4(LPCSTR S, LPCSTR L, const Fvector4& V, LPCSTR comment)
 {
     string128 temp;
-    xr_sprintf(temp, sizeof(temp), "%f,%f,%f,%f", V.x, V.y, V.z, V.w);
+    BearCore::BearString::Printf(temp,  "%f,%f,%f,%f", V.x, V.y, V.z, V.w);
     w_string(S, L, temp, comment);
 }
 
@@ -961,7 +961,7 @@ void CInifile::remove_line(LPCSTR S, LPCSTR L)
     {
         Sect& data = r_section(S);
         SectIt_ A = std::lower_bound(data.Data.begin(), data.Data.end(), L, item_pred);
-        R_ASSERT(A != data.Data.end() && xr_strcmp(*A->first, L) == 0);
+        R_ASSERT(A != data.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0);
         data.Data.erase(A);
     }
 }

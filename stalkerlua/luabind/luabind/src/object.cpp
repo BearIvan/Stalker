@@ -211,9 +211,9 @@ LUABIND_RAW_PROXY_ASSIGNMENT_OPERATOR(proxy_array_object)
 		lua_State* L = lhs.lua_state(); \
 		lhs.pushvalue(); \
 		rhs.pushvalue(); \
-		bool result = lua_equal(L, -1, -2) != 0; \
+		bool result_ = lua_equal(L, -1, -2) != 0; \
 		lua_pop(L, 2); \
-		return result; \
+		return result_; \
 	}
 
 	LUABIND_DECLARE_OPERATOR(LUABIND_EQUALITY_OPERATOR)
@@ -254,9 +254,9 @@ LUABIND_RAW_PROXY_ASSIGNMENT_OPERATOR(proxy_array_object)
 		lua_State* L = lhs.lua_state(); \
 		lhs.pushvalue(); \
 		rhs.pushvalue(); \
-		bool result = lua_lessthan(L, -1, -2) != 0; \
+		bool result_ = lua_lessthan(L, -1, -2) != 0; \
 		lua_pop(L, 2); \
-		return result; \
+		return result_; \
 	}
 
 	LUABIND_DECLARE_OPERATOR(LUABIND_LESSTHAN_OPERATOR)

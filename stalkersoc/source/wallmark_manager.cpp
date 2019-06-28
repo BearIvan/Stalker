@@ -123,7 +123,7 @@ void CWalmarkManager::StartWorkflow()
 	DBG_DrawAABB			(m_pos,Fvector().set(m_trace_dist,m_trace_dist,m_trace_dist),D3DCOLOR_XRGB(255,0,0));
 	DBG_DrawAABB			(m_pos,Fvector().set(0.05f,0.05f,0.05f),D3DCOLOR_XRGB(0,255,0));
 	
-	CTimer T; T.Start();
+	BearCore::BearTimer T; T.Start();
 */
 	for (CDB::RESULT* Res=R_begin; Res!=R_end; ++Res)
 	{

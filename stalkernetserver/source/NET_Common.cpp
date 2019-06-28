@@ -164,24 +164,7 @@ MultipacketSender::_FlushSendBuffer( u32 timeout, Buffer* buf )
            );
         #endif // NET_LOG_PACKETS
 
-	    if( strstr( GetCommandLine(),"-dump_traffic") ) 
-        {
-            static bool first_time  = true;
-			FILE*       dump        = fopen( "raw-out-traffic.bins", (first_time)?"wb":"ab" );
-
-            if( first_time )
-            {
-                fwrite( "BINS", 4, 1, dump );
-                first_time = false;
-            }
-
-            u16 sz = u16(buf->buffer.B.count);
-            
-            fwrite( &sz, sizeof(u16), 1, dump );
-            fwrite( buf->buffer.B.data, buf->buffer.B.count, 1, dump );
-			fclose( dump );
-        }
-
+	   
 
         // do send
         
@@ -210,23 +193,7 @@ MultipacketReciever::RecievePacket( const void* packet_data, u32 packet_sz, u32 
     Msg( "#receive multi-packet %u", packet_sz );
     #endif
 
-    if( strstr( GetCommandLine(),"-dump_traffic") ) 
-    {
-        static bool first_time  = true;
-		FILE*       dump        = fopen( "raw-in-traffic.bins", (first_time)?"wb":"ab" );
-
-        if( first_time )
-        {
-            fwrite( "BINS", 4, 1, dump );
-            first_time = false;
-        }
-
-        u16 sz = header->unpacked_size;
-        
-        fwrite( &sz, sizeof(u16), 1, dump );
-        fwrite( data, header->unpacked_size, 1, dump );
-		fclose( dump );
-    }
+  
 
 
     bool    is_multi_packet = header->tag == NET_TAG_MERGED;

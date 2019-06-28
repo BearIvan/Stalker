@@ -903,7 +903,7 @@ void CUICellItemTradeMenuDraw::OnDraw(CUICellItem* cell)
 		sprintf_s							(buff," %d", acc - DIK_ESCAPE);
 		CGameFont* pFont					= UI()->Font()->pFontLetterica16Russian;
 		pFont->SetAligment					(CGameFont::alCenter);
-		pFont->SetColor						(color_rgba(135,123,116,255));
+		pFont->SetColor						(XrColor::color_rgba(135,123,116,255));
 		pFont->Out							(pos.x, pos.y, buff);
 		pFont->OnRender						();
 	}

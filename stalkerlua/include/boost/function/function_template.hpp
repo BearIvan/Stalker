@@ -316,12 +316,12 @@ namespace boost {
       if (this->empty())
         boost::throw_exception(bad_function_call());
 
-      internal_result_type result = invoker(function_base::functor
+      internal_result_type result1 = invoker(function_base::functor
                                             BOOST_FUNCTION_COMMA
                                             BOOST_FUNCTION_ARGS);
 
 #ifndef BOOST_NO_VOID_RETURNS
-      return static_cast<result_type>(result);
+      return static_cast<result_type>(result1);
 #else
       return result;
 #endif // BOOST_NO_VOID_RETURNS
@@ -485,9 +485,9 @@ namespace boost {
         typedef typename Allocator::template rebind<FunctionObj>::other
           allocator_type;
         typedef typename allocator_type::pointer pointer_type;
-        allocator_type allocator;
-        pointer_type copy = allocator.allocate(1);
-        allocator.construct(copy, f);
+        allocator_type allocator1;
+        pointer_type copy = allocator1.allocate(1);
+        allocator1.construct(copy, f);
 
         // Get back to the original pointer type
         FunctionObj* new_f = static_cast<FunctionObj*>(copy);

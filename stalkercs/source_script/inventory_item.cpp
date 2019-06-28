@@ -1315,29 +1315,29 @@ void CInventoryItem::OnRender()
 		object().Visual()->getVisData().box.get_CD	(bc,bd);
 		Fmatrix	M = object().XFORM();
 		M.c.add (bc);
-		Level().debug_renderer().draw_obb			(M,bd,color_rgba(0,0,255,255));
+		Level().debug_renderer().draw_obb			(M,bd,XrColor::color_rgba(0,0,255,255));
 /*
 		u32 Color;
 		if (processing_enabled())
 		{
 			if (m_bInInterpolation)
-				Color = color_rgba(0,255,255, 255);
+				Color = XrColor::color_rgba(0,255,255, 255);
 			else
-				Color = color_rgba(0,255,0, 255);
+				Color = XrColor::color_rgba(0,255,0, 255);
 		}
 		else
 		{
 			if (m_bInInterpolation)
-				Color = color_rgba(255,0,255, 255);
+				Color = XrColor::color_rgba(255,0,255, 255);
 			else
-				Color = color_rgba(255, 0, 0, 255);
+				Color = XrColor::color_rgba(255, 0, 0, 255);
 		};
 
 //		Level().debug_renderer().draw_obb			(M,bd,Color);
 		float size = 0.01f;
 		if (!H_Parent())
 		{
-			Level().debug_renderer().draw_aabb			(Position(), size, size, size, color_rgba(0, 255, 0, 255));
+			Level().debug_renderer().draw_aabb			(Position(), size, size, size, XrColor::color_rgba(0, 255, 0, 255));
 
 			Fvector Pos1, Pos2;
 			VIS_POSITION_it It = LastVisPos.begin();
@@ -1345,7 +1345,7 @@ void CInventoryItem::OnRender()
 			for (; It != LastVisPos.end(); It++)
 			{
 				Pos2 = *It;
-				Level().debug_renderer().draw_line(Fidentity, Pos1, Pos2, color_rgba(255, 255, 0, 255));
+				Level().debug_renderer().draw_line(Fidentity, Pos1, Pos2, XrColor::color_rgba(255, 255, 0, 255));
 				Pos1 = Pos2;
 			};
 
@@ -1358,11 +1358,11 @@ void CInventoryItem::OnRender()
 
 			xformI.rotation(IRecRot);
 			xformI.c.set(IRecPos);
-			Level().debug_renderer().draw_aabb			(IRecPos, size, size, size, color_rgba(255, 0, 255, 255));
+			Level().debug_renderer().draw_aabb			(IRecPos, size, size, size, XrColor::color_rgba(255, 0, 255, 255));
 
 			xformI.rotation(IEndRot);
 			xformI.c.set(IEndPos);
-			Level().debug_renderer().draw_obb			(xformI,bd,color_rgba(0, 255, 0, 255));
+			Level().debug_renderer().draw_obb			(xformI,bd,XrColor::color_rgba(0, 255, 0, 255));
 
 			///////////////////////////////////////////////////////////////////////////
 			Fvector point0 = IStartPos, point1;			
@@ -1375,7 +1375,7 @@ void CInventoryItem::OnRender()
 				{
 					point1[k] = c*(c*(c*SCoeff[k][0]+SCoeff[k][1])+SCoeff[k][2])+SCoeff[k][3];
 				};
-				Level().debug_renderer().draw_line(Fidentity, point0, point1, color_rgba(0, 0, 255, 255));
+				Level().debug_renderer().draw_line(Fidentity, point0, point1, XrColor::color_rgba(0, 0, 255, 255));
 				point0.set(point1);
 			};
 		};

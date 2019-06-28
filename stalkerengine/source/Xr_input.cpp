@@ -8,6 +8,9 @@
 #ifndef _EDITOR
 # include "xr_input_xinput.h"
 #endif
+
+#pragma warning(disable:4644)
+
 CInput* pInput = NULL;
 IInputReceiver dummyController;
 

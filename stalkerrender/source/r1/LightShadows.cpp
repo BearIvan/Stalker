@@ -9,9 +9,6 @@
 #include "xrRender/fbasicvisual.h"
 #include "engine/CustomHUD.h"
 
-#ifndef _EDITOR
-#include "ttapi.h"
-#endif
 
 const	float		S_distance		= 48;
 const	float		S_distance2		= S_distance*S_distance;
@@ -258,7 +255,7 @@ void CLightShadows::calculate	()
 			// Select slot and set viewport
 			int		s_x			=	slot_id%slot_line;
 			int		s_y			=	slot_id/slot_line;
-			D3DVIEWPORT9 VP		=	{s_x*S_size,s_y*S_size,S_size,S_size,0,1 };
+			D3DVIEWPORT9 VP		=	{static_cast<DWORD>(s_x*S_size),static_cast<DWORD>(s_y*S_size),static_cast<DWORD>(S_size),static_cast<DWORD>(S_size),0,1 };
 			CHK_DX					(HW.pDevice->SetViewport(&VP));
 			
 			// Render object-parts

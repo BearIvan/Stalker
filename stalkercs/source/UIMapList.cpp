@@ -205,7 +205,7 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 
 		if ( xr_strlen(player_name2) == 0 )
 		{
-			strcpy_s( player_name2, xr_strlen(Core.UserName) ? Core.UserName : Core.CompName );
+			strcpy_s( player_name2, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
 		}
 		VERIFY( xr_strlen(player_name2) );
 		

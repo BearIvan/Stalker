@@ -77,7 +77,7 @@ void CUIEditKeyBind::OnFocusLost()
 {
 	CUILabel::OnFocusLost		();
 	m_bEditMode					= false;
-	m_lines.SetTextColor		((subst_alpha(m_lines.GetTextColor(), color_get_A(0xffffffff))));
+	m_lines.SetTextColor		((XrColor::subst_alpha(m_lines.GetTextColor(), XrColor::color_get_A(0xffffffff))));
 }
 
 bool CUIEditKeyBind::OnMouseDown(int mouse_btn)
@@ -138,7 +138,7 @@ void CUIEditKeyBind::Update()
 	if (m_bEditMode)
 	{
 		m_pAnimation->Update();
-		m_lines.SetTextColor((subst_alpha(m_lines.GetTextColor(), color_get_A(m_pAnimation->GetColor()))));
+		m_lines.SetTextColor((XrColor::subst_alpha(m_lines.GetTextColor(), XrColor::color_get_A(m_pAnimation->GetColor()))));
 	}
 	
 }

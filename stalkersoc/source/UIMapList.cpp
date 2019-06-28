@@ -184,7 +184,7 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 
 	m_command +=" client(localhost/name=";
 	if (player_name == NULL || 0 == xr_strlen(player_name))
-		m_command += Core.UserName;
+		m_command += XrCore::UserName;
 	else
 		m_command +=player_name;
 	m_command +=")";

@@ -174,12 +174,12 @@ void CUIMpTradeWnd::Init(const shared_str& sectionName, const shared_str& sectio
 	m_static_preset_money[4]			= UIHelper::CreateStatic( xml_doc, "static_preset_money_def",	this );
 
 // preset money indicators
-	m_item_color_restr_rank					= CUIXmlInit::GetColor	(xml_doc, "item_color_restr_rank",	0, color_rgba(255,255,255,255));
-	m_item_color_restr_money				= CUIXmlInit::GetColor	(xml_doc, "item_color_restr_money",	0, color_rgba(255,255,255,255));
-	m_item_color_normal						= CUIXmlInit::GetColor	(xml_doc, "item_color_normal",		0, color_rgba(255,255,255,255));
+	m_item_color_restr_rank					= CUIXmlInit::GetColor	(xml_doc, "item_color_restr_rank",	0, XrColor::color_rgba(255,255,255,255));
+	m_item_color_restr_money				= CUIXmlInit::GetColor	(xml_doc, "item_color_restr_money",	0, XrColor::color_rgba(255,255,255,255));
+	m_item_color_normal						= CUIXmlInit::GetColor	(xml_doc, "item_color_normal",		0, XrColor::color_rgba(255,255,255,255));
 	
-	m_text_color_money_positive				= CUIXmlInit::GetColor	(xml_doc, "money_color_positive",	0, color_rgba(255,255,255,255));
-	m_text_color_money_negative				= CUIXmlInit::GetColor	(xml_doc, "money_color_negative",	0, color_rgba(255,255,255,255));
+	m_text_color_money_positive				= CUIXmlInit::GetColor	(xml_doc, "money_color_positive",	0, XrColor::color_rgba(255,255,255,255));
+	m_text_color_money_negative				= CUIXmlInit::GetColor	(xml_doc, "money_color_negative",	0, XrColor::color_rgba(255,255,255,255));
 
 	m_static_player_rank				= UIHelper::CreateStatic( xml_doc, "static_player_rank",	this );
 	m_static_item_rank					= UIHelper::CreateStatic( xml_doc, "static_item_rank",		this );

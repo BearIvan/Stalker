@@ -14,23 +14,23 @@ XrTimerPaused::~XrTimerPaused()
 
 void XrTimerStat::Begin()
 {
-	play(); m_count++;
+	restart(); m_count++;
 }
 
 void XrTimerStat::End()
 {
-	pause();
+	m_R += get_elapsed_time().asseconds();
 }
 
 void XrTimerStat::FrameStart()
 {
-	restart();
+	m_R = 0;
 	m_count = 0;
 }
 
 void XrTimerStat::FrameEnd()
 {
-	m_R += get_elapsed_time().asseconds();
+	//m_R = get_elapsed_time().asseconds();
 }
 
 XrTimerStat::XrTimerStat():m_R(0)

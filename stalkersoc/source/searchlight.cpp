@@ -146,7 +146,7 @@ void CProjector::UpdateCL	()
 			u32 clr			= lanim->CalculateBGR(Device.fTimeGlobal,frame); 
 
 			Fcolor			fclr;
-			fclr.set		((float)color_get_B(clr),(float)color_get_G(clr),(float)color_get_R(clr),1.f);
+			fclr.set		((float)XrColor::color_get_B(clr),(float)XrColor::color_get_G(clr),(float)XrColor::color_get_R(clr),1.f);
 			fclr.mul_rgb	(fBrightness/255.f);
 			light_render->set_color(fclr);
 			glow_render->set_color(fclr);

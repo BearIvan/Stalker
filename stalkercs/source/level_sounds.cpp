@@ -178,7 +178,7 @@ void CLevelSoundManager::Unload()
 	// music
 	m_MusicTracks.clear			();
 }
-
+DEFINE_VECTOR(u32, U32Vec, U32It);
 void CLevelSoundManager::Update()
 {
 	if (Device.Paused())				return;

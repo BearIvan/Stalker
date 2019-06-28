@@ -95,7 +95,7 @@ m_ambients_config(0)
     // tsky0 = Device.Resources->_CreateTexture("$user$sky0");
     // tsky1 = Device.Resources->_CreateTexture("$user$sky1");
 
-    string_path file_name;
+//    string_path file_name;
     m_ambients_config =
         xr_new<CInifile>(
         "%config%",

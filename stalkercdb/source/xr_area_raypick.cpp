@@ -1,13 +1,16 @@
 #include "stdafx.h"
-#include "xr_area.h"
+#define ENGINE_API
 #include "ispatial.h"
 #include "engine/xr_collide_form.h"
+#undef ENGINE_API
+#include "engine/EngineAPI.h"
 #include "engine/xr_object.h"
 #include "engine/cl_intersect.h"
+#include "xr_area.h"
 #include "d3d9types.h"
-//#include "igame_level.h"
+//#include "igame_level.h" 
 //#include "x_ray.h"
-//#include "GameFont.h"
+//#include "GameFont.h" 
 #ifdef	DEBUG
 static BOOL _cdb_bDebug = false;
 XRCDB_API BOOL *cdb_bDebug= &_cdb_bDebug;

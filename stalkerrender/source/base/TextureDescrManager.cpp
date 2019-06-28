@@ -20,11 +20,11 @@ void fix_texture_thm_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-	  (0==stricmp(_ext,".tga")	||
-		0==stricmp(_ext,".thm")	||
-		0==stricmp(_ext,".dds")	||
-		0==stricmp(_ext,".bmp")	||
-		0==stricmp(_ext,".ogm")	) )
+	  (0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
+		0== BearCore::BearString::CompareWithoutCase(_ext,".thm")	||
+		0== BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
+		0== BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
+		0== BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
@@ -124,7 +124,7 @@ void CTextureDescrMngr::LoadLTX()
 				string_path				T;
 				float					s;
 
-				int res = sscanf(*item.second, "%[^,],%f", T, &s);
+				int res = BearCore::BearString::Scanf(*item.second, "%[^,],%f", T, &s);
 				R_ASSERT(res == 2);
 				desc.m_assoc->detail_name = T;
 				desc.m_assoc->cs = xr_new<cl_dt_scaler>(s);
@@ -151,7 +151,7 @@ void CTextureDescrMngr::LoadLTX()
 				desc.m_spec = xr_new<texture_spec>();
 
 				string_path				bmode;
-				int res = sscanf(item.second.c_str(), "bump_mode[%[^]]], material[%f]", bmode, &desc.m_spec->m_material);
+				int res = BearCore::BearString::Scanf(item.second.c_str(), "bump_mode[%[^]]], material[%f]", bmode, &desc.m_spec->m_material);
 				R_ASSERT(res == 2);
 				if ((bmode[0] == 'u') && (bmode[1] == 's') && (bmode[2] == 'e') && (bmode[3] == ':'))
 				{

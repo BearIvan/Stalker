@@ -385,7 +385,7 @@ void RearrangeTabButtons(CUITabControl* pTab, xr_vector<Fvector2>& vec_sign_plac
 		{
 			st = xr_new<CUIStatic>(); st->SetAutoDelete(true);pTab->AttachChild(st);
 			st->SetFont((*it)->GetFont());
-			st->SetTextColor	(color_rgba(90,90,90,255));
+			st->SetTextColor	(XrColor::color_rgba(90,90,90,255));
 			st->SetText("//");
 			st->SetWndSize		((*it)->GetWndSize());
 			st->AdjustWidthToText();

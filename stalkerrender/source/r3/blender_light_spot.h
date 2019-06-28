@@ -22,11 +22,12 @@ public:
 
 	virtual		void		Compile			(CBlender_Compile& C);
 	
-	virtual   void    SetDefine( LPCSTR Name, LPCSTR Definition )
+	virtual  void     SetDefine(LPCSTR Name1, LPCSTR Definition1)
 	{
-		this->Name = Name;
-		this->Definition = Definition;
+		this->Name = Name1;
+		this->Definition = Definition1;
 	}
+
 
 	CBlender_accum_spot_msaa();
 	virtual ~CBlender_accum_spot_msaa();
@@ -43,11 +44,12 @@ public:
 
 	virtual		void		Compile			(CBlender_Compile& C);
 	
-	virtual   void    SetDefine( LPCSTR Name, LPCSTR Definition )
+	virtual  void     SetDefine(LPCSTR Name1, LPCSTR Definition1)
 	{
-		this->Name = Name;
-		this->Definition = Definition;
+		this->Name = Name1;
+		this->Definition = Definition1;
 	}
+
 
 	CBlender_accum_volumetric_msaa();
 	virtual ~CBlender_accum_volumetric_msaa();

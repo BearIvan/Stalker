@@ -12,7 +12,6 @@
 #include "inventory.h"
 #include "xrmessages.h"
 #include "shootingobject.h"
-#include "tools/net_utils.h"
 #include "level.h"
 #include "ai_monster_space.h"
 

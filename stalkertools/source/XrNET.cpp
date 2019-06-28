@@ -283,7 +283,7 @@ void NET_Packet::r_stringZ(LPSTR S)
     if (!inistream)
     {
         LPCSTR data = LPCSTR(&B.data[r_pos]);
-        size_t len = xr_strlen(data);
+        size_t len = BearCore::BearString::GetSize(data);
         r(S, (u32)len + 1);
     }
     else
@@ -327,7 +327,7 @@ void NET_Packet::skip_stringZ()
     if (!inistream)
     {
         LPCSTR data = LPCSTR(&B.data[r_pos]);
-        u32 len = xr_strlen(data);
+        u32 len = BearCore::BearString::GetSize(data);
         r_advance(len + 1);
     }
     else
@@ -364,7 +364,7 @@ void NET_Packet::r_stringZ_s(LPSTR string, bsize const size)
     }
 
     LPCSTR data = LPCSTR(B.data + r_pos);
-    u32 length = xr_strlen(data);
+    u32 length = BearCore::BearString::GetSize(data);
     R_ASSERT2((length + 1) <= size, "buffer overrun");
     r(string, length + 1);
 }

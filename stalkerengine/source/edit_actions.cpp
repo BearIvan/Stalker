@@ -104,9 +104,9 @@ void type_pair::on_key_press(line_edit_control* const control)
 			u32 buf = *reinterpret_cast<unsigned char*>(&buff[0]);
             if (_isalpha_l(buf, current_locale) || buff[0] == char(-1)) // "ÿ" = -1
             {
-                _strlwr_l(buff, current_locale);
+                BearCore::BearString::ToLower(buff);
                 c = buff[0];
-                _strupr_l(buff, current_locale);
+				BearCore::BearString::ToUpper(buff);
                 c_shift = buff[0];
             }
         }

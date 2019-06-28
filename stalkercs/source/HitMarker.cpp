@@ -179,7 +179,7 @@ void SHitMark::Draw( float cam_dir )
 {
 	int frame;
 	u32 clr	= m_lanim->CalculateRGB( Device.fTimeGlobal - m_StartTime,frame );
-	m_UIStaticItem->SetColor( subst_alpha( m_UIStaticItem->GetColor(), color_get_A(clr) ) );
+	m_UIStaticItem->SetColor( XrColor::subst_alpha( m_UIStaticItem->GetColor(), XrColor::color_get_A(clr) ) );
 
 	m_UIStaticItem->Render( cam_dir + m_HitDirection );
 }
@@ -222,7 +222,7 @@ void SGrenadeMark::Draw( float cam_dir )
 {
 	int frame;
 	u32 clr = m_LightAnim->CalculateRGB( 2.0f*(Device.fTimeGlobal - m_LastTime), frame );
-	m_UIStaticItem->SetColor( subst_alpha( m_UIStaticItem->GetColor(), color_get_A(clr) ) );
+	m_UIStaticItem->SetColor( XrColor::subst_alpha( m_UIStaticItem->GetColor(), XrColor::color_get_A(clr) ) );
 
 	m_UIStaticItem->Render( cam_dir + m_Angle );
 }

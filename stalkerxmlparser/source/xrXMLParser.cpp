@@ -43,9 +43,9 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader *F, CXml* xml )
 					I 	= XRayBearReader::Create(FS.Read(path, inc_name));
 
 				if(!I){
-					string1024 str;
-					xr_sprintf(str,"XML file[%s] parsing failed. Can't find include file:[%s]",path,inc_name);
-					R_ASSERT2(false,str);
+					string1024 str1;
+					xr_sprintf(str1,"XML file[%s] parsing failed. Can't find include file:[%s]",path,inc_name);
+					R_ASSERT2(false,str1);
 				}
 				ParseFile(path, W, I, xml);
 				XRayBearReader::Destroy(I);
@@ -107,14 +107,41 @@ XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, LPCSTR  path, int node_inde
 	buf_str[0]					= 0;
 	xr_strcpy						(buf_str, path);
 
-	char seps[]					= ":";
-    char *token;
+	/*char seps[]					= ":";
+    char *token;*/
 	int tmp						= 0;
 
     //разбить путь на отдельные подпути
-	token = strtok( buf_str, seps );
+	BearCore::BearString512 str;
+	str[0] = 0;
+	bchar*out = BearCore::BearString::ReadTo(buf_str, ':', str);
 
-	if( token != NULL )
+	if(str[0])
+	{
+		node = start_node->FirstChild(str);
+
+		while (tmp++ < node_index && node)
+		{
+			node = start_node->IterateChildren(str, node);
+		}
+	}
+	
+    while(out[0]&& str[0])
+    {
+		out = BearCore::BearString::ReadTo(out, ':', str);
+
+		if(str[0])
+			if(node != 0) 
+			{
+				node_parent = node;
+				node = node_parent->FirstChild(str);
+			}
+
+    }
+	//разбить путь на отдельные подпути
+	/*token = strtok(buf_str, seps);
+
+	if (token != NULL)
 	{
 		node = start_node->FirstChild(token);
 
@@ -123,21 +150,20 @@ XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, LPCSTR  path, int node_inde
 			node = start_node->IterateChildren(token, node);
 		}
 	}
-	
-    while( token != NULL )
-    {
-		// Get next token: 
-		token = strtok( NULL, seps );
 
-		if( token != NULL)
-			if(node != 0) 
+	while (token != NULL)
+	{
+		// Get next token: 
+		token = strtok(NULL, seps);
+
+		if (token != NULL)
+			if (node != 0)
 			{
 				node_parent = node;
 				node = node_parent->FirstChild(token);
 			}
 
-    }
-
+	}*/
 	return node;
 }
 

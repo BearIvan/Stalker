@@ -45,8 +45,8 @@ public:
     IC void w_s16(s16 d) { w(&d, sizeof(s16)); }
     IC void w_s8(s8 d) { w(&d, sizeof(s8)); }
     IC void w_float(float d) { w(&d, sizeof(float)); }
-    IC void w_string(const char* p) { w(p, (bsize)xr_strlen(p)); w_u8(13); w_u8(10); }
-    IC void w_stringZ(const char* p) { w(p, (bsize)xr_strlen(p) + 1); }
+    IC void w_string(const char* p) { w(p, (bsize)BearCore::BearString::GetSize(p)); w_u8(13); w_u8(10); }
+    IC void w_stringZ(const char* p) { w(p, (bsize)BearCore::BearString::GetSize(p) + 1); }
     IC void w_stringZ(const shared_str& p) { w(*p ? *p : "", p.size()); w_u8(0); }
     IC void w_stringZ(shared_str& p) { w(*p ? *p : "", p.size()); w_u8(0); }
     IC void w_stringZ(const xr_string& p) { w(p.c_str() ? p.c_str() : "", (bsize)p.size()); w_u8(0); }

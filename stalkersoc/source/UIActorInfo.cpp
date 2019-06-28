@@ -313,7 +313,7 @@ void CUIActorStaticticHeader::Init	(CUIXml* xml, LPCSTR path, int idx_in_xml)
 	m_id								= _id;
 #endif
 
-	m_stored_alpha						= color_get_A(m_text1->GetTextColor());
+	m_stored_alpha						= XrColor::color_get_A(m_text1->GetTextColor());
 	xml->SetLocalRoot					(_stored_root);
 
 }
@@ -331,7 +331,7 @@ bool CUIActorStaticticHeader::OnMouseDown	(int mouse_btn)
 void CUIActorStaticticHeader::SetSelected(bool b)
 {
 	CUISelectable::SetSelected(b);
-	m_text1->SetTextColor( subst_alpha(m_text1->GetTextColor(), b?255:m_stored_alpha ));
+	m_text1->SetTextColor( XrColor::subst_alpha(m_text1->GetTextColor(), b?255:m_stored_alpha ));
 	if(b){ 
 		m_actorInfoWnd->FillPointsDetail			(m_id);
 	}

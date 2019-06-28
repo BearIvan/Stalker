@@ -26,7 +26,7 @@ protected:
 	_REGISTRY				m_objects;
 	_cycle_type				m_cycle_count;
 	_iterator				m_next_iterator;
-	CTimer					m_timer;
+	BearCore::BearTimer					m_timer;
 	float					m_max_process_time;
 	bool					m_first_update;
 

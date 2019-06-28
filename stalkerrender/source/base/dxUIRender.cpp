@@ -155,7 +155,6 @@ void dxUIRender::GetActiveTextureResolution(Fvector2 &res)
 
 LPCSTR dxUIRender::UpdateShaderName(LPCSTR tex_name, LPCSTR sh_name)
 {
-	string_path buff;
 	u32		v_dev	= CAP_VERSION(HW.Caps.raster_major, HW.Caps.raster_minor);
 	u32		v_need	= CAP_VERSION(2,0);
 	//strstr(GetCommandLine(),"-ps_movie") &&

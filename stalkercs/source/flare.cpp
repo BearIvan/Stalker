@@ -149,7 +149,7 @@ void CFlare::UpdateCL()
 
 		u32 clr					= light_lanim->CalculateBGR(Device.fTimeGlobal,frame); 
 		
-		fclr.set				((float)color_get_B(clr),(float)color_get_G(clr),(float)color_get_R(clr),1.f);
+		fclr.set				((float)XrColor::color_get_B(clr),(float)XrColor::color_get_G(clr),(float)XrColor::color_get_R(clr),1.f);
 		fclr.mul_rgb			(fBrightness/255.f);
 		
 		fclr.set				(1,1,1,1);

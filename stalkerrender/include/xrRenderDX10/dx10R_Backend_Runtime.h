@@ -5,7 +5,7 @@
 #include "StateManager/dx10StateManager.h"
 #include "StateManager/dx10ShaderResourceStateCache.h"
 
-IC void CBackend::set_xform( u32 ID, const Fmatrix& M )
+IC void CBackend::set_xform( u32 ID, const Fmatrix& M1 )
 {
 	stat.xforms			++;
 	//	TODO: DX10: Implement CBackend::set_xform
@@ -278,14 +278,14 @@ IC void CBackend::Compute(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT T
 }
 #endif
 
-IC void CBackend::Render(D3DPRIMITIVETYPE T, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
+IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
 {
 	//VERIFY(vs);
 	//HW.pDevice->VSSetShader(vs);
 	//HW.pDevice->GSSetShader(0);
 
-	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T);
-	u32	iIndexCount = GetIndexCount(T, PC);
+	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T1);
+	u32	iIndexCount = GetIndexCount(T1, PC);
 
 	//!!! HACK !!!
 #ifdef USE_DX11
@@ -302,7 +302,7 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T, u32 baseV, u32 startV, u32 countV, 
 
 	ApplyPrimitieTopology(Topology);
 	
-	//CHK_DX(HW.pDevice->DrawIndexedPrimitive(T,baseV, startV, countV,startI,PC));
+	//CHK_DX(HW.pDevice->DrawIndexedPrimitive(T1,baseV, startV, countV,startI,PC));
 	//D3DPRIMITIVETYPE Type,
 	//INT BaseVertexIndex,
 	//UINT MinIndex,
@@ -327,17 +327,17 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T, u32 baseV, u32 startV, u32 countV, 
 	PGO					(Msg("PGO:DIP:%dv/%df",countV,PC));
 }
 
-IC void CBackend::Render(D3DPRIMITIVETYPE T, u32 startV, u32 PC)
+IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
 {
 	//	TODO: DX10: Remove triangle fan usage from the engine
-	if (T == D3DPT_TRIANGLEFAN)
+	if (T1 == D3DPT_TRIANGLEFAN)
 		return;
 
 	//VERIFY(vs);
 	//HW.pDevice->VSSetShader(vs);
 
-	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T);
-	u32	iVertexCount = GetIndexCount(T, PC);
+	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T1);
+	u32	iVertexCount = GetIndexCount(T1, PC);
 
 	stat.calls++;
 	stat.verts += 3*PC;
@@ -352,7 +352,7 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T, u32 startV, u32 PC)
 	constants.flush();
 //	Msg("Draw: Start");
 //	Msg("iVertexCount=%d, startV=%d", iVertexCount, startV);
-	//CHK_DX				(HW.pDevice->DrawPrimitive(T, startV, PC));
+	//CHK_DX				(HW.pDevice->DrawPrimitive(T1, startV, PC));
 	HW.pContext->Draw(iVertexCount, startV);
 //	Msg("Draw: End\n");
 	PGO					(Msg("PGO:DIP:%dv/%df",3*PC,PC));
@@ -512,11 +512,11 @@ IC bool CBackend::CBuffersNeedUpdate( ref_cbuffer buf1[MaxCBuffers], ref_cbuffer
 	return bRes;
 }
 
-IC void CBackend::set_Constants			(R_constant_table* C)
+IC void CBackend::set_Constants			(R_constant_table* C1)
 {
 	// caching
-	if (ctable==C)	return;
-	ctable			= C;
+	if (ctable==C1)	return;
+	ctable			= C1;
 	xforms.unmap	();
 	hemi.unmap		();
 	tree.unmap		();
@@ -524,7 +524,7 @@ IC void CBackend::set_Constants			(R_constant_table* C)
 	LOD.unmap		();
 #endif
 	StateManager.UnmapConstants();
-	if (0==C)		return;
+	if (0==C1)		return;
 
 	PGO				(Msg("PGO:c-table"));
 
@@ -562,8 +562,8 @@ IC void CBackend::set_Constants			(R_constant_table* C)
 			m_aComputeConstants[i] = 0;
 #endif
 		}
-		R_constant_table::cb_table::iterator	it	= C->m_CBTable.begin();
-		R_constant_table::cb_table::iterator	end	= C->m_CBTable.end	();
+		R_constant_table::cb_table::iterator	it	= C1->m_CBTable.begin();
+		R_constant_table::cb_table::iterator	end	= C1->m_CBTable.end	();
 		for (; it!=end; ++it)
 		{
 			//ID3DxxBuffer*	pBuffer = (it->second)->GetBuffer();
@@ -729,8 +729,8 @@ IC void CBackend::set_Constants			(R_constant_table* C)
 	}
 
 	// process constant-loaders
-	R_constant_table::c_table::iterator	it	= C->table.begin();
-	R_constant_table::c_table::iterator	end	= C->table.end	();
+	R_constant_table::c_table::iterator	it	= C1->table.begin();
+	R_constant_table::c_table::iterator	end	= C1->table.end	();
 	for (; it!=end; it++)	
 	{
 		R_constant*		Cs	= &**it;
@@ -751,10 +751,10 @@ ICF void CBackend::ApplyRTandZB()
 
 IC	void CBackend::get_ConstantDirect(shared_str& n, u32 DataSize, void** pVData, void** pGData, void** pPData)
 {
-	ref_constant C = get_c(n);
+	ref_constant C1 = get_c(n);
 
-	if (C)
-		constants.access_direct(&*C, DataSize, pVData, pGData, pPData);
+	if (C1)
+		constants.access_direct(&*C1, DataSize, pVData, pGData, pPData);
 	else
 	{
 		if (pVData)	*pVData = 0;

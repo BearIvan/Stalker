@@ -135,9 +135,9 @@ bool	CLevel::net_start_client4				()
 		if(!psNET_direct_connect)
 		{
 			// Waiting for connection/configuration completition
-			CTimer	timer_sync	;	timer_sync.Start	();
+			BearCore::BearTimer	timer_sync	;	timer_sync.restart	();
 			while	(!net_isCompleted_Connect())	Sleep	(5);
-			Msg		("* connection sync: %d ms", timer_sync.GetElapsed_ms());
+			Msg		("* connection sync: %d ms", timer_sync.get_elapsed_time().asmiliseconds());
 			while	(!net_isCompleted_Sync())	{ ClientReceive(); Sleep(5); }
 		}
 /*

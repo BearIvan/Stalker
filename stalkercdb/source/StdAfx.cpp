@@ -3,14 +3,6 @@
 //	stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"
-#pragma hdrstop
-
-#ifdef __BORLANDC__
-#else]
-
-#endif
-
-#pragma comment(lib,"winmm.lib")
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file

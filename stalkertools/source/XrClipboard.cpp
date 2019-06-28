@@ -12,7 +12,7 @@ void XrClipboard::copy_to_clipboard(LPCSTR buf)
 {
     if (!OpenClipboard(0))
         return;
-    u32 handle_size = (xr_strlen(buf) + 1) * sizeof(char);
+    u32 handle_size = (BearCore::BearString::GetSize(buf) + 1) * sizeof(char);
     HGLOBAL handle = GlobalAlloc(GHND, handle_size);
     if (!handle)
     {
@@ -21,7 +21,7 @@ void XrClipboard::copy_to_clipboard(LPCSTR buf)
     }
 
     char* memory = (char*)GlobalLock(handle);
-    xr_strcpy(memory, handle_size, buf);
+    BearCore::BearString::Copy(memory, handle_size, buf);
     GlobalUnlock(handle);
     EmptyClipboard();
     SetClipboardData(CF_TEXT, handle);
@@ -78,10 +78,10 @@ void XrClipboard::update_clipboard(LPCSTR string)
 #else // #ifndef _EDITOR
     LPSTR buffer = (LPSTR)xr_alloc<char>( buffer_size );
 #endif // #ifndef _EDITOR
-    xr_strcpy(buffer, buffer_size, memory);
+	BearCore::BearString::Copy(buffer, buffer_size, memory);
     GlobalUnlock(handle);
 
-    xr_strcat(buffer, buffer_size, string);
+	BearCore::BearString::Contact(buffer, buffer_size, string);
     CloseClipboard();
     copy_to_clipboard(buffer);
 #ifdef _EDITOR

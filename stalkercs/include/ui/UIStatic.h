@@ -101,7 +101,7 @@ public:
 			void	SetTextComplexMode			(bool md);
 			void	SetTextAlign_script			(u32 align);
 			u32		GetTextAlign_script			();
-			void	SetTextColor_script			(int a, int r, int g, int b){SetTextColor(color_argb(a,r,g,b));}
+			void	SetTextColor_script			(int a, int r, int g, int b){SetTextColor(XrColor::color_argb(a,r,g,b));}
 			u32&	GetTextColorRef				();
 
 			void AdjustHeightToText			();

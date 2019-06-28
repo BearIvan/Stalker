@@ -20,7 +20,6 @@
 #include "InfoPortion.h"
 #include "memory_manager.h"
 #include "ai_phrasedialogmanager.h"
-#include "tools/net_utils.h"
 #include "xrMessages.h"
 #include "custommonster.h"
 #include "memory_manager.h"

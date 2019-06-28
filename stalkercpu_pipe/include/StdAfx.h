@@ -13,21 +13,22 @@
 	#include <intrin.h>
 #pragma warning(default:4995)
 
-#define ENGINE_API
+
 #define ECORE_API
 
 #ifdef _EDITOR
-#	include "skeletonX.h"
+#	include "skeletonX.h" 
 #	include "skeletoncustom.h"
 #else // _EDITOR
 	#include "tools/xrCore.h"
 	#include "xrRender/SkeletonXVertRender.h"
+#define ENGINE_API
 	#include "engine/bone.h"
 	#define RENDER 1
 	#include "engine/Render.h"
+#undef ENGINE_API
 	#include "engine/Device.h"
 	#include "XrRender/light.h"
 #endif // _EDITOR
 
 #include "xrCPU_Pipe.h"
-#include "ttapi.h"

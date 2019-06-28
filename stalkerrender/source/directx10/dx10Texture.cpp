@@ -19,10 +19,10 @@ void fix_texture_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-		(0==stricmp(_ext,".tga")	||
-		0==stricmp(_ext,".dds")	||
-		0==stricmp(_ext,".bmp")	||
-		0==stricmp(_ext,".ogm")	) )
+		(0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
+		0==BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
@@ -331,7 +331,6 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 	{
 		goto _BUMP_from_base;
 	}
-_DDS:
 	{
 
 		if (FS.ExistPath("%level%") && FS.ExistFile("%level%", fname, ".dds"))
@@ -451,7 +450,7 @@ _DDS_CUBE:
 _DDS_2D:
 		{
 			// Check for LMAP and compress if needed
-			strlwr					(fname);
+			BearCore::BearString::ToLower					(fname);
 
 
 			// Load   SYS-MEM-surface, bound to device restrictions

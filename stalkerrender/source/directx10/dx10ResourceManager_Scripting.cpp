@@ -280,7 +280,7 @@ void	CResourceManager::LS_Load			()
 		if (0 == strext(namesp) || 0 != xr_strcmp(strext(namesp), ".s"))	continue;
 		*strext(namesp) = 0;
 		if (0 == namesp[0])			xr_strcpy(namesp, "_G");
-		strcpy(fn, *(folder[it]));
+		BearCore::BearString::Copy(fn, *(folder[it]));
 		try {
 			Script::bfLoadFileIntoNamespace(LSVM, TEXT("%cur_shaders%"), fn, namesp, true);
 		}

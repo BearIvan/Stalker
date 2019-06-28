@@ -63,9 +63,9 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 
 		source_count			= stream.tell();
 		void					*source_data = stream.pointer();
-		dest_count				= rtc_csize(source_count);
+		dest_count				=XrCompressor::RtcSize(source_count);
 		dest_data				= xr_malloc(dest_count);
-		dest_count				= rtc_compress(dest_data,dest_count,source_data,source_count);
+		dest_count				= XrCompressor::RtcCompress(dest_data,dest_count,source_data,source_count);
 	}
 
 	IWriter						*writer =XRayBearWriter::Create( FS.Write("%saves%", m_save_name,0));
@@ -122,8 +122,8 @@ void CALifeStorageManager::load	(void *buffer, const u32 &buffer_size, LPCSTR fi
 
 bool CALifeStorageManager::load	(LPCSTR save_name)
 {
-	CTimer						timer;
-	timer.Start					();
+	BearCore::BearTimer						timer;
+	timer.restart					();
 	string256					save;
 	strcpy_s						(save,m_save_name);
 	if (!save_name) {
@@ -154,7 +154,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 
 	u32							source_count = stream->r_u32();
 	void						*source_data = xr_malloc(source_count);
-	rtc_decompress				(source_data,source_count,stream->pointer(),stream->length() - 3*sizeof(u32));
+	XrCompressor::RtcDecompress				(source_data,source_count,stream->pointer(),stream->length() - 3*sizeof(u32));
 	XRayBearReader::Destroy(stream);
 	load						(source_data, source_count, m_save_name);
 	xr_free						(source_data);
@@ -163,7 +163,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 
 	VERIFY						(graph().actor());
 	
-	Msg							("* Game %s is successfully loaded from file '%s' (%.3fs)",save_name, save_name,timer.GetElapsed_sec());
+	Msg							("* Game %s is successfully loaded from file '%s' (%.3fs)",save_name, save_name,timer.get_elapsed_time().asseconds());
 
 	return						(true);
 }

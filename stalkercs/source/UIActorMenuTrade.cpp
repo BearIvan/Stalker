@@ -79,11 +79,11 @@ void CUIActorMenu::ColorizeItem(CUICellItem* itm, bool colorize)
 {
 	if( colorize )
 	{
-		itm->SetColor( color_rgba(255,100,100,255) );
+		itm->SetColor( XrColor::color_rgba(255,100,100,255) );
 	}
 	else
 	{
-		itm->SetColor( color_rgba(255,255,255,255) );
+		itm->SetColor( XrColor::color_rgba(255,255,255,255) );
 	}
 }
 

@@ -297,12 +297,12 @@ bool	game_cl_mp::OnKeyboardRelease		(int key)
 }
 
 char	Color_Weapon[]	= "%c[255,255,1,1]";
-u32		Color_Teams_u32[3]	= {color_rgba(255,240,190,255), color_rgba(64,255,64,255), color_rgba(64,64,255,255)};
+u32		Color_Teams_u32[3]	= {XrColor::color_rgba(255,240,190,255), XrColor::color_rgba(64,255,64,255), XrColor::color_rgba(64,64,255,255)};
 LPSTR	Color_Teams[3]	= {"%c[255,255,240,190]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
 char	Color_Main[]	= "%c[255,192,192,192]";
 char	Color_Radiation[]	= "%c[255,0,255,255]";
 char	Color_Neutral[]	= "%c[255,255,0,255]";
-u32		Color_Neutral_u32	= color_rgba(255,0,255,255);
+u32		Color_Neutral_u32	= XrColor::color_rgba(255,0,255,255);
 char	Color_Red[]	= "%c[255,255,1,1]";
 char	Color_Green[]	= "%c[255,1,255,1]";
 
@@ -741,7 +741,7 @@ void game_cl_mp::OnPlayerKilled			(NET_Packet& P)
 	KMS.m_victim.m_color = Color_Teams_u32[pPlayer->team];
 
 	KMS.m_killer.m_name = NULL;
-	KMS.m_killer.m_color = color_rgba(255,255,255,255);
+	KMS.m_killer.m_color = XrColor::color_rgba(255,255,255,255);
 
 	//KMS.m_initiator.m_shader = NULL;
 	//KMS.m_ext_info.m_shader = NULL;

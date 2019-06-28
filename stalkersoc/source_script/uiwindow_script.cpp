@@ -48,7 +48,7 @@ CGameFont* GetFontLetterica25()
 
 
 int GetARGB(u16 a, u16 r, u16 g, u16 b)
-{return color_argb(a,r,g,b);}
+{return XrColor::color_argb(a,r,g,b);}
 
 
 Frect	get_texture_rect(LPCSTR icon_name)

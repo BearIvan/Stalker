@@ -85,7 +85,7 @@
 
 			sh->dwFlags |= xr_resource_flagged::RF_REGISTERED;
 			sh_map.insert(mk_pair(sh->set_name(name),sh));
-			if (0==stricmp(name,"null"))
+			if (0==BearCore::BearString::CompareWithoutCase(name,"null"))
 			{
 				sh->sh				= NULL;
 				return sh;
@@ -94,7 +94,8 @@
 			string_path					shName;
 			const char*	pchr = strchr(name, '(');
 			ptrdiff_t	strSize = pchr?pchr-name:xr_strlen(name);
-			strncpy(shName, name, strSize);
+			for (ptrdiff_t ia = 0; ia < strSize; ia++)
+				shName[ia] = name[ia];
 			shName[strSize] = 0;
 
 			// Open file

@@ -15,30 +15,25 @@
 typedef VOID (*PTTAPI_WORKER_FUNC)( LPVOID lpWorkerParameters );
 typedef PTTAPI_WORKER_FUNC LPPTTAPI_WORKER_FUNC;
 
-#ifdef XRCPU_PIPE_EXPORTS
-	#define TTAPI __declspec(dllexport)
-#else // XRCPU_PIPE_EXPORTS
-	#define TTAPI __declspec(dllimport)
-#endif // XRCPU_PIPE_EXPORTS
 
 extern "C"  {
 
 	// Initializes subsystem
 	// Returns zero for error, and number of workers on success
-	DWORD TTAPI ttapi_Init( /*_processor_info* ID */);
+	PARTICLES_API DWORD  ttapi_Init( /*_processor_info* ID */);
 
 	// Destroys subsystem
-	VOID TTAPI ttapi_Done();
+	PARTICLES_API VOID  ttapi_Done();
 
 	// Return number of workers
-	DWORD TTAPI ttapi_GetWorkersCount();
+	PARTICLES_API DWORD  ttapi_GetWorkersCount();
 
 	// Adds new task
 	// No more than TTAPI_HARDCODED_THREADS should be added
-	VOID TTAPI ttapi_AddWorker( LPPTTAPI_WORKER_FUNC lpWorkerFunc , LPVOID lpvWorkerFuncParams );
+	PARTICLES_API VOID  ttapi_AddWorker( LPPTTAPI_WORKER_FUNC lpWorkerFunc , LPVOID lpvWorkerFuncParams );
 
 	// Runs and wait for all workers to complete job
-	VOID TTAPI ttapi_RunAllWorkers();
+	PARTICLES_API VOID  ttapi_RunAllWorkers();
 
 }
 

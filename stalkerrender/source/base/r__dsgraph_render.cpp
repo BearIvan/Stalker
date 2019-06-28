@@ -803,12 +803,12 @@ void	R_dsgraph_structure::r_dsgraph_render_R1_box	(IRender_Sector* _S, Fbox& BB,
 		default:
 			{
 				// Renderable visual
-				ShaderElement* E	= V->shader->E[sh]._get();
-				if (E && !(E->flags.bDistort))
+				ShaderElement* E1	= V->shader->E[sh]._get();
+				if (E1 && !(E1->flags.bDistort))
 				{
-					for (u32 pass=0; pass<E->passes.size(); pass++)
+					for (u32 pass=0; pass<E1->passes.size(); pass++)
 					{
-						RCache.set_Element			(E,pass);
+						RCache.set_Element			(E1,pass);
 						V->Render					(-1.f);
 					}
 				}

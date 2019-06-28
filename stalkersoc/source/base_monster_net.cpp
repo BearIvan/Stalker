@@ -3,7 +3,6 @@
 
 #include "ai_object_location.h"
 #include "game_graph.h"
-#include "tools/net_utils.h"
 #include "ai_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"

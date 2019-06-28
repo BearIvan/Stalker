@@ -164,10 +164,10 @@ void CUIScrollBar::UpdateScrollBar()
 	}
 	if(IsRelevant())
 	{
-		m_ScrollBox->SetColor(color_rgba(255,255,255,255));
+		m_ScrollBox->SetColor(XrColor::color_rgba(255,255,255,255));
 	}else
 	{
-		m_ScrollBox->SetColor(color_rgba(255,255,255,0));
+		m_ScrollBox->SetColor(XrColor::color_rgba(255,255,255,0));
 	}
 
 	ClampByViewRect();

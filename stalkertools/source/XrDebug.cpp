@@ -61,42 +61,42 @@ void XrDebug::gather_info(const char* expression, const char* description, const
     for (int i = 0; i < 2; ++i)
     {
         if (!i)
-            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFATAL ERROR%s%s", endline, endline, endline);
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sExpression    : %s%s", prefix, expression, endline);
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFunction      : %s%s", prefix, function, endline);
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFile          : %s%s", prefix, file, endline);
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sLine          : %d%s", prefix, line, endline);
+            buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sFATAL ERROR%s%s", endline, endline, endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sExpression    : %s%s", prefix, expression, endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sFunction      : %s%s", prefix, function, endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sFile          : %s%s", prefix, file, endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sLine          : %d%s", prefix, line, endline);
 
         if (extended_description)
         {
-            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s%s", endline, description, endline);
+            buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s%s", endline, description, endline);
             if (argument0)
             {
                 if (argument1)
                 {
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument1, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument1, endline);
                 }
                 else
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
             }
         }
         else
         {
-            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sDescription   : %s%s", prefix, description, endline);
+            buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sDescription   : %s%s", prefix, description, endline);
             if (argument0)
             {
                 if (argument1)
                 {
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 0    : %s%s", prefix, argument0, endline);
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 1    : %s%s", prefix, argument1, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 0    : %s%s", prefix, argument0, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 1    : %s%s", prefix, argument1, endline);
                 }
                 else
-                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArguments     : %s%s", prefix, argument0, endline);
+                    buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%sArguments     : %s%s", prefix, argument0, endline);
             }
         }
 
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s", endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s", endline);
         if (!i)
         {
             if (shared_str_initialized)
@@ -121,7 +121,7 @@ void XrDebug::gather_info(const char* expression, const char* description, const
             Msg("stack trace:\n");
 
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
-        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "stack trace:%s%s", endline, endline);
+        buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "stack trace:%s%s", endline, endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
 
        // BuildStackTrace();
@@ -132,7 +132,7 @@ void XrDebug::gather_info(const char* expression, const char* description, const
                 Msg("%s", g_stackTrace[i]);
 
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
-            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", g_stackTrace[i], endline);
+            buffer += BearCore::BearString::Printf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", g_stackTrace[i], endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
         }*/
 
@@ -168,10 +168,10 @@ void XrDebug::backend(const char* expression, const char* description, const cha
 
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
     LPCSTR endline = "\r\n";
-    LPSTR buffer = assertion_info + xr_strlen(assertion_info);
-    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "%sPress CANCEL to abort execution%s", endline, endline);
-    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press TRY AGAIN to continue execution%s", endline);
-    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press CONTINUE to continue execution and ignore all the errors of this type%s%s", endline, endline);
+    LPSTR buffer = assertion_info + BearCore::BearString::GetSize(assertion_info);
+    buffer += BearCore::BearString::Printf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "%sPress CANCEL to abort execution%s", endline, endline);
+    buffer += BearCore::BearString::Printf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press TRY AGAIN to continue execution%s", endline);
+    buffer += BearCore::BearString::Printf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press CONTINUE to continue execution and ignore all the errors of this type%s%s", endline, endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
 
     if (handler)
@@ -324,13 +324,13 @@ void CALLBACK PreErrorHandler(INT_PTR)
             _getcwd(current_folder, sizeof(current_folder));
 
             string256 relative_path;
-            xr_strcpy(relative_path, sizeof(relative_path), log_folder);
+            BearCore::BearString::Copy(relative_path, sizeof(relative_path), log_folder);
             strconcat(sizeof(log_folder), log_folder, current_folder, "\\", relative_path);
         }
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     {
-        xr_strcpy(log_folder, sizeof(log_folder), "logs");
+        BearCore::BearString::Copy(log_folder, sizeof(log_folder), "logs");
     }
 
     string_path temp;
@@ -451,7 +451,7 @@ void save_mini_dump (_EXCEPTION_POINTERS* pExceptionInfo)
         char* pSlash = strchr( szDbgHelpPath, '\\' );
         if (pSlash)
         {
-            xr_strcpy (pSlash+1, sizeof(szDbgHelpPath)-(pSlash - szDbgHelpPath), "DBGHELP.DLL" );
+            BearCore::BearString::Copy (pSlash+1, sizeof(szDbgHelpPath)-(pSlash - szDbgHelpPath), "DBGHELP.DLL" );
             hDll = ::LoadLibrary( szDbgHelpPath );
         }
     }
@@ -474,7 +474,7 @@ void save_mini_dump (_EXCEPTION_POINTERS* pExceptionInfo)
             string64 t_stemp;
 
             timestamp (t_stemp);
-            xr_strcpy ( szDumpPath, Core.ApplicationName);
+            BearCore::BearString::Copy ( szDumpPath, Core.ApplicationName);
             xr_strcat ( szDumpPath, "_" );
             xr_strcat ( szDumpPath, Core.UserName );
             xr_strcat ( szDumpPath, "_" );
@@ -489,8 +489,8 @@ void save_mini_dump (_EXCEPTION_POINTERS* pExceptionInfo)
             __except( EXCEPTION_EXECUTE_HANDLER )
             {
                 string_path temp;
-                xr_strcpy (temp,szDumpPath);
-                xr_strcpy (szDumpPath,"logs/");
+                BearCore::BearString::Copy (temp,szDumpPath);
+                BearCore::BearString::Copy (szDumpPath,"logs/");
                 xr_strcat (szDumpPath,temp);
             }
 
@@ -516,20 +516,20 @@ void save_mini_dump (_EXCEPTION_POINTERS* pExceptionInfo)
                 BOOL bOK = pDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, dump_flags, &ExInfo, NULL, NULL );
                 if (bOK)
                 {
-                    xr_sprintf( szScratch, "Saved dump file to '%s'", szDumpPath );
+                    BearCore::BearString::Printf( szScratch, "Saved dump file to '%s'", szDumpPath );
                     szResult = szScratch;
                     // retval = EXCEPTION_EXECUTE_HANDLER;
                 }
                 else
                 {
-                    xr_sprintf( szScratch, "Failed to save dump file to '%s' (error %d)", szDumpPath, GetLastError() );
+                    BearCore::BearString::Printf( szScratch, "Failed to save dump file to '%s' (error %d)", szDumpPath, GetLastError() );
                     szResult = szScratch;
                 }
                 ::CloseHandle(hFile);
             }
             else
             {
-                xr_sprintf( szScratch, "Failed to create dump file '%s' (error %d)", szDumpPath, GetLastError() );
+                BearCore::BearString::Printf( szScratch, "Failed to create dump file '%s' (error %d)", szDumpPath, GetLastError() );
                 szResult = szScratch;
             }
         }
@@ -567,7 +567,7 @@ void format_message(LPSTR buffer, const u32& buffer_size)
         NULL
     );
 
-    xr_sprintf(buffer, buffer_size, "[error][%8d] : %s", error_code, message);
+    BearCore::BearString::Printf(buffer, buffer_size, "[error][%8d] : %s", error_code, message);
     LocalFree(message);
 }
 
@@ -600,7 +600,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
         {
             if (shared_str_initialized)
                 Msg("%s", g_stackTrace[i]);
-            xr_sprintf(buffer, sizeof(buffer), "%s\r\n", g_stackTrace[i]);
+            BearCore::BearString::Printf(buffer, sizeof(buffer), "%s\r\n", g_stackTrace[i]);
 #ifdef DEBUG
             if (!IsDebuggerPresent())
                 XrClipboard::update_clipboard(buffer);
@@ -715,8 +715,8 @@ void _terminate ()
     );
 #if 0
     LPCSTR endline = "\r\n";
-    LPSTR buffer = assertion_info + xr_strlen(assertion_info);
-    buffer += xr_sprintf(buffer,"Press OK to abort execution%s",endline);
+    LPSTR buffer = assertion_info + BearCore::BearString::GetSize(assertion_info);
+    buffer += BearCore::BearString::Printf(buffer,"Press OK to abort execution%s",endline);
 
     MessageBox (
         GetTopWindow(NULL),
@@ -767,7 +767,7 @@ static void invalid_parameter_handler(
             (wcslen(expression) + 1) * 2 * sizeof(char)
         );
     else
-        xr_strcpy(expression_, "");
+        BearCore::BearString::Copy(expression_, "");
 
     if (function)
         wcstombs_s(
@@ -778,7 +778,7 @@ static void invalid_parameter_handler(
             (wcslen(function) + 1) * 2 * sizeof(char)
         );
     else
-        xr_strcpy(function_, __FUNCTION__);
+        BearCore::BearString::Copy(function_, __FUNCTION__);
 
     if (file)
         wcstombs_s(
@@ -791,7 +791,7 @@ static void invalid_parameter_handler(
     else
     {
         line = __LINE__;
-        xr_strcpy(file_, __FILE__);
+        BearCore::BearString::Copy(file_, __FILE__);
     }
 
     Debug.backend(

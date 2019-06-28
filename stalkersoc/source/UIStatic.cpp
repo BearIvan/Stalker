@@ -220,13 +220,13 @@ void CUIStatic::Update()
 
 			if(m_lanim_clr.m_lanimFlags.test(LA_TEXTURECOLOR))
 				if(m_lanim_clr.m_lanimFlags.test(LA_ONLYALPHA))
-					SetColor				(subst_alpha(GetColor(), color_get_A(clr)));
+					SetColor				(XrColor::subst_alpha(GetColor(), XrColor::color_get_A(clr)));
 				else
 					SetColor				(clr);
 
 			if(m_lanim_clr.m_lanimFlags.test(LA_TEXTCOLOR))
 				if(m_lanim_clr.m_lanimFlags.test(LA_ONLYALPHA))
-					SetTextColor				(subst_alpha(GetTextColor(), color_get_A(clr)));
+					SetTextColor				(XrColor::subst_alpha(GetTextColor(), XrColor::color_get_A(clr)));
 				else
 					SetTextColor				(clr);
 			
@@ -247,10 +247,10 @@ void CUIStatic::Update()
 			u32 clr				= m_lanim_xform.m_lanim->CalculateRGB(t-m_lanim_xform.m_lanim_start_time,frame);
 			
 			EnableHeading_int	(true);
-			float heading		= (XrMath::PI_MUL_2/255.0f) * color_get_A(clr);
+			float heading		= (XrMath::PI_MUL_2/255.0f) * XrColor::color_get_A(clr);
 			SetHeading			(heading);
 
-			float _value		= (float)color_get_R(clr);
+			float _value		= (float)XrColor::color_get_R(clr);
 			
 			float f_scale		= _value / 64.0f;
 			Fvector2 _sz;

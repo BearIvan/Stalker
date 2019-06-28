@@ -11,26 +11,8 @@
 
 char*							timestamp(string64& dest)
 {
-	string64	temp;
-
-	/* Set time zone from TZ environment variable. If TZ is not set,
-	* the operating system is queried to obtain the default value
-	* for the variable.
-	*/
-	_tzset();
-	u32			it;
-
-	// date
-	_strdate(temp);
-	for (it = 0; it < xr_strlen(temp); it++)
-		if ('/' == temp[it]) temp[it] = '-';
-	strconcat(sizeof(dest), dest, temp, "_");
-
-	// time
-	_strtime(temp);
-	for (it = 0; it < xr_strlen(temp); it++)
-		if (':' == temp[it]) temp[it] = '-';
-	xr_strcat(dest, sizeof(dest), temp);
+	auto time = BearCore::BearGlobalTime::GetCurrentTime();
+	BearCore::BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
 	return dest;
 }
 
@@ -199,17 +181,17 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				if (strstr(GetCommandLine(),"-ss_tga"))	
 				{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
-					ID3DBlob*		saved	= 0;
+					ID3DBlob*		saved1	= 0;
 #ifdef USE_DX11
-					CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved, 0));
+					CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved1, 0));
 #else
-					CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_BMP, &saved, 0));
-					//		CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
+					CHK_DX				(D3DX10SaveTextureToMemory( pSrcTexture, D3DX10_IFF_BMP, &saved1, 0));
+					//		CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved1,D3DXIFF_TGA,pFB,0,0));
 #endif
-					IWriter*			fs = XRayBearWriter::Create(FS.Write(TEXT("%screenshots%"), buf, 0));
-					fs->w				(saved->GetBufferPointer(),(u32)saved->GetBufferSize());
+							fs = XRayBearWriter::Create(FS.Write(TEXT("%screenshots%"), buf, 0));
+					fs->w				(saved1->GetBufferPointer(),(u32)saved1->GetBufferSize());
 					XRayBearWriter::Destroy(fs);
-					_RELEASE			(saved);
+					_RELEASE			(saved1);
 				}
 			}
 			break;
@@ -269,16 +251,16 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 	// Create temp-surface
 	IDirect3DSurface9*	pFB;
 	D3DLOCKED_RECT		D;
-	HRESULT				hr;
-	hr					= HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
-	if(hr!=D3D_OK)		return;
+	HRESULT				hr1;
+	hr1					= HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
+	if(hr1!=D3D_OK)		return;
 
-	hr					= HW.pDevice->GetFrontBufferData(0,pFB);
-	if(hr!=D3D_OK)		return;
+	hr1					= HW.pDevice->GetFrontBufferData(0,pFB);
+	if(hr1!=D3D_OK)		return;
 
 	
-	hr					= pFB->LockRect(&D,0,D3DLOCK_NOSYSLOCK);
-	if(hr!=D3D_OK)		return;
+	hr1					= pFB->LockRect(&D,0,D3DLOCK_NOSYSLOCK);
+	if(hr1!=D3D_OK)		return;
 
 	// Image processing (gamma-correct)
 	u32* pPixel		= (u32*)D.pBits;
@@ -313,8 +295,8 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 		);
 	}
 
-	hr					= pFB->UnlockRect();
-	if(hr!=D3D_OK)		goto _end_;
+	hr1					= pFB->UnlockRect();
+	if(hr1!=D3D_OK)		goto _end_;
 	
 
 	// Save
@@ -323,23 +305,23 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				// texture
 				ID3DTexture2D*	texture	= NULL;
-				hr					= D3DXCreateTexture(HW.pDevice,GAMESAVE_SIZE,GAMESAVE_SIZE,1,0,D3DFMT_DXT1,D3DPOOL_SCRATCH,&texture);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= D3DXCreateTexture(HW.pDevice,GAMESAVE_SIZE,GAMESAVE_SIZE,1,0,D3DFMT_DXT1,D3DPOOL_SCRATCH,&texture);
+				if(hr1!=D3D_OK)		goto _end_;
 				if(NULL==texture)	goto _end_;
 
 				// resize&convert to surface
 				IDirect3DSurface9*	surface = 0;
-				hr					= texture->GetSurfaceLevel(0,&surface);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= texture->GetSurfaceLevel(0,&surface);
+				if(hr1!=D3D_OK)		goto _end_;
 				VERIFY				(surface);
-				hr					= D3DXLoadSurfaceFromSurface(surface,0,0,pFB,0,0,D3DX_DEFAULT,0);
+				hr1					= D3DXLoadSurfaceFromSurface(surface,0,0,pFB,0,0,D3DX_DEFAULT,0);
 				_RELEASE			(surface);
-				if(hr!=D3D_OK)		goto _end_;
+				if(hr1!=D3D_OK)		goto _end_;
 
 				// save (logical & physical)
 				ID3DBlob*		saved	= 0;
-				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
+				if(hr1!=D3D_OK)		goto _end_;
 				
 				IWriter*			fs		=XRayBearWriter::Create(FS.Write(TEXT("%saves%"), name, 0));
 				if (fs)				{
@@ -356,23 +338,23 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 			{
 				// texture
 				ID3DTexture2D*	texture	= NULL;
-				hr					= D3DXCreateTexture(HW.pDevice,SM_FOR_SEND_WIDTH,SM_FOR_SEND_HEIGHT,1,0,D3DFMT_R8G8B8,D3DPOOL_SCRATCH,&texture);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= D3DXCreateTexture(HW.pDevice,SM_FOR_SEND_WIDTH,SM_FOR_SEND_HEIGHT,1,0,D3DFMT_R8G8B8,D3DPOOL_SCRATCH,&texture);
+				if(hr1!=D3D_OK)		goto _end_;
 				if(NULL==texture)	goto _end_;
 
 				// resize&convert to surface
 				IDirect3DSurface9*	surface = 0;
-				hr					= texture->GetSurfaceLevel(0,&surface);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= texture->GetSurfaceLevel(0,&surface);
+				if(hr1!=D3D_OK)		goto _end_;
 				VERIFY				(surface);
-				hr					= D3DXLoadSurfaceFromSurface(surface,0,0,pFB,0,0,D3DX_DEFAULT,0);
+				hr1					= D3DXLoadSurfaceFromSurface(surface,0,0,pFB,0,0,D3DX_DEFAULT,0);
 				_RELEASE			(surface);
-				if(hr!=D3D_OK)		goto _end_;
+				if(hr1!=D3D_OK)		goto _end_;
 
 				// save (logical & physical)
 				ID3DBlob*		saved	= 0;
-				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
+				if(hr1!=D3D_OK)		goto _end_;
 				
 				if (!memory_writer)
 				{
@@ -405,9 +387,9 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				_RELEASE			(saved);
 				if (strstr(GetCommandLine(),"-ss_tga"))	{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",XrCore::UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
-					ID3DBlob*		saved	= 0;
+				//	ID3DBlob*		saved	= 0;
 					CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
-					IWriter*		fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
+						fs	= XRayBearWriter::Create(FS.Write("%screenshots%",buf,0)); R_ASSERT(fs);
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
 					XRayBearWriter::Destroy(fs);
 					_RELEASE			(saved);
@@ -427,10 +409,10 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 
 				//	TODO: DX10: This is totally incorrect but mimics 
 				//	original behavior. Fix later.
-				hr					= pFB->LockRect(&D,0,D3DLOCK_NOSYSLOCK);
-				if(hr!=D3D_OK)		return;
-				hr					= pFB->UnlockRect();
-				if(hr!=D3D_OK)		goto _end_;
+				hr1					= pFB->LockRect(&D,0,D3DLOCK_NOSYSLOCK);
+				if(hr1!=D3D_OK)		return;
+				hr1					= pFB->UnlockRect();
+				if(hr1!=D3D_OK)		goto _end_;
 
 				// save
 				u32* data			= (u32*)xr_malloc(Device.dwHeight*Device.dwHeight*4);

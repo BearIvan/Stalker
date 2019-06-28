@@ -33,7 +33,7 @@ void XRayUIRender::SetScissor(Irect * rect)
 {
 	if (rect)
 	{
-		BearGraphics::BearRenderInterface::SetScissor(rect->x1, rect->y1, rect->x2, rect->y2);
+		BearGraphics::BearRenderInterface::SetScissor(static_cast<float>(rect->x1), static_cast<float>(rect->y1), static_cast<float>(rect->x2), static_cast<float>(rect->y2));
 	}
 	else
 	{

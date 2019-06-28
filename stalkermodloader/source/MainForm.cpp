@@ -105,19 +105,19 @@ void MainForm::cbBtOk()
 		switch (path)
 		{
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"),* cbGames.Items[1]);
 			PathToMods = TEXT("%mods_soc16%");
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[2]);
 			PathToMods = TEXT("%mods_cs%");
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[3]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[3]);
 			PathToMods = TEXT("%mods_cop%");
 			break;
 		default:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[0]);
 			break;
 		}
 
@@ -138,19 +138,19 @@ void MainForm::cbBtOk()
 		switch (path)
 		{
 		case GameVersionController::SOC_1004:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[0]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[1]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"),* cbGames.Items[2]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), cbGames.Items[3]);
+			BearCore::BearLog::Printf(TEXT("Èãðà:[%s]"), *cbGames.Items[3]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
 			break;
 		}
@@ -192,27 +192,27 @@ void MainForm::cbCbGames()
 
 void MainForm::cbBtMods()
 {
-	BearCore::BearStringPath path;
+	BearCore::BearStringPath path_;
 
 	BearCore::BearString str;
 	str.append(TEXT(""));
 	switch (cbGames.SelectItem)
 	{
 	case 0:
-		FS.UpdatePath(TEXT("%mods_soc14%"), 0, path);
-		str.append(path);
+		FS.UpdatePath(TEXT("%mods_soc14%"), 0, path_);
+		str.append(path_);
 		break;
 	case 1:
-		FS.UpdatePath(TEXT("%mods_soc16%"), 0, path);
-		str.append(path);
+		FS.UpdatePath(TEXT("%mods_soc16%"), 0, path_);
+		str.append(path_);
 		break;
 	case 2:
-		FS.UpdatePath(TEXT("%mods_cs%"), 0, path);
-		str.append(path);
+		FS.UpdatePath(TEXT("%mods_cs%"), 0, path_);
+		str.append(path_);
 		break;
 	case 3:
-		FS.UpdatePath(TEXT("%mods_cop%"), 0, path);
-		str.append(path);
+		FS.UpdatePath(TEXT("%mods_cop%"), 0, path_);
+		str.append(path_);
 		break;
 	default:
 		break;

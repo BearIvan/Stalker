@@ -3,7 +3,6 @@
 #include "game_base.h"
 #include "alife_space.h"
 #include "script_export_space.h"
-#include "tools/client_id.h"
 #include "game_sv_base_console_vars.h"
 #include "netserver/NET_Server.h"
 enum ERoundEnd_Result

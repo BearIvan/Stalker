@@ -48,7 +48,7 @@ SThunderboltDesc::SThunderboltDesc(CInifile * pIni, LPCSTR sect)
 	create_center_gradient(*pIni, sect);
 
 	// models
-	IReader* F = 0;
+	
 	LPCSTR m_name;
 	m_name = pSettings->r_string(sect, "lightning_model");
 	m_pRender->CreateModel(m_name);

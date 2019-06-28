@@ -35,7 +35,7 @@ public:
 #endif
     static CInifile* Create(LPCSTR FsPath,LPCSTR szFileName, BOOL ReadOnly = TRUE);
     static void Destroy(CInifile*);
-    static IC BOOL IsBOOL(LPCSTR B) { return (xr_strcmp(B, "on") == 0 || xr_strcmp(B, "yes") == 0 || xr_strcmp(B, "true") == 0 || xr_strcmp(B, "1") == 0); }
+    static IC BOOL IsBOOL(LPCSTR B) { return (BearCore::BearString::Compare(B, "on") == 0 || BearCore::BearString::Compare(B, "yes") == 0 || BearCore::BearString::Compare(B, "true") == 0 || BearCore::BearString::Compare(B, "1") == 0); }
 private:
     enum { eSaveAtEnd = (1 << 0), eReadOnly = (1 << 1), eOverrideNames = (1 << 2), };
     Flags8 m_flags;

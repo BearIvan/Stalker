@@ -87,11 +87,11 @@ IC void swap(shared_str& lhs, shared_str& rhs) { lhs.swap(rhs); }
 DEFINE_SET(shared_str, RStringSet, RStringSetIt);
 
 IC bsize xr_strlen(shared_str& a) { return a.size(); }
-IC int xr_strcmp(const shared_str& a, const char* b) { return xr_strcmp(*a, b); }
-IC int xr_strcmp(const char* a, const shared_str& b) { return xr_strcmp(a, *b); }
+IC int xr_strcmp(const shared_str& a, const char* b) { return BearCore::BearString::Compare(*a, b); }
+IC int xr_strcmp(const char* a, const shared_str& b) { return BearCore::BearString::Compare(a, *b); }
 IC int xr_strcmp(const shared_str& a, const shared_str& b)
 {
 	if (a.equal(b)) return 0;
-	else return xr_strcmp(*a, *b);
+	else return BearCore::BearString::Compare(*a, *b);
 }
-IC void xr_strlwr(shared_str& src) { if (*src) { LPSTR lp = xr_strdup(*src); xr_strlwr(lp); src = lp; xr_free(lp); } }
+IC void xr_strlwr(shared_str& src) { if (*src) { LPSTR lp = BearCore::BearString::Duplicate(*src); BearCore::BearString::ToLower(lp);  src = lp; xr_free(lp); } }

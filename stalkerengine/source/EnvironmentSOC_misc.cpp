@@ -138,7 +138,7 @@ CEnvDescriptorSOC::CEnvDescriptorSOC()
 void CEnvDescriptorSOC::load	(LPCSTR exec_tm, LPCSTR S, CEnvironmentSOC* parent)
 {
 	Ivector3 tm				={0,0,0};
-	sscanf					(exec_tm,"%d:%d:%d",&tm.x,&tm.y,&tm.z);
+	BearCore::BearString::Scanf					(exec_tm,"%d:%d:%d",&tm.x,&tm.y,&tm.z);
 	R_ASSERT3				((tm.x>=0)&&(tm.x<24)&&(tm.y>=0)&&(tm.y<60)&&(tm.z>=0)&&(tm.z<60),"Incorrect weather time",S);
 	exec_time				= tm.x*3600.f+tm.y*60.f+tm.z;
 	exec_time_loaded		= exec_time;
@@ -150,7 +150,7 @@ void CEnvDescriptorSOC::load	(LPCSTR exec_tm, LPCSTR S, CEnvironmentSOC* parent)
 	clouds_texture_name		= pSettings->r_string	(S,"clouds_texture");
 	LPCSTR	cldclr			= pSettings->r_string	(S,"clouds_color");
 	float	multiplier		= 0, save=0;
-	sscanf					(cldclr,"%f,%f,%f,%f,%f",&clouds_color.x,&clouds_color.y,&clouds_color.z,&clouds_color.w,&multiplier);
+	BearCore::BearString::Scanf(cldclr,"%f,%f,%f,%f,%f",&clouds_color.x,&clouds_color.y,&clouds_color.z,&clouds_color.w,&multiplier);
 	save=clouds_color.w;	clouds_color.mul		(.5f*multiplier);		clouds_color.w	= save; 
 	sky_color				= pSettings->r_fvector3	(S,"sky_color");		sky_color.mul(.5f);
 	if (pSettings->line_exist(S,"sky_rotation"))	sky_rotation	= XrMath::deg2rad(pSettings->r_float(S,"sky_rotation"));

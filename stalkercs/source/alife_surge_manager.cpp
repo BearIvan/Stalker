@@ -36,13 +36,13 @@ void CALifeSurgeManager::spawn_new_spawns			()
 		VERIFY3					(spawn,spawns().spawns().vertex(*I)->data()->object().name(),spawns().spawns().vertex(*I)->data()->object().name_replace());
 
 #ifdef DEBUG
-		CTimer					timer;
-		timer.Start				();
+		BearCore::BearTimer					timer;
+		timer.restart				();
 #endif
 		create					(object,spawn,*I);
 #ifdef DEBUG
 		if (psAI_Flags.test(aiALife))
-			Msg					("LSS : SURGE : SPAWN : [%s],[%s], level %s, time %f ms",*spawn->s_name,spawn->name_replace(),*ai().game_graph().header().level(ai().game_graph().vertex(spawn->m_tGraphID)->level_id()).name(),timer.GetElapsed_sec()*1000.f);
+			Msg					("LSS : SURGE : SPAWN : [%s],[%s], level %s, time %f ms",*spawn->s_name,spawn->name_replace(),*ai().game_graph().header().level(ai().game_graph().vertex(spawn->m_tGraphID)->level_id()).name(),timer.get_elapsed_time().asseconds()*1000.f);
 #endif
 	}
 }

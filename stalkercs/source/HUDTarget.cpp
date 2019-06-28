@@ -202,7 +202,7 @@ void CHUDTarget::Render()
 						if (fuzzyShowInfo>0.5f)
 						{
 							CStringTable	strtbl		;
-							F->SetColor	(subst_alpha(C,u8(XrMath::iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
+							F->SetColor	(XrColor::subst_alpha(C,u8(XrMath::iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
 							F->OutNext	("%s", *strtbl.translate(others_inv_owner->Name()) );
 							F->OutNext	("%s", *strtbl.translate(others_inv_owner->CharacterInfo().Community().id()) );
 						}
@@ -215,7 +215,7 @@ void CHUDTarget::Render()
 					{
 						if (fuzzyShowInfo>0.5f && l_pI->NameItem())
 						{
-							F->SetColor	(subst_alpha(C,u8(XrMath::iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
+							F->SetColor	(XrColor::subst_alpha(C,u8(XrMath::iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
 							F->OutNext	("%s",l_pI->NameItem());
 						}
 						fuzzyShowInfo += SHOW_INFO_SPEED*Device.fTimeDelta;
@@ -250,7 +250,7 @@ void CHUDTarget::Render()
 							XrMath::clamp(fuzzyShowInfo,0.f,1.f);
 							int alpha_C = XrMath::iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f);
 							u8 alpha_b	= u8(alpha_C & 0x00ff);
-							F->SetColor	(subst_alpha(C,alpha_b));
+							F->SetColor	(XrColor::subst_alpha(C,alpha_b));
 							F->OutNext	("%s",*PP.RQ.O->cName());
 						}
 					}

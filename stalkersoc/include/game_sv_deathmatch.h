@@ -2,7 +2,6 @@
 
 #include "game_sv_mp.h"
 #include "inventory_space.h"
-#include "tools/client_id.h"
 #include "Hit.h"
 #include "engine/pure_relcase.h"
 

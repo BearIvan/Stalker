@@ -296,7 +296,7 @@ void CUIDragItem::Init(const ui_shader& sh, const Frect& rect, const Frect& text
 	m_static.SetWndPos				(Fvector2().set(0.0f,0.0f));
 	m_static.SetWndSize				(GetWndSize());
 	m_static.TextureOn				();
-	m_static.SetColor				(color_rgba(255,255,255,170));
+	m_static.SetColor				(XrColor::color_rgba(255,255,255,170));
 	m_static.SetStretchTexture		(true);
 	m_pos_offset.sub				(rect.lt, GetUICursor()->GetCursorPosition());
 }

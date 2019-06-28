@@ -70,9 +70,9 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height){
 	u32			color;
 	CGameFont*	pFont;
 
-	m_game_color_time    = color_argb( 255, 255, 255, 255 );
-	m_game_color_caption = color_argb( 255, 189, 189, 224 );
-	m_game_color_text    = color_argb( 255, 255, 255, 255 );
+	m_game_color_time    = XrColor::color_argb( 255, 255, 255, 255 );
+	m_game_color_caption = XrColor::color_argb( 255, 189, 189, 224 );
+	m_game_color_text    = XrColor::color_argb( 255, 255, 255, 255 );
 
 	xml.Load		(CONFIG_PATH, UI_PATH, "messages_window.xml");
 

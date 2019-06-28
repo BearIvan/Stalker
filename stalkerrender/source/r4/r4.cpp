@@ -926,14 +926,14 @@ static HRESULT create_shader				(
 
 	if (disasm)
 	{
-		ID3DXBuffer*	disasm = 0;
-		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm);
+		ID3DXBuffer*	disasm1 = 0;
+		D3DXDisassembleShader(LPDWORD(buffer), FALSE, 0, &disasm1);
 		string_path		dname;
-		strconcat(sizeof(dname), dname, "disasm\\", file_name, ('v' == pTarget[0]) ? ".vs" : ".ps");
+		strconcat(sizeof(dname), dname, "disasm1\\", file_name, ('v' == pTarget[0]) ? ".vs" : ".ps");
 		IWriter*		W = XRayBearWriter::Create(FS.Write("%logs%", dname, 0));
-		W->w(disasm->GetBufferPointer(), disasm->GetBufferSize());
+		W->w(disasm1->GetBufferPointer(), disasm1->GetBufferSize());
 		XRayBearWriter::Destroy(W);
-		_RELEASE(disasm);
+		_RELEASE(disasm1);
 	}
 	return				_result;
 }
@@ -1457,7 +1457,7 @@ HRESULT	CRender::shader_compile			(
 
 	HRESULT		_result = E_FAIL;
 
-	string_path	folder_name, folder;
+	string_path	 folder;
 	xr_strcpy		( folder, "r3\\objects\\r4\\" );
 	xr_strcat		( folder, name );
 	xr_strcat		( folder, "." );

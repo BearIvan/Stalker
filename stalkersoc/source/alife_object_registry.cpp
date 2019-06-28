@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "alife_object_registry.h"
-#include "tools/net_utils.h"
 #include "ai_debug.h"
 
 CALifeObjectRegistry::CALifeObjectRegistry	(LPCSTR section)

@@ -1,10 +1,11 @@
 #include "stdafx.h"
 //#include "igame_level.h"
 
-#include "xr_area.h"
+#include "engine/EngineAPI.h"
 #include "engine/xr_object.h"
 #include "engine/xrLevel.h"
 #include "engine/xr_collide_form.h"
+#include "xr_area.h"
 //#include "../xrsound/sound.h"
 //#include "x_ray.h"
 //#include "GameFont.h"

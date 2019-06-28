@@ -629,5 +629,5 @@ void CUITradeWnd::BindDragDropListEnents(CUIDragDropListEx* lst)
 void CUITradeWnd::ColorizeItem(CUICellItem* itm, bool b)
 {
 	if(!b)
-		itm->SetColor				(color_rgba(255,100,100,255));
+		itm->SetColor				(XrColor::color_rgba(255,100,100,255));
 }

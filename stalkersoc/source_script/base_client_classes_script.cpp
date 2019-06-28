@@ -13,8 +13,6 @@
 #include "XrRender/fbasicvisual.h"
 #include "XrRender/skeletonanimated.h"
 #include "ai/stalker/ai_stalker.h"
-#include "tools/net_utils.h"
-
 using namespace luabind;
 
 #pragma optimize("s",on)

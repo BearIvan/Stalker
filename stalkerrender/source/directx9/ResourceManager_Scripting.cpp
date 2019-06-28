@@ -95,7 +95,7 @@ void LuaError(lua_State* L)
 #		define USE_DL_ALLOCATOR
 //#	endif // USE_MEMORY_MONITOR
 #endif // PURE_ALLOC
-
+/*
 static void *lua_alloc_dl	(void *ud, void *ptr, size_t osize, size_t nsize) {
 	(void)ud;
 	(void)osize;
@@ -105,7 +105,7 @@ static void *lua_alloc_dl	(void *ud, void *ptr, size_t osize, size_t nsize) {
 	}
 	return BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
 }
-
+*/
 //#include "tools/memory_allocator_options.h"
 
 
@@ -239,7 +239,7 @@ void	CResourceManager::LS_Load			()
 		if	(0==strext(namesp) || 0!=xr_strcmp(strext(namesp),".s"))	continue;
 		*strext	(namesp)=0;
 		if		(0==namesp[0])			xr_strcpy	(namesp,"_G");
-		strcpy						(fn, *(folder[it]));
+		BearCore::BearString::Copy						(fn, *(folder[it]));
 		try {
 			Script::bfLoadFileIntoNamespace	(LSVM,TEXT("%cur_shaders%"),fn,namesp,true);
 		} catch (...)

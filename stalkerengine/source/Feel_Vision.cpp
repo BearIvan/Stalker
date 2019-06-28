@@ -128,11 +128,11 @@ void Vision::feel_vision_update(CObject* parent, Fvector& P, float dt, float vis
 
         {
             diff.resize(XrMath::max(seen.size(), query.size()));
-            xr_vector<CObject*>::iterator E = std::set_difference(
+            xr_vector<CObject*>::iterator E_ = std::set_difference(
                 seen.begin(), seen.end(),
                 query.begin(), query.end(),
                 diff.begin());
-            diff.resize(E - diff.begin());
+            diff.resize(E_ - diff.begin());
             for (u32 i = 0; i < diff.size(); i++)
                 o_new(diff[i]);
         }

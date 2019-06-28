@@ -1,7 +1,10 @@
 #ifndef	dx103DFluidRenderer_included
 #define	dx103DFluidRenderer_included
 #pragma once
+#pragma warning(push)
+#pragma warning(disable:4005)
 #include "directx\DXGI.h"
+#pragma warning(pop)
 #include "directx\d3dx10math.h"
 #include "directx\d3dx10core.h"
 #include "directx\d3dx10tex.h"

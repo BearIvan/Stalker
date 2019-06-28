@@ -251,16 +251,16 @@ void CUIStalkerRankingInfoItem::Init	(CUIXml* xml, LPCSTR path, int idx)
 
 	xml_init.InitAutoStaticGroup			(*xml, "auto", 0, this);
 
-	m_stored_alpha							= color_get_A(m_text2->GetTextColor());
+	m_stored_alpha							= XrColor::color_get_A(m_text2->GetTextColor());
 	xml->SetLocalRoot						(_stored_root);
 }
 
 void CUIStalkerRankingInfoItem::SetSelected	(bool b)
 {
 	CUISelectable::SetSelected				(b);
-	m_text1->SetTextColor( subst_alpha(m_text1->GetTextColor(), b?255:m_stored_alpha ));
-	m_text2->SetTextColor( subst_alpha(m_text2->GetTextColor(), b?255:m_stored_alpha ));
-	m_text3->SetTextColor( subst_alpha(m_text3->GetTextColor(), b?255:m_stored_alpha ));
+	m_text1->SetTextColor( XrColor::subst_alpha(m_text1->GetTextColor(), b?255:m_stored_alpha ));
+	m_text2->SetTextColor( XrColor::subst_alpha(m_text2->GetTextColor(), b?255:m_stored_alpha ));
+	m_text3->SetTextColor( XrColor::subst_alpha(m_text3->GetTextColor(), b?255:m_stored_alpha ));
 	if(b){ 
 		m_StalkersRankingWnd->ShowHumanInfo			(m_humanID);
 	}

@@ -812,16 +812,16 @@ void CSE_SmartCover::on_render	(CDUInterface* du, ISE_AbstractLEOwner* owner, bo
 		Fvector pos = H.point_position;
 		parent.transform_tiny	(pos);
 
-		du->OutText(pos, H.string_identifier.c_str(), color_rgba(255,255,255,255));
+		du->OutText(pos, H.string_identifier.c_str(), XrColor::color_rgba(255,255,255,255));
 
-		//du->DrawBox(H.point_position,Fvector().set(0.2f,0.2f,0.2f),TRUE,TRUE,color_rgba(255,0,0,80),color_rgba(0,255,0,255));
-		//du->DrawFlag(H.point_position, 0, 1.0f, 1, 1, color_rgba(0,255,0,255), FALSE);
-		//du->DrawCylinder(Fidentity, pos, Fvector().set(0.f, 1.f, 0.f), 1.f, .05f, color_rgba(0,255,0,255), color_rgba(0,255,0,255), TRUE, FALSE);
+		//du->DrawBox(H.point_position,Fvector().set(0.2f,0.2f,0.2f),TRUE,TRUE,XrColor::color_rgba(255,0,0,80),XrColor::color_rgba(0,255,0,255));
+		//du->DrawFlag(H.point_position, 0, 1.0f, 1, 1, XrColor::color_rgba(0,255,0,255), FALSE);
+		//du->DrawCylinder(Fidentity, pos, Fvector().set(0.f, 1.f, 0.f), 1.f, .05f, XrColor::color_rgba(0,255,0,255), XrColor::color_rgba(0,255,0,255), TRUE, FALSE);
 		
 		Fvector dir = H.fov_direction;
 		parent.transform_dir(dir);
 		Fvector up = parent.j;
-		draw_frustum(du, H.fov, H.range, 1.f, pos, dir, up, color_rgba(255,0,0,255));
+		draw_frustum(du, H.fov, H.range, 1.f, pos, dir, up, XrColor::color_rgba(255,0,0,255));
 	}
 }
 #endif // #ifdef XRSE_FACTORY_EXPORTS
@@ -849,7 +849,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
     fp_data.inc					();
 #endif // XRSE_FACTORY_EXPORTS
 	m_flags.set					(flOfflineNoMove,FALSE);
-	seed						(u32(CPU::QPC() & 0xffffffff));
+	seed						(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 #ifdef XRGAME_EXPORTS
@@ -992,7 +992,7 @@ void CSE_ALifeObject::FillProps				(LPCSTR pref, PropItemVec& items)
 
 u32	CSE_ALifeObject::ef_equipment_type		() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife equipment type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 //	return		(6);
@@ -1000,7 +1000,7 @@ u32	CSE_ALifeObject::ef_equipment_type		() const
 
 u32	 CSE_ALifeObject::ef_main_weapon_type	() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife main weapon type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 //	return		(5);
@@ -1008,7 +1008,7 @@ u32	 CSE_ALifeObject::ef_main_weapon_type	() const
 
 u32	 CSE_ALifeObject::ef_weapon_type		() const
 {
-//	string16					temp; CLSID2TEXT(m_tClassID,temp);
+//	string16					temp; XrClsid::Clsid2String(m_tClassID,temp);
 //	R_ASSERT3	(false,"Invalid alife weapon type request, virtual function is not properly overloaded!",temp);
 //	return		(u32(-1));
 	return		(0);
@@ -1016,7 +1016,7 @@ u32	 CSE_ALifeObject::ef_weapon_type		() const
 
 u32	CSE_ALifeObject::ef_detector_type		() const
 {
-	string16					temp; CLSID2TEXT(m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(m_tClassID,temp);
 	R_ASSERT3	(false,"Invalid alife detector type request, virtual function is not properly overloaded!",temp);
 	return		(u32(-1));
 }
@@ -1467,7 +1467,7 @@ CSE_ALifeObjectPhysic::CSE_ALifeObjectPhysic(LPCSTR caSection) : CSE_ALifeDynami
 #else
 	m_freeze_time				= 0;
 #endif
-	m_relevent_random.seed		(u32(CPU::GetCLK() & u32(-1)));
+	m_relevent_random.seed		(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 CSE_ALifeObjectPhysic::~CSE_ALifeObjectPhysic		() 
@@ -2108,28 +2108,28 @@ CSE_Abstract *CSE_ALifeSchedulable::init	()
 
 u32	CSE_ALifeSchedulable::ef_creature_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife creature type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_anomaly_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife anomaly type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_weapon_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife weapon type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }
 
 u32	 CSE_ALifeSchedulable::ef_detector_type	() const
 {
-	string16					temp; CLSID2TEXT(base()->m_tClassID,temp);
+	string16					temp; XrClsid::Clsid2String(base()->m_tClassID,temp);
 	R_ASSERT3					(false,"Invalid alife detector type request, virtual function is not properly overloaded!",temp);
 	return						(u32(-1));
 }

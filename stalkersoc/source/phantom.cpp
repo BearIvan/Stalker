@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "ai/phantom/phantom.h"
-#include "tools/net_utils.h"
 #include "level.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "engine/motion.h"

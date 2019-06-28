@@ -143,7 +143,7 @@ public:
         w_dir(C);
         w_float(mag);
     }
-    IC void w_stringZ(LPCSTR S) { W_guard g(&w_allow); w(S, (bsize)xr_strlen(S) + 1); INI_W(w_stringZ(S)); }
+    IC void w_stringZ(LPCSTR S) { W_guard g(&w_allow); w(S, (bsize)BearCore::BearString::GetSize(S) + 1); INI_W(w_stringZ(S)); }
     IC void w_stringZ(const shared_str& p)
     {
         W_guard g(&w_allow);

@@ -59,8 +59,8 @@ bool CUITextureMaster::IsSh(const char* texture_name){
 
 void CUITextureMaster::InitTexture(const char* texture_name, IUISimpleTextureControl* tc){
 #ifdef DEBUG
-	CTimer T;
-	T.Start();
+	BearCore::BearTimer T;
+	T.restart();
 #endif
 
 	xr_map<shared_str, TEX_INFO>::iterator	it;
@@ -72,20 +72,20 @@ void CUITextureMaster::InitTexture(const char* texture_name, IUISimpleTextureCon
 		tc->CreateShader(*((*it).second.file));
 		tc->SetOriginalRectEx((*it).second.rect);
 #ifdef DEBUG
-		m_time += T.GetElapsed_ms();
+		m_time += T.get_elapsed_time().asmiliseconds();
 #endif
 		return;
 	}
 	tc->CreateShader(texture_name);
 #ifdef DEBUG
-	m_time += T.GetElapsed_ms();
+	m_time += T.get_elapsed_time().asmiliseconds();
 #endif
 }
 
 void CUITextureMaster::InitTexture(const char* texture_name, const char* shader_name, IUISimpleTextureControl* tc){
 #ifdef DEBUG
-	CTimer T;
-	T.Start();
+	BearCore::BearTimer T;
+	T.restart();
 #endif
 
 	xr_map<shared_str, TEX_INFO>::iterator	it;
@@ -97,13 +97,13 @@ void CUITextureMaster::InitTexture(const char* texture_name, const char* shader_
 		tc->CreateShader(*((*it).second.file), shader_name);
 		tc->SetOriginalRectEx((*it).second.rect);
 #ifdef DEBUG
-		m_time += T.GetElapsed_ms();
+		m_time += T.get_elapsed_time().asmiliseconds();
 #endif
 		return;
 	}
 	tc->CreateShader(texture_name, shader_name);
 #ifdef DEBUG
-	m_time += T.GetElapsed_ms();
+	m_time += T.get_elapsed_time().asmiliseconds();
 #endif
 }
 

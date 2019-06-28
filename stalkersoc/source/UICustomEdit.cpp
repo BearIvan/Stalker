@@ -42,8 +42,8 @@ CUICustomEdit::CUICustomEdit()
 	m_bFloatNumbers = false;
 	m_bFocusByDbClick = false;
 
-	m_textColor[0]=color_argb(255,235,219,185);
-	m_textColor[1]=color_argb(255,100,100,100);
+	m_textColor[0]=XrColor::color_argb(255,235,219,185);
+	m_textColor[1]=XrColor::color_argb(255,100,100,100);
 }
 
 CUICustomEdit::~CUICustomEdit()

@@ -2,7 +2,6 @@
 #include "engine/xr_ioconsole.h"
 #include "engine/xr_ioc_cmd.h"
 #include "UI/UIOptConCom.h"
-#include "tools/xrCore.h"
 //#include "game_base_space.h"
 #include "gametype_chooser.h"
 #include "RegistryFuncs.h"
@@ -78,7 +77,7 @@ void CUIOptConCom::Init()
 	m_fNetWeatherRate = 1.0f;
 	CMD4(CCC_Float,		"mm_net_weather_rateofchange",		&m_fNetWeatherRate,	0.0, 100.0f);
 
-	strcpy_s(m_serverName, Core.CompName);
+	strcpy_s(m_serverName, XrCore::CompName);
 	CMD3(CCC_String,	"mm_net_srv_name",					m_serverName,	sizeof(m_serverName));
 
 	m_uNetFilter.one	();

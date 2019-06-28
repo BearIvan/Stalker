@@ -95,8 +95,9 @@ namespace luabind { namespace detail {
 
     void class_registration::register_(lua_State* L) const
     {
-        LUABIND_CHECK_STACK(L);
-
+		{
+			LUABIND_CHECK_STACK(L);
+		}
         assert(lua_type(L, -1) == LUA_TTABLE);
 
         lua_pushstring(L, m_name);

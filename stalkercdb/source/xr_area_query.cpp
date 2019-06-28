@@ -1,9 +1,11 @@
 #include "stdafx.h"
-#include "xr_area.h"
+
 #include "frustum.h"
 
 #include "tools/Math/XrVector3d2.h"
 
+#define ENGINE_API
+#include "xr_area.h"
 using namespace	collide;
 
 bool CObjectSpace::BoxQuery	(Fvector const & 		box_center, 

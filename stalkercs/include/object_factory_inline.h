@@ -84,7 +84,7 @@ IC	void CObjectFactory::add	(CObjectItemAbstract *item)
 	if(I != clsids().end())
 	{
 		string16			temp;
-		CLSID2TEXT			(item->clsid(),temp);
+		XrClsid::Clsid2String(item->clsid(),temp);
 		VERIFY2				(0, make_string("clsid is duplicated : %s",temp));
 	}
 	

@@ -11,7 +11,6 @@
 #include "phnetstate.h"
 #include "xrServer_script_macroses.h"
 #include "script_ini_file.h"
-#include "tools/net_utils.h"
 using namespace luabind;
 
 LPCSTR get_section_name(const CSE_Abstract *abstract)

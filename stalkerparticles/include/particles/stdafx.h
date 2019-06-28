@@ -12,5 +12,5 @@
 #include "tools/xrCore.h"
 
 #include "psystem.h"
-
+#include "ttapi.h"
 #endif //stdafxH

@@ -39,7 +39,7 @@ void XrTimerController::Pause(bool a)
 	if (m_pause == a)return;
 	m_pause = a;
 	BEAR_ASSERT(m_timers);
-	for (auto b = m_timers->begin(), e = m_timers->begin(); b != e; b++)
+	for (auto b = m_timers->begin(), e = m_timers->end(); b != e; b++)
 	{
 
 		(*b)->pause(a);

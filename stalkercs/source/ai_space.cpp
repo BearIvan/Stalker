@@ -99,7 +99,7 @@ void CAI_Space::load				(LPCSTR level_name)
 #if 0
 	Memory.mem_compact		();
 	u32						mem_usage = Memory.mem_usage();
-	CTimer					timer;
+	BearCore::BearTimer					timer;
 	timer.Start				();
 #endif
 

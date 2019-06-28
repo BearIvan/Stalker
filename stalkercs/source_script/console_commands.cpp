@@ -152,8 +152,8 @@ CUIOptConCom g_OptConCom;
 		u32		_game_lua = game_lua_memory_usage();
 		u32		_render = ::Render->memory_usage();
 #endif // SEVERAL_ALLOCATORS
-		int		_eco_strings = (int)g_pStringContainer->stat_economy();
-		int		_eco_smem = (int)g_pSharedMemoryContainer->stat_economy();
+		int		_eco_strings = (int)XrStringContainer::stat_economy();
+		int		_eco_smem = (int)XrSharedMemoryContainer::stat_economy();
 		u32		m_base = 0, c_base = 0, m_lmaps = 0, c_lmaps = 0;
 
 
@@ -236,7 +236,7 @@ public:
 						Msg("! invalid vertex number (%d)!",XrMath::min(id1,id2));
 					else {
 //						Sleep				(1);
-//						CTimer				timer;
+//						BearCore::BearTimer				timer;
 //						timer.Start			();
 //						float				fValue = ai().m_tpAStar->ffFindMinimalPath(id1,id2);
 //						Msg					("* %7.2f[%d] : %11I64u cycles (%.3f microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.GetElapsed_ms()*1000.f);
@@ -461,11 +461,11 @@ public:
 		strcpy_s					(S,args);
 		
 #ifdef DEBUG
-		CTimer					timer;
-		timer.Start				();
+		BearCore::BearTimer					timer;
+		timer.restart				();
 #endif
 		if (!xr_strlen(S)){
-			strconcat			(sizeof(S),S,Core.UserName,"_","quicksave");
+			strconcat			(sizeof(S),S,XrCore::UserName,"_","quicksave");
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
@@ -484,7 +484,7 @@ public:
 			Level().Send		(net_packet,net_flags(TRUE));
 		}
 #ifdef DEBUG
-		Msg						("Game save overhead  : %f milliseconds",timer.GetElapsed_sec()*1000.f);
+		Msg						("Game save overhead  : %f milliseconds",timer.get_elapsed_time().asseconds()*1000.f);
 #endif
 		SDrawStaticStruct* _s		= HUD().GetUI()->UIGame()->AddCustomStatic("game_saved", true);
 		_s->m_endTime				= Device.fTimeGlobal+3.0f;// 3sec
@@ -495,12 +495,12 @@ public:
 		strcat					(S,".dds");
 		
 #ifdef DEBUG
-		timer.Start				();
+		timer.restart				();
 #endif
 		MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S);
 
 #ifdef DEBUG
-		Msg						("Screenshot overhead : %f milliseconds",timer.GetElapsed_sec()*1000.f);
+		Msg						("Screenshot overhead : %f milliseconds",timer.get_elapsed_time().asseconds()*1000.f);
 #endif
 	}
 };
@@ -627,7 +627,7 @@ class CCC_FlushLog : public IConsole_Command {
 public:
 	CCC_FlushLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR /**args/**/) {
-		FlushLog();
+		BearCore::BearLog::Flush();
 		Msg		("* Log file has been saved successfully!");
 	}
 };
@@ -635,9 +635,8 @@ public:
 class CCC_ClearLog : public IConsole_Command {
 public:
 	CCC_ClearLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
-	virtual void Execute(LPCSTR) {
-		LogFile->clear_not_free	();
-		FlushLog				();
+	virtual void Execute(LPCSTR /**args/**/) {
+		BearCore::BearLog::Flush();
 		Msg						("* Log file has been cleaned successfully!");
 	}
 };

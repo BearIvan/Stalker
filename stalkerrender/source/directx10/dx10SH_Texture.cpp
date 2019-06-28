@@ -371,8 +371,8 @@ void CTexture::Load		()
 
 	flags.bUser						= false;
 	flags.MemoryUsage				= 0;
-	if (0==stricmp(*cName,"$null"))	return;
-	if (0!=strstr(*cName,"$user$"))	{
+	if (0 == BearCore::BearString::CompareWithoutCase (*cName, "$null"))	return;
+	if (0!= BearCore::BearString::Compare(*cName,"$user$"))	{
 		flags.bUser	= true;
 		return;
 	}
@@ -401,19 +401,19 @@ void CTexture::Load		()
 
 //			HRESULT hrr = HW.pDevice->CreateTexture(
 //				_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL );
-			D3D_TEXTURE2D_DESC	desc;
-			desc.Width = _w;
-			desc.Height = _h;
-			desc.MipLevels = 1;
-			desc.ArraySize = 1;
-			desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			desc.SampleDesc.Count = 1;
-			desc.SampleDesc.Quality = 0;
-			desc.Usage = D3D_USAGE_DYNAMIC;
-			desc.BindFlags = D3D_BIND_SHADER_RESOURCE;
-			desc.CPUAccessFlags = D3D_CPU_ACCESS_WRITE;
-			desc.MiscFlags = 0;
-			HRESULT hrr = HW.pDevice->CreateTexture2D(&desc, 0, &pTexture);
+			D3D_TEXTURE2D_DESC	desc1;
+			desc1.Width = _w;
+			desc1.Height = _h;
+			desc1.MipLevels = 1;
+			desc1.ArraySize = 1;
+			desc1.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			desc1.SampleDesc.Count = 1;
+			desc1.SampleDesc.Quality = 0;
+			desc1.Usage = D3D_USAGE_DYNAMIC;
+			desc1.BindFlags = D3D_BIND_SHADER_RESOURCE;
+			desc1.CPUAccessFlags = D3D_CPU_ACCESS_WRITE;
+			desc1.MiscFlags = 0;
+			HRESULT hrr = HW.pDevice->CreateTexture2D(&desc1, 0, &pTexture);
 
 			pSurface = pTexture;
 			if (FAILED(hrr))
@@ -485,7 +485,7 @@ void CTexture::Load		()
 
 				flags.seqCycles	= FALSE;
 				_fs->r_string	(buffer,sizeof(buffer));
-				if (0==stricmp	(buffer,"cycled"))
+				if (0== BearCore::BearString::CompareWithoutCase(buffer,"cycled"))
 				{
 					flags.seqCycles	= TRUE;
 					_fs->r_string	(buffer,sizeof(buffer));

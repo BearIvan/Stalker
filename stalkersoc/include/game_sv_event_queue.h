@@ -1,6 +1,5 @@
 #pragma once
 
-#include "tools/net_utils.h"
 
 struct GameEvent
 {

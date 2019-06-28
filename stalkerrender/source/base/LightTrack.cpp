@@ -218,8 +218,8 @@ void	CROS_impl::update(IRenderable* O)
 		if (MODE & IRender_ObjectSpecific::TRACE_SUN) {
 			if (--result_sun < 0) {
 				result_sun += ::Random.randI(lt_hemisamples / 4, lt_hemisamples / 2);
-				Fvector	direction;	direction.set(sun->direction).invert().normalize();
-				sun_value = !(g_pGameLevel->ObjectSpace.RayTest(position, direction, 500.f, collide::rqtBoth, &cache_sun, _object)) ? 1.f : 0.f;
+				Fvector	direction1;	direction1.set(sun->direction).invert().normalize();
+				sun_value = !(g_pGameLevel->ObjectSpace.RayTest(position, direction1, 500.f, collide::rqtBoth, &cache_sun, _object)) ? 1.f : 0.f;
 			}
 		}
 
@@ -232,9 +232,9 @@ void	CROS_impl::update(IRenderable* O)
 				else { sample = (result_iterator%lt_hemisamples); result_iterator++; }
 
 				// take sample
-				Fvector	direction;	direction.set(hdir_soc[sample][0], hdir_soc[sample][1], hdir_soc[sample][2]).normalize();
+				Fvector	direction1;	direction1.set(hdir_soc[sample][0], hdir_soc[sample][1], hdir_soc[sample][2]).normalize();
 				//.			result[sample]	=	!g_pGameLevel->ObjectSpace.RayTest(position,direction,50.f,collide::rqtBoth,&cache[sample],_object);
-				result[sample] = !g_pGameLevel->ObjectSpace.RayTest(position, direction, 50.f, collide::rqtStatic, &cache[sample], _object);
+				result[sample] = !g_pGameLevel->ObjectSpace.RayTest(position, direction1, 50.f, collide::rqtStatic, &cache[sample], _object);
 				//	Msg				("%d:-- %s",sample,result[sample]?"true":"false");
 			}
 		}

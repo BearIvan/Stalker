@@ -90,13 +90,13 @@ IC	typename CSSafeMapIterator::_iterator	&CSSafeMapIterator::next	()
 TEMPLATE_SPEZIALIZATION
 IC	void CSSafeMapIterator::start_timer			()
 {
-	m_timer.Start		();
+	m_timer.restart		();
 }
 
 TEMPLATE_SPEZIALIZATION
 IC	bool CSSafeMapIterator::time_over			()
 {
-	return				(use_time_limit && !m_first_update && (m_timer.GetElapsed_sec() >= m_max_process_time));
+	return				(use_time_limit && !m_first_update && (m_timer.get_elapsed_time().asseconds() >= m_max_process_time));
 }
 
 TEMPLATE_SPEZIALIZATION

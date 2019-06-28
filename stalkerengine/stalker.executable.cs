@@ -51,10 +51,10 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalker_r3");
 		IncludeAutonomousProjects.Add("stalker_r4");
 		
-      // IncludeAutonomousProjects.Add("stalkersoc");
-		//IncludeAutonomousProjects.Add("stalkercs");
-		IncludeAutonomousProjects.Add("stalkercop");
-      //  IncludeAutonomousProjects.Add("stalkergamespy");
+        IncludeAutonomousProjects.Add("stalkersoc");
+	//	IncludeAutonomousProjects.Add("stalkercs");
+	//	IncludeAutonomousProjects.Add("stalkercop");
+        IncludeAutonomousProjects.Add("stalkergamespy");
 		Console = false;
         ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
 		//ProjectsToDynamicLibrary = true;

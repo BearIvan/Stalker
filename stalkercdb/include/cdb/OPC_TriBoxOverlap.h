@@ -1,11 +1,11 @@
 
-//! This macro quickly finds the min & max values among 3 variables
-#define FINDMINMAX(x0, x1, x2, min, max)	\
-	min = max = x0;							\
-	if(x1<min) min=x1;						\
-	if(x1>max) max=x1;						\
-	if(x2<min) min=x2;						\
-	if(x2>max) max=x2;
+//! This macro quickly finds the _min & _max values among 3 variables
+#define FINDMINMAX(x0, x1, x2, _min, _max)	\
+	_min = _max = x0;							\
+	if(x1<_min) _min=x1;						\
+	if(x1>_max) _max=x1;						\
+	if(x2<_min) _min=x2;						\
+	if(x2>_max) _max=x2;
 
 //! TO BE DOCUMENTED
 inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& maxbox)
@@ -24,51 +24,51 @@ inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& ma
 
 //! TO BE DOCUMENTED
 #define AXISTEST_X01(a, b, fa, fb)							\
-	min = a*v0.y - b*v0.z;									\
-	max = a*v2.y - b*v2.z;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = a*v0.y - b*v0.z;									\
+	_max = a*v2.y - b*v2.z;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.y + fb * extents.z;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_X2(a, b, fa, fb)							\
-	min = a*v0.y - b*v0.z;									\
-	max = a*v1.y - b*v1.z;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = a*v0.y - b*v0.z;									\
+	_max = a*v1.y - b*v1.z;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.y + fb * extents.z;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Y02(a, b, fa, fb)							\
-	min = b*v0.z - a*v0.x;									\
-	max = b*v2.z - a*v2.x;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = b*v0.z - a*v0.x;									\
+	_max = b*v2.z - a*v2.x;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.x + fb * extents.z;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Y1(a, b, fa, fb)							\
-	min = b*v0.z - a*v0.x;									\
-	max = b*v1.z - a*v1.x;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = b*v0.z - a*v0.x;									\
+	_max = b*v1.z - a*v1.x;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.x + fb * extents.z;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Z12(a, b, fa, fb)							\
-	min = a*v1.x - b*v1.y;									\
-	max = a*v2.x - b*v2.y;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = a*v1.x - b*v1.y;									\
+	_max = a*v2.x - b*v2.y;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.x + fb * extents.y;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Z0(a, b, fa, fb)							\
-	min = a*v0.x - b*v0.y;									\
-	max = a*v1.x - b*v1.y;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	_min = a*v0.x - b*v0.y;									\
+	_max = a*v1.x - b*v1.y;									\
+	if(_min>_max) {const float tmp=_max; _max=_min; _min=tmp;	}	\
 	rad = fa * extents.x + fb * extents.y;					\
-	if(min>rad || max<-rad) return FALSE;
+	if(_min>rad || _max<-rad) return FALSE;
 
 // compute triangle edges
 // - edges lazy evaluated to take advantage of early exits
@@ -77,7 +77,7 @@ inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& ma
 // - axis vector3 discarded, possibly saves useless movs
 #define IMPLEMENT_CLASS3_TESTS						\
 	float rad;										\
-	float min, max;									\
+	float _min, _max;									\
 													\
 	const float fey0 = XrMath::abs(e0.y);					\
 	const float fez0 = XrMath::abs(e0.z);					\

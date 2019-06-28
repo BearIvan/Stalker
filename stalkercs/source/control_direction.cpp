@@ -117,7 +117,7 @@ void CControlDirection::pitch_correction()
 	// get current plane
 	u32					node = m_object->ai_location().level_vertex_id();
 	Fplane				P;	
-	pvDecompress		(P.n,ai().level_graph().vertex(node)->plane());
+	XrCompressor::PvDecompress		(P.n,ai().level_graph().vertex(node)->plane());
 	P.d					= -P.n.dotproduct(ai().level_graph().vertex_position(node));
 
 	Fvector				position_on_plane;

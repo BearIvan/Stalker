@@ -73,10 +73,10 @@ bool UIWarState::UpdateInfo( LPCSTR icon, LPCSTR hint_text )
 
 void  UIWarState::Draw()
 {
-/*	u32 cr = color_rgba( 200, 200, 200, 100 );
+/*	u32 cr = XrColor::color_rgba( 200, 200, 200, 100 );
 	if ( m_installed )
 	{
-		cr = color_rgba( 255, 255, 255, 250 );
+		cr = XrColor::color_rgba( 255, 255, 255, 250 );
 	}
 	m_static->SetColor( cr );
 	*/

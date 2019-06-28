@@ -157,7 +157,7 @@ void CMainMenu::Activate	(bool bActivate)
 			m_Flags.set				(flActive|flNeedChangeCapture,TRUE);
 
 		{
-			DLL_Pure* dlg = NEW_INSTANCE(TEXT2CLSID("MAIN_MNU"));
+			DLL_Pure* dlg = NEW_INSTANCE(XrClsid::String2Clsid("MAIN_MNU"));
 			if(!dlg) 
 			{
 				m_Flags.set				(flActive|flNeedChangeCapture,FALSE);

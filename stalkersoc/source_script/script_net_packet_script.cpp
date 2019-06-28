@@ -8,7 +8,6 @@
 
 #include "pch_script.h"
 #include "script_net_packet.h"
-#include "tools/net_utils.h"
 
 using namespace luabind;
 

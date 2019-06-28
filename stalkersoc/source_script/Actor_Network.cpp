@@ -1407,7 +1407,7 @@ void	CActor::OnRender_Network()
 	//-----------------------------------------------------------------------------------------------------
 	float size = 0.2f;
 	
-//	dbg_draw_piramid(Position(), m_PhysicMovementControl->GetVelocity(), size/2, -r_model_yaw, color_rgba(255, 255, 255, 255));
+//	dbg_draw_piramid(Position(), m_PhysicMovementControl->GetVelocity(), size/2, -r_model_yaw, XrColor::color_rgba(255, 255, 255, 255));
 	//-----------------------------------------------------------------------------------------------------
 	if (g_Alive())
 	{
@@ -1416,7 +1416,7 @@ void	CActor::OnRender_Network()
 			Fvector bc; bc.add(Position(), m_AutoPickUp_AABB_Offset);
 			Fvector bd = m_AutoPickUp_AABB;
 
-			Level().debug_renderer().draw_aabb			(bc, bd.x, bd.y, bd.z, color_rgba(0, 255, 0, 255));
+			Level().debug_renderer().draw_aabb			(bc, bd.x, bd.y, bd.z, XrColor::color_rgba(0, 255, 0, 255));
 		};
 		
 		IKinematics* V		= smart_cast<IKinematics*>(Visual());
@@ -1432,7 +1432,7 @@ void	CActor::OnRender_Network()
 					Fmatrix BoneMatrix; BoneOBB.xform_get(BoneMatrix);
 					Fmatrix BoneMatrixRes; BoneMatrixRes.mul(V->LL_GetTransform(i), BoneMatrix);
 					BoneMatrix.mul(XFORM(), BoneMatrixRes);
-					Level().debug_renderer().draw_obb(BoneMatrix, BoneOBB.m_halfsize, color_rgba(0, 255, 0, 255));
+					Level().debug_renderer().draw_obb(BoneMatrix, BoneOBB.m_halfsize, XrColor::color_rgba(0, 255, 0, 255));
 				};
 				*/
 				CCF_Skeleton* Skeleton = smart_cast<CCF_Skeleton*>(collidable.model);
@@ -1447,7 +1447,7 @@ void	CActor::OnRender_Network()
 								Fmatrix M;
 								M.invert			(I->b_IM);
 								Fvector h_size		= I->b_hsize;
-								Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 255, 0, 255));
+								Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 255, 0, 255));
 							}break;
 							case SBoneShape::stCylinder:{
 								Fmatrix M;
@@ -1456,13 +1456,13 @@ void	CActor::OnRender_Network()
 								Fvector				h_size;
 								h_size.set			(I->c_cylinder.m_radius,I->c_cylinder.m_radius,I->c_cylinder.m_height*0.5f);
 								Fvector::generate_orthonormal_basis(M.k,M.j,M.i);
-								Level().debug_renderer().draw_obb	(M, h_size, color_rgba(0, 127, 255, 255));
+								Level().debug_renderer().draw_obb	(M, h_size, XrColor::color_rgba(0, 127, 255, 255));
 							}break;
 							case SBoneShape::stSphere:{
 								Fmatrix				l_ball;
 								l_ball.scale		(I->s_sphere.R, I->s_sphere.R, I->s_sphere.R);
 								l_ball.translate_add(I->s_sphere.P);
-								Level().debug_renderer().draw_ellipse(l_ball, color_rgba(0, 255, 0, 255));
+								Level().debug_renderer().draw_ellipse(l_ball, XrColor::color_rgba(0, 255, 0, 255));
 							}break;
 						};
 					};					
@@ -1472,15 +1472,15 @@ void	CActor::OnRender_Network()
 
 		if (!(dbg_net_Draw_Flags.is_any((1<<1)))) return;
 		
-		dbg_draw_piramid(Position(), character_physics_support()->movement()->GetVelocity(), size, -r_model_yaw, color_rgba(128, 255, 128, 255));
-		dbg_draw_piramid(IStart.Pos, IStart.Vel, size, -IStart.o_model, color_rgba(255, 0, 0, 255));
+		dbg_draw_piramid(Position(), character_physics_support()->movement()->GetVelocity(), size, -r_model_yaw, XrColor::color_rgba(128, 255, 128, 255));
+		dbg_draw_piramid(IStart.Pos, IStart.Vel, size, -IStart.o_model, XrColor::color_rgba(255, 0, 0, 255));
 //		Fvector tmp, tmp1; tmp1.set(0, .1f, 0);
-//		dbg_draw_piramid(tmp.add(IStartT.Pos, tmp1), IStartT.Vel, size, -IStartT.o_model, color_rgba(155, 0, 0, 155));
-		dbg_draw_piramid(IRec.Pos, IRec.Vel, size, -IRec.o_model, color_rgba(0, 0, 255, 255));
-//		dbg_draw_piramid(tmp.add(IRecT.Pos, tmp1), IRecT.Vel, size, -IRecT.o_model, color_rgba(0, 0, 155, 155));
-		dbg_draw_piramid(IEnd.Pos, IEnd.Vel, size, -IEnd.o_model, color_rgba(0, 255, 0, 255));
-//		dbg_draw_piramid(tmp.add(IEndT.Pos, tmp1), IEndT.Vel, size, -IEndT.o_model, color_rgba(0, 155, 0, 155));
-		dbg_draw_piramid(NET_Last.p_pos, NET_Last.p_velocity, size*3/4, -NET_Last.o_model, color_rgba(255, 255, 255, 255));
+//		dbg_draw_piramid(tmp.add(IStartT.Pos, tmp1), IStartT.Vel, size, -IStartT.o_model, XrColor::color_rgba(155, 0, 0, 155));
+		dbg_draw_piramid(IRec.Pos, IRec.Vel, size, -IRec.o_model, XrColor::color_rgba(0, 0, 255, 255));
+//		dbg_draw_piramid(tmp.add(IRecT.Pos, tmp1), IRecT.Vel, size, -IRecT.o_model, XrColor::color_rgba(0, 0, 155, 155));
+		dbg_draw_piramid(IEnd.Pos, IEnd.Vel, size, -IEnd.o_model, XrColor::color_rgba(0, 255, 0, 255));
+//		dbg_draw_piramid(tmp.add(IEndT.Pos, tmp1), IEndT.Vel, size, -IEndT.o_model, XrColor::color_rgba(0, 155, 0, 155));
+		dbg_draw_piramid(NET_Last.p_pos, NET_Last.p_velocity, size*3/4, -NET_Last.o_model, XrColor::color_rgba(255, 255, 255, 255));
 		
 		Fmatrix MS, MH, ML, *pM = NULL;
 		ML.translate(0, 0.2f, 0);
@@ -1494,9 +1494,9 @@ void	CActor::OnRender_Network()
 
 		switch (g_cl_InterpolationType)
 		{
-		case 0: ppoint0 = &point0L; ppoint1 = &point1L; cColor = color_rgba(0, 255, 0, 255); sColor = color_rgba(128, 255, 128, 255); pM = &ML; pLastPos = &LastPosL; break;
-		case 1: ppoint0 = &point0S; ppoint1 = &point1S; cColor = color_rgba(0, 0, 255, 255); sColor = color_rgba(128, 128, 255, 255); pM = &MS; pLastPos = &LastPosS; break;
-		case 2: ppoint0 = &point0H; ppoint1 = &point1H; cColor = color_rgba(255, 0, 0, 255); sColor = color_rgba(255, 128, 128, 255); pM = &MH; pLastPos = &LastPosH; break;
+		case 0: ppoint0 = &point0L; ppoint1 = &point1L; cColor = XrColor::color_rgba(0, 255, 0, 255); sColor = XrColor::color_rgba(128, 255, 128, 255); pM = &ML; pLastPos = &LastPosL; break;
+		case 1: ppoint0 = &point0S; ppoint1 = &point1S; cColor = XrColor::color_rgba(0, 0, 255, 255); sColor = XrColor::color_rgba(128, 128, 255, 255); pM = &MS; pLastPos = &LastPosS; break;
+		case 2: ppoint0 = &point0H; ppoint1 = &point1H; cColor = XrColor::color_rgba(255, 0, 0, 255); sColor = XrColor::color_rgba(255, 128, 128, 255); pM = &MH; pLastPos = &LastPosH; break;
 		}
 
 		//drawing path trajectory
@@ -1560,8 +1560,8 @@ void	CActor::OnRender_Network()
 		Fvector PH, PS;
 		PH.set(IPosH); PH.y += 1;
 		PS.set(IPosS); PS.y += 1;
-//		Level().debug_renderer().draw_aabb			(PS, size, size, size, color_rgba(128, 128, 255, 255));
-//		Level().debug_renderer().draw_aabb			(PH, size, size, size, color_rgba(255, 128, 128, 255));
+//		Level().debug_renderer().draw_aabb			(PS, size, size, size, XrColor::color_rgba(128, 128, 255, 255));
+//		Level().debug_renderer().draw_aabb			(PH, size, size, size, XrColor::color_rgba(255, 128, 128, 255));
 		/////////////////////////////////////////////////////////////////////////////////
 	}
 	else
@@ -1578,7 +1578,7 @@ void	CActor::OnRender_Network()
 				Fmatrix BoneMatrix; BoneOBB.xform_get(BoneMatrix);
 				Fmatrix BoneMatrixRes; BoneMatrixRes.mul(V->LL_GetTransform(i), BoneMatrix);
 				BoneMatrix.mul(XFORM(), BoneMatrixRes);
-				Level().debug_renderer().draw_obb(BoneMatrix, BoneOBB.m_halfsize, color_rgba(0, 255, 0, 255));
+				Level().debug_renderer().draw_obb(BoneMatrix, BoneOBB.m_halfsize, XrColor::color_rgba(0, 255, 0, 255));
 			};
 		};
 
@@ -1594,7 +1594,7 @@ void	CActor::OnRender_Network()
 				half_dim.y = 0.1f;
 				half_dim.z = 0.1f;
 
-				u32 Color = color_rgba(255, 0, 0, 255);
+				u32 Color = XrColor::color_rgba(255, 0, 0, 255);
 
 				Fmatrix M;
 				
@@ -1606,7 +1606,7 @@ void	CActor::OnRender_Network()
 				if (!PHGetSyncItem(u16(i))) continue;
 				PHGetSyncItem(u16(i))->get_State(state);
 
-				Color = color_rgba(0, 255, 0, 255);
+				Color = XrColor::color_rgba(0, 255, 0, 255);
 				M = Fidentity;
 				M.rotation(state.quaternion);
 				M.translate_add(state.position);
@@ -1633,7 +1633,7 @@ void	CActor::OnRender_Network()
 					half_dim.y = 0.1f;
 					half_dim.z = 0.1f;
 
-					u32 Color = color_rgba(0, 255, 0, 255);
+					u32 Color = XrColor::color_rgba(0, 255, 0, 255);
 					Level().debug_renderer().draw_obb				(M, half_dim, Color);
 				};
 				//-----------------------------------------------------------------
@@ -1682,14 +1682,14 @@ void	CActor::OnRender_Network()
 					half_dim.y = 0.1f;
 					half_dim.z = 0.1f;
 
-					u32 Color = color_rgba(255, 0, 0, 255);
+					u32 Color = XrColor::color_rgba(255, 0, 0, 255);
 					Level().debug_renderer().draw_obb				(M, half_dim, Color);
 				};	
 				Fvector LC, LS;
 				LC.add(min, max); LC.div(2.0f);
 				LS.sub(max, min); LS.div(2.0f);
 
-				Level().debug_renderer().draw_aabb			(LC, LS.x, LS.y, LS.z, color_rgba(255, 128, 128, 255));
+				Level().debug_renderer().draw_aabb			(LC, LS.x, LS.y, LS.z, XrColor::color_rgba(255, 128, 128, 255));
 				//-----------------------------------------------------------------
 			};
 		}

@@ -284,7 +284,7 @@ void CUICharacterInfo::Update()
 		if(m_icons[eUIIcon]){
 			CSE_ALifeCreatureAbstract*		pCreature = smart_cast<CSE_ALifeCreatureAbstract*>(T);
 			if(pCreature && !pCreature->g_Alive())
-				m_icons[eUIIcon]->SetColor	(color_argb(255,255,160,160));
+				m_icons[eUIIcon]->SetColor	(XrColor::color_argb(255,255,160,160));
 		}
 	}
 }

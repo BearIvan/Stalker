@@ -139,10 +139,10 @@ void CBlender_rain::Compile(CBlender_Compile& C)
 	}
 }
 
-void CBlender_rain_msaa::SetDefine( LPCSTR Name, LPCSTR Definition )
+void CBlender_rain_msaa::SetDefine( LPCSTR Name1, LPCSTR Definition1 )
 {
-   this->Name = Name;
-   this->Definition = Definition;
+   this->Name = Name1;
+   this->Definition = Definition1;
 }
 
 void CBlender_rain_msaa::Compile(CBlender_Compile& C)

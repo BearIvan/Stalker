@@ -199,13 +199,13 @@ void	CBlender_Compile::PassEnd			()
 void	CBlender_Compile::PassSET_PS		(LPCSTR name)
 {
 	xr_strcpy	(pass_ps,name);
-	strlwr	(pass_ps);
+	BearCore::BearString::ToLower	(pass_ps);
 }
 
 void	CBlender_Compile::PassSET_VS		(LPCSTR name)
 {
 	xr_strcpy	(pass_vs,name);
-	strlwr	(pass_vs);
+	BearCore::BearString::ToLower(pass_vs);
 }
 
 void	CBlender_Compile::PassSET_ZB		(BOOL bZTest, BOOL bZWrite, BOOL bInvertZTest)

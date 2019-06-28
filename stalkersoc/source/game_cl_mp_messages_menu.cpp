@@ -2,7 +2,6 @@
 #include "game_cl_mp.h"
 #include "ui/UISpeechMenu.h"
 #include "xrMessages.h"
-#include "tools/net_utils.h"
 #include "Level.h"
 #include "HUDManager.h"
 #include "ui/UIMessagesWindow.h"

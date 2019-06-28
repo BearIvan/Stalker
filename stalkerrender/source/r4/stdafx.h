@@ -9,14 +9,13 @@
 #pragma warning(disable:4995)
 #include "directx/d3dx9.h"
 #pragma warning(default:4995)
-#pragma warning(disable:4714)
-#pragma warning( 4 : 4018 )
-#pragma warning( 4 : 4244 )
-#pragma warning(disable:4237)
 
-#include "directx/D3D11.h"
-#include "directx/D3Dx11core.h"
+#pragma warning(push)
+#pragma warning(disable:4005)
+#include "directx/d3d10_1.h"
+#include "directx/d3d11.h"
 #include "directx/D3DCompiler.h"
+#pragma warning(pop)
 
 #include "xrRender/xrD3DDefs.h"
 

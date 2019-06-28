@@ -178,7 +178,7 @@ void CSCompiler::end()
 
 void CSCompiler::compile(const char* name)
 {
-	if (0==stricmp(name, "null"))
+	if (0==BearCore::BearString::CompareWithoutCase(name, "null"))
 	{
 		m_cs = 0;
 		return;

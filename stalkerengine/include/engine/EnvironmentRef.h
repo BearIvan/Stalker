@@ -1,5 +1,5 @@
 #pragma once
-class EnvironmentRef
+class ENGINE_API EnvironmentRef
 {
 public:
 	virtual ~EnvironmentRef() {}

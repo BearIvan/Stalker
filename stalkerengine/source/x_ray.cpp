@@ -274,7 +274,7 @@ PROTECT_API void InitConsole()
 
 PROTECT_API void InitInput()
 {
-    BOOL bCaptureInput = !strstr(GetCommandLine(), "-i");
+  //  BOOL bCaptureInput = !strstr(GetCommandLine(), "-i");
 
     pInput = xr_new<CInput>(false);
 }
@@ -366,85 +366,67 @@ void CheckPrivilegySlowdown()
 */
 void Startup()
 {
-    InitSound1();
-    execUserScript();
-    InitSound2();
+	InitSound1();
+	execUserScript();
+	InitSound2();
 
-    // ...command line for auto start
-    {
-        LPCSTR pStartup = strstr(GetCommandLine(), "-start ");
-        if (pStartup) Console->Execute(pStartup + 1);
-    }
-    {
-        LPCSTR pStartup = strstr(GetCommandLine(), "-load ");
-        if (pStartup) Console->Execute(pStartup + 1);
-    }
+	// ...command line for auto start
+	{
+		LPCSTR pStartup = strstr(GetCommandLine(), "-start ");
+		if (pStartup) Console->Execute(pStartup + 1);
+	}
+	{
+		LPCSTR pStartup = strstr(GetCommandLine(), "-load ");
+		if (pStartup) Console->Execute(pStartup + 1);
+	}
 
-    // Initialize APP
-    //#ifndef DEDICATED_SERVER
-    ShowWindow(Device.GetWindow().GetWindowHandle(), SW_SHOWNORMAL);
-    Device.Create();
-    //#endif
-    LALib.OnCreate();
-    pApp = xr_new<CApplication>();
-    g_pGamePersistent = (IGame_Persistent*)NEW_INSTANCE(CLSID_GAME_PERSISTANT);
-    g_SpatialSpace = xr_new<ISpatial_DB>();
-    g_SpatialSpacePhysic = xr_new<ISpatial_DB>();
+	// Initialize APP
+	//#ifndef DEDICATED_SERVER
+	ShowWindow(Device.GetWindow().GetWindowHandle(), SW_SHOWNORMAL);
+	Device.Create();
+	//#endif
+	LALib.OnCreate();
+	pApp = xr_new<CApplication>();
+	g_pGamePersistent = (IGame_Persistent*)NEW_INSTANCE(CLSID_GAME_PERSISTANT);
+	g_SpatialSpace = xr_new<ISpatial_DB>();
+	g_SpatialSpacePhysic = xr_new<ISpatial_DB>();
 
-    // Destroy LOGO 
+	// Destroy LOGO 
 	LogoWindow1.Destory();
 
-    // Main cycle
-    CheckCopyProtection();
-    //Memory.mem_usage();
+	// Main cycle
+	CheckCopyProtection();
+	//Memory.mem_usage();
 	DiscordAPI = BearCore::bear_new<XRayDiscordAPI>();
-    Device.Run();
+	Device.Run();
 	BearCore::bear_delete(DiscordAPI);
 
-    // Destroy APP
-    xr_delete(g_SpatialSpacePhysic);
-    xr_delete(g_SpatialSpace);
-    DEL_INSTANCE(g_pGamePersistent);
-    xr_delete(pApp);
-    Engine.Event.Dump();
+	// Destroy APP
+	xr_delete(g_SpatialSpacePhysic);
+	xr_delete(g_SpatialSpace);
+	DEL_INSTANCE(g_pGamePersistent);
+	xr_delete(pApp);
+	Engine.Event.Dump();
 
-    // Destroying
-    //. destroySound();
-    destroyInput();
+	// Destroying
+	//. destroySound();
+	destroyInput();
 
-    if (!g_bBenchmark && !g_SASH.IsRunning())
-        destroySettings();
+	if (!g_bBenchmark && !g_SASH.IsRunning())
+		destroySettings();
 
-    LALib.OnDestroy();
+	LALib.OnDestroy();
 
-    if (!g_bBenchmark && !g_SASH.IsRunning())
-        destroyConsole();
-    else
-        Console->Destroy();
+	if (!g_bBenchmark && !g_SASH.IsRunning())
+		destroyConsole();
+	else
+		Console->Destroy();
 
-    destroySound();
+	destroySound();
 
-    destroyEngine();
+	destroyEngine();
 }
 
-static BOOL CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
-{
-    switch (msg)
-    {
-    case WM_DESTROY:
-        break;
-    case WM_CLOSE:
-        DestroyWindow(hw);
-        break;
-    case WM_COMMAND:
-        if (LOWORD(wp) == IDCANCEL)
-            DestroyWindow(hw);
-        break;
-    default:
-        return FALSE;
-    }
-    return TRUE;
-}
 /*
 void test_rtc ()
 {
@@ -869,7 +851,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     g_sLaunchOnExit_app[0] = NULL;
     g_sLaunchOnExit_params[0] = NULL;
 
-    LPCSTR fsgame_ltx_name = "-fsltx ";
+//    LPCSTR fsgame_ltx_name = "-fsltx ";
 
     // g_temporary_stuff = &trivial_encryptor::decode;
 

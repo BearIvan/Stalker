@@ -12,7 +12,7 @@ struct SLogPacket
 class INetLog
 {
 private:
-	FILE*		m_pLogFile;
+	BearCore::BearFileStream		m_pLogFile;
 	string1024  m_cFileName;
 	u32			m_dwStartTime;
 

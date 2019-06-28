@@ -67,7 +67,7 @@ void CUIOptConCom::Init()
 	m_fNetWeatherRate = 1.0f;
 	CMD4(CCC_Float,		"mm_net_weather_rateofchange",		&m_fNetWeatherRate,	0.0, 100.0f);
 
-	strcpy(m_serverName, Core.CompName);
+	strcpy(m_serverName, XrCore::CompName);
 	CMD3(CCC_String,	"mm_net_srv_name",					m_serverName,	sizeof(m_serverName));
 
 	m_uNetFilter.one	();

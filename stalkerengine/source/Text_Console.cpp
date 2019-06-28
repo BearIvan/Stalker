@@ -271,7 +271,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 
     u32 log_line = str.size() - 1;
     string16 q, q2;
-    itoa(log_line, q, 10);
+	BearCore::BearString::Printf(q, "%u", log_line);
     xr_strcpy(q2, sizeof(q2), "[");
     xr_strcat(q2, sizeof(q2), q);
     xr_strcat(q2, sizeof(q2), "]");

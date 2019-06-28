@@ -315,7 +315,7 @@ void CRenderDevice::on_idle()
     }
     Statistic->RenderTOTAL_Real.End();
     Statistic->RenderTOTAL_Real.FrameEnd();
-//    Statistic->RenderTOTAL.accum = Statistic->RenderTOTAL_Real.accum;
+   Statistic->RenderTOTAL = Statistic->RenderTOTAL_Real;
 #endif // #ifndef DEDICATED_SERVER
     // *** Suspend threads
     // Capture startup point
@@ -396,18 +396,18 @@ void CRenderDevice::message_loop()
 			switch (e.Type)
 			{
 			case BearUI::BearEventViewportType::EVT_Deactive:
-				if (Device.b_is_Active == true)
+				if (Device.b_is_Active == TRUE)
 				{
-					Device.b_is_Active = false;
+					Device.b_is_Active = FALSE;
 					app_inactive_time_start = TimerMM.get_elapsed_time().asmiliseconds();
 					Device.seqAppDeactivate.Process(rp_AppDeactivate);
 				}
 				
 				break;
 			case BearUI::BearEventViewportType::EVT_Active:
-				if (Device.b_is_Active == false)
+				if (Device.b_is_Active == FALSE)
 				{
-					Device.b_is_Active = true;
+					Device.b_is_Active = TRUE;
 					Device.seqAppActivate.Process(rp_AppActivate);
 					app_inactive_time += TimerMM.get_elapsed_time().asmiliseconds() - app_inactive_time_start;;
 				}

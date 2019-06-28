@@ -63,7 +63,7 @@ void CCustomDetector::Load(LPCSTR section)
 		if(pSettings->line_exist(section,temp))
 		{
 			LPCSTR z_Class			= pSettings->r_string(section,temp);
-			CLASS_ID zone_cls		= TEXT2CLSID(pSettings->r_string(z_Class,"class"));
+			CLASS_ID zone_cls		= XrClsid::String2Clsid(pSettings->r_string(z_Class,"class"));
 
 			m_ZoneTypeMap.insert	(std::make_pair(zone_cls,ZONE_TYPE()));
 			ZONE_TYPE& zone_type	= m_ZoneTypeMap[zone_cls];

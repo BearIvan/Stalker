@@ -17,7 +17,7 @@ XRayTexture::XRayTexture(const bchar * texture) :m_count(1), m_seq_current(0)
 
 		m_seq_cycles = false;
 		_fs->r_string(buffer, sizeof(buffer));
-		if (0 == stricmp(buffer, "cycled"))
+		if (0 == BearCore::BearString::CompareWithoutCase(buffer, "cycled"))
 		{
 			m_seq_cycles = true;
 			_fs->r_string(buffer, sizeof(buffer));

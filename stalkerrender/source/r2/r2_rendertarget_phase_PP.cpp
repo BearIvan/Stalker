@@ -65,25 +65,25 @@ BOOL CRenderTarget::u_need_PP	()
 
 	bool	_cbase	= false;
 	{
-		int		_r	=XrColor::color_get_R(param_color_base)	; _r=XrMath::abs(_r-int(0x7f));
-		int		_g	=XrColor::color_get_G(param_color_base)	; _g=XrMath::abs(_g-int(0x7f));
-		int		_b	=XrColor::color_get_B(param_color_base)	; _b=XrMath::abs(_b-int(0x7f));
+		u32		_r	=XrColor::color_get_R(param_color_base)	; _r=XrMath::abs(int(_r-0x7f));
+		u32		_g	=XrColor::color_get_G(param_color_base)	; _g=XrMath::abs(int(_g-0x7f));
+		u32		_b	=XrColor::color_get_B(param_color_base)	; _b=XrMath::abs(int(_b-0x7f));
 		if (_r>2 || _g>2 || _b>2)	_cbase	= true	;
 	}
 	bool	_cadd	= false;
 	{
 		if (gameVersionController->getGame() == GameVersionController::SOC)
 		{
-			int		_r	=XrColor::color_get_R(param_color_add.x * 255)	;
-			int		_g	=XrColor::color_get_G(param_color_add.x * 255)	;
-			int		_b	=XrColor::color_get_B(param_color_add.x * 255)	;
+			u32		_r	=XrColor::color_get_R(static_cast<u32>(param_color_add.x * 255)) - 0x7f;
+			u32		_g	=XrColor::color_get_G(static_cast<u32>(param_color_add.x * 255)) - 0x7f;
+			u32		_b	=XrColor::color_get_B(static_cast<u32>(param_color_add.x * 255)) - 0x7f;
 			if (_r>2 || _g>2 || _b>2)	_cadd	= true	;
 		}
 		else
 		{
-			int		_r = XrMath::abs((int)(param_color_add.x * 255));
-			int		_g = XrMath::abs((int)(param_color_add.y * 255));
-			int		_b = XrMath::abs((int)(param_color_add.z * 255));
+			u32		_r = XrMath::abs((static_cast<int>(param_color_add.x * 255)));
+			u32		_g = XrMath::abs((static_cast<int>(param_color_add.y * 255)));
+			u32		_b = XrMath::abs((static_cast<int>(param_color_add.z * 255)));
 			if (_r > 2 || _g > 2 || _b > 2)	_cadd = true;
 		}
 	}

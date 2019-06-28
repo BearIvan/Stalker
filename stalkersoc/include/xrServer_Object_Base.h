@@ -12,7 +12,6 @@
 #include "engine/object_interfaces.h"
 #include "script_value_container.h"
 #include "alife_space.h"
-#include "tools/client_id.h"
 
 class NET_Packet;
 class xrClientData;

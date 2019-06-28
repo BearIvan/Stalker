@@ -24,10 +24,10 @@ public:
 
    CBlender_combine_msaa();
    virtual ~CBlender_combine_msaa();
-   virtual   void    SetDefine( LPCSTR Name, LPCSTR Definition )
+   virtual   void    SetDefine( LPCSTR Name1, LPCSTR Definition1 )
    {
-      this->Name = Name;
-      this->Definition = Definition;
+      this->Name = Name1;
+      this->Definition = Definition1;
    }
    LPCSTR Name;
    LPCSTR Definition;

@@ -8,7 +8,6 @@
 #include "PDA.h"
 #include "inventoryowner.h"
 #include "xrserver_objects_alife_items.h"
-#include "tools/net_utils.h"
 
 CInfoDocument::CInfoDocument(void) 
 {

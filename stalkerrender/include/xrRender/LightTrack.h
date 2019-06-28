@@ -75,7 +75,7 @@ private:
 #endif	// RENDER!=R_R1
 public:
 	virtual	void			force_mode			(u32 mode)		{ MODE = mode;															};
-	virtual float			get_luminocity		()				{ float result = XrMath::max(approximate.x, XrMath::max(approximate.y, approximate.z)); XrMath::clamp(result, 0.f, 1.f); return (result); };
+	virtual float			get_luminocity		()				{ float result1 = XrMath::max(approximate.x, XrMath::max(approximate.y, approximate.z)); XrMath::clamp(result1, 0.f, 1.f); return (result1); };
 	virtual float			get_luminocity_hemi	()				{ return get_hemi();}
 	virtual float*			get_luminocity_hemi_cube		()				{ return hemi_cube_smooth;}
 

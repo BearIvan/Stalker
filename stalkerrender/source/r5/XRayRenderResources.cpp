@@ -113,14 +113,14 @@ bsize XRayRenderResource::GetStride(uint32 VertexState)
 {
 	static int32 StrideArray[]=
 	{
-#define REGISTER(name,byte,stride) byte,stride,
+#define REGISTER(name,byte,stride,a1,a2) byte,stride,
 #include "D3D9VertexState.h"
 #undef REGISTER
 	};
 	bsize Stride = 0;
 	for (bsize i = 0; i < D3DFVF_COUNT; i++)
 	{
-		if ((StrideArray[i * 2] & VertexState) == StrideArray[i * 2])
+		if ((StrideArray[i * 2] & int32(VertexState)) == StrideArray[i * 2])
 			Stride += StrideArray[i * 2 - 1];
 	}
 	return Stride;
@@ -478,7 +478,7 @@ BearGraphics::BearVertexStateRef XRayRenderResource::CreateVertexState(uint32 Ve
 	};
 	for (bsize i = 0; i < D3DFVF_COUNT; i++)
 	{
-		if ((StrideArray[i].bits & VertexState) == StrideArray[i].bits)
+		if ((StrideArray[i].bits &int32( VertexState)) == StrideArray[i].bits)
 		{
 			Initializer.Elements[Count].Type = StrideArray[i].type;
 			Initializer.Elements[Count].Name = StrideArray[i].name;

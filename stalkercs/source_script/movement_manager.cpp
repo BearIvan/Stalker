@@ -387,7 +387,7 @@ CMovementManager::CLevelPathManager::PATH &CMovementManager::level_path_path		()
 
 void CMovementManager::build_level_path	()
 {
-//	CTimer								timer;
+//	BearCore::BearTimer								timer;
 //	timer.Start							();
 	level_path_builder().process_impl	();
 //	static int i=0;

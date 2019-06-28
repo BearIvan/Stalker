@@ -1,7 +1,5 @@
-#ifndef XRCDB_H
-#define XRCDB_H
+#pragma once
 
-//#pragma once
 // The following ifdef block is the standard way of creating macros which make exporting
 // from a DLL simpler. All files within this DLL are compiled with the XRCDB_EXPORTS
 // symbol defined on the command line. this symbol should not be defined on any project
@@ -9,14 +7,9 @@
 // XRCDB_API functions as being imported from a DLL, wheras this DLL sees symbols
 // defined with this macro as being exported.
 #ifdef XRCDB_EXPORTS
-#define XRCDB_API __declspec(dllexport)
+#define XRCDB_API BEARPROJECT_EXPORT 
 #else
-#define XRCDB_API __declspec(dllimport)
-#endif
-#ifdef M_VISUAL
-#define ALIGN(a) __declspec(align(a))
-#else
-#define ALIGN(a)
+#define XRCDB_API BEARPROJECT_IMPORT
 #endif
 
 // forward declarations
@@ -225,4 +218,3 @@ IC		TRI&				getT(u32 index)		{ return faces[index];		}
 };
 
 #pragma pack(pop)
-#endif

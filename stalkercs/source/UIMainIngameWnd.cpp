@@ -246,7 +246,7 @@ void CUIMainIngameWnd::Draw()
 	else {
 		u32		alpha			= XrMath::clampr(XrMath::iFloor(255.f*(1.f-(Device.fTimeGlobal-UIStaticDiskIO_start_time)/1.f)),0,255);
 		UIStaticDiskIO.Show		( true  ); 
-		UIStaticDiskIO.SetColor	(color_rgba(255,255,255,alpha));
+		UIStaticDiskIO.SetColor	(XrColor::color_rgba(255,255,255,alpha));
 	}
 	//FS.dwOpenCounter = 0;
 
@@ -430,7 +430,7 @@ void CUIMainIngameWnd::Update()
 		if ( rit != m_Thresholds[i].rend() )
 		{
 			float v = *rit;
-			SetWarningIconColor(i, color_argb(0xFF, XrMath::clampr<u32>(static_cast<u32>(255 * ((v - min) / (max - min) * 2)), 0, 255), 
+			SetWarningIconColor(i, XrColor::color_argb(0xFF, XrMath::clampr<u32>(static_cast<u32>(255 * ((v - min) / (max - min) * 2)), 0, 255), 
 				XrMath::clampr<u32>(static_cast<u32>(255 * (2.0f - (v - min) / (max - min) * 2)), 0, 255), 0));
 		}
 		else
@@ -704,7 +704,7 @@ void CUIMainIngameWnd::UpdatePickUpItem	()
 	UIPickUpItemIcon.SetWndPos(Fvector2().set(	m_iPickUpItemIconX+(m_iPickUpItemIconWidth-UIPickUpItemIcon.GetWidth())/2.0f,
 												m_iPickUpItemIconY+(m_iPickUpItemIconHeight-UIPickUpItemIcon.GetHeight())/2.0f) );
 
-	UIPickUpItemIcon.SetColor(color_rgba(255,255,255,192));
+	UIPickUpItemIcon.SetColor(XrColor::color_rgba(255,255,255,192));
 	UIPickUpItemIcon.Show(true);
 };
 

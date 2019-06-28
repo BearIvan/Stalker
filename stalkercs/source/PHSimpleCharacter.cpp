@@ -1143,7 +1143,7 @@ void CPHSimpleCharacter::OnRender(){
 	Fvector pos;
 	GetPosition(pos);
 	pos.y+=m_radius;
-	Level().debug_renderer().draw_line(m,pos,*(Fvector*)m_control_force, color_rgba(256,0,0,1));
+	Level().debug_renderer().draw_line(m,pos,*(Fvector*)m_control_force, XrColor::color_rgba(256,0,0,1));
 	Level().debug_renderer().draw_line(m,pos,n, 0xefffffff);
 
 

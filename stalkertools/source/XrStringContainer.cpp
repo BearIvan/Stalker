@@ -74,7 +74,7 @@ namespace Impl
 					u32 crc = BearCore::BearCheckSum::CRC32(value->value, value->dwLength);
 					//string32 crc_str;
 					BEAR_RASSERT(crc == value->dwCRC);
-					BEAR_RASSERT(value->dwLength == xr_strlen(value->value));
+					BEAR_RASSERT(value->dwLength == BearCore::BearString::GetSize(value->value));
 					value = value->next;
 				}
 			}
@@ -158,7 +158,7 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 	XrStringContainerValue* result = 0;
 
 	// calc len
-	u32 s_len = xr_strlen(value);
+	u32 s_len = BearCore::BearString::GetSize(value);
 	u32 s_len_with_zero = (u32)s_len + 1;
 	VERIFY(HEADER + s_len_with_zero < 4096);
 

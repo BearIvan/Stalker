@@ -483,10 +483,10 @@ void CUIHudStatesWnd::UpdateIndicatorType( CActor* actor, ALife::EInfluenceType 
 		return;
 	}
 
-	u32 c_white  = color_rgba( 255, 255, 255, 255 );
-	u32 c_green  = color_rgba( 0, 255, 0, 255 );
-	u32 c_yellow = color_rgba( 255, 255, 0, 255 );
-	u32 c_red    = color_rgba( 255, 0, 0, 255 );
+	u32 c_white  = XrColor::color_rgba( 255, 255, 255, 255 );
+	u32 c_green  = XrColor::color_rgba( 0, 255, 0, 255 );
+	u32 c_yellow = XrColor::color_rgba( 255, 255, 0, 255 );
+	u32 c_red    = XrColor::color_rgba( 255, 0, 0, 255 );
 
 	float           hit_power = m_zone_cur_power[type];
 	ALife::EHitType hit_type  = m_zone_hit_type[type];

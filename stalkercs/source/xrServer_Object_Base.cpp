@@ -92,7 +92,7 @@ CSE_Abstract::CSE_Abstract					(LPCSTR caSection)
 	m_bALifeControl				= false;
 	m_wVersion					= 0;
 	m_script_version			= 0;
-	m_tClassID					= TEXT2CLSID(pSettings->r_string(caSection,"class"));
+	m_tClassID					= XrClsid::String2Clsid(pSettings->r_string(caSection,"class"));
 
 //	m_spawn_probability			= 1.f;
 	m_spawn_flags.zero			();
