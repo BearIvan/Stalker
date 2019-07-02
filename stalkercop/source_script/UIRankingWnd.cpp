@@ -131,7 +131,7 @@ void CUIRankingWnd::Init()
 
 	string256 buf;
 	xr_strcpy( buf, sizeof(buf), m_center_caption->GetText() );
-	xr_strcat( buf, sizeof(buf), CStringTable().translate("ui/UI_ranking_center_caption").c_str() );
+	BearCore::BearString::Contact( buf, sizeof(buf), CStringTable().translate("ui/UI_ranking_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 
 
@@ -168,7 +168,7 @@ void CUIRankingWnd::Init()
 void CUIRankingWnd::add_achievement(CUIXml& xml, shared_str const& achiev_id)
 {
 	CUIAchievements* achievement = xr_new<CUIAchievements>(m_achievements);
-	VERIFY2(pSettings->section_exist(achiev_id), make_string("Section [%s] does not exist!", achiev_id));
+	VERIFY2(pSettings->section_exist(achiev_id), make_string("Section [%s] does not exist!", *achiev_id));
 	achievement->init_from_xml(xml);
 
 	achievement->SetName(pSettings->r_string(achiev_id, "name"));

@@ -14,11 +14,7 @@
 #include "space_restriction_shape.h"
 #include "space_restriction_composition.h"
 #include "restriction_space.h"
-
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 const u32 time_to_delete = 300000;
 
@@ -74,11 +70,11 @@ shared_str CSpaceRestrictionHolder::normalize_string		(shared_str space_restrict
 	LPSTR					result_string = (LPSTR)_alloca((n+1)*sizeof(char));
 	LPSTR					pointer = result_string;
 	{
-		LPSTR				*I = strings;
-		LPSTR				*E = string_current;
-		for ( ; I != E; ++I) {
-			for (LPSTR i = *I; *i; ++i, ++pointer)
-				*pointer	= *i;
+		LPSTR				*I1 = strings;
+		LPSTR				*E1 = string_current;
+		for ( ; I1 != E1; ++I1) {
+			for (LPSTR i1 = *I1; *i1; ++i1, ++pointer)
+				*pointer	= *i1;
 
 			*pointer		= ',';
 			++pointer;
@@ -155,8 +151,8 @@ bool try_remove_string				(shared_str &search_string, const shared_str &string_t
 	for (int i=0, j=0, n=XrTrims::GetItemCount(*search_string); i<n; ++i, ++j) {
 		if (xr_strcmp(string_to_search,XrTrims::GetItem(*search_string,i,temp))) {
 			if (j)
-				xr_strcat		(temp1,",");
-			xr_strcat			(temp1,temp);
+				BearCore::BearString::Contact		(temp1,",");
+			BearCore::BearString::Contact			(temp1,temp);
 			continue;
 		}
 

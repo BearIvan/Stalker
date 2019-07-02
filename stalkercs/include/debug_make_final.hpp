@@ -13,7 +13,7 @@
 
 namespace debug {
 
-#ifdef DEBUG
+#if 0
 	namespace detail {
 
 		template <typename T1, typename T2>
@@ -27,7 +27,7 @@ namespace debug {
 
 	template <typename T>
 	struct make_final : 
-		private virtual
+		virtual
 			detail::make_final<
 				T,
 				make_final<T>

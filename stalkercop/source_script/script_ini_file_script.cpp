@@ -42,22 +42,20 @@ bool r_line(CScriptIniFile *self, LPCSTR S, int L,	luabind::internal_string &N, 
 	return			(true);
 }
 
-#pragma warning(push)
-#pragma warning(disable:4238)
 CScriptIniFile *create_ini_file	(LPCSTR ini_string)
 {
+	IReader red(
+		(void*)ini_string,
+		xr_strlen(ini_string)
+	);
 	return			(
 		(CScriptIniFile*)
 		xr_new<CInifile>(
-			&IReader			(
-				(void*)ini_string,
-				xr_strlen(ini_string)
-			),
+			&red,
 		TEXT("%config%"),""
 		)
 	);
 }
-#pragma warning(pop)
 
 #pragma optimize("s",on)
 void CScriptIniFile::script_register(lua_State *L)

@@ -23,6 +23,7 @@ public:
 };
 add_to_type_list(CWeaponFN2000)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CWeaponFN2000)
 
 #endif //__XR_WEAPON_FN2000_H__

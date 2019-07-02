@@ -31,12 +31,7 @@ void player_account::load_account()
 		Msg("* WARNING: player not logged in");
 	}
 
-	if (tmp_curr_prof)
-	{
-		m_player_name		= tmp_curr_prof->m_unique_nick;
-		m_online_account	= tmp_curr_prof->online();
-		m_profile_id		= static_cast<u32>(tmp_curr_prof->profile_id());
-	} else
+	
 	{
 		m_player_name		= "";
 		m_online_account	= false;

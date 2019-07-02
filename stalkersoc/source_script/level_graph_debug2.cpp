@@ -83,7 +83,7 @@ void CLevelGraph::draw_nodes	()
 
 	// если включён ai_dbg_frustum раскрасить ноды по light
 	// иначе раскрашивать по cover
-	bool			b_light = false;
+//	bool			b_light = false;
 	
 	//////////////////////////////////////////////////////////////////////////
 	Fvector min_position,max_position;

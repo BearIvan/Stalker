@@ -94,10 +94,10 @@ bool CAgentLocationManager::suitable	(CAI_Stalker *object, const CCoverPoint *lo
 	}
 
 	if (use_enemy_info) {
-		CAgentEnemyManager::ENEMIES::const_iterator	I = this->object().enemy().enemies().begin();
-		CAgentEnemyManager::ENEMIES::const_iterator	E = this->object().enemy().enemies().end();
-		for ( ; I != E; ++I)
-			if ((*I).m_enemy_position.distance_to_sqr(location->position()) < XrMath::sqr(MIN_SUITABLE_ENEMY_DISTANCE))
+		CAgentEnemyManager::ENEMIES::const_iterator	I1 = this->object().enemy().enemies().begin();
+		CAgentEnemyManager::ENEMIES::const_iterator	E1 = this->object().enemy().enemies().end();
+		for ( ; I1 != E1; ++I1)
+			if ((*I1).m_enemy_position.distance_to_sqr(location->position()) < XrMath::sqr(MIN_SUITABLE_ENEMY_DISTANCE))
 				return				(false);
 	}
 

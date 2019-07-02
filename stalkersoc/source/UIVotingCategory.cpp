@@ -85,7 +85,7 @@ void CUIVotingCategory::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 	}
 }
 
-#include <dinput.h>
+
 
 bool CUIVotingCategory::OnKeyboard(int dik, EUIMessages keyboard_action)
 {

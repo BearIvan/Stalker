@@ -64,7 +64,8 @@ shared_str	CTeamInfo::GetTeam2_name(){
 LPCSTR	CTeamInfo::GetTeam_name(int team)
 {
 	string32 tmp;
-	R_ASSERT2( team == 1 || team == 2 || team == 3, itoa(team, tmp, 10) );
+	BearCore::BearString::Printf(tmp, TEXT("%d"), team);
+	R_ASSERT2( team == 1 || team == 2 || team == 3, tmp);
     if (team == 1)
 		return *GetTeam1_name();
 	else 
@@ -74,7 +75,8 @@ LPCSTR	CTeamInfo::GetTeam_name(int team)
 LPCSTR	CTeamInfo::GetTeam_color_tag(int team)
 {
 	string32 tmp;
-	R_ASSERT2( team == 1 || team == 2 || team == 3, itoa(team, tmp, 10) );
+	BearCore::BearString::Printf(tmp, TEXT("%d"), team);
+	R_ASSERT2( team == 1 || team == 2 || team == 3, tmp);
 //	if (flags.test(flTeam1_col_t)) return *team1_color_tag;
 //	if (flags.test(flTeam2_col_t)) return *team2_color_tag;
 	if (team == 3)

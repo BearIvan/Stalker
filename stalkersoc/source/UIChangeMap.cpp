@@ -71,7 +71,7 @@ void CUIChangeMap::Init(CUIXml& xml_doc)
 	FillUpList							();
 }
 
-#include <dinput.h>
+
 bool CUIChangeMap::OnKeyboard(int dik, EUIMessages keyboard_action)
 {
 	if (dik == DIK_ESCAPE)

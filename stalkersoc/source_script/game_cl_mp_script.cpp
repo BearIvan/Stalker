@@ -12,8 +12,6 @@
 
 using namespace luabind;
 
-#pragma warning(push)
-#pragma warning(disable:4709)
 
 template <typename T>
 struct CWrapperBase : public T, public luabind::wrap_base {
@@ -36,7 +34,6 @@ struct CWrapperBase : public T, public luabind::wrap_base {
 	{ return ptr->self_type::inherited::createPlayerState();}
 };
 
-#pragma warning(pop)
 
 void game_cl_mp_script::EventGen	( NET_Packet* P, u16 type, u16 dest)
 { u_EventGen(*P,type,dest); }
@@ -59,7 +56,7 @@ game_cl_mp_script::game_cl_mp_script()
 
 CScriptGameObject*	game_cl_mp_script::GetObjectByGameID (u32 id)
 {
-	CObject* pObject = Level().Objects.net_Find(id);
+	CObject* pObject = Level().Objects.net_Find(static_cast<u16>(id));
 	CGameObject* pGameObject = smart_cast<CGameObject*>(pObject);
 	if(!pGameObject)
 		return NULL;

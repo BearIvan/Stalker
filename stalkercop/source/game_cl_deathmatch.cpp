@@ -537,8 +537,8 @@ void game_cl_Deathmatch::shedule_Update			(u32 dt)
 								if (dwCurTimeRemains > 0 && dwCurTimeRemains <= 5)
 									PlaySndMessage(ID_COUNTDOWN_1 + dwCurTimeRemains - 1);
 							}
-							dwLastTimeRemains = dwCurTimeRemains;
-							_itoa(dwCurTimeRemains, S, 10);								
+							dwLastTimeRemains = dwCurTimeRemains;	
+ BearCore::BearString::Printf(S, TEXT("%d"), dwCurTimeRemains);								
 							strconcat(sizeof(tmpStr),tmpStr, *st.translate("mp_ready"), "...", S);
 						}
 					};
@@ -818,7 +818,7 @@ void game_cl_Deathmatch::OnVoteStart(NET_Packet& P)
 		string4096 CmdName = "";
 		string1024 NewCmd; xr_strcpy(NewCmd, Command);
 		string1024 CmdParams[MAX_VOTE_PARAMS] = {"", "", "", "", ""};
-		sscanf	(Command,"%s %s %s %s %s %s", CmdName, CmdParams[0], CmdParams[1], CmdParams[2], CmdParams[3], CmdParams[4]);
+		BearCore::BearString::Scanf	(Command,"%s %s %s %s %s %s", CmdName, CmdParams[0], CmdParams[1], CmdParams[2], CmdParams[3], CmdParams[4]);
 
 		if (!xr_strcmp(CmdName, "restart"))
 		{
@@ -842,8 +842,8 @@ void game_cl_Deathmatch::OnVoteStart(NET_Packet& P)
 			{
 				if (xr_strlen(CmdParams[i]))
 				{
-					xr_strcat(NewCmd, " ");
-					xr_strcat(NewCmd, CmdParams[i]);
+					BearCore::BearString::Contact(NewCmd, " ");
+					BearCore::BearString::Contact(NewCmd, CmdParams[i]);
 				}
 			}
 		}
@@ -857,8 +857,8 @@ void game_cl_Deathmatch::OnVoteStart(NET_Packet& P)
 			{
 				if (xr_strlen(CmdParams[i]))
 				{
-					xr_strcat(NewCmd, " ");
-					xr_strcat(NewCmd, CmdParams[i]);
+					BearCore::BearString::Contact(NewCmd, " ");
+					BearCore::BearString::Contact(NewCmd, CmdParams[i]);
 				}
 			}
 		}

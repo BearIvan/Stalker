@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 
-#include "StdAfx.h"
-#include <dinput.h>
+
 #include "HUDManager.h"
 #include "ui/UICustomEdit.h"
 #include "engine/LightAnimLibrary.h"
@@ -376,7 +375,7 @@ void  CUICustomEdit::Draw()
 		float								_w_tmp;
 		int i								= m_lines.m_iCursorPos;
 		string256							buff;
-		strncpy								(buff,m_lines.m_text.c_str(),i);
+		BearCore::BearString::CopyWithSizeLimit(buff,m_lines.m_text.c_str(),i);
 		buff[i]								= 0;
 		_w_tmp								= m_lines.m_pFont->SizeOf_(buff);
 		UI()->ClientToScreenScaledWidth		(_w_tmp);

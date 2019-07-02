@@ -14,10 +14,7 @@
 #if NET_USE_COMPRESSION
 
 #	ifdef DEBUG
-#		pragma warning(push)
-#		pragma warning(disable:4995)
 #		include <malloc.h>
-#		pragma warning(pop)
 #	endif // DEBUG
 
 #	include <boost/crc.hpp>

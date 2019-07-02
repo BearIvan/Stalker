@@ -11,13 +11,9 @@
 #include "debug_output.h"
 #endif
 ///////////////////////////////////////////////////////////////
-#pragma warning(disable:4995)
-#pragma warning(disable:4267)
 #include "ode/src/collision_kernel.h"
 #include "ode/src/joint.h"
 #include "ode/src/objects.h"
-#pragma warning(default:4267)
-#pragma warning(default:4995)
 
 extern CPHWorld *ph_world;
 ///////////////////////////////////////////////////////////////////
@@ -168,14 +164,12 @@ IC static int CollideIntoGroup(dGeomID o1, dGeomID o2,dJointGroupID jointGroup,C
 
 		if(is_tri_1)
 		{
-#pragma warning(push)
-#pragma warning(disable:4245)
-			if(material_1->Flags.test(SGameMtl::flSlowDown)&&!(usr_data_2->pushing_neg||usr_data_2->pushing_b_neg))
-#pragma warning(pop)
+			if(material_1->Flags.test(static_cast<u32>(SGameMtl::flSlowDown))&&!(usr_data_2->pushing_neg||usr_data_2->pushing_b_neg))
+
 			{
 				dBodyID body=dGeomGetBody(g2);
 				R_ASSERT2(body,"static - static collision !!!");
-				if(material_1->Flags.test(SGameMtl::flLiquid))
+				if(material_1->Flags.test(static_cast<u32>(SGameMtl::flLiquid)))
 				{
 					add_contact_body_effector(body,c,material_1);
 				}
@@ -188,22 +182,20 @@ IC static int CollideIntoGroup(dGeomID o1, dGeomID o2,dJointGroupID jointGroup,C
 				}
 				
 			}
-			if(material_1->Flags.test(SGameMtl::flPassable)) 
+			if(material_1->Flags.test(static_cast<u32>(SGameMtl::flPassable)))
 				do_collide=false;
 		//	if(material_2->Flags.is(SGameMtl::flClimable)) 
 		//		do_collide=false;
 		}
 		if(is_tri_2)
 		{
-#pragma warning(push)
-#pragma warning(disable:4245)
-			if(material_2->Flags.test(SGameMtl::flSlowDown)&&!(usr_data_1->pushing_neg||usr_data_1->pushing_b_neg))
-#pragma warning(pop)
+			if(material_2->Flags.test(static_cast<u32>(SGameMtl::flSlowDown))&&!(usr_data_1->pushing_neg||usr_data_1->pushing_b_neg))
+
 			{
 
 				dBodyID body=dGeomGetBody(g1);
 				R_ASSERT2(body,"static - static collision !!!");
-				if(material_2->Flags.test(SGameMtl::flLiquid))
+				if(material_2->Flags.test(static_cast<u32>(SGameMtl::flLiquid)))
 				{
 					add_contact_body_effector(body,c,material_2);
 				}

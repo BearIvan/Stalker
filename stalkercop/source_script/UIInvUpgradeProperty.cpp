@@ -107,9 +107,9 @@ bool UIProperty::compute_value( ItemUpgrades_type const& item_upgrades )
 				LPCSTR upgr_section = upgr->section();
 				if ( prop_count > 0 )
 				{
-					xr_strcat( buf, sizeof(buf), ", " );
+					BearCore::BearString::Contact( buf, sizeof(buf), ", " );
 				}
-				xr_strcat( buf, sizeof(buf), upgr_section );
+				BearCore::BearString::Contact( buf, sizeof(buf), upgr_section );
 				++prop_count;
 			}
 		}
@@ -180,7 +180,7 @@ void UIInvUpgPropertiesWnd::init_from_xml( LPCSTR xml_name )
 		property_id._set( (*ib).first );
 		if ( !ui_property->init_property( property_id ) )
 		{
-			Msg( "! Invalid property <%s> in inventory upgrade manager!", property_id );
+			Msg( "! Invalid property <%s> in inventory upgrade manager!", *property_id );
 			continue;
 		}
 

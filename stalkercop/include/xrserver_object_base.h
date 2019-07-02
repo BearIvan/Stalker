@@ -33,8 +33,6 @@ class CSE_ALifeSmartZone;
 class CSE_ALifeOnlineOfflineGroup;
 class CSE_ALifeItemPDA;
 
-#pragma warning(push)
-#pragma warning(disable:4005)
 
 SERVER_ENTITY_DECLARE_BEGIN(CPureServerObject,IPureServerObject)
 	virtual							~CPureServerObject(){}
@@ -44,6 +42,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CPureServerObject,IPureServerObject)
 	virtual void					save(NET_Packet	&tNetPacket);
 };
 add_to_type_list(CPureServerObject)
+#undef script_type_list
 #define script_type_list save_type_list(CPureServerObject)
 
 SERVER_ENTITY_DECLARE_BEGIN3(CSE_Abstract,ISE_Abstract,CPureServerObject,CScriptValueContainer)
@@ -166,6 +165,6 @@ public:
 	virtual CSE_ALifeItemPDA			*cast_item_pda				() {return 0;};
 };
 add_to_type_list(CSE_Abstract)
+#undef script_type_list
 #define script_type_list save_type_list(CSE_Abstract)
 
-#pragma warning(pop)

@@ -13,10 +13,7 @@
 #include "ai_space.h"
 #include "game_graph.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 CALifeSpawnRegistry::CALifeSpawnRegistry	(LPCSTR section)
 {

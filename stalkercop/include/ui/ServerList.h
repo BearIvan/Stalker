@@ -12,9 +12,7 @@
 
 
 class CUIXml;
-class CGameSpy_Browser;
 class CUIMessageBoxEx;
-class CGameSpy_Browser;
 struct ServerInfo;
 
 #define LST_SERVER		0 
@@ -65,7 +63,6 @@ public:
 			void	ShowServerInfo();			
 	virtual	void	RefreshList();
 
-			void	on_game_spy_browser_destroy	(CGameSpy_Browser* browser);
 
 protected:
 			bool IsValidItem(ServerInfo& item);
@@ -110,7 +107,6 @@ protected:
 
 	CUIMessageBoxEx* m_message_box;
 
-	CGameSpy_Browser*	m_GSBrowser;	
 
 	shared_str						m_sort_func;
 	xr_vector<int>					m_tmp_srv_lst;
@@ -136,5 +132,4 @@ protected:
 
 private:
 	connect_error_cb			m_connect_cb;
-	inline	CGameSpy_Browser&	browser			() const;
 };

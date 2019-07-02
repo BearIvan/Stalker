@@ -174,7 +174,7 @@ void CHUDTarget::Render()
 
 		if( (PP.RQ.O && PP.RQ.O->getVisible()) || is_poltergeist )
 		{
-			CEntityAlive*	E		= smart_cast<CEntityAlive*>	(PP.RQ.O);
+			CEntityAlive*	E1		= smart_cast<CEntityAlive*>	(PP.RQ.O);
 			CEntityAlive*	pCurEnt = smart_cast<CEntityAlive*>	(Level().CurrentEntity());
 			PIItem			l_pI	= smart_cast<PIItem>		(PP.RQ.O);
 
@@ -182,13 +182,13 @@ void CHUDTarget::Render()
 			{
 				CInventoryOwner* our_inv_owner		= smart_cast<CInventoryOwner*>(pCurEnt);
 				
-				if (E && E->g_Alive() && E->cast_base_monster())
+				if (E1 && E1->g_Alive() && E1->cast_base_monster())
 				{
 					C				= C_ON_ENEMY;
 				}
-				else if (E && E->g_Alive() && !E->cast_base_monster())
+				else if (E1 && E1->g_Alive() && !E1->cast_base_monster())
 				{
-					CInventoryOwner* others_inv_owner	= smart_cast<CInventoryOwner*>(E);
+					CInventoryOwner* others_inv_owner	= smart_cast<CInventoryOwner*>(E1);
 
 					if(our_inv_owner && others_inv_owner){
 

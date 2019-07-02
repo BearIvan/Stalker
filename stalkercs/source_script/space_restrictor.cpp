@@ -284,11 +284,11 @@ void CSpaceRestrictor::OnRender	()
 		if(z){
 			string64 str;
 			switch (z->ZoneState()){
-				case CCustomZone::eZoneStateIdle:		strcpy_s(str,"IDLE"); break;
-				case CCustomZone::eZoneStateAwaking:	strcpy_s(str,"AWAKING"); break;
-				case CCustomZone::eZoneStateBlowout:	strcpy_s(str,"BLOWOUT"); break;
-				case CCustomZone::eZoneStateAccumulate: strcpy_s(str,"ACCUMULATE"); break;
-				case CCustomZone::eZoneStateDisabled:	strcpy_s(str,"DISABLED"); break;
+				case CCustomZone::eZoneStateIdle:		BearCore::BearString::Copy(str,"IDLE"); break;
+				case CCustomZone::eZoneStateAwaking:	BearCore::BearString::Copy(str,"AWAKING"); break;
+				case CCustomZone::eZoneStateBlowout:	BearCore::BearString::Copy(str,"BLOWOUT"); break;
+				case CCustomZone::eZoneStateAccumulate: BearCore::BearString::Copy(str,"ACCUMULATE"); break;
+				case CCustomZone::eZoneStateDisabled:	BearCore::BearString::Copy(str,"DISABLED"); break;
 			};
 			HUD().Font().pFontMedium->OutNext	( str );
 		}

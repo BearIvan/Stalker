@@ -8,13 +8,9 @@
 #include "xr_Level_controller.h"
 #include "ui\UITextureMaster.h"
 #include "ui\UIXmlInit.h"
-#include <dinput.h>
+
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
-#include "gamespy/GameSpy_Full.h"
-#include "gamespy/GameSpy_HTTP.h"
-#include "gamespy/GameSpy_Available.h"
-#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 
 #include "engine/object_broker.h"
@@ -62,7 +58,6 @@ CMainMenu::CMainMenu	()
 	m_deactivated_frame				= 0;	
 	
 	m_sPatchURL						= "";
-	m_pGameSpyFull					= NULL;
 
 	m_sPDProgress.IsInProgress		= false;
 
@@ -73,7 +68,6 @@ CMainMenu::CMainMenu	()
 	if(!g_dedicated_server)
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
-		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
 		if (gameVersionController->getPath() == GameVersionController::SOC_1004)
 		{
 			for (u32 i = 0; i < u32(ErrMax)-2; i++)
@@ -112,7 +106,6 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(g_btnHint);
 	xr_delete						(m_startDialog);
 	g_pGamePersistent->m_pMainMenu	= NULL;
-	xr_delete						(m_pGameSpyFull);
 	delete_data						(m_pMB_ErrDlgs);	
 }
 
@@ -129,7 +122,7 @@ void CMainMenu::ReadTextureInfo()
 		for (int i = 0; i < itemsCount; i++)
 		{
 			XrTrims::GetItem(itemsList.c_str(), i, single_item);
-			strcat(single_item,".xml");
+			BearCore::BearString::Contact(single_item,".xml");
 			CUITextureMaster::ParseShTexInfo(single_item);
 		}		
 	}
@@ -428,8 +421,7 @@ void CMainMenu::OnFrame()
 			Console->Show			();
 	}
 
-	if(IsActive() || m_sPDProgress.IsInProgress)
-		m_pGameSpyFull->Update();
+
 
 	if(IsActive())
 		CheckForErrorDlg();
@@ -447,7 +439,7 @@ void CMainMenu::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 		::Render->Screenshot		(mode,name);
 	}else{
 		m_Flags.set					(flGameSaveScreenshot, TRUE);
-		strcpy(m_screenshot_name,name);
+		BearCore::BearString::Copy(m_screenshot_name,name);
 		if(g_pGameLevel && m_Flags.test(flActive)){
 			Device.seqFrame.Add		(g_pGameLevel);
 			Device.seqRender.Add	(g_pGameLevel);
@@ -614,14 +606,14 @@ extern ENGINE_API string512  g_sLaunchOnExit_app;
 extern ENGINE_API string512  g_sLaunchOnExit_params;
 void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 {
-	strcpy					(g_sLaunchOnExit_app,*m_sPatchFileName);
-	strcpy					(g_sLaunchOnExit_params,"");
+	BearCore::BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
+	BearCore::BearString::Copy					(g_sLaunchOnExit_params,"");
 	Console->Execute		("quit");
 }
 
 void CMainMenu::CancelDownload()
 {
-	m_pGameSpyFull->m_pGS_HTTP->StopDownload();
+	
 	m_sPDProgress.IsInProgress	= false;
 }
 
@@ -639,32 +631,6 @@ void CMainMenu::OnDeviceReset()
 extern	void	GetCDKey(char* CDKeyStr);
 //extern	int VerifyClientCheck(const char *key, unsigned short cskey);
 
-bool CMainMenu::IsCDKeyIsValid()
-{
-	if (!m_pGameSpyFull || !m_pGameSpyFull->m_pGS_HTTP) return false;
-	string64 CDKey = "";
-	GetCDKey(CDKey);
-
-#ifndef DEMO_BUILD
-	 return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->m_pGS_HTTP->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
-			return true;
-	};	
-	return false;
-}
-
-bool		CMainMenu::ValidateCDKey					()
-{
-	if (IsCDKeyIsValid()) return true;
-	SetErrorDialog(CMainMenu::ErrCDKeyInvalid);
-	return false;
-}
 
 void		CMainMenu::Show_CTMS_Dialog				()
 {
@@ -689,21 +655,17 @@ LPCSTR CMainMenu::GetGSVer()
 {
 	static string256	buff;
 	static string256	buff2;
-	if(m_pGameSpyFull)
-	{
-		strcpy(buff2, ENGINE_VERSION);
-	}else
-	{
-		buff[0]		= 0;
-		buff2[0]	= 0;
-	}
+	BearCore::BearString::Copy(buff2, ENGINE_VERSION);
+#ifdef X64
+	BearCore::BearString::Contact(buff2, "-X64");
+#endif
 	if (gameVersionController->getPath() == GameVersionController::SOC_1004)
 	{
-		strcat(buff2, "(1.0.04)");
+		BearCore::BearString::Contact(buff2, "(1.0.04)");
 	}
 	else
 	{
-		strcat(buff2, "(1.0.06)");
+		BearCore::BearString::Contact(buff2, "(1.0.06)");
 	}
 	return buff2;
 }

@@ -46,8 +46,6 @@
 #include "character_hit_animations_params.h"
 #include "inventory_upgrade_manager.h"
 
-#include "GameSpy/GameSpy_Full.h"
-#include "GameSpy/GameSpy_Patching.h"
 
 #include "ai_debug_variables.h"
 #include "physics/console_vars.h"
@@ -248,7 +246,7 @@ public:
 			Msg("! there is no graph!");
 		else {
 			int id1=-1, id2=-1;
-			sscanf(args ,"%d %d",&id1,&id2);
+			BearCore::BearString::Scanf(args ,"%d %d",&id1,&id2);
 			if ((-1 != id1) && (-1 != id2))
 				if (XrMath::max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
 					Msg("! there are only %d vertexes!",ai().game_graph().header().vertex_count());
@@ -274,7 +272,7 @@ public:
 	CCC_ALifeTimeFactor(LPCSTR N) : IConsole_Command(N)  { };
 	virtual void Execute(LPCSTR args) {
 		float id1 = 0.0f;
-		sscanf(args ,"%f",&id1);
+		BearCore::BearString::Scanf(args ,"%f",&id1);
 		if (id1 < XrMath::EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
@@ -318,7 +316,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		if ((GameID() == eGameIDSingle)  &&ai().get_alife()) {
 			float id1 = 0.0f;
-			sscanf(args ,"%f",&id1);
+			BearCore::BearString::Scanf(args ,"%f",&id1);
 			if (id1 < 2.0f)
 				Msg("Invalid online distance! (%.4f)",id1);
 			else {
@@ -341,7 +339,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			sscanf(args ,"%d",&id1);
+			BearCore::BearString::Scanf(args ,"%d",&id1);
 			if (id1 < 1)
 				Msg("Invalid process time! (%d)",id1);
 			else
@@ -362,7 +360,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			sscanf(args ,"%d",&id1);
+			BearCore::BearString::Scanf(args ,"%d",&id1);
 			tpGame->alife().objects_per_update(id1);
 		}
 		else
@@ -378,7 +376,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			float id1 = 0;
-			sscanf(args ,"%f",&id1);
+			BearCore::BearString::Scanf(args ,"%f",&id1);
 			XrMath::clamp(id1,.1f,1.f);
 			tpGame->alife().set_switch_factor(id1);
 		}
@@ -558,7 +556,7 @@ public:
 		STRCONCAT					(save_name, CStringTable().translate("st_game_saved").c_str(), ": ", S);
 		_s->wnd()->TextItemControl()->SetText(save_name);
 
-		xr_strcat				(S,".dds");
+		BearCore::BearString::Contact				(S,".dds");
 		
 #ifdef DEBUG
 		timer.restart				();
@@ -986,8 +984,8 @@ public:
 		u32 value1;
 		u32 value2;
 		
-		sscanf(param1,"%u",&value1);
-		sscanf(param2,"%u",&value2);
+		BearCore::BearString::Scanf(param1,"%u",&value1);
+		BearCore::BearString::Scanf(param2,"%u",&value2);
 		
 		if ((value1 > 0) && (value2 > 0)) {
 			g_bDebugNode		= TRUE;
@@ -1017,7 +1015,7 @@ public:
 		
 		u32				value2;
 		
-		sscanf			(param2,"%u",&value2);
+		BearCore::BearString::Scanf			(param2,"%u",&value2);
 		monster->set_show_debug_info (u8(value2));
 	}
 };
@@ -1353,7 +1351,7 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	virtual void	Execute	(LPCSTR args)
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
-		sscanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
+		BearCore::BearString::Scanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
 		year				= XrMath::max(year,bsize(1));
 		month				= XrMath::max(month,bsize(1));
 		day					= XrMath::max(day,bsize(1));
@@ -1568,7 +1566,6 @@ public:
 		else
 			STRCONCAT			(name, arguments);
 
-		string_path				fn;
 
 
 		if (!FS.ExistFile("%level%", name) && !FS.ExistFile("%meshes%", name)) {
@@ -1660,7 +1657,7 @@ public:
 			return;
 		}
 		int d = 0;
-		sscanf( args, "%d", &d );
+		BearCore::BearString::Scanf( args, "%d", &d );
 		if ( ui_game_sp->GetActorMenu().DropAllItemsFromRuck( d == 1 ) )
 		{
 			Msg( "- All items from ruck of Actor is dropping now." );
@@ -1702,13 +1699,12 @@ public:
 		bool InformOfNoPatch = true;
 		if (arguments && *arguments) {
 			int bInfo = 1;
-			sscanf	(arguments,"%d", &bInfo);
+			BearCore::BearString::Scanf	(arguments,"%d", &bInfo);
 			InformOfNoPatch = (bInfo != 0);
 		}
 		
 //		GameSpyPatching.CheckForPatch(InformOfNoPatch);
 		
-		MainMenu()->GetGS()->GetGameSpyPatching()->CheckForPatch(InformOfNoPatch);
 	}
 };
 
@@ -1761,7 +1757,7 @@ public:
 		{
 			char  name[1024];
 			float f;
-			sscanf	(arguments, "%s %f", name, &f);
+			BearCore::BearString::Scanf	(arguments, "%s %f", name, &f);
 			ai_dbg::set_var(name, f);
 		}
 

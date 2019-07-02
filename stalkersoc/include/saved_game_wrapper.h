@@ -35,6 +35,7 @@ public:
 };
 add_to_type_list(CSavedGameWrapper)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CSavedGameWrapper)
 
 #include "saved_game_wrapper_inline.h"

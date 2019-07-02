@@ -50,7 +50,7 @@ void CUICDkey::Draw()
 
 		string256				buff;
 		int i					= m_lines.m_iCursorPos;
-		strncpy					(buff,m_lines.m_text.c_str(),i);
+		BearCore::BearString::CopyWithSizeLimit(buff,m_lines.m_text.c_str(),i);
 		buff					[i]=0;
 		_w_tmp					= m_lines.m_pFont->SizeOf_(buff);
 		UI()->ClientToScreenScaledWidth(_w_tmp);
@@ -134,7 +134,6 @@ void CUICDkey::SetCurrentValue(){
 	m_lines.SetText(DelHyphens(CDKeyStr));
 
 }
-extern string64	gsCDKey;
 
 void CUICDkey::SaveValue(){
 	CUIOptionsItem::SaveValue();
@@ -143,7 +142,7 @@ void CUICDkey::SaveValue(){
 //	HKEY KeyCDKey = 0;
 
 //	string256 tmp;
-	sprintf_s(gsCDKey,"%s",AddHyphens(m_lines.GetText()));
+	//sprintf_s(gsCDKey,"%s",AddHyphens(m_lines.GetText()));
 //	sprintf_s(tmp,"cdkey %s",AddHyphens(m_lines.GetText()));
 //	Console->Execute(tmp);
 

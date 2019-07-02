@@ -14,7 +14,6 @@ void CLevel::PrepareToSaveDemo		()
 {
 	R_ASSERT(!m_DemoPlay);
 	string_path demo_name = "";
-	string_path demo_path;
 	SYSTEMTIME Time;
 	GetLocalTime		(&Time);
 	sprintf_s			(demo_name, "xray_%02d-%02d-%02d_%02d-%02d-%02d.demo",
@@ -179,7 +178,7 @@ void CLevel::SpawnDemoSpectator()
 		tmp_sv_game->spawn_begin("spectator"));
 	R_ASSERT						(specentity);
 	mp_cl_game->local_player		= mp_cl_game->createPlayerState();
-	strcpy_s						(mp_cl_game->local_player->name, "demo_spectator");
+	BearCore::BearString::Copy						(mp_cl_game->local_player->name, "demo_spectator");
 	specentity->set_name_replace	(mp_cl_game->local_player->name);
 	specentity->s_flags.assign		(M_SPAWN_OBJECT_LOCAL | M_SPAWN_OBJECT_ASPLAYER | M_SPAWN_OBJECT_PHANTOM); //M_SPAWN_OBJECT_PHANTOM is ONLY to indicate thath this is a fake spectator
 	tmp_sv_game->assign_RP			(specentity, Level().game->local_player);

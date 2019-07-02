@@ -190,7 +190,7 @@ void CProfiler::show_stats(CGameFont *game_font, bool show)
 			}
 
 			++call_count;
-			timer_time += (*I).m_timer.get_elapsed_time().asseconds();
+			timer_time += (*I).m_timer.get_elapsed_time().asmiliseconds();
 		}
 		setup_timer((*J).m_timer_id, timer_time, call_count);
 
@@ -200,14 +200,14 @@ void CProfiler::show_stats(CGameFont *game_font, bool show)
 
 		if (!m_actual) {
 			u32					max_string_size = 0;
-			TIMERS::iterator	I = m_timers.begin();
-			TIMERS::iterator	E = m_timers.end();
-			for (; I != E; ++I)
-				max_string_size = XrMath::max(max_string_size, compute_string_length(*(*I).first));
+			TIMERS::iterator	I1 = m_timers.begin();
+			TIMERS::iterator	E1 = m_timers.end();
+			for (; I1 != E1; ++I1)
+				max_string_size = XrMath::max(max_string_size, compute_string_length(*(*I1).first));
 
-			I = m_timers.begin();
-			for (; I != E; ++I)
-				convert_string(*(*I).first, (*I).second.m_name, max_string_size);
+			I1 = m_timers.begin();
+			for (; I1 != E1; ++I1)
+				convert_string(*(*I1).first, (*I1).second.m_name, max_string_size);
 
 			m_actual = true;
 		}

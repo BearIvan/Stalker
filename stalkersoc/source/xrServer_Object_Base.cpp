@@ -13,11 +13,7 @@
 #include "script_value_container_impl.h"
 #include "clsid_game.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
-
 #ifndef AI_COMPILER
 #	include "object_factory.h"
 #endif
@@ -156,17 +152,15 @@ CSE_Motion* CSE_Abstract::motion			()
 
 CInifile &CSE_Abstract::spawn_ini			()
 {
+	IReader red(
+		(void*)(*(m_ini_string)),
+		m_ini_string.size()
+	);
 	if (!m_ini_file) 
-#pragma warning(push)
-#pragma warning(disable:4238)
 		m_ini_file			= xr_new<CInifile>(
-			&IReader			(
-				(void*)(*(m_ini_string)),
-				m_ini_string.size()
-			),
+			&red,
 			"%config%",""
 		);
-#pragma warning(pop)
 	return						(*m_ini_file);
 }
 	
@@ -287,8 +281,8 @@ BOOL CSE_Abstract::Spawn_Read				(NET_Packet	&tNetPacket)
 
 		if (m_wVersion > 83) {
 			tNetPacket.r_u32		();//m_spawn_flags.assign(tNetPacket.r_u32());
-			xr_string				temp;
-			tNetPacket.r_stringZ	(temp);//tNetPacket.r_stringZ(m_spawn_control);
+			xr_string				temp1;
+			tNetPacket.r_stringZ	(temp1);//tNetPacket.r_stringZ(m_spawn_control);
 			tNetPacket.r_u32		();//m_max_spawn_count);
 			// this stuff we do not need even in case of uncomment
 			tNetPacket.r_u32		();//m_spawn_count);

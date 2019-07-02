@@ -15,10 +15,7 @@
 #include "encyclopedia_article.h"
 #include "ui/UIEventsWnd.h"
 #include "Level.h"
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 shared_str	g_active_task_id			= "";
 u16			g_active_task_objective_id	= u16(-1);
@@ -217,16 +214,16 @@ void CGameTaskManager::UpdateTasks						()
 	for (I = tasks; I != E; ++I)
 	{
 		CGameTask		*t = (*I).game_task;
-		for(u16 i=0; i<t->m_Objectives.size() ;++i)
+		for(u16 i1=0; i1<t->m_Objectives.size() ;++i1)
 		{
-			SGameTaskObjective& obj = t->Objective(i);
-			if(obj.TaskState()!=eTaskStateInProgress && i==0) break;
+			SGameTaskObjective& obj = t->Objective(i1);
+			if(obj.TaskState()!=eTaskStateInProgress && i1==0) break;
 			if(obj.TaskState()!=eTaskStateInProgress) continue;
 
 			ETaskState state = obj.UpdateState();
 
 			if( (state==eTaskStateFail || state==eTaskStateCompleted))
-				SetTaskState(t, i, state);
+				SetTaskState(t, i1, state);
 		}
 	}
 	
@@ -249,35 +246,38 @@ void CGameTaskManager::UpdateTasks						()
 
 void CGameTaskManager::UpdateActiveTask				()
 {
-	GameTasks_it it								= GameTasks().begin();
-	GameTasks_it it_e							= GameTasks().end();
-	bool bHasSpotPointer						= false;
-
-	for( ;it!=it_e; ++it )
+	bool bHasSpotPointer = false;
 	{
-		CGameTask* t							= (*it).game_task;
+		GameTasks_it it = GameTasks().begin();
+		GameTasks_it it_e = GameTasks().end();
 
-		if( t->Objective(0).TaskState() != eTaskStateInProgress ) 
-			continue;
 
-		for(u32 i=0; i<t->m_Objectives.size() ;++i)
+		for (; it != it_e; ++it)
 		{
-			SGameTaskObjective& obj				= t->Objective(i);
+			CGameTask* t = (*it).game_task;
 
-			//1-st enable hidden locations
-			if(	(!obj.def_location_enabled)							&& 
-				(obj.TaskState()==eTaskStateInProgress)				&& 
-				(t->Objective(i-1).TaskState()==eTaskStateCompleted) )
+			if (t->Objective(0).TaskState() != eTaskStateInProgress)
+				continue;
+
+			for (u32 i = 0; i < t->m_Objectives.size(); ++i)
 			{
-				if(obj.object_id!=u16(-1) && *obj.map_location)
+				SGameTaskObjective& obj = t->Objective(i);
+
+				//1-st enable hidden locations
+				if ((!obj.def_location_enabled) &&
+					(obj.TaskState() == eTaskStateInProgress) &&
+					(t->Objective(i - 1).TaskState() == eTaskStateCompleted))
 				{
-					CMapLocation* ml			= Level().MapManager().AddMapLocation(obj.map_location, obj.object_id);
-					if(obj.map_hint.size())		ml->SetHint(obj.map_hint);
-					ml->DisablePointer			();
-					ml->SetSerializable			(true);
+					if (obj.object_id != u16(-1) && *obj.map_location)
+					{
+						CMapLocation* ml = Level().MapManager().AddMapLocation(obj.map_location, obj.object_id);
+						if (obj.map_hint.size())		ml->SetHint(obj.map_hint);
+						ml->DisablePointer();
+						ml->SetSerializable(true);
+					}
 				}
+				bHasSpotPointer = bHasSpotPointer || (ActiveObjective() == &t->Objective(i));
 			}
-			bHasSpotPointer = bHasSpotPointer || (ActiveObjective()==&t->Objective(i));
 		}
 	}
 	// highlight new spot pointer

@@ -29,7 +29,7 @@ void CAI_PhraseDialogManager::ReceivePhrase (DIALOG_SHARED_PTR& phrase_dialog)
 }
 #include "uigamesp.h"
 #include "uigamecp.h"
-#include "hudmanager.h"1
+#include "hudmanager.h"
 #include "level.h"
 #include "ui/UItalkWnd.h"
 #include "game_cl_base.h"

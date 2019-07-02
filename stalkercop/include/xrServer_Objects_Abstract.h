@@ -31,8 +31,6 @@ class CDUInterface;
 #else
 	#include "xrRender\DrawUtils.h"
 #endif
-#pragma warning(push)
-#pragma warning(disable:4005)
 
 
 
@@ -68,6 +66,7 @@ public:
 	virtual CSE_Visual* __stdcall	visual					() = 0;
 };
 add_to_type_list(CSE_Visual)
+#undef script_type_list
 #define script_type_list save_type_list(CSE_Visual)
 
 SERVER_ENTITY_DECLARE_BEGIN0(CSE_Motion)
@@ -91,6 +90,7 @@ public:
 	virtual CSE_Motion* __stdcall	motion					() = 0;
 };
 add_to_type_list(CSE_Motion)
+#undef script_type_list
 #define script_type_list save_type_list(CSE_Motion)
 
 struct ISE_AbstractLEOwner{
@@ -139,7 +139,6 @@ public:
 	virtual bool		__stdcall	validate				() = 0;
 };
 
-#pragma warning(pop)
 
-#pragma pack(pop)
 #endif // xrServer_Objects_AbstractH
+#pragma pack(pop)

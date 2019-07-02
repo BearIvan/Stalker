@@ -58,26 +58,18 @@ LPCSTR	file_header = 0;
 #	include "script_debugger.h"
 #endif
 
-#ifndef PURE_ALLOC
-#	ifndef USE_MEMORY_MONITOR
-#		define USE_DL_ALLOCATOR
-#	endif // USE_MEMORY_MONITOR
-#endif // PURE_ALLOC
+
 
 #ifndef USE_DL_ALLOCATOR
 static void *lua_alloc_xr	(void *ud, void *ptr, size_t osize, size_t nsize) {
   (void)ud;
   (void)osize;
   if (nsize == 0) {
-    xr_free	(ptr);
+	  BearCore::BearMemory::Free	(ptr);
     return	NULL;
   }
   else
-#ifdef DEBUG_MEMORY_NAME
-    return Memory.mem_realloc		(ptr, nsize, "LUA");
-#else // DEBUG_MEMORY_MANAGER
-    return Memory.mem_realloc		(ptr, nsize);
-#endif // DEBUG_MEMORY_MANAGER
+    return BearCore::BearMemory::Realloc	(ptr, nsize, "LUA");
 }
 #else // USE_DL_ALLOCATOR
 static void *lua_alloc_dl	(void *ud, void *ptr, size_t osize, size_t nsize) {
@@ -338,15 +330,15 @@ int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType
 		default : NODEFAULT;
 	}
 	
-	strcpy_s	(S2,S);
-	S1		= S2 + xr_strlen(S);
-	int		l_iResult = vsprintf(S1,caFormat,marker);
-	Msg		("%s",S2);
-	
-	strcpy_s	(S2,SS);
-	S1		= S2 + xr_strlen(SS);
-	vsprintf(S1,caFormat,marker);
-	strcat	(S2,"\r\n");
+	BearCore::BearString::Copy(S2, S);
+	S1 = S2 + xr_strlen(S);
+	int		l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, marker);
+	Msg("%s", S2);
+
+	BearCore::BearString::Copy(S2, SS);
+	S1 = S2 + xr_strlen(SS);
+	BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S) - xr_strlen(S2), caFormat, marker);
+	BearCore::BearString::Contact(S2, "\r\n");
 
 #ifdef DEBUG
 #	ifndef ENGINE_BUILD
@@ -405,34 +397,34 @@ int __cdecl CScriptStorage::script_log	(ScriptStorage::ELuaMessageType tLuaMessa
 	return			(result);
 }
 
-bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c)
+bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, u32 const b_size, LPSTR c, u32 const c_size)
 {
-	strcpy			(b,"");
-	strcpy			(c,"");
-	LPSTR			S2	= xr_strdup(caNamespaceName);
-	LPSTR			S	= S2;
-	for (int i=0;;++i) {
+	b[0] = 0;
+	c[0] = 0;
+	LPSTR			S2 = xr_strdup(caNamespaceName);
+	LPSTR			S = S2;
+	for (int i = 0;; ++i) {
 		if (!xr_strlen(S)) {
-			script_log	(ScriptStorage::eLuaMessageTypeError,"the namespace name %s is incorrect!",caNamespaceName);
-			xr_free		(S2);
+			script_log(ScriptStorage::eLuaMessageTypeError, "the namespace name %s is incorrect!", caNamespaceName);
+			xr_free(S2);
 			return		(false);
 		}
-		LPSTR			S1 = strchr(S,'.');
+		LPSTR			S1 = strchr(S, '.');
 		if (S1)
-			*S1				= 0;
+			*S1 = 0;
 
 		if (i)
-			strcat		(b,"{");
-		strcat			(b,S);
-		strcat			(b,"=");
+			BearCore::BearString::Contact(b, b_size, "{");
+		BearCore::BearString::Contact(b, b_size, S);
+		BearCore::BearString::Contact(b, b_size, "=");
 		if (i)
-			strcat		(c,"}");
+			BearCore::BearString::Contact(c, c_size, "}");
 		if (S1)
-			S			= ++S1;
+			S = ++S1;
 		else
 			break;
 	}
-	xr_free			(S2);
+	xr_free(S2);
 	return			(true);
 }
 
@@ -444,13 +436,13 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 
 		LPCSTR			header = file_header;
 
-		if (!parse_namespace(caNameSpaceName,a,b))
+		if (!parse_namespace(caNameSpaceName,a,512,b,512))
 			return		(false);
 
 		sprintf_s		(insert,header,caNameSpaceName,a,b);
 		u32				str_len = xr_strlen(insert);
 		LPSTR			script = xr_alloc<char>(str_len + tSize);
-		strcpy_s		(script, str_len + tSize, insert);
+		BearCore::BearString::Copy		(script, str_len + tSize, insert);
 		CopyMemory		(script + str_len,caBuffer,u32(tSize));
 //		try 
 		{
@@ -555,7 +547,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 	lua_pushstring 			(lua(),"_G"); 
 	lua_rawget 				(lua(),LUA_GLOBALSINDEX); 
 	string256				S2;
-	strcpy_s					(S2,N);
+	BearCore::BearString::Copy					(S2,N);
 	LPSTR					S = S2;
 	for (;;) { 
 		if (!xr_strlen(S)) {
@@ -637,7 +629,7 @@ bool CScriptStorage::object	(LPCSTR namespace_name, LPCSTR identifier, int type)
 luabind::object CScriptStorage::name_space(LPCSTR namespace_name)
 {
 	string256			S1;
-	strcpy_s				(S1,namespace_name);
+	BearCore::BearString::Copy				(S1,namespace_name);
 	LPSTR				S = S1;
 	luabind::object		lua_namespace = luabind::get_globals(lua());
 	for (;;) {
@@ -737,10 +729,10 @@ int CScriptStorage::error_log	(LPCSTR	format, ...)
 	LPCSTR			S = "! [LUA][ERROR] ";
 	LPSTR			S1;
 	string4096		S2;
-	strcpy_s		(S2,S);
+	BearCore::BearString::Copy		(S2,S);
 	S1				= S2 + xr_strlen(S);
 
-	int				result = vsprintf(S1,format,marker);
+	int				result = BearCore::BearString::PrintfVa(S1,4096- xr_strlen(S),format,marker);
 	va_end			(marker);
 
 	Msg				("%s",S2);

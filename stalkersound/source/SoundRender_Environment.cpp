@@ -3,10 +3,7 @@
 
 #include "soundrender.h"
 #include "soundrender_environment.h"
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <eax/eax.h>
-#pragma warning(pop)
 
 CSoundRender_Environment::CSoundRender_Environment(void)
 {

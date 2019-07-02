@@ -6,7 +6,7 @@
 #include "ui/UITabButtonMP.h"
 #include "ui/UICellCustomItems.h"
 #include "ui/UICellItemFactory.h"
-#include <dinput.h>
+
 #include "HUDManager.h"
 #include "weapon.h"
 #include "xrServer_Objects_ALife_Items.h"
@@ -171,7 +171,7 @@ bool CUIBagWnd::IsBlueTeamItem(CUICellItem* itm)
 			continue;
 
 		
-		strcpy			(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
+		BearCore::BearString::Copy			(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
 		u32 count		= XrTrims::GetItemCount(wpnNames);
 		
 		for (u32 j = 0; j < count; ++j)
@@ -255,7 +255,7 @@ void CUIBagWnd::InitWpnSectStorage()
 			continue;
 		}
 
-		strcpy		(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
+		BearCore::BearString::Copy		(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
 		u32 count	= XrTrims::GetItemCount(wpnNames);
 
 		for (u32 j = 0; j < count; ++j)
@@ -312,7 +312,7 @@ void CUIBagWnd::FillUpGroup(const u32 group)
 			CUICellItem* itm			= CreateItem(sect);			
 
             // Set custom draw
-			itoa						(j+1, tmp_str ,10);
+			BearCore::BearString::Printf(tmp_str, TEXT("%d"), j+1);
 			CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str,UI()->Font()->pFontLetterica16Russian);
 			itm->SetCustomDraw			(p);
             
@@ -358,9 +358,9 @@ void	CUIBagWnd::ReloadItemsPrices	()
 			m_info[itm->m_index].price	= pSettings->r_u32(m_sectionPrice, ItemCostStr);
 
 
-		for (u32 i=1; i<=g_mp_restrictions.GetRank(); ++i)
+		for (u32 I1=1; I1<=g_mp_restrictions.GetRank(); ++I1)
 		{
-			sprintf_s						(RankStr, "rank_%d", i);
+			sprintf_s						(RankStr, "rank_%d", I1);
 			if (!pSettings->line_exist	(RankStr, ItemCostStr))	continue;
 			m_info[itm->m_index].price	= pSettings->r_u32(RankStr, ItemCostStr);
 		}

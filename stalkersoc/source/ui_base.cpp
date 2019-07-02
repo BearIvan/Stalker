@@ -256,22 +256,21 @@ shared_str	ui_core::get_xml_name(LPCSTR fn)
 	string_path				str;
 	if(!is_16_9_mode()){
 		sprintf_s(str, "%s", fn);
-		if ( NULL==strext(fn) ) strcat(str, ".xml");
+		if ( NULL==strext(fn) ) BearCore::BearString::Contact(str, ".xml");
 	}else{
 
-		string_path			str_;
 		if ( strext(fn) )
 		{
-			strcpy	(str, fn);
+			BearCore::BearString::Copy	(str, fn);
 			*strext(str)	= 0;
-			strcat	(str, "_16.xml");
+			BearCore::BearString::Contact	(str, "_16.xml");
 		}else
 			sprintf_s				(str, "%s_16", fn);
 
 		if(NULL==FS.ExistFile("%config%", "ui\\" , str) )
 		{
 			sprintf_s(str, "%s", fn);
-			if ( NULL==strext(fn) ) strcat(str, ".xml");
+			if ( NULL==strext(fn) ) BearCore::BearString::Contact(str, ".xml");
 		}
 		Msg("[16-9] get_xml_name for[%s] returns [%s]", fn, str);
 	}

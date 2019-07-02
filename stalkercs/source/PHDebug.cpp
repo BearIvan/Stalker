@@ -332,7 +332,7 @@ string1024 s;
 bool	 rendered;
 	SPHDBGOutText(LPCSTR t)
 	{
-		strcpy_s(s,t);
+		BearCore::BearString::Copy(s,t);
 		rendered=false;
 	}
 	virtual void render()
@@ -353,7 +353,7 @@ void _cdecl DBG_OutText(LPCSTR s,...)
 	string1024 t;
 	va_list   marker;
 	va_start  (marker,s);
-	vsprintf(t,s,marker);
+	BearCore::BearString::PrintfVa(t,s,marker);
 	va_end    (marker);
 	DBG_DrawPHAbstruct(xr_new<SPHDBGOutText>(t));
 }
@@ -487,11 +487,11 @@ void DBG_PHAbstructRender()
 	}
 	if(dbg_ph_draw_mode!=dmCashed)
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_cashed.begin();e=dbg_draw_cashed.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i1,e1;
+		i1=dbg_draw_cashed.begin();e=dbg_draw_cashed.end();
+		for(;e1!=i1;++i1)
 		{
-			(*i)->render();
+			(*i1)->render();
 		}
 		if(cash_draw_remove_time<Device.dwTimeGlobal)
 		{
@@ -499,11 +499,11 @@ void DBG_PHAbstructRender()
 		}
 	}
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_simple.begin();e=dbg_draw_simple.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i1,e1;
+		i1=dbg_draw_simple.begin();e=dbg_draw_simple.end();
+		for(;e1!=i1;++i1)
 		{
-			(*i)->render();
+			(*i1)->render();
 		}
 		//clear_vector(dbg_draw_simple);
 	}
@@ -712,7 +712,7 @@ LPCSTR PH_DBG_ObjectTrackName()
 void PH_DBG_SetTrackObject()
 {
 	
-//	strcpy_s( s_dbg_trace_obj_name,obj);
+//	BearCore::BearString::Copy( s_dbg_trace_obj_name,obj);
 //	dbg_trace_object_name=s_dbg_trace_obj_name;
 	if(g_pGameLevel)
 		trace_object = Level().Objects.FindObjectByName( PH_DBG_ObjectTrackName() );
@@ -1052,7 +1052,7 @@ std::string dump_string( LPCSTR name, const Fmatrix &form )
 
 void dump( LPCSTR name, const Fmatrix &form )
 {
-	Msg( "%s", dump_string( name, form ) );
+	Msg("%s", dump_string(name, form).c_str() );
 	//Msg( "%s, _14_=%f ", dump_string( make_string( "%s.i, ", name ).c_str(), form.i ).c_str( ) , form._14_ );  
 	//Msg( "%s, _24_=%f ", dump_string( make_string( "%s.j, ", name ).c_str(), form.j ).c_str( ) , form._24_ );  
 	//Msg( "%s, _34_=%f ", dump_string( make_string( "%s.k, ", name ).c_str(), form.k ).c_str( ) , form._34_  );  

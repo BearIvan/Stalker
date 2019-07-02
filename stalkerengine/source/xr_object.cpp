@@ -14,11 +14,7 @@
 
 #include "mp_logging.h"
 #include "xr_collide_form.h"
-
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <intrin.h>
-#pragma warning(pop)
 
 #pragma intrinsic(_InterlockedCompareExchange)
 

@@ -310,15 +310,15 @@ BOOL			CLevel::Connect2Server				(LPCSTR options)
 		u32 CurTime = GetTickCount();
 		if (CurTime > EndTime)
 		{
-			NET_Packet	P;
-			P.B.count = 0;
-			P.r_pos = 0;
+			NET_Packet	P1;
+			P1.B.count = 0;
+			P1.r_pos = 0;
 
-			P.w_u8(0);
-			P.w_u8(0);
-			P.w_stringZ("Data verification failed. Cheater? [1]");
+			P1.w_u8(0);
+			P1.w_u8(0);
+			P1.w_stringZ("Data verification failed. Cheater? [1]");
 
-			OnConnectResult(&P);			
+			OnConnectResult(&P1);			
 		}
 		if (net_isFails_Connect())
 		{
@@ -396,11 +396,11 @@ void			CLevel::OnConnectResult				(NET_Packet*	P)
 	};	
 	m_sConnectResult			= ResultStr;
 	
-	if (IsDemoSave())
-	{
+	BEAR_RASSERT(IsDemoSave() == false);
+		
 //		P->r_stringZ(m_sDemoHeader.LevelName);
 //		P->r_stringZ(m_sDemoHeader.GameType);
-		m_sDemoHeader.bServerClient = P->r_u8();
+		/*m_sDemoHeader.bServerClient = P->r_u8();
 		P->r_stringZ(m_sDemoHeader.ServerOptions);
 		//-----------------------------------------
 		FILE* fTDemo = fopen(m_sDemoName, "ab");
@@ -412,9 +412,9 @@ void			CLevel::OnConnectResult				(NET_Packet*	P)
 			fwrite(&OptLen, 4, 1, fTDemo);
 			fwrite(*m_sDemoHeader.ServerOptions, OptLen, 1, fTDemo);
 			fclose(fTDemo);
-		};
+		};*/
 		//-----------------------------------------
-	};	
+	
 };
 
 void			CLevel::ClearAllObjects				()

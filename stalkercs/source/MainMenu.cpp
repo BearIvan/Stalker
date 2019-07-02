@@ -11,10 +11,6 @@
 #include <dinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
-#include "gamespy/GameSpy_Full.h"
-#include "gamespy/GameSpy_HTTP.h"
-#include "gamespy/GameSpy_Available.h"
-#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 
 #include <shellapi.h>
@@ -68,7 +64,6 @@ CMainMenu::CMainMenu	()
 	m_deactivated_frame				= 0;	
 	
 	m_sPatchURL						= "";
-	m_pGameSpyFull					= NULL;
 
 	m_sPDProgress.IsInProgress		= false;
 	m_downloaded_mp_map_url._set	("");
@@ -83,7 +78,6 @@ CMainMenu::CMainMenu	()
 	if(!g_dedicated_server)
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
-		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
 		
 		for (u32 i=0; i<u32(ErrMax); i++)
 		{
@@ -105,7 +99,6 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(g_btnHint);
 	xr_delete						(m_startDialog);
 	g_pGamePersistent->m_pMainMenu	= NULL;
-	xr_delete						(m_pGameSpyFull);
 	delete_data						(m_pMB_ErrDlgs);	
 }
 
@@ -118,11 +111,10 @@ void CMainMenu::ReadTextureInfo()
 
 	for( ;fit!=fit_e; ++fit)
 	{
-    	string_path	fn1, fn2,fn3;
-        _splitpath	((**fit),fn1,fn2,fn3,0);
-		strcat(fn3,".xml");
+		auto name = BearCore::BearFileManager::GetFileName((**fit));
+		name.append(".xml");
 
-		CUITextureMaster::ParseShTexInfo(fn3);
+		CUITextureMaster::ParseShTexInfo(*name);
 	}
 
 }
@@ -438,8 +430,6 @@ void CMainMenu::OnFrame()
 			Console->Show			();
 	}
 
-	if(IsActive() || m_sPDProgress.IsInProgress)
-		m_pGameSpyFull->Update();
 
 	if(IsActive())
 	{
@@ -464,7 +454,7 @@ void CMainMenu::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 		::Render->Screenshot		(mode,name);
 	}else{
 		m_Flags.set					(flGameSaveScreenshot, TRUE);
-		strcpy_s(m_screenshot_name,name);
+		BearCore::BearString::Copy(m_screenshot_name,name);
 		if(g_pGameLevel && m_Flags.test(flActive)){
 			Device.seqFrame.Add		(g_pGameLevel);
 			Device.seqRender.Add	(g_pGameLevel);
@@ -547,13 +537,8 @@ void CMainMenu::OnNoNewPatchFound				()
 
 void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 {
-	CGameSpy_Available GSA;
 	shared_str result_string;
-	if (!GSA.CheckAvailableServices(result_string))
-	{
-		Msg(*result_string);
-		return;
-	};
+
 	
 	LPCSTR fileName = *m_sPatchURL;
 	if (!fileName) return;
@@ -562,7 +547,6 @@ void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 	char* FileName = NULL;
 	GetFullPathName(fileName, 4096, FilePath, &FileName);
 
-	string_path		fname;
 	/*if (FS.Ex("$downloads$"))
 	{
 		FS.update_path(fname, "$downloads$", FileName);
@@ -634,15 +618,15 @@ extern ENGINE_API string512  g_sLaunchOnExit_params;
 extern ENGINE_API string_path	g_sLaunchWorkingFolder;
 void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 {
-	strcpy_s					(g_sLaunchOnExit_app,*m_sPatchFileName);
-	strcpy_s					(g_sLaunchOnExit_params,"");
-	strcpy_s					(g_sLaunchWorkingFolder, "");
+	BearCore::BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
+	BearCore::BearString::Copy					(g_sLaunchOnExit_params,"");
+	BearCore::BearString::Copy					(g_sLaunchWorkingFolder, "");
 	Console->Execute		("quit");
 }
 
 void CMainMenu::CancelDownload()
 {
-	m_pGameSpyFull->m_pGS_HTTP->StopDownload();
+	
 	m_sPDProgress.IsInProgress	= false;
 }
 
@@ -703,39 +687,6 @@ extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
 extern	void	GetPlayerName_FromRegistry	(char* name, u32 const name_size);
 //extern	int VerifyClientCheck(const char *key, unsigned short cskey);
 
-bool CMainMenu::IsCDKeyIsValid()
-{
-	if (!m_pGameSpyFull || !m_pGameSpyFull->m_pGS_HTTP) return false;
-	string64 CDKey = "";
-	GetCDKey_FromRegistry(CDKey);
-
-#ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->m_pGS_HTTP->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
-			return true;
-	};	
-	return false;
-}
-
-bool		CMainMenu::ValidateCDKey					()
-{
-	if (IsCDKeyIsValid()) return true;
-	SetErrorDialog(CMainMenu::ErrCDKeyInvalid);
-	return false;
-}
-
-void		CMainMenu::Show_CTMS_Dialog				()
-{
-	if (!m_pMB_ErrDlgs[ConnectToMasterServer]) return;
-	if (m_pMB_ErrDlgs[ConnectToMasterServer]->IsShown()) return;
-	StartStopMenu(m_pMB_ErrDlgs[ConnectToMasterServer], false);
-}
 
 void		CMainMenu::Hide_CTMS_Dialog()
 {
@@ -753,15 +704,8 @@ LPCSTR CMainMenu::GetGSVer()
 {
 	static string256	buff;
 	static string256	buff2;
-	if(m_pGameSpyFull)
-	{
-		strcpy_s(buff2,ENGINE_VERSION);
-	}else
-	{
-		buff[0]		= 0;
-		buff2[0]	= 0;
-	}
-	strcat(buff2, "(1.5.10)");
+	BearCore::BearString::Copy(buff2,ENGINE_VERSION);
+	BearCore::BearString::Contact(buff2, "(1.5.10)");
 	return buff2;
 }
 

@@ -33,11 +33,7 @@
 #include "animation_movement_controller.h"
 #include "engine/xr_collide_form.h"
 extern MagicBox3 MagicMinBox (int iQuantity, const Fvector* akPoint);
-
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 #ifdef DEBUG
 #	include "debug_renderer.h"
@@ -293,7 +289,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	XFORM().setXYZ					(E->o_Angle);
 	Position().set					(E->o_Position);
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&stricmp(PH_DBG_ObjectTrackName(),*cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*cName())==0)
 	{
 		Msg("CGameObject::net_Spawn obj %s Position set from CSE_Abstract %f,%f,%f",PH_DBG_ObjectTrackName(),Position().x,Position().y,Position().z);
 	}
@@ -301,17 +297,16 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	VERIFY							(_valid(renderable.xform));
 	VERIFY							(!XrMath::fis_zero(DET(renderable.xform)));
 	CSE_ALifeObject					*O = smart_cast<CSE_ALifeObject*>(E);
+
 	if (O && xr_strlen(O->m_ini_string)) {
-#pragma warning(push)
-#pragma warning(disable:4238)
+		IReader red(
+			(void*)(*(O->m_ini_string)),
+			O->m_ini_string.size()
+		);
 		m_ini_file					= xr_new<CInifile>(
-			&IReader				(
-				(void*)(*(O->m_ini_string)),
-				O->m_ini_string.size()
-			),
+			&red,
 			TEXT("%config%"),""
 		);
-#pragma warning(pop)
 	}
 
 	m_story_id						= ALife::_STORY_ID(-1);
@@ -349,7 +344,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 	if(!g_dedicated_server)
 		CScriptBinder::reinit	();
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&stricmp(PH_DBG_ObjectTrackName(),*cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*cName())==0)
 	{
 		Msg("CGameObject::net_Spawn obj %s After Script Binder reinit %f,%f,%f",PH_DBG_ObjectTrackName(),Position().x,Position().y,Position().z);
 	}
@@ -407,7 +402,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 
 	spawn_supplies				();
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&stricmp(PH_DBG_ObjectTrackName(),*cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*cName())==0)
 	{
 		Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f",PH_DBG_ObjectTrackName(),Position().x,Position().y,Position().z);
 	}
@@ -417,7 +412,7 @@ BOOL CGameObject::net_Spawn		(CSE_Abstract*	DC)
 #endif
 
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&stricmp(PH_DBG_ObjectTrackName(),*cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*cName())==0)
 	{
 		Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f",PH_DBG_ObjectTrackName(),Position().x,Position().y,Position().z);
 	}
@@ -478,7 +473,7 @@ void CGameObject::net_Load		(IReader &ireader)
 #endif
 	// ----------------------------------------------------------
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&stricmp(PH_DBG_ObjectTrackName(),*cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*cName())==0)
 	{
 		Msg("CGameObject::net_Load obj %s (loaded) %f,%f,%f",PH_DBG_ObjectTrackName(),Position().x,Position().y,Position().z);
 	}
@@ -1087,8 +1082,8 @@ void render_box						(IRenderVisual *visual, const Fmatrix &xform, const Fvector
 			Fvector().set(+1.f,-1.f,-1.f)
 		};
 		
-		for (u32 i=0; i<8; ++i, ++I)
-			matrix.transform_tiny	(*I,local_points[i]);
+		for (u32 i1=0; i1<8; ++i1, ++I)
+			matrix.transform_tiny	(*I,local_points[i1]);
 	}
 
 	VERIFY						(visible_bone_count);

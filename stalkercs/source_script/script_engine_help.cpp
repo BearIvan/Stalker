@@ -172,12 +172,12 @@ void print_class						(lua_State *L, luabind::detail::class_rep *crep)
 		for ( ; I != E; ++I) {
 			luabind::internal_string luaS;
 			(*I).get_signature(L,luaS);
-			xr_string S(luaS.c_str());
-			strreplaceall	(S,"custom [","");
-			strreplaceall	(S,"]","");
-			strreplaceall	(S,"float","number");
-			strreplaceall	(S,"lua_State*, ","");
-			strreplaceall	(S," ,lua_State*","");
+			xr_string S1(luaS.c_str());
+			strreplaceall	(S1,"custom [","");
+			strreplaceall	(S1,"]","");
+			strreplaceall	(S1,"float","number");
+			strreplaceall	(S1,"lua_State*, ","");
+			strreplaceall	(S1," ,lua_State*","");
 			Msg		("    %s %s;",crep->name(),S.c_str());
 		}
 		if (!constructors.empty())
@@ -190,20 +190,20 @@ void print_class						(lua_State *L, luabind::detail::class_rep *crep)
 		table.set		();
 		for (luabind::object::iterator i = table.begin(); i != table.end(); ++i) {
 			luabind::object	object = *i;
-			xr_string	S;
-			S			= "    function ";
-			S.append	(to_string(i.key()).c_str());
+			xr_string	S1;
+			S1			= "    function ";
+			S1.append	(to_string(i.key()).c_str());
 
-			strreplaceall	(S,"function __add","operator +");
-			strreplaceall	(S,"function __sub","operator -");
-			strreplaceall	(S,"function __mul","operator *");
-			strreplaceall	(S,"function __div","operator /");
-			strreplaceall	(S,"function __pow","operator ^");
-			strreplaceall	(S,"function __lt","operator <");
-			strreplaceall	(S,"function __le","operator <=");
-			strreplaceall	(S,"function __gt","operator >");
-			strreplaceall	(S,"function __ge","operator >=");
-			strreplaceall	(S,"function __eq","operator ==");
+			strreplaceall	(S1,"function __add","operator +");
+			strreplaceall	(S1,"function __sub","operator -");
+			strreplaceall	(S1,"function __mul","operator *");
+			strreplaceall	(S1,"function __div","operator /");
+			strreplaceall	(S1,"function __pow","operator ^");
+			strreplaceall	(S1,"function __lt","operator <");
+			strreplaceall	(S1,"function __le","operator <=");
+			strreplaceall	(S1,"function __gt","operator >");
+			strreplaceall	(S1,"function __ge","operator >=");
+			strreplaceall	(S1,"function __eq","operator ==");
 			Msg			("%s",member_to_string(object,S.c_str()).c_str());
 		}
 	}
@@ -258,12 +258,12 @@ void print_free_functions				(lua_State *L, const luabind::object &object, LPCST
 			if (lua_type(L, -1) == LUA_TTABLE) {
 				LPCSTR			S = lua_tostring(L, -2);
 				if (xr_strcmp("_G",S) && xr_strcmp("package",S)) {
-					luabind::object		object(L);
-					object.set			();
+					luabind::object		object1(L);
+					object1.set			();
 					if (!xr_strcmp("security",S)) {
 						S = S;
 					}
-					print_free_functions(L,object,S,_indent);
+					print_free_functions(L,object1,S,_indent);
 				}
 			}
 #pragma todo("Dima to Dima : Remove this hack if find out why")

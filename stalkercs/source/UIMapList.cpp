@@ -79,10 +79,10 @@ void CUIMapList::StartDedicatedServer(){
 	//removing module name from WorkingDirectory that contain full path...
 	ModuleName[0]		= 0;
 			
-	strcpy_s			(g_sLaunchOnExit_app, g_sLaunchWorkingFolder);
+	BearCore::BearString::Copy			(g_sLaunchOnExit_app, g_sLaunchWorkingFolder);
 	strcat_s			(g_sLaunchOnExit_app, "dedicated\\xrEngine.exe");
 
-	strcpy_s			(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
+	BearCore::BearString::Copy			(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
 	strcat_s			(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");
 	strcat_s			(g_sLaunchOnExit_params, GetCommandLine(""));
 	Msg					("Going to quit before starting dedicated server");
@@ -205,7 +205,7 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 
 		if ( xr_strlen(player_name2) == 0 )
 		{
-			strcpy_s( player_name2, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
+			BearCore::BearString::Copy( player_name2, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
 		}
 		VERIFY( xr_strlen(player_name2) );
 		

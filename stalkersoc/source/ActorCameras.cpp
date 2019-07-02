@@ -74,9 +74,9 @@ void CActor::camUpdateLadder(float dt)
 	{
 		float &cam_pitch					= cameras[eacFirstEye]->pitch;
 		const float ldown_pitch				= cameras[eacFirstEye]->lim_pitch.y;
-		float delta							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
-		if(delta>0.f)
-			cam_pitch						+= delta* XrMath::min(dt*10.f,1.f) ;
+		float delta1							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
+		if(delta1>0.f)
+			cam_pitch						+= delta1* XrMath::min(dt*10.f,1.f) ;
 	}
 }
 
@@ -245,11 +245,11 @@ void CActor::cam_Update(float dt, float fFOV)
 		}
 		else
 		{
-			xr_vector<ISpatial*> ISpatialResult;
-			g_SpatialSpacePhysic->q_box(ISpatialResult, 0, STYPE_PHYSIC, point, Fvector().set(VIEWPORT_NEAR,VIEWPORT_NEAR,VIEWPORT_NEAR));
-			for (u32 o_it=0; o_it<ISpatialResult.size(); o_it++)
+			xr_vector<ISpatial*> ISpatialResult1;
+			g_SpatialSpacePhysic->q_box(ISpatialResult1, 0, STYPE_PHYSIC, point, Fvector().set(VIEWPORT_NEAR,VIEWPORT_NEAR,VIEWPORT_NEAR));
+			for (u32 o_it=0; o_it<ISpatialResult1.size(); o_it++)
 			{
-				CPHShell*		pCPHS= smart_cast<CPHShell*>(ISpatialResult[o_it]);
+				CPHShell*		pCPHS= smart_cast<CPHShell*>(ISpatialResult1[o_it]);
 				if (pCPHS)
 				{
 					_viewport_near			= 0.01f;
@@ -379,9 +379,9 @@ void CActor::LoadShootingEffector (LPCSTR section)
 	m_pShootingEffector->ppi.noise.fps		= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(m_pShootingEffector->ppi.noise.fps));
 
-	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_base.r, &m_pShootingEffector->ppi.color_base.g, &m_pShootingEffector->ppi.color_base.b);
-	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_gray.r, &m_pShootingEffector->ppi.color_gray.g, &m_pShootingEffector->ppi.color_gray.b);
-	sscanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_add.r,  &m_pShootingEffector->ppi.color_add.g,	&m_pShootingEffector->ppi.color_add.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_base.r, &m_pShootingEffector->ppi.color_base.g, &m_pShootingEffector->ppi.color_base.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_gray.r, &m_pShootingEffector->ppi.color_gray.g, &m_pShootingEffector->ppi.color_gray.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_add.r,  &m_pShootingEffector->ppi.color_add.g,	&m_pShootingEffector->ppi.color_add.b);
 
 	m_pShootingEffector->time				= pSettings->r_float(section,"time");
 	m_pShootingEffector->time_attack		= pSettings->r_float(section,"time_attack");
@@ -403,9 +403,9 @@ void CActor::LoadSleepEffector	(LPCSTR section)
 	m_pSleepEffector->ppi.noise.fps			= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(m_pSleepEffector->ppi.noise.fps));
 
-	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_base.r, &m_pSleepEffector->ppi.color_base.g, &m_pSleepEffector->ppi.color_base.b);
-	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_gray.r, &m_pSleepEffector->ppi.color_gray.g, &m_pSleepEffector->ppi.color_gray.b);
-	sscanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_add.r,  &m_pSleepEffector->ppi.color_add.g,  &m_pSleepEffector->ppi.color_add.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_base.r, &m_pSleepEffector->ppi.color_base.g, &m_pSleepEffector->ppi.color_base.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_gray.r, &m_pSleepEffector->ppi.color_gray.g, &m_pSleepEffector->ppi.color_gray.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_add.r,  &m_pSleepEffector->ppi.color_add.g,  &m_pSleepEffector->ppi.color_add.b);
 
 	m_pSleepEffector->time				= pSettings->r_float(section,"time");
 	m_pSleepEffector->time_attack		= pSettings->r_float(section,"time_attack");

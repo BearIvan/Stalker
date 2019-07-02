@@ -2,14 +2,13 @@
 #pragma hdrstop
 
 #include "xr_input.h"
+#pragma warning(disable:4644)
 #include "IInputReceiver.h"
 #include "../editor/ide.hpp"
 
 #ifndef _EDITOR
 # include "xr_input_xinput.h"
 #endif
-
-#pragma warning(disable:4644)
 
 CInput* pInput = NULL;
 IInputReceiver dummyController;

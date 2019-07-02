@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Level.h"
-#include "gamespy/md5.h"
-
+/*
 extern	void	GetCDKey_FromRegistry(char* CDKeyStr);
 char const * ComputeClientDigest(string128& dest)
 {
@@ -19,14 +18,14 @@ char const * ComputeClientDigest(string128& dest)
 	md5hash[33] = 0;
 	xr_strcpy(dest, sizeof(dest), md5hash);
 	return dest;
-};
+};*/
 
 void CLevel::SendClientDigestToServer()
 {
-	string128 tmp_digest;
+	/*string128 tmp_digest;
 	NET_Packet P;
 	P.w_begin			(M_SV_DIGEST);
 	m_client_digest	=	ComputeClientDigest(tmp_digest);
 	P.w_stringZ			(m_client_digest);
-	SecureSend			(P, net_flags(TRUE, TRUE, TRUE, TRUE));
+	SecureSend			(P, net_flags(TRUE, TRUE, TRUE, TRUE));*/
 }

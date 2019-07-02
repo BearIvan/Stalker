@@ -68,27 +68,28 @@ IC	CAgentLocationManager::CDangerLocationPtr CAgentLocationManager::location	(co
 
 bool CAgentLocationManager::suitable	(CAI_Stalker *object, const CCoverPoint *location, bool use_enemy_info) const
 {
-	CAgentMemberManager::const_iterator	I = this->object().member().members().begin();
-	CAgentMemberManager::const_iterator	E = this->object().member().members().end();
-	for ( ; I != E; ++I) {
-		if ((*I)->object().ID() == object->ID())
-			continue;
+	{
+		CAgentMemberManager::const_iterator	I = this->object().member().members().begin();
+		CAgentMemberManager::const_iterator	E = this->object().member().members().end();
+		for (; I != E; ++I) {
+			if ((*I)->object().ID() == object->ID())
+				continue;
 
-//		if ((*I)->object().Position().distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
-//			return					(false);
+			//		if ((*I)->object().Position().distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
+			//			return					(false);
 
-		if (!(*I)->cover())
-			continue;
+			if (!(*I)->cover())
+				continue;
 
-		// check if member cover is too close
-		if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
-			// so member cover is too close
-//			if ((*I)->object().Position().distance_to_sqr(location->position()) <= object->Position().distance_to_sqr(location->position()))
-			// check if member to its cover is more close than we to our cover
-			if ((*I)->object().Position().distance_to_sqr((*I)->cover()->m_position) <= object->Position().distance_to_sqr(location->position()) + 2.f)
-				return				(false);
+			// check if member cover is too close
+			if ((*I)->cover()->m_position.distance_to_sqr(location->position()) <= XrMath::sqr(5.f))
+				// so member cover is too close
+	//			if ((*I)->object().Position().distance_to_sqr(location->position()) <= object->Position().distance_to_sqr(location->position()))
+				// check if member to its cover is more close than we to our cover
+				if ((*I)->object().Position().distance_to_sqr((*I)->cover()->m_position) <= object->Position().distance_to_sqr(location->position()) + 2.f)
+					return				(false);
+		}
 	}
-
 	if (use_enemy_info) {
 		CAgentEnemyManager::ENEMIES::const_iterator	I = this->object().enemy().enemies().begin();
 		CAgentEnemyManager::ENEMIES::const_iterator	E = this->object().enemy().enemies().end();

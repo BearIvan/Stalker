@@ -170,8 +170,8 @@ void ui_actor_state_wnd::UpdateActorInfo( CInventoryOwner* owner )
 		fwou_value += outfit->GetBoneArmor(spine_bone)*outfit->GetCondition();					
 		if(!outfit->bIsHelmetAvaliable)
 		{
-			u16 spine_bone = ikv->LL_BoneID("bip01_head");
-			fwou_value += outfit->GetBoneArmor(spine_bone)*outfit->GetCondition();
+			u16 spine_bone1 = ikv->LL_BoneID("bip01_head");
+			fwou_value += outfit->GetBoneArmor(spine_bone1)*outfit->GetCondition();
 		}
 	}
 	if(helmet)

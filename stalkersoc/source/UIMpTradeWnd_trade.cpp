@@ -5,7 +5,7 @@
 #include "ui/UICellItem.h"
 #include "ui/UIDragDropListEx.h"
 #include "ui/UICellCustomItems.h"
-#include <dinput.h>
+
 
 bool CUIMpTradeWnd::TryToSellItem(SBuyItemInfo* sell_itm, bool do_destroy, SBuyItemInfo*& itm_res)
 {

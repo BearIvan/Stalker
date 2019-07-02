@@ -24,10 +24,7 @@
 #include "enemy_manager.h"
 #include "memory_space_impl.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 const float wounded_enemy_reached_distance = 3.f;
 
@@ -233,9 +230,9 @@ void CAgentEnemyManager::assign_enemies			()
 		(*I).m_probability				*= 1.f - best; 
 
 		// recovering sort order
-		for (u32 i=0, n = m_enemies.size() - 1; i<n; ++i)
-			if (m_enemies[i + 1] < m_enemies[i])
-				std::swap				(m_enemies[i],m_enemies[i + 1]);
+		for (u32 i1=0, n = m_enemies.size() - 1; i1<n; ++i1)
+			if (m_enemies[i1 + 1] < m_enemies[i1])
+				std::swap				(m_enemies[i1],m_enemies[i1 + 1]);
 			else
 				break;
 	}
@@ -279,8 +276,8 @@ void CAgentEnemyManager::permutate_enemies		()
 	bool						changed;
 	do {
 		changed					= false;
-		CAgentMemberManager::iterator				I = object().member().combat_members().begin();
-		CAgentMemberManager::iterator				E = object().member().combat_members().end();
+						I = object().member().combat_members().begin();
+						E = object().member().combat_members().end();
 		for ( ; I != E; ++I) {
 			// if member is processed the continue;
 			if ((*I)->processed())
@@ -341,8 +338,8 @@ void CAgentEnemyManager::permutate_enemies		()
 
 	VERIFY						(!m_enemies.empty());
 	if (!m_only_wounded_left) {
-		CAgentMemberManager::iterator					I = object().member().combat_members().begin();
-		CAgentMemberManager::iterator					E = object().member().combat_members().end();
+						I = object().member().combat_members().begin();
+						E = object().member().combat_members().end();
 		for ( ; I != E; ++I) {
 			ENEMIES::iterator	i = m_enemies.begin();
 			ENEMIES::iterator	e = m_enemies.end();
@@ -475,12 +472,12 @@ void CAgentEnemyManager::assign_wounded			()
 				J									&= (assigned ^ squad_mask_type(-1));
 				for ( ; J; J &= J - 1) {
 					squad_mask_type					K = (J & (J - 1)) ^ J;
-					CAgentMemberManager::iterator	i = object().member().member(K);
-					float							distance_sqr = (*i)->object().Position().distance_to_sqr((*I).m_object->Position());
+					CAgentMemberManager::iterator	i1 = object().member().member(K);
+					float							distance_sqr = (*i1)->object().Position().distance_to_sqr((*I).m_object->Position());
 					if (distance_sqr < best_distance_sqr) {
 						best_distance_sqr			= distance_sqr;
 						enemy						= &*I;
-						processor					= &(*i)->object();
+						processor					= &(*i1)->object();
 					}
 				}
 			}

@@ -55,7 +55,6 @@ void	game_sv_ArtefactHunt::Create					(shared_str& options)
 //.	ArtefactsRPoints_ID.clear();
 	Artefact_rpoints.clear();
 
-	string_path	fn_game;
 	if (FS.ExistFile("%level%", "level.game")) 
 	{
 		IReader *F =XRayBearReader::Create( FS.Read("%level%", "level.game"));

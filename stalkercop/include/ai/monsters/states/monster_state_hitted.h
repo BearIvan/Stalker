@@ -13,7 +13,7 @@ public:
 	virtual			~CStateMonsterHitted	();
 
 	virtual	void	reselect_state			();
-	virtual void	remove_links			(CObject* object) { inherited::remove_links(object);}
+	virtual void	remove_links			(CObject* object1) { inherited::remove_links(object1);}
 };
 
 #include "monster_state_hitted_inline.h"

@@ -42,8 +42,6 @@
 #include "doug_lea_memory_allocator.h"
 #include "cameralook.h"
 
-#include "GameSpy/GameSpy_Full.h"
-#include "GameSpy/GameSpy_Patching.h"
 
 #ifdef DEBUG
 #	include "PHDebug.h"
@@ -114,16 +112,6 @@ enum E_COMMON_FLAGS{
 
 CUIOptConCom g_OptConCom;
 
-#ifndef PURE_ALLOC
-#	ifndef USE_MEMORY_MONITOR
-#		define SEVERAL_ALLOCATORS
-#	endif // USE_MEMORY_MONITOR
-#endif // PURE_ALLOC
-
-#ifdef SEVERAL_ALLOCATORS
-	ENGINE_API 	u32 engine_lua_memory_usage	();
-	extern		u32 game_lua_memory_usage	();
-#endif // SEVERAL_ALLOCATORS
 
 class CCC_MemStats : public IConsole_Command
 {
@@ -149,7 +137,7 @@ public:
 		Msg		("* [ D3D ]: textures[%d K]", (m_base+m_lmaps)/1024);
 
 #ifndef SEVERAL_ALLOCATORS
-		Msg		("* [x-ray]:  process heap[%d K]",_process_heap/1024);
+	//	Msg		("* [x-ray]:  process heap[%d K]",_process_heap/1024);
 #else // SEVERAL_ALLOCATORS
 		Msg		("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], engine lua[%d K], render[%d K]",0,-1,_game_lua/1024,_engine_lua/1024,_render/1024);
 #endif // SEVERAL_ALLOCATORS
@@ -200,7 +188,7 @@ public:
 			Msg("! there is no graph!");
 		else {
 			int id1=-1, id2=-1;
-			sscanf(args ,"%d %d",&id1,&id2);
+			BearCore::BearString::Scanf(args ,"%d %d",&id1,&id2);
 			if ((-1 != id1) && (-1 != id2))
 				if (XrMath::max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
 					Msg("! there are only %d vertexes!",ai().game_graph().header().vertex_count());
@@ -226,7 +214,7 @@ public:
 	CCC_ALifeTimeFactor(LPCSTR N) : IConsole_Command(N)  { };
 	virtual void Execute(LPCSTR args) {
 		float id1 = 0.0f;
-		sscanf(args ,"%f",&id1);
+		BearCore::BearString::Scanf(args ,"%f",&id1);
 		if (id1 < XrMath::EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
@@ -244,7 +232,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		if ((GameID() == GAME_SINGLE)  &&ai().get_alife()) {
 			float id1 = 0.0f;
-			sscanf(args ,"%f",&id1);
+			BearCore::BearString::Scanf(args ,"%f",&id1);
 			if (id1 < 2.0f)
 				Msg("Invalid online distance! (%.4f)",id1);
 			else {
@@ -267,7 +255,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			sscanf(args ,"%d",&id1);
+			BearCore::BearString::Scanf(args ,"%d",&id1);
 			if (id1 < 1)
 				Msg("Invalid process time! (%d)",id1);
 			else
@@ -287,7 +275,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			sscanf(args ,"%d",&id1);
+			BearCore::BearString::Scanf(args ,"%d",&id1);
 			tpGame->alife().objects_per_update(id1);
 		}
 		else
@@ -303,7 +291,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			float id1 = 0;
-			sscanf(args ,"%f",&id1);
+			BearCore::BearString::Scanf(args ,"%f",&id1);
 			XrMath::clamp(id1,.1f,1.f);
 			tpGame->alife().set_switch_factor(id1);
 		}
@@ -427,7 +415,7 @@ public:
 
 		string_path				S;
 		S[0]					= 0;
-//.		sscanf					(args ,"%s",S);
+//.		BearCore::BearString::Scanf					(args ,"%s",S);
 		strcpy_s					(S,args);
 		
 #ifdef DEBUG
@@ -462,7 +450,7 @@ public:
 		strconcat					(sizeof(save_name),save_name,*CStringTable().translate("st_game_saved"),": ", S);
 		_s->wnd()->SetText			(save_name);
 
-		strcat					(S,".dds");
+		BearCore::BearString::Contact					(S,".dds");
 		
 #ifdef DEBUG
 		timer.restart				();
@@ -487,7 +475,7 @@ public:
 
 		string256					saved_game;
 		saved_game[0]				= 0;
-//.		sscanf						(args,"%s",saved_game);
+//.		BearCore::BearString::Scanf						(args,"%s",saved_game);
 		strcpy_s					(saved_game, args);
 		if (!xr_strlen(saved_game)) {
 			Log						("! Specify file name!");
@@ -638,7 +626,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		string256	S;
 		S[0]		= 0;
-		sscanf		(args ,"%s",S);
+		BearCore::BearString::Scanf		(args ,"%s",S);
 		if (!xr_strlen(S))
 			Log("* Specify script name!");
 		else {
@@ -731,7 +719,7 @@ public:
 
 		string256			S;
 		S[0]				= 0;
-		sscanf				(args,"%s",S);
+		BearCore::BearString::Scanf				(args,"%s",S);
 
 		if (!*S) {
 			ai().level_graph().setup_current_level	(-1);
@@ -861,8 +849,8 @@ public:
 		u32 value1;
 		u32 value2;
 		
-		sscanf(param1,"%u",&value1);
-		sscanf(param2,"%u",&value2);
+		BearCore::BearString::Scanf(param1,"%u",&value1);
+		BearCore::BearString::Scanf(param2,"%u",&value2);
 		
 		if ((value1 > 0) && (value2 > 0)) {
 			g_bDebugNode		= TRUE;
@@ -890,7 +878,7 @@ public:
 		
 		u32				value2;
 		
-		sscanf			(param2,"%u",&value2);
+		BearCore::BearString::Scanf			(param2,"%u",&value2);
 		monster->set_show_debug_info (u8(value2));
 	}
 };
@@ -1015,7 +1003,7 @@ struct CCC_JumpToLevel : public IConsole_Command {
 			return;
 		}
 		string256		level;
-		sscanf(args,"%s",level);
+		BearCore::BearString::Scanf(args,"%s",level);
 
 		GameGraph::LEVEL_MAP::const_iterator	I = ai().game_graph().header().levels().begin();
 		GameGraph::LEVEL_MAP::const_iterator	E = ai().game_graph().header().levels().end();
@@ -1057,7 +1045,7 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	virtual void	Execute	(LPCSTR args)
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
-		sscanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
+		BearCore::BearString::Scanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
 		year				= XrMath::max(year,u32(1));
 		month				= XrMath::max(month,u32(1));
 		day					= XrMath::max(day,u32(1));
@@ -1320,13 +1308,13 @@ public:
 		bool InformOfNoPatch = true;
 		if (arguments && *arguments) {
 			int bInfo = 1;
-			sscanf	(arguments,"%d", &bInfo);
+			BearCore::BearString::Scanf	(arguments,"%d", &bInfo);
 			InformOfNoPatch = (bInfo != 0);
 		}
 		
 //		GameSpyPatching.CheckForPatch(InformOfNoPatch);
 		
-		MainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
+		//ssMainMenu()->GetGS()->m_pGS_Patching->CheckForPatch(InformOfNoPatch);
 	}
 };
 

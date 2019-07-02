@@ -80,6 +80,7 @@ public:
 };
 add_to_type_list(CALifeMonsterDetailPathManager)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CALifeMonsterDetailPathManager)
 
 #include "alife_monster_detail_path_manager_inline.h"

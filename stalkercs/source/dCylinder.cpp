@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "dcylinder/dCylinder.h"
 // given a pointer `p' to a dContactGeom, return the dContactGeom at
 // p + skip bytes.
@@ -30,11 +30,11 @@ int dCylinderClassUser = -1;
 inline bool circleIntersection(const dReal* n1,const dReal* cp1,dReal r1,const dReal* n2,const dReal* cp2,dReal r2,dVector3 point){
 dReal c1=dDOT14(cp1,n1);
 dReal c2=dDOT14(cp2,n2);
-dReal cos=dDOT44(n1,n2);
-dReal cos_2=cos*cos;
+dReal _cos=dDOT44(n1,n2);
+dReal cos_2=_cos*_cos;
 dReal sin_2=1.f-cos_2;
-dReal p1=(c1-c2*cos)/sin_2;
-dReal p2=(c2-c1*cos)/sin_2;
+dReal p1=(c1-c2*_cos)/sin_2;
+dReal p2=(c2-c1*_cos)/sin_2;
 dVector3 lp={p1*n1[0]+p2*n2[0],p1*n1[4]+p2*n2[4],p1*n1[8]+p2*n2[8]};
 dVector3 n;
 dCROSS144(n,=,n1,n2);
@@ -283,7 +283,7 @@ extern "C" int dCylBox (const dVector3 p1, const dMatrix3 R1,
 // separating axis is a normal to the cylinder axis passing across the nearest box vertex
 //used when a box vertex touches the lateral surface of the cylinder
 
-dReal proj,boxProj,cos,sin,cos1,cos3;
+dReal proj,boxProj,_cos,_sin,cos1,cos3;
 dVector3 tAx,Ax,pb;
 {
 //making Ax which is perpendicular to cyl ax to box position//
@@ -332,11 +332,11 @@ dNormalize3(tAx);
 //making perpendicular to tAx lying in the plane which is normal to the cylinder axis
 //it is tangent in the point where projection of tAx on cylinder's ring intersect edge circle
 
-cos=dDOT14(tAx,R1+0);
-sin=dDOT14(tAx,R1+2);
-tAx[0]=R1[2]*cos-R1[0]*sin;
-tAx[1]=R1[6]*cos-R1[4]*sin;
-tAx[2]=R1[10]*cos-R1[8]*sin;
+_cos=dDOT14(tAx,R1+0);
+_sin=dDOT14(tAx,R1+2);
+tAx[0]=R1[2]*_cos-R1[0]*_sin;
+tAx[1]=R1[6]*_cos-R1[4]*_sin;
+tAx[2]=R1[10]*_cos-R1[8]*_sin;
 
 
 //use cross between tAx and first ax of the box as separating axix 
@@ -348,12 +348,12 @@ boxProj=dFabs(dDOT14(Ax,R2+1)*B2)+
 		dFabs(dDOT14(Ax,R2+0)*B1)+
 		dFabs(dDOT14(Ax,R2+2)*B3);
 
-  cos=dFabs(dDOT14(Ax,R1+1));
+  _cos=dFabs(dDOT14(Ax,R1+1));
   cos1=dDOT14(Ax,R1+0);
   cos3=dDOT14(Ax,R1+2);
-  sin=dSqrt(cos1*cos1+cos3*cos3);
+  _sin=dSqrt(cos1*cos1+cos3*cos3);
 
-TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],5);
+TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(_sin*radius+_cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],5);
 
 
 //same thing with the second axis of the box
@@ -365,11 +365,11 @@ tAx[2]=-p1[2]+p2[2]+R2[9]*proj;
 dNormalize3(tAx);
 
 
-cos=dDOT14(tAx,R1+0);
-sin=dDOT14(tAx,R1+2);
-tAx[0]=R1[2]*cos-R1[0]*sin;
-tAx[1]=R1[6]*cos-R1[4]*sin;
-tAx[2]=R1[10]*cos-R1[8]*sin;
+_cos=dDOT14(tAx,R1+0);
+_sin=dDOT14(tAx,R1+2);
+tAx[0]=R1[2]*_cos-R1[0]*_sin;
+tAx[1]=R1[6]*_cos-R1[4]*_sin;
+tAx[2]=R1[10]*_cos-R1[8]*_sin;
 
 dCROSS114(Ax,=,tAx,R2+1);
 dNormalize3(Ax);
@@ -378,11 +378,11 @@ boxProj=dFabs(dDOT14(Ax,R2+0)*B1)+
 		dFabs(dDOT14(Ax,R2+1)*B2)+
 		dFabs(dDOT14(Ax,R2+2)*B3);
 
-  cos=dFabs(dDOT14(Ax,R1+1));
+  _cos=dFabs(dDOT14(Ax,R1+1));
   cos1=dDOT14(Ax,R1+0);
   cos3=dDOT14(Ax,R1+2);
-  sin=dSqrt(cos1*cos1+cos3*cos3);
-TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],6);
+  _sin=dSqrt(cos1*cos1+cos3*cos3);
+TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(_sin*radius+_cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],6);
 
 //same thing with the third axis of the box
 proj=dDOT14(p1,R2+2)-dDOT14(p2,R2+2);
@@ -392,11 +392,11 @@ Ax[1]=-p1[1]+p2[1]+R2[6]*proj;
 Ax[2]=-p1[2]+p2[2]+R2[10]*proj;
 dNormalize3(tAx);
 
-cos=dDOT14(tAx,R1+0);
-sin=dDOT14(tAx,R1+2);
-tAx[0]=R1[2]*cos-R1[0]*sin;
-tAx[1]=R1[6]*cos-R1[4]*sin;
-tAx[2]=R1[10]*cos-R1[8]*sin;
+_cos=dDOT14(tAx,R1+0);
+_sin=dDOT14(tAx,R1+2);
+tAx[0]=R1[2]*_cos-R1[0]*_sin;
+tAx[1]=R1[6]*_cos-R1[4]*_sin;
+tAx[2]=R1[10]*_cos-R1[8]*_sin;
 
 dCROSS114(Ax,=,tAx,R2+2);
 dNormalize3(Ax);
@@ -404,11 +404,11 @@ boxProj=dFabs(dDOT14(Ax,R2+1)*B2)+
 		dFabs(dDOT14(Ax,R2+2)*B3)+
 		dFabs(dDOT14(Ax,R2+0)*B1);
 
-  cos=dFabs(dDOT14(Ax,R1+1));
+  _cos=dFabs(dDOT14(Ax,R1+1));
   cos1=dDOT14(Ax,R1+0);
   cos3=dDOT14(Ax,R1+2);
-  sin=dSqrt(cos1*cos1+cos3*cos3);
-TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],7);
+  _sin=dSqrt(cos1*cos1+cos3*cos3);
+TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(_sin*radius+_cos*hlz+boxProj),Ax[0],Ax[1],Ax[2],7);
 
 
 #undef TEST
@@ -464,35 +464,35 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],A
   if (*code > 7) {
  //find point on the cylinder pa deepest along normal
     dVector3 pa;
-    dReal sign, cos1,cos3,factor;
+    dReal sign, cos1_1,cos3_1,factor;
 
 
     for (i=0; i<3; ++i) pa[i] = p1[i];
 
-  	cos1 = dDOT14(normal,R1+0);
-	cos3 = dDOT14(normal,R1+2) ;
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+  	cos1_1 = dDOT14(normal,R1+0);
+	cos3_1 = dDOT14(normal,R1+2) ;
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 
-	cos1/=factor;
-	cos3/=factor;
+	cos1_1/=factor;
+	cos3_1/=factor;
 	
-    for (i=0; i<3; ++i) pa[i] += cos1 * radius * R1[i*4];
+    for (i=0; i<3; ++i) pa[i] += cos1_1 * radius * R1[i*4];
 
     sign = (dDOT14(normal,R1+1) > 0) ? REAL(1.0) : REAL(-1.0);
     for (i=0; i<3; ++i) pa[i] += sign * hlz * R1[i*4+1];
 
   
-    for (i=0; i<3; ++i) pa[i] += cos3 * radius * R1[i*4+2];
+    for (i=0; i<3; ++i) pa[i] += cos3_1 * radius * R1[i*4+2];
 
     // find vertex of the box  deepest along normal 
-    dVector3 pb;
-    for (i=0; i<3; ++i) pb[i] = p2[i];
+    dVector3 pb_1;
+    for (i=0; i<3; ++i) pb_1[i] = p2[i];
     sign = (dDOT14(normal,R2+0) > 0) ? REAL(-1.0) : REAL(1.0);
-    for (i=0; i<3; ++i) pb[i] += sign * B1 * R2[i*4];
+    for (i=0; i<3; ++i) pb_1[i] += sign * B1 * R2[i*4];
     sign = (dDOT14(normal,R2+1) > 0) ? REAL(-1.0) : REAL(1.0);
-    for (i=0; i<3; ++i) pb[i] += sign * B2 * R2[i*4+1];
+    for (i=0; i<3; ++i) pb_1[i] += sign * B2 * R2[i*4+1];
     sign = (dDOT14(normal,R2+2) > 0) ? REAL(-1.0) : REAL(1.0);
-    for (i=0; i<3; ++i) pb[i] += sign * B3 * R2[i*4+2];
+    for (i=0; i<3; ++i) pb_1[i] += sign * B3 * R2[i*4+2];
 
 
     dReal alpha,beta;
@@ -500,11 +500,11 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],A
     for (i=0; i<3; ++i) ua[i] = R1[1 + i*4];
     for (i=0; i<3; ++i) ub[i] = R2[*code-8 + i*4];
 
-    lineClosestApproach (pa,ua,pb,ub,&alpha,&beta);
+    lineClosestApproach (pa,ua,pb_1,ub,&alpha,&beta);
     for (i=0; i<3; ++i) pa[i] += ua[i]*alpha;
-    for (i=0; i<3; ++i) pb[i] += ub[i]*beta;
+    for (i=0; i<3; ++i) pb_1[i] += ub[i]*beta;
 
-    for (i=0; i<3; ++i) contact[0].pos[i] = REAL(0.5)*(pa[i]+pb[i]);
+    for (i=0; i<3; ++i) contact[0].pos[i] = REAL(0.5)*(pa[i]+pb_1[i]);
     contact[0].depth = *depth;
     return 1;
   }
@@ -531,19 +531,19 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],A
   }
   else {
    
-    dReal sign,cos1,cos3,factor;
+    dReal sign,cos1_1,cos3_1,factor;
 	dVector3 center;
-     cos1 = dDOT14(normal,R1+0) ;
-	cos3 = dDOT14(normal,R1+2);
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+     cos1_1 = dDOT14(normal,R1+0) ;
+	cos3_1 = dDOT14(normal,R1+2);
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 	factor= factor ? factor : 1.f;
-	cos1/=factor;
-	cos3/=factor;
+	cos1_1/=factor;
+	cos3_1/=factor;
 	sign = (dDOT14(normal,R1+1) > 0) ? REAL(1.0) : REAL(-1.0);
 
 	for (i=0; i<3; ++i) center[i] = p1[i]+sign * hlz * R1[i*4+1];
-	for (i=0; i<3; ++i) vertex[i] = center[i]+cos1 * radius * R1[i*4];
-	for (i=0; i<3; ++i) vertex[i] += cos3 * radius * R1[i*4+2];
+	for (i=0; i<3; ++i) vertex[i] = center[i]+cos1_1 * radius * R1[i*4];
+	for (i=0; i<3; ++i) vertex[i] += cos3_1 * radius * R1[i*4+2];
 	if(*code<4)
 	{
 			
@@ -572,8 +572,8 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],A
 			{
 			
 			centerDepth=*depth-radius*sQ2;
-			A1=(-cos1*M_COS_PI_3-cos3*M_SIN_PI_3)*radius;
-			A3=(-cos3*M_COS_PI_3+cos1*M_SIN_PI_3)*radius;
+			A1=(-cos1_1*M_COS_PI_3-cos3_1*M_SIN_PI_3)*radius;
+			A3=(-cos3_1*M_COS_PI_3+cos1_1*M_SIN_PI_3)*radius;
 			CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R1[0]+A3*R1[2];
 			CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R1[4]+A3*R1[6];
 			CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R1[8]+A3*R1[10];
@@ -581,8 +581,8 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],(sin*radius+cos*hlz+boxProj),Ax[0],Ax[1],A
 
 			if(CONTACT(contact,ret*skip)->depth>0.f)++ret;
 
-			A1=(-cos1*M_COS_PI_3+cos3*M_SIN_PI_3)*radius;
-			A3=(-cos3*M_COS_PI_3-cos1*M_SIN_PI_3)*radius;
+			A1=(-cos1_1*M_COS_PI_3+cos3_1*M_SIN_PI_3)*radius;
+			A3=(-cos3_1*M_COS_PI_3-cos1_1*M_SIN_PI_3)*radius;
 			CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R1[0]+A3*R1[2];
 			CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R1[4]+A3*R1[6];
 			CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R1[8]+A3*R1[10];
@@ -714,12 +714,12 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],radius1+radius2,Ax[0],Ax[1],Ax[2],6);
 dNormalize3(Ax);
 
 
-  dReal cos=dFabs(dDOT14(Ax,R2+1));
+  dReal _cos=dFabs(dDOT14(Ax,R2+1));
   cos1=dDOT14(Ax,R2+0);
   cos3=dDOT14(Ax,R2+2);
-  dReal sin=dSqrt(cos1*cos1+cos3*cos3);
+  dReal _sin=dSqrt(cos1*cos1+cos3*cos3);
 
-TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],radius1+cos*hlz2+sin*radius2,Ax[0],Ax[1],Ax[2],3);
+TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],radius1+_cos*hlz2+_sin*radius2,Ax[0],Ax[1],Ax[2],3);
 
 
 
@@ -764,12 +764,12 @@ dNormalize3(Ax);
 
 
 
-  cos=dFabs(dDOT14(Ax,R1+1));
+  _cos=dFabs(dDOT14(Ax,R1+1));
   cos1=dDOT14(Ax,R1+0);
   cos3=dDOT14(Ax,R1+2);
-  sin=dSqrt(cos1*cos1+cos3*cos3);
+  _sin=dSqrt(cos1*cos1+cos3*cos3);
 
-TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],radius2+cos*hlz1+sin*radius1,Ax[0],Ax[1],Ax[2],4);
+TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],radius2+_cos*hlz1+_sin*radius1,Ax[0],Ax[1],Ax[2],4);
 
 
 ////test circl
@@ -793,7 +793,7 @@ dVector3 point;
  sign = (pp2[1] > 0) ? REAL(1.0) : REAL(-1.0);
  for (i=0; i<3; ++i) cb[i] -= sign * hlz2 * R2[i*4+1];
 
- dVector3 tAx,tAx1;
+ dVector3 tAx2,tAx1;
 	circleIntersection(R1+1,ca,radius1,R2+1,cb,radius2,point);
 
 	Ax[0]=point[0]-ca[0];
@@ -803,9 +803,9 @@ dVector3 point;
   	cos1 = dDOT14(Ax,R1+0);
 	cos3 = dDOT14(Ax,R1+2) ;
 
-	tAx[0]=cos3*R1[0]-cos1*R1[2];
-	tAx[1]=cos3*R1[4]-cos1*R1[6];
-	tAx[2]=cos3*R1[8]-cos1*R1[10];
+	tAx2[0]=cos3*R1[0]-cos1*R1[2];
+	tAx2[1]=cos3*R1[4]-cos1*R1[6];
+	tAx2[2]=cos3*R1[8]-cos1*R1[10];
 
 	Ax[0]=point[0]-cb[0];
 	Ax[1]=point[1]-cb[1];
@@ -818,7 +818,7 @@ dVector3 point;
 	tAx1[0]=cos3*R2[0]-cos1*R2[2];
 	tAx1[1]=cos3*R2[4]-cos1*R2[6];
 	tAx1[2]=cos3*R2[8]-cos1*R2[10];
-	dCROSS(Ax,=,tAx,tAx1);
+	dCROSS(Ax,=,tAx2,tAx1);
 	
 
  
@@ -826,17 +826,17 @@ dVector3 point;
 dNormalize3(Ax);
 dReal cyl1Pr,cyl2Pr;
 
- cos=dFabs(dDOT14(Ax,R1+1));
+ _cos=dFabs(dDOT14(Ax,R1+1));
  cos1=dDOT14(Ax,R1+0);
  cos3=dDOT14(Ax,R1+2);
- sin=dSqrt(cos1*cos1+cos3*cos3);
- cyl1Pr=cos*hlz1+sin*radius1;
+ _sin=dSqrt(cos1*cos1+cos3*cos3);
+ cyl1Pr=_cos*hlz1+_sin*radius1;
 
- cos=dFabs(dDOT14(Ax,R2+1));
+ _cos=dFabs(dDOT14(Ax,R2+1));
  cos1=dDOT14(Ax,R2+0);
  cos3=dDOT14(Ax,R2+2);
- sin=dSqrt(cos1*cos1+cos3*cos3);
- cyl2Pr=cos*hlz2+sin*radius2;
+ _sin=dSqrt(cos1*cos1+cos3*cos3);
+ cyl2Pr=_cos*hlz2+_sin*radius2;
 TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],cyl1Pr+cyl2Pr,Ax[0],Ax[1],Ax[2],5);
 
 
@@ -886,57 +886,57 @@ TEST(p[0]*Ax[0]+p[1]*Ax[1]+p[2]*Ax[2],cyl1Pr+cyl2Pr,Ax[0],Ax[1],Ax[2],5);
 				}
 
 if (*code == 6) {
-	    dVector3 pa;
-    dReal sign, cos1,cos3,factor;
+	    dVector3 pa_1;
+    dReal sign, cos1_1,cos3_1,factor;
 
 
-    for (i=0; i<3; ++i) pa[i] = p1[i];
+    for (i=0; i<3; ++i) pa_1[i] = p1[i];
 
-  	cos1 = dDOT14(normal,R1+0);
-	cos3 = dDOT14(normal,R1+2) ;
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+  	cos1_1 = dDOT14(normal,R1+0);
+	cos3_1 = dDOT14(normal,R1+2) ;
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 	if(factor>0.f)
 	{
-		cos1/=factor;
-		cos3/=factor;
+		cos1_1/=factor;
+		cos3_1/=factor;
 	}
-    for (i=0; i<3; ++i) pa[i] += cos1 * radius1 * R1[i*4];
+    for (i=0; i<3; ++i) pa_1[i] += cos1_1 * radius1 * R1[i*4];
 
     sign = (dDOT14(normal,R1+1) > 0) ? REAL(1.0) : REAL(-1.0);
-    for (i=0; i<3; ++i) pa[i] += sign * hlz1 * R1[i*4+1];
+    for (i=0; i<3; ++i) pa_1[i] += sign * hlz1 * R1[i*4+1];
 
   
-    for (i=0; i<3; ++i) pa[i] += cos3 * radius1 * R1[i*4+2];
+    for (i=0; i<3; ++i) pa_1[i] += cos3_1 * radius1 * R1[i*4+2];
 
     // find a point pb on the intersecting edge of cylinder 2
-    dVector3 pb;
-    for (i=0; i<3; ++i) pb[i] = p2[i];
- 	cos1 = dDOT14(normal,R2+0);
-	cos3 = dDOT14(normal,R2+2) ;
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+    dVector3 pb_2;
+    for (i=0; i<3; ++i) pb_2[i] = p2[i];
+ 	cos1_1 = dDOT14(normal,R2+0);
+	cos3_1 = dDOT14(normal,R2+2) ;
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 	if(factor>0.f)
 	{
-		cos1/=factor;
-		cos3/=factor;
+		cos1_1/=factor;
+		cos3_1/=factor;
 	}
-    for (i=0; i<3; ++i) pb[i] -= cos1 * radius2 * R2[i*4];
+    for (i=0; i<3; ++i) pb_2[i] -= cos1_1 * radius2 * R2[i*4];
 
     sign = (dDOT14(normal,R2+1) > 0) ? REAL(1.0) : REAL(-1.0);
-    for (i=0; i<3; ++i) pb[i] -= sign * hlz2 * R2[i*4+1];
+    for (i=0; i<3; ++i) pb_2[i] -= sign * hlz2 * R2[i*4+1];
 
   
-    for (i=0; i<3; ++i) pb[i] -= cos3 * radius2 * R2[i*4+2];
+    for (i=0; i<3; ++i) pb_2[i] -= cos3_1 * radius2 * R2[i*4+2];
 
 	
 	dReal alpha,beta;
 	dVector3 ua,ub;
 	for (i=0; i<3; ++i) ua[i] = R1[1 + i*4];
 	for (i=0; i<3; ++i) ub[i] = R2[1 + i*4];
-	lineClosestApproach (pa,ua,pb,ub,&alpha,&beta);
-	for (i=0; i<3; ++i) pa[i] += ua[i]*alpha;
-	for (i=0; i<3; ++i) pb[i] += ub[i]*beta;
+	lineClosestApproach (pa_1,ua,pb_2,ub,&alpha,&beta);
+	for (i=0; i<3; ++i) pa_1[i] += ua[i]*alpha;
+	for (i=0; i<3; ++i) pb_2[i] += ub[i]*beta;
 
-    for (i=0; i<3; ++i) contact[0].pos[i] = REAL(0.5)*(pa[i]+pb[i]);
+    for (i=0; i<3; ++i) contact[0].pos[i] = REAL(0.5)*(pa_1[i]+pb_2[i]);
     contact[0].depth = *depth;
     return 1;
   }
@@ -953,32 +953,32 @@ if (*code == 6) {
   if (*code == 0) {
 
     // flat face from cylinder 1 touches a edge/face from cylinder 2.
-    dReal sign,cos1,cos3,factor;
+    dReal sign,cos1_1,cos3_1,factor;
    // for (i=0; i<3; ++i) vertex[i] = p2[i];
-    cos1 = dDOT14(normal,R2+0) ;
-	cos3 = dDOT14(normal,R2+2);
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+    cos1_1 = dDOT14(normal,R2+0) ;
+	cos3_1 = dDOT14(normal,R2+2);
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 	if(factor>0.f)
 	{
-		cos1/=factor;
-		cos3/=factor;
+		cos1_1/=factor;
+		cos3_1/=factor;
 	}
 	dVector3 center;
 
 	sign = (dDOT14(normal,R2+1) > 0) ? REAL(1.0) : REAL(-1.0);
 	for (i=0; i<3; ++i) center[i] =p2[i]- sign * hlz2 * R2[i*4+1];
 
-    for (i=0; i<3; ++i) vertex[i] =center[i]- cos1 * radius2 * R2[i*4];
+    for (i=0; i<3; ++i) vertex[i] =center[i]- cos1_1 * radius2 * R2[i*4];
 
-    for (i=0; i<3; ++i) vertex[i] -=cos3 * radius2 * R2[i*4+2];
+    for (i=0; i<3; ++i) vertex[i] -=cos3_1 * radius2 * R2[i*4+2];
 	
 
 	dReal A1,A3,centerDepth,Q1,Q3;
 	centerDepth=*depth-radius2*(factor);
 	Q1=-(dDOT14(normal,R2+0));Q3=-(dDOT14(normal,R2+2));
 
-	A1=-(-cos1*M_COS_PI_3-cos3*M_SIN_PI_3)*radius2;
-	A3=-(-cos3*M_COS_PI_3+cos1*M_SIN_PI_3)*radius2;
+	A1=-(-cos1_1*M_COS_PI_3-cos3_1*M_SIN_PI_3)*radius2;
+	A3=-(-cos3_1*M_COS_PI_3+cos1_1*M_SIN_PI_3)*radius2;
 	CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R2[0]+A3*R2[2];
 	CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R2[4]+A3*R2[6];
 	CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R2[8]+A3*R2[10];
@@ -986,8 +986,8 @@ if (*code == 6) {
 
 	if(CONTACT(contact,ret*skip)->depth>0.f)++ret;
 
-	A1=-(-cos1*M_COS_PI_3+cos3*M_SIN_PI_3)*radius2;
-	A3=-(-cos3*M_COS_PI_3-cos1*M_SIN_PI_3)*radius2;
+	A1=-(-cos1_1*M_COS_PI_3+cos3_1*M_SIN_PI_3)*radius2;
+	A3=-(-cos3_1*M_COS_PI_3-cos1_1*M_SIN_PI_3)*radius2;
 	CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R2[0]+A3*R2[2];
 	CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R2[4]+A3*R2[6];
 	CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R2[8]+A3*R2[10];
@@ -998,15 +998,15 @@ if (*code == 6) {
   }
   else {
      // flat face from cylinder 2 touches a edge/face from cylinder 1.
-    dReal sign,cos1,cos3,factor;
+    dReal sign,cos1_1,cos3_1,factor;
    // for (i=0; i<3; ++i) vertex[i] = p1[i];
-    cos1 = dDOT14(normal,R1+0) ;
-	cos3 = dDOT14(normal,R1+2);
-	factor=dSqrt(cos1*cos1+cos3*cos3);
+    cos1_1 = dDOT14(normal,R1+0) ;
+	cos3_1 = dDOT14(normal,R1+2);
+	factor=dSqrt(cos1_1*cos1_1+cos3_1*cos3_1);
 	if(factor>0.f)
 	{
-		cos1/=factor;
-		cos3/=factor;
+		cos1_1/=factor;
+		cos3_1/=factor;
 	}
 
 	dVector3 center;
@@ -1015,8 +1015,8 @@ if (*code == 6) {
 	for (i=0; i<3; ++i) center[i] =p1[i]+sign * hlz1 * R1[i*4+1];
 
 
-    for (i=0; i<3; ++i) vertex[i] =center[i]+cos1 * radius1 * R1[i*4];
-    for (i=0; i<3; ++i) vertex[i] += cos3 * radius1 * R1[i*4+2];
+    for (i=0; i<3; ++i) vertex[i] =center[i]+cos1_1 * radius1 * R1[i*4];
+    for (i=0; i<3; ++i) vertex[i] += cos3_1 * radius1 * R1[i*4+2];
 
 
 	dReal A1,A3,centerDepth,Q1,Q3;
@@ -1024,8 +1024,8 @@ if (*code == 6) {
 	Q1=(dDOT(R2+1,R1+0));Q3=(dDOT(R2+1,R1+2));
 
 
-	A1=(-cos1*M_COS_PI_3-cos3*M_SIN_PI_3)*radius1;
-	A3=(-cos3*M_COS_PI_3+cos1*M_SIN_PI_3)*radius1;
+	A1=(-cos1_1*M_COS_PI_3-cos3_1*M_SIN_PI_3)*radius1;
+	A3=(-cos3_1*M_COS_PI_3+cos1_1*M_SIN_PI_3)*radius1;
 	CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R1[0]+A3*R1[2];
 	CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R1[4]+A3*R1[6];
 	CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R1[8]+A3*R1[10];
@@ -1033,8 +1033,8 @@ if (*code == 6) {
 
 	if(CONTACT(contact,ret*skip)->depth>0.f)++ret;
 
-	A1=(-cos1*M_COS_PI_3+cos3*M_SIN_PI_3)*radius1;
-	A3=(-cos3*M_COS_PI_3-cos1*M_SIN_PI_3)*radius1;
+	A1=(-cos1_1*M_COS_PI_3+cos3_1*M_SIN_PI_3)*radius1;
+	A3=(-cos3_1*M_COS_PI_3-cos1_1*M_SIN_PI_3)*radius1;
 	CONTACT(contact,ret*skip)->pos[0]=center[0]+A1*R1[0]+A3*R1[2];
 	CONTACT(contact,ret*skip)->pos[1]=center[1]+A1*R1[4]+A3*R1[6];
 	CONTACT(contact,ret*skip)->pos[2]=center[2]+A1*R1[8]+A3*R1[10];
@@ -1115,7 +1115,7 @@ unsigned char code;
  
 //making ax which is perpendicular to cyl1 ax to sphere center//
  
-dReal proj,cos,sin,cos1,cos3;
+dReal proj,_cos,_sin,cos1,cos3;
 dVector3 Ax;
 	proj=dDOT14(p2,R+1)-dDOT14(p1,R+1);
 
@@ -1150,11 +1150,11 @@ Ax[1]=p2[1]-pa[1];
 Ax[2]=p2[2]-pa[2];
 dNormalize3(Ax);
 
- cos=dFabs(dDOT14(Ax,R+1));
+ _cos=dFabs(dDOT14(Ax,R+1));
  cos1=dDOT14(Ax,R+0);
  cos3=dDOT14(Ax,R+2);
- sin=dSqrt(cos1*cos1+cos3*cos3);
-TEST(dDOT(p,Ax),sphereRadius+cylRadius*sin+hl*cos,Ax[0],Ax[1],Ax[2],14);
+ _sin=dSqrt(cos1*cos1+cos3*cos3);
+TEST(dDOT(p,Ax),sphereRadius+cylRadius*_sin+hl*_cos,Ax[0],Ax[1],Ax[2],14);
 
 
 #undef TEST

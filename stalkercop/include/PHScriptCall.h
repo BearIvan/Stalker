@@ -168,7 +168,7 @@ class CPHSriptReqGObjComparer :
 	CObject				*m_object;
 
 public:
-	CPHSriptReqGObjComparer	(CObject* object)			{m_object= object;}
+	CPHSriptReqGObjComparer	(CObject* object1)			{m_object= object1;}
 	virtual		bool		compare					(const	CPHScriptGameObjectAction* v)	const	{return v->compare(m_object);}
 	virtual		bool		compare					(const	CPHScriptGameObjectCondition* v)const	{return v->compare(m_object);}
 };

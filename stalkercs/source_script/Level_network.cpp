@@ -337,15 +337,15 @@ BOOL			CLevel::Connect2Server				(LPCSTR options)
 		u32 CurTime = GetTickCount();
 		if (CurTime > EndTime)
 		{
-			NET_Packet	P;
-			P.B.count = 0;
-			P.r_pos = 0;
+			NET_Packet	P1;
+			P1.B.count = 0;
+			P1.r_pos = 0;
 
-			P.w_u8(0);
-			P.w_u8(0);
-			P.w_stringZ("Data verification failed. Cheater?");
+			P1.w_u8(0);
+			P1.w_u8(0);
+			P1.w_stringZ("Data verification failed. Cheater?");
 
-			OnConnectResult(&P);			
+			OnConnectResult(&P1);			
 		}
 		if (net_isFails_Connect())
 		{
@@ -548,7 +548,7 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 	if (!strstr(*m_caClientOptions, "/name="))
 	{
 		string1024 tmpstr;
-		strcpy_s(tmpstr, *m_caClientOptions);
+		BearCore::BearString::Copy(tmpstr, *m_caClientOptions);
 		strcat_s(tmpstr, "/name=");
 		strcat_s(tmpstr, NewName);
 		m_caClientOptions = tmpstr;
@@ -556,7 +556,7 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 	else
 	{
 		string1024 tmpstr;
-		strcpy_s(tmpstr, *m_caClientOptions);
+		BearCore::BearString::Copy(tmpstr, *m_caClientOptions);
 		*(strstr(tmpstr, "name=")+5) = 0;
 		strcat_s(tmpstr, NewName);
 		const char* ptmp = strstr(strstr(*m_caClientOptions, "name="), "/");

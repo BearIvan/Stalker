@@ -219,7 +219,7 @@ void CUIMainIngameWnd::Init()
 		for (u32 k = 0; k < count; ++k)
 		{
 			XrTrims::GetItem(*cfgRecord, k, singleThreshold);
-			sscanf(singleThreshold, "%f", &f);
+			BearCore::BearString::Scanf(singleThreshold, "%f", &f);
 
 			m_Thresholds[j].push_back(f);
 		}
@@ -409,7 +409,7 @@ void CUIMainIngameWnd::RenderQuickInfos()
 
 	if(NULL!=actor_action)
 	{
-		if(stricmp(actor_action,UIStaticQuickHelp->GetText()))
+		if(BearCore::BearString::CompareWithoutCase(actor_action,UIStaticQuickHelp->GetText()))
 			UIStaticQuickHelp->SetTextST				(actor_action);
 	}
 
@@ -853,9 +853,9 @@ void CUIMainIngameWnd::UpdateQuickSlots()
 			if(item_name.size())
 			{
 				u32 count = pActor->inventory().dwfGetSameItemCount(item_name.c_str(), true);
-				string32 str;
-				xr_sprintf(str, "x%d", count);
-				wnd->TextItemControl()->SetText(str);
+				string32 str1;
+				xr_sprintf(str1, "x%d", count);
+				wnd->TextItemControl()->SetText(str1);
 				wnd->Show(true);
 
 				CUIStatic* main_slot = m_quick_slots_icons[i];

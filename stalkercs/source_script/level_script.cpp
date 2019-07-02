@@ -455,7 +455,7 @@ Fbox get_bounding_volume()
 void iterate_sounds					(LPCSTR prefix, u32 max_count, const CScriptCallbackEx<void> &callback)
 {
 	for (int j=0, N = XrTrims::GetItemCount(prefix); j<N; ++j) {
-		string_path					fn, s;
+		string_path					 s;
 		LPSTR						S = (LPSTR)&s;
 		XrTrims::GetItem					(prefix,j, s);
 		if (FS.ExistFile("%sounds%",S,".ogg"))

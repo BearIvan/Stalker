@@ -151,12 +151,12 @@ void CLevel::ClientReceive()
 				u8 Count = P->r_u8();
 				for (u8 i=0; i<Count; i++)
 				{
-					u16 ID = P->r_u16();					
+					u16 ID1 = P->r_u16();					
 					Fvector NewPos, NewDir;
 					P->r_vec3(NewPos);
 					P->r_vec3(NewDir);
 
-					CActor*	OActor	= smart_cast<CActor*>(Objects.net_Find		(ID));
+					CActor*	OActor	= smart_cast<CActor*>(Objects.net_Find		(ID1));
 					if (0 == OActor)		break;
 					OActor->MoveActor(NewPos, NewDir);
 				};
@@ -242,7 +242,7 @@ void CLevel::ClientReceive()
 			}break;
 		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
 			{
-				OnGameSpyChallenge(P);
+			BEAR_RASSERT(!"M_GAMESPY_CDKEY_VALIDATION_CHALLENGE");
 			}break;
 		case M_AUTH_CHALLENGE:
 			{
@@ -293,7 +293,7 @@ void CLevel::ClientReceive()
 					string4096 NewServerOptions = "";
 					sprintf_s(NewServerOptions, "%s/%s", LevelName, GameType);
 
-					if (m_SO) strcat(NewServerOptions, m_SO);
+					if (m_SO) BearCore::BearString::Contact(NewServerOptions, m_SO);
 					m_caServerOptions = NewServerOptions;
 
 					Engine.Event.Defer	("KERNEL:disconnect");

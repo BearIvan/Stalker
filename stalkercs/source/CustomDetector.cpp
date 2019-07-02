@@ -227,7 +227,7 @@ void CCustomDetector::UpdateVisibility()
 	}else
 	if(m_bNeedActivation)
 	{
-		attachable_hud_item* i0		= g_player_hud->attached_item(0);
+		i0		= g_player_hud->attached_item(0);
 		bool bClimb					= ( (Actor()->MovingState()&mcClimb) != 0 );
 		if(!bClimb)
 		{

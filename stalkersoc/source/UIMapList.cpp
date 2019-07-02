@@ -64,10 +64,10 @@ CUIMapList::~CUIMapList(){
 }
 
 void CUIMapList::StartDedicatedServer(){
-	strcpy					(g_sLaunchOnExit_app,"dedicated\\xr_3da.exe");
+	BearCore::BearString::Copy					(g_sLaunchOnExit_app,"dedicated\\xr_3da.exe");
 
-	strcpy					(g_sLaunchOnExit_params,"-i -nosound -");
-	strcat					(g_sLaunchOnExit_params,GetCommandLine(""));
+	BearCore::BearString::Copy					(g_sLaunchOnExit_params,"-i -nosound -");
+	BearCore::BearString::Contact					(g_sLaunchOnExit_params,GetCommandLine(""));
 	Msg						("%s","-- Going to quit before starting dedicated server");
 	Msg						("%s %s",g_sLaunchOnExit_app, g_sLaunchOnExit_params);
 	Console->Execute		("quit");
@@ -176,9 +176,11 @@ const char* CUIMapList::GetCommandLine(LPCSTR player_name){
 	u32 id		= m_pWeatherSelector->GetListWnd()->GetSelectedItem()->GetTAG();
 
 	int estime  = m_mapWeather[id].weather_time;
-	m_command	+= itoa(estime/60,buf,10);
+	BearCore::BearString::Printf(buf, TEXT("%d"), estime / 60);
+	m_command	+= buf;
 	m_command	+= ":";
-	m_command	+= itoa(estime%60,buf,10);
+	BearCore::BearString::Printf(buf, TEXT("%d"), estime % 60);
+	m_command	+= buf;
 	m_command	+= ")";
 
 
@@ -266,7 +268,7 @@ void CUIMapList::AddWeather(const shared_str& WeatherType, const shared_str& Wea
 	int	w_time;
 	int hour = 0, min = 0;
 
-	sscanf(*WeatherTime, "%d:%d", &hour, &min);
+	BearCore::BearString::Scanf(*WeatherTime, "%d:%d", &hour, &min);
 	w_time = hour*60+min;
 	
 	m_mapWeather.resize(m_mapWeather.size()+1);

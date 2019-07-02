@@ -12,7 +12,7 @@ public:
 
 	virtual	void		execute						();
 	virtual bool		check_completion			();
-	virtual void		remove_links				(CObject* object) { inherited::remove_links(object);}
+	virtual void		remove_links				(CObject* object1) { inherited::remove_links(object1);}
 };
 
 #include "monster_state_find_enemy_angry_inline.h"

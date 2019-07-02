@@ -54,41 +54,6 @@ LPCSTR	file_header = 0;
 #	include "script_debugger.h"
 #endif
 
-#ifndef PURE_ALLOC
-#	ifndef USE_MEMORY_MONITOR
-#		define USE_DL_ALLOCATOR
-#	endif // USE_MEMORY_MONITOR
-#endif // PURE_ALLOC
-
-#ifndef USE_DL_ALLOCATOR
-static void *lua_alloc_xr	(void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
-  (void)osize;
-  if (nsize == 0) {
-    xr_free	(ptr);
-    return	NULL;
-  }
-  else
-#ifdef DEBUG_MEMORY_NAME
-    return Memory.mem_realloc		(ptr, nsize, "LUA");
-#else // DEBUG_MEMORY_MANAGER
-    return Memory.mem_realloc		(ptr, nsize);
-#endif // DEBUG_MEMORY_MANAGER
-}
-#else // USE_DL_ALLOCATOR
-static void *lua_alloc_dl	(void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
-  (void)osize;
-  if (nsize == 0)	{	dlfree			(ptr);	 return	NULL;  }
-  else				return dlrealloc	(ptr, nsize);
-}
-
-u32 game_lua_memory_usage	()
-{
-	return					((u32)dlmallinfo().uordblks);
-}
-#endif // USE_DL_ALLOCATOR
-
 CScriptStorage::CScriptStorage		()
 {
 	m_current_thread		= 0;
@@ -104,15 +69,6 @@ CScriptStorage::~CScriptStorage		()
 {
 	if (m_virtual_machine)
 		lua_close			(m_virtual_machine);
-}
-static void *lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize) {
-	(void)ud;
-	(void)osize;
-	if (!nsize) {
-		BearCore::BearMemory::Free(ptr);
-		return					0;
-	}
-	return BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
 }
 #ifndef DEBUG
 /* start optimizer */
@@ -170,6 +126,17 @@ static void put_function(lua_State* state, u8 const* buffer, u32 const buffer_si
 	lua_settable(state, -3);
 }
 #endif // #ifndef DEBUG
+static void *lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize)
+{
+	(void)ud;
+	(void)osize;
+	if (!nsize) {
+		BearCore::BearMemory::Free(ptr);
+		return					0;
+	}
+	return BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
+
+}
 
 void CScriptStorage::reinit	()
 {
@@ -320,15 +287,15 @@ int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType
 		default : NODEFAULT;
 	}
 	
-	strcpy	(S2,S);
+	BearCore::BearString::Copy	(S2,S);
 	S1		= S2 + xr_strlen(S);
-	int		l_iResult = vsprintf(S1,caFormat,marker);
+	int		l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, marker);
 	Msg		("%s",S2);
 	
-	strcpy	(S2,SS);
+	BearCore::BearString::Copy	(S2,SS);
 	S1		= S2 + xr_strlen(SS);
-	vsprintf(S1,caFormat,marker);
-	strcat	(S2,"\r\n");
+	BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S) - xr_strlen(S2), caFormat, marker);
+	BearCore::BearString::Contact	(S2,"\r\n");
 
 #ifndef ENGINE_BUILD
 #	ifdef DEBUG
@@ -386,10 +353,10 @@ int __cdecl CScriptStorage::script_log	(ScriptStorage::ELuaMessageType tLuaMessa
 	return		(result);
 }
 
-bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c)
+bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b,  u32 const b_size, LPSTR c, u32 const c_size)
 {
-	strcpy			(b,"");
-	strcpy			(c,"");
+	b[0] = 0;
+	c[0] = 0;
 	LPSTR			S2	= xr_strdup(caNamespaceName);
 	LPSTR			S	= S2;
 	for (int i=0;;++i) {
@@ -403,11 +370,11 @@ bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c)
 			*S1				= 0;
 
 		if (i)
-			strcat		(b,"{");
-		strcat			(b,S);
-		strcat			(b,"=");
+			BearCore::BearString::Contact		(b,b_size,"{");
+		BearCore::BearString::Contact			(b, b_size, S);
+		BearCore::BearString::Contact			(b, b_size, "=");
 		if (i)
-			strcat		(c,"}");
+			BearCore::BearString::Contact		(c,c_size,"}");
 		if (S1)
 			S			= ++S1;
 		else
@@ -425,12 +392,12 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 
 		LPCSTR			header = file_header;
 
-		if (!parse_namespace(caNameSpaceName,a,b))
+		if (!parse_namespace(caNameSpaceName,a,512,b,512))
 			return		(false);
 		sprintf_s			(insert,header,caNameSpaceName,a,b);
 		u32				str_len = xr_strlen(insert);
 		LPSTR			script = xr_alloc<char>(str_len + tSize);
-		strcpy			(script,insert);
+		BearCore::BearString::Copy			(script, str_len + tSize,insert);
 		CopyMemory	(script + str_len,caBuffer,u32(tSize));
 //		try 
 		{
@@ -530,7 +497,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 	lua_pushstring 			(lua(),"_G"); 
 	lua_rawget 				(lua(),LUA_GLOBALSINDEX); 
 	string256				S2;
-	strcpy					(S2,N);
+	BearCore::BearString::Copy					(S2,N);
 	LPSTR					S = S2;
 	for (;;) { 
 		if (!xr_strlen(S))
@@ -607,7 +574,7 @@ bool CScriptStorage::object	(LPCSTR namespace_name, LPCSTR identifier, int type)
 luabind::object CScriptStorage::name_space(LPCSTR namespace_name)
 {
 	string256			S1;
-	strcpy				(S1,namespace_name);
+	BearCore::BearString::Copy				(S1,namespace_name);
 	LPSTR				S = S1;
 	luabind::object		lua_namespace = luabind::get_globals(lua());
 	for (;;) {

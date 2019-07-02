@@ -6,6 +6,7 @@
 // that uses this DLL. This way any other project whose source files include this file see
 // XRCDB_API functions as being imported from a DLL, wheras this DLL sees symbols
 // defined with this macro as being exported.
+#include "tools/xrCore.h"
 #ifdef XRCDB_EXPORTS
 #define XRCDB_API BEARPROJECT_EXPORT 
 #else
@@ -178,8 +179,6 @@ namespace CDB
 						non_copyable	&operator=		(const non_copyable &) {}
 	};
 
-#pragma warning(push)
-#pragma warning(disable:4275)
 	const u32 clpMX = 24, clpMY=16, clpMZ=24;
 	class XRCDB_API CollectorPacked : public non_copyable {
 		typedef xr_vector<u32>		DWORDList;
@@ -214,7 +213,6 @@ IC		TRI&				getT(u32 index)		{ return faces[index];		}
 		size_t				getTS()				{ return faces.size();		}
 		void				clear();
 	};
-#pragma warning(pop)
 };
 
 #pragma pack(pop)

@@ -14,4 +14,5 @@ class NET_Packet;
 typedef class_exporter<NET_Packet> CScriptNetPacket;
 add_to_type_list(CScriptNetPacket)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CScriptNetPacket)

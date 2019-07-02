@@ -952,9 +952,9 @@ void CCar::Init()
 					i->second.CDamagableHealthItem::Init(float(atof(*item.second)),2);
 			else 
 			{
-				xr_map   <u16,SDoor>::iterator i=m_doors.find(index);
-				R_ASSERT3(i!=m_doors.end(),"only wheel and doors bones allowed for damage defs",*item.first);
-				i->second.CDamagableHealthItem::Init(float(atof(*item.second)),1);
+				xr_map   <u16,SDoor>::iterator i1=m_doors.find(index);
+				R_ASSERT3(i1!=m_doors.end(),"only wheel and doors bones allowed for damage defs",*item.first);
+				i1->second.CDamagableHealthItem::Init(float(atof(*item.second)),1);
 			}
 
 		}
@@ -1690,10 +1690,10 @@ void CCar::OnEvent(NET_Packet& P, u16 type)
 			else 
 			{
 				if (!O || !O->H_Parent() || (this != O->H_Parent())) return;
-				NET_Packet P;
-				u_EventGen(P,GE_OWNERSHIP_REJECT,ID());
-				P.w_u16(u16(O->ID()));
-				u_EventSend(P);
+				NET_Packet P1;
+				u_EventGen(P1,GE_OWNERSHIP_REJECT,ID());
+				P1.w_u16(u16(O->ID()));
+				u_EventSend(P1);
 			}
 		}break;
 	case GE_OWNERSHIP_REJECT:

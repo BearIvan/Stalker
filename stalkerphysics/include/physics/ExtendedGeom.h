@@ -297,5 +297,5 @@ IC void dGeomUserDataClearCashedTries(dxGeom* geom)
 #ifdef DEBUG
 XRPHYSICS_API	bool	IsCyliderContact(const dContact& c);
 #endif
-#undef XrMath::M_PI;
+#undef M_PI
 #endif

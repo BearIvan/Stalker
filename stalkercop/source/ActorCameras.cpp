@@ -79,9 +79,9 @@ void CActor::camUpdateLadder(float dt)
 	{
 		float &cam_pitch					= cameras[eacFirstEye]->pitch;
 		const float ldown_pitch				= cameras[eacFirstEye]->lim_pitch.y;
-		float delta							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
-		if(delta>0.f)
-			cam_pitch						+= delta* XrMath::min(dt*10.f,1.f) ;
+		float delta1							= XrMath::angle_difference_signed(ldown_pitch,cam_pitch);
+		if(delta1>0.f)
+			cam_pitch						+= delta1* XrMath::min(dt*10.f,1.f) ;
 	}
 }
 
@@ -256,9 +256,9 @@ void	CActor::cam_Lookout	( const Fmatrix &xform, float camera_height )
 						da		*= r_torso.roll/XrMath::abs(r_torso.roll); float angle = 0.f;
 					for (;XrMath::abs(angle)<XrMath::abs(alpha); angle+=da)
 					{
-						Fvector				pt;
-						calc_gl_point( pt, xform, radius, angle );
-						if (test_point( pt, mat,ext, this )) 
+						Fvector				pt1;
+						calc_gl_point( pt1, xform, radius, angle );
+						if (test_point( pt1, mat,ext, this )) 
 							{ bIntersect=TRUE; break; } 
 					}
 					valid_angle	= bIntersect?angle:alpha;

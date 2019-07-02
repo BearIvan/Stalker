@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cdb/frustum.h"
 #include "directx\d3dx9.h"
-#pragma warning(disable:4995)
 // mmsystem.h
 #define MMNOSOUND
 #define MMNOMIDI
@@ -11,7 +10,6 @@
 #include <mmsystem.h>
 // d3dx9.h
 #include "directx\d3d9.h"
-#pragma warning(default:4995)
 
 #include "x_ray.h"
 #include "render.h"

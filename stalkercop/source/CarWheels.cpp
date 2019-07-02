@@ -254,12 +254,12 @@ void CCar::SWheelSteer::Init()
 	}
 	
 	pos_right=pos_right>0.f ? -1.f : 1.f;
-	float steering_torque=pKinematics->LL_UserData()->r_float("car_definition","steering_torque");
+	float steering_torque1=pKinematics->LL_UserData()->r_float("car_definition","steering_torque");
 	VERIFY( pwheel );
-	pwheel->ApplySteerAxisTorque(steering_torque);
+	pwheel->ApplySteerAxisTorque(steering_torque1);
 	VERIFY( pwheel->joint );
 	//dJointSetHinge2Param(pwheel->joint->GetDJoint(), dParamFudgeFactor, 0.005f/steering_torque);
-	pwheel->joint->SetJointFudgefactorActive( 0.005f/steering_torque );
+	pwheel->joint->SetJointFudgefactorActive( 0.005f/steering_torque1 );
 	pwheel->ApplySteerAxisVel(0.f);
 	limited=false;
 }

@@ -229,7 +229,6 @@ xr_token		game_types[];
 
 void CMapListHelper::Load()
 {
-	string_path					fn;
 	CInifile map_list_cfg		("%config%", "mp\\map_list.ltx");
 
 	//read weathers set
@@ -272,7 +271,6 @@ void CMapListHelper::Load()
 
 	for( ;fit!=fit_e; ++fit)
 	{
-		string_path					map_cfg_fn;
 		CInifile	map_ini			("%levels%", *(*fit));
 
 		if(map_ini.section_exist("map_usage"))

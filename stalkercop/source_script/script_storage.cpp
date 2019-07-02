@@ -316,15 +316,15 @@ int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType
 		default : NODEFAULT;
 	}
 	
-	xr_strcpy	(S2,S);
-	S1		= S2 + xr_strlen(S);
-	int		l_iResult = vsprintf(S1,caFormat,marker);
-	Msg		("%s",S2);
-	
-	xr_strcpy	(S2,SS);
-	S1		= S2 + xr_strlen(SS);
-	vsprintf(S1,caFormat,marker);
-	xr_strcat	(S2,"\r\n");
+	BearCore::BearString::Copy(S2, S);
+	S1 = S2 + xr_strlen(S);
+	int		l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, marker);
+	Msg("%s", S2);
+
+	BearCore::BearString::Copy(S2, SS);
+	S1 = S2 + xr_strlen(SS);
+	BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S) - xr_strlen(S2), caFormat, marker);
+	BearCore::BearString::Contact(S2, "\r\n");
 
 #ifdef DEBUG
 #	ifndef ENGINE_BUILD
@@ -400,11 +400,11 @@ bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, u32 const 
 			*S1				= 0;
 
 		if (i)
-			xr_strcat		(b,b_size,"{");
-		xr_strcat			(b,b_size,S);
-		xr_strcat			(b,b_size,"=");
+			BearCore::BearString::Contact		(b,b_size,"{");
+		BearCore::BearString::Contact			(b,b_size,S);
+		BearCore::BearString::Contact			(b,b_size,"=");
 		if (i)
-			xr_strcat		(c,c_size,"}");
+			BearCore::BearString::Contact		(c,c_size,"}");
 		if (S1)
 			S			= ++S1;
 		else
@@ -771,7 +771,7 @@ int CScriptStorage::error_log	(LPCSTR	format, ...)
 	xr_strcpy		(S2,S);
 	S1				= S2 + xr_strlen(S);
 
-	int				result = vsprintf(S1,format,marker);
+	int				result = BearCore::BearString::PrintfVa(S1,4096- xr_strlen(S),format,marker);
 	va_end			(marker);
 
 	Msg				("%s",S2);

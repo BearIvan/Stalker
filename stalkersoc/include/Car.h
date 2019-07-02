@@ -635,4 +635,5 @@ public:
 };
 add_to_type_list(CCar)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CCar)

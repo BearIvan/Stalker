@@ -95,7 +95,7 @@ void CUISequencer::Start(LPCSTR tutor_name)
 
 	for(int i=0;i<items_count;++i){
 		LPCSTR	_tp				= uiXml.ReadAttrib			("item",i,"type","");
-		bool bVideo				= 0==_stricmp(_tp,"video");
+		bool bVideo				= 0==BearCore::BearString::CompareWithoutCase(_tp,"video");
 		CUISequenceItem* pItem	= 0;
 		if (bVideo)	pItem		= xr_new<CUISequenceVideoItem>(this);
 		else		pItem		= xr_new<CUISequenceSimpleItem>(this);

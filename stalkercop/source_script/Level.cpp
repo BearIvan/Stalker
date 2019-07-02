@@ -233,7 +233,7 @@ int	CLevel::get_RPID(LPCSTR /**name/**/)
     // Read data
     Fvector4	pos;
     int			team;
-    sscanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
+    BearCore::BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
 
     // Search respawn point
     svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
@@ -333,11 +333,11 @@ void CLevel::ProcessGameEvents()
                 u8 Count = P.r_u8();
                 for (u8 i = 0; i < Count; i++)
                 {
-                    u16 ID = P.r_u16();
+                    u16 ID1 = P.r_u16();
                     Fvector NewPos, NewDir;
                     P.r_vec3(NewPos);
                     P.r_vec3(NewDir);
-                    CActor*	OActor = smart_cast<CActor*>(Objects.net_Find(ID));
+                    CActor*	OActor = smart_cast<CActor*>(Objects.net_Find(ID1));
                     if (0 == OActor)
                         break;
                     OActor->MoveActor(NewPos, NewDir);
@@ -642,9 +642,9 @@ void CLevel::OnRender()
         for (u32 I = 0; I < Level().Objects.o_count(); I++)
         {
             CObject* _O = Level().Objects.o_get_by_iterator(I);
-            CAI_Stalker* stalker = smart_cast<CAI_Stalker*>(_O);
-            if (stalker)
-                stalker->OnRender();
+            CAI_Stalker* stalker1 = smart_cast<CAI_Stalker*>(_O);
+            if (stalker1)
+                stalker1->OnRender();
             CCustomMonster* monster = smart_cast<CCustomMonster*>(_O);
             if (monster)
                 monster->OnRender();
@@ -711,10 +711,10 @@ void CLevel::OnRender()
         for (u32 I = 0; I < Level().Objects.o_count(); I++)
         {
             CObject* object = Objects.o_get_by_iterator(I);
-            CAI_Stalker* stalker = smart_cast<CAI_Stalker*>(object);
-            if (!stalker)
+            CAI_Stalker* stalker1 = smart_cast<CAI_Stalker*>(object);
+            if (!stalker1)
                 continue;
-            stalker->dbg_draw_vision();
+            stalker1->dbg_draw_vision();
         }
     }
 
@@ -724,10 +724,10 @@ void CLevel::OnRender()
         for (u32 I = 0; I < Level().Objects.o_count(); I++)
         {
             CObject* object = Objects.o_get_by_iterator(I);
-            CAI_Stalker* stalker = smart_cast<CAI_Stalker*>(object);
-            if (!stalker)
+            CAI_Stalker* stalker1 = smart_cast<CAI_Stalker*>(object);
+            if (!stalker1)
                 continue;
-            stalker->dbg_draw_visibility_rays();
+            stalker1->dbg_draw_visibility_rays();
         }
     }
 #endif
@@ -738,7 +738,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
     if (E == eEntitySpawn)
     {
         char	Name[128];	Name[0] = 0;
-        sscanf(LPCSTR(P1), "%s", Name);
+        BearCore::BearString::Scanf(LPCSTR(P1), "%s", Name);
         Level().g_cl_Spawn(Name, 0xff, M_SPAWN_OBJECT_LOCAL, Fvector().set(0, 0, 0));
     }
     else if (E == eChangeRP && P1)
@@ -749,7 +749,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
         char* name = (char*)P1;
         string_path RealName;
         xr_strcpy(RealName, name);
-        xr_strcat(RealName, ".xrdemo");
+        BearCore::BearString::Contact(RealName, ".xrdemo");
         Cameras().AddCamEffector(xr_new<CDemoPlay>(RealName, 1.3f, 0));
     }
     else if (E == eChangeTrack && P1)
@@ -760,7 +760,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
     else if (E == eEnvironment)
     {
         // int id=0; float s=1;
-        // sscanf((char*)P1,"%d,%f",&id,&s);
+        // BearCore::BearString::Scanf((char*)P1,"%d,%f",&id,&s);
         // Environment->set_EnvMode(id,s);
     }
 }

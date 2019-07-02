@@ -17,10 +17,7 @@ extern "C" {
 	#include <lua/lauxlib.h>
 };
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <luabind/luabind.hpp>
-#pragma warning(pop)
 
 #include <luabind/object.hpp>
 #include <luabind/functor.hpp>

@@ -202,10 +202,7 @@ void CUILines::ParseText(bool force)
 					tmp_line.AddSubLine( szTempLine , tcolor );
 					m_lines.push_back( tmp_line );
 					tmp_line.Clear();
-					// Compiler bug :)
-					#pragma warning( disable : 4244 )
 					uFrom += uPartLen;
-					#pragma warning( default : 4244 )
 				}
 				strncpy_s( szTempLine , pszText + uFrom , MAX_MB_CHARS );
 				tmp_line.AddSubLine( szTempLine , tcolor );
@@ -341,7 +338,7 @@ LPCSTR GetElipsisText(CGameFont* pFont, float width, LPCSTR source_text, LPSTR b
 			buff[pos]					= 0;
 		}
 
-		xr_strcat						(buff,buff_len,"..");
+		BearCore::BearString::Contact						(buff,buff_len,"..");
 		return							buff;
 	}
 }

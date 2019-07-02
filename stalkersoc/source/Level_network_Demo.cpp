@@ -83,12 +83,6 @@ void						CLevel::Demo_StoreData			(void* data, u32 size, DEMO_CHUNK DataType)
 void						CLevel::Demo_DumpData()
 {
 	if (!m_sDemoName[0]) return;
-	FILE* fTDemo = fopen(m_sDemoName, "ab");
-	if (fTDemo)
-	{
-		fwrite(m_pStoredDemoData, m_dwStoredDemoDataSize, 1, fTDemo);
-		fclose(fTDemo);
-	}
 
 	m_dwStoredDemoDataSize = 0;
 }
@@ -236,13 +230,15 @@ void						CLevel::Demo_Load				(LPCSTR DemoName)
 static long lFileSize = 0;
 void						CLevel::Demo_Load_toFrame	(LPCSTR FileName, DWORD toFrame, long &ofs)
 {
-	if (ofs == 1) g_dwDemoDeltaFrame = 1;
+	BEAR_RASSERT(0);
+	/*if (ofs == 1) g_dwDemoDeltaFrame = 1;
 
 	m_sDemoFileName = FileName;
 	BearCore::BearStringPath			DemoFileName;
 	FS.UpdatePath("%logs%", 0, DemoFileName);
 	BearCore::BearString::Contact(DemoFileName, BEAR_PATH);
 	BearCore::BearString::Contact(DemoFileName, FileName);
+	
 	//-----------------------------------------------------
 	FILE* fTDemo = fopen(DemoFileName, "rb");
 	if (!fTDemo) return;
@@ -302,7 +298,7 @@ void						CLevel::Demo_Load_toFrame	(LPCSTR FileName, DWORD toFrame, long &ofs)
 	{
 		m_bDemoPlayMode = TRUE;
 		m_bDemoSaveMode = FALSE;
-	};
+	};*/
 };
 
 static DWORD dFrame = 1;

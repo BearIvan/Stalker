@@ -278,10 +278,10 @@ bool game_sv_CaptureTheArtefact::CheckForRoundStart()
 	return false;
 }
 
-void game_sv_CaptureTheArtefact::CheckForWarmap(u32 currentTime)
+void game_sv_CaptureTheArtefact::CheckForWarmap(u32 currentTime1)
 {
 	if (m_dwWarmUp_CurTime == 0 && !m_bInWarmUp) return;
-	if (m_dwWarmUp_CurTime < currentTime)
+	if (m_dwWarmUp_CurTime < currentTime1)
 	{
 		m_dwWarmUp_CurTime	= 0;
 		m_bInWarmUp = false;
@@ -1144,9 +1144,9 @@ void game_sv_CaptureTheArtefact::SendAnomalyStates()
 	u_EventSend(event_pack);
 }
 
-void game_sv_CaptureTheArtefact::CheckAnomalyUpdate(u32 currentTime)
+void game_sv_CaptureTheArtefact::CheckAnomalyUpdate(u32 currentTime1)
 {
-	if ((m_dwLastAnomalyStartTime + Get_AnomalySetLengthTime_msec()) <= currentTime)
+	if ((m_dwLastAnomalyStartTime + Get_AnomalySetLengthTime_msec()) <= currentTime1)
 		ReStartRandomAnomaly();
 }
 
@@ -1160,7 +1160,6 @@ s32	game_sv_CaptureTheArtefact::GetMoneyAmount(const shared_str& caSection, char
 
 void game_sv_CaptureTheArtefact::LoadArtefactRPoints()
 {
-	string_path	fn_game;
 	if (FS.ExistFile("%level%", "level.game")) 
 	{
 		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
@@ -1946,10 +1945,10 @@ void game_sv_CaptureTheArtefact::OnDetachItem(CSE_ActorMP *actor, CSE_Abstract *
 		
 		if (EventPack.B.count > 2)	
 			u_EventSend(EventPack);
-        for (auto item : to_destroy)
-            DestroyGameItem(item);
-        for (auto item : to_reject)
-            RejectGameItem(item);
+        for (auto item1 : to_destroy)
+            DestroyGameItem(item1);
+        for (auto item1 : to_reject)
+            RejectGameItem(item1);
 	};
 }
 
@@ -2221,7 +2220,7 @@ void game_sv_CaptureTheArtefact::PrepareClientForNewRound(IClient* client)
 	assign_RP(static_cast<CSE_ALifeCreatureActor*>(clientData->owner), ps);
 }
 
-void game_sv_CaptureTheArtefact::CheckForArtefactReturning(u32 currentTime)
+void game_sv_CaptureTheArtefact::CheckForArtefactReturning(u32 currentTime1)
 {
 	TeamsMap::iterator		te = teams.end();
 	TeamsMap::iterator		team_iter;
@@ -2270,11 +2269,11 @@ void game_sv_CaptureTheArtefact::CheckForArtefactReturning(u32 currentTime)
 			continue;
 		}
 		if (!ti->second.freeArtefactTimeStart ||
-			((currentTime - ti->second.freeArtefactTimeStart) >= 
+			((currentTime1 - ti->second.freeArtefactTimeStart) >= 
 			Get_ArtefactReturningTime_msec()))
 		{
 			MoveArtefactToPoint(artefact, ti->second.artefactRPoint);
-			ti->second.freeArtefactTimeStart = currentTime;
+			ti->second.freeArtefactTimeStart = currentTime1;
 		}
 	}
 }
@@ -2361,7 +2360,7 @@ bool game_sv_CaptureTheArtefact::ResetInvincibility(ClientID const clientId)
 	return true;
 }
 
-void game_sv_CaptureTheArtefact::ResetTimeoutInvincibility(u32 currentTime)
+void game_sv_CaptureTheArtefact::ResetTimeoutInvincibility(u32 currentTime1)
 {
 	InvincibilityTimeouts::iterator	ii	= m_invTimeouts.begin();
 	InvincibilityTimeouts::iterator	iie = m_invTimeouts.end();
@@ -2369,7 +2368,7 @@ void game_sv_CaptureTheArtefact::ResetTimeoutInvincibility(u32 currentTime)
 
 	for (; ii != iie; ++ii)
 	{
-		if ((currentTime >= ii->second) && (ii->second != 0))
+		if ((currentTime1 >= ii->second) && (ii->second != 0))
 		{
 			resetted = ResetInvincibility(ii->first);
 			ii->second	= 0;

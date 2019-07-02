@@ -32,6 +32,7 @@ xr_token		difficulty_type_token	[ ];
 typedef enum_exporter<ESingleGameDifficulty> CScriptGameDifficulty;
 add_to_type_list(CScriptGameDifficulty)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CScriptGameDifficulty)
 
 

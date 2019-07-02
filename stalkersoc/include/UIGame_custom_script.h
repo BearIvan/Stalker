@@ -15,4 +15,5 @@ public:
 };
 add_to_type_list(UIGame_custom_script)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(UIGame_custom_script)

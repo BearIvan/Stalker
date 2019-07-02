@@ -152,44 +152,44 @@ void CUIMapLocationHint::SetInfoTask(CGameTask* task)
 		m_info["t_icon"]->Show( true );
 		float w = m_info["t_time"]->GetWidth();
 
-		Fvector2 pos = m_info["t_icon"]->GetWndPos();
-		pos.x = m_posx_icon;
-		m_info["t_icon"]->SetWndPos( pos );
+		Fvector2 pos1 = m_info["t_icon"]->GetWndPos();
+		pos1.x = m_posx_icon;
+		m_info["t_icon"]->SetWndPos( pos1 );
 		
-		pos	  = m_info["t_caption"]->GetWndPos();
-		pos.x = m_posx_caption;
-		m_info["t_caption"]->SetWndPos( pos );
+		pos1	  = m_info["t_caption"]->GetWndPos();
+		pos1.x = m_posx_caption;
+		m_info["t_caption"]->SetWndPos( pos1 );
 		m_info["t_caption"]->SetWidth( w );
 
-		pos   = m_info["t_time"]->GetWndPos();
-		pos.x = m_posx_caption;
-		m_info["t_time"]->SetWndPos( pos );
+		pos1   = m_info["t_time"]->GetWndPos();
+		pos1.x = m_posx_caption;
+		m_info["t_time"]->SetWndPos( pos1 );
 		
-		pos   = m_info["t_time_rem"]->GetWndPos();
-		pos.x = m_posx_caption;
-		m_info["t_time_rem"]->SetWndPos( pos );
+		pos1   = m_info["t_time_rem"]->GetWndPos();
+		pos1.x = m_posx_caption;
+		m_info["t_time_rem"]->SetWndPos( pos1 );
 
-		pos   = m_info["t_hint_text"]->GetWndPos();
-		pos.y = XrMath::max( pos.y, m_info["t_icon"]->GetWndPos().y + m_info["t_icon"]->GetWndSize().y + 7 );
-		m_info["t_hint_text"]->SetWndPos( pos );
+		pos1   = m_info["t_hint_text"]->GetWndPos();
+		pos1.y = XrMath::max( pos1.y, m_info["t_icon"]->GetWndPos().y + m_info["t_icon"]->GetWndSize().y + 7 );
+		m_info["t_hint_text"]->SetWndPos( pos1 );
 	}
 	else if ( task->GetTaskType() == eTaskTypeAdditional )
 	{
 		m_info["t_icon"]->Show( false );
 		float w = m_info["t_hint_text"]->GetWidth();
 
-		Fvector2 pos = m_info["t_caption"]->GetWndPos();
-		pos.x        = m_posx_icon;
-		m_info["t_caption"]->SetWndPos( pos );
+		Fvector2 pos1 = m_info["t_caption"]->GetWndPos();
+		pos1.x        = m_posx_icon;
+		m_info["t_caption"]->SetWndPos( pos1 );
 		m_info["t_caption"]->SetWidth( w );
 
-		pos   = m_info["t_time"]->GetWndPos();
-		pos.x = m_posx_icon;
-		m_info["t_time"]->SetWndPos( pos );
+		pos1   = m_info["t_time"]->GetWndPos();
+		pos1.x = m_posx_icon;
+		m_info["t_time"]->SetWndPos( pos1 );
 
-		pos   = m_info["t_time_rem"]->GetWndPos();
-		pos.x = m_posx_icon;
-		m_info["t_time_rem"]->SetWndPos( pos );
+		pos1   = m_info["t_time_rem"]->GetWndPos();
+		pos1.x = m_posx_icon;
+		m_info["t_time_rem"]->SetWndPos( pos1 );
 	}
 
 	pos.x = m_info["t_hint_text"]->GetWndPos().x + m_info["t_hint_text"]->GetWndSize().x + 20.0f;

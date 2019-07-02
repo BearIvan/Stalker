@@ -22,7 +22,6 @@ void xrServer::SLS_Default	()
 	CSE_ALifeCreatureActor	*_actor = 0;
 #endif
 
-	string_path				fn_spawn;
 	if (FS.ExistFile("%level%", "level.spawn")) {
 		IReader*			SP		=XRayBearReader::Create( FS.Read("%level%", "level.spawn"));
 		NET_Packet			P;

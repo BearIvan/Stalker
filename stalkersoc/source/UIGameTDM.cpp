@@ -12,7 +12,7 @@
 
 #include "ui/UIFrags2.h"
 #include "ui/TeamInfo.h"
-#include <dinput.h>
+
 
 #include "engine/object_broker.h"
 

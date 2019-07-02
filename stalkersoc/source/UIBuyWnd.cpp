@@ -12,7 +12,7 @@
 #include "game_cl_Deathmatch.h"
 #include "ui/UIOutfitSlot.h"
 #include "ui/UIListBoxItem.h"
-#include <dinput.h>
+
 #include "actor.h"
 #include "ui/restrictions.h"
 
@@ -619,9 +619,9 @@ void CUIBuyWnd::SetCurrentItem(CUICellItem* itm)
 		string64					team;
 
 		if (m_bag.IsBlueTeamItem(itm))
-			strcpy					(team, "blue");
+			BearCore::BearString::Copy					(team, "blue");
 		else 
-			strcpy					(team, "green");
+			BearCore::BearString::Copy					(team, "green");
 
 		sprintf_s						(tex_name, "ui_hud_status_%s_0%d", team, m_bag.GetItemRank(m_pCurrentCellItem)+1);
 				
@@ -930,13 +930,13 @@ void CUIBuyWnd::ActivatePropertiesBox()
 	m_propertiesBox.AutoUpdateSize	();
 	m_propertiesBox.BringAllToTop	();
 
-	Fvector2						cursor_pos;
+	Fvector2						cursor_pos1;
 	Frect							vis_rect;
 
 	GetAbsoluteRect					(vis_rect);
-	cursor_pos						= GetUICursor()->GetCursorPosition();
-	cursor_pos.sub					(vis_rect.lt);
-	m_propertiesBox.Show			(vis_rect, cursor_pos);
+	cursor_pos1						= GetUICursor()->GetCursorPosition();
+	cursor_pos1.sub					(vis_rect.lt);
+	m_propertiesBox.Show			(vis_rect, cursor_pos1);
 
 }
 

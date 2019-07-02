@@ -214,9 +214,9 @@ void CUIWindow::Update()
 		cursor_on_window	= !!r.in(temp);
 #ifndef NDEBUG
 		if(cursor_on_window&&g_show_wnd_rect){
-			Frect r;
-			GetAbsoluteRect(r);
-			add_rect_to_draw(r);
+			Frect r1;
+			GetAbsoluteRect(r1);
+			add_rect_to_draw(r1);
 		}
 #endif
 		// RECEIVE and LOST focus
@@ -362,8 +362,8 @@ bool CUIWindow::OnMouse(float x, float y, EUIMessages mouse_action)
 	for(; it!=m_ChildWndList.rend(); ++it)
 	{
 		CUIWindow* w	= (*it);
-		Frect wndRect	= w->GetWndRect();
-		if (wndRect.in(cursor_pos) )
+		Frect wndRect1	= w->GetWndRect();
+		if (wndRect1.in(cursor_pos) )
 		{
 			if(w->IsEnabled())
 			{

@@ -78,7 +78,7 @@ void item_respawn_manager::load_respawn_items(shared_str const section)
 	u32 temp_int;
 	for (sect_iter i = resp_sect.Data.begin(); i != ie; ++i)
 	{
-		sscanf(i->second.c_str(), "%d", &temp_int);
+		BearCore::BearString::Scanf(i->second.c_str(), "%d", &temp_int);
 		m_respawns.insert(std::make_pair(i->first, spawn_item(temp_int * 1000)));
 	}
 }
@@ -275,7 +275,7 @@ void item_respawn_manager::add_new_rpoint(shared_str profile_sect, RPoint const 
 		} else
 		{
 #ifndef MASTER_GOLD
-			Msg("! ERROR: failed to create entity [%s] with addons [%d]", iter_rsect->section_name, iter_rsect->addons);
+			Msg("! ERROR: failed to create entity [%s] with addons [%d]", *iter_rsect->section_name, iter_rsect->addons);
 #endif // #ifndef MASTER_GOLD
 		}
 	}

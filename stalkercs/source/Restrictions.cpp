@@ -151,7 +151,7 @@ RESTR CRestrictions::GetRestr(const shared_str& item)
 	{
 		strncpy			(_name, item.c_str(), n );
 		_name[n]		= 0;
-		_cnt			= sscanf(item.c_str()+n+1,"%d", &ret.n);
+		_cnt			= BearCore::BearString::Scanf(item.c_str()+n+1,"%d", &ret.n);
 	}
 	R_ASSERT3			(n>0 && _cnt==1, "invalid record format <name_sect:rank>", item.c_str());
 	ret.name			= _name;
@@ -244,16 +244,16 @@ void CRestrictions::Dump() const
 	for(u32 i=0; i<_RANK_COUNT+1; ++i)
 	{
 		const rank_rest_vec& v = m_restrictions[i];
-		rank_rest_vec::const_iterator it		= v.begin();
-		rank_rest_vec::const_iterator it_e		= v.end();
+		rank_rest_vec::const_iterator it1		= v.begin();
+		rank_rest_vec::const_iterator it_e1		= v.end();
 		if(i<_RANK_COUNT)
 			Msg("---	for rank %d  ---count=[%d]", i, v.size());
 		else
 			Msg("---	base restrictions ---count=[%d]", v.size());
 
-		for(;it!=it_e;++it)
+		for(;it1!=it_e1;++it1)
 		{
-			Msg("	[%s]:[%d]", (*it).first.c_str(), (*it).second);
+			Msg("	[%s]:[%d]", (*it1).first.c_str(), (*it1).second);
 		}
 		Msg("-----------------------------------------");
 	}

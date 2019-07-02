@@ -7,9 +7,6 @@
 #include "xrServer.h"
 #include "game_cl_base.h"
 
-#include "xrGameSpy_MainDefs.h"
-#include "xrGameSpyServer.h"
-#include "gamespy/GameSpy_Full.h"
 #include "string_table.h"
 
 #ifdef BATTLEYE
@@ -57,7 +54,7 @@ BattlEyeServer::BattlEyeServer( xrServer* Server )
 	}
 
 	string64 game_version;
-	strcpy_s( game_version, GAME_VERSION );
+	BearCore::BearString::Copy( game_version, GAME_VERSION );
 
 	m_succefull = Init(
 		game_version,

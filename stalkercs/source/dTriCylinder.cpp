@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "tri-colliderknoopc/dTriColliderCommon.h"
 #include "dCylinder/dCylinder.h"
 #include "tri-colliderknoopc/dTriCylinder.h"
@@ -14,19 +14,19 @@ bool dcTriListCollider::circleLineIntersection(const dReal* cn,const dReal* cp,d
 
 	dVector3 LC={lp[0]-cp[0],lp[1]-cp[1],lp[2]-cp[2]};
 
-	dReal A,B,C,B_A,B_A_2,D;
+	dReal A,B1,C,B_A,B_A_2,D;
 	dReal t1,t2;
 	A=dDOT(lv,lv);
-	B=dDOT(LC,lv);
+	B1=dDOT(LC,lv);
 	C=dDOT(LC,LC)-r*r;
-	B_A=B/A;
+	B_A=B1/A;
 	B_A_2=B_A*B_A;
 	D=B_A_2-C;
 	if(D<0.f){
 		
-		point[0]=lp[0]-lv[0]*B;
-		point[1]=lp[1]-lv[1]*B;
-		point[2]=lp[2]-lv[2]*B;
+		point[0]=lp[0]-lv[0]*B1;
+		point[1]=lp[1]-lv[1]*B1;
+		point[2]=lp[2]-lv[2]*B1;
 		return false;
 		
 	}
@@ -223,18 +223,18 @@ int dcTriListCollider::dSortedTriCyl (
 
 IC	bool  dcTriListCollider::cylinderCrossesLine(const dReal* p,const dReal* R,dReal hlz,
 						 const dReal* v0,const dReal* v1,const dReal* l,dVector3 pos){
-	dReal cos=dDOT14(l,R);
+	dReal _cos=dDOT14(l,R);
 
-	if(!(dFabs(cos)<1.f)) return false;
+	if(!(dFabs(_cos)<1.f)) return false;
 	
-	dReal sin2=1.f-cos*cos;
+	dReal sin2=1.f-_cos*_cos;
 
 	dVector3 vp={v0[0]-p[0],v0[1]-p[1],v0[2]-p[2]};
     dReal c1=dDOT(vp,l);
 	dReal c2=dDOT14(vp,R);
 
-	dReal t=(c2*cos-c1)/sin2;
-	dReal q=(c2-c1*cos)/sin2;
+	dReal t=(c2*_cos-c1)/sin2;
+	dReal q=(c2-c1*_cos)/sin2;
 
 	if(dFabs(q)>hlz) return false;
 

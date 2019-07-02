@@ -131,10 +131,10 @@ void CStateMonsterEatAbstract::setup_substates()
 
 		// Определить позицию ближайшей боны у трупа
 		Fvector nearest_bone_pos;
-		const CEntityAlive *corpse = object->CorpseMan.get_corpse();
-		if ((corpse->m_pPhysicsShell == NULL) || (!corpse->m_pPhysicsShell->isActive())) {
-			nearest_bone_pos	= corpse->Position(); 
-		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse);
+		const CEntityAlive *corpse1 = object->CorpseMan.get_corpse();
+		if ((corpse1->m_pPhysicsShell == NULL) || (!corpse1->m_pPhysicsShell->isActive())) {
+			nearest_bone_pos	= corpse1->Position(); 
+		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse1);
 
 #ifdef _DEBUG
 		DBG().level_info(this).clear		();
@@ -208,7 +208,7 @@ void CStateMonsterEatAbstract::setup_substates()
 		
 		// Определить позицию ближайшей боны у трупа
 		Fvector nearest_bone_pos;
-		const CEntityAlive *corpse = object->CorpseMan.get_corpse();
+		corpse = object->CorpseMan.get_corpse();
 		if ((corpse->m_pPhysicsShell == NULL) || (!corpse->m_pPhysicsShell->isActive())) {
 			nearest_bone_pos	= corpse->Position(); 
 		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse);
@@ -259,9 +259,9 @@ bool CStateMonsterEatAbstract::hungry()
 }
 
 TEMPLATE_SPECIALIZATION
-void CStateMonsterEatAbstract::remove_links	(CObject* object)
+void CStateMonsterEatAbstract::remove_links	(CObject* object1)
 {
-	if (corpse == object)
+	if (corpse == object1)
 		corpse	= 0;
 }
 

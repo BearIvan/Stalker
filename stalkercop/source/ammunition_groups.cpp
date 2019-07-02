@@ -86,7 +86,7 @@ bool ammunition_group::is_item_in_group(u16 item_id, enum_group_id gid) const
 	ammun_groups_map_t::const_iterator tmp_iter = std::find(
 		m_wpn_groups.begin(),
 		m_wpn_groups.end(),
-		ammun_groups_map_t::value_type(item_id & 0x00ff, gid));
+		ammun_groups_map_t::value_type(static_cast<u16>(item_id & u16(0x00ff)), gid));
 
 	if (tmp_iter == m_wpn_groups.end())
 		return false;

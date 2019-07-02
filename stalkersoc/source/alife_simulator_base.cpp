@@ -22,10 +22,7 @@
 #include "level_graph.h"
 #include "Level.h"
 #include "game_cl_base.h"
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 using namespace ALife;
 
@@ -102,15 +99,16 @@ CSE_Abstract *CALifeSimulatorBase::spawn_item	(LPCSTR section, const Fvector &po
 	abstract->m_wVersion		= SPAWN_VERSION;
 	
 	string256					s_name_replace;
-	strcpy						(s_name_replace,*abstract->s_name);
+	BearCore::BearString::Copy						(s_name_replace,*abstract->s_name);
 	if (abstract->ID < 1000)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	if (abstract->ID < 100)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	if (abstract->ID < 10)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	string16					S1;
-	strcat						(s_name_replace,itoa(abstract->ID,S1,10));
+	BearCore::BearString::Printf(S1, "%d", abstract->ID);
+	BearCore::BearString::Contact						(s_name_replace,S1);
 	abstract->set_name_replace	(s_name_replace);
 
 	CSE_ALifeDynamicObject		*dynamic_object = smart_cast<CSE_ALifeDynamicObject*>(abstract);
@@ -158,15 +156,16 @@ CSE_Abstract *CALifeSimulatorBase::create(CSE_ALifeGroupAbstract *tpALifeGroupAb
 	k->m_bALifeControl			= true;
 	
 	string256					s_name_replace;
-	strcpy						(s_name_replace,*k->s_name);
+	BearCore::BearString::Copy						(s_name_replace,*k->s_name);
 	if (k->ID < 1000)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	if (k->ID < 100)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	if (k->ID < 10)
-		strcat					(s_name_replace,"0");
+		BearCore::BearString::Contact					(s_name_replace,"0");
 	string16					S1;
-	strcat						(s_name_replace,itoa(k->ID,S1,10));
+	BearCore::BearString::Printf(S1, "%d", k->ID);
+	BearCore::BearString::Contact						(s_name_replace,S1);
 	k->set_name_replace			(s_name_replace);
 
 	register_object				(k,true);

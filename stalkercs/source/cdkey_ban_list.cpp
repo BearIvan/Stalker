@@ -14,7 +14,6 @@ cdkey_ban_list::~cdkey_ban_list()
 void cdkey_ban_list::load()
 {
 	Msg("* Loading ban list...");
-	string_path		banlist_file;
 	CInifile		bl_ini	("%user%", "banned_list.ltx");
 	CInifile::Root& banlist = bl_ini.sections();
 	for (CInifile::Root::iterator i = banlist.begin(),
@@ -34,7 +33,6 @@ void cdkey_ban_list::load()
 }
 void cdkey_ban_list::save()
 {
-	string_path		banlist_file;
 	CInifile		bl_ini("%user%", "banned_list.ltx", FALSE, FALSE, TRUE);
 	string64		tmp_sect_name;
 	u32				index = 0;
@@ -160,17 +158,7 @@ void cdkey_ban_list::unban_player_by_index(size_t const index)
 
 char const * print_time(time_t const & src_time, string64 & dest_time)
 {
-	tm* tmp_tm = _localtime64(&src_time);
-	sprintf_s(dest_time, sizeof(dest_time),
-		"%02d.%02d.%d_%02d:%02d:%02d",
-		tmp_tm->tm_mday, 
-		tmp_tm->tm_mon+1, 
-		tmp_tm->tm_year+1900, 
-		tmp_tm->tm_hour, 
-		tmp_tm->tm_min, 
-		tmp_tm->tm_sec
-	);
-	return dest_time;
+	return "";
 }
 
 
@@ -215,7 +203,7 @@ cdkey_ban_list::banned_client::banned_client()
 time_t get_time_from_string(LPCSTR str_time)
 {
 	tm	tmp_time;
-	int res_t	= sscanf(
+	int res_t	= BearCore::BearString::Scanf(
 		str_time,
 		"%02d.%02d.%d_%02d:%02d:%02d", 
 		&tmp_time.tm_mday, 

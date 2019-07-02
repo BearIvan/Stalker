@@ -294,8 +294,8 @@ void CALifeUpdateManager::reload		(LPCSTR section)
 
 bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 {
+	BearCore::BearString1024 temp;
 	{
-		string_path				temp,file_name;
 		strconcat				(sizeof(temp),temp,game_name,SAVE_EXTENSION);
 		if (!FS.ExistFile("%saves%", temp)) {
 			R_ASSERT3			(no_assert,"There is no saved game ",temp);
@@ -304,9 +304,9 @@ bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 	}
 	string512					S,S1;
 	xr_strcpy						(S,**m_server_command_line);
-	LPSTR						temp = strchr(S,'/');
-	R_ASSERT2					(temp,"Invalid server options!");
-	strconcat					(sizeof(S1),S1,game_name,temp);
+	LPSTR						temp1 = strchr(S,'/');
+	R_ASSERT2					(temp1,"Invalid server options!");
+	strconcat					(sizeof(S1),S1,game_name,temp1);
 	*m_server_command_line		= S1;
 	return						(true);
 }

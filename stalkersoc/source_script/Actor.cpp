@@ -464,15 +464,15 @@ void	CActor::Hit							(SHit* pHDS)
 				CParticlesPlayer::MakeXFORM(this,HDS.bone(),HDS.dir,HDS.p_in_bone_space,pos);
 
 				// установить particles
-				CParticlesObject* ps = NULL;
+				CParticlesObject* ps1 = NULL;
 
 				if (eacFirstEye == cam_active && this == Level().CurrentEntity())
-					ps = CParticlesObject::Create(invincibility_fire_shield_1st,TRUE);
+					ps1 = CParticlesObject::Create(invincibility_fire_shield_1st,TRUE);
 				else
-					ps = CParticlesObject::Create(invincibility_fire_shield_3rd,TRUE);
+					ps1 = CParticlesObject::Create(invincibility_fire_shield_3rd,TRUE);
 
-				ps->UpdateParent(pos,Fvector().set(0.f,0.f,0.f));
-				GamePersistent().ps_needtoplay.push_back(ps);
+				ps1->UpdateParent(pos,Fvector().set(0.f,0.f,0.f));
+				GamePersistent().ps_needtoplay.push_back(ps1);
 			};
 		};
 		 
@@ -1254,9 +1254,9 @@ void CActor::OnHUDDraw	(CCustomHUD* /**hud/**/)
 		HUD().Font().pFontStat->OutNext	("Vel Actual:    [%3.2f]",m_PhysicMovementControl->GetVelocityActual());
 		switch (m_PhysicMovementControl->Environment())
 		{
-		case CPHMovementControl::peOnGround:	strcpy(buf,"ground");			break;
-		case CPHMovementControl::peInAir:		strcpy(buf,"air");				break;
-		case CPHMovementControl::peAtWall:		strcpy(buf,"wall");				break;
+		case CPHMovementControl::peOnGround:	BearCore::BearString::Copy(buf,"ground");			break;
+		case CPHMovementControl::peInAir:		BearCore::BearString::Copy(buf,"air");				break;
+		case CPHMovementControl::peAtWall:		BearCore::BearString::Copy(buf,"wall");				break;
 		}
 		HUD().Font().pFontStat->OutNext	(buf);
 

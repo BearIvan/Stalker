@@ -699,7 +699,6 @@ void CUICellContainer::Draw()
 	UI()->ClientToScreenScaled(f_len, float(cell_sz.x), float(cell_sz.y));
 
 	// fill cell buffer
-	u32 vOffset = 0;
 /*	FVF::TL* start_pv = (FVF::TL*)RCache.Vertex.Lock((tgt_cells.width() + 1)*(tgt_cells.height() + 1) * 6, hGeom.stride(), vOffset);
 	FVF::TL* pv = start_pv;
 

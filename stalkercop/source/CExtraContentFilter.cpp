@@ -10,7 +10,7 @@ bool CExtraContentFilter::CheckPackKey(LPCSTR KeyName)
 	if (!KeyName) return false;
 
 	DWORD KeyValue = 0;
-	ReadRegistry_DWValue(KeyName, KeyValue);
+	//ReadRegistry_DWValue(KeyName, KeyValue);
 
 	return KeyValue == 1;
 }

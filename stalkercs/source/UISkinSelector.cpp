@@ -99,7 +99,7 @@ void CUISkinSelectorWnd::UpdateSkins()
 		string16 buf;
 		if (m_firstSkin + i < 10)
 		{
-			itoa((m_firstSkin + 1 + i)%10,buf,10);
+			BearCore::BearString::Printf(buf, TEXT("%d"), (m_firstSkin + 1 + i) % 10);
 			strcat_s( buf, sizeof(buf), " " );
 			m_pImage[i]->SetText(buf);
 		}

@@ -59,10 +59,10 @@ IC	u32	CSpaceRestrictionBridge::accessible_nearest	(T restriction, const Fvector
 	{
 		min_dist_sqr = flt_max;
 		u32	new_selected = u32(-1);
-		CLevelGraph::const_iterator	I, E;
-		ai().level_graph().begin(selected,I,E);
-		for ( ; I != E; ++I) {
-			u32	current = ai().level_graph().value(selected,I);
+		CLevelGraph::const_iterator	I1, E1;
+		ai().level_graph().begin(selected,I1,E1);
+		for ( ; I1 != E1; ++I1) {
+			u32	current = ai().level_graph().value(selected,I1);
 			if (!ai().level_graph().valid_vertex_id(current))
 				continue;
 			// if (out_restriction)

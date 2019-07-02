@@ -18,7 +18,7 @@ public:
 	{
 		m_fMinResultValue = 3.0;
 		m_fMaxResultValue = 20.0;
-		xr_strcat(m_caName,"Distance");
+		BearCore::BearString::Contact(m_caName,"Distance");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -47,7 +47,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalHealth");
+		BearCore::BearString::Contact(m_caName,"PersonalHealth");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -62,7 +62,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalMorale");
+		BearCore::BearString::Contact(m_caName,"PersonalMorale");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -79,7 +79,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 21.0;
-		xr_strcat(m_caName,"PersonalCreatureType");
+		BearCore::BearString::Contact(m_caName,"PersonalCreatureType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -96,7 +96,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 12.0;
-		xr_strcat(m_caName,"PersonalWeaponType");
+		BearCore::BearString::Contact(m_caName,"PersonalWeaponType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -115,7 +115,7 @@ public:
 	{
 		m_fMinResultValue =   0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalAccuracy");
+		BearCore::BearString::Contact(m_caName,"PersonalAccuracy");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -132,7 +132,7 @@ public:
 	{
 		m_fMinResultValue =   0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalIntelligence");
+		BearCore::BearString::Contact(m_caName,"PersonalIntelligence");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -149,7 +149,7 @@ public:
 	{
 		m_fMinResultValue =   0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalRelation");
+		BearCore::BearString::Contact(m_caName,"PersonalRelation");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -166,7 +166,7 @@ public:
 	{
 		m_fMinResultValue =   0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalGreed");
+		BearCore::BearString::Contact(m_caName,"PersonalGreed");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -183,7 +183,7 @@ public:
 	{
 		m_fMinResultValue =   0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalAggressiveness");
+		BearCore::BearString::Contact(m_caName,"PersonalAggressiveness");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -200,7 +200,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"EnemyMorale");
+		BearCore::BearString::Contact(m_caName,"EnemyMorale");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 	
@@ -217,7 +217,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 12.0;
-		xr_strcat(m_caName,"EnemyEquipmentCost");
+		BearCore::BearString::Contact(m_caName,"EnemyEquipmentCost");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -234,7 +234,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 12.0;
-		xr_strcat(m_caName,"EnemyRukzakWeight");
+		BearCore::BearString::Contact(m_caName,"EnemyRukzakWeight");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -251,7 +251,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 12.0;
-		xr_strcat(m_caName,"EnemyAnomality");
+		BearCore::BearString::Contact(m_caName,"EnemyAnomality");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -268,7 +268,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"GraphPointType0");
+		BearCore::BearString::Contact(m_caName,"GraphPointType0");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -285,7 +285,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"PersonalEyeRange");
+		BearCore::BearString::Contact(m_caName,"PersonalEyeRange");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -302,7 +302,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 1000.0;
-		xr_strcat(m_caName,"PersonalMaxHealth");
+		BearCore::BearString::Contact(m_caName,"PersonalMaxHealth");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -320,7 +320,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 5.0;
-		xr_strcat(m_caName,"EquipmentType");
+		BearCore::BearString::Contact(m_caName,"EquipmentType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -337,7 +337,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 100.0;
-		xr_strcat(m_caName,"ItemDeterioration");
+		BearCore::BearString::Contact(m_caName,"ItemDeterioration");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -354,7 +354,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 3.0;
-		xr_strcat(m_caName,"EquipmentPreference");
+		BearCore::BearString::Contact(m_caName,"EquipmentPreference");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -371,7 +371,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 4.0;
-		xr_strcat(m_caName,"MainWeaponType");
+		BearCore::BearString::Contact(m_caName,"MainWeaponType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -388,7 +388,7 @@ public:
 	{
 		m_fMinResultValue = 1.0;
 		m_fMaxResultValue = 3.0;
-		xr_strcat(m_caName,"MainWeaponPreference");
+		BearCore::BearString::Contact(m_caName,"MainWeaponPreference");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -405,7 +405,7 @@ public:
 	{
 		m_fMinResultValue = 100.0;
 		m_fMaxResultValue = 2000.0;
-		xr_strcat(m_caName,"ItemValue");
+		BearCore::BearString::Contact(m_caName,"ItemValue");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -422,7 +422,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 10.0;
-		xr_strcat(m_caName,"WeaponAmmoCount");
+		BearCore::BearString::Contact(m_caName,"WeaponAmmoCount");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -440,7 +440,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 7.0;
-		xr_strcat(m_caName,"EnemyAnomalyType");
+		BearCore::BearString::Contact(m_caName,"EnemyAnomalyType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -457,7 +457,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 2.0;
-		xr_strcat(m_caName,"DetectorType");
+		BearCore::BearString::Contact(m_caName,"DetectorType");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 
@@ -474,7 +474,7 @@ public:
 	{
 		m_fMinResultValue = 0.0;
 		m_fMaxResultValue = 4.0;
-		xr_strcat(m_caName,"EnemyDistanceToGraphPoint");
+		BearCore::BearString::Contact(m_caName,"EnemyDistanceToGraphPoint");
 		OUT_MESSAGE("* Evaluation function \"%s\" is successfully initalized",m_caName);
 	};
 

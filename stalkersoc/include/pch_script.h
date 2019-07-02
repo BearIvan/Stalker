@@ -11,10 +11,6 @@
 
 #include "stdafx.h"
 
-//#pragma warning(disable:4244)
-//#pragma warning(disable:4995)
-//#pragma warning(disable:4530)
-//#pragma warning(disable:4267)
 
 extern "C" {
 	#include <lua\lua.h>
@@ -22,10 +18,7 @@ extern "C" {
 #include <lua\lauxlib.h>
 };
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <luabind/luabind.hpp>
-#pragma warning(pop)
 
 #include <luabind/object.hpp>
 #include <luabind/functor.hpp>

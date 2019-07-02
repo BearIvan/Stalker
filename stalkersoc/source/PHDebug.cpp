@@ -258,7 +258,7 @@ string64 s;
 bool	 rendered;
 	SPHDBGOutText(LPCSTR t)
 	{
-		strcpy(s,t);
+		BearCore::BearString::Copy(s,t);
 		rendered=false;
 	}
 	virtual void render()
@@ -273,7 +273,7 @@ void _cdecl DBG_OutText(LPCSTR s,...)
 	string64 t;
 	va_list   marker;
 	va_start  (marker,s);
-	vsprintf(t,s,marker);
+	BearCore::BearString::PrintfVa(t,s,marker);
 	va_end    (marker);
 	DBG_DrawPHAbstruct(xr_new<SPHDBGOutText>(t));
 }
@@ -361,11 +361,11 @@ void DBG_PHAbstructRender()
 	}
 	if(dbg_ph_draw_mode!=dmCashed)
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_cashed.begin();e=dbg_draw_cashed.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i2,e2;
+		i2=dbg_draw_cashed.begin();e2=dbg_draw_cashed.end();
+		for(;e2!=i2;++i2)
 		{
-				(*i)->render();
+				(*i2)->render();
 		}
 		if(cash_draw_remove_time<Device.dwTimeGlobal)
 		{
@@ -373,11 +373,11 @@ void DBG_PHAbstructRender()
 		}
 	}
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_simple.begin();e=dbg_draw_simple.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i2,e2;
+		i2=dbg_draw_simple.begin();e2=dbg_draw_simple.end();
+		for(;e2!=i2;++i2)
 		{
-			(*i)->render();
+			(*i2)->render();
 		}
 		clear_vector(dbg_draw_simple);
 	}
@@ -670,7 +670,7 @@ LPCSTR PH_DBG_ObjectTrack()
 }
 void PH_DBG_SetTrackObject(LPCSTR obj)
 {
-	strcpy( s_dbg_tsrace_obj,obj);
+	BearCore::BearString::Copy( s_dbg_tsrace_obj,obj);
 	dbg_trace_object=s_dbg_tsrace_obj;
 }
 #endif

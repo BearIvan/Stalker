@@ -96,7 +96,7 @@ void CMapLocation::LoadSpot(LPCSTR type, bool bReload)
 
 	XML_NODE* node = NULL;
 	string512 path_base, path;
-	strcpy_s		(path_base,type);
+	BearCore::BearString::Copy		(path_base,type);
 	R_ASSERT3		(g_uiSpotXml->NavigateToNode(path_base,0), "XML node not found in file map_spots.xml", path_base);
 	LPCSTR s		= g_uiSpotXml->ReadAttrib(path_base, 0, "hint", "no hint");
 	SetHint			(s);
@@ -438,16 +438,16 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 
 		if ( res )
 		{
-			xr_vector<u32>::reverse_iterator it = map_point_path.rbegin();
-			xr_vector<u32>::reverse_iterator it_e = map_point_path.rend();
+			xr_vector<u32>::reverse_iterator it1 = map_point_path.rbegin();
+			xr_vector<u32>::reverse_iterator it_e1 = map_point_path.rend();
 
 			xr_vector<CLevelChanger*>::iterator lit = g_lchangers.begin();
 			xr_vector<CLevelChanger*>::iterator lit_e = g_lchangers.end();
 			bool bDone						= false;
-			for(; (it!=it_e)&&(!bDone) ;++it){
+			for(; (it1!=it_e1)&&(!bDone) ;++it1){
 				for(lit=g_lchangers.begin();lit!=lit_e; ++lit){
 
-					if((*it)==(*lit)->ai_location().game_vertex_id() )
+					if((*it1)==(*lit)->ai_location().game_vertex_id() )
 					{
 						bDone = true;
 						break;
@@ -460,17 +460,17 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 			{
 				Msg("! Error. Path from actor to selected map spot does not contain level changer :(");
 				Msg("Path:");
-				xr_vector<u32>::iterator it			= map_point_path.begin();
-				xr_vector<u32>::iterator it_e		= map_point_path.end();
-				for(; it!=it_e;++it){
+				xr_vector<u32>::iterator it2			= map_point_path.begin();
+				xr_vector<u32>::iterator it_e2		= map_point_path.end();
+				for(; it2!=it_e2;++it2){
 					//					Msg("%d-%s",(*it),ai().game_graph().vertex(*it));
-					Msg("[%d] level[%s]",(*it),*ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name());
+					Msg("[%d] level[%s]",(*it2),*ai().game_graph().header().level(ai().game_graph().vertex(*it2)->level_id()).name());
 				}
 				Msg("- Available LevelChangers:");
-				xr_vector<CLevelChanger*>::iterator lit,lit_e;
-				lit_e							= g_lchangers.end();
-				for(lit=g_lchangers.begin();lit!=lit_e; ++lit){
-					GameGraph::_GRAPH_ID gid = (*lit)->ai_location().game_vertex_id();
+				xr_vector<CLevelChanger*>::iterator lit_1,lit_e_1;
+				lit_e_1							= g_lchangers.end();
+				for(lit_1=g_lchangers.begin();lit_1!=lit_e_1; ++lit_1){
+					GameGraph::_GRAPH_ID gid = (*lit_1)->ai_location().game_vertex_id();
 					Msg("[%d]",gid);
 					Fvector p = ai().game_graph().vertex(gid)->level_point();
 					Msg("lch_name=%s pos=%f %f %f",*ai().game_graph().header().level(ai().game_graph().vertex(gid)->level_id()).name(), p.x, p.y, p.z);

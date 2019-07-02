@@ -392,13 +392,13 @@ public:
     bool				ApplyValue		(LPCSTR val)
     {
         if (0!=xr_strcmp(value,val)){
-            strcpy		(value,val);
+            BearCore::BearString::Copy		(value,xr_strlen(val+1),val);
             return		true;
         }
         return 			false;
     }
     LPSTR				GetValue		(){return value;}
-    virtual void		ResetValue		(){strcpy(value,init_value.c_str());}
+    virtual void		ResetValue		(){BearCore::BearString::Copy(value, xr_strlen(init_value.c_str() + 1), init_value.c_str());}
 };
 //------------------------------------------------------------------------------
 

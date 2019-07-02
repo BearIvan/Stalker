@@ -5,8 +5,6 @@
 #include "Spectator.h"
 #include "file_transfer.h"
 #include "screenshot_manager.h"
-#include "configs_dumper.h"
-#include "configs_dump_verifyer.h"
 #include "screenshot_server.h"
 
 class CUIWindow;
@@ -258,9 +256,7 @@ public:
 	virtual		LPCSTR				GetGameScore			(string32&	score_dest) = 0;
 				
 	screenshot_manager				ss_manager;
-	mp_anticheat::configs_dumper	cd_manager;
-	mp_anticheat::configs_verifyer	cd_verifyer;
-	
+
 	award_system::reward_event_generator*	get_reward_generator() const { return m_reward_generator; };
 
 				void				AddRewardTask	(u32 const award_id);

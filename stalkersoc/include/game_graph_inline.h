@@ -18,7 +18,6 @@ IC CGameGraph::CGameGraph											()
 #if defined(AI_COMPILER) || !defined(PRIQUEL)
 {
 #if !defined(AI_COMPILER) && !defined(PRIQUEL)
-	string_path						file_name;
 #endif // !defined(AI_COMPILER) && !defined(PRIQUEL)
 
 	m_reader						=XRayBearReader::Create( FS.Read("%content%", GRAPH_NAME));

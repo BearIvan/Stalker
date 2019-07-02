@@ -1165,9 +1165,6 @@
     <Filter Include="Core\Server\ServerProcess">
       <UniqueIdentifier>{5151c38a-3526-4337-80f4-5a9d546199c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Server\xrGameSpyServer">
-      <UniqueIdentifier>{e4bfbc9a-78de-4496-88c9-3ec04f0aaf6d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{6713e8cc-694a-4dda-af55-79f8e415ce45}</UniqueIdentifier>
     </Filter>
@@ -2365,9 +2362,6 @@
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\EffectorZoomInertion.cpp">
       <Filter>Core\Client\Effectors\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\Level_GameSpy_Funcs.cpp">
-      <Filter>Core\Client\Level</Filter>
-    </ClCompile>
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\Level_input.cpp">
       <Filter>Core\Client\Level</Filter>
     </ClCompile>
@@ -3010,37 +3004,7 @@
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\game_sv_mp.cpp">
       <Filter>Core\Server\Games\server\mp</Filter>
     </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_Available.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_Browser.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_Full.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_GCD_Client.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_GCD_Server.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_HTTP.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_Patching.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_QR2.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\GameSpy_QR2_callbacks.cpp">
-      <Filter>Core\Server\GameSpy</Filter>
-    </ClCompile>
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\base32.c">
-      <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\cdkeydecode.c">
       <Filter>Core\Server\GameSpy\CdkeyDecode</Filter>
     </ClCompile>
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\xrServer_Factory.cpp">
@@ -3105,15 +3069,6 @@
     </ClCompile>
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\xrServer_process_update.cpp">
       <Filter>Core\Server\ServerProcess</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\xrGameSpy_GameSpyFuncs.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\xrGameSpyServer.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\xrGameSpyServer_callbacks.cpp">
-      <Filter>Core\Server\xrGameSpyServer</Filter>
     </ClCompile>
     <ClCompile Include="E:\GameDev\BearSDK\projects\engine\stalker\stalkersoc\source\PHDebug.cpp">
       <Filter>Physics\Base</Filter>

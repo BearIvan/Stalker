@@ -636,17 +636,17 @@ void CIKLimb::Collide( SIKCollideData &cld, CGameObject *O, const Fmatrix &foot,
 
 	collide::rq_result	R;
 
-	if( g_pGameLevel->ObjectSpace.RayPick( pos, pick_v, l_pick_dist, collide::rqtBoth, R, O ) )
+	if (g_pGameLevel->ObjectSpace.RayPick(pos, pick_v, l_pick_dist, collide::rqtBoth, R, O))
 	{
-		if( !R.O )
+		if (!R.O)
 		{
 			cld.collided = true;
-			CDB::TRI	* tri	= Level( ).ObjectSpace.GetStaticTris( ) + R.element;
-			tri_plane( *tri, cld.m_plane );
-			cld.m_collide.add( pos, Fvector( ).mul( pick_v, R.range ) );
+			CDB::TRI	* tri = Level().ObjectSpace.GetStaticTris() + R.element;
+			tri_plane(*tri, cld.m_plane);
+			cld.m_collide.add(pos, Fvector().mul(pick_v, R.range));
 			cld.clamp_down = R.range > pick_dist + XrMath::EPS_L;
-		} else {
-			
+		} /*else {
+
 			IRenderVisual* V =R.O->Visual();
 			if( V )
 			{
@@ -660,11 +660,11 @@ void CIKLimb::Collide( SIKCollideData &cld, CGameObject *O, const Fmatrix &foot,
 						Fvector point; point.add( pos, Fvector( ).mul( pick_v, dist ) );
 						cld.m_plane.n.invert();
 						cld.m_plane.d = -cld.m_plane.n.dotproduct( point );
-					}*/
+					}
 				}
-			}	
-			
-		}
+			}	*/
+
+
 	}
 
 #ifdef DEBUG
@@ -675,7 +675,7 @@ void CIKLimb::Collide( SIKCollideData &cld, CGameObject *O, const Fmatrix &foot,
 		DBG_DrawLine(pos,p,D3DCOLOR_XRGB( 255, 0, 0 ) );
 		if( tri )
 		{
-			Fvector p = pos;p.add( Fvector( ).mul( pick_v, l_pick_dist ) );
+			Fvector p1 = pos;p1.add( Fvector( ).mul( pick_v, l_pick_dist ) );
 			DBG_DrawTri( tri,Level( ).ObjectSpace.GetStaticVerts( ), D3DCOLOR_XRGB( 255, 0, 0 ) );
 		}
 	}

@@ -77,7 +77,6 @@ void CUIStaticItem::Render()
 	bp.y						= (float)XrMath::iFloor(bp.y);
 
 	// actual rendering
-	u32							vOffset;
 	Fvector2					pos;
 	Fvector2					f_len;
 	UI()->ClientToScreenScaled	(f_len, iVisRect.x2, iVisRect.y2 );
@@ -120,7 +119,6 @@ void CUIStaticItem::Render(float angle)
 
 
 	// actual rendering
-	u32		vOffset;
 	UIRender->StartPrimitive(32, IUIRender::ptTriList, IUIRender::pttTL);
 	inherited::Render			(bp_ns,dwColor,angle);
 	// unlock VB and Render it as triangle LIST

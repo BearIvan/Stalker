@@ -10,7 +10,7 @@
 #include "ui/UIChatWnd.h"
 #include "ui/UIGameLog.h"
 #include "clsid_game.h"
-#include <dinput.h>
+
 #include "UIGameCustom.h"
 #include "ui/UIInventoryUtilities.h"
 #include "ui/UIMessagesWindow.h"
@@ -1038,7 +1038,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 		if(pUIDM)
 		{
 			string256					MoneyStr;
-			itoa(local_player->money_for_round, MoneyStr, 10);
+			BearCore::BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
 			pUIDM->ChangeTotalMoneyIndicator	(MoneyStr);
 		}
 	}

@@ -14,10 +14,7 @@
 #include "alife_spawn_registry.h"
 #include "alife_graph_registry.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 CSE_ALifeItemWeapon	*CSE_ALifeAnomalousZone::tpfGetBestWeapon(ALife::EHitType &tHitType, float &fHitPower)
 {
@@ -104,11 +101,11 @@ void CSE_ALifeAnomalousZone::spawn_artefacts				()
 			ai().alife().spawns().assign_artefact_position(this,i);
 
 			Fvector				t = i->o_Position	;
-			u32					p = i->m_tNodeID	;
+			u32					p1 = i->m_tNodeID	;
 			float				q = i->m_fDistance	;
 			alife().graph().change(i,m_tGraphID,i->m_tGraphID);
 			i->o_Position		= t;
-			i->m_tNodeID		= p;
+			i->m_tNodeID		= p1;
 			i->m_fDistance		= q;
 
 			CSE_ALifeItemArtefact *l_tpALifeItemArtefact = smart_cast<CSE_ALifeItemArtefact*>(i);

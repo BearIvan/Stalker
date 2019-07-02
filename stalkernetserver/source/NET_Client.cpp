@@ -5,14 +5,9 @@
 #include "net_messages.h"
 #include "NET_Log.h"
 
-#include "xrGameSpy_MainDefs.h"
-
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
 #include "directx\dxerr.h"
 
-//#pragma warning(pop)
 
 // {0218FA8B-515B-4bf2-9A5F-2F079D1759F3}
 static const GUID NET_GUID = 
@@ -110,6 +105,14 @@ const GUID IID_IDirectPlay8Address =
 { 0x83783300, 0x4063, 0x4c8a, { 0x9d, 0xb3, 0x82, 0x83, 0x0a, 0x7f, 0xeb, 0x31 } };
 
 static	INetLog* pClNetLog = NULL; 
+
+#define	BASEPORT				5445
+#define START_PORT							0
+#define END_PORT							65535
+#define START_PORT_LAN						BASEPORT
+#define START_PORT_LAN_SV					START_PORT_LAN + 1
+#define END_PORT_LAN							BASEPORT+1000
+
 
 void	dump_URL	(LPCSTR p, IDirectPlay8Address* A)
 {
@@ -419,7 +422,7 @@ if(!psNET_direct_connect)
 	};
 	
 	BOOL bPortWasSet = FALSE;
-	int				psCL_Port = START_PORT_LAN_CL;
+	int				psCL_Port = START_PORT_LAN;
 	if (strstr(options, "portcl="))
 	{
 		string64	portstr;

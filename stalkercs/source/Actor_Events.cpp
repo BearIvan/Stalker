@@ -59,7 +59,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 				
 #ifdef MP_LOGGING
 				string64 act;
-				strcpy_s( act, (type == GE_TRADE_BUY)? "buys" : "takes" );
+				BearCore::BearString::Copy( act, (type == GE_TRADE_BUY)? "buys" : "takes" );
 				Msg("--- Actor [%d][%s]  %s  [%d][%s]", ID(), Name(), act, _GO->ID(), _GO->cNameSect().c_str());
 #endif // MP_LOGGING
 				
@@ -71,10 +71,10 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 			{
 				if (IsGameTypeSingle())
 				{
-					NET_Packet		P;
-					u_EventGen		(P,GE_OWNERSHIP_REJECT,ID());
+					NET_Packet		P1;
+					u_EventGen		(P1,GE_OWNERSHIP_REJECT,ID());
 					P.w_u16			(u16(Obj->ID()));
-					u_EventSend		(P);
+					u_EventSend		(P1);
 				} else
 				{
 					Msg("! ERROR: Actor [%d][%s]  tries to drop on take [%d][%s]", ID(), Name(), _GO->ID(), _GO->cNameSect().c_str());
@@ -103,7 +103,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 			
 #ifdef MP_LOGGING
 			string64 act;
-			strcpy_s( act, (type == GE_TRADE_SELL)? "sells" : "rejects" );
+			BearCore::BearString::Copy( act, (type == GE_TRADE_SELL)? "sells" : "rejects" );
 			Msg("--- Actor [%d][%s]  %s  [%d][%s]", ID(), Name(), act, GO->ID(), GO->cNameSect().c_str());
 #endif // MP_LOGGING
 			
@@ -290,10 +290,10 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 		}break;
 	case GEG_PLAYER_ATTACH_HOLDER:
 		{
-			u16 id = P.r_u16();
-			CObject* O	= Level().Objects.net_Find	(id);
+			u16 id1 = P.r_u16();
+			CObject* O	= Level().Objects.net_Find	(id1);
 			if (!O){
-				Msg("! Error: No object to attach holder [%d]", id);
+				Msg("! Error: No object to attach holder [%d]", id1);
 				break;
 			}
 			VERIFY(m_holder==NULL);
@@ -304,9 +304,9 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 	case GEG_PLAYER_DETACH_HOLDER:
 		{
 			if			(!m_holder)	break;
-			u16 id			= P.r_u16();
+			u16 id1			= P.r_u16();
 			CGameObject*	GO	= smart_cast<CGameObject*>(m_holder);
-			VERIFY			(id==GO->ID());
+			VERIFY			(id1==GO->ID());
 			use_Holder		(NULL);
 		}break;
 	case GEG_PLAYER_PLAY_HEADSHOT_PARTICLE:

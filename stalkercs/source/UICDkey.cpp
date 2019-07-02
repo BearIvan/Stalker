@@ -8,10 +8,8 @@
 #include "UI/UIColorAnimatorWrapper.h"
 #include "engine/xr_IOConsole.h"
 #include "RegistryFuncs.h"
-#include "xrGameSpy_MainDefs.h"
 #include "player_name_modifyer.h"
 
-extern string64	gsCDKey;
 
 CUICDkey::CUICDkey()
 {
@@ -126,13 +124,7 @@ void CUICDkey::SaveValue()
 {
 	CUIOptionsItem::SaveValue();
 
-	strcpy_s( gsCDKey, sizeof(gsCDKey), CMainMenu::AddHyphens(inherited::GetText()) );
-	WriteCDKey_ToRegistry( gsCDKey );
-
-	if ( MainMenu()->IsCDKeyIsValid() )
-	{
-		m_view_access = false;
-	}
+	
 }
 
 bool CUICDkey::IsChanged()
@@ -157,7 +149,7 @@ void CUIMPPlayerName::OnFocusLost()
 		GetMessageTarget()->SendMessage(this, EDIT_TEXT_COMMIT, NULL);
 	}
 	string64 name;
-	strcpy_s( name, GetText() );
+	BearCore::BearString::Copy( name, GetText() );
 	string256 new_name;
 	modify_player_name(name, new_name);
 	WritePlayerName_ToRegistry( new_name );
@@ -167,7 +159,7 @@ void CUIMPPlayerName::OnFocusLost()
 
 void GetCDKey_FromRegistry(char* cdkey)
 {
-	ReadRegistry_StrValue(REGISTRY_VALUE_GSCDKEY, cdkey);
+	
 	if ( xr_strlen(cdkey) > 64 )
 	{
 		cdkey[64] = 0;
@@ -180,16 +172,16 @@ void WriteCDKey_ToRegistry(LPSTR cdkey)
 	{
 		cdkey[64] = 0;
 	}
-	WriteRegistry_StrValue(REGISTRY_VALUE_GSCDKEY, cdkey);
+	
 }
 
 void GetPlayerName_FromRegistry(char* name, u32 const name_size)
 {
 	string256	new_name;
-	if (!ReadRegistry_StrValue(REGISTRY_VALUE_USERNAME, name))
+	if (0)
 	{
 		name[0] = 0;
-		Msg( "! Player name registry key (%s) not found !", REGISTRY_VALUE_USERNAME );
+		Msg( "! Player name registry key (%s) not found !", "null" );
 		return;
 	}
 	if ( xr_strlen(name) > 17 )
@@ -198,7 +190,7 @@ void GetPlayerName_FromRegistry(char* name, u32 const name_size)
 	}
 	if ( xr_strlen(name) == 0 )
 	{
-		Msg( "! Player name in registry is empty! (%s)", REGISTRY_VALUE_USERNAME );
+		Msg( "! Player name in registry is empty! (%s)", "null" );
 	}
 	modify_player_name(name, new_name);
 	strncpy_s(name, name_size, new_name, 17);
@@ -210,5 +202,5 @@ void WritePlayerName_ToRegistry(LPSTR name)
 	{
 		name[17] = 0;
 	}
-	WriteRegistry_StrValue(REGISTRY_VALUE_USERNAME, name);
+	WriteRegistry_StrValue("null", name);
 }

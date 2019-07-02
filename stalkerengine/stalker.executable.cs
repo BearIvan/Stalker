@@ -25,7 +25,7 @@ public class stalker :Executable
 
 
         IncludeInProject.Public.Add("stalkercpu_pipe");
-		IncludeInProject.Private.Add("stalkergamespy");
+		//IncludeInProject.Private.Add("stalkergamespy");
 		
 		LibrariesStatic.Private.Add("winmm.lib");
 		LibrariesStatic.Private.Add("vfw32.lib");
@@ -51,10 +51,9 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalker_r3");
 		IncludeAutonomousProjects.Add("stalker_r4");
 		
-        IncludeAutonomousProjects.Add("stalkersoc");
+       IncludeAutonomousProjects.Add("stalkersoc");
 	//	IncludeAutonomousProjects.Add("stalkercs");
-	//	IncludeAutonomousProjects.Add("stalkercop");
-        IncludeAutonomousProjects.Add("stalkergamespy");
+		//IncludeAutonomousProjects.Add("stalkercop");
 		Console = false;
         ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
 		//ProjectsToDynamicLibrary = true;
@@ -62,7 +61,7 @@ public class stalker :Executable
 	public override void StartBuild()
 	{
 		BearBuildTool.Config.Global.UNICODE=false;
-        BearBuildTool.Config.Global.WithoutWarning = true;
+        //BearBuildTool.Config.Global.WithoutWarning = true;
 
     }
 } 

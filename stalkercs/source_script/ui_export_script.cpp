@@ -7,7 +7,10 @@
 using namespace luabind;
 
 CMainMenu*	MainMenu();
-
+static bool ItTRue()
+{
+	return true;
+}
 #pragma optimize("s",on)
 void UIRegistrator::script_register(lua_State *L)
 {
@@ -35,7 +38,7 @@ void UIRegistrator::script_register(lua_State *L)
 		class_<CMainMenu>("CMainMenu")
 			.def("GetPatchProgress",		&CMainMenu::GetPatchProgress)
 			.def("CancelDownload",			&CMainMenu::CancelDownload)
-			.def("ValidateCDKey",			&CMainMenu::ValidateCDKey)
+			.def("ValidateCDKey",			&ItTRue)
 			.def("GetGSVer",				&CMainMenu::GetGSVer)
 			.def("GetCDKey",				&CMainMenu::GetCDKeyFromRegistry)
 			.def("GetPlayerName",			&CMainMenu::GetPlayerNameFromRegistry)

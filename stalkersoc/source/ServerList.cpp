@@ -11,16 +11,11 @@
 #include "ui/TeamInfo.h"
 #include "MainMenu.h"
 
-#include "GameSpy/GameSpy_Full.h"
-#include "GameSpy/GameSpy_Browser.h"
-
-
 CGameSpy_Browser* g_gs_browser = NULL;
 
 CServerList::CServerList()
 {
-	m_GSBrowser	= MainMenu()->GetGS()->m_pGS_SB;
-	m_GSBrowser->Init(this);
+	
 
 	for (int i = 0; i<LST_COLUMN_COUNT; i++)
 		AttachChild(&m_header_frames[i]);
@@ -63,7 +58,6 @@ CServerList::~CServerList()
 {
 	xr_delete			(m_pAnimation);
 	xr_delete			(m_message_box);
-	m_GSBrowser->Clear	();
 
 	DestroySrvItems		();
 };
@@ -111,8 +105,7 @@ bool CServerList::NeedToRefreshCurServer	()
 	int SvId = m_list[LST_SERVER].GetSelectedItem();
 	if (-1 == SvId)
 		return false;
-	CUIListItemServer* pItem = (CUIListItemServer*)m_list[LST_SERVER].GetItem(SvId);
-	return m_GSBrowser->HasAllKeys(pItem->GetInfo()->info.Index) == false;
+	return false;
 };
 
 void CServerList::SendMessage(CUIWindow* pWnd, s16 msg, void* pData){
@@ -193,149 +186,13 @@ void CServerList::FillUpDetailedServerInfo()
 {	
 	int si = m_list[LST_SERVER].GetSelectedItem();
 
-	bool t1 = false;
-	bool t2 = false;
-	bool spect = false;
 		
     if (-1 != si)
 	{
 		CUIListItemServer* pItem = (CUIListItemServer*)m_list[LST_SERVER].GetItem(si);
 		R_ASSERT					(pItem);
 
-		ServerInfo srvInfo;
-		if (m_GSBrowser) m_GSBrowser->GetServerInfoByIndex(&srvInfo, pItem->GetInfo()->info.Index);
-		u32 teams = srvInfo.m_aTeams.size();
-
-		if (2 == teams)
-		{
-			string256 _buff;
-
-			CUIListItemAdv* pItemAdv;
-
-			// TEAM 1
-			xr_vector<PlayerInfo>::iterator it;
-			for (it = srvInfo.m_aPlayers.begin(); it != srvInfo.m_aPlayers.end(); it++)
-			{
-				PlayerInfo pf = *it;
-				if (1 != pf.Team)
-					continue;
-				if (pf.Spectator)
-					continue;
-
-				if (!t1)		// add header
-				{
-					sprintf_s(_buff, "team \"%s\"", *CTeamInfo::GetTeam1_name());
-					pItemAdv = xr_new<CUIListItemAdv>();
-					pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-					pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-					pItemAdv->AddField(_buff, m_list[LST_PLAYERS].GetItemWidth());
-					m_list[LST_PLAYERS].AddItem(pItemAdv);
-					t1 = true;
-				}
-
-
- 				pItemAdv = xr_new<CUIListItemAdv>();				
-
-				char buf[16];
-				pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-				pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-				pItemAdv->AddField(pf.Name, m_header2[1].GetWidth());
-				pItemAdv->AddField(itoa(pf.Frags, buf,10), m_header2[2].GetWidth());
-				pItemAdv->AddField(itoa(pf.Deaths, buf,10), m_header2[3].GetWidth());
-				m_list[LST_PLAYERS].AddItem(pItemAdv);
-			}
-
-			
-			// TEAM 2
-			for (it = srvInfo.m_aPlayers.begin(); it != srvInfo.m_aPlayers.end(); it++)
-			{
-				PlayerInfo pf = *it;
-				if (2 != pf.Team)
-					continue;
-				if (pf.Spectator)
-					continue;
-
-				if (!t2)
-				{
-					sprintf_s(_buff, "team \"%s\"", *CTeamInfo::GetTeam2_name());
-					pItemAdv = xr_new<CUIListItemAdv>();
-					pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-					pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-					pItemAdv->AddField(_buff, m_list[LST_PLAYERS].GetItemWidth());
-					m_list[LST_PLAYERS].AddItem(pItemAdv);
-
-					t2 = true;
-				}
-
-				pItemAdv = xr_new<CUIListItemAdv>();				
-				char buf[16];
-				pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-				pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-				pItemAdv->AddField(pf.Name, m_header2[1].GetWidth());
-				pItemAdv->AddField(itoa(pf.Frags, buf,10), m_header2[2].GetWidth());
-				pItemAdv->AddField(itoa(pf.Deaths, buf,10), m_header2[3].GetWidth());
-				m_list[LST_PLAYERS].AddItem(pItemAdv);
-			}
-
-			// SPECTATORS
-			for (it = srvInfo.m_aPlayers.begin(); it != srvInfo.m_aPlayers.end(); it++)
-			{
-				PlayerInfo pf = *it;
-				if (!pf.Spectator)
-					continue;
-
-				if (!spect)
-				{
-					sprintf_s(_buff, "spectator");
-					pItemAdv = xr_new<CUIListItemAdv>();
-					pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-					pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-					pItemAdv->AddField(_buff, m_list[LST_PLAYERS].GetItemWidth());
-					m_list[LST_PLAYERS].AddItem(pItemAdv);
-
-					spect = true;
-				}
-
-				pItemAdv = xr_new<CUIListItemAdv>();				
-				char buf[16];
-				pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-				pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-				pItemAdv->AddField(pf.Name, m_header2[1].GetWidth());
-				pItemAdv->AddField(itoa(pf.Frags, buf,10), m_header2[2].GetWidth());
-				pItemAdv->AddField(itoa(pf.Deaths, buf,10), m_header2[3].GetWidth());
-				m_list[LST_PLAYERS].AddItem(pItemAdv);
-			}
-
-		}
-		else
-		{
-			xr_vector<PlayerInfo>::iterator it;
-			for (it = srvInfo.m_aPlayers.begin(); it != srvInfo.m_aPlayers.end(); it++)
-			{
-				PlayerInfo pf = *it;
-				CUIListItemAdv* pItemAdv = xr_new<CUIListItemAdv>();
-
-				char buf[16];
-
-				pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
-				pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
-				pItemAdv->AddField(pf.Name, m_header2[1].GetWidth());
-				pItemAdv->AddField(itoa(pf.Frags, buf,10), m_header2[2].GetWidth());
-				pItemAdv->AddField(itoa(pf.Deaths, buf,10), m_header2[3].GetWidth());
-				m_list[LST_PLAYERS].AddItem(pItemAdv);
-			}
-		}
-
-		xr_vector<GameInfo>::iterator it;
-		for (it = srvInfo.m_aInfos.begin(); it != srvInfo.m_aInfos.end(); it++){
-			GameInfo gi = *it;
-			CUIListItemAdv* pItemAdv = xr_new<CUIListItemAdv>();
-
-			pItemAdv->AddField(*gi.InfoName, m_list[LST_SRV_PROP].GetWidth()/2);
-			pItemAdv->AddField(*gi.InfoData, m_list[LST_SRV_PROP].GetWidth()/2);
-
-			m_list[LST_SRV_PROP].AddItem(pItemAdv);
-		}
+	
 	}
 	else
 		ClearDetailedServerInfo		();
@@ -396,20 +253,9 @@ void CServerList::SetPlayerName(LPCSTR name)
 
 bool CServerList::IsValidItem(ServerInfo& item)
 {
-	bool result = true;
+	bool result = false;
 
-	result &= !m_sf.empty			? (m_sf.empty			== (item.m_ServerNumPlayers == 0))							: true;
-	result &= !m_sf.full			? (m_sf.full			== (item.m_ServerNumPlayers == item.m_ServerMaxPlayers))	: true;
-	result &= !m_sf.with_pass		? (m_sf.with_pass		== item.m_bPassword)										: true;
-	result &= !m_sf.without_pass	? (m_sf.without_pass	!= item.m_bPassword)										: true;
-	result &= !m_sf.without_ff		? (m_sf.without_ff		!= item.m_bFFire)											: true;
-#ifdef BATTLEYE
-	if ( !m_b_local )
-	{
-		result &= m_sf.with_battleye	? (/*m_sf.with_battleye	== */item.m_bBattlEye)										: true;
-	}
-#endif // BATTLEYE
-	result &= !m_sf.listen_servers	? (m_sf.listen_servers	!= item.m_bDedicated)										: true;
+	
 
 	return result;
 }
@@ -461,38 +307,6 @@ void CServerList::ConnectToSelected()
 	if (-1 == sel)
 		return;
 
-	//-----------------------------------------
-	if (!MainMenu()->ValidateCDKey()) return;	
-	//-----------------------------------------
-
-	CUIListItemServer* item = smart_cast<CUIListItemServer*>(m_list[LST_SERVER].GetItem(sel));
-	if (!m_GSBrowser->CheckDirectConnection(item->GetInfo()->info.Index))
-	{
-		Msg("! Direct connection to this server is not available -> its behind firewall");
-		return;
-	}
-	static string256	buff;
-	if (xr_strcmp(item->GetInfo()->info.version, MainMenu()->GetGS()->GetGameVersion(buff)))
-	{
-		MainMenu()->SetErrorDialog(CMainMenu::ErrDifferentVersion);
-		return;
-	}
-
-
-	if (item->GetInfo()->info.icons.pass || item->GetInfo()->info.icons.user_pass)
-	{
-		m_message_box->m_pMessageBox->SetUserPasswordMode	(item->GetInfo()->info.icons.user_pass);
-		m_message_box->m_pMessageBox->SetPasswordMode		(item->GetInfo()->info.icons.pass);
-		MainMenu()->StartStopMenu							(m_message_box,true);
-	}
-	else
-	{
-		xr_string command;
-
-		item->CreateConsoleCommand(command, m_playerName.c_str(), "", "" );
-
-		Console->Execute(command.c_str());
-	}
 }
 
 void CServerList::InitHeader()
@@ -546,8 +360,7 @@ void CServerList::RefreshGameSpyList(bool Local)
 {
 	SetSortFunc			("",		false);
 	SetSortFunc			("ping",	false);
-	if (m_GSBrowser) 
-		m_GSBrowser->RefreshList_Full(Local, m_edit_gs_filter.GetText());
+	
 
 	ResetCurItem		();
 	RefreshList			();
@@ -605,42 +418,7 @@ void	CServerList::RefreshList_internal()
 	m_list[LST_SERVER].RemoveAll	();
 	ClearSrvItems					();
 	
-	if (!m_GSBrowser)				return;
-
-	u32 NumServersFound				= m_GSBrowser->GetServersCount();
-	g_gs_browser					= m_GSBrowser;
-	m_tmp_srv_lst.resize			(NumServersFound);
-
-	
-	for (u32 i=0; i<NumServersFound; i++)
-		m_tmp_srv_lst[i] = i;
-
-	if (0 == xr_strcmp(m_sort_func, "server_name"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_ServerName);
-
-	else if (0 == xr_strcmp(m_sort_func, "map"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_Map);
-
-	else if (0 == xr_strcmp(m_sort_func, "game_type"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_GameType);
-
-	else if (0 == xr_strcmp(m_sort_func, "player"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_Players);
-
-	else if (0 == xr_strcmp(m_sort_func, "ping"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_Ping);
-
-	else if (0 == xr_strcmp(m_sort_func, "version"))
-		std::sort(m_tmp_srv_lst.begin(), m_tmp_srv_lst.end(), sort_by_Version);
-
-	for (u32 i=0; i<NumServersFound; i++)
-	{
-		ServerInfo							NewServerInfo;
-		m_GSBrowser->GetServerInfoByIndex	(&NewServerInfo, m_tmp_srv_lst[i]);
-
-		AddServerToList						(&NewServerInfo);
-	}
-	RestoreCurItem();
+	return;
 };
 
 void CServerList::RefreshQuick()
@@ -648,16 +426,7 @@ void CServerList::RefreshQuick()
 	int SvId = m_list[LST_SERVER].GetSelectedItem();
 	if (-1 == SvId)
 		return;
-	CUIListItemServer* pItem = (CUIListItemServer*)m_list[LST_SERVER].GetItem(SvId);
-	if (m_GSBrowser) m_GSBrowser->RefreshQuick(pItem->GetInfo()->info.Index);
-	
-	RefreshList();
 
-	if (m_bShowServerInfo)
-	{
-		ClearDetailedServerInfo();
-		FillUpDetailedServerInfo();
-	}	
 }
 
 bool g_bSort_Ascending = true;
@@ -678,93 +447,37 @@ void CServerList::SetSortFunc(LPCSTR func_name, bool make_sort)
 
 void CServerList::SrvInfo2LstSrvInfo(const ServerInfo* pServerInfo)
 {
-	m_itemInfo.info.server			= pServerInfo->m_ServerName;
-	xr_string address				= pServerInfo->m_HostName;
-	char							port[8];
-	address							+= "/port=";	
-	address							+= itoa(pServerInfo->m_Port, port, 10);
-	m_itemInfo.info.address			= address.c_str();
-	m_itemInfo.info.map				= pServerInfo->m_SessionName;
-	m_itemInfo.info.game			= pServerInfo->m_ServerGameType;
-	m_itemInfo.info.players.printf("%d/%d", pServerInfo->m_ServerNumPlayers, pServerInfo->m_ServerMaxPlayers);
-	m_itemInfo.info.ping.printf	("%d", pServerInfo->m_Ping);
-	m_itemInfo.info.version			= pServerInfo->m_ServerVersion;
-	m_itemInfo.info.icons.pass		= pServerInfo->m_bPassword;
-	m_itemInfo.info.icons.dedicated	= pServerInfo->m_bDedicated;
-	m_itemInfo.info.icons.punkbuster= false;//	= pServerInfo->m_bPunkBuster;
-	m_itemInfo.info.icons.user_pass	= pServerInfo->m_bUserPass;
-
-	m_itemInfo.info.Index			= pServerInfo->Index;   
+	
 }
 
 bool CServerList::sort_by_ServerName(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-    gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	int res = xr_strcmp(info1.m_ServerName, info2.m_ServerName);
-	return (g_bSort_Ascending) ? (-1 == res) : (1 == res);
+	return false;
 }
 
 bool CServerList::sort_by_Map(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-    gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	int res = xr_strcmp(info1.m_SessionName, info2.m_SessionName);
-	return (g_bSort_Ascending) ? (-1 == res) : (1 == res);
+	return false;
 }
 
 bool CServerList::sort_by_GameType(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-    gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	int res = xr_strcmp(info1.m_ServerGameType, info2.m_ServerGameType);
-	return (g_bSort_Ascending) ? (-1 == res) : (1 == res);
+	return false;
 }
 
 bool CServerList::sort_by_Players(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-    gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	return (g_bSort_Ascending) ? (info1.m_ServerNumPlayers < info2.m_ServerNumPlayers) : (info1.m_ServerNumPlayers > info2.m_ServerNumPlayers);
+	return false;
 }
 
 bool CServerList::sort_by_Ping(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-    gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	return (g_bSort_Ascending) ? (info1.m_Ping < info2.m_Ping) : (info1.m_Ping > info2.m_Ping);
+	return false;
 }
 
 bool CServerList::sort_by_Version(int p1, int p2)
 {
-	CGameSpy_Browser& gs_browser = *g_gs_browser;
-	ServerInfo info1,info2;
-
-	gs_browser.GetServerInfoByIndex(&info1, p1);
-	gs_browser.GetServerInfoByIndex(&info2, p2);
-
-	int res = xr_strcmp(info1.m_ServerVersion, info2.m_ServerVersion);
-	return (g_bSort_Ascending) ? (-1 == res) : (1 == res);
+	return false;
 }
 
 void CServerList::SaveCurItem()

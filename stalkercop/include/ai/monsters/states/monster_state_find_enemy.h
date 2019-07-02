@@ -12,7 +12,7 @@ protected:
 public:
 						CStateMonsterFindEnemy	(_Object *obj);
 	virtual				~CStateMonsterFindEnemy	();
-	virtual void		remove_links			(CObject* object) { inherited::remove_links(object);}
+	virtual void		remove_links			(CObject* object1) { inherited::remove_links(object1);}
 
 	virtual	void		reselect_state			();
 };

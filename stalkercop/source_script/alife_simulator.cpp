@@ -63,10 +63,10 @@ CALifeSimulator::CALifeSimulator		(xrServer *server, shared_str *command_line) :
 	
 	string256					temp;
 	xr_strcpy						(temp,p.m_game_or_spawn);
-	xr_strcat						(temp,"/");
-	xr_strcat						(temp,p.m_game_type);
-	xr_strcat						(temp,"/");
-	xr_strcat						(temp,p.m_alife);
+	BearCore::BearString::Contact						(temp,"/");
+	BearCore::BearString::Contact						(temp,p.m_game_type);
+	BearCore::BearString::Contact						(temp,"/");
+	BearCore::BearString::Contact						(temp,p.m_alife);
 	*command_line				= temp;
 	
 	LPCSTR						start_game_callback = pSettings->r_string(alife_section,"start_game_callback");
@@ -129,8 +129,7 @@ IReader const* CALifeSimulator::get_config	( shared_str config ) const
 		m_configs_lru.insert		( m_configs_lru.begin(), std::make_pair(temp.first, temp.second) );
 		return						temp.second;
 	}
-
-	string_path						file_name;
+	
 	if ( !FS.ExistFile("%config%", config.c_str()) )
 		return						0;
 

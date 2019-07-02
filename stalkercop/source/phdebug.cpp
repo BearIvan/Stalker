@@ -363,7 +363,7 @@ void _cdecl DBG_OutText(LPCSTR s,...)
 	string1024 t;
 	va_list   marker;
 	va_start  (marker,s);
-	vsprintf(t,s,marker);
+	BearCore::BearString::PrintfVa(t,s,marker);
 	va_end    (marker);
 	DBG_DrawPHAbstruct(xr_new<SPHDBGOutText>(t));
 }
@@ -497,11 +497,11 @@ void DBG_PHAbstructRender()
 	}
 	if(dbg_ph_draw_mode!=dmCashed)
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_cashed.begin();e=dbg_draw_cashed.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i1,e1;
+		i1=dbg_draw_cashed.begin();e1=dbg_draw_cashed.end();
+		for(;e1!=i1;++i1)
 		{
-			(*i)->render();
+			(*i1)->render();
 		}
 		if(cash_draw_remove_time<Device.dwTimeGlobal)
 		{
@@ -509,11 +509,11 @@ void DBG_PHAbstructRender()
 		}
 	}
 	{
-		PHABS_DBG_I i,e;
-		i=dbg_draw_simple.begin();e=dbg_draw_simple.end();
-		for(;e!=i;++i)
+		PHABS_DBG_I i1,e1;
+		i1=dbg_draw_simple.begin();e=dbg_draw_simple.end();
+		for(;e1!=i1;++i1)
 		{
-			(*i)->render();
+			(*i1)->render();
 		}
 		//clear_vector(dbg_draw_simple);
 	}
@@ -1119,7 +1119,7 @@ virtual	void _cdecl DBG_OutText( LPCSTR s,... )
 	string1024 t;
 	va_list   marker;
 	va_start  (marker,s);
-	vsprintf(t,s,marker);
+	BearCore::BearString::PrintfVa(t,s,marker);
 	va_end    (marker);
 	DBG_DrawPHAbstruct(xr_new<SPHDBGOutText>(t));
 }

@@ -29,5 +29,6 @@ private:
 
 add_to_type_list(CAI_Flesh)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CAI_Flesh)
 

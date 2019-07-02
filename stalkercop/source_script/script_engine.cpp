@@ -345,7 +345,7 @@ void CScriptEngine::load_common_scripts()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string_path		S;
+	
 	CInifile		*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT		(l_tpIniFile);
 	if (!l_tpIniFile->section_exist("common")) {
@@ -359,9 +359,9 @@ void CScriptEngine::load_common_scripts()
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(XrTrims::GetItem(caScriptString,i,I));
-			xr_strcat	(I,"_initialize");
+			BearCore::BearString::Contact	(I,"_initialize");
 			if (object("_G",I,LUA_TFUNCTION)) {
-//				lua_dostring			(lua(),xr_strcat(I,"()"));
+//				lua_dostring			(lua(),BearCore::BearString::Contact(I,"()"));
 				luabind::functor<void>	f;
 				R_ASSERT				(functor(I,f));
 				f						();
@@ -379,8 +379,6 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 		return;
 
 	string_path			S1,S2;
-	auto src1 = file_name;
-	bool b1 = false;
 	/*for (; *src1&&*src1 != '_'; src1++)if (*(src1 + 1) == '_') b1 = true;
 	memcpy(S2, file_name, src1 - file_name);
 	if (b1)

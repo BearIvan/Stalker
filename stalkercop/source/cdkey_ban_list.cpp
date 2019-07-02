@@ -162,7 +162,7 @@ void cdkey_ban_list::unban_player_by_index(size_t const index)
 
 char const * print_time(time_t const & src_time, string64 & dest_time)
 {
-	tm* tmp_tm = _localtime64(&src_time);
+/*	tm* tmp_tm = _localtime64(&src_time);
 	xr_sprintf(dest_time, sizeof(dest_time),
 		"%02d.%02d.%d_%02d:%02d:%02d",
 		tmp_tm->tm_mday, 
@@ -171,7 +171,8 @@ char const * print_time(time_t const & src_time, string64 & dest_time)
 		tmp_tm->tm_hour, 
 		tmp_tm->tm_min, 
 		tmp_tm->tm_sec
-	);
+	);*/
+	dest_time[0] = 0;
 	return dest_time;
 }
 
@@ -217,7 +218,7 @@ cdkey_ban_list::banned_client::banned_client()
 time_t get_time_from_string(LPCSTR str_time)
 {
 	tm	tmp_time;
-	int res_t	= sscanf(
+	int res_t	= BearCore::BearString::Scanf(
 		str_time,
 		"%02d.%02d.%d_%02d:%02d:%02d", 
 		&tmp_time.tm_mday, 

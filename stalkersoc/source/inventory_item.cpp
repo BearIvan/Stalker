@@ -249,7 +249,7 @@ void CInventoryItem::OnEvent (NET_Packet& P, u16 type)
 		{
 			u32 ItemID;
 			P.r_u32			(ItemID);
-			CInventoryItem*	 ItemToAttach	= smart_cast<CInventoryItem*>(Level().Objects.net_Find(ItemID));
+			CInventoryItem*	 ItemToAttach	= smart_cast<CInventoryItem*>(Level().Objects.net_Find(static_cast<u16>(ItemID)));
 			if (!ItemToAttach) break;
 			Attach(ItemToAttach,true);
 			CActor* pActor = smart_cast<CActor*>(object().H_Parent());

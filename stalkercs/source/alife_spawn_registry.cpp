@@ -13,10 +13,7 @@
 #include "ai_space.h"
 #include "game_graph.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 CALifeSpawnRegistry::CALifeSpawnRegistry	(LPCSTR section)
 {
@@ -79,7 +76,6 @@ void CALifeSpawnRegistry::load				(LPCSTR spawn_name)
 {
 	Msg							("* Loading spawn registry...");
 	m_spawn_name				= spawn_name;
-	string_path					file_name;
 	R_ASSERT3					(FS.ExistFile( "%spawns%", *m_spawn_name, ".spawn"),"Can't find spawn file:",*m_spawn_name);
 	
 	VERIFY						(!m_file);

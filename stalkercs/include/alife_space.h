@@ -146,25 +146,25 @@ namespace ALife {
 
 	IC EHitType	g_tfString2HitType(LPCSTR caHitType)
 	{
-		if (!stricmp(caHitType,"burn"))
+		if (!BearCore::BearString::CompareWithoutCase(caHitType,"burn"))
 			return(eHitTypeBurn);
-		else if (!stricmp(caHitType,"shock"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"shock"))
 				return(eHitTypeShock);
-		else if (!stricmp(caHitType,"strike"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"strike"))
             	return(eHitTypeStrike);
-		else if (!stricmp(caHitType,"wound"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"wound"))
 				return(eHitTypeWound);
-		else if (!stricmp(caHitType,"radiation"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"radiation"))
 				return(eHitTypeRadiation);
-		else if (!stricmp(caHitType,"telepatic"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"telepatic"))
 				return(eHitTypeTelepatic);
-		else if (!stricmp(caHitType,"fire_wound"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"fire_wound"))
 				return(eHitTypeFireWound);
-		else if (!stricmp(caHitType,"chemical_burn"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"chemical_burn"))
 				return(eHitTypeChemicalBurn);
-		else if (!stricmp(caHitType,"explosion"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"explosion"))
 				return(eHitTypeExplosion);
-		else if (!stricmp(caHitType,"wound_2"))
+		else if (!BearCore::BearString::CompareWithoutCase(caHitType,"wound_2"))
 				return(eHitTypeWound_2);
 		else
 				FATAL	("Unsupported hit type!");

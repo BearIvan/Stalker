@@ -72,7 +72,7 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
 #ifndef _PP_EDITOR_
 #else /*_PP_EDITOR_*/
     string_path full_path;
-    strcpy (full_path, name);
+    BearCore::BearString::Copy (full_path, name);
 #endif /*_PP_EDITOR_*/
 	
 

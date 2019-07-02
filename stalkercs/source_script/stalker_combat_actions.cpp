@@ -632,10 +632,10 @@ void CStalkerActionLookOut::execute		()
 //	}
 
 	if (object().memory().enemy().selected()) {
-		CMemoryInfo					mem_object = object().memory().memory(object().memory().enemy().selected());
+		CMemoryInfo					mem_objectq = object().memory().memory(object().memory().enemy().selected());
 
-		if (mem_object.m_object) {
-			object().best_cover		(mem_object.m_object_params.m_position);
+		if (mem_objectq.m_object) {
+			object().best_cover		(mem_objectq.m_object_params.m_position);
 		}
 	}
 }
@@ -710,10 +710,10 @@ void CStalkerActionHoldPosition::execute		()
 	}
 
 	if (object().memory().enemy().selected()) {
-		CMemoryInfo					mem_object = object().memory().memory(object().memory().enemy().selected());
+		CMemoryInfo					mem_object1 = object().memory().memory(object().memory().enemy().selected());
 
-		if (mem_object.m_object) {
-			object().best_cover		(mem_object.m_object_params.m_position);
+		if (mem_object1.m_object) {
+			object().best_cover		(mem_object1.m_object_params.m_position);
 		}
 	}
 }

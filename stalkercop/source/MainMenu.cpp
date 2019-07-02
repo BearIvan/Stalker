@@ -11,10 +11,6 @@
 #include <dinput.h>
 #include "ui\UIBtnHint.h"
 #include "UICursor.h"
-#include "gamespy/GameSpy_Full.h"
-#include "gamespy/GameSpy_HTTP.h"
-#include "gamespy/GameSpy_Available.h"
-#include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 
 #include "DemoInfo.h"
@@ -30,7 +26,6 @@
 #include "account_manager.h"
 #include "login_manager.h"
 #include "profile_store.h"
-#include "stats_submitter.h"
 #include "atlas_submit_queue.h"
 
 #include "api/XrGameVersionController.h"
@@ -78,11 +73,9 @@ CMainMenu::CMainMenu	()
 	m_deactivated_frame				= 0;	
 	
 	m_sPatchURL						= "";
-	m_pGameSpyFull					= NULL;
 	m_account_mngr					= NULL;
 	m_login_mngr					= NULL;
 	m_profile_store					= NULL;
-	m_stats_submitter				= NULL;
 	m_atlas_submit_queue			= NULL;
 
 	m_sPDProgress.IsInProgress		= false;
@@ -101,7 +94,6 @@ CMainMenu::CMainMenu	()
 	{
 		g_btnHint						= xr_new<CUIButtonHint>();
 		g_statHint						= xr_new<CUIButtonHint>();
-		m_pGameSpyFull					= xr_new<CGameSpy_Full>();
 		
 		for (u32 i=0; i<u32(ErrMax); i++)
 		{
@@ -116,11 +108,10 @@ CMainMenu::CMainMenu	()
 		m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_copy", MESSAGE_BOX_COPY_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap_CopyURL));
 		m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap));
 
-		m_account_mngr			= xr_new<gamespy_gp::account_manager>		(m_pGameSpyFull->GetGameSpyGP());
-		m_login_mngr			= xr_new<gamespy_gp::login_manager>			(m_pGameSpyFull);
-		m_profile_store			= xr_new<gamespy_profile::profile_store>	(m_pGameSpyFull);
-		m_stats_submitter		= xr_new<gamespy_profile::stats_submitter>	(m_pGameSpyFull);
-		m_atlas_submit_queue	= xr_new<atlas_submit_queue>				(m_stats_submitter);
+		m_account_mngr			= xr_new<gamespy_gp::account_manager>		();
+		m_login_mngr			= xr_new<gamespy_gp::login_manager>			();
+		m_profile_store			= xr_new<gamespy_profile::profile_store>	();
+		m_atlas_submit_queue	= xr_new<atlas_submit_queue>				();
 	}
 	
 	Device.seqFrame.Add		(this,REG_PRIORITY_LOW-1000);
@@ -137,12 +128,10 @@ CMainMenu::~CMainMenu	()
 	xr_delete						(m_account_mngr);
 	xr_delete						(m_login_mngr);
 	xr_delete						(m_profile_store);
-	xr_delete						(m_stats_submitter);
 	xr_delete						(m_atlas_submit_queue);
 	
-	xr_delete						(m_pGameSpyFull);
-
 	xr_delete						(m_demo_info_loader);
+
 	delete_data						(m_pMB_ErrDlgs);	
 }
 
@@ -155,11 +144,10 @@ void CMainMenu::ReadTextureInfo()
 
 	for (; fit != fit_e; ++fit)
 	{
-		string_path	fn1, fn2, fn3;
-		_splitpath((**fit), fn1, fn2, fn3, 0);
-		strcat(fn3, ".xml");
+		auto name = BearCore::BearFileManager::GetFileName((**fit));
+		name.append(".xml");
 
-		CUITextureMaster::ParseShTexInfo(fn3);
+		CUITextureMaster::ParseShTexInfo(*name);
 	}
 
 
@@ -470,7 +458,7 @@ void CMainMenu::OnFrame()
 
 	if(IsActive() || m_sPDProgress.IsInProgress)
 	{
-		m_pGameSpyFull->Update();
+	
 		m_atlas_submit_queue->update();
 	}
 
@@ -581,22 +569,8 @@ void CMainMenu::OnNoNewPatchFound()
 
 void CMainMenu::OnDownloadPatch(CUIWindow*, void*)
 {
-	CGameSpy_Available GSA;
-	shared_str result_string;
-	if (!GSA.CheckAvailableServices(result_string))
-	{
-		Msg(*result_string);
-		return;
-	};
 	
-	LPCSTR fileName = *m_sPatchURL;
-	if (!fileName) return;
-
-	string4096 FilePath = "";
-	char* FileName = NULL;
-	GetFullPathName(fileName, 4096, FilePath, &FileName);
-
-	string_path		fname;
+	
 	/*if (FS.path_exist("$downloads$"))
 	{
 		FS.update_path(fname, "$downloads$", FileName);
@@ -654,7 +628,7 @@ void	CMainMenu::OnLoadError				(LPCSTR module)
 	LPCSTR str=CStringTable().translate("ui_st_error_loading").c_str();
 	string1024 Text;
 	strconcat(sizeof(Text),Text,str," ");
-	xr_strcat(Text,sizeof(Text),module);
+	BearCore::BearString::Contact(Text,sizeof(Text),module);
 	m_pMB_ErrDlgs[LoadingError]->SetText(Text);
 	SetErrorDialog(CMainMenu::LoadingError);
 }
@@ -677,7 +651,7 @@ void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 
 void CMainMenu::CancelDownload()
 {
-	m_pGameSpyFull->GetGameSpyHTTP()->StopDownload();
+	
 	m_sPDProgress.IsInProgress	= false;
 }
 
@@ -736,32 +710,6 @@ LPCSTR DelHyphens( LPCSTR c )
 
 //extern	int VerifyClientCheck(const char *key, unsigned short cskey);
 
-bool CMainMenu::IsCDKeyIsValid()
-{
-	if (!m_pGameSpyFull || !m_pGameSpyFull->GetGameSpyHTTP()) return false;
-	string64 CDKey = "";
-	GetCDKey_FromRegistry(CDKey);
-
-#ifndef DEMO_BUILD
-	if (!xr_strlen(CDKey)) return true;
-#endif
-
-	int GameID = 0;
-	for (int i=0; i<4; i++)
-	{
-		m_pGameSpyFull->GetGameSpyHTTP()->xrGS_GetGameID(&GameID, i);
-		if (VerifyClientCheck(CDKey, unsigned short (GameID)) == 1)
-			return true;
-	};	
-	return false;
-}
-
-bool		CMainMenu::ValidateCDKey					()
-{
-	if (IsCDKeyIsValid()) return true;
-	SetErrorDialog(CMainMenu::ErrCDKeyInvalid);
-	return false;
-}
 
 void		CMainMenu::Show_CTMS_Dialog				()
 {
@@ -785,14 +733,10 @@ void CMainMenu::OnConnectToMasterServerOkClicked(CUIWindow*, void*)
 LPCSTR CMainMenu::GetGSVer()
 {
 	static string256	buff;
-	if(m_pGameSpyFull)
-	{
+	
 		xr_strcpy(buff, ENGINE_VERSION);
-	}else
-	{
-		buff[0]	= 0;
-	}
-	strcat(buff, "(1.6.02)");
+	
+	BearCore::BearString::Contact(buff, "(1.6.02)");
 	return buff;
 }
 

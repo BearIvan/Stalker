@@ -30,16 +30,13 @@
 #include "mainmenu.h"
 #include "WeaponKnife.h"
 #include "RegistryFuncs.h"
-#include "xrGameSpy_MainDefs.h"
 #include "screenshot_server.h"
 #include "game_cl_mp_snd_messages.h"
-#include "crypto/crypto.h"
 
 #include "reward_event_generator.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "reward_manager.h"
 #include "login_manager.h"
-#include "stats_submitter.h"
 
 #include "xrServer_info.h" //for enum_server_info_type
 
@@ -97,7 +94,6 @@ game_cl_mp::game_cl_mp()
 	m_reward_generator			= NULL;
 	m_ready_to_open_buy_menu	= true;
 	m_reward_manager			= NULL;
-	crypto::xr_crypto_init();
 };
 
 game_cl_mp::~game_cl_mp()
@@ -440,9 +436,7 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 				ss_manager.make_screenshot(compl_cb);
 			} else if (etype == e_configs_request)
 			{
-				mp_anticheat::configs_dumper::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
-				cd_manager.dump_config(compl_cb);
+				BEAR_RASSERT(false);
 			} else if (etype == e_screenshot_response)
 			{
 				ClientID tmp_client(P.r_u32());
@@ -1176,7 +1170,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 	OnMoneyChanged();
 	{
 		string256					MoneyStr;
-		itoa(local_player->money_for_round, MoneyStr, 10);
+		BearCore::BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
 		m_game_ui_custom->ChangeTotalMoneyIndicator	(MoneyStr);
 	}
 	s32 Money_Added = P.r_s32();
@@ -1422,7 +1416,7 @@ void game_cl_mp::OnRadminMessage(u16 type, NET_Packet* P)
 					if(!m_pAdminMenuWindow)
 						m_pAdminMenuWindow = xr_new<CUIMpAdminMenu>();
 
-					if(0==stricmp(buff,"Access permitted."))
+					if(0==BearCore::BearString::CompareWithoutCase(buff,"Access permitted."))
 						m_pAdminMenuWindow->ShowDialog(true);
 					else
 						m_pAdminMenuWindow->ShowMessageBox(CUIMessageBox::MESSAGEBOX_OK, buff);
@@ -1762,7 +1756,7 @@ void game_cl_mp::decompress_and_save_screenshot(LPCSTR file_name, u8* data, u32 
 		Msg("! WARNING: original and downloaded file size are different !");
 	}
 	string_path screen_shot_path;
-	xr_strcat(screen_shot_path, ".jpg");
+	BearCore::BearString::Contact(screen_shot_path, ".jpg");
 	
 	IWriter* ftosave =XRayBearWriter::Create( FS.Write("%screenshots%", file_name,TEXT(".jpg"),0));
 	if (!ftosave)

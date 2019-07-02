@@ -84,6 +84,7 @@
 #	include "ui/UIMapInfo.h"
 #	include "ScriptXmlInit.h"
 #	include "script_ui_registrator.h"
+
 #	include "key_binding_registrator.h"
 #	include "fs_registrator.h"
 #	include "console_registrator.h"

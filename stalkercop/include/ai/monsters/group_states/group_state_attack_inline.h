@@ -512,9 +512,9 @@ bool CStateGroupAttackAbstract::check_behinder()
 }
 
 TEMPLATE_SPECIALIZATION
-void CStateGroupAttackAbstract::remove_links(CObject* object)
+void CStateGroupAttackAbstract::remove_links(CObject* object1)
 {
-	if ( m_enemy == object )
+	if ( m_enemy == object1 )
 	{
 		m_enemy	= 0;
 	}

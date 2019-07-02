@@ -50,9 +50,9 @@ public:
 	PHDynamicData();
 //	virtual ~PHDynamicData();
 	void GetWorldMX(Fmatrix& aTransform){
-			dMatrix3 R;
-			dQtoR(dBodyGetQuaternion(body),R);
-			DMXPStoFMX(R,dBodyGetPosition(body),aTransform);
+			dMatrix3 R1;
+			dQtoR(dBodyGetQuaternion(body),R1);
+			DMXPStoFMX(R1,dBodyGetPosition(body),aTransform);
 			}
 	void GetTGeomWorldMX(Fmatrix& aTransform){
 			if(!transform) return;

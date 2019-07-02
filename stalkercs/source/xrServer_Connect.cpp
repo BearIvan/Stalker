@@ -13,10 +13,7 @@
 #include "screenshot_server.h"
 #include "player_name_modifyer.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 LPCSTR xrServer::get_map_download_url(LPCSTR level_name, LPCSTR level_version)
 {
@@ -50,12 +47,12 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name, GameDescriptionDa
 
 	string1024				options;
 	R_ASSERT2(xr_strlen(session_name) <= sizeof(options), "session_name too BIIIGGG!!!");
-	strcpy_s					(options,strchr(*session_name,'/')+1);
+	BearCore::BearString::Copy					(options,strchr(*session_name,'/')+1);
 	
 	// Parse game type
 	string1024				type;
 	R_ASSERT2(xr_strlen(options) <= sizeof(type), "session_name too BIIIGGG!!!");
-	strcpy_s					(type,options);
+	BearCore::BearString::Copy					(type,options);
 	if (strchr(type,'/'))	*strchr(type,'/') = 0;
 	game					= NULL;
 
@@ -75,9 +72,9 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name, GameDescriptionDa
 #endif
 	
 	ZeroMemory(&game_descr, sizeof(game_descr));
-	strcpy_s(game_descr.map_name, game->level_name(session_name.c_str()).c_str());
-	strcpy_s(game_descr.map_version, game_sv_GameState::parse_level_version(session_name.c_str()).c_str());
-	strcpy_s(game_descr.download_url, get_map_download_url(game_descr.map_name, game_descr.map_version));
+	BearCore::BearString::Copy(game_descr.map_name, game->level_name(session_name.c_str()).c_str());
+	BearCore::BearString::Copy(game_descr.map_version, game_sv_GameState::parse_level_version(session_name.c_str()).c_str());
+	BearCore::BearString::Copy(game_descr.download_url, get_map_download_url(game_descr.map_name, game_descr.map_version));
 
 	game->Create			(session_name);
 
@@ -127,7 +124,7 @@ IClient* xrServer::new_client( SClientConnectData* cl_data )
 	CL->process_id	= cl_data->process_id;
 	
 	string256 new_name;
-	//strcpy_s( new_name, cl_data->name );
+	//BearCore::BearString::Copy( new_name, cl_data->name );
 	modify_player_name(cl_data->name, new_name);
 	CL->name._set( new_name );
 	

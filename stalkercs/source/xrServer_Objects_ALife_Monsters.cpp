@@ -43,14 +43,14 @@ void setup_location_types_section(GameGraph::TERRAIN_VECTOR &m_vertex_types, con
 	CInifile::SectCIt				E = sect.Data.end();
 	for ( ; I != E; ++I) {
 		LPCSTR						S = *(*I).first;
-		string16					I;
+		string16					I1;
 		u32							N = XrTrims::GetItemCount(S);
 		
 		if (N != GameGraph::LOCATION_TYPE_COUNT)
 			continue;
 
 		for (u32 j=0; j<GameGraph::LOCATION_TYPE_COUNT; ++j)
-			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(XrTrims::GetItem(S,j,I)));
+			terrain_mask.tMask[j]	= GameGraph::_LOCATION_ID(atoi(XrTrims::GetItem(S,j,I1)));
 		
 		m_vertex_types.push_back	(terrain_mask);
 	}
@@ -413,20 +413,22 @@ void CSE_ALifeTraderAbstract::set_specific_character	(shared_str new_spec_char)
 		string_path					t1;
 		strconcat					(sizeof(t1),t1,"stalker_names_",subset.c_str());
 		u32 name_cnt				= pSettings->r_u32(t1, "name_cnt");
-		u32 last_name_cnt			= pSettings->r_u32(t1, "last_name_cnt");
+	//	u32 last_name_cnt			= pSettings->r_u32(t1, "last_name_cnt");
 		
 		string512			S;
 		xr_string n			= "name_";
 		n					+= subset;
 		n					+= "_";
-		n					+= itoa(::Random.randI(name_cnt),S,10);
+		BearCore::BearString::Printf(S, TEXT("%d"), ::Random.randI(name_cnt));
+		n					+= S;
 		m_character_name	= *(CStringTable().translate(n.c_str()));
 		m_character_name	+= " ";
 
 		n					= "lname_";
 		n					+= subset;
 		n					+= "_";
-		n					+= itoa(::Random.randI(last_name_cnt),S,10);
+		BearCore::BearString::Printf(S, TEXT("%d"), ::Random.randI(name_cnt));
+		n					+= S;
 		m_character_name	+= *(CStringTable().translate(n.c_str()));
 
 
@@ -561,7 +563,7 @@ void CSE_ALifeTrader::STATE_Read			(NET_Packet &tNetPacket, u16 size)
 			shared_str			temp;
 			tNetPacket.r_stringZ(temp);
 			tNetPacket.r_u32	();
-			for (int i=0, n=tNetPacket.r_u32(); i<n; ++i) {
+			for (int i1=0, n=tNetPacket.r_u32(); i1<n; ++i1) {
 				tNetPacket.r_stringZ(temp);
 				tNetPacket.r_u32	();
 				tNetPacket.r_u32	();
@@ -1130,9 +1132,9 @@ CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection)	: CSE_ALife
 			imm_section = pSettings->r_string(caSection, "immunities_sect");
 		for ( ; I != E; ++I)
 		{
-			//			*I					= READ_IF_EXISTS(pSettings,r_float,imm_section,strcat(strcpy(S,ALife::g_cafHitType2String(ALife::EHitType(I - B))),"_immunity"),1.f);
-			strcpy_s(S, ALife::g_cafHitType2String(ALife::EHitType(I - B)));
-			strcat(S,"_immunity");
+			//			*I					= READ_IF_EXISTS(pSettings,r_float,imm_section,BearCore::BearString::Contact(BearCore::BearString::Copy(S,ALife::g_cafHitType2String(ALife::EHitType(I - B))),"_immunity"),1.f);
+			BearCore::BearString::Copy(S, ALife::g_cafHitType2String(ALife::EHitType(I - B)));
+			BearCore::BearString::Contact(S,"_immunity");
 			*I					= READ_IF_EXISTS(pSettings,r_float,imm_section,S,1.f);
 		}
 	}

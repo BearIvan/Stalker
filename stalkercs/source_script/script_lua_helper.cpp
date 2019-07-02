@@ -46,10 +46,10 @@ void CDbgLuaHelper::PrepareLuaBind()
 }
 
 
-int CDbgLuaHelper::OutputTop(lua_State* L)
+int CDbgLuaHelper::OutputTop(lua_State* L1)
 {
 	if(!m_pThis)return 0;
-	m_pThis->debugger()->Write(luaL_checkstring(L, -1));
+	m_pThis->debugger()->Write(luaL_checkstring(L1, -1));
 	m_pThis->debugger()->Write("\n");
 	return 0;
 }
@@ -258,27 +258,28 @@ void CDbgLuaHelper::DrawStackTrace()
 		{
 			szDesc[0] = '\0';
 /*			if ( ar.name )
-				strcat(szDesc, ar.name);
-			strcat(szDesc, ",");
+				BearCore::BearString::Contact(szDesc, ar.name);
+			BearCore::BearString::Contact(szDesc, ",");
 			if ( ar.namewhat )
-				strcat(szDesc, ar.namewhat);
-			strcat(szDesc, ",");
+				BearCore::BearString::Contact(szDesc, ar.namewhat);
+			BearCore::BearString::Contact(szDesc, ",");
 			if ( ar.what )
-				strcat(szDesc, ar.what);
-			strcat(szDesc, ",");
+				BearCore::BearString::Contact(szDesc, ar.what);
+			BearCore::BearString::Contact(szDesc, ",");
 */
 			if ( ar.name ){
-				strcat(szDesc, ar.name);
-				strcat(szDesc, " ");
+				BearCore::BearString::Contact(szDesc, ar.name);
+				BearCore::BearString::Contact(szDesc, " ");
 			}
 
 			char szTmp[6];
 
-			strcat(szDesc, itoa(ar.currentline,szTmp,10));
-			strcat(szDesc, " ");
+			BearCore::BearString::Printf(szTmp ,TEXT("%d"), ar.currentline);
+			BearCore::BearString::Contact(szDesc, szTmp);
+			BearCore::BearString::Contact(szDesc, " ");
 
 			if ( ar.short_src )
-				strcat(szDesc, ar.short_src);
+				BearCore::BearString::Contact(szDesc, ar.short_src);
 
 			debugger()->AddStackTrace(szDesc, ar.source+1, ar.currentline);
 		}
@@ -468,12 +469,12 @@ void CDbgLuaHelper::RestoreGlobals()
 void CDbgLuaHelper::DrawVariable(lua_State * l, const char* name, bool bOpenTable)
 {
 	Variable var;
-	strcpy_s(var.szName, name );
+	BearCore::BearString::Copy(var.szName, name );
 
 	const char * type;
 	int ntype = lua_type(l, -1);
 	type = lua_typename(l, ntype);
-	strcpy_s(var.szType, type);
+	BearCore::BearString::Copy(var.szType, type);
 
 	char value[64];
 
@@ -481,17 +482,17 @@ void CDbgLuaHelper::DrawVariable(lua_State * l, const char* name, bool bOpenTabl
 	{
 	case LUA_TNUMBER:
 		sprintf_s(value, "%f", lua_tonumber(l, -1));
-		strcpy_s(var.szValue, value );
+		BearCore::BearString::Copy(var.szValue, value );
 		break;
 
 	case LUA_TBOOLEAN:
 		sprintf_s(value, "%s", lua_toboolean(L, -1) ? "true" : "false");
-		strcpy_s(var.szValue, value );
+		BearCore::BearString::Copy(var.szValue, value );
 		break;
 
 	case LUA_TSTRING:
 		sprintf_s(value, "%.63s", lua_tostring(l, -1));
-		strcpy_s(var.szValue, value );
+		BearCore::BearString::Copy(var.szValue, value );
 		break;
 
 

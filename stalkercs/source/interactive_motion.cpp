@@ -47,13 +47,13 @@ void	interactive_motion::destroy	( )
 	
 	flags.assign( 0 );
 }
-void interactive_motion::setup( LPCSTR m, CPhysicsShell *s, float angle )
+void interactive_motion::setup( LPCSTR m, CPhysicsShell *s, float angle1 )
 {
 	VERIFY( m );
 	VERIFY( s );
 	IKinematicsAnimated* K = smart_cast<IKinematicsAnimated*>( s->PKinematics( ) );
 	VERIFY( K );
-	setup( K->LL_MotionID(m), s, angle );
+	setup( K->LL_MotionID(m), s, angle1 );
 }
 
 void interactive_motion::setup( const MotionID &m, CPhysicsShell *s, float _angle )

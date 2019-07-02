@@ -7,4 +7,5 @@ struct console_registrator{
 };
 add_to_type_list(console_registrator)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(console_registrator)

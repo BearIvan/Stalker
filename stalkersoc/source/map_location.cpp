@@ -386,35 +386,38 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 		if(res){
 			xr_vector<u32>::reverse_iterator it = map_point_path.rbegin();
 			xr_vector<u32>::reverse_iterator it_e = map_point_path.rend();
-
 			xr_vector<CLevelChanger*>::iterator lit = g_lchangers.begin();
+			bool bDone = false;
+			{
+		
 			xr_vector<CLevelChanger*>::iterator lit_e = g_lchangers.end();
-			bool bDone						= false;
-			for(; (it!=it_e)&&(!bDone) ;++it){
-				for(lit=g_lchangers.begin();lit!=lit_e; ++lit){
-					
-					if((*it)==(*lit)->ai_location().game_vertex_id() ){
+	
+			for (; (it != it_e) && (!bDone); ++it) {
+				for (lit = g_lchangers.begin(); lit != lit_e; ++lit) {
+
+					if ((*it) == (*lit)->ai_location().game_vertex_id()) {
 						bDone = true;
 						break;
 					}
 
 				}
 			}
+			}
 			static bool bbb = false;
 			if(!bDone&&bbb){
 				Msg("Error. Path from actor to selected map spot does not contain level changer :(");
 				Msg("Path:");
-				xr_vector<u32>::iterator it			= map_point_path.begin();
-				xr_vector<u32>::iterator it_e		= map_point_path.end();
-				for(; it!=it_e;++it){
+				xr_vector<u32>::iterator it1			= map_point_path.begin();
+				xr_vector<u32>::iterator it_e1		= map_point_path.end();
+				for(; it1!=it_e1;++it1){
 //					Msg("%d-%s",(*it),ai().game_graph().vertex(*it));
-					Msg("[%d] level[%s]",(*it),*ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name());
+					Msg("[%d] level[%s]",(*it1),*ai().game_graph().header().level(ai().game_graph().vertex(*it1)->level_id()).name());
 				}
 				Msg("Available LevelChangers:");
-				xr_vector<CLevelChanger*>::iterator lit,lit_e;
-				lit_e							= g_lchangers.end();
-				for(lit=g_lchangers.begin();lit!=lit_e; ++lit){
-					GameGraph::_GRAPH_ID gid = (*lit)->ai_location().game_vertex_id();
+				xr_vector<CLevelChanger*>::iterator lit1,lit_e1;
+				lit_e1							= g_lchangers.end();
+				for(lit1=g_lchangers.begin();lit1!=lit_e1; ++lit1){
+					GameGraph::_GRAPH_ID gid = (*lit1)->ai_location().game_vertex_id();
 					Msg("[%d]",gid);
 					Fvector p = ai().game_graph().vertex(gid)->level_point();
 					Msg("lch_name=%s pos=%f %f %f",*ai().game_graph().header().level(ai().game_graph().vertex(gid)->level_id()).name(), p.x, p.y, p.z);

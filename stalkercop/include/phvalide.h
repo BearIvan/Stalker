@@ -39,7 +39,7 @@ IC BOOL dBodyStateValide(const dBodyID body)
 		dV_valid(dBodyGetForce(body))
 		;
 }
-bool valid_pos( const Fvector &P );
+XRPHYSICS_API bool valid_pos( const Fvector &P );
 
 #ifdef DEBUG
 

@@ -441,10 +441,10 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 			box.min			= box.max = temp;
 			box.grow		(identity);
 			if (box.pick_exact(start,dir)) {
-				Fvector2		temp;
-				temp.add		(box.min,box.max);
-				temp.mul		(.5f);
-				float			dist = XrMath::sqr(temp.x - dest.x) + XrMath::sqr(temp.y - dest.y);
+				Fvector2		temp1;
+				temp1.add		(box.min,box.max);
+				temp1.mul		(.5f);
+				float			dist = XrMath::sqr(temp1.x - dest.x) + XrMath::sqr(temp1.y - dest.y);
 				if ((dist > cur_sqr) && (dest_xz != v->position().xz()))
 					continue;
 

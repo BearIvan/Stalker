@@ -397,7 +397,7 @@ void game_cl_GameState::set_type_name(LPCSTR s)
 { 
 	m_game_type_name		=s; 
 	if(OnClient()){
-		strcpy					(g_pGamePersistent->m_game_params.m_game_type, *m_game_type_name);
+		BearCore::BearString::Copy					(g_pGamePersistent->m_game_params.m_game_type, *m_game_type_name);
 		g_pGamePersistent->OnGameStart();
 	}
 };

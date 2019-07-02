@@ -142,9 +142,9 @@ void CUIMotionIcon::SetActorVisibility		(u16 who_id, float value)
 	if(it==m_npc_visibility.end() && value!=0)
 	{
 		m_npc_visibility.resize	(m_npc_visibility.size()+1);
-		_npc_visibility& v		= m_npc_visibility.back();
-		v.id					= who_id;
-		v.value					= value;
+		_npc_visibility& v1		= m_npc_visibility.back();
+		v1.id					= who_id;
+		v1.value					= value;
 	}
 	else if( XrMath::fis_zero(value) )
 	{

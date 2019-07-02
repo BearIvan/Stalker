@@ -54,7 +54,6 @@ class CMainMenu :
 
 	xr_vector<CUIWindow*>		m_pp_draw_wnds;
 
-	CGameSpy_Full*				m_pGameSpyFull;	
 
 public:
 	enum	EErrorDlg 
@@ -84,7 +83,6 @@ public:
 	Patch_Dawnload_Progress		m_sPDProgress;
 	Patch_Dawnload_Progress*	GetPatchProgress	() {return &m_sPDProgress;}
 	void						CancelDownload		();
-	CGameSpy_Full*				GetGS() const {return m_pGameSpyFull;};
 protected:
 	EErrorDlg		m_NeedErrDialog;	
 	u32				m_start_time;
@@ -163,8 +161,6 @@ public:
 
 	static	LPCSTR	AddHyphens						(LPCSTR str);
 	static	LPCSTR	DelHyphens						(LPCSTR str);
-			bool	IsCDKeyIsValid					();
-			bool	ValidateCDKey					();
 
 	LPCSTR			GetPlayerNameFromRegistry		();
 	LPCSTR			GetCDKeyFromRegistry			();

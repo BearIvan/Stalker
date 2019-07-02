@@ -298,7 +298,7 @@ void CUIMMShniaga::OnBtnClick(){
             GetMessageTarget()->SendMessage(m_selected, BUTTON_CLICKED);
 }
 
-#include <dinput.h>
+
 
 bool CUIMMShniaga::OnKeyboard(int dik, EUIMessages keyboard_action){
 

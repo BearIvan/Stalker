@@ -51,7 +51,6 @@ void	game_sv_ArtefactHunt::Create					(shared_str& options)
 //.	ArtefactsRPoints_ID.clear();
 	Artefact_rpoints.clear();
 
-	string_path	fn_game;
 	if (FS.ExistFile("%level%", "level.game"))
 	{
 		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));
@@ -455,7 +454,7 @@ void	game_sv_ArtefactHunt::CheckRPUnblock			()
 			rpointsBlocked.erase(rpointsBlocked.begin()+b);
 			continue;
 		};
-		CObject* pPlayer = Level().Objects.net_Find(pRP->BlockedByID);
+		CObject* pPlayer = Level().Objects.net_Find(static_cast<u16>(pRP->BlockedByID));
 		if (!pPlayer || pRP->P.distance_to(pPlayer->Position())<=0.4f)
 		{
 			pRP->Blocked = false;
@@ -1318,7 +1317,6 @@ void	game_sv_ArtefactHunt::UpdatePlayersNotSendedMoveRespond()
 
 void	game_sv_ArtefactHunt::ReplicatePlayersStateToPlayer(ClientID CID)
 {
-	u32		cnt		= get_players_count	();
 	
 	struct Functor
 	{
@@ -1366,8 +1364,7 @@ void	game_sv_ArtefactHunt::CheckForTeamElimination()
 	
 	SetTeamScore( WinTeam - 1, GetTeamScore(WinTeam-1)+1 );
 	//			OnTeamScore(ps_killer->team, false);
-	//-----------------------------------------------------------------------------
-	u32		cnt = get_players_count();
+	//---------------------------------------------------
 	TeamStruct* pWTeam		= GetTeamData(WinTeam);
 	if (pWTeam)
 	{

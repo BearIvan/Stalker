@@ -11,14 +11,6 @@
 #include "PhysicsShellAnimator.h"
 
 
-///////////////////////////////////////////////////////////////
-///#pragma warning(disable:4995)
-//#include "src/collision_kernel.h"
-//#include "ode/src/joint.h"
-//#include "ode/src/objects.h"
-
-//#pragma warning(default:4995)
-///////////////////////////////////////////////////////////////////
 
 #include "ExtendedGeom.h"
 
@@ -93,8 +85,8 @@ void CPHShell::Activate(const Fmatrix &transform,const Fvector& lin_vel,const Fv
 	}
 	
 	{
-		JOINT_I i=joints.begin(),e=joints.end();
-		for(;i!=e;++i) (*i)->Activate();
+		JOINT_I i1=joints.begin(),e1=joints.end();
+		for(;i1!=e1;++i1) (*i1)->Activate();
 	}	
 
 	if(PKinematics())

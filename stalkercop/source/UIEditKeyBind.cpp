@@ -87,8 +87,8 @@ bool CUIEditKeyBind::OnMouseDown(int mouse_btn)
 		OnFocusLost				();
 
 		xr_strcpy				(message, m_action->action_name);
-		xr_strcat					(message, "=");
-		xr_strcat					(message, m_keyboard->key_name);		
+		BearCore::BearString::Contact					(message, "=");
+		BearCore::BearString::Contact					(message, m_keyboard->key_name);		
 		SendMessage2Group		("key_binding",message);
 
 		return					true;
@@ -118,8 +118,8 @@ bool CUIEditKeyBind::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 		SetValue			();
 
 		xr_strcpy			(message, m_action->action_name);
-		xr_strcat				(message, "=");
-		xr_strcat				(message, m_keyboard->key_name);		
+		BearCore::BearString::Contact				(message, "=");
+		BearCore::BearString::Contact				(message, m_keyboard->key_name);		
 		OnFocusLost			();
 		SendMessage2Group	("key_binding",message);
 		return				true;

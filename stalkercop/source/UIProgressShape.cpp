@@ -29,7 +29,8 @@ void CUIProgressShape::SetPos(int pos, int max){
 	if (m_bText)
 	{
 		string256 _buff;
-		TextItemControl()->SetText(itoa(pos,_buff,10));
+		BearCore::BearString::Printf(_buff, TEXT("%d"),pos);
+		TextItemControl()->SetText(_buff);
 	}
 }
 

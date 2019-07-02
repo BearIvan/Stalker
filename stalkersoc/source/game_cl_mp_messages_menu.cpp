@@ -25,7 +25,7 @@ void				game_cl_mp::AddMessageMenu			(LPCSTR	menu_section, LPCSTR snd_path, LPCS
 		if (!pSettings->line_exist(menu_section, *LineName)) break;
 		//---------------------------------------------------------
 		string4096			Line;
-		std::strcpy(Line, pSettings->r_string(menu_section, *LineName));
+		BearCore::BearString::Copy(Line, pSettings->r_string(menu_section, *LineName));
 		u32 count	= XrTrims::GetItemCount(Line);
 		if (!count) continue;
 		//---------------------------------------------------------
@@ -39,7 +39,7 @@ void				game_cl_mp::AddMessageMenu			(LPCSTR	menu_section, LPCSTR snd_path, LPCS
 		//---------------------------------------------------------
 		for (u32 s=1; s<=16; s++)
 		{
-			string_path FileName_Voice, FileName_Radio, fn;
+			string_path FileName_Voice, FileName_Radio;
 			sprintf_s(FileName_Voice, "%s%s%d\\voice_%s%d", snd_path, team_prefix, 1, SoundName, s);
 			if (!FS.ExistFile("%sounds%",FileName_Voice,".ogg")) break;
 			

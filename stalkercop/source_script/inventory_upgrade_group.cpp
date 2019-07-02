@@ -58,7 +58,7 @@ void Group::log_hierarchy( LPCSTR nest )
 	u32 sz = (xr_strlen(nest) + 4) * sizeof(char);
 	PSTR	nest2 = (PSTR)_alloca( sz );
 	xr_strcpy( nest2, sz, nest );
-	xr_strcat( nest2, sz, "   " );
+	BearCore::BearString::Contact( nest2, sz, "   " );
 	Msg( "%s(g) %s", nest2, m_id.c_str() );
 
 	Upgrades_type::iterator ib = m_included_upgrades.begin();

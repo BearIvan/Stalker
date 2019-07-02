@@ -124,7 +124,8 @@ FS_file_list_ex::FS_file_list_ex(LPCSTR path, u32 flags, LPCSTR mask)
 		m_file_items.push_back(FS_item());
 		FS_item& itm = m_file_items.back();
 		ZeroMemory(itm.name, sizeof(itm.name));
-		strcat(itm.name, **it);
+	
+		BearCore::BearString::Contact(itm.name, **it);
 		BearCore::BearStringPath file_path;
 		FS.Update(new_path, **it, file_path);
 

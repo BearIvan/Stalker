@@ -195,7 +195,7 @@ void CUIKickPlayer::Update()
 		for(u32 e=0;e<15;++e)
 		{
 			game_PlayerState* ps	= xr_new<game_PlayerState>();
-			strcpy_s					(ps->name, _names[e]);
+			BearCore::BearString::Copy					(ps->name, _names[e]);
 			g_ps.push_back			(ps);
 		}
 		for(u32 _i=0; _i<3; ++_i)
@@ -225,7 +225,7 @@ void CUIKickPlayer::Update()
 	for( ; I != E; ++I)
 	{
 		game_PlayerState* pI = I->second;
-		if( m_selected_item_text.size() && !stricmp(pI->name, m_selected_item_text.c_str()) )
+		if( m_selected_item_text.size() && !BearCore::BearString::CompareWithoutCase(pI->name, m_selected_item_text.c_str()) )
 			bHasSelected		= true;
 
 
@@ -233,7 +233,7 @@ void CUIKickPlayer::Update()
 		if(fit==m_current_set.end())
 			bNeedRefresh = true;
 		else
-		if( stricmp( (*fit)->name, pI->name) )
+		if( BearCore::BearString::CompareWithoutCase( (*fit)->name, pI->name) )
 			bNeedRefresh = true;
 	}
 	if(m_current_set.size() != items.size())

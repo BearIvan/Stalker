@@ -31,7 +31,7 @@ LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_s
 	if (!temp_substr)
 		return new_opt_str;
 
-	xr_strcat(new_opt_str, new_opt_str_size, temp_substr);
+	BearCore::BearString::Contact(new_opt_str, new_opt_str_size, temp_substr);
 	return new_opt_str;
 }
 
@@ -216,10 +216,10 @@ void CLevel::ClientReceive()
 				u8 Count = P->r_u8();
 				for (u8 i=0; i<Count; ++i)
 				{
-					u16 ID = P->r_u16();					
+					u16 ID1 = P->r_u16();					
 					Fvector NewPos;
 					P->r_vec3(NewPos);
-					CArtefact * OArtefact = smart_cast<CArtefact*>(Objects.net_Find(ID));
+					CArtefact * OArtefact = smart_cast<CArtefact*>(Objects.net_Find(ID1));
 					if (!OArtefact)		break;
 					OArtefact->MoveTo(NewPos);
 					//destroy_physics_shell(OArtefact->PPhysicsShell());
@@ -322,7 +322,8 @@ void CLevel::ClientReceive()
 			}break;
 		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
 			{
-				OnGameSpyChallenge(P);
+			BEAR_RASSERT(false);
+				//OnGameSpyChallenge(P);
 			}break;
 		case M_AUTH_CHALLENGE:
 			{
@@ -417,7 +418,7 @@ void CLevel::ClientReceive()
 					if (m_SO)
 					{
 						string4096 additional_options;
-						xr_strcat(NewServerOptions, sizeof(NewServerOptions),
+						BearCore::BearString::Contact(NewServerOptions, sizeof(NewServerOptions),
 							remove_version_option(m_SO, additional_options, sizeof(additional_options))
 						);
 					}

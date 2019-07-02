@@ -197,7 +197,7 @@ void message_filter::dbg_print_msg(NET_Packet & packet, msg_type_subtype_t const
 		{
 			m_msg_log_file->w_printf(". %d\n", m_strrepeat_count);
 		}
-		xr_strcat(tmp_string, "\n");
+		BearCore::BearString::Contact(tmp_string, "\n");
 		m_msg_log_file->w_stringZ(tmp_string);
 		m_msg_log_file->flush();
 	}

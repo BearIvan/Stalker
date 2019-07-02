@@ -986,7 +986,7 @@ float roundup(float x)
 void dump_file(char *file, int euler_type, float min[], float max[], 
 	       Matrix c, Matrix s, Matrix o)
 {
-    FILE *fp = fopen(file, "w");
+/*    FILE *fp = fopen(file, "w");
 
     fprintf(fp, "%d\n", euler_type);
     fprintf(fp, "%f %f %f \n", roundup(min[2]), roundup(min[1]), roundup(min[0]));
@@ -998,7 +998,7 @@ void dump_file(char *file, int euler_type, float min[], float max[],
     for (int i = 0; i < 4; i++)
 	    fprintf(fp, "%f %f %f %f\n", o[i][0],o[i][1],o[i][2],o[i][3]);
    
-    fclose(fp);
+    fclose(fp);*/
 }
 
 

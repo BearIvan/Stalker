@@ -6,9 +6,7 @@
 //#include "game_base_space.h"
 #include "gametype_chooser.h"
 #include "RegistryFuncs.h"
-#include "xrGameSpy_MainDefs.h"
 
-#include "gamespy/GameSpy_GP.h"
 
 #include "ui/UICDkey.h"
 
@@ -33,7 +31,7 @@ public:
 		string512 str;
 		xr_strcpy(str, arguments);
 
-		u32 const max_name_length	=	GP_UNIQUENICK_LEN - 1;
+		u32 const max_name_length	=	4096 - 1;
 		if(xr_strlen(str)>max_name_length)
 			str[max_name_length] = 0;
 

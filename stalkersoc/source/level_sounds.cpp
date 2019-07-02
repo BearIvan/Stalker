@@ -43,7 +43,7 @@ void SStaticSound::Update(u32 game_time, u32 global_time)
 					m_Source.set_frequency	(m_Freq);
 					if (bFullPlay){
 						m_StopTime		= 0xFFFFFFFF;
-						m_NextTime		= global_time+(m_Source.get_length_sec()*1000.f)+Random.randI(m_PauseTime.x,m_PauseTime.y);
+						m_NextTime		= global_time+ static_cast<u32>(m_Source.get_length_sec()*1000.f)+Random.randI(m_PauseTime.x,m_PauseTime.y);
 					}else{
 						m_StopTime		= bFullPlay?0:global_time+Random.randI(m_PlayTime.x,m_PlayTime.y);
 						m_NextTime		= m_StopTime+Random.randI(m_PauseTime.x,m_PauseTime.y);
@@ -78,7 +78,7 @@ void SMusicTrack::Load(LPCSTR fn, LPCSTR params)
 	m_ActiveTime.set	(0,0);
 	m_PauseTime.set		(0,0);
 	m_Volume			= 1.f;
-	sscanf				(params,"%d,%d,%f,%d,%d",&m_ActiveTime.x,&m_ActiveTime.y,&m_Volume,&m_PauseTime.x,&m_PauseTime.y);
+	BearCore::BearString::Scanf				(params,"%d,%d,%f,%d,%d",&m_ActiveTime.x,&m_ActiveTime.y,&m_Volume,&m_PauseTime.x,&m_PauseTime.y);
 	if(m_PauseTime.x==m_PauseTime.y)++m_PauseTime.y;
 	m_ActiveTime.mul	(60*60*1000);	// convert hour to ms
 	m_PauseTime.mul		(1000);			// convert sec to ms
@@ -115,7 +115,6 @@ void CLevelSoundManager::Load()
 {
 	// static level sounds
  	VERIFY(m_StaticSounds.empty());
-	string_path fn;
 	if (FS.ExistFile("%level%", "level.snd_static")) {
 		IReader *F		=XRayBearReader::Create( FS.Read	("%level%", "level.snd_static"));
 		u32				chunk = 0;

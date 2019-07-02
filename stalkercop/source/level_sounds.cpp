@@ -75,7 +75,7 @@ void SMusicTrack::Load(LPCSTR fn, LPCSTR params)
 	m_ActiveTime.set	(0,0);
 	m_PauseTime.set		(0,0);
 	m_Volume			= 1.f;
-	sscanf				(params,"%d,%d,%f,%d,%d",&m_ActiveTime.x,&m_ActiveTime.y,&m_Volume,&m_PauseTime.x,&m_PauseTime.y);
+	BearCore::BearString::Scanf				(params,"%d,%d,%f,%d,%d",&m_ActiveTime.x,&m_ActiveTime.y,&m_Volume,&m_PauseTime.x,&m_PauseTime.y);
 	
 	if(m_PauseTime.x==m_PauseTime.y)
 		++m_PauseTime.y;

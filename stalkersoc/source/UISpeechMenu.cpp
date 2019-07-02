@@ -4,7 +4,7 @@
 #include "ui/UIStatic.h"
 #include "ui/UIXmlInit.h"
 #include "game_cl_mp.h"
-#include <dinput.h>
+
 #include "level.h"
 #include "string_table.h"
 #include "HUDManager.h"

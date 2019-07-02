@@ -4,7 +4,6 @@
 #include "xrserver.h"
 #include "game_cl_base.h"
 #include "xrmessages.h"
-#include "xrGameSpyServer.h"
 #include "engine/x_ray.h"
 #include "engine/device.h"
 #include "engine/IGame_Persistent.h"
@@ -28,7 +27,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 
 	if ( xr_strlen(player_name) == 0 )
 	{
-		strcpy_s( player_name, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
+		BearCore::BearString::Copy( player_name, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
 	}
 	VERIFY( xr_strlen(player_name) );
 
@@ -37,18 +36,18 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	if (!NameStart)
 	{
 		string512 tmp;
-		strcpy_s(tmp, op_client);
+		BearCore::BearString::Copy(tmp, op_client);
 		strcat_s(tmp, "/name=");
 		strcat_s(tmp, player_name);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
 		LPCSTR		begin	= NameStart + xr_strlen("/name="); 
-		sscanf			(begin, "%[^/]",ret);
+		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
 			string1024 tmpstr;
-			strcpy_s(tmpstr, op_client);
+			BearCore::BearString::Copy(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
 			strcat_s(tmpstr, player_name);
 			const char* ptmp = strstr(strstr(op_client, "name="), "/");
@@ -71,7 +70,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	{
 		string_path	f_name;
 		
-		sscanf(pdemok + sizeof(DEMO_PLAY_OPT) - 1,
+		BearCore::BearString::Scanf(pdemok + sizeof(DEMO_PLAY_OPT) - 1,
 			"%[^ ] ",f_name
 		);
 		PrepareToPlayDemo(f_name);
@@ -112,10 +111,7 @@ bool CLevel::net_start1				()
 		typedef IGame_Persistent::params params;
 		params							&p = g_pGamePersistent->m_game_params;
 		// Connect
-		if (!xr_strcmp(p.m_game_type,"single"))
 			Server					= xr_new<xrServer>();		
-		else
-			Server					= xr_new<xrGameSpyServer>();
 		
 		if (xr_strcmp(p.m_alife,"alife"))
 		{
@@ -163,7 +159,7 @@ bool CLevel::net_start3				()
 		sprintf_s(PortStr, "/port=%d", Server->GetPort());
 
 		string4096	tmp;
-		strcpy_s(tmp, m_caClientOptions.c_str());
+		BearCore::BearString::Copy(tmp, m_caClientOptions.c_str());
 		strcat_s(tmp, PortStr);
 		
 		m_caClientOptions = tmp;
@@ -175,9 +171,9 @@ bool CLevel::net_start3				()
 			string64	PasswordStr = "";
 			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
 			if (strchr(PSW, '/')) 
-				strncpy(PasswordStr, PSW, strchr(PSW, '/') - PSW);
+				BearCore::BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
-				strcpy_s(PasswordStr, PSW);
+				BearCore::BearString::Copy(PasswordStr, PSW);
 
 			string4096	tmp;
 			sprintf_s(tmp, "%s/psw=%s", m_caClientOptions.c_str(), PasswordStr);
@@ -185,15 +181,7 @@ bool CLevel::net_start3				()
 		};
 	};
 	//setting players GameSpy CDKey if it comes from command line
-	if (strstr(m_caClientOptions.c_str(), "/cdkey="))
-	{
-		string64 CDKey;
-		const char* start = strstr(m_caClientOptions.c_str(),"/cdkey=") +xr_strlen("/cdkey=");
-		sscanf			(start, "%[^/]",CDKey);
-		string128 cmd;
-		sprintf_s(cmd, "cdkey %s", _strupr(CDKey));
-		Console->Execute			(cmd);
-	}
+	
 	return true;
 }
 
@@ -240,7 +228,7 @@ bool CLevel::net_start6				()
 	if(net_start_result_total){
 		if (strstr(GetCommandLine(),"-$")) {
 			string256				buf,cmd,param;
-			sscanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

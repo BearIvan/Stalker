@@ -22,10 +22,7 @@
 #include "xrServer_info.h"
 #include <functional>
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 u32 g_sv_traffic_optimization_level = eto_none;
 
@@ -496,14 +493,14 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_CL_UPDATE:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (!CL)				break;
-			CL->net_Ready			= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (!CL1)				break;
+			CL1->net_Ready			= TRUE;
 
-			if (!CL->net_PassUpdates)
+			if (!CL1->net_PassUpdates)
 				break;
 			//-------------------------------------------------------------------
-			u32 ClientPing = CL->stats.getPing();
+			u32 ClientPing = CL1->stats.getPing();
 			P.w_seek(P.r_tell()+2, &ClientPing, 4);
 			//-------------------------------------------------------------------
 			if (SV_Client) 
@@ -512,16 +509,16 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_MOVE_PLAYERS_RESPOND:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (!CL)				break;
-			CL->net_Ready			= TRUE;
-			CL->net_PassUpdates		= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (!CL1)				break;
+			CL1->net_Ready			= TRUE;
+			CL1->net_PassUpdates		= TRUE;
 		}break;
 	//-------------------------------------------------------------------
 	case M_CL_INPUT:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (CL)	CL->net_Ready	= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (CL1)	CL1->net_Ready	= TRUE;
 			if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
 			VERIFY					(verify_entities());
 		}break;
@@ -639,7 +636,7 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			shared_str				user;
 			shared_str				pass;
 			P.r_stringZ				(user);
-			if(0==stricmp(user.c_str(),"logoff"))
+			if(0==BearCore::BearString::CompareWithoutCase(user.c_str(),"logoff"))
 			{
 				CL->m_admin_rights.m_has_admin_rights	= FALSE;
 				if (CL->ps)
@@ -1051,8 +1048,8 @@ void xrServer::GetServerInfo( CServerInfo* si )
 {
 	string32  tmp;
 	string256 tmp256;
-
-	si->AddItem( "Server port", itoa( GetPort(), tmp, 10 ), RGB(128,128,255) );
+	BearCore::BearString::Printf(tmp, TEXT("%d"),GetPort());
+	si->AddItem( "Server port", tmp, RGB(128,128,255) );
 	LPCSTR time = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
 	si->AddItem( "Uptime", time, RGB(255,228,0) );
 
@@ -1060,29 +1057,30 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
 	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
 	{
-		xr_strcat( tmp256, " [" );
-		xr_strcat( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
+			BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwFragLimit);
+		BearCore::BearString::Contact( tmp256, " [" );
+		BearCore::BearString::Contact( tmp256, tmp );
+		BearCore::BearString::Contact( tmp256, "] " );
 	}
 	else if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		xr_strcat( tmp256, " [" );
-		xr_strcat( tmp256, itoa( g_sv_ah_dwArtefactsNum, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
+	{	BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_ah_dwArtefactsNum);
+		BearCore::BearString::Contact( tmp256, " [" );
+		BearCore::BearString::Contact( tmp256, tmp);
+		BearCore::BearString::Contact( tmp256, "] " );
 		g_sv_ah_iReinforcementTime;
 	}
 	
 	//if ( g_sv_dm_dwTimeLimit > 0 )
-	{
-		xr_strcat( tmp256, " time limit [" );
-		xr_strcat( tmp256, itoa( g_sv_dm_dwTimeLimit, tmp, 10 ) );
-		xr_strcat( tmp256, "] " );
+	{BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwTimeLimit);
+		BearCore::BearString::Contact( tmp256, " time limit [" );
+		BearCore::BearString::Contact( tmp256, tmp );
+		BearCore::BearString::Contact( tmp256, "] " );
 	}
 	if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{
-		xr_strcat( tmp256, " RT [" );
-		xr_strcat( tmp256, itoa( g_sv_ah_iReinforcementTime, tmp, 10 ) );
-		xr_strcat( tmp256, "]" );
+	{BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_ah_iReinforcementTime);
+		BearCore::BearString::Contact( tmp256, " RT [" );
+		BearCore::BearString::Contact( tmp256,tmp );
+		BearCore::BearString::Contact( tmp256, "]" );
 	}
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
 
@@ -1093,12 +1091,13 @@ void xrServer::GetServerInfo( CServerInfo* si )
 		xr_strcpy( tmp256, time );
 		if ( g_sv_mp_iDumpStatsPeriod > 0 )
 		{
-			xr_strcat( tmp256, " statistic [" );
-			xr_strcat( tmp256, itoa( g_sv_mp_iDumpStatsPeriod, tmp, 10 ) );
-			xr_strcat( tmp256, "]" );
+			BearCore::BearString::Contact( tmp256, " statistic [" );
+			BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_mp_iDumpStatsPeriod);
+			BearCore::BearString::Contact( tmp256, tmp );
+			BearCore::BearString::Contact( tmp256, "]" );
 			if ( g_bCollectStatisticData )
 			{
-				xr_strcat( tmp256, "[weapons]" );
+				BearCore::BearString::Contact( tmp256, "[weapons]" );
 			}
 			
 		}

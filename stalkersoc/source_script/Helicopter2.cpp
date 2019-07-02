@@ -337,7 +337,7 @@ void SHeliEnemy::Update()
 		case eEnemyPoint:
 			break;
 		case eEnemyEntity:{
-				CObject* O = Level().Objects.net_Find(destEnemyID);
+				CObject* O = Level().Objects.net_Find(static_cast<u16>(destEnemyID));
 				if(O)	O->Center( destEnemyPos );
 				else	type = eEnemyNone;
 			}break;

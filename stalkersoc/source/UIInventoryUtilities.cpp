@@ -314,11 +314,11 @@ void InventoryUtilities::UpdateWeight(CUIStatic &wnd, bool withPrefix)
 
 	if (total > max)
 	{
-		strcpy(cl, "%c[red]");
+		BearCore::BearString::Copy(cl, "%c[red]");
 	}
 	else
 	{
-		strcpy(cl, "%c[UI_orange]");
+		BearCore::BearString::Copy(cl, "%c[UI_orange]");
 	}
 
 	string32 prefix;
@@ -330,7 +330,7 @@ void InventoryUtilities::UpdateWeight(CUIStatic &wnd, bool withPrefix)
 	}
 	else
 	{
-		strcpy(prefix, "");
+		BearCore::BearString::Copy(prefix, "");
 	}
 
 	sprintf_s(buf, "%s%s%3.1f %s/%5.1f", prefix, cl, total, "%c[UI_orange]", max);
@@ -359,7 +359,7 @@ void LoadStrings(CharInfoStrings *container, LPCSTR section, LPCSTR field)
 
 		XrTrims::GetItem(cfgRecord, k + 1, singleThreshold);
 		if(k+1!=count)
-			sscanf(singleThreshold, "%i", &upBoundThreshold);
+			BearCore::BearString::Scanf(singleThreshold, "%i", &upBoundThreshold);
 		else
 			upBoundThreshold	+= 1;
 

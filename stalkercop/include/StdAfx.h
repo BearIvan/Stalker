@@ -1,12 +1,7 @@
 #pragma once
  
-#pragma warning(disable:4995)
 #include "engine/stdafx.h"
 #include "DPlay/dplay8.h"
-#pragma warning(default:4995)
-#pragma warning( 4 : 4018 )
-#pragma warning( 4 : 4244 )
-#pragma warning(disable:4505)
 
 #if XRAY_EXCEPTIONS
 #	define	THROW(expr)				do {if (!(expr)) {string4096	assertion_info; ::Debug.gather_info(_TRE(#expr),   0,   0,0,DEBUG_INFO,assertion_info); throw assertion_info;}} while(0)
@@ -23,4 +18,11 @@
 #include "engine/xr_object.h"
 #include "engine/igame_level.h"
 #include "physics/xrphysics.h"
+#include "engine/xr_input.h"
 #include "smart_cast.h"
+
+#ifdef _MSC_VER
+# pragma warning(disable: 4589 4459)
+#else
+#error "Добавь warning ignore"
+#endif

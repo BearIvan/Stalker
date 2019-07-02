@@ -13,7 +13,7 @@ public class stalkernetserver :Project
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 		Projects.Private.Add("stalkertools");
 		IncludeInProject.Private.Add("stalkerlua");
-		IncludeInProject.Private.Add("stalkergamespy");
+		//IncludeInProject.Private.Add("stalkergamespy");
 		Projects.Private.Add("directx");
 		Projects.Private.Add("dplay");
 		LibrariesStatic.Private.Add("dxguid.lib");

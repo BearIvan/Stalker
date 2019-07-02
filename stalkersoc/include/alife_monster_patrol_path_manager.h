@@ -75,6 +75,7 @@ public:
 };
 add_to_type_list(CALifeMonsterPatrolPathManager)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CALifeMonsterPatrolPathManager)
 
 #include "alife_monster_patrol_path_manager_inline.h"

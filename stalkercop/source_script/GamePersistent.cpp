@@ -79,12 +79,11 @@ CGamePersistent::CGamePersistent(void)
 	//dSetFreeHandler				(ode_free		);
 
 	// 
-	BOOL	bDemoMode	= (0!=strstr(GetCommandLine(),"-demomode "));
 /*	if (bDemoMode)
 	{
 		string256	fname;
 		LPCSTR		name	=	strstr(GetCommandLine(),"-demomode ") + 10;
-		sscanf				(name,"%s",fname);
+		BearCore::BearString::Scanf				(name,"%s",fname);
 		R_ASSERT2			(fname[0],"Missing filename for 'demomode'");
 		Msg					("- playing in demo mode '%s'",fname);
 		pDemoFile			=	FS.r_open	(fname);
@@ -512,7 +511,7 @@ void CGamePersistent::start_game_intro		()
 	if (g_pGameLevel && g_pGameLevel->bReady && Device.dwPrecacheFrame<=2)
 	{
 		m_intro_event.bind		(this, &CGamePersistent::update_game_intro);
-		if (0==stricmp(m_game_params.m_new_or_load, "new"))
+		if (0==BearCore::BearString::CompareWithoutCase(m_game_params.m_new_or_load, "new"))
 		{
 			VERIFY				(NULL==m_intro);
 			m_intro				= xr_new<CUISequencer>();
@@ -672,7 +671,7 @@ void CGamePersistent::OnFrame	()
 			string512			params;
 			pDemoFile->r_string	(params,sizeof(params));
 			string256			o_server, o_client, o_demo;	u32 o_time;
-			sscanf				(params,"%[^,],%[^,],%[^,],%d",o_server,o_client,o_demo,&o_time);
+			BearCore::BearString::Scanf				(params,"%[^,],%[^,],%[^,],%d",o_server,o_client,o_demo,&o_time);
 
 			// Start _new level + demo
 			Engine.Event.Defer	("KERNEL:disconnect");

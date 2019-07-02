@@ -25,9 +25,9 @@ bool	CLevel::net_start_client1				()
 	pApp->LoadBegin	();
 	// name_of_server
 	string64					name_of_server = "";
-//	strcpy_s						(name_of_server,*m_caClientOptions);
+//	BearCore::BearString::Copy						(name_of_server,*m_caClientOptions);
 	if (strchr(*m_caClientOptions, '/'))
-		strncpy(name_of_server,*m_caClientOptions, strchr(*m_caClientOptions, '/')-*m_caClientOptions);
+		BearCore::BearString::CopyWithSizeLimit(name_of_server,*m_caClientOptions, strchr(*m_caClientOptions, '/')-*m_caClientOptions);
 
 	if (strchr(name_of_server,'/'))	*strchr(name_of_server,'/') = 0;
 

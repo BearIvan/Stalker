@@ -74,9 +74,9 @@ void player_hud_motion_container::load(IKinematicsAnimated* model, const shared_
 			for(u32 i=0; i<=8; ++i)
 			{
 				if(i==0)
-					strcpy_s				(buff,pm->m_base_name.c_str());		
+					BearCore::BearString::Copy				(buff,pm->m_base_name.c_str());		
 				else
-					sprintf				(buff,"%s%d",pm->m_base_name.c_str(),i);		
+					BearCore::BearString::Printf				(buff,"%s%d",pm->m_base_name.c_str(),i);		
 
 				motion_ID				= model->ID_Cycle_Safe(buff);
 				if(motion_ID.valid())
@@ -379,7 +379,6 @@ u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, co
 	
 		if(NULL==ec)
 		{
-			string_path			ce_path;
 			string_path			anm_name;
 			strconcat			(sizeof(anm_name),anm_name,"camera_effects\\weapon\\", M.name.c_str(),".anm");
 			if (FS.ExistFile("%anims%", anm_name))

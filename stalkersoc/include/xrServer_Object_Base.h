@@ -33,9 +33,6 @@ class CSE_ALifeSmartZone;
 class CSE_ALifeOnlineOfflineGroup;
 class CSE_ALifeItemPDA;
 
-#pragma warning(push)
-#pragma warning(disable:4005)
-
 SERVER_ENTITY_DECLARE_BEGIN(CPureServerObject,IPureServerObject)
 	virtual							~CPureServerObject(){}
 	virtual void					load(IReader	&tFileStream);
@@ -44,6 +41,7 @@ SERVER_ENTITY_DECLARE_BEGIN(CPureServerObject,IPureServerObject)
 	virtual void					save(NET_Packet	&tNetPacket);
 };
 add_to_type_list(CPureServerObject)
+#undef script_type_list
 #define script_type_list save_type_list(CPureServerObject)
 
 SERVER_ENTITY_DECLARE_BEGIN3(CSE_Abstract,ISE_Abstract,CPureServerObject,CScriptValueContainer)
@@ -125,7 +123,7 @@ public:
 	virtual ISE_Shape*  __stdcall	shape			();
 	virtual CSE_Motion* __stdcall	motion			();
 	virtual bool		__stdcall	validate		();
-	virtual void 		__stdcall	on_render		(CDUInterface* du, ISE_AbstractLEOwner* owner, bool bSelected, const Fmatrix& parent,int priority, bool strictB2F){} 
+	virtual void 		__stdcall	on_render		(CDUInterface* du, ISE_AbstractLEOwner* owner_, bool bSelected, const Fmatrix& parent,int priority, bool strictB2F){} 
 	//
 
 	IC		const Fvector			&Position		() const					{return o_Position;};
@@ -160,6 +158,5 @@ public:
 	virtual CSE_ALifeItemPDA			*cast_item_pda				() {return 0;};
 };
 add_to_type_list(CSE_Abstract)
+#undef script_type_list
 #define script_type_list save_type_list(CSE_Abstract)
-
-#pragma warning(pop)

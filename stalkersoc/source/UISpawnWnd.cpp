@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include <dinput.h>
+
 #include "ui/UISpawnWnd.h"
 #include "ui/UIXmlInit.h"
 #include "hudmanager.h"

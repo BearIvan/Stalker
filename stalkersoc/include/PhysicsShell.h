@@ -148,6 +148,7 @@ public:
 
 add_to_type_list(CPhysicsElement)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CPhysicsElement)
 
 //ABSTRACT:
@@ -222,6 +223,7 @@ public:
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 add_to_type_list(CPhysicsJoint)
+#undef script_type_list
 #undef script_type_list
 #define script_type_list save_type_list(CPhysicsJoint)
 // ABSTRACT: 
@@ -333,6 +335,7 @@ IC					IKinematics					*PKinematics								()																{return m_pKinemati
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 	};
 add_to_type_list(CPhysicsShell)
+#undef script_type_list
 #undef script_type_list
 #define script_type_list save_type_list(CPhysicsShell)
 

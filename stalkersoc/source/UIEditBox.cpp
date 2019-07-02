@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
-#include <dinput.h>
+
 #include "ui/uieditbox.h"
 #include "HUDManager.h"
 #include "ui/UIColorAnimatorWrapper.h"

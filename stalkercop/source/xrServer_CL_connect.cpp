@@ -243,7 +243,7 @@ void xrServer::OnBuildVersionRespond				( IClient* CL, NET_Packet& P )
 		else
 		{
 			Msg("* Client 0x%08x has an incorrect password", CL->ID.value());
-			xr_strcat( res_check, "Invalid password.");
+			BearCore::BearString::Contact( res_check, "Invalid password.");
 			SendConnectResult( CL, 0, ecr_password_verification_failed, res_check );
 		}
 	}

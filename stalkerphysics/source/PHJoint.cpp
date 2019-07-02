@@ -4,12 +4,7 @@
 #include "tri-colliderknoopc/dTriList.h"
 #include "PHJointDestroyInfo.h"
 ///////////////////////////////////////////////////////////////
-///#pragma warning(disable:4995)
-////#include "engine/ode/src/collision_kernel.h"
-//#include <ode/src/joint.h>
-//#include <ode/src/objects.h>
 
-//#pragma warning(default:4995)
 ///////////////////////////////////////////////////////////////////
 
 #include "ExtendedGeom.h"
@@ -1444,7 +1439,7 @@ void CPHJoint::GetAxisDirDynamic(int num,Fvector& axis)
 	axis.set(result[0],result[1],result[2]);
 }
 
-void CPHJoint::GetAnchorDynamic(Fvector& anchor)
+void CPHJoint::GetAnchorDynamic(Fvector& anchor1)
 {
 	
 	dVector3 result;
@@ -1462,7 +1457,7 @@ void CPHJoint::GetAnchorDynamic(Fvector& anchor)
 	default:				R_ASSERT2(false,"type not supported");
 		break;
 	}
-	anchor.set(result[0],result[1],result[2]);
+	anchor1.set(result[0],result[1],result[2]);
 }
 
 CPHJoint::SPHAxis::SPHAxis(){

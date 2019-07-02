@@ -61,7 +61,6 @@ void game_cl_ArtefactHunt::Init ()
 	old_artefactID = 0;
 	old_teamInPossession = 0;
 	//---------------------------------------------------
-	string_path	fn_game;
 	if (FS.ExistFile( "%level%", "level.game")) 
 	{
 		IReader *F =XRayBearReader::Create( FS.Read	("%level%", "level.game"));

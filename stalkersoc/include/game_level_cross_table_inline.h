@@ -16,7 +16,7 @@ IC CGameLevelCrossTable::CGameLevelCrossTable	()
 #endif // AI_COMPILER
 {
 #ifndef AI_COMPILER
-	string_path			fName;
+//	string_path			fName;
 #endif // AI_COMPILER
 
 	m_tpCrossTableVFS	= XRayBearReader::Create( FS.Read("%level%", CROSS_TABLE_NAME));

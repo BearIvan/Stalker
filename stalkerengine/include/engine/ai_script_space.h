@@ -11,7 +11,6 @@
 // Lua
 #pragma warning(disable:4244)
 #pragma warning(disable:4995)
-#pragma warning(disable:4530)
 #pragma warning(disable:4267)
 
 //#define LUABIND_NO_EXCEPTIONS

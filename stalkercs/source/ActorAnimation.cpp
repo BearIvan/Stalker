@@ -135,43 +135,45 @@ void SAnimState::Create(IKinematicsAnimated* K, LPCSTR base0, LPCSTR base1)
 
 void SActorState::CreateClimb(IKinematicsAnimated* K)
 {
-	string128		buf,buf1;
+	string128		buf, buf1;
 	string16		base;
-	
+
 	//climb anims
-	strcpy_s(base,"cl");
-	legs_idle		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_idle_1"));
-	m_torso_idle	= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_torso_0_aim_0"));
-	m_walk.Create	(K,base,"_run");
-	m_run.Create	(K,base,"_run");
+	BearCore::BearString::Copy(base, "cl");
+	legs_idle = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_idle_1"));
+	m_torso_idle = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_torso_0_aim_0"));
+	m_walk.Create(K, base, "_run");
+	m_run.Create(K, base, "_run");
 
 	//norm anims
-	strcpy_s(base,"norm");
-	legs_turn		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_turn"));
-	death			= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_death_0"));
-	m_torso[0].Create(K,base,"_1");
-	m_torso[1].Create(K,base,"_2");
-	m_torso[2].Create(K,base,"_3");
-	m_torso[3].Create(K,base,"_4");
-	m_torso[4].Create(K,base,"_5");
-	m_torso[5].Create(K,base,"_6");
-	m_torso[6].Create(K,base,"_7");
-	m_torso[7].Create(K,base,"_8");
-	m_torso[8].Create(K,base,"_9");
-	m_torso[9].Create(K,base,"_10");
-	m_torso[10].Create(K,base,"_11");
-	m_torso[11].Create(K,base,"_12");
-	m_torso[12].Create(K,base,"_13");
+	BearCore::BearString::Copy(base, "norm");
+	legs_turn = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_turn"));
+	death = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_death_0"));
+	m_torso[0].Create(K, base, "_1");
+	m_torso[1].Create(K, base, "_2");
+	m_torso[2].Create(K, base, "_3");
+	m_torso[3].Create(K, base, "_4");
+	m_torso[4].Create(K, base, "_5");
+	m_torso[5].Create(K, base, "_6");
+	m_torso[6].Create(K, base, "_7");
+	m_torso[7].Create(K, base, "_8");
+	m_torso[8].Create(K, base, "_9");
+	m_torso[9].Create(K, base, "_10");
+	m_torso[10].Create(K, base, "_11");
+	m_torso[11].Create(K, base, "_12");
+	m_torso[12].Create(K, base, "_13");
 
 
 	m_head_idle.invalidate();///K->ID_Cycle("head_idle_0");
-	jump_begin		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_begin"));
-	jump_idle		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_idle"));
-	landing[0]		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_end"));
-	landing[1]		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_end_1"));
+	jump_begin = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_jump_begin"));
+	jump_idle = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_jump_idle"));
+	landing[0] = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_jump_end"));
+	landing[1] = K->ID_Cycle(strconcat(sizeof(buf), buf, base, "_jump_end_1"));
 
-	for (int k=0; k<12; ++k)
-		m_damage[k]	= K->ID_FX(strconcat(sizeof(buf),buf,base,"_damage_",itoa(k,buf1,10)));
+	for (int k = 0; k < 12; ++k) {
+		BearCore::BearString::Printf(buf1, TEXT("%d"), k);
+		m_damage[k] = K->ID_FX(strconcat(sizeof(buf), buf, base, "_damage_", buf1));
+	}
 }
 
 
@@ -206,8 +208,10 @@ void SActorState::Create(IKinematicsAnimated* K, LPCSTR base)
 	landing[0]		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_end"));
 	landing[1]		= K->ID_Cycle(strconcat(sizeof(buf),buf,base,"_jump_end_1"));
 
-	for (int k=0; k<12; ++k)
-		m_damage[k]	= K->ID_FX(strconcat(sizeof(buf),buf,base,"_damage_",itoa(k,buf1,10)));
+	for (int k = 0; k < 12; ++k) {
+		BearCore::BearString::Printf(buf1, TEXT("%d"), k);
+		m_damage[k] = K->ID_FX(strconcat(sizeof(buf), buf, base, "_damage_", buf1));
+	}
 }
 
 void SActorSprintState::Create(IKinematicsAnimated* K)
@@ -253,12 +257,14 @@ SVehicleAnimCollection::SVehicleAnimCollection()
 void SVehicleAnimCollection::Create(IKinematicsAnimated* V,u16 num)
 {
 	string128 buf,buff1,buff2;
-	strconcat(sizeof(buff1),buff1,itoa(num,buf,10),"_");
+	BearCore::BearString::Printf(buf, TEXT("%hu"), num);
+	strconcat(sizeof(buff1),buff1, buf,"_");
 	steer_left=	V->ID_Cycle(strconcat(sizeof(buf),buf,"steering_idle_",buff1,"ls"));
 	steer_right=V->ID_Cycle(strconcat(sizeof(buf),buf,"steering_idle_",buff1,"rs"));
 
 	for(int i=0;MAX_IDLES>i;++i){
-		idles[i]=V->ID_Cycle_Safe(strconcat(sizeof(buf),buf,"steering_idle_",buff1,itoa(i,buff2,10)));
+		BearCore::BearString::Printf(buff2, TEXT("%d"), i);
+		idles[i]=V->ID_Cycle_Safe(strconcat(sizeof(buf),buf,"steering_idle_",buff1, buff2));
 		if(idles[i]) idles_num++;
 		else break;
 	}
@@ -574,27 +580,27 @@ void CActor::g_SetAnimation( u32 mstate_rl )
 #ifdef _DEBUG
 	if ((Level().CurrentControlEntity() == this) && g_ShowAnimationInfo) {
 		string128 buf;
-		strcpy_s(buf,"");
-		if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		strcat(buf,"Accel ");
-		if (mstate_rl&mcCrouch)		strcat(buf,"Crouch ");
-		if (mstate_rl&mcFwd)		strcat(buf,"Fwd ");
-		if (mstate_rl&mcBack)		strcat(buf,"Back ");
-		if (mstate_rl&mcLStrafe)	strcat(buf,"LStrafe ");
-		if (mstate_rl&mcRStrafe)	strcat(buf,"RStrafe ");
-		if (mstate_rl&mcJump)		strcat(buf,"Jump ");
-		if (mstate_rl&mcFall)		strcat(buf,"Fall ");
-		if (mstate_rl&mcTurn)		strcat(buf,"Turn ");
-		if (mstate_rl&mcLanding)	strcat(buf,"Landing ");
-		if (mstate_rl&mcLLookout)	strcat(buf,"LLookout ");
-		if (mstate_rl&mcRLookout)	strcat(buf,"RLookout ");
-		if (m_bJumpKeyPressed)		strcat(buf,"+Jumping ");
+		BearCore::BearString::Copy(buf,"");
+		if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		BearCore::BearString::Contact(buf,"Accel ");
+		if (mstate_rl&mcCrouch)		BearCore::BearString::Contact(buf,"Crouch ");
+		if (mstate_rl&mcFwd)		BearCore::BearString::Contact(buf,"Fwd ");
+		if (mstate_rl&mcBack)		BearCore::BearString::Contact(buf,"Back ");
+		if (mstate_rl&mcLStrafe)	BearCore::BearString::Contact(buf,"LStrafe ");
+		if (mstate_rl&mcRStrafe)	BearCore::BearString::Contact(buf,"RStrafe ");
+		if (mstate_rl&mcJump)		BearCore::BearString::Contact(buf,"Jump ");
+		if (mstate_rl&mcFall)		BearCore::BearString::Contact(buf,"Fall ");
+		if (mstate_rl&mcTurn)		BearCore::BearString::Contact(buf,"Turn ");
+		if (mstate_rl&mcLanding)	BearCore::BearString::Contact(buf,"Landing ");
+		if (mstate_rl&mcLLookout)	BearCore::BearString::Contact(buf,"LLookout ");
+		if (mstate_rl&mcRLookout)	BearCore::BearString::Contact(buf,"RLookout ");
+		if (m_bJumpKeyPressed)		BearCore::BearString::Contact(buf,"+Jumping ");
 		HUD().Font().pFontStat->OutNext	("MSTATE:     [%s]",buf);
 /*
 		switch (m_PhysicMovementControl->Environment())
 		{
-		case CPHMovementControl::peOnGround:	strcpy_s(buf,"ground");			break;
-		case CPHMovementControl::peInAir:		strcpy_s(buf,"air");				break;
-		case CPHMovementControl::peAtWall:		strcpy_s(buf,"wall");				break;
+		case CPHMovementControl::peOnGround:	BearCore::BearString::Copy(buf,"ground");			break;
+		case CPHMovementControl::peInAir:		BearCore::BearString::Copy(buf,"air");				break;
+		case CPHMovementControl::peAtWall:		BearCore::BearString::Copy(buf,"wall");				break;
 		}
 		HUD().Font().pFontStat->OutNext	(buf);
 		HUD().Font().pFontStat->OutNext	("Accel     [%3.2f, %3.2f, %3.2f]",VPUSH(NET_SavedAccel));

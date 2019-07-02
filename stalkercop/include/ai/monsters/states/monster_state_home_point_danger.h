@@ -19,7 +19,7 @@ public:
 
 	virtual bool		check_start_conditions	();
 	virtual bool		check_completion		();
-	virtual void		remove_links			(CObject* object) { inherited::remove_links(object);}
+	virtual void		remove_links			(CObject* object1) { inherited::remove_links(object1);}
 
 	virtual	void		reselect_state			();
 	virtual	void		setup_substates			();

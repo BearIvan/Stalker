@@ -61,7 +61,6 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
 
 	if (FS.ExistFile(CONFIG_PATH, info_path.c_str()))
 	{
-		string_path				ltxPath;
 		CInifile ltx			(CONFIG_PATH, info_path.c_str());
 		xr_string				text;
 

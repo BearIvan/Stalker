@@ -196,7 +196,8 @@ namespace MemorySpace {
 	};
 	add_to_type_list(CMemoryInfo)
 	#undef script_type_list
-	#define script_type_list save_type_list(CMemoryInfo)
+	#undef script_type_list
+#define script_type_list save_type_list(CMemoryInfo)
 
 	template <typename T>
 	struct SLevelTimePredicate {

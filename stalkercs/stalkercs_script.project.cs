@@ -12,9 +12,8 @@ public class stalkercs_script:Project
 		
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 
-        IncludeInProject.Public.Add("stalkergamespy");
+        //IncludeInProject.Public.Add("stalkergamespy");
         Projects.Public.Add("cs");
-        Projects.Public.Add("crypto");
        Projects.Public.Add("stalker");
 		Projects.Public.Add("dplay");
 		Projects.Public.Add("directx");

@@ -460,16 +460,16 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 	HUD().Font().pFontStat->OutNext	("%s%sitem to spawn       : %s",indent,indent,item_to_spawn().size() ? *item_to_spawn() : "no item to spawn");
 	HUD().Font().pFontStat->OutNext	("%s%sammo in box to spawn: %d",indent,indent,item_to_spawn().size() ? ammo_in_box_to_spawn() : 0);
 	
-	CWeaponMagazined					*weapon = smart_cast<CWeaponMagazined*>(inventory().ActiveItem());
-	if (weapon) {
+	CWeaponMagazined					*weaponMagazined = smart_cast<CWeaponMagazined*>(inventory().ActiveItem());
+	if (weaponMagazined) {
 		CObjectHandlerPlanner			&planner = CObjectHandler::planner();
-		HUD().Font().pFontStat->OutNext("%s%squeue size          : %d",indent,indent,weapon->GetQueueSize());
+		HUD().Font().pFontStat->OutNext("%s%squeue size          : %d",indent,indent,weaponMagazined->GetQueueSize());
 		HUD().Font().pFontStat->OutNext("%s%squeue interval      : %d",
 			indent,
 			indent,
 			planner.action(
 				planner.uid(
-					weapon->ID(),
+					weaponMagazined->ID(),
 					ObjectHandlerSpace::eWorldOperatorQueueWait1
 				)
 			).inertia_time()
@@ -1057,8 +1057,8 @@ void CAI_Stalker::dbg_draw_visibility_rays	()
 	const CEntityAlive		*enemy = memory().enemy().selected();
 	if (enemy) {
 		if (memory().visual().visible_now(enemy)) {
-			collide::rq_results	rq_storage;
-			draw_visiblity_rays	(this,enemy,rq_storage);
+			collide::rq_results	rq_storage1;
+			draw_visiblity_rays	(this,enemy,rq_storage1);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "configs_dumper.h"
-#include "configs_common.h"
 
 #include "GameObject.h"
 #include "level.h"
@@ -23,7 +22,6 @@ configs_dumper::configs_dumper()
 	m_make_done_event					= NULL;
 
 	static u8 const sign_random_init[4] = {42, 42, 42, 42};
-	m_dump_signer.sign					(sign_random_init, sizeof(sign_random_init));
 }
 
 configs_dumper::~configs_dumper()
@@ -135,10 +133,10 @@ void configs_dumper::write_configs()
 		max_active_objects);
 	active_objects_t::size_type	aobjs_count	= get_active_objects(active_objects);
 	string16 tmp_strbuff;
-	for (active_objects_t::size_type i = 0; i < aobjs_count; ++i)
+	for (active_objects_t::size_type i1 = 0; i1 < aobjs_count; ++i1)
 	{
-		xr_sprintf				(tmp_strbuff, "%d", i + 1);
-		m_active_params.dump	(active_objects[i], tmp_strbuff, active_params_dumper);
+		xr_sprintf				(tmp_strbuff, "%d", i1 + 1);
+		m_active_params.dump	(active_objects[i1], tmp_strbuff, active_params_dumper);
 	}
 	active_params_dumper.save_as	(m_dump_result);
 }
@@ -164,10 +162,6 @@ void configs_dumper::sign_configs		()
 		tmp_cdkey_digest = "null";
 
 	LPCSTR		add_str = NULL;
-	STRCONCAT(add_str,
-		tmp_player_name,
-		tmp_cdkey_digest,
-		current_time(creation_date));
 
 	u32			tmp_w_pos			= m_dump_result.tell();
 	m_dump_result.w_stringZ			(add_str);
@@ -178,18 +172,7 @@ void configs_dumper::sign_configs		()
 
 	shared_str	tmp_dsign;
 	
-	if (m_yield_cb)
-	{
-		tmp_dsign = m_dump_signer.sign_mt(
-			m_dump_result.pointer(),
-			m_dump_result.size(),
-			m_yield_cb);
-	} else
-	{
-		tmp_dsign = m_dump_signer.sign(
-			m_dump_result.pointer(),
-			m_dump_result.size());
-	}
+	
 
 	m_dump_result.seek				(tmp_w_pos);
 	tmp_ini.w_string				(cd_info_secion, cd_digital_sign_key, tmp_dsign.c_str());
@@ -324,42 +307,6 @@ void configs_dumper::timer_end()
 #endif	//#ifdef DEBUG
 
 // dump_signer
-
-dump_signer::dump_signer() :
-	xr_dsa_signer(p_number, q_number, g_number)
-{
-	feel_private_dsa_key();
-};
-
-dump_signer::~dump_signer()
-{
-}
-
-void dump_signer::feel_private_dsa_key()
-{
-// Private key:
-	m_private_key.m_value[0]	= 0xdb;
-	m_private_key.m_value[1]	= 0xcb;
-	m_private_key.m_value[2]	= 0x99;
-	m_private_key.m_value[3]	= 0x19;
-	m_private_key.m_value[4]	= 0x2e;
-	m_private_key.m_value[5]	= 0x42;
-	m_private_key.m_value[6]	= 0xe7;
-	m_private_key.m_value[7]	= 0xf9;
-	m_private_key.m_value[8]	= 0xcb;
-	m_private_key.m_value[9]	= 0xf2;
-	m_private_key.m_value[10]	= 0xa3;
-	m_private_key.m_value[11]	= 0xde;
-	m_private_key.m_value[12]	= 0xa4;
-	m_private_key.m_value[13]	= 0xa0;
-	m_private_key.m_value[14]	= 0xef;
-	m_private_key.m_value[15]	= 0x14;
-	m_private_key.m_value[16]	= 0x88;
-	m_private_key.m_value[17]	= 0x32;
-	m_private_key.m_value[18]	= 0x91;
-	m_private_key.m_value[19]	= 0x17;
-}
-
 
 
 }//namespace mp_anticheat

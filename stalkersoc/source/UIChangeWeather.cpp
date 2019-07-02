@@ -68,7 +68,7 @@ void CUIChangeWeather::SendMessage(CUIWindow* pWnd, s16 msg, void* pData){
 
 }
 
-#include <dinput.h>
+
 
 bool CUIChangeWeather::OnKeyboard(int dik, EUIMessages keyboard_action){
 	CUIDialogWnd::OnKeyboard(dik, keyboard_action);

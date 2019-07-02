@@ -241,8 +241,7 @@ void game_cl_CaptureTheArtefact::UpdateMoneyIndicator()
 		total_money = lookat_player->money_for_round;
 	}
 	if (total_money != last_money)
-	{
-		itoa(total_money, MoneyStr, 10);
+	{	BearCore::BearString::Printf(MoneyStr, TEXT("%d"), total_money);
 		m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
 		last_money = total_money;
 	}
@@ -1318,8 +1317,8 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 #ifdef CLIENT_CTA_LOG
 		Msg("---Next cat iteration state: %s", vstr);
 #endif
-		xr_strcat(vstr, vstr_size, " ");
-		xr_strcat(vstr, vstr_size, st.translate(args[i]).c_str());
+		BearCore::BearString::Contact(vstr, vstr_size, " ");
+		BearCore::BearString::Contact(vstr, vstr_size, st.translate(args[i]).c_str());
 	}
 	const bchar*				t_vote_str = st.translate("mp_voting_started").c_str();
 	VERIFY				(t_vote_str);
@@ -1620,11 +1619,11 @@ bool game_cl_CaptureTheArtefact::PlayerCanSprint(CActor* pActor)
 	if (m_bBearerCantSprint)
 		return true;
 
-	u16 greenArtefactOwner = GetGreenArtefactOwnerID();
-	u16 blueArtefactOwner = GetBlueArtefactOwnerID();
+	u16 greenArtefactOwner1 = GetGreenArtefactOwnerID();
+	u16 blueArtefactOwner1 = GetBlueArtefactOwnerID();
 	u16 myID = pActor->ID();
-	if ((myID == greenArtefactOwner) ||
-		(myID == blueArtefactOwner))
+	if ((myID == greenArtefactOwner1) ||
+		(myID == blueArtefactOwner1))
 	{
 		return false;
 	}

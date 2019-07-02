@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "tri-colliderknoopc/dTriColliderCommon.h"
 #include "dCylinder/dCylinder.h"
 #include "tri-colliderknoopc/dTriCylinder.h"
@@ -16,19 +16,19 @@ bool dcTriListCollider::circleLineIntersection(const dReal* cn,const dReal* cp,d
 
 	dVector3 LC={lp[0]-cp[0],lp[1]-cp[1],lp[2]-cp[2]};
 
-	dReal A,B,C,B_A,B_A_2,D;
+	dReal A,B1,C,B_A,B_A_2,D;
 	dReal t1,t2;
 	A=dDOT(lv,lv);
-	B=dDOT(LC,lv);
+	B1=dDOT(LC,lv);
 	C=dDOT(LC,LC)-r*r;
-	B_A=B/A;
+	B_A=B1/A;
 	B_A_2=B_A*B_A;
 	D=B_A_2-C;
 	if(D<0.f){
 		
-		point[0]=lp[0]-lv[0]*B;
-		point[1]=lp[1]-lv[1]*B;
-		point[2]=lp[2]-lv[2]*B;
+		point[0]=lp[0]-lv[0]*B1;
+		point[1]=lp[1]-lv[1]*B1;
+		point[2]=lp[2]-lv[2]*B1;
 		return false;
 		
 	}
@@ -76,7 +76,7 @@ int dcTriListCollider::dSortedTriCyl (
 				   )
 {
 	
-	DEBUGFATALERROR1 (dGeomGetClass(o1)== dCylinderClassUser);
+	VERIFY (dGeomGetClass(o1)== dCylinderClassUser);
 
 	const dReal *R = dGeomGetRotation(o1);
 	const dReal* p=dGeomGetPosition(o1);
@@ -274,8 +274,8 @@ int dcTriListCollider::dTriCyl (
 						)
 {
 
- // DEBUGFATALERROR1 (skip >= (int)sizeof(dContactGeom));
-  DEBUGFATALERROR1 (dGeomGetClass(o1)== dCylinderClassUser);
+ // VERIFY (skip >= (int)sizeof(dContactGeom));
+  VERIFY (dGeomGetClass(o1)== dCylinderClassUser);
   
 
   
@@ -627,8 +627,7 @@ if(9!=code)
 //////////////////////////////////////////////////////////////////////
 ///if we get to this poit tri touches cylinder///////////////////////
 /////////////////////////////////////////////////////////////////////
-//DEBUGFATALERROR1( g_pGameLevel );
-CDB::TRI*       T_array      = inl_ph_world().ObjectSpace().GetStaticTris();
+CDB::TRI*       T_array = inl_ph_world().ObjectSpace().GetStaticTris();
 dVector3 norm;
 unsigned int ret;
 flags8& gl_state=gl_cl_tries_state[I-B];

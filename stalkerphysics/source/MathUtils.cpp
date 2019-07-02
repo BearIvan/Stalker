@@ -258,8 +258,8 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 						float sq_sphere_dist=sq_sin*tc_h*tc_h;
 						//if(sq_sphere_dist>sq_horde)return false	;
 						float tr_c=tr-tc_h*cs						;
-						float diff=XrMath::sqrt(sq_horde-sq_sphere_dist)	;
-						tr2=tr_c+diff								;
+						float diff1=XrMath::sqrt(sq_horde-sq_sphere_dist)	;
+						tr2=tr_c+diff1								;
 						if(tr2<0.f) return false					;//
 						if(tr2<R){R=tr2;return true;}
 					}
@@ -284,8 +284,8 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 				{
 					if(bCull)return false;
 					else{
-						float diff=c_diff/cs				;
-						tr2=tr+diff							;
+						float diff1=c_diff/cs				;
+						tr2=tr+diff1							;
 						if(tr2<0.f) return false			;//
 						if(tr2<R){R=tr2;return true;}
 					}
@@ -306,10 +306,10 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector &S, const Fvect
 				{
 					if(bCull)return false;
 					else{
-						float tc_h=tc-h								;
-						float tr_c=tr-tc_h*cs						;
-						float diff=XrMath::sqrt(sq_horde-sq_sin*tc_h*tc_h)	;
-						tr2=tr_c+diff								;
+						float tc_h1=tc-h								;
+						float tr_c1=tr-tc_h1*cs						;
+						float diff1=XrMath::sqrt(sq_horde-sq_sin*tc_h1*tc_h1)	;
+						tr2=tr_c1+diff1							;
 						if(tr2<R){R=tr2;return true;}
 					}
 				}
@@ -423,64 +423,64 @@ void capped_cylinder_ray_collision_test()
 	c.m_height=2;
 	c.m_radius=1;
 	//ray
-	Fvector dir,pos;float R;
-	dir.set(1,0,0);pos.set(0,0,0);R=3;
+	Fvector dir1,pos;float R;
+	dir1.set(1,0,0);pos.set(0,0,0);R=3;
 	
 	//inside
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//true , 1
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//false ,
-	dir.set(0,0,1);
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//true , 2
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//false
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//true , 1
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//false ,
+	dir1.set(0,0,1);
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//true , 2
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//false
 
 	//outside
-	pos.set(-3,0,0);dir.set(1,0,0);R=4;
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//true , 2
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//true , 2
+	pos.set(-3,0,0);dir1.set(1,0,0);R=4;
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//true , 2
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//true , 2
 	R=1;
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//false
-	pos.set(0,0,-3);dir.set(0,0,1);R=4;
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//true , 1
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//true, 1
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//false
+	pos.set(0,0,-3);dir1.set(0,0,1);R=4;
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//true , 1
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//true, 1
 
-	pos.set(-3,-3,-3);dir.set(1,1,1);dir.normalize();R=10;
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//true, ?
+	pos.set(-3,-3,-3);dir1.set(1,1,1);dir1.normalize();R=10;
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//true, ?
 	float ir[2];
 	Fcylinder::ecode code[2];
-	c.intersect(pos,dir,ir,code);
+	c.intersect(pos,dir1,ir,code);
 	//
 	pos.set(0,0,0);
-	RAYvsCYLINDER(c,pos,dir,R,FALSE);//true, ?
+	RAYvsCYLINDER(c,pos,dir1,R,FALSE);//true, ?
 	//Fcylinder::ecode code[2];
-	c.intersect(pos,dir,ir,code);
-	RAYvsCYLINDER(c,pos,dir,R,TRUE);//false
+	c.intersect(pos,dir1,ir,code);
+	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//false
 	BearCore::BearTimer t;
 	t.restart();
 	for(int i=0;i<1000000;i++)
 	{
-		Fcylinder c;
-		c.m_center.random_point(Fvector().set(2,2,2));
-		c.m_direction.random_dir();
-		c.m_height=Random.randF(0.2f,2.f);
-		c.m_radius=Random.randF(0.1f,2.f);
+		Fcylinder c1;
+		c1.m_center.random_point(Fvector().set(2,2,2));
+		c1.m_direction.random_dir();
+		c1.m_height=Random.randF(0.2f,2.f);
+		c1.m_radius=Random.randF(0.1f,2.f);
 		//ray
-		Fvector dir,pos;float R=Random.randF(0.1f,2.f);
-		dir.random_dir();pos.random_point(Fvector().set(2,2,2));
-		RAYvsCYLINDER(c,pos,dir,R,TRUE);
+		Fvector dir11,pos1;float R1=Random.randF(0.1f,2.f);
+		dir11.random_dir();pos1.random_point(Fvector().set(2,2,2));
+		RAYvsCYLINDER(c1,pos1,dir11,R1,TRUE);
 	}
 	Msg("my RAYvsCYLINDE time %f ms",t.get_elapsed_time().asseconds()*1000.f);
 	t.restart();
 	for(int i=0;i<1000000;i++)
 	{
-		Fcylinder c;
-		c.m_center.random_point(Fvector().set(2,2,2));
-		c.m_direction.random_dir();
-		c.m_height=Random.randF(0.2f,2.f);
-		c.m_radius=Random.randF(0.1f,2.f);
+		Fcylinder c1;
+		c1.m_center.random_point(Fvector().set(2,2,2));
+		c1.m_direction.random_dir();
+		c1.m_height=Random.randF(0.2f,2.f);
+		c1.m_radius=Random.randF(0.1f,2.f);
 		//ray
-		Fvector dir,pos;//float R=Random.randF(0.1f,2.f);
-		dir.random_dir();pos.random_point(Fvector().set(2,2,2));
-		c.intersect(pos,dir,ir,code);
+		Fvector dir11,pos1;//float R=Random.randF(0.1f,2.f);
+		dir11.random_dir();pos1.random_point(Fvector().set(2,2,2));
+		c.intersect(pos1,dir11,ir,code);
 	}
 		Msg("current intersect time %f ms",t.get_elapsed_time().asseconds()*1000.f);
 

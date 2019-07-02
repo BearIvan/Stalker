@@ -217,8 +217,9 @@ void CScriptEngine::load_common_scripts()
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(XrTrims::GetItem(caScriptString,i,I));
-			if (object("_G",strcat(I,"_initialize"),LUA_TFUNCTION)) {
-//				lua_dostring			(lua(),strcat(I,"()"));
+			BearCore::BearString::Contact(I, "_initialize");
+			if (object("_G", I,LUA_TFUNCTION)) {
+//				lua_dostring			(lua(),BearCore::BearString::Contact(I,"()"));
 				luabind::functor<void>	f;
 				R_ASSERT				(functor(I,f));
 				f						();
@@ -235,7 +236,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 	if (!warn_if_not_exist && no_file_exists(file_name,string_length))
 		return;
 
-	string_path				S,S1;
+	string_path				S1;
 	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) {
 		strconcat(sizeof(S1), S1, file_name, ".script");
 		if (!warn_if_not_exist && !FS.ExistFile(TEXT("%scripts%"), S1)) {
@@ -308,7 +309,7 @@ bool CScriptEngine::function_object(LPCSTR function_to_call, luabind::object &ob
 
 	string256				name_space, function;
 
-	parse_script_namespace	(function_to_call,name_space,function);
+	parse_script_namespace	(function_to_call,name_space,256,function,256);
 	if (xr_strcmp(name_space,"_G"))
 		process_file		(name_space);
 

@@ -265,9 +265,10 @@ void set_box(LPCSTR section, CPHMovementControl &mc, u32 box_num )
 	Fbox	bb;Fvector	vBOX_center,vBOX_size;
 	// m_PhysicMovementControl: BOX
 	string64 buff, buff1;
-	strconcat( sizeof(buff), buff, "ph_box",itoa( box_num, buff1, 10 ),"_center" );
+	BearCore::BearString::Printf(buff1, TEXT("%d"), box_num);
+	strconcat( sizeof(buff), buff, "ph_box", buff1,"_center" );
 	vBOX_center= pSettings->r_fvector3	(section, buff	);
-	strconcat( sizeof(buff), buff, "ph_box",itoa( box_num, buff1, 10 ),"_size" );
+	strconcat( sizeof(buff), buff, "ph_box", buff1,"_size" );
 	vBOX_size	= pSettings->r_fvector3	(section, buff);
 	vBOX_size.y += cammera_into_collision_shift/2.f;
 	bb.set	(vBOX_center,vBOX_center); bb.grow(vBOX_size);
@@ -495,15 +496,15 @@ void	CActor::Hit(SHit* pHDS)
 				CParticlesPlayer::MakeXFORM(this,HDS.bone(),HDS.dir,HDS.p_in_bone_space,pos);
 
 				// установить particles
-				CParticlesObject* ps = NULL;
+				CParticlesObject* ps1 = NULL;
 
 				if (eacFirstEye == cam_active && this == Level().CurrentEntity())
-					ps = CParticlesObject::Create(invincibility_fire_shield_1st,TRUE);
+					ps1 = CParticlesObject::Create(invincibility_fire_shield_1st,TRUE);
 				else
-					ps = CParticlesObject::Create(invincibility_fire_shield_3rd,TRUE);
+					ps1 = CParticlesObject::Create(invincibility_fire_shield_3rd,TRUE);
 
-				ps->UpdateParent(pos,Fvector().set(0.f,0.f,0.f));
-				GamePersistent().ps_needtoplay.push_back(ps);
+				ps1->UpdateParent(pos,Fvector().set(0.f,0.f,0.f));
+				GamePersistent().ps_needtoplay.push_back(ps1);
 			};
 		};
 		 

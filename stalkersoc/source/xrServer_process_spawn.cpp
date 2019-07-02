@@ -90,9 +90,9 @@ CSE_Abstract* xrServer::Process_spawn(NET_Packet& P, ClientID sender, BOOL bSpaw
 			if (bSpawnWithClientsMainEntityAsParent)
 			{
 				R_ASSERT				(CL);
-				CSE_Abstract* P		= CL->owner;
-				R_ASSERT				(P);
-				E->ID_Parent			= P->ID;
+				CSE_Abstract* P1		= CL->owner;
+				R_ASSERT				(P1);
+				E->ID_Parent			= P1->ID;
 			}
 			E->ID					=	PerformIDgen(E->ID);
 			E->owner				=	CL;

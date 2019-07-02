@@ -22,7 +22,6 @@ CLevelGraph::CLevelGraph		()
 #ifdef DEBUG
 	sh_debug->create				("debug\\ai_nodes","$null");
 #endif
-	string_path					file_name;
 #else
 	string256					file_name;
 	strconcat					(sizeof(file_name), file_name, filename, LEVEL_GRAPH_NAME);

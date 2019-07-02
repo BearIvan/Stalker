@@ -78,9 +78,9 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 							}
 #	else
 							float					game_difficulty_hit_probability = actor->HitProbability();
-							CAI_Stalker				*stalker = smart_cast<CAI_Stalker*>(initiator);
-							if (stalker)
-								hpf					= stalker->SpecificCharacter().hit_probability_factor();
+							CAI_Stalker				*stalker1 = smart_cast<CAI_Stalker*>(initiator);
+							if (stalker1)
+								hpf					= stalker1->SpecificCharacter().hit_probability_factor();
 
 							float					dist_factor = 1.f;
 							CObject					*weapon_object = Level().Objects.net_Find	(bullet->weapon_id);

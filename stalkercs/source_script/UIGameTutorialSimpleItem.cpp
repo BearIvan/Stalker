@@ -60,18 +60,18 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 	m_time_length			= xml->ReadFlt			("length_sec",0,0		);
 	m_desired_cursor_pos.x	= xml->ReadAttribFlt	("cursor_pos",0,"x",0);
 	m_desired_cursor_pos.y	= xml->ReadAttribFlt	("cursor_pos",0,"y",0	);
-	strcpy_s					(m_pda_section, xml->Read("pda_section",0,"")	);
+	BearCore::BearString::Copy					(m_pda_section, xml->Read("pda_section",0,"")	);
 
 	LPCSTR str				= xml->Read				("pause_state",0,"ignore");
-	m_flags.set										(etiNeedPauseOn, 0==_stricmp(str, "on"));
-	m_flags.set										(etiNeedPauseOff, 0==_stricmp(str, "off"));
+	m_flags.set										(etiNeedPauseOn, 0==BearCore::BearString::CompareWithoutCase(str, "on"));
+	m_flags.set										(etiNeedPauseOff, 0==BearCore::BearString::CompareWithoutCase(str, "off"));
 
 	LPCSTR str2				= xml->Read				("pause_sound",0,"ignore");
-	m_flags.set										(etiNeedPauseSound, 0==_stricmp(str2, "on"));
+	m_flags.set										(etiNeedPauseSound, 0==BearCore::BearString::CompareWithoutCase(str2, "on"));
 
 	str						= xml->Read				("guard_key",0,NULL		);
 	m_continue_dik_guard	= -1;
-	if (str && !_stricmp(str,"any")){
+	if (str && !BearCore::BearString::CompareWithoutCase(str,"any")){
 		m_continue_dik_guard = 9999;
 		str					= NULL;
 	}
@@ -85,13 +85,13 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 	
 	int actions_count				= xml->GetNodesNum	(0,0,"action");
 	m_actions.resize				(actions_count);
-	for(int idx=0; idx<actions_count; ++idx)
+	for(int idx1=0; idx1<actions_count; ++idx1)
 	{
-		SActionItem& itm			= m_actions[idx];
-		LPCSTR str					= xml->ReadAttrib("action", idx, "id");
-		itm.m_action				= action_name_to_id(str);
-		itm.m_bfinalize				= !!xml->ReadAttribInt("action", idx, "finalize", FALSE);
-		itm.m_functor				= xml->Read(xml->GetLocalRoot(), "action", idx, "");
+		SActionItem& itm			= m_actions[idx1];
+		LPCSTR str1					= xml->ReadAttrib("action", idx1, "id");
+		itm.m_action				= action_name_to_id(str1);
+		itm.m_bfinalize				= !!xml->ReadAttribInt("action", idx1, "finalize", FALSE);
+		itm.m_functor				= xml->Read(xml->GetLocalRoot(), "action", idx1, "");
 	}
 
 	//ui-components
@@ -202,45 +202,45 @@ void CUISequenceSimpleItem::Start()
 		bool bShowPda			= false;
 		CUIGameSP* ui_game_sp	= smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
 
-/*		if(!stricmp(m_pda_section,"pda_contacts"))
+/*		if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_contacts"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptContacts");
 			bShowPda = true;
-//.			}else if(!stricmp(m_pda_section,"pda_map"))
+//.			}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_map"))
 //.			{
 //.				ui_game_sp->PdaMenu->SetActiveSubdialog(eptMap);
 //.				bShowPda = true;
-		}else if(!stricmp(m_pda_section,"pda_quests"))
+		}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_quests"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptQuests");
 			bShowPda = true;
-		}else if(!stricmp(m_pda_section,"pda_diary"))
+		}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_diary"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptDiary");
 			bShowPda = true;
-		}else if(!stricmp(m_pda_section,"pda_ranking"))
+		}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_ranking"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptRanking");
 			bShowPda = true;
-		}else if(!stricmp(m_pda_section,"pda_statistics"))
+		}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_statistics"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptActorStatistic");
 			bShowPda = true;
-		}else if(!stricmp(m_pda_section,"pda_encyclopedia"))
+		}else if(!BearCore::BearString::CompareWithoutCase(m_pda_section,"pda_encyclopedia"))
 		{
 			ui_game_sp->PdaMenu->SetActiveSubdialog("eptEncyclopedia");
 			bShowPda = true;
 		}
 */
-		if (     !stricmp( m_pda_section, "pda_tasks"       ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptTasks");		bShowPda = true;	}
-		else if( !stricmp( m_pda_section, "pda_fraction_war") ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptFractionWar");bShowPda = true;	}
-		else if( !stricmp( m_pda_section, "pda_ranking"     ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptRanking");	bShowPda = true;	}
-		else if( !stricmp( m_pda_section, "pda_logs"        ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptLogs");		bShowPda = true;	}
-		else if( !stricmp( m_pda_section, "pda_show_second_task_wnd" ) )
+		if (     !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_tasks"       ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptTasks");		bShowPda = true;	}
+		else if( !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_fraction_war") ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptFractionWar");bShowPda = true;	}
+		else if( !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_ranking"     ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptRanking");	bShowPda = true;	}
+		else if( !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_logs"        ) ) {ui_game_sp->PdaMenu().SetActiveSubdialog("eptLogs");		bShowPda = true;	}
+		else if( !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_show_second_task_wnd" ) )
 		{
 			ui_game_sp->PdaMenu().Show_SecondTaskWnd(true);	bShowPda = true;
 		}
-		/*else if( !stricmp( m_pda_section, "pda_show_map_legend_wnd"  ) )
+		/*else if( !BearCore::BearString::CompareWithoutCase( m_pda_section, "pda_show_map_legend_wnd"  ) )
 		{
 			ui_game_sp->PdaMenu().Show_MapLegendWnd(true);//	bShowPda = true;
 		}*/

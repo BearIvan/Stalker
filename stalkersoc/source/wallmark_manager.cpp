@@ -211,7 +211,6 @@ void CWalmarkManager::Load (LPCSTR section)
 //.	m_wallmark_size	= pSettings->r_float(section,"size");
 	
 	//кровавые отметки на стенах
-	string256	tmp;
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 	m_wallmarks->AppendMark(wallmarks_name);
 /*	int cnt		=XrTrims::GetItemCount(wallmarks_name);

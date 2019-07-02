@@ -4,7 +4,6 @@
 #include "xrserver.h"
 #include "game_cl_base.h"
 #include "xrmessages.h"
-#include "xrGameSpyServer.h"
 #include "engine/x_ray.h"
 #include "engine/device.h"
 #include "engine/IGame_Persistent.h"
@@ -29,7 +28,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	} else {
 		string1024	ret="";
 		LPCSTR		begin	= NameStart + xr_strlen("/name="); 
-		sscanf			(begin, "%[^/]",ret);
+		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
 			string1024 tmpstr;
@@ -56,14 +55,14 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 		string1024				f_name;
 		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			sscanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			sscanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;
@@ -99,17 +98,14 @@ bool CLevel::net_start1				()
 		typedef IGame_Persistent::params params;
 		params							&p = g_pGamePersistent->m_game_params;
 		// Connect
-		if (!xr_strcmp(p.m_game_type,"single"))
-			Server					= xr_new<xrServer>();		
-		else
-			Server					= xr_new<xrGameSpyServer>();
+		Server = xr_new<xrServer>();
 		
 //		if (!strstr(*m_caServerOptions,"/alife")) 
 		if (xr_strcmp(p.m_alife,"alife"))
 		{
 			string64			l_name = "";
 			const char* SOpts = *m_caServerOptions;
-			strncpy(l_name, *m_caServerOptions, strchr(SOpts, '/') - SOpts);
+			BearCore::BearString::CopyWithSizeLimit(l_name, *m_caServerOptions, strchr(SOpts, '/') - SOpts);
 			// Activate level
 			if (strchr(l_name,'/'))
 				*strchr(l_name,'/')	= 0;
@@ -169,7 +165,7 @@ bool CLevel::net_start3				()
 			string64	PasswordStr = "";
 			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
 			if (strchr(PSW, '/')) 
-				strncpy(PasswordStr, PSW, strchr(PSW, '/') - PSW);
+				BearCore::BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
 				strcpy_s(PasswordStr, PSW);
 
@@ -179,15 +175,7 @@ bool CLevel::net_start3				()
 		};
 	};
 	//setting players GameSpy CDKey if it comes from command line
-	if (strstr(m_caClientOptions.c_str(), "/cdkey="))
-	{
-		string64 CDKey;
-		const char* start = strstr(m_caClientOptions.c_str(),"/cdkey=") +xr_strlen("/cdkey=");
-		sscanf			(start, "%[^/]",CDKey);
-		string128 cmd;
-		sprintf_s(cmd, "cdkey %s", _strupr(CDKey));
-		Console->Execute			(cmd);
-	}
+
 	return true;
 }
 
@@ -278,7 +266,7 @@ bool CLevel::net_start6()
 		if (strstr(GetCommandLine(),"-$")) 
 		{
 			string256				buf,cmd,param;
-			sscanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

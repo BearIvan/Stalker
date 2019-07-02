@@ -203,12 +203,12 @@ IC	void CSpaceRestrictionManager::join_restrictions		(shared_str &restrictions, 
 {
 	string4096					m_temp1;
 	string4096					m_temp2;
-	strcpy						(m_temp2,*restrictions);
+	BearCore::BearString::Copy						(m_temp2,*restrictions);
 	for (u32 i=0, n=XrTrims::GetItemCount(*update), count = xr_strlen(m_temp2); i<n; ++i)
 		if (!restriction_presented(m_temp2,XrTrims::GetItem(*update,i,m_temp1))) {
 			if (count)
-				strcat			(m_temp2,",");
-			strcat				(m_temp2,m_temp1);
+				BearCore::BearString::Contact			(m_temp2,",");
+			BearCore::BearString::Contact				(m_temp2,m_temp1);
 			++count;
 		}
 	restrictions				= shared_str(m_temp2);
@@ -218,12 +218,12 @@ IC	void CSpaceRestrictionManager::difference_restrictions	(shared_str &restricti
 {
 	string4096					m_temp1;
 	string4096					m_temp2;
-	strcpy						(m_temp2,"");
+	BearCore::BearString::Copy						(m_temp2,"");
 	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions), count = 0; i<n; ++i)
 		if (!restriction_presented(update,XrTrims::GetItem(*restrictions,i,m_temp1))) {
 			if (count)
-				strcat			(m_temp2,",");
-			strcat				(m_temp2,m_temp1);
+				BearCore::BearString::Contact			(m_temp2,",");
+			BearCore::BearString::Contact				(m_temp2,m_temp1);
 			++count;
 		}
 	restrictions				= shared_str(m_temp2);

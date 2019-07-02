@@ -11,10 +11,10 @@
 #include "patrol_path_manager_space.h"
 using namespace luabind;
 
-Fvector CALifeMonsterPatrolPathManager__target_position	(CALifeMonsterPatrolPathManager *self)
+Fvector CALifeMonsterPatrolPathManager__target_position	(CALifeMonsterPatrolPathManager *self1)
 {
-	THROW	(self);
-	return	(self->target_position());
+	THROW	(self1);
+	return	(self1->target_position());
 }
 
 #pragma optimize("s",on)

@@ -11,8 +11,6 @@
 
 #include "xrServer_Objects_ALife.h"
 
-#pragma warning(push)
-#pragma warning(disable:4005)
 
 class CSE_ALifeDynamicObject;
 
@@ -80,6 +78,6 @@ private:
 
 	SERVER_ENTITY_DECLARE_END
 		add_to_type_list(CSE_SmartCover)
+#undef script_type_list
 #define script_type_list save_type_list(CSE_SmartCover)
-#pragma warning(pop)
 #endif

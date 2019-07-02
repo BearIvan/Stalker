@@ -15,10 +15,7 @@
 //#include "script_engine.h"
 #include "ui/UIInventoryUtilities.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 xrClientData::xrClientData	():IClient(Device.GetTimerGlobal())
 {
@@ -545,11 +542,11 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_CL_UPDATE:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (!CL)				break;
-			CL->net_Ready			= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (!CL1)				break;
+			CL1->net_Ready			= TRUE;
 
-			if (!CL->net_PassUpdates)
+			if (!CL1->net_PassUpdates)
 				break;
 			//-------------------------------------------------------------------
 			u32 ClientPing = CL->stats.getPing();
@@ -561,16 +558,16 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_MOVE_PLAYERS_RESPOND:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (!CL)				break;
-			CL->net_Ready			= TRUE;
-			CL->net_PassUpdates		= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (!CL1)				break;
+			CL1->net_Ready			= TRUE;
+			CL1->net_PassUpdates		= TRUE;
 		}break;
 	//-------------------------------------------------------------------
 	case M_CL_INPUT:
 		{
-			xrClientData* CL		= ID_to_client	(sender);
-			if (CL)	CL->net_Ready	= TRUE;
+			xrClientData* CL1		= ID_to_client	(sender);
+			if (CL1)	CL1->net_Ready	= TRUE;
 			if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
 			VERIFY					(verify_entities());
 		}break;
@@ -581,13 +578,13 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 		}break;
 	case M_CLIENTREADY:
 		{
-			xrClientData* CL		= ID_to_client(sender);
-			if ( CL )	
+			xrClientData* CL1		= ID_to_client(sender);
+			if ( CL1 )	
 			{
-				CL->net_Ready	= TRUE;
-				CL->ps->DeathTime = Device.dwTimeGlobal;
+				CL1->net_Ready	= TRUE;
+				CL1->ps->DeathTime = Device.dwTimeGlobal;
 				game->OnPlayerConnectFinished(sender);
-				CL->ps->setName( CL->name.c_str() );
+				CL1->ps->setName( CL1->name.c_str() );
 				
 #ifdef BATTLEYE
 				if ( g_pGameLevel && Level().battleye_system.server )
@@ -673,10 +670,10 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			shared_str				user;
 			shared_str				pass;
 			P.r_stringZ				(user);
-			if(0==stricmp(user.c_str(),"logoff"))
+			if(0==BearCore::BearString::CompareWithoutCase(user.c_str(),"logoff"))
 			{
 				CL->m_admin_rights.m_has_admin_rights	= FALSE;
-				strcpy				(reason,"logged off");
+				BearCore::BearString::Copy				(reason,"logged off");
 				Msg("# Remote administrator logged off.");
 			}else
 			{
@@ -728,16 +725,16 @@ bool xrServer::CheckAdminRights(const shared_str& user, const shared_str& pass, 
 		{
 			if (ini.r_string ("radmins",user.c_str()) == pass)
 			{
-				strcpy			(reason,"Access permitted.");
+				BearCore::BearString::Copy			(reason,512,"Access permitted.");
 				res				= true;
 			}else
 			{
-				strcpy			(reason,"Access denied. Wrong password.");
+				BearCore::BearString::Copy			(reason, 512, "Access denied. Wrong password.");
 			}
 		}else
-			strcpy			(reason,"Access denied. No such user.");
+			BearCore::BearString::Copy			(reason, 512, "Access denied. No such user.");
 	}else
-		strcpy				(reason,"Access denied.");
+		BearCore::BearString::Copy				(reason, 512, "Access denied.");
 
 	return				res;
 }
@@ -1004,8 +1001,8 @@ void xrServer::GetServerInfo( CServerInfo* si )
 {
 	string32  tmp;
 	string256 tmp256;
-
-	si->AddItem( "Server port", itoa( GetPort(), tmp, 10 ), RGB(128,128,255) );
+	BearCore::BearString::Printf(tmp, TEXT("%d"), GetPort());
+	si->AddItem( "Server port", tmp, RGB(128,128,255) );
 	LPCSTR time = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
 	si->AddItem( "Uptime", time, RGB(255,228,0) );
 
@@ -1013,13 +1010,15 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	if ( game->Type() == GAME_DEATHMATCH || game->Type() == GAME_TEAMDEATHMATCH )
 	{
 		strcat_s( tmp256, " [" );
-		strcat_s( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );
+		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwFragLimit);
+		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 	}
 	else if ( game->Type() == GAME_ARTEFACTHUNT )
 	{
 		strcat_s( tmp256, " [" );
-		strcat_s( tmp256, itoa( g_sv_ah_dwArtefactsNum, tmp, 10 ) );
+		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_ah_dwArtefactsNum);
+		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 		g_sv_ah_iReinforcementTime;
 	}
@@ -1027,13 +1026,15 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	//if ( g_sv_dm_dwTimeLimit > 0 )
 	{
 		strcat_s( tmp256, " time limit [" );
-		strcat_s( tmp256, itoa( g_sv_dm_dwTimeLimit, tmp, 10 ) );
+		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwTimeLimit);
+		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 	}
 	if ( game->Type() == GAME_ARTEFACTHUNT )
 	{
 		strcat_s( tmp256, " RT [" );
-		strcat_s( tmp256, itoa( g_sv_ah_iReinforcementTime, tmp, 10 ) );
+		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_ah_iReinforcementTime);
+		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "]" );
 	}
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );

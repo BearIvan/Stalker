@@ -1,12 +1,8 @@
 #ifndef	PH_ISLAND_H
 #define PH_ISLAND_H
 
-#pragma warning(disable:4995)
-#pragma warning(disable:4267)
 #include "ode/src/objects.h"
 #include "ode/src/joint.h"
-#pragma warning(default:4995)
-#pragma warning(default:4267)
 #include "PhysicsCommon.h"
 
 

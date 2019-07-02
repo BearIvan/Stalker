@@ -56,9 +56,9 @@ void CPPEffectorCustomController<_Effector>::load(LPCSTR section)
 	m_state.noise.fps			= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(m_state.noise.fps));
 
-	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_state.color_base.r, &m_state.color_base.g, &m_state.color_base.b);
-	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_state.color_gray.r, &m_state.color_gray.g, &m_state.color_gray.b);
-	sscanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_state.color_add.r,	&m_state.color_add.g,	 &m_state.color_add.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_state.color_base.r, &m_state.color_base.g, &m_state.color_base.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_state.color_gray.r, &m_state.color_gray.g, &m_state.color_gray.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_state.color_add.r,	&m_state.color_add.g,	 &m_state.color_add.b);
 }
 
 //////////////////////////////////////////////////////////////////////////

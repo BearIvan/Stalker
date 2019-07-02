@@ -5,12 +5,15 @@
 #include <functional>
 
 #include "NET_Log.h"
-#include "xrGameSpy_MainDefs.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
+#define	BASEPORT				5445
+#define START_PORT							0
+#define END_PORT							65535
+#define START_PORT_LAN						BASEPORT
+#define START_PORT_LAN_SV					START_PORT_LAN + 1
+#define END_PORT_LAN							BASEPORT+1000
+
 #include <malloc.h>
-#pragma warning(pop)
 
 static	INetLog* pSvNetLog = NULL; 
 

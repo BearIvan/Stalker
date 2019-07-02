@@ -268,7 +268,7 @@ void CALifeUpdateManager::load			(LPCSTR game_name, bool no_assert, bool new_onl
 	u32									memory_usage = Memory.mem_usage();
 #endif
 
-	strcpy								(g_last_saved_game,game_name);
+	BearCore::BearString::Copy								(g_last_saved_game,game_name);
 
 	if (new_only || !CALifeStorageManager::load(game_name)) {
 		R_ASSERT3						(new_only || no_assert && xr_strlen(game_name),"Cannot find the specified saved game ",game_name);
@@ -291,7 +291,7 @@ void CALifeUpdateManager::reload		(LPCSTR section)
 bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 {
 	{
-		string_path				temp,file_name;
+		string_path				temp;
 		strconcat				(sizeof(temp),temp,game_name,SAVE_EXTENSION);
 		if (!FS.ExistFile("%saves%", temp)) {
 			R_ASSERT3			(no_assert,"There is no saved game ", temp);
@@ -299,7 +299,7 @@ bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 		}
 	}
 	string512					S,S1;
-	strcpy						(S,**m_server_command_line);
+	BearCore::BearString::Copy						(S,**m_server_command_line);
 	LPSTR						temp = strchr(S,'/');
 	R_ASSERT2					(temp,"Invalid server options!");
 	strconcat					(sizeof(S1),S1,game_name,temp);

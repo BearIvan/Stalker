@@ -10,7 +10,7 @@
 #include "game_cl_teamdeathmatch.h"
 #include "ui/UIMapInfo.h"
 #include "xr_level_controller.h"
-#include <dinput.h>
+
 
 #include "ui/UIStatsPlayerList.h"
 

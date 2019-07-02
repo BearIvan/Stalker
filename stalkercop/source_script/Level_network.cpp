@@ -363,15 +363,15 @@ bool			CLevel::Connect2Server				(const char* options)
 		u32 CurTime = GetTickCount();
 		if (CurTime > EndTime)
 		{
-			NET_Packet	P;
-			P.B.count = 0;
-			P.r_pos = 0;
+			NET_Packet	P1;
+			P1.B.count = 0;
+			P1.r_pos = 0;
 
-			P.w_u8(0);
-			P.w_u8(0);
-			P.w_stringZ("Data verification failed. Cheater?");
+			P1.w_u8(0);
+			P1.w_u8(0);
+			P1.w_stringZ("Data verification failed. Cheater?");
 
-			OnConnectResult(&P);			
+			OnConnectResult(&P1);			
 		}
 		if (net_isFails_Connect())
 		{
@@ -610,8 +610,8 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 	{
 		string1024 tmpstr;
 		xr_strcpy(tmpstr, *m_caClientOptions);
-		xr_strcat(tmpstr, "name=");
-		xr_strcat(tmpstr, NewName);
+		BearCore::BearString::Contact(tmpstr, "name=");
+		BearCore::BearString::Contact(tmpstr, NewName);
 		m_caClientOptions = tmpstr;
 	}
 	else
@@ -619,10 +619,10 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 		string1024 tmpstr;
 		xr_strcpy(tmpstr, *m_caClientOptions);
 		*(strstr(tmpstr, "name=")+5) = 0;
-		xr_strcat(tmpstr, NewName);
+		BearCore::BearString::Contact(tmpstr, NewName);
 		const char* ptmp = strstr(strstr(*m_caClientOptions, "name="), "");
 		if (ptmp)
-			xr_strcat(tmpstr, ptmp);
+			BearCore::BearString::Contact(tmpstr, ptmp);
 		m_caClientOptions = tmpstr;
 	}
 }

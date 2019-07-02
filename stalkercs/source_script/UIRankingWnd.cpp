@@ -144,7 +144,7 @@ void CUIRankingWnd::Init()
 	xml.SetLocalRoot( stored_root );
 
 	string256 buf;
-	strcpy_s( buf, sizeof(buf), m_center_caption->GetText() );
+	BearCore::BearString::Copy( buf, sizeof(buf), m_center_caption->GetText() );
 	strcat_s( buf, sizeof(buf), CStringTable().translate("ui_ranking_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 

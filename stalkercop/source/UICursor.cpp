@@ -108,7 +108,6 @@ vPos.y			= (float)p.y * (UI_BASE_HEIGHT/(float)Device.dwHeight);
 XrMath::clamp			(vPos.x, 0.f, UI_BASE_WIDTH);
 XrMath::clamp			(vPos.y, 0.f, UI_BASE_HEIGHT);*/
 	auto pos = Device.GetWindow().GetMousePosition();
-	Fvector2	p;
 	vPrevPos = vPos;
 	/*if (m_b_use_win_cursor)
 	{*/

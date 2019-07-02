@@ -26,7 +26,7 @@ CRestrictedObject::~CRestrictedObject		()
 {
 }
 
-IC	void construct_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID> &restrictions)
+IC	void construct_string					(LPSTR result,const bsize size, const xr_vector<ALife::_OBJECT_ID> &restrictions)
 {
 	u32		count = xr_strlen(result) ? XrTrims::GetItemCount(result) : 0;
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
@@ -37,8 +37,8 @@ IC	void construct_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID> &
 			continue;
 
 		if (count)
-			strcat(result,",");
-		strcat(result,object->name_replace());
+			BearCore::BearString::Contact(result, size,",");
+		BearCore::BearString::Contact(result, size, object->name_replace());
 		++count;
 	}
 }
@@ -46,16 +46,16 @@ IC	void construct_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID> &
 #if 0
 IC	void construct_id_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID> &restrictions)
 {
-	strcpy			(result,"");
+	BearCore::BearString::Copy			(result,"");
 	string16		temp;
 	u32				count = 0;
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
 		if (count)
-			strcat	(result,",");
+			BearCore::BearString::Contact	(result,",");
 		sprintf_s		(temp,"%d",*I);
-		strcat		(result,temp);
+		BearCore::BearString::Contact		(result,temp);
 		++count;
 	}
 }
@@ -72,12 +72,12 @@ BOOL CRestrictedObject::net_Spawn			(CSE_Abstract* data)
 	string4096					temp0;
 	string4096					temp1;
 	
-	strcpy						(temp0,*monster->m_out_space_restrictors);
-	strcpy						(temp1,*monster->m_in_space_restrictors);
+	BearCore::BearString::Copy						(temp0,*monster->m_out_space_restrictors);
+	BearCore::BearString::Copy						(temp1,*monster->m_in_space_restrictors);
 
 	if (ai().get_alife()) {
-		construct_string		(temp0,monster->m_dynamic_out_restrictions);
-		construct_string		(temp1,monster->m_dynamic_in_restrictions);
+		construct_string		(temp0,4096,monster->m_dynamic_out_restrictions);
+		construct_string		(temp1, 4096, monster->m_dynamic_in_restrictions);
 	}
 
 #if 0
@@ -254,10 +254,10 @@ IC	void CRestrictedObject::remove_object_restriction(ALife::_OBJECT_ID id, const
 }
 
 template <typename P, bool value>
-IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions, const xr_vector<ALife::_OBJECT_ID> &restrictions, shared_str current_restrictions, const P &p)
+IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions,const bsize size, const xr_vector<ALife::_OBJECT_ID> &restrictions, shared_str current_restrictions, const P &p)
 {
 	u32							count = 0;
-	strcpy						(temp_restrictions,"");
+	BearCore::BearString::Copy						(temp_restrictions, size,"");
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
@@ -268,9 +268,9 @@ IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions,
 		p						(this,object->ID());
 
 		if (count)
-			strcat(temp_restrictions,",");
+			BearCore::BearString::Contact(temp_restrictions, size,",");
 
-		strcat(temp_restrictions,*object->cName());
+		BearCore::BearString::Contact(temp_restrictions,size,*object->cName());
 
 		count++;
 	}
@@ -304,8 +304,8 @@ void CRestrictedObject::add_restrictions	(const xr_vector<ALife::_OBJECT_ID> &ou
 	string4096					temp_out_restrictions;
 	string4096					temp_in_restrictions;
 	
-	construct_restriction_string<CRestrictionPredicate<true>,true>(temp_out_restrictions,out_restrictions,this->out_restrictions(),CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeOut));
-	construct_restriction_string<CRestrictionPredicate<true>,true>(temp_in_restrictions,in_restrictions,this->in_restrictions(),CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeIn));
+	construct_restriction_string<CRestrictionPredicate<true>,true>(temp_out_restrictions,4096,out_restrictions,this->out_restrictions(),CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeOut));
+	construct_restriction_string<CRestrictionPredicate<true>,true>(temp_in_restrictions, 4096, in_restrictions,this->in_restrictions(),CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeIn));
 
 	Level().space_restriction_manager().add_restrictions	(object().ID(),temp_out_restrictions,temp_in_restrictions);
 
@@ -324,8 +324,8 @@ void CRestrictedObject::remove_restrictions	(const xr_vector<ALife::_OBJECT_ID> 
 	string4096					temp_out_restrictions;
 	string4096					temp_in_restrictions;
 
-	construct_restriction_string<CRestrictionPredicate<false>,false>(temp_out_restrictions,out_restrictions,this->out_restrictions(),CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeOut));
-	construct_restriction_string<CRestrictionPredicate<false>,false>(temp_in_restrictions,in_restrictions,this->in_restrictions(),CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeIn));
+	construct_restriction_string<CRestrictionPredicate<false>,false>(temp_out_restrictions, 4096, out_restrictions,this->out_restrictions(),CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeOut));
+	construct_restriction_string<CRestrictionPredicate<false>,false>(temp_in_restrictions, 4096, in_restrictions,this->in_restrictions(),CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeIn));
 
 	Level().space_restriction_manager().remove_restrictions	(object().ID(),temp_out_restrictions,temp_in_restrictions);
 	

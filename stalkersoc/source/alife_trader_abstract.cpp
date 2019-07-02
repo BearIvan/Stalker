@@ -42,20 +42,17 @@ void CSE_ALifeTraderAbstract::spawn_supplies	()
 		//секция [dont_spawn_character_supplies]
 		//то не вызывать spawn из selected_char.SupplySpawn()
 		bool specific_character_supply = true;	
-
+		IReader red(
+			(void*)(*dynamic_object->m_ini_string),
+			xr_strlen(dynamic_object->m_ini_string)
+		);
 		if (xr_strlen(dynamic_object->m_ini_string))
 		{
-#pragma warning(push)
-#pragma warning(disable:4238)
 			CInifile					ini(
-				&IReader				(
-					(void*)(*dynamic_object->m_ini_string),
-					xr_strlen(dynamic_object->m_ini_string)
-				),
+				&red,
 				"%config%",
 				""
 			);
-#pragma warning(pop)
 
 			if (ini.section_exist("dont_spawn_character_supplies")) 
 				specific_character_supply = false;

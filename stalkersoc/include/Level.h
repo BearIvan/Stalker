@@ -350,6 +350,7 @@ public:
 };
 add_to_type_list(CLevel)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CLevel)
 
 IC CLevel&				Level()		{ return *((CLevel*) g_pGameLevel);			}

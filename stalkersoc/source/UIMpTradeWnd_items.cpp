@@ -470,9 +470,9 @@ void CUIMpTradeWnd::ApplyPreset(ETradePreset idx)
 			{
 				if(_one.addon_state)
 				{
-					for(u32 i=0; i<3; ++i)
+					for(u32 i2=0; i2<3; ++i2)
 					{
-						item_addon_type at		= (i==0)?at_scope : ((i==1)?at_glauncher : at_silencer);
+						item_addon_type at		= (i2==0)?at_scope : ((i2==1)?at_glauncher : at_silencer);
 						
 						if(!(_one.addon_state&at) )	
 							continue;
@@ -696,7 +696,7 @@ void CUIMpTradeWnd::DumpPreset(ETradePreset idx)
 	}
 }
 
-#include <dinput.h>
+
 #include "HUDManager.h"
 void CUICellItemTradeMenuDraw::OnDraw(CUICellItem* cell)
 {

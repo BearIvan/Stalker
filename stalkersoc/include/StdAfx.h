@@ -1,17 +1,10 @@
 #pragma once
 
-#pragma warning(disable:4995)
 #include "engine/stdafx.h"
-#pragma warning(default:4995)
-#pragma warning( 4 : 4018 )
-#pragma warning( 4 : 4244 )
-#pragma warning(disable:4505)
 
 // this include MUST be here, since smart_cast is used >1800 times in the project
 #include "smart_cast.h"
 
-#define READ_IF_EXISTS(ltx,method,section,name,default_value)\
-	((ltx->line_exist(section,name)) ? (ltx->method(section,name)) : (default_value))
 
 
 #if XRAY_EXCEPTIONS
@@ -29,7 +22,7 @@ IC	void		throw_and_log(const xr_string &s) {Msg("! %s",s.c_str()); throw *shared
 #include "engine/gamefont.h"
 #include "engine/xr_object.h"
 #include "engine/igame_level.h"
-
+#include "engine/xr_input.h"
 #define REGISTRY_VALUE_GSCDKEY	"InstallCDKEY"
 #define REGISTRY_VALUE_VERSION	"InstallVers"
 #define REGISTRY_VALUE_USERNAME	"InstallUserName"
@@ -37,3 +30,9 @@ IC	void		throw_and_log(const xr_string &s) {Msg("! %s",s.c_str()); throw *shared
 #ifndef DEBUG
 #	define MASTER_GOLD
 #endif // DEBUG
+
+#ifdef _MSC_VER
+# pragma warning(disable: 4589 4459)
+#else
+#error "Добавь warning ignore"
+#endif

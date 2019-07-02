@@ -112,7 +112,7 @@ void CUILogsWnd::Init()
 	m_center_caption	= UIHelper::CreateStatic( m_uiXml, "center_caption", this );
 
 	string256 buf;
-	strcpy_s( buf, sizeof(buf), m_center_caption->GetText() );
+	BearCore::BearString::Copy( buf, sizeof(buf), m_center_caption->GetText() );
 	strcat_s( buf, sizeof(buf), CStringTable().translate("ui_logs_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 

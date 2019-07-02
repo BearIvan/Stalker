@@ -124,7 +124,6 @@ u32 CUIStatic::GetTextureColor() const{
 void CUIStatic::InitTextureEx(LPCSTR tex_name, LPCSTR sh_name)
 {
 
-	string_path buff;
 /*	u32		v_dev	= CAP_VERSION(2, 1);
 	u32		v_need	= CAP_VERSION(2,0);*/
 	if ( FS.ExistFile("%textures%", tex_name, ".ogm") )

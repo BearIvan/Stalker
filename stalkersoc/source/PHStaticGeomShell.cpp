@@ -7,8 +7,8 @@
 #include "PHCollideValidator.h"
 void CPHStaticGeomShell::get_spatial_params()
 {
-	Fvector					AABB;
-	spatialParsFromDGeom	(dSpacedGeometry(),spatial.sphere.P,AABB,spatial.sphere.R);
+	Fvector					AABB1;
+	spatialParsFromDGeom	(dSpacedGeometry(),spatial.sphere.P,AABB1,spatial.sphere.R);
 }
 
 void	CPHStaticGeomShell::PhDataUpdate		(dReal step)

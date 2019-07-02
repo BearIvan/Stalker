@@ -731,7 +731,7 @@ void CUIGameCTA::SetScore(s32 max_score, s32 greenTeamScore, s32 blueTeamScore)
 	m_team2_score->SetText(str);
 	if (max_score <= 0)
 	{
-		strcpy_s(str,"--");
+		BearCore::BearString::Copy(str,"--");
 	} else
 	{
 		sprintf_s(str,"%d", max_score);
@@ -965,7 +965,7 @@ void CUIGameCTA::LoadTeamDefaultPresetItems	(const shared_str& caSection)
 	string256			ItemName;
 	string4096			DefItems;
 	// Читаем данные этого поля
-	strcpy_s(DefItems, pSettings->r_string(caSection, "default_items"));
+	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
@@ -996,7 +996,8 @@ void CUIGameCTA::LoadDefItemsForRank()
 	char tmp[5];
 	for (int i=1; i<=local_player->rank; i++)
 	{
-		strconcat(sizeof(RankStr),RankStr,"rank_",itoa(i,tmp,10));
+		BearCore::BearString::Printf(tmp, TEXT("%d"), i);
+		strconcat(sizeof(RankStr),RankStr,"rank_", tmp);
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<PlayerDefItems.size(); it++)
 		{
@@ -1008,7 +1009,7 @@ void CUIGameCTA::LoadDefItemsForRank()
 			strconcat(sizeof(ItemStr),ItemStr, "def_item_repl_", ItemName.c_str() );
 			if (!pSettings->line_exist(RankStr, ItemStr)) continue;
 
-			strcpy_s(NewItemStr,sizeof(NewItemStr),pSettings->r_string(RankStr, ItemStr));
+			BearCore::BearString::Copy(NewItemStr,sizeof(NewItemStr),pSettings->r_string(RankStr, ItemStr));
 
 			u8 SlotID, ItemID;
 			m_pCurBuyMenu->GetWeaponIndexByName(NewItemStr, SlotID, ItemID);
@@ -1033,7 +1034,7 @@ void CUIGameCTA::LoadDefItemsForRank()
 		if (!pSettings->line_exist(ItemName, "ammo_class")) continue;
 		
 		string1024 wpnAmmos, BaseAmmoName;
-		strcpy_s(wpnAmmos, pSettings->r_string(ItemName, "ammo_class"));
+		BearCore::BearString::Copy(wpnAmmos, pSettings->r_string(ItemName, "ammo_class"));
 		XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 
 		u8 SlotID, ItemID;

@@ -1,5 +1,4 @@
 #pragma once
-#pragma warning ( disable :  4995  ) 
 
 // you must define ENGINE_BUILD then building the engine itself
 // and not define it if you are about to build DLL

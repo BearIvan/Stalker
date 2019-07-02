@@ -141,51 +141,51 @@ ICF bool planeBoxOverlap(const Point& normal, const float d, const Point& maxbox
 
 //! TO BE DOCUMENTED
 #define AXISTEST_X01(a, b, fa, fb)							\
-	min = a*v0.y - b*v0.z;									\
-	max = a*v2.y - b*v2.z;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = a*v0.y - b*v0.z;									\
+	max_ = a*v2.y - b*v2.z;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.y + fb * extents.z;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_X2(a, b, fa, fb)							\
-	min = a*v0.y - b*v0.z;									\
-	max = a*v1.y - b*v1.z;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = a*v0.y - b*v0.z;									\
+	max_ = a*v1.y - b*v1.z;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.y + fb * extents.z;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Y02(a, b, fa, fb)							\
-	min = b*v0.z - a*v0.x;									\
-	max = b*v2.z - a*v2.x;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = b*v0.z - a*v0.x;									\
+	max_ = b*v2.z - a*v2.x;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.x + fb * extents.z;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Y1(a, b, fa, fb)							\
-	min = b*v0.z - a*v0.x;									\
-	max = b*v1.z - a*v1.x;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = b*v0.z - a*v0.x;									\
+	max_ = b*v1.z - a*v1.x;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.x + fb * extents.z;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Z12(a, b, fa, fb)							\
-	min = a*v1.x - b*v1.y;									\
-	max = a*v2.x - b*v2.y;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = a*v1.x - b*v1.y;									\
+	max_ = a*v2.x - b*v2.y;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.x + fb * extents.y;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 
 //! TO BE DOCUMENTED
 #define AXISTEST_Z0(a, b, fa, fb)							\
-	min = a*v0.x - b*v0.y;									\
-	max = a*v1.x - b*v1.y;									\
-	if(min>max) {const float tmp=max; max=min; min=tmp;	}	\
+	min_ = a*v0.x - b*v0.y;									\
+	max_ = a*v1.x - b*v1.y;									\
+	if(min_>max_) {const float tmp=max_; max_=min_; min_=tmp;	}	\
 	rad = fa * extents.x + fb * extents.y;					\
-	if(min>rad || max<-rad) return false;
+	if(min_>rad || max_<-rad) return false;
 	
 
 
@@ -294,7 +294,7 @@ IC	bool		__aabb_tri		(Point center,Point extents,const Point* mLeafVerts)
 		//if(bClass3)
 		{
 			float rad;
-			float min, max;
+			float min_, max_;
 			// compute triangle edges
 			// - edges lazy evaluated to take advantage of early exits
 			// - fabs precomputed (half less work, possible since extents are always >0)

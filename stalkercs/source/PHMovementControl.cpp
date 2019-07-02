@@ -33,7 +33,7 @@ CPHMovementControl::CPHMovementControl(CObject* parent)
 	pObject=parent;
 
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::CPHMovementControl %s (constructor) %f,%f,%pObjectf",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 	}
@@ -248,7 +248,7 @@ void CPHMovementControl::UpdateCollisionDamage( )
 void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPathPoint>& path,float speed,  u32& travel_point,  float& precision  )
 {
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::Calculate in %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::Calculate in %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -322,9 +322,9 @@ void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPat
 			m_path_distance=GetPathDir().magnitude();
 			if(m_path_distance>XrMath::EPS)
 			{
-				Fvector _d = GetPathDir();
-				_d.mul(1.f/m_path_distance);
-				SetPathDir(_d);
+				Fvector _d1 = GetPathDir();
+				_d1.mul(1.f/m_path_distance);
+				SetPathDir(_d1);
 			}
 			near_line=false;
 		}
@@ -494,7 +494,7 @@ void CPHMovementControl::PathNearestPoint(const xr_vector<DetailPathManager::STr
 		near_line=false;
 	}
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::Calculate out %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::Calculate out %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -790,7 +790,7 @@ void CPHMovementControl::Load					(LPCSTR section){
 
 	//capture
 	
-	//strcpy_s(m_capture_bone,pSettings->r_string(section,"capture_bone"));
+	//BearCore::BearString::Copy(m_capture_bone,pSettings->r_string(section,"capture_bone"));
 	
 	Fbox	bb;
 
@@ -877,7 +877,7 @@ void	CPHMovementControl::SetEnvironment( int enviroment,int old_enviroment){
 }
 void	CPHMovementControl::SetPosition(const Fvector &P){	
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::SetPosition %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::SetPosition %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -892,7 +892,7 @@ bool		CPHMovementControl::		TryPosition				(Fvector& pos)
 VERIFY_BOUNDARIES2(pos,phBoundaries,m_character->PhysicsRefObject(),"CPHMovementControl::TryPosition	arqument pos");
 
 #ifdef DEBUG
-		if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+		if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 		{
 			Msg("CPHMovementControl::TryPosition %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 			Msg("CPHMovementControl::TryPosition %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -914,7 +914,7 @@ void		CPHMovementControl::GetPosition		(Fvector &P)
 VERIFY_BOUNDARIES2(P,phBoundaries,m_character->PhysicsRefObject(),"CPHMovementControl::GetPosition	arqument pos");
 
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::GetPosition %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::GetPosition %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -935,7 +935,7 @@ void	CPHMovementControl::AllocateCharacterObject(CharacterType type)
 	m_character->SetMas(fMass);
 	m_character->SetPosition(vPosition);
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::AllocateCharacterObject %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::AllocateCharacterObject %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -1096,7 +1096,7 @@ void CPHMovementControl::CreateCharacter()
 	m_character->SetMaterial(m_material);
 	m_character->SetAirControlFactor(fAirControlParam);
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
+	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrackName(),*pObject->cName())==0)
 	{
 		Msg("CPHMovementControl::CreateCharacter %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrackName(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
 		Msg("CPHMovementControl::CreateCharacter %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrackName(),vPosition.x,vPosition.y,vPosition.z);
@@ -1411,49 +1411,6 @@ void CPHMovementControl::VirtualMoveTo( const Fvector	&in_pos, Fvector &out_pos 
 
 
 
-static void	non_interactive_collide_callback( bool& do_collide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2 )
-{
-	if( !do_collide )
-		return;
-	
-	SGameMtl* oposite_matrial	= bo1 ? material_1 : material_2 ;
-	if(oposite_matrial->Flags.test(SGameMtl::flPassable))
-		return;
-
-	dxGeomUserData	*my_data			=	retrieveGeomUserData(	bo1 ? c.geom.g1 : c.geom.g2 );
-	//dxGeomUserData	*oposite_data		=	retrieveGeomUserData( bo1 ? c.geom.g2 : c.geom.g1 ) ;
-	VERIFY( my_data );
-	
-	dBodyID b_oposite = bo1 ? dGeomGetBody(c.geom.g2) : dGeomGetBody(c.geom.g1);
-	//dBodyID b_mine = bo1 ? dGeomGetBody(c.geom.g2) : dGeomGetBody(c.geom.g1);
-	if(!b_oposite)
-	{
-		do_collide = false;
-		return;
-	}
-	if(bo1)
-		dGeomSetBody(c.geom.g1,0);
-	else
-		dGeomSetBody(c.geom.g2,0);
-
-	//c.surface.mu = 0;
-	//c.surface.soft_cfm =0.01f;
-	/*
-	dJointID contact_joint	=dJointCreateContactSpecial(0, ContactGroup, &c);// dJointCreateContact(0, ContactGroup, &c);//
-	CPHObject* obj = (CPHObject*)my_data->ph_object;
-	VERIFY( obj );
-	VERIFY( obj->Island().DActiveIsland() != &(obj->Island()) );
-	VERIFY( !obj->Island().IsActive() );
-	obj->Island().DActiveIsland()->ConnectJoint(contact_joint);
-
-	obj->EnableObject(0);
-	if(bo1)
-		dJointAttach			(contact_joint, 0, b );
-	else
-		dJointAttach			(contact_joint, b , 0);
-		
-	*/
-}
 
 void	CPHMovementControl::SetNonInteractive(bool v)
 {

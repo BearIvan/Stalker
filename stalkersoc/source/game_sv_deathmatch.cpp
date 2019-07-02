@@ -366,7 +366,7 @@ void	game_sv_Deathmatch::GetWinningPlayerFunctor(IClient*client)
 	xrClientData *l_pC = (xrClientData*)client;
 	game_PlayerState* ps = l_pC->ps;
 	if (!ps) return;
-	if (ps->frags() > GetWinningPlayerFunctorFlags)
+	if (static_cast<u32>(static_cast<u16>(ps->frags())) > GetWinningPlayerFunctorFlags)
 	{
 		GetWinningPlayerFunctorFlags = ps->frags();
 		GetWinningPlayerFunctorWinner = ps;
@@ -375,7 +375,7 @@ void	game_sv_Deathmatch::GetWinningPlayerFunctor(IClient*client)
 game_PlayerState*	game_sv_Deathmatch::GetWinningPlayer		()
 {
 	GetWinningPlayerFunctorWinner = NULL;
-	GetWinningPlayerFunctorFlags = -10000;
+	GetWinningPlayerFunctorFlags =static_cast<u32>( -10000);
 	m_server->ForEachClientDo(this, &game_sv_Deathmatch::GetWinningPlayerFunctor);
 	return GetWinningPlayerFunctorWinner;
 };
@@ -1015,9 +1015,9 @@ void	game_sv_Deathmatch::OnPlayerBuyFinished		(ClientID id_who, NET_Packet& P)
 		xr_vector<u16>::iterator	EDI = ItemsToDelete.end();
 		for ( ; IDI != EDI; ++IDI) 
 		{
-			NET_Packet			P;
-			u_EventGen			(P,GE_DESTROY,*IDI);
-			Level().Send(P,net_flags(TRUE,TRUE));
+			NET_Packet			P1;
+			u_EventGen			(P1,GE_DESTROY,*IDI);
+			Level().Send(P1,net_flags(TRUE,TRUE));
 		};
 	};
 
@@ -1066,7 +1066,7 @@ void game_sv_Deathmatch::LoadSkinsForTeam(const shared_str& caSection, TEAM_SKIN
 	if (!pSettings->line_exist(caSection, "skins")) return;
 
 	// Читаем данные этого поля
-	std::strcpy(Skins, pSettings->r_string(caSection, "skins"));
+	BearCore::BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
 	u32 count	= XrTrims::GetItemCount(Skins);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
@@ -1090,7 +1090,7 @@ void game_sv_Deathmatch::LoadDefItemsForTeam(const shared_str& caSection, DEF_IT
 	if (!pSettings->line_exist(caSection, "default_items")) return;
 
 	// Читаем данные этого поля
-	std::strcpy(DefItems, pSettings->r_string(caSection, "default_items"));
+	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
@@ -1108,7 +1108,7 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 	if (!pV) return;
 	//-------------------------------------------
 	string256 SkinName;
-	std::strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
+	BearCore::BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 //	if (SkinID != -1) ID = u16(SkinID);
 
@@ -1119,10 +1119,10 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		//загружено ли достаточно скинов для этой комманды
 		if (TeamList[Team].aSkins.size() > ID)
 		{
-			std::strcat(SkinName, TeamList[Team].aSkins[ID].c_str());
+			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
 		}
 		else
-			std::strcat(SkinName, TeamList[Team].aSkins[0].c_str());
+			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
 	}
 	else
 	{
@@ -1130,20 +1130,20 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		switch (Team)
 		{
 		case 0:
-			std::strcat(SkinName, "stalker_hood_multiplayer");
+			BearCore::BearString::Contact(SkinName, "stalker_hood_multiplayer");
 			break;
 		case 1:
-			std::strcat(SkinName, "soldat_beret");
+			BearCore::BearString::Contact(SkinName, "soldat_beret");
 			break;
 		case 2:
-			std::strcat(SkinName, "stalker_black_mask");
+			BearCore::BearString::Contact(SkinName, "stalker_black_mask");
 			break;
 		default:
 			R_ASSERT2(0,"Unknown Team");
 			break;
 		};
 	};
-	std::strcat(SkinName, ".ogf");
+	BearCore::BearString::Contact(SkinName, ".ogf");
 //.	Msg("* Skin - %s", SkinName);
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");
@@ -1461,7 +1461,7 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 		if (!Level().pLevel->line_exist(ASetBaseName, SetName))
 			continue;
 
-		std::strcpy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, SetName));
+		BearCore::BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, SetName));
 		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		if (!count) continue;
 
@@ -1478,7 +1478,7 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 	//---------------------------------------------------------
 	if (Level().pLevel->line_exist(ASetBaseName, "permanent"))
 	{
-		std::strcpy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, "permanent"));
+		BearCore::BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, "permanent"));
 		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		for (u32 j=0; j<count; j++)
 		{
@@ -2052,8 +2052,8 @@ BOOL game_sv_Deathmatch::Is_Anomaly_InLists(CSE_Abstract* E)
 	for (u32 j=0; j<m_AnomalySetsList.size(); j++)
 	{
 		ANOMALIES* Anomalies = &(m_AnomalySetsList[j]);
-		ANOMALIES_it It = std::find(Anomalies->begin(), Anomalies->end(),E->name_replace());
-		if (It != Anomalies->end())
+		ANOMALIES_it It1= std::find(Anomalies->begin(), Anomalies->end(),E->name_replace());
+		if (It1 != Anomalies->end())
 		{
 			return TRUE;
 		};

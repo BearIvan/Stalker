@@ -22,7 +22,7 @@ LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_s
 	LPCSTR temp_substr = strstr(opt_str, map_ver_string);
 	if (!temp_substr)
 	{
-		strcpy_s(new_opt_str, new_opt_str_size, opt_str);
+		BearCore::BearString::Copy(new_opt_str, new_opt_str_size, opt_str);
 		return new_opt_str;
 	}
 	strncpy_s(new_opt_str, new_opt_str_size, opt_str, static_cast<size_t>(temp_substr - opt_str - 1));
@@ -213,10 +213,10 @@ void CLevel::ClientReceive()
 				u8 Count = P->r_u8();
 				for (u8 i=0; i<Count; ++i)
 				{
-					u16 ID = P->r_u16();					
+					u16 ID1 = P->r_u16();					
 					Fvector NewPos;
 					P->r_vec3(NewPos);
-					CArtefact * OArtefact = smart_cast<CArtefact*>(Objects.net_Find(ID));
+					CArtefact * OArtefact = smart_cast<CArtefact*>(Objects.net_Find(ID1));
 					if (!OArtefact)		break;
 					OArtefact->MoveTo(NewPos);
 					//destroy_physics_shell(OArtefact->PPhysicsShell());
@@ -337,12 +337,13 @@ void CLevel::ClientReceive()
 			}break;
 		case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
 			{
+			BEAR_RASSERT(false);
 				#pragma todo("remove next deadlock checking after testing...")
 				#ifdef DEBUG
 				csMessagesAndNetQueueDeadLockDetect = false;
 				#endif
 				
-				OnGameSpyChallenge(P);
+				//OnGameSpyChallenge(P);
 
 				#ifdef DEBUG
 				csMessagesAndNetQueueDeadLockDetect = true;

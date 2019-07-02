@@ -101,7 +101,6 @@ protected:
 
 	CUIMessageBoxEx* m_message_box;
 
-	CGameSpy_Browser*	m_GSBrowser;	
 
 	shared_str						m_sort_func;
 	xr_vector<int>					m_tmp_srv_lst;

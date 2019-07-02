@@ -16,10 +16,7 @@
 
 #include "engine/bone.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 const bool use_additional_radius	= true;
 
@@ -138,8 +135,8 @@ void ai_obstacle::compute_matrix(Fmatrix &result, const Fvector &additional)
 		last_half_size			= obb.m_halfsize;
 		result.mulB_43			(Fmatrix().scale(obb.m_halfsize));
 
-		for (u32 i=0; i<8; ++i, ++I)
-			result.transform_tiny	(*I,local_points[i]);
+		for (u32 i1=0; i1<8; ++i1, ++I)
+			result.transform_tiny	(*I,local_points[i1]);
 	}
 
 	VERIFY						(visible_bone_count);

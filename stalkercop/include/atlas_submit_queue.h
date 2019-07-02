@@ -4,10 +4,7 @@
 #include <boost/noncopyable.hpp>
 #include "profile_data_types.h"
 
-namespace gamespy_profile
-{
-	class stats_submitter;
-};
+
 namespace gamespy_gp
 {
 	struct profile;
@@ -16,7 +13,7 @@ namespace gamespy_gp
 class atlas_submit_queue : private boost::noncopyable
 {
 public:
-			atlas_submit_queue	(gamespy_profile::stats_submitter* stats_submitter);
+			atlas_submit_queue	();
 			~atlas_submit_queue	();
 	
 	//awards and best scores will be fetched from profile_store object
@@ -52,7 +49,6 @@ private:
 												 gamespy_profile::all_best_scores_t* br_ptr);
 	void				do_atlas_submit_all		(gamespy_gp::profile const * profile);
 
-	gamespy_profile::stats_submitter*		m_stats_submitter;
 	gamespy_profile::store_operation_cb		m_atlas_submitted;
 	bool									m_atlas_in_process;
 

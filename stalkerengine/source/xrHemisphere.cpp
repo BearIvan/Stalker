@@ -9,7 +9,6 @@
 #define HEMI2_FACES 160
 #define HEMI3_VERTS 196
 
-#pragma warning (disable:4305)
 const Fvector hemi_1[HEMI1_VERTS] =
 {
     {0.525730, 0.850655, -0.000000},
@@ -540,7 +539,6 @@ const Fvector hemi_3[HEMI3_VERTS] =
     {+0.1525, +0.0799, -0.4694},
     {+0.3971, +0.0952, -0.2885},
 };
-#pragma warning(default:4305)
 
 void ECORE_API xrHemisphereBuild(int quality, float energy, xrHemisphereIterator* iterator, LPVOID param)
 {

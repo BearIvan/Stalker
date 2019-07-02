@@ -12,7 +12,7 @@ public:
 	void FrameEnd();
 	IC	float GetResult()const
 	{
-		return m_R;
+		return m_R.asseconds();
 	}
 	IC bsize GetCount()const
 	{
@@ -21,7 +21,7 @@ public:
 
 private:
 	bsize m_count;
-	float m_R;
+	BearCore::BearTime m_R;
 };
 class XRCORE_API XrTimerPaused : public  BearCore::BearTimer
 {

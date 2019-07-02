@@ -120,10 +120,7 @@ void screenshot_manager::prepare_image()
 
 void screenshot_manager::make_jpeg_file()
 {
-	u32*	sizes = reinterpret_cast<u32*>(m_result_writer.pointer());
-	u32		width = *sizes;
-	u32		height = *(++sizes);
-	u8* rgb24data = reinterpret_cast<u8*>(m_result_writer.pointer() + 2*sizeof(u32) );
+
 	
 	/*CxImage jpg_image;
 	
@@ -151,14 +148,15 @@ void screenshot_manager::make_jpeg_file()
 
 void screenshot_manager::sign_jpeg_file()
 {
-	screenshots::writer	tmp_writer		(m_jpeg_buffer, m_jpeg_buffer_size, m_jpeg_buffer_capacity);
+	BEAR_RASSERT(0);
+/*	screenshots::writer	tmp_writer		(m_jpeg_buffer, m_jpeg_buffer_size, m_jpeg_buffer_capacity);
 	game_cl_mp*	tmp_cl_game				= smart_cast<game_cl_mp*>(&Game());
 	tmp_writer.set_player_name			(tmp_cl_game->local_player->getName());
 	shared_str tmp_cdkey_digest			= Level().get_cdkey_digest();
 	if (tmp_cdkey_digest.size() == 0)
 		tmp_cdkey_digest = "null";
 	tmp_writer.set_player_cdkey_digest	(tmp_cdkey_digest);
-	m_jpeg_buffer_size					= tmp_writer.write_info();
+	m_jpeg_buffer_size					= tmp_writer.write_info();*/
 }
 
 IC u32 btwCount1(u32 v)

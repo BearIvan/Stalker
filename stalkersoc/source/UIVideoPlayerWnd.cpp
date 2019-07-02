@@ -6,7 +6,7 @@
 #include "ui/UIXmlInit.h"
 #include "level.h"
 #include "hudmanager.h"
-#include <dinput.h>
+
 #include "xrRender/UIRender.h"
 void CUIVideoPlayerWnd::SendMessage	(CUIWindow* pWnd, s16 msg, void* pData)
 {
@@ -27,7 +27,7 @@ void CUIVideoPlayerWnd::Init			(CUIXml* doc, LPCSTR start_from)
 	m_flags.zero					();
 	CUIXmlInit						xml_init;
 	string512						str;
-	strcpy							(str,start_from);
+	BearCore::BearString::Copy							(str,start_from);
 	xml_init.InitWindow				(*doc, str, 0, this);
 	
 

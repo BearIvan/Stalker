@@ -64,20 +64,20 @@ CActor*			Actor()
 //--------------------------------------------------------------------
 void	CActor::ConvState(u32 mstate_rl, string128 *buf)
 {
-	strcpy(*buf,"");
-	if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		strcat(*buf,"Accel ");
-	if (mstate_rl&mcCrouch)		strcat(*buf,"Crouch ");
-	if (mstate_rl&mcFwd)		strcat(*buf,"Fwd ");
-	if (mstate_rl&mcBack)		strcat(*buf,"Back ");
-	if (mstate_rl&mcLStrafe)	strcat(*buf,"LStrafe ");
-	if (mstate_rl&mcRStrafe)	strcat(*buf,"RStrafe ");
-	if (mstate_rl&mcJump)		strcat(*buf,"Jump ");
-	if (mstate_rl&mcFall)		strcat(*buf,"Fall ");
-	if (mstate_rl&mcTurn)		strcat(*buf,"Turn ");
-	if (mstate_rl&mcLanding)	strcat(*buf,"Landing ");
-	if (mstate_rl&mcLLookout)	strcat(*buf,"LLookout ");
-	if (mstate_rl&mcRLookout)	strcat(*buf,"RLookout ");
-	if (m_bJumpKeyPressed)		strcat(*buf,"+Jumping ");
+	BearCore::BearString::Copy(*buf,"");
+	if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		BearCore::BearString::Contact(*buf,"Accel ");
+	if (mstate_rl&mcCrouch)		BearCore::BearString::Contact(*buf,"Crouch ");
+	if (mstate_rl&mcFwd)		BearCore::BearString::Contact(*buf,"Fwd ");
+	if (mstate_rl&mcBack)		BearCore::BearString::Contact(*buf,"Back ");
+	if (mstate_rl&mcLStrafe)	BearCore::BearString::Contact(*buf,"LStrafe ");
+	if (mstate_rl&mcRStrafe)	BearCore::BearString::Contact(*buf,"RStrafe ");
+	if (mstate_rl&mcJump)		BearCore::BearString::Contact(*buf,"Jump ");
+	if (mstate_rl&mcFall)		BearCore::BearString::Contact(*buf,"Fall ");
+	if (mstate_rl&mcTurn)		BearCore::BearString::Contact(*buf,"Turn ");
+	if (mstate_rl&mcLanding)	BearCore::BearString::Contact(*buf,"Landing ");
+	if (mstate_rl&mcLLookout)	BearCore::BearString::Contact(*buf,"LLookout ");
+	if (mstate_rl&mcRLookout)	BearCore::BearString::Contact(*buf,"RLookout ");
+	if (m_bJumpKeyPressed)		BearCore::BearString::Contact(*buf,"+Jumping ");
 };
 //--------------------------------------------------------------------
 void CActor::net_Export	(NET_Packet& P)					// export to server
@@ -1735,14 +1735,14 @@ void	CActor::Check_for_AutoPickUp()
 	Fbox APU_Box;
 	APU_Box.set(Fvector().sub(bc, m_AutoPickUp_AABB), Fvector().add(bc, m_AutoPickUp_AABB));
 
-	xr_vector<ISpatial*>	ISpatialResult;
-	g_SpatialSpace->q_box   (ISpatialResult,0,STYPE_COLLIDEABLE,bc,m_AutoPickUp_AABB);
+	xr_vector<ISpatial*>	ISpatialResult1;
+	g_SpatialSpace->q_box   (ISpatialResult1,0,STYPE_COLLIDEABLE,bc,m_AutoPickUp_AABB);
 
 	// Determine visibility for dynamic part of scene
-	for (u32 o_it=0; o_it<ISpatialResult.size(); o_it++)
+	for (u32 o_it=0; o_it<ISpatialResult1.size(); o_it++)
 	{
-		ISpatial*		spatial	= ISpatialResult[o_it];
-		CInventoryItem*	pIItem	= smart_cast<CInventoryItem*> (spatial->dcast_CObject        ());
+		ISpatial*		spatial1	= ISpatialResult1[o_it];
+		CInventoryItem*	pIItem	= smart_cast<CInventoryItem*> (spatial1->dcast_CObject        ());
 		if (0 == pIItem)							continue;
 		if (!pIItem->CanTake())						continue;
 		if (Level().m_feel_deny.is_object_denied(pIItem->cast_game_object()) )	continue;

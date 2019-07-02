@@ -19,7 +19,7 @@ void XrTimerStat::Begin()
 
 void XrTimerStat::End()
 {
-	m_R += get_elapsed_time().asseconds();
+	m_R += get_elapsed_time();
 }
 
 void XrTimerStat::FrameStart()

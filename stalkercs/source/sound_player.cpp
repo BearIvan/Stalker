@@ -244,22 +244,22 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 	seed								(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
 	m_sounds.clear						();
 	for (int j=0, N = XrTrims::GetItemCount(*params.m_sound_prefix); j<N; ++j) {
-		string_path						fn, s, temp;
+		string_path						 s, temp;
 		LPSTR							S = (LPSTR)&s;
 		XrTrims::GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
 		if (FS.ExistFile("%sounds%",S,".ogg")) {
-			ref_sound					*temp = add(params.m_type,S);
-			if (temp)
-				m_sounds.push_back		(temp);
+			ref_sound					*temp1 = add(params.m_type,S);
+			if (temp1)
+				m_sounds.push_back		(temp1);
 		}
 		for (u32 i=0; i<params.m_max_count; ++i){
 			string256					name;
 			sprintf_s						(name,"%s%d",S,i);
 			if (FS.ExistFile("%sounds%", name,".ogg")) {
-				ref_sound				*temp = add(params.m_type,name);
-				if (temp)
-					m_sounds.push_back	(temp);
+				ref_sound				*temp1 = add(params.m_type,name);
+				if (temp1)
+					m_sounds.push_back	(temp1);
 			}
 		}
 	}

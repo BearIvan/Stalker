@@ -1,5 +1,5 @@
 #include "pch_script.h"
-#include <dinput.h>
+
 #include "key_binding_registrator.h"
 #include "xr_level_controller.h"
 

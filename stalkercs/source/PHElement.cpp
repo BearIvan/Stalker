@@ -18,14 +18,11 @@
 #endif // DEBUG
 
 ///////////////////////////////////////////////////////////////
-#pragma warning(disable:4995)
-#pragma warning(disable:4267)
+
 
 #include "ode/src/collision_kernel.h"
 
 
-#pragma warning(default:4267)
-#pragma warning(default:4995)
 ///////////////////////////////////////////////////////////////////
 
 #include "ExtendedGeom.h"
@@ -1242,12 +1239,12 @@ void CPHElement::add_Mass(const SBoneShape& shape,const Fmatrix& offset,const Fv
 			l.sub(pos,mass_center);
 			dMassSetCylinder(&m,1.f,2,shape.cylinder.m_radius,shape.cylinder.m_height);
 			dMassAdjust(&m,mass);
-			dMatrix3 DMatx;
+			dMatrix3 DMatx1;
 			Fmatrix33 m33;
 			m33.j.set(shape.cylinder.m_direction);
 			Fvector::generate_orthonormal_basis(m33.j,m33.k,m33.i);
-			PHDynamicData::FMX33toDMX(m33,DMatx);
-			dMassRotate(&m,DMatx);
+			PHDynamicData::FMX33toDMX(m33,DMatx1);
+			dMassRotate(&m,DMatx1);
 			dMassTranslate(&m,l.x,l.y,l.z);
 			break;
 		}

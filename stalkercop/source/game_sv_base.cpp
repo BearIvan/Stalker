@@ -13,7 +13,6 @@
 #include "string_table.h"
 
 #include "debug_renderer.h"
-#include "xrGameSpyServer.h"
 
 ENGINE_API	bool g_dedicated_server;
 
@@ -210,7 +209,7 @@ float					game_sv_GameState::get_option_f				(LPCSTR lst, LPCSTR name, float def
 	if (found)
 	{	
 		float		val;
-		int cnt		= sscanf(found+xr_strlen(op),"%f",&val);
+		int cnt		= BearCore::BearString::Scanf(found+xr_strlen(op),"%f",&val);
 		VERIFY		(cnt==1);
 		return		val;
 //.		return atoi	(strstr(lst,op)+xr_strlen(op));
@@ -228,7 +227,7 @@ string64&			game_sv_GameState::get_option_s				(LPCSTR lst, LPCSTR name, LPCSTR 
 	if (start)		
 	{
 		LPCSTR			begin	= start + xr_strlen(op); 
-		sscanf			(begin, "%[^/]",ret);
+		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
 	}
 	else			
 	{
@@ -366,7 +365,7 @@ void game_sv_GameState::OnPlayerDisconnect		(ClientID id_who, LPSTR, u16 )
 static float							rpoints_Dist [TEAM_COUNT] = {1000.f, 1000.f, 1000.f, 1000.f};
 void game_sv_GameState::Create					(shared_str &options)
 {
-	string_path	fn_game;
+	
 	m_item_respawner.clear_respawns();
 	if (FS.ExistFile( "%level%", "level.game")) 
 	{
@@ -466,7 +465,7 @@ void game_sv_GameState::Create					(shared_str &options)
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		sscanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		BearCore::BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -808,14 +807,15 @@ void game_sv_GameState::OnEvent (NET_Packet &tNetPacket, u16 type, u32 time, Cli
 	default:
 		{
 			string16 tmp;
-			R_ASSERT3	(0,"Game Event not implemented!!!", itoa(type, tmp, 10));
+			BearCore::BearString::Printf(tmp, TEXT("%d"), type);
+			R_ASSERT3	(0,"Game Event not implemented!!!", tmp);
 		};
 	};
 }
 
 bool game_sv_GameState::CheckNewPlayer(xrClientData* CL)
 {
-	xrGameSpyServer*		gs_server = smart_cast<xrGameSpyServer*>(m_server);
+/*	xrGameSpyServer*		gs_server = smart_cast<xrGameSpyServer*>(m_server);
 	R_ASSERT				(gs_server);
 	
 	char const *			error_msg = NULL;
@@ -850,7 +850,7 @@ bool game_sv_GameState::CheckNewPlayer(xrClientData* CL)
 		if (CL != m_server->GetServerClient()) //CL can be NULL
 			CleanDelayedEventFor(tmp_client_id);
 		return false;
-	}
+	}*/
 	return true;
 }
 
@@ -1291,7 +1291,7 @@ void game_sv_GameState::GenerateNewName			(char const * old_name, char * dest, u
 
 	strncpy_s	(dest, dest_size, old_name, name_length);
 	xr_sprintf	(new_suffix, "%c%u", suffix_symbol, curret_number);
-	xr_strcat	(dest, dest_size, new_suffix);
+	BearCore::BearString::Contact	(dest, dest_size, new_suffix);
 }
 
 void game_sv_GameState::CheckPlayerName(xrClientData* CL)

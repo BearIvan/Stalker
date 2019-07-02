@@ -339,8 +339,8 @@ void CUIInventoryWnd::Hide()
 
 	if (!IsGameTypeSingle()&&!IsGameTypeCoop())
 	{
-		CActor *pActor		= smart_cast<CActor*>(Level().CurrentEntity());
-		if(!pActor)			return;
+		CActor *pActor1		= smart_cast<CActor*>(Level().CurrentEntity());
+		if(!pActor1)			return;
 
 		pActor->SetWeaponHideState(INV_STATE_INV_WND, false);
 	}
@@ -464,7 +464,7 @@ void CUIInventoryWnd::BindDragDropListEnents(CUIDragDropListEx* lst)
 
 
 #include "xr_level_controller.h"
-#include <dinput.h>
+
 
 bool CUIInventoryWnd::OnKeyboard(int dik, EUIMessages keyboard_action)
 {

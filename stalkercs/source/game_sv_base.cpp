@@ -214,7 +214,7 @@ float					game_sv_GameState::get_option_f				(LPCSTR lst, LPCSTR name, float def
 	if (found)
 	{	
 		float		val;
-		int cnt		= sscanf(found+xr_strlen(op),"%f",&val);
+		int cnt		= BearCore::BearString::Scanf(found+xr_strlen(op),"%f",&val);
 		VERIFY		(cnt==1);
 		return		val;
 //.		return atoi	(strstr(lst,op)+xr_strlen(op));
@@ -232,11 +232,11 @@ string64&			game_sv_GameState::get_option_s				(LPCSTR lst, LPCSTR name, LPCSTR 
 	if (start)		
 	{
 		LPCSTR			begin	= start + xr_strlen(op); 
-		sscanf			(begin, "%[^/]",ret);
+		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
 	}
 	else			
 	{
-		if (def)	strcpy_s		(ret,def);
+		if (def)	BearCore::BearString::Copy		(ret,def);
 		else		ret[0]=0;
 	}
 	return ret;
@@ -288,10 +288,10 @@ struct player_exporter
 
 		if (!owner_entity)
 		{
-			strcpy_s(p_name, "Unknown");
+			BearCore::BearString::Copy(p_name, "Unknown");
 		} else
 		{
-			strcpy_s(p_name, owner_entity->name_replace());
+			BearCore::BearString::Copy(p_name, owner_entity->name_replace());
 		}
 		curr_ps->setName(p_name);
 		u16 tmp_flags = curr_ps->flags__;
@@ -381,7 +381,6 @@ void game_sv_GameState::OnPlayerDisconnect		(ClientID id_who, LPSTR, u16 )
 static float							rpoints_Dist [TEAM_COUNT] = {1000.f, 1000.f, 1000.f, 1000.f};
 void game_sv_GameState::Create					(shared_str &options)
 {
-	string_path	fn_game;
 	m_item_respawner.clear_respawns();
 	if (FS.ExistFile( "%level%", "level.game")) 
 	{
@@ -481,7 +480,7 @@ void game_sv_GameState::Create					(shared_str &options)
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		sscanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		BearCore::BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -495,7 +494,7 @@ void	game_sv_GameState::ReadOptions				(shared_str &options)
 {
 	g_sv_base_dwRPointFreezeTime = get_option_i(*options, "rpfrz", g_sv_base_dwRPointFreezeTime/1000) * 1000;
 
-//.	strcpy_s(MAPROT_LIST, MAPROT_LIST_NAME);
+//.	BearCore::BearString::Copy(MAPROT_LIST, MAPROT_LIST_NAME);
 //.	if (!FS.exist(MAPROT_LIST))
 	if (FS.ExistFile("%user%", MAPROT_LIST_NAME))
 		Console->ExecuteScript( MAPROT_LIST_NAME);
@@ -835,7 +834,7 @@ void game_sv_GameState::NewPlayerName_Generate( void* pClient, LPSTR NewPlayerNa
 		sprintf_s( NewXName, "%s_%d", NewPlayerName, i );
 		if ( !NewPlayerName_Exists( pClient, NewXName ) )
 		{
-			strcpy_s( NewPlayerName, 22 , NewXName );
+			BearCore::BearString::Copy( NewPlayerName, 22 , NewXName );
 			return;
 		}
 	}
@@ -1080,10 +1079,10 @@ shared_str game_sv_GameState::parse_level_version			(const shared_str &server_op
 		if (strchr(map_ver, '/'))
 			strncpy_s(result_version, map_ver, strchr(map_ver, '/') - map_ver);
 		else
-			strcpy_s(result_version, map_ver);
+			BearCore::BearString::Copy(result_version, map_ver);
 	} else
 	{
-		strcpy_s(result_version, default_map_version);
+		BearCore::BearString::Copy(result_version, default_map_version);
 	}
 	return shared_str(result_version);
 }

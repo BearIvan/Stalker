@@ -209,10 +209,10 @@ void CStateGroupEatAbstract::setup_substates()
 
 		// Определить позицию ближайшей боны у трупа
 		Fvector nearest_bone_pos;
-		const CEntityAlive *corpse = object->EatedCorpse;
-		if ((corpse->m_pPhysicsShell == NULL) || (!corpse->m_pPhysicsShell->isActive())) {
-			nearest_bone_pos	= corpse->Position(); 
-		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse);
+		const CEntityAlive *corpse1 = object->EatedCorpse;
+		if ((corpse1->m_pPhysicsShell == NULL) || (!corpse1->m_pPhysicsShell->isActive())) {
+			nearest_bone_pos	= corpse1->Position(); 
+		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse1);
 
 		SStateDataMoveToPoint data;
 		data.point			= nearest_bone_pos;
@@ -279,10 +279,10 @@ void CStateGroupEatAbstract::setup_substates()
 
 		// Определить позицию ближайшей боны у трупа
 		Fvector nearest_bone_pos;
-		const CEntityAlive *corpse = object->EatedCorpse;
+		const CEntityAlive *corpse1 = object->EatedCorpse;
 
 		#ifdef DEBUG
-			if ( !corpse )
+			if ( !corpse1 )
 			{
 				debug::text_tree tree;
 				object->add_debug_info(tree);
@@ -291,9 +291,9 @@ void CStateGroupEatAbstract::setup_substates()
 			}
 		#endif //#ifdef DEBUG
 
-		if ( (corpse->m_pPhysicsShell == NULL) || (!corpse->m_pPhysicsShell->isActive()) ) {
-			nearest_bone_pos	= corpse->Position();
-		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse);
+		if ( (corpse1->m_pPhysicsShell == NULL) || (!corpse1->m_pPhysicsShell->isActive()) ) {
+			nearest_bone_pos	= corpse1->Position();
+		} else nearest_bone_pos = object->character_physics_support()->movement()->PHCaptureGetNearestElemPos(corpse1);
 
 		SStateDataMoveToPoint data;
 		data.point			= nearest_bone_pos;
@@ -340,9 +340,9 @@ bool CStateGroupEatAbstract::hungry()
 }
 
 TEMPLATE_SPECIALIZATION
-void CStateGroupEatAbstract::remove_links	(CObject* object)
+void CStateGroupEatAbstract::remove_links	(CObject* object1)
 {
-	if (corpse == object)
+	if (corpse == object1)
 		corpse	= 0;
 }
 

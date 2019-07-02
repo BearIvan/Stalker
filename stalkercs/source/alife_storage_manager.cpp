@@ -36,10 +36,10 @@ CALifeStorageManager::~CALifeStorageManager	()
 
 void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 {
-	strcpy_s					(g_last_saved_game,sizeof(g_last_saved_game),save_name);
+	BearCore::BearString::Copy					(g_last_saved_game,sizeof(g_last_saved_game),save_name);
 
 	string_path					save;
-	strcpy_s					(save,m_save_name);
+	BearCore::BearString::Copy					(save,m_save_name);
 	if (save_name) {
 		strconcat				(sizeof(m_save_name),m_save_name,save_name,SAVE_EXTENSION);
 	}
@@ -83,7 +83,7 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 #endif // DEBUG
 
 	if (!update_name)
-		strcpy_s					(m_save_name,save);
+		BearCore::BearString::Copy					(m_save_name,save);
 }
 
 void CALifeStorageManager::load	(void *buffer, const u32 &buffer_size, LPCSTR file_name)
@@ -125,7 +125,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 	BearCore::BearTimer						timer;
 	timer.restart					();
 	string256					save;
-	strcpy_s						(save,m_save_name);
+	BearCore::BearString::Copy						(save,m_save_name);
 	if (!save_name) {
 		if (!xr_strlen(m_save_name))
 			R_ASSERT2			(false,"There is no file name specified!");
@@ -133,13 +133,13 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 	else
 		strconcat				(sizeof(m_save_name),m_save_name,save_name,SAVE_EXTENSION);
 
-	strcpy_s					(g_last_saved_game, save_name);
+	BearCore::BearString::Copy					(g_last_saved_game, save_name);
 
 	IReader						*stream;
 	stream = XRayBearReader::Create( FS.Read("%saves%", m_save_name));
 	if (!stream) {
 		Msg						("* Cannot find saved game %s", m_save_name);
-		strcpy_s				(m_save_name,save);
+		BearCore::BearString::Copy				(m_save_name,save);
 		return					(false);
 	}
 

@@ -25,6 +25,7 @@ public:
 };
 add_to_type_list(CWeaponLR300)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CWeaponLR300)
 
 #endif //__XR_WEAPON_LR300_H__

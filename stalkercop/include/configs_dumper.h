@@ -1,7 +1,6 @@
 #ifndef CONFIGS_DUMPER_INCLUDED
 #define CONFIGS_DUMPER_INCLUDED
 
-#include "xr_dsa_signer.h"
 #include "mp_config_sections.h"
 
 namespace mp_anticheat
@@ -13,14 +12,6 @@ extern char const * cd_player_digest_key;
 extern char const * cd_digital_sign_key;
 extern char const * cd_creation_date;
 
-class dump_signer : public xr_dsa_signer
-{
-public:
-			dump_signer				();
-			~dump_signer			();
-private:
-	void	feel_private_dsa_key	();
-};
 
 class configs_dumper : public ISheduled
 {
@@ -63,7 +54,6 @@ private:
 	complete_callback_t		m_complete_cb;
 	yield_callback_t		m_yield_cb;
 	CMemoryWriter			m_dump_result;
-	dump_signer				m_dump_signer;
 	
 	mp_config_sections		m_ltx_configs;
 	mp_active_params		m_active_params;

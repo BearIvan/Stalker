@@ -19,6 +19,7 @@ public:
 };
 add_to_type_list(CScriptWorldPropertyWrapper)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CScriptWorldPropertyWrapper)
 
 #include "script_world_property_inline.h"

@@ -20,7 +20,7 @@ CScriptSound::CScriptSound				(LPCSTR caSoundName, ESoundTypes sound_type)
 	if (FS.ExistFile("%sounds%", caSoundName,".ogg"))
 		m_sound.create		(caSoundName,st_Effect,sound_type);
 	else
-		ai().script_engine().script_log	(ScriptStorage::eLuaMessageTypeError,"File not found \"%s\.ogg !", caSoundName);
+		ai().script_engine().script_log	(ScriptStorage::eLuaMessageTypeError,"File not found \"%s\".ogg !", caSoundName);
 }
 
 CScriptSound::~CScriptSound		()

@@ -170,6 +170,7 @@ protected:
 
 add_to_type_list(CExplosive)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CExplosive)
 
 IC void random_point_in_object_box(Fvector &out_pos,CObject* obj)

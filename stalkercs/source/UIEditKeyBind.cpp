@@ -27,7 +27,7 @@ u32 cut_string_by_length(CGameFont* pFont, LPCSTR src, LPSTR dst, u32 dst_size, 
 	if ( pFont->IsMultibyte() ) {
 		u16 nPos = pFont->GetCutLengthPos( length, src );
 		VERIFY( nPos < dst_size );
-		strncpy( dst, src , nPos );
+		BearCore::BearString::CopyWithSizeLimit( dst, dst_size, src , nPos );
 		dst[ nPos ] = '\0';
 		return nPos;
 	} else {
@@ -35,7 +35,7 @@ u32 cut_string_by_length(CGameFont* pFont, LPCSTR src, LPSTR dst, u32 dst_size, 
 		float	text_len					= pFont->SizeOf_(src);
 		UI()->ClientToScreenScaledWidth		(text_len);
 		VERIFY								(xr_strlen(src)<=dst_size);
-		strcpy_s								(dst, dst_size, src);
+		BearCore::BearString::Copy								(dst, dst_size, src);
 
 		while(text_len > length)
 		{
@@ -91,9 +91,9 @@ bool CUIEditKeyBind::OnMouseDown(int mouse_btn)
 		OnFocusLost				();
 		m_bChanged				= true;
 
-		strcpy_s				(message, m_action->action_name);
-		strcat				(message, "=");
-		strcat				(message, m_keyboard->key_name);		
+		BearCore::BearString::Copy				(message, m_action->action_name);
+		BearCore::BearString::Contact				(message, "=");
+		BearCore::BearString::Contact				(message, m_keyboard->key_name);		
 		SendMessage2Group	("key_binding",message);
 
 		return					true;
@@ -117,9 +117,9 @@ bool CUIEditKeyBind::OnKeyboard(int dik, EUIMessages keyboard_action){
 		m_keyboard			= dik_to_ptr(dik, true);
 		if(!m_keyboard)			return true;
 
-		strcpy_s				(message, m_action->action_name);
-		strcat				(message, "=");
-		strcat				(message, m_keyboard->key_name);		
+		BearCore::BearString::Copy				(message, m_action->action_name);
+		BearCore::BearString::Contact				(message, "=");
+		BearCore::BearString::Contact				(message, m_keyboard->key_name);		
 		SetText				(m_keyboard->key_local_name.c_str());
 		OnFocusLost			();
 		m_bChanged			= true;
@@ -214,7 +214,7 @@ void CUIEditKeyBind::OnMessage(LPCSTR message)
 		return;
 
 	string64			command;
-	strcpy_s				(command, message);
+	BearCore::BearString::Copy				(command, message);
 	command[eq]			= 0;
 
     if (0 == xr_strcmp(m_action->action_name, command))

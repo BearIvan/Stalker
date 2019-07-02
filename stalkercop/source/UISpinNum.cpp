@@ -83,7 +83,8 @@ void CUISpinNum::OnBtnDownClick()
 void CUISpinNum::SetValue(int v)
 {
 	string16	buff;
-	m_pLines->SetText(itoa(v, buff, 10)); 
+	BearCore::BearString::Printf(buff, TEXT("%d"), v);
+	m_pLines->SetText(buff); 
 }
 
 bool CUISpinNum::CanPressUp()

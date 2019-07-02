@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable:4995)
 #include "directx\d3d9.h"
 #include "directx\d3dx9.h"
 
-#pragma warning(default:4995)
 #include "fmesh.h"
 
 //BOOL ValidateIndices(u32 vCount, u32 iCount, u16* pIndices)

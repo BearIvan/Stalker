@@ -19,11 +19,7 @@
 #	include "ai_debug.h"
 #endif // MASTER_GOLD
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
-
 extern MagicBox3 MagicMinBox					(int iQuantity, const Fvector* akPoint);
 
 struct priority {
@@ -309,15 +305,15 @@ bool moving_objects::fill_collisions			(moving_object *object, const Fvector &ob
 		u32							collision_count = m_collisions.size();
 		COLLISION_TIME				*collisions = (COLLISION_TIME*)_alloca(collision_count*sizeof(COLLISION_TIME));
 		std::copy					(m_collisions.begin(), m_collisions.end(), collisions);
-		COLLISION_TIME				*I = collisions;
-		COLLISION_TIME				*E = collisions + collision_count;
-		for ( ; I != E; ++I) {
+		COLLISION_TIME				*I1 = collisions;
+		COLLISION_TIME				*E1 = collisions + collision_count;
+		for ( ; I1 != E1; ++I1) {
 			moving_object			*test;
-			if ((*I).second.first == possible_action_1_can_wait_2)
-				test				= (*I).second.second.first;
+			if ((*I1).second.first == possible_action_1_can_wait_2)
+				test				= (*I1).second.second.first;
 			else {
-				VERIFY				((*I).second.first == possible_action_2_can_wait_1);
-				test				= (*I).second.second.second;
+				VERIFY				((*I1).second.first == possible_action_2_can_wait_1);
+				test				= (*I1).second.second.second;
 			}
 
 			bool					priority = ::priority::predicate(object,test);
@@ -345,20 +341,20 @@ bool moving_objects::fill_collisions			(moving_object *object, const Fvector &ob
 		}
 
 		VERIFY					(m_collisions.size() >= collision_count);
-		COLLISIONS::iterator	b = m_collisions.begin() + collision_count, i = b;
+		COLLISIONS::iterator	b = m_collisions.begin() + collision_count, i1 = b;
 		COLLISIONS::iterator	e = m_collisions.end();
-		for ( ; i != e; ++i) {
-			if ((*i).second.second.first == object) {
-				if (exchange_all((*i).second.second.second, object, collision_count))
+		for ( ; i1 != e; ++i1) {
+			if ((*i1).second.second.first == object) {
+				if (exchange_all((*i1).second.second.second, object, collision_count))
 					continue;
 
-				(*i).second.second.first	= 0;
+				(*i1).second.second.first	= 0;
 				continue;
 			}
 
-			VERIFY				((*i).second.second.second == object);
-			if (!exchange_all((*i).second.second.first, object, collision_count))
-				(*i).second.second.first	= 0;
+			VERIFY				((*i1).second.second.second == object);
+			if (!exchange_all((*i1).second.second.first, object, collision_count))
+				(*i1).second.second.first	= 0;
 		}
 
 		struct remove {
@@ -543,16 +539,16 @@ void moving_objects::query_action_dynamic		(moving_object *object)
 
 	m_collision_emitters.push_back		(object);
 	while (!m_collision_emitters.empty()) {
-		moving_object					*object = m_collision_emitters.back();
+		moving_object					*object1 = m_collision_emitters.back();
 		m_collision_emitters.pop_back	();
 
 		m_visited_emitters.insert		(
 			std::lower_bound(
 				m_visited_emitters.begin(),
 				m_visited_emitters.end(),
-				object
+				object1
 			),
-			object
+			object1
 		);
 
 		fill_nearest_moving		(object);

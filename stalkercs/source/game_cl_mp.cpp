@@ -30,7 +30,6 @@
 #include "mainmenu.h"
 #include "WeaponKnife.h"
 #include "RegistryFuncs.h"
-#include "xrGameSpy_MainDefs.h"
 #include "file_transfer.h"
 #include "screenshot_server.h"
 #define KILLEVENT_ICONS "ui\\ui_hud_mp_icon_death"
@@ -42,12 +41,10 @@
 #define KILLEVENT_GRID_HEIGHT	64
 
 #include "game_cl_mp_snd_messages.h"
-#include "crypto/crypto.h"
 #include "player_name_modifyer.h"
 
 BOOL g_draw_downloads = TRUE;
 
-#pragma comment(lib, "crypto.lib")
 
 game_cl_mp::game_cl_mp()
 {
@@ -87,8 +84,7 @@ game_cl_mp::game_cl_mp()
 		abs(m_iSpawn_Cost));
 	pBuySpawnMsgBox->SetText(BuySpawnText);
 */	//-----------------------------------------------------------
-	m_ready_to_open_buy_menu	= true;
-	crypto::xr_crypto_init();
+	m_ready_to_open_buy_menu	= true;;
 };
 
 game_cl_mp::~game_cl_mp()
@@ -1220,7 +1216,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 	OnMoneyChanged();
 	{
 		string256					MoneyStr;
-		itoa(local_player->money_for_round, MoneyStr, 10);
+		BearCore::BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
 		m_game_ui_custom->ChangeTotalMoneyIndicator	(MoneyStr);
 	}
 	s32 Money_Added = P.r_s32();
@@ -1442,7 +1438,7 @@ void game_cl_mp::LoadBonuses				()
 				IconRect.y2 -= IconRect.y1;
 				NewBonus.IconRects.push_back(IconRect);
 
-				sprintf(rankstr, "ui_hud_status_blue_0%d", r);
+				BearCore::BearString::Printf(rankstr, "ui_hud_status_blue_0%d", r);
 				IconRect = CUITextureMaster::GetTextureRect(rankstr);
 				IconRect.x2 -= IconRect.x1;
 				IconRect.y2 -= IconRect.y1;
@@ -1572,7 +1568,7 @@ void game_cl_mp::generate_file_name(
 
 LPCSTR game_cl_mp::make_file_name(LPCSTR session_id, string_path & dest)
 {
-	strcpy_s(dest, sizeof(dest), session_id);
+	BearCore::BearString::Copy(dest, sizeof(dest), session_id);
 	static const char* denied_symbols = "/\\?%%*:|\"<>.";
 	size_t tmp_length = xr_strlen(dest);
 	size_t start_pos = 0;
@@ -1790,7 +1786,7 @@ void game_cl_mp::add_detected_cheater(shared_str const & file_name, string256 di
 {
 	detected_cheater_t	tmp_cheater;
 	tmp_cheater.m_file_name			= file_name;
-	strcpy_s						(tmp_cheater.m_diff, diff);
+	BearCore::BearString::Copy						(tmp_cheater.m_diff, diff);
 	tmp_cheater.m_detect_time		= Device.dwTimeGlobal;
 	m_detected_cheaters.push_back	(tmp_cheater);
 }

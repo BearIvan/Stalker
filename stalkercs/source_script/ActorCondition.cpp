@@ -223,7 +223,7 @@ void CActorCondition::UpdateCondition()
 
 			strconcat			(sizeof(pp_sect_name),pp_sect_name, "effector_psy_health", "_", *ln);
 			if(!pSettings->section_exist(pp_sect_name))
-				strcpy_s			(pp_sect_name, "effector_psy_health");
+				BearCore::BearString::Copy			(pp_sect_name, "effector_psy_health");
 
 			if	( !XrMath::fsimilar(GetPsyHealth(), 1.0f, 0.05f) )
 			{
@@ -516,43 +516,43 @@ void CActorCondition::UpdateTutorialThresholds()
 	if(b && !m_condition_flags.test(eCriticalPowerReached) && GetPower()<_cPowerThr){
 		m_condition_flags.set			(eCriticalPowerReached, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_critical_power");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_critical_power");
 	}
 
 	if(b && !m_condition_flags.test(eCriticalMaxPowerReached) && GetMaxPower()<_cPowerMaxThr){
 		m_condition_flags.set			(eCriticalMaxPowerReached, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_critical_max_power");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_critical_max_power");
 	}
 
 	if(b && !m_condition_flags.test(eCriticalBleedingSpeed) && BleedingSpeed()>_cBleeding){
 		m_condition_flags.set			(eCriticalBleedingSpeed, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_bleeding");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_bleeding");
 	}
 
 	if(b && !m_condition_flags.test(eCriticalSatietyReached) && GetSatiety()<_cSatiety){
 		m_condition_flags.set			(eCriticalSatietyReached, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_satiety");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_satiety");
 	}
 
 	if(b && !m_condition_flags.test(eCriticalRadiationReached) && GetRadiation()>_cRadiation){
 		m_condition_flags.set			(eCriticalRadiationReached, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_radiation");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_radiation");
 	}
 
 	if(b && !m_condition_flags.test(ePhyHealthMinReached) && GetPsyHealth()>_cPsyHealthThr){
 //.		m_condition_flags.set			(ePhyHealthMinReached, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_psy");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_psy");
 	}
 
 	if(b && !m_condition_flags.test(eCantWalkWeight)){
 //.		m_condition_flags.set			(eCantWalkWeight, TRUE);
 		b=false;
-		strcpy_s(cb_name,"_G.on_actor_cant_walk_weight");
+		BearCore::BearString::Copy(cb_name,"_G.on_actor_cant_walk_weight");
 	}
 
 	if(b && !m_condition_flags.test(eWeaponJammedReached)&&m_object->inventory().GetActiveSlot()!=NO_ACTIVE_SLOT){
@@ -560,7 +560,7 @@ void CActorCondition::UpdateTutorialThresholds()
 		CWeapon* pWeapon					= smart_cast<CWeapon*>(item); 
 		if(pWeapon&&pWeapon->GetCondition()<_cWpnCondition){
 			m_condition_flags.set			(eWeaponJammedReached, TRUE);b=false;
-			strcpy_s(cb_name,"_G.on_actor_weapon_jammed");
+			BearCore::BearString::Copy(cb_name,"_G.on_actor_weapon_jammed");
 		}
 	}
 	

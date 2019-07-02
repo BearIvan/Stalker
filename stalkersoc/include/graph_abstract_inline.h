@@ -216,24 +216,24 @@ IC	void CAbstractGraph::save			(IWriter &stream)
 	stream.w_u32				((u32)vertices().size());
 	stream.close_chunk			();
 	
-	stream.open_chunk			(1);
+	{stream.open_chunk(1);
 	const_vertex_iterator		I = vertices().begin();
 	const_vertex_iterator		E = vertices().end();
-	for (int i=0; I != E; ++I, ++i) {
-		stream.open_chunk		(i);
+	for (int i = 0; I != E; ++I, ++i) {
+		stream.open_chunk(i);
 		{
-			stream.open_chunk	(0);
-			save_data			((*I).second->vertex_id(),stream);
-			stream.close_chunk	();
+			stream.open_chunk(0);
+			save_data((*I).second->vertex_id(), stream);
+			stream.close_chunk();
 
-			stream.open_chunk	(1);
-			save_data			((*I).second->data(),stream);
-			stream.close_chunk	();
+			stream.open_chunk(1);
+			save_data((*I).second->data(), stream);
+			stream.close_chunk();
 		}
-		stream.close_chunk		();
+		stream.close_chunk();
 	}
-	stream.close_chunk			();
-
+	stream.close_chunk();
+	}
 	stream.open_chunk			(2);
 	{
 		const_vertex_iterator	I = vertices().begin();

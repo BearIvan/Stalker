@@ -53,7 +53,7 @@ public:
 #define		TEAM_COUNT 4
 
 	bool							NewPlayerName_Exists	(void* pClient, LPCSTR NewName);
-	void							NewPlayerName_Generate	(void* pClient, LPSTR NewPlayerName);
+	void							NewPlayerName_Generate	(void* pClient, LPSTR NewPlayerName,bsize size);
 	void							NewPlayerName_Replace	(void* pClient, LPCSTR NewPlayerName);
 
 	BOOL							sv_force_sync;
@@ -183,5 +183,6 @@ public:
 };
 
 add_to_type_list(game_sv_GameState)
+#undef script_type_list
 #undef script_type_list
 #define script_type_list save_type_list(game_sv_GameState)

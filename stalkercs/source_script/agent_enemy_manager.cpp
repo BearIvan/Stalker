@@ -24,10 +24,7 @@
 #include "enemy_manager.h"
 #include "memory_space_impl.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 const float wounded_enemy_reached_distance = 3.f;
 
@@ -237,9 +234,9 @@ void CAgentEnemyManager::assign_enemies			()
 		(*I).m_probability				*= 1.f - best; 
 
 		// recovering sort order
-		for (u32 i=0, n = m_enemies.size() - 1; i<n; ++i)
-			if (m_enemies[i + 1] < m_enemies[i])
-				std::swap				(m_enemies[i],m_enemies[i + 1]);
+		for (u32 i1=0, n = m_enemies.size() - 1; i1<n; ++i1)
+			if (m_enemies[i1 + 1] < m_enemies[i1])
+				std::swap				(m_enemies[i1],m_enemies[i1 + 1]);
 			else
 				break;
 	}
@@ -248,37 +245,38 @@ void CAgentEnemyManager::assign_enemies			()
 void CAgentEnemyManager::permutate_enemies		()
 {
 	// filling member enemies
-	CAgentMemberManager::iterator					I = object().member().combat_members().begin();
-	CAgentMemberManager::iterator					E = object().member().combat_members().end();
-	for ( ; I != E; ++I) {
-		// clear enemies
-		(*I)->enemies().clear	();
-		// setup procesed flag
-		(*I)->processed			(false);
-		// get member squad mask
-		squad_mask_type			member_mask = object().member().mask(&(*I)->object());
-		// setup if player has enemy
-		bool					enemy_selected = false;
-		// iterate on enemies
-		ENEMIES::const_iterator	i = m_enemies.begin(), b = i;
-		ENEMIES::const_iterator	e = m_enemies.end();
-		for ( ; i != e; ++i) {
-			if ((*i).m_mask.is(member_mask))
-				(*I)->enemies().push_back	(u32(i - b));
+	{
+		CAgentMemberManager::iterator					I = object().member().combat_members().begin();
+		CAgentMemberManager::iterator					E = object().member().combat_members().end();
+		for (; I != E; ++I) {
+			// clear enemies
+			(*I)->enemies().clear();
+			// setup procesed flag
+			(*I)->processed(false);
+			// get member squad mask
+			squad_mask_type			member_mask = object().member().mask(&(*I)->object());
+			// setup if player has enemy
+			bool					enemy_selected = false;
+			// iterate on enemies
+			ENEMIES::const_iterator	i = m_enemies.begin(), b = i;
+			ENEMIES::const_iterator	e = m_enemies.end();
+			for (; i != e; ++i) {
+				if ((*i).m_mask.is(member_mask))
+					(*I)->enemies().push_back(u32(i - b));
 
-			if ((*i).m_distribute_mask.is(member_mask)) {
-				(*I)->selected_enemy		(u32(i - b));
-				enemy_selected				= true;
+				if ((*i).m_distribute_mask.is(member_mask)) {
+					(*I)->selected_enemy(u32(i - b));
+					enemy_selected = true;
+				}
 			}
-		}
-		// if there is enemy - all is ok
-		if (enemy_selected)
-			continue;
+			// if there is enemy - all is ok
+			if (enemy_selected)
+				continue;
 
-		// otherwise temporary make the member processed
-		(*I)->processed			(true);
+			// otherwise temporary make the member processed
+			(*I)->processed(true);
+		}
 	}
-	
 	// perform permutations
 	bool						changed;
 	do {
@@ -489,12 +487,12 @@ void CAgentEnemyManager::assign_wounded			()
 				J									&= (assigned ^ squad_mask_type(-1));
 				for ( ; J; J &= J - 1) {
 					squad_mask_type					K = (J & (J - 1)) ^ J;
-					CAgentMemberManager::iterator	i = object().member().member(K);
-					float							distance_sqr = (*i)->object().Position().distance_to_sqr((*I).m_object->Position());
+					CAgentMemberManager::iterator	i1 = object().member().member(K);
+					float							distance_sqr = (*i1)->object().Position().distance_to_sqr((*I).m_object->Position());
 					if (distance_sqr < best_distance_sqr) {
 						best_distance_sqr			= distance_sqr;
 						enemy						= &*I;
-						processor					= &(*i)->object();
+						processor					= &(*i1)->object();
 					}
 				}
 			}

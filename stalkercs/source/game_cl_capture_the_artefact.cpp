@@ -118,10 +118,12 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
 		string32	tmp_buf1;
 		string32	tmp_buf2;
 		//st.translate("demo play active : ").c_str() (need to translate ?)
+		BearCore::BearString::Printf(tmp_buf1, TEXT("%d"), int(Level().GetDemoPlayPos() * 100));
+		BearCore::BearString::Printf(tmp_buf2, TEXT("%d"), int(Level().GetDemoPlaySpeed()));
 		STRCONCAT(demo_play_string, "demo play active : ",
-			itoa( int(Level().GetDemoPlayPos() * 100), tmp_buf1, 10),
+			tmp_buf1,
 			"%%, play speed: ",
-			itoa( int(Level().GetDemoPlaySpeed()), tmp_buf2, 10),
+			tmp_buf2,
 			"x");
 		m_game_ui->SetDemoPlayCaption(demo_play_string);
 		game_PlayerState* lookat_player = Game().lookat_player();
@@ -243,9 +245,10 @@ void game_cl_CaptureTheArtefact::UpdateMoneyIndicator()
 	{
 		total_money = lookat_player->money_for_round;
 	}
+
 	if (total_money != last_money)
 	{
-		itoa(total_money, MoneyStr, 10);
+		BearCore::BearString::Printf(MoneyStr, TEXT("%d"), total_money);
 		m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
 		last_money = total_money;
 	}
@@ -1232,7 +1235,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 	command[psize - 1]	= 0;
 	player[psize - 1]	= 0;
 	
-	sscanf_s			(command, "%s", cmd_name, psize);
+	BearCore::BearString::Scanf			(command, "%s", cmd_name, psize);
 	u32					cmd_len	= xr_strlen(cmd_name);
 	u32					tcmd_len = cmd_len;
 
@@ -1247,7 +1250,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 	Msg("---Vote command: %s", cmd_name);
 #endif
 
-	int					args_count = sscanf_s(command + cmd_len, 
+	int					args_count = BearCore::BearString::Scanf(command + cmd_len, 
 							scans_format, 
 							args[0], psize + 1,
 							args[1], psize + 1,
@@ -1270,7 +1273,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 			VERIFY		(ted_str);
 			tcmd_len	= xr_strlen(ted_str) + 1;
 			tcmd_name		= static_cast<char*>(_alloca(tcmd_len));
-			strcpy_s(tcmd_name, tcmd_len, ted_str);
+			BearCore::BearString::Copy(tcmd_name, tcmd_len, ted_str);
 #ifdef CLIENT_CTA_LOG
 			Msg("---Translated command to: %s", tcmd_name);
 #endif
@@ -1280,7 +1283,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 
 	u32					vstr_size = (args_count * (psize + 1)) + tcmd_len + 1;
 	char*				vstr = static_cast<char*>(_alloca(vstr_size));
-	strcpy_s			(vstr, vstr_size, tcmd_name);
+	BearCore::BearString::Copy			(vstr, vstr_size, tcmd_name);
 	for (int i = 0; i < args_count; ++i)
 	{
 #ifdef CLIENT_CTA_LOG
@@ -1578,7 +1581,7 @@ void game_cl_CaptureTheArtefact::OnRender()
 				IPos.y -= pTS->Indicator_r2;
 				VERIFY(ps->getName());
 				string64 upper_name;
-				strcpy_s(upper_name, ps->getName());
+				BearCore::BearString::Copy(upper_name, ps->getName());
 				_strupr_s(upper_name);
 				pActor->RenderText(upper_name, IPos, &dup, PLAYER_NAME_COLOR);
 			}
@@ -1598,11 +1601,11 @@ bool game_cl_CaptureTheArtefact::PlayerCanSprint(CActor* pActor)
 	if (m_bBearerCantSprint)
 		return true;
 
-	u16 greenArtefactOwner = GetGreenArtefactOwnerID();
-	u16 blueArtefactOwner = GetBlueArtefactOwnerID();
+	u16 greenArtefactOwner1 = GetGreenArtefactOwnerID();
+	u16 blueArtefactOwner1 = GetBlueArtefactOwnerID();
 	u16 myID = pActor->ID();
-	if ((myID == greenArtefactOwner) ||
-		(myID == blueArtefactOwner))
+	if ((myID == greenArtefactOwner1) ||
+		(myID == blueArtefactOwner1))
 	{
 		return false;
 	}

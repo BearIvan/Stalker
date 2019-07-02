@@ -17,11 +17,9 @@
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "string_table.h"
-#include "xrGameSpy_MainDefs.h"
 #include "DemoPlay_Control.h"
 #include "account_manager_console.h"
-#include "gamespy/GameSpy_GP.h"
-
+#define GP_UNIQUENICK_LEN 4096
 EGameIDs	ParseStringToGameType	(LPCSTR str);
 LPCSTR		GameTypeToString		(EGameIDs gt, bool bShort);
 LPCSTR		AddHyphens				(LPCSTR c);
@@ -276,7 +274,7 @@ public:
 	virtual void		Execute			(LPCSTR arguments)
 	{
 		string64 cdkey;
-		if ( 0 == stricmp(arguments,"clear") )
+		if ( 0 == BearCore::BearString::CompareWithoutCase(arguments,"clear") )
 		{
 			cdkey[0] = 0;
 		}
@@ -297,12 +295,12 @@ public:
 			CCC_String::Execute( cdkey );	
 			WriteCDKey_ToRegistry( cdkey );
 
-			if ( !MainMenu()->ValidateCDKey() )
+		/*	if ( !MainMenu()->ValidateCDKey() )
 			{
 #ifdef DEBUG
 				Msg( "! Invalid CD-Key" );
 #endif // DEBUG
-			}
+			}*/
 		}
 	}//Execute
 	virtual void		Save			(IWriter *F)	{};
@@ -587,7 +585,7 @@ public:
 			return;
 		}
 		float new_speed;
-		sscanf(args, "%f", &new_speed);
+		BearCore::BearString::Scanf(args, "%f", &new_speed);
 		Level().SetDemoPlaySpeed(new_speed);
 	};
 
@@ -1212,7 +1210,7 @@ public:
 			exclude_raid_from_args(args, tmp_dest, sizeof(tmp_dest));
 			if (xr_strlen(tmp_dest))
 			{
-				sscanf_s(tmp_dest, "%s", filter_string);
+				BearCore::BearString::Scanf(tmp_dest, "%s", filter_string);
 				tmp_functor.filter_string = filter_string;
 			}
 		}
@@ -1295,7 +1293,7 @@ public:
 		exclude_raid_from_args(args, tmp_dest, sizeof(tmp_dest));
 		if (xr_strlen(tmp_dest))
 		{
-			sscanf_s(tmp_dest, "%s", filter_dest);
+			BearCore::BearString::Scanf(tmp_dest, "%s", filter_dest);
 		}
 		tmp_sv_game->PrintBanList(filter_dest);
 		Level().Server->Print_Banned_Addreses();
@@ -1377,7 +1375,7 @@ public:
 
 		//string256			GameType;	
 		//GameType[0]			=0;
-		//sscanf				(args,"%s", GameType);
+		//BearCore::BearString::Scanf				(args,"%s", GameType);
 
 		string1024			argsNew;
 		xr_sprintf				(argsNew, "%s %s %s", 
@@ -1666,7 +1664,7 @@ public:
 	{
 		u32 hours = 0, mins = 0;
 		
-		sscanf				(args,"%d:%d", &hours, &mins);
+		BearCore::BearString::Scanf				(args,"%d:%d", &hours, &mins);
 		u64 NewTime			= generate_time	(1,1,1,hours,mins,0,0);
 
 		if (!g_pGameLevel)
@@ -1765,7 +1763,7 @@ public:
 
 		string512			Team = "";
 		s32 TeamMoney		= 0;
-		sscanf				(args,"%s %i", Team, &TeamMoney);
+		BearCore::BearString::Scanf				(args,"%s %i", Team, &TeamMoney);
 
 		if (!Team[0])
 		{
@@ -1784,7 +1782,7 @@ public:
 		{
 			u32 TeamID			= 0;
 			s32 TeamStartMoney	= 0;
-			sscanf				(args,"%i %i", &TeamID, &TeamStartMoney);
+			BearCore::BearString::Scanf				(args,"%i %i", &TeamID, &TeamStartMoney);
 			TeamStruct* pTS		= pGameMP->GetTeamData(TeamID);
 			if (pTS) 
 				pTS->m_iM_Start = TeamStartMoney;
@@ -1833,7 +1831,7 @@ public:
 		{
 			string512			user;
 			string512			pass;
-			if(2==sscanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
+			if(2==BearCore::BearString::Scanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
 			{
 				NET_Packet		P;			
 				P.w_begin		(M_REMOTE_CONTROL_AUTH);
@@ -1987,7 +1985,7 @@ void register_mp_console_commands()
 	CMD3(CCC_Mask,		"net_dump_size",		&psNET_Flags,		NETFLAG_DBG_DUMPSIZE	);
 	CMD1(CCC_Dbg_NumObjects,"net_dbg_objects"				);
 #endif // DEBUG
-	CMD3(CCC_GSCDKey,	"cdkey",				gsCDKey,			sizeof(gsCDKey)			);
+	//CMD3(CCC_GSCDKey,	"cdkey",				gsCDKey,			sizeof(gsCDKey)			);
 	CMD4(CCC_Integer,	"g_eventdelay",			&g_dwEventDelay,	0,	1000);
 	CMD4(CCC_Integer,	"g_corpsenum",			(int*)&g_dwMaxCorpses,		0,	100);
 
@@ -2155,7 +2153,7 @@ void register_mp_console_commands()
 #endif
 
 	//GameSpy Presence and Messaging
-	CMD1(CCC_CreateGameSpyAccount,			"gs_create_account");
+/*	CMD1(CCC_CreateGameSpyAccount,			"gs_create_account");
 	CMD1(CCC_GapySpyListProfiles,			"gs_list_profiles");
 	CMD1(CCC_GameSpyLogin,					"gs_login");
 	CMD1(CCC_GameSpyLogout,					"gs_logout");
@@ -2163,7 +2161,7 @@ void register_mp_console_commands()
 	CMD1(CCC_GameSpyPrintProfile,			"gs_print_profile");
 	CMD1(CCC_GameSpySuggestUNicks,			"gs_suggest_unicks");
 	CMD1(CCC_GameSpyRegisterUniqueNick,		"gs_register_unique_nick");
-	CMD1(CCC_GameSpyProfile,				"gs_profile");
+	CMD1(CCC_GameSpyProfile,				"gs_profile");*/
 	CMD4(CCC_Integer,						"sv_write_update_bin",				&g_sv_write_updates_bin, 0, 1);
 	CMD4(CCC_Integer,						"sv_traffic_optimization_level",	(int*)&g_sv_traffic_optimization_level, 0, 7);
 }

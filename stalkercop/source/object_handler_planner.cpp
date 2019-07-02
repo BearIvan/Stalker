@@ -121,43 +121,43 @@ LPCSTR CObjectHandlerPlanner::action2string(const _action_id_type &id)
 			xr_strcpy	(m_temp_string,"no_items");
 	else
 		xr_strcpy	(m_temp_string,"no_items");
-	xr_strcat		(m_temp_string,":");
+	BearCore::BearString::Contact		(m_temp_string,":");
 	switch (action_state_id(id)) {
-		case ObjectHandlerSpace::eWorldOperatorShow			: {xr_strcat(m_temp_string,"Show");					break;}
-		case ObjectHandlerSpace::eWorldOperatorDoShow		: {xr_strcat(m_temp_string,"DoShow");					break;}
-		case ObjectHandlerSpace::eWorldOperatorHide			: {xr_strcat(m_temp_string,"Hide");					break;}
-		case ObjectHandlerSpace::eWorldOperatorDrop			: {xr_strcat(m_temp_string,"Drop");					break;}
-		case ObjectHandlerSpace::eWorldOperatorStrapping	: {xr_strcat(m_temp_string,"Strapping");				break;}
-		case ObjectHandlerSpace::eWorldOperatorStrapping2Idle: {xr_strcat(m_temp_string,"Strapping to idle");		break;}
-		case ObjectHandlerSpace::eWorldOperatorUnstrapping	: {xr_strcat(m_temp_string,"Unstrapping");				break;}
-		case ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle: {xr_strcat(m_temp_string,"Unstrapping to idle");	break;}
-		case ObjectHandlerSpace::eWorldOperatorStrapped		: {xr_strcat(m_temp_string,"StrappedIdle");			break;}
-		case ObjectHandlerSpace::eWorldOperatorIdle			: {xr_strcat(m_temp_string,"Idle");					break;}
-		case ObjectHandlerSpace::eWorldOperatorAim1			: {xr_strcat(m_temp_string,"Aim1");					break;}
-		case ObjectHandlerSpace::eWorldOperatorAim2			: {xr_strcat(m_temp_string,"Aim2");					break;}
-		case ObjectHandlerSpace::eWorldOperatorReload1		: {xr_strcat(m_temp_string,"Reload1");					break;}
-		case ObjectHandlerSpace::eWorldOperatorReload2		: {xr_strcat(m_temp_string,"Reload2");					break;}
-		case ObjectHandlerSpace::eWorldOperatorForceReload1	: {xr_strcat(m_temp_string,"Force Reload1");			break;}
-		case ObjectHandlerSpace::eWorldOperatorForceReload2	: {xr_strcat(m_temp_string,"Force Reload2");			break;}
-		case ObjectHandlerSpace::eWorldOperatorFire1		: {xr_strcat(m_temp_string,"Fire1");					break;}
-		case ObjectHandlerSpace::eWorldOperatorFire2		: {xr_strcat(m_temp_string,"Fire2");					break;}
-		case ObjectHandlerSpace::eWorldOperatorFireNoReload	: {xr_strcat(m_temp_string,"Fire (no reload)");		break;}
-		case ObjectHandlerSpace::eWorldOperatorAimingReady1	: {xr_strcat(m_temp_string,"AimingReady1");			break;}
-		case ObjectHandlerSpace::eWorldOperatorAimingReady2	: {xr_strcat(m_temp_string,"AimingReady2");			break;}
-		case ObjectHandlerSpace::eWorldOperatorSwitch1		: {xr_strcat(m_temp_string,"Switch1");					break;}
-		case ObjectHandlerSpace::eWorldOperatorSwitch2		: {xr_strcat(m_temp_string,"Switch2");					break;}
-		case ObjectHandlerSpace::eWorldOperatorQueueWait1	: {xr_strcat(m_temp_string,"QueueWait1");				break;}
-		case ObjectHandlerSpace::eWorldOperatorQueueWait2	: {xr_strcat(m_temp_string,"QueueWait1");				break;}
-		case ObjectHandlerSpace::eWorldOperatorThrowStart	: {xr_strcat(m_temp_string,"ThrowStart");				break;}
-		case ObjectHandlerSpace::eWorldOperatorThrowIdle	: {xr_strcat(m_temp_string,"ThrowIdle");				break;}
-		case ObjectHandlerSpace::eWorldOperatorThrow		: {xr_strcat(m_temp_string,"Throwing");				break;}
-		case ObjectHandlerSpace::eWorldOperatorThreaten		: {xr_strcat(m_temp_string,"Threaten");				break;}
-		case ObjectHandlerSpace::eWorldOperatorPrepare		: {xr_strcat(m_temp_string,"Preparing");				break;}
-		case ObjectHandlerSpace::eWorldOperatorUse			: {xr_strcat(m_temp_string,"Using");					break;}
-		case ObjectHandlerSpace::eWorldOperatorGetAmmo1		: {xr_strcat(m_temp_string,"GetAmmo1");				break;}
-		case ObjectHandlerSpace::eWorldOperatorGetAmmo2		: {xr_strcat(m_temp_string,"GetAmmo2");				break;}
-		case ObjectHandlerSpace::eWorldOperatorAimForceFull1: {xr_strcat(m_temp_string,"AimForceFull1");			break;}
-		case ObjectHandlerSpace::eWorldOperatorAimForceFull2: {xr_strcat(m_temp_string,"AimForceFull2");			break;}
+		case ObjectHandlerSpace::eWorldOperatorShow			: {BearCore::BearString::Contact(m_temp_string,"Show");					break;}
+		case ObjectHandlerSpace::eWorldOperatorDoShow		: {BearCore::BearString::Contact(m_temp_string,"DoShow");					break;}
+		case ObjectHandlerSpace::eWorldOperatorHide			: {BearCore::BearString::Contact(m_temp_string,"Hide");					break;}
+		case ObjectHandlerSpace::eWorldOperatorDrop			: {BearCore::BearString::Contact(m_temp_string,"Drop");					break;}
+		case ObjectHandlerSpace::eWorldOperatorStrapping	: {BearCore::BearString::Contact(m_temp_string,"Strapping");				break;}
+		case ObjectHandlerSpace::eWorldOperatorStrapping2Idle: {BearCore::BearString::Contact(m_temp_string,"Strapping to idle");		break;}
+		case ObjectHandlerSpace::eWorldOperatorUnstrapping	: {BearCore::BearString::Contact(m_temp_string,"Unstrapping");				break;}
+		case ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle: {BearCore::BearString::Contact(m_temp_string,"Unstrapping to idle");	break;}
+		case ObjectHandlerSpace::eWorldOperatorStrapped		: {BearCore::BearString::Contact(m_temp_string,"StrappedIdle");			break;}
+		case ObjectHandlerSpace::eWorldOperatorIdle			: {BearCore::BearString::Contact(m_temp_string,"Idle");					break;}
+		case ObjectHandlerSpace::eWorldOperatorAim1			: {BearCore::BearString::Contact(m_temp_string,"Aim1");					break;}
+		case ObjectHandlerSpace::eWorldOperatorAim2			: {BearCore::BearString::Contact(m_temp_string,"Aim2");					break;}
+		case ObjectHandlerSpace::eWorldOperatorReload1		: {BearCore::BearString::Contact(m_temp_string,"Reload1");					break;}
+		case ObjectHandlerSpace::eWorldOperatorReload2		: {BearCore::BearString::Contact(m_temp_string,"Reload2");					break;}
+		case ObjectHandlerSpace::eWorldOperatorForceReload1	: {BearCore::BearString::Contact(m_temp_string,"Force Reload1");			break;}
+		case ObjectHandlerSpace::eWorldOperatorForceReload2	: {BearCore::BearString::Contact(m_temp_string,"Force Reload2");			break;}
+		case ObjectHandlerSpace::eWorldOperatorFire1		: {BearCore::BearString::Contact(m_temp_string,"Fire1");					break;}
+		case ObjectHandlerSpace::eWorldOperatorFire2		: {BearCore::BearString::Contact(m_temp_string,"Fire2");					break;}
+		case ObjectHandlerSpace::eWorldOperatorFireNoReload	: {BearCore::BearString::Contact(m_temp_string,"Fire (no reload)");		break;}
+		case ObjectHandlerSpace::eWorldOperatorAimingReady1	: {BearCore::BearString::Contact(m_temp_string,"AimingReady1");			break;}
+		case ObjectHandlerSpace::eWorldOperatorAimingReady2	: {BearCore::BearString::Contact(m_temp_string,"AimingReady2");			break;}
+		case ObjectHandlerSpace::eWorldOperatorSwitch1		: {BearCore::BearString::Contact(m_temp_string,"Switch1");					break;}
+		case ObjectHandlerSpace::eWorldOperatorSwitch2		: {BearCore::BearString::Contact(m_temp_string,"Switch2");					break;}
+		case ObjectHandlerSpace::eWorldOperatorQueueWait1	: {BearCore::BearString::Contact(m_temp_string,"QueueWait1");				break;}
+		case ObjectHandlerSpace::eWorldOperatorQueueWait2	: {BearCore::BearString::Contact(m_temp_string,"QueueWait1");				break;}
+		case ObjectHandlerSpace::eWorldOperatorThrowStart	: {BearCore::BearString::Contact(m_temp_string,"ThrowStart");				break;}
+		case ObjectHandlerSpace::eWorldOperatorThrowIdle	: {BearCore::BearString::Contact(m_temp_string,"ThrowIdle");				break;}
+		case ObjectHandlerSpace::eWorldOperatorThrow		: {BearCore::BearString::Contact(m_temp_string,"Throwing");				break;}
+		case ObjectHandlerSpace::eWorldOperatorThreaten		: {BearCore::BearString::Contact(m_temp_string,"Threaten");				break;}
+		case ObjectHandlerSpace::eWorldOperatorPrepare		: {BearCore::BearString::Contact(m_temp_string,"Preparing");				break;}
+		case ObjectHandlerSpace::eWorldOperatorUse			: {BearCore::BearString::Contact(m_temp_string,"Using");					break;}
+		case ObjectHandlerSpace::eWorldOperatorGetAmmo1		: {BearCore::BearString::Contact(m_temp_string,"GetAmmo1");				break;}
+		case ObjectHandlerSpace::eWorldOperatorGetAmmo2		: {BearCore::BearString::Contact(m_temp_string,"GetAmmo2");				break;}
+		case ObjectHandlerSpace::eWorldOperatorAimForceFull1: {BearCore::BearString::Contact(m_temp_string,"AimForceFull1");			break;}
+		case ObjectHandlerSpace::eWorldOperatorAimForceFull2: {BearCore::BearString::Contact(m_temp_string,"AimForceFull2");			break;}
 		default												: NODEFAULT;
 	}
 	return		(S);
@@ -172,45 +172,45 @@ LPCSTR CObjectHandlerPlanner::property2string(const _condition_type &id)
 			xr_strcpy	(m_temp_string,"no_items");
 	else
 		xr_strcpy	(m_temp_string,"no_items");
-	xr_strcat		(m_temp_string,":");
+	BearCore::BearString::Contact		(m_temp_string,":");
 	switch (action_state_id(id)) {
-		case ObjectHandlerSpace::eWorldPropertyHidden			: {xr_strcat(m_temp_string,"Hidden");				break;}
-		case ObjectHandlerSpace::eWorldPropertyShown			: {xr_strcat(m_temp_string,"Shown");				break;}
-		case ObjectHandlerSpace::eWorldPropertyStrapped			: {xr_strcat(m_temp_string,"Strapped");			break;}
-		case ObjectHandlerSpace::eWorldPropertyStrapped2Idle	: {xr_strcat(m_temp_string,"Strapped to idle");	break;}
-		case ObjectHandlerSpace::eWorldPropertySwitch1			: {xr_strcat(m_temp_string,"Switch1");				break;}
-		case ObjectHandlerSpace::eWorldPropertySwitch2			: {xr_strcat(m_temp_string,"Switch2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAimed1			: {xr_strcat(m_temp_string,"Aimed1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAimed2			: {xr_strcat(m_temp_string,"Aimed2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAimForceFull1	: {xr_strcat(m_temp_string,"AimedForceFull1");		break;}
-		case ObjectHandlerSpace::eWorldPropertyAimForceFull2	: {xr_strcat(m_temp_string,"AimedForceFull2");		break;}
-		case ObjectHandlerSpace::eWorldPropertyAiming1			: {xr_strcat(m_temp_string,"Aiming1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAiming2			: {xr_strcat(m_temp_string,"Aiming2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyEmpty1			: {xr_strcat(m_temp_string,"Empty1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyEmpty2			: {xr_strcat(m_temp_string,"Empty2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyFull1			: {xr_strcat(m_temp_string,"Full1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyFull2			: {xr_strcat(m_temp_string,"Full2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyReady1			: {xr_strcat(m_temp_string,"Ready1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyReady2			: {xr_strcat(m_temp_string,"Ready2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyFiring1			: {xr_strcat(m_temp_string,"Firing1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyFiringNoReload1	: {xr_strcat(m_temp_string,"FiringNoReload1");		break;}
-		case ObjectHandlerSpace::eWorldPropertyFiring2			: {xr_strcat(m_temp_string,"Firing2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAimingReady1		: {xr_strcat(m_temp_string,"AimingReady1");		break;}
-		case ObjectHandlerSpace::eWorldPropertyAimingReady2		: {xr_strcat(m_temp_string,"AimingReady2");		break;}
-		case ObjectHandlerSpace::eWorldPropertyAmmo1			: {xr_strcat(m_temp_string,"Ammo1");				break;}
-		case ObjectHandlerSpace::eWorldPropertyAmmo2			: {xr_strcat(m_temp_string,"Ammo2");				break;}
-		case ObjectHandlerSpace::eWorldPropertyIdle				: {xr_strcat(m_temp_string,"Idle");				break;}
-		case ObjectHandlerSpace::eWorldPropertyIdleStrap		: {xr_strcat(m_temp_string,"IdleStrap");			break;}
-		case ObjectHandlerSpace::eWorldPropertyDropped			: {xr_strcat(m_temp_string,"Dropped");				break;}
-		case ObjectHandlerSpace::eWorldPropertyQueueWait1		: {xr_strcat(m_temp_string,"QueueWait1");			break;}
-		case ObjectHandlerSpace::eWorldPropertyQueueWait2		: {xr_strcat(m_temp_string,"QueueWait2");			break;}
-		case ObjectHandlerSpace::eWorldPropertyThrowStarted		: {xr_strcat(m_temp_string,"ThrowStarted");		break;}
-		case ObjectHandlerSpace::eWorldPropertyThrowIdle		: {xr_strcat(m_temp_string,"ThrowIdle");			break;}
-		case ObjectHandlerSpace::eWorldPropertyThrow			: {xr_strcat(m_temp_string,"Throwing");			break;}
-		case ObjectHandlerSpace::eWorldPropertyThreaten			: {xr_strcat(m_temp_string,"Threaten");			break;}
-		case ObjectHandlerSpace::eWorldPropertyPrepared			: {xr_strcat(m_temp_string,"Prepared");			break;}
-		case ObjectHandlerSpace::eWorldPropertyUsed				: {xr_strcat(m_temp_string,"Used");				break;}
-		case ObjectHandlerSpace::eWorldPropertyUseEnough		: {xr_strcat(m_temp_string,"UseEnough");			break;}
+		case ObjectHandlerSpace::eWorldPropertyHidden			: {BearCore::BearString::Contact(m_temp_string,"Hidden");				break;}
+		case ObjectHandlerSpace::eWorldPropertyShown			: {BearCore::BearString::Contact(m_temp_string,"Shown");				break;}
+		case ObjectHandlerSpace::eWorldPropertyStrapped			: {BearCore::BearString::Contact(m_temp_string,"Strapped");			break;}
+		case ObjectHandlerSpace::eWorldPropertyStrapped2Idle	: {BearCore::BearString::Contact(m_temp_string,"Strapped to idle");	break;}
+		case ObjectHandlerSpace::eWorldPropertySwitch1			: {BearCore::BearString::Contact(m_temp_string,"Switch1");				break;}
+		case ObjectHandlerSpace::eWorldPropertySwitch2			: {BearCore::BearString::Contact(m_temp_string,"Switch2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAimed1			: {BearCore::BearString::Contact(m_temp_string,"Aimed1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAimed2			: {BearCore::BearString::Contact(m_temp_string,"Aimed2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAimForceFull1	: {BearCore::BearString::Contact(m_temp_string,"AimedForceFull1");		break;}
+		case ObjectHandlerSpace::eWorldPropertyAimForceFull2	: {BearCore::BearString::Contact(m_temp_string,"AimedForceFull2");		break;}
+		case ObjectHandlerSpace::eWorldPropertyAiming1			: {BearCore::BearString::Contact(m_temp_string,"Aiming1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAiming2			: {BearCore::BearString::Contact(m_temp_string,"Aiming2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyEmpty1			: {BearCore::BearString::Contact(m_temp_string,"Empty1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyEmpty2			: {BearCore::BearString::Contact(m_temp_string,"Empty2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyFull1			: {BearCore::BearString::Contact(m_temp_string,"Full1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyFull2			: {BearCore::BearString::Contact(m_temp_string,"Full2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyReady1			: {BearCore::BearString::Contact(m_temp_string,"Ready1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyReady2			: {BearCore::BearString::Contact(m_temp_string,"Ready2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyFiring1			: {BearCore::BearString::Contact(m_temp_string,"Firing1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyFiringNoReload1	: {BearCore::BearString::Contact(m_temp_string,"FiringNoReload1");		break;}
+		case ObjectHandlerSpace::eWorldPropertyFiring2			: {BearCore::BearString::Contact(m_temp_string,"Firing2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAimingReady1		: {BearCore::BearString::Contact(m_temp_string,"AimingReady1");		break;}
+		case ObjectHandlerSpace::eWorldPropertyAimingReady2		: {BearCore::BearString::Contact(m_temp_string,"AimingReady2");		break;}
+		case ObjectHandlerSpace::eWorldPropertyAmmo1			: {BearCore::BearString::Contact(m_temp_string,"Ammo1");				break;}
+		case ObjectHandlerSpace::eWorldPropertyAmmo2			: {BearCore::BearString::Contact(m_temp_string,"Ammo2");				break;}
+		case ObjectHandlerSpace::eWorldPropertyIdle				: {BearCore::BearString::Contact(m_temp_string,"Idle");				break;}
+		case ObjectHandlerSpace::eWorldPropertyIdleStrap		: {BearCore::BearString::Contact(m_temp_string,"IdleStrap");			break;}
+		case ObjectHandlerSpace::eWorldPropertyDropped			: {BearCore::BearString::Contact(m_temp_string,"Dropped");				break;}
+		case ObjectHandlerSpace::eWorldPropertyQueueWait1		: {BearCore::BearString::Contact(m_temp_string,"QueueWait1");			break;}
+		case ObjectHandlerSpace::eWorldPropertyQueueWait2		: {BearCore::BearString::Contact(m_temp_string,"QueueWait2");			break;}
+		case ObjectHandlerSpace::eWorldPropertyThrowStarted		: {BearCore::BearString::Contact(m_temp_string,"ThrowStarted");		break;}
+		case ObjectHandlerSpace::eWorldPropertyThrowIdle		: {BearCore::BearString::Contact(m_temp_string,"ThrowIdle");			break;}
+		case ObjectHandlerSpace::eWorldPropertyThrow			: {BearCore::BearString::Contact(m_temp_string,"Throwing");			break;}
+		case ObjectHandlerSpace::eWorldPropertyThreaten			: {BearCore::BearString::Contact(m_temp_string,"Threaten");			break;}
+		case ObjectHandlerSpace::eWorldPropertyPrepared			: {BearCore::BearString::Contact(m_temp_string,"Prepared");			break;}
+		case ObjectHandlerSpace::eWorldPropertyUsed				: {BearCore::BearString::Contact(m_temp_string,"Used");				break;}
+		case ObjectHandlerSpace::eWorldPropertyUseEnough		: {BearCore::BearString::Contact(m_temp_string,"UseEnough");			break;}
 		case ObjectHandlerSpace::eWorldPropertyItemID			: {m_temp_string[xr_strlen(m_temp_string) - 1] = 0;			break;}
 		default													: NODEFAULT;
 	}

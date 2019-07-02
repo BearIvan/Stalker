@@ -21,7 +21,7 @@ LPCSTR CSavedGameWrapper::saved_game_full_name	(LPCSTR saved_game_name, string_p
 {
 	string_path					temp;
 	strconcat(sizeof(temp), temp, saved_game_name, SAVE_EXTENSION);
-	xr_strcpy(result, temp);
+	BearCore::BearString::Copy(result, temp);
 	return						(result);
 }
 

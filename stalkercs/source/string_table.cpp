@@ -37,7 +37,7 @@ void CStringTable::Init		()
 	BearCore::BearVector<BearCore::BearString>			fset;
 
 	string_path			files_mask;
-	sprintf(files_mask, "text\\%s\\*.xml", pData->m_sLanguage.c_str());
+	BearCore::BearString::Printf(files_mask, "text\\%s\\*.xml", pData->m_sLanguage.c_str());
 	FS.GetFiles(fset, "%config%", files_mask, true);
 
 	auto fit	= fset.begin();
@@ -45,11 +45,9 @@ void CStringTable::Init		()
 
 	for( ;fit!=fit_e; ++fit)
 	{
-    	string_path		fn, ext;
-        _splitpath		((**fit), 0, 0, fn, ext);
-		strcat			(fn, ext);
+		auto name1=BearCore::BearFileManager::GetFileNameAndExtension(**fit);
 
-		Load			(fn);
+		Load			(*name1);
 	}
 #ifdef DEBUG
 	Msg("StringTable: loaded %d files", fset.size());
@@ -124,7 +122,7 @@ STRING_VALUE CStringTable::ParseLine(LPCSTR str, LPCSTR skey, bool bFirst)
 
 		int len				= (int)(e-b-LEN);
 
-		strncpy				(srcbuff,b+LEN, len);
+		BearCore::BearString::CopyWithSizeLimit(srcbuff,b+LEN, len);
 		srcbuff[len]		= 0;
 		GetActionAllBinding	(srcbuff, buff, sizeof(buff) );
 		res.append			(buff, xr_strlen(buff) );

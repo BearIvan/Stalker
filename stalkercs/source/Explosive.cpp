@@ -115,7 +115,7 @@ void CExplosive::Load(const CInifile *ini,LPCSTR section)
 
 	m_sExplodeParticles = ini->r_string(section,"explode_particles");
 
-	sscanf				(ini->r_string(section,"light_color"), "%f,%f,%f", &m_LightColor.r, &m_LightColor.g, &m_LightColor.b);
+	BearCore::BearString::Scanf				(ini->r_string(section,"light_color"), "%f,%f,%f", &m_LightColor.r, &m_LightColor.g, &m_LightColor.b);
 	m_fLightRange		= ini->r_float(section,"light_range");
 	m_fLightTime		= ini->r_float(section,"light_time");
 

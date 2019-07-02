@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <dinput.h>
+
 #include "Actor.h"
 #include "Torch.h"
 #include "trade.h"

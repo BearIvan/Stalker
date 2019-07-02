@@ -14,19 +14,6 @@
 #include "PHCollideValidator.h"
 #include "engine/bone.h"
 #define smart_cast dynamic_cast
-//#include "game_object_space.h"
-//#pragma warning(disable:4995)
-//#pragma warning(disable:4267)
-//#include "../../libraries/ode/collision_kernel.h"
-//#pragma warning(default:4995)
-//#pragma warning(default:4267)
-///////////////////////////////////////////////////////////////
-///#pragma warning(disable:4995)
-
-//#include "../../libraries/ode/joint.h"
-//#include "../../libraries/ode/objects.h"
-
-//#pragma warning(default:4995)
 ///////////////////////////////////////////////////////////////////
 
 #include "ExtendedGeom.h"
@@ -936,7 +923,7 @@ void CPHShell::AddElementRecursive(CPhysicsElement* root_e, u16 id,Fmatrix globa
         Log("end-------");
     }
 
-    DEBUGFATALERROR12(bbb,dbg_obj->ObjectNameVisual(),"has breaking parts with no vertexes or size less than 1mm");//
+    VERIFY3(bbb,dbg_obj->ObjectNameVisual(),"has breaking parts with no vertexes or size less than 1mm");//
 #endif
     
 }

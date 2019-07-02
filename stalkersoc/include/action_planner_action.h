@@ -54,6 +54,7 @@ public:
 typedef CActionPlannerAction<CScriptGameObject> CScriptActionPlannerAction;
 add_to_type_list(CScriptActionPlannerAction)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CScriptActionPlannerAction)
 
 #include "action_planner_action_inline.h"

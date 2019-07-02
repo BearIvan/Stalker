@@ -148,7 +148,6 @@ bool CALifeStorageManager::load	(LPCSTR save_name_no_check)
 	BearCore::BearStringPath save_name;
 	if (/*FS.ExistFile(TEXT("%saves%"), save_name_no_check, SAVE_EXTENSION)*/false)
 	{
-		int i = 0;
 		do
 		{
 			BearCore::BearString::Copy(save_name, save_name_no_check);

@@ -23,17 +23,14 @@ void CSE_ALifeObject::spawn_supplies		(LPCSTR ini_string)
 
 	if (!xr_strlen(ini_string))
 		return;
-
-#pragma warning(push)
-#pragma warning(disable:4238)
+	IReader red(
+		(void*)(ini_string),
+		xr_strlen(ini_string)
+	);
 	CInifile					ini(
-		&IReader				(
-			(void*)(ini_string),
-			xr_strlen(ini_string)
-		),
+		&red,
 		TEXT("%config%"),""
 	);
-#pragma warning(pop)
 
 	if (ini.section_exist("spawn")) {
 		LPCSTR					N,V;

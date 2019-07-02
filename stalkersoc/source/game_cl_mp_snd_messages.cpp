@@ -9,7 +9,7 @@ void	game_cl_mp::LoadSndMessage			(LPCSTR caSection, LPCSTR caLine, u32 ID)
 	if (!pSettings->line_exist(caSection, caLine)) return;
 
 	string4096			Line;
-	std::strcpy(Line, pSettings->r_string(caSection, caLine));
+	BearCore::BearString::Copy(Line, pSettings->r_string(caSection, caLine));
 	u32 count	= XrTrims::GetItemCount(Line);
 	if (count < 2) return;
 	string4096 Name, Prior;
@@ -47,7 +47,7 @@ void	game_cl_mp::PlaySndMessage			(u32 ID)
 		{
 			if (Level().timeServer_Async()>pSndMsgIP->LastStarted + pSndMsgIP->pSound.get_length_sec()*1000.f) continue;
 
-			u32 Delay = pSndMsgIP->LastStarted + pSndMsgIP->pSound.get_length_sec()*1000.f - Level().timeServer_Async();
+			u32 Delay = pSndMsgIP->LastStarted +static_cast<u32>(pSndMsgIP->pSound.get_length_sec()*1000.f) - Level().timeServer_Async();
 			if (Delay > MaxDelay)
 			{
 				MaxDelay = Delay;

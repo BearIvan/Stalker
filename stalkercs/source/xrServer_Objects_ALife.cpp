@@ -29,11 +29,8 @@
 #ifdef XRSE_FACTORY_EXPORTS
 #	include "ai_space.h"
 #	include "script_engine.h"
-#	pragma warning(push)
-#	pragma warning(disable:4995)
 #		include <luabind/luabind.hpp>
 #		include <shlwapi.h>
-#	pragma warning(pop)
 
 #pragma comment(lib, "shlwapi.lib")
 
@@ -331,7 +328,7 @@ BOOL is_combat_cover			(shared_str const &table_id)
 		return					(FALSE);
 
 	string256					temp;
-	strcpy_s					(temp, "smart_covers.descriptions.");
+	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, *table_id);
 
 	luabind::object				table, value;
@@ -568,7 +565,7 @@ void CSE_SmartCover::set_enterable (shared_str const &id)
 void CSE_SmartCover::check_enterable_loopholes(shared_str const &description)
 {
 	string256					temp;
-	strcpy_s					(temp, "smart_covers.descriptions.");
+	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, m_description.c_str());
 	strcat_s					(temp, ".transitions");
 
@@ -709,7 +706,7 @@ shared_str animation_id(luabind::object table)
 
 void CSE_SmartCover::load_draw_data () {
 	string256					temp;
-	strcpy_s					(temp, "smart_covers.descriptions.");
+	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, m_description.c_str());
 	strcat_s					(temp, ".loopholes");
 	

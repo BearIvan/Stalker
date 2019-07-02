@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "configs_dump_verifyer.h"
-#include "configs_common.h"
 #include "configs_dumper.h"
 
 namespace mp_anticheat
 {
 
-dump_verifyer::dump_verifyer() :
-	xr_dsa_verifyer(p_number, q_number, g_number, public_key)
-{
-}
 
-dump_verifyer::~dump_verifyer()
-{
-}
 
 configs_verifyer::configs_verifyer()
 {
@@ -83,15 +75,14 @@ bool const configs_verifyer::verify_dsign(u8* data,
 	strcat_s		(dst_buffer, dst_size, add_str);
 	src_data_size	+= xr_strlen(dst_buffer) + 1; //zero ending
 
-	bool ret		= m_verifyer.verify(data, src_data_size, tmp_dsign);
-	if (!ret)
+
 		return false;
 
-	CopyMemory		(
+	/*CopyMemory		(
 		sha_checksum,
 		m_verifyer.get_sha_checksum(),
 		sizeof(sha_checksum));
-
+*/
 	return true;
 }
 
@@ -184,7 +175,7 @@ LPCSTR configs_verifyer::get_diff(CInifile & received,
 			return diff_str;
 		}
 	}
-	strcpy_s(dst_diff, "unknown diff or currepted config dump");
+	BearCore::BearString::Copy(dst_diff, "unknown diff or currepted config dump");
 	return dst_diff;
 }
 
@@ -214,7 +205,7 @@ bool const configs_verifyer::verify(u8* data, u32 data_size, string256 & diff)
 		!tmp_ini.line_exist(cd_info_secion, cd_creation_date) ||
 		!tmp_ini.line_exist(cd_info_secion, cd_digital_sign_key))
 	{
-		strcpy_s(diff, "invalid dump");
+		BearCore::BearString::Copy(diff, "invalid dump");
 		return false;
 	}
 
@@ -225,7 +216,8 @@ bool const configs_verifyer::verify(u8* data, u32 data_size, string256 & diff)
 		tmp_ini.r_string(cd_info_secion, cd_creation_date));
 
 	m_orig_config_body.w_stringZ(add_str);
-	
+	return  false;
+	/*
 	crypto::xr_sha256	tmp_sha_checksum;
 	tmp_sha_checksum.start_calculate(
 		m_orig_config_body.pointer(),
@@ -235,7 +227,7 @@ bool const configs_verifyer::verify(u8* data, u32 data_size, string256 & diff)
 	u8	tmp_checksum[crypto::xr_sha256::digest_length];
 	if (!verify_dsign(data, data_size, tmp_checksum))
 	{
-		strcpy_s(diff, "invalid digital sign");
+		BearCore::BearString::Copy(diff, "invalid digital sign");
 		return false;
 	}
 
@@ -243,7 +235,7 @@ bool const configs_verifyer::verify(u8* data, u32 data_size, string256 & diff)
 	{
 		get_diff(tmp_ini, tmp_active_params, diff);
 		return false;
-	}
+	}*/
 	return true;
 }
 

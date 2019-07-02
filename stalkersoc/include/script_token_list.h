@@ -66,6 +66,7 @@ public:
 };
 add_to_type_list(CScriptTokenList)
 #undef script_type_list
+#undef script_type_list
 #define script_type_list save_type_list(CScriptTokenList)
 
 #include "script_token_list_inline.h"

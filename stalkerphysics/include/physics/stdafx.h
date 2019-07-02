@@ -2,13 +2,12 @@
 #pragma once
 
 #define	MTL_EXPORT_API
-#define ENGINE_API
 #define DLL_API		
 #define ECORE_API
 //#include "engine/stdafx.h"
 
 #include "tools/xrCore.h"
-
+#include "engine/EngineAPI.h"
 //#include "../StalkerServerEntities16/smart_cast.h"
 //#include "engine/pure.h"
 //#include "engine/engineapi.h"

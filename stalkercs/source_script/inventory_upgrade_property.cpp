@@ -68,7 +68,7 @@ bool Property::run_functor( LPCSTR parameter, string256& result )
 	{
 		return false;
 	}
-	strcpy_s( result, sizeof(result), functor_res );
+	BearCore::BearString::Copy( result, sizeof(result), functor_res );
 	return true;
 }
 

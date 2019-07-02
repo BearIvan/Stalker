@@ -173,14 +173,14 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 		string1024				f_name;
 		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			sscanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			sscanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
+			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;
@@ -323,7 +323,7 @@ int	CLevel::get_RPID(LPCSTR /**name/**/)
 	// Read data
 	Fvector4	pos;
 	int			team;
-	sscanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
+	BearCore::BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
 
 	// Search respawn point
 	svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
@@ -712,10 +712,10 @@ void CLevel::OnRender()
 	if (psAI_Flags.is(aiVision)) {
 		for (u32 I=0; I < Level().Objects.o_count(); I++) {
 			CObject						*object = Objects.o_get_by_iterator(I);
-			CAI_Stalker					*stalker = smart_cast<CAI_Stalker*>(object);
-			if (!stalker)
+			CAI_Stalker					*stalker1 = smart_cast<CAI_Stalker*>(object);
+			if (!stalker1)
 				continue;
-			stalker->dbg_draw_vision	();
+			stalker1->dbg_draw_vision	();
 		}
 	}
 
@@ -723,11 +723,11 @@ void CLevel::OnRender()
 	if (psAI_Flags.test(aiDrawVisibilityRays)) {
 		for (u32 I=0; I < Level().Objects.o_count(); I++) {
 			CObject						*object = Objects.o_get_by_iterator(I);
-			CAI_Stalker					*stalker = smart_cast<CAI_Stalker*>(object);
-			if (!stalker)
+			CAI_Stalker					*stalker1 = smart_cast<CAI_Stalker*>(object);
+			if (!stalker1)
 				continue;
 
-			stalker->dbg_draw_visibility_rays	();
+			stalker1->dbg_draw_visibility_rays	();
 		}
 	}
 #endif
@@ -737,21 +737,21 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
 {
 	if (E==eEntitySpawn)	{
 		char	Name[128];	Name[0]=0;
-		sscanf	(LPCSTR(P1),"%s", Name);
+		BearCore::BearString::Scanf	(LPCSTR(P1),"%s", Name);
 		Level().g_cl_Spawn	(Name,0xff, M_SPAWN_OBJECT_LOCAL, Fvector().set(0,0,0));
 	} else if (E==eChangeRP && P1) {
 	} else if (E==eDemoPlay && P1) {
 		char* name = (char*)P1;
 		string_path RealName;
 		strcpy_s		(RealName,name);
-		strcat			(RealName,".xrdemo");
+		BearCore::BearString::Contact			(RealName,".xrdemo");
 		Cameras().AddCamEffector(xr_new<CDemoPlay> (RealName,1.3f,0));
 	} else if (E==eChangeTrack && P1) {
 		// int id = atoi((char*)P1);
 		// Environment->Music_Play(id);
 	} else if (E==eEnvironment) {
 		// int id=0; float s=1;
-		// sscanf((char*)P1,"%d,%f",&id,&s);
+		// BearCore::BearString::Scanf((char*)P1,"%d,%f",&id,&s);
 		// Environment->set_EnvMode(id,s);
 	} else return;
 }

@@ -1,10 +1,6 @@
 #pragma once
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
-
 template<typename _Object>
 class CStateGroupDrag : public CState<_Object> {
 	typedef CState<_Object>		inherited;
@@ -23,7 +19,7 @@ public:
 	virtual	void		execute					();
 	virtual void		finalize				();
 	virtual void		critical_finalize		();
-	virtual void		remove_links			(CObject* object) { inherited::remove_links(object);}
+	virtual void		remove_links			(CObject* object1) { inherited::remove_links(object1);}
 
 	virtual bool		check_completion		();
 };

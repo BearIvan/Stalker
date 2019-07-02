@@ -102,7 +102,6 @@ void	CIKLimbsController::LimbSetup(  const u16 bones[4] )
 
 void	CIKLimbsController::LimbCalculate( SCalculateData &cd )
 {
-	IKinematicsAnimated *skeleton_animated = m_object->Visual()->dcast_PKinematicsAnimated();
 	cd.do_collide	= m_legs_blend && !cd.m_K->dcast_PKinematicsAnimated()->LL_GetMotionDef( m_legs_blend->motionID )->marks.empty() ;//m_legs_blend->;
 	cd.m_limb.Calculate(cd);
 }

@@ -490,13 +490,13 @@ void CAI_Stalker::debug_text			()
 	if (inventory().ActiveItem()) {
 		DBG_OutText	("%s%sactive item",indent,indent);
 		DBG_OutText	("%s%s%sobject         : %s",indent,indent,indent,inventory().ActiveItem() ? *inventory().ActiveItem()->object().cName() : "");
-		CWeapon	*weapon = smart_cast<CWeapon*>(inventory().ActiveItem());
-		if (weapon) {
-			DBG_OutText("%s%s%sstrapped       : %s",indent,indent,indent,weapon_strapped(weapon) ? "+" : "-");
-			DBG_OutText("%s%s%sunstrapped     : %s",indent,indent,indent,weapon_unstrapped(weapon) ? "+" : "-");
-			DBG_OutText("%s%s%sammo           : %d",indent,indent,indent,weapon->GetAmmoElapsed());
-			DBG_OutText("%s%s%smagazine       : %d",indent,indent,indent,weapon->GetAmmoMagSize());
-			DBG_OutText("%s%s%stotal ammo     : %d",indent,indent,indent,weapon->GetSuitableAmmoTotal());
+		CWeapon	*weapon1 = smart_cast<CWeapon*>(inventory().ActiveItem());
+		if (weapon1) {
+			DBG_OutText("%s%s%sstrapped       : %s",indent,indent,indent,weapon_strapped(weapon1) ? "+" : "-");
+			DBG_OutText("%s%s%sunstrapped     : %s",indent,indent,indent,weapon_unstrapped(weapon1) ? "+" : "-");
+			DBG_OutText("%s%s%sammo           : %d",indent,indent,indent,weapon1->GetAmmoElapsed());
+			DBG_OutText("%s%s%smagazine       : %d",indent,indent,indent,weapon1->GetAmmoMagSize());
+			DBG_OutText("%s%s%stotal ammo     : %d",indent,indent,indent,weapon1->GetSuitableAmmoTotal());
 		}
 	}
 
@@ -1097,8 +1097,8 @@ void CAI_Stalker::dbg_draw_visibility_rays	()
 	const CEntityAlive		*enemy = memory().enemy().selected() ? memory().enemy().selected() : Actor();
 	if (enemy) {
 		if (memory().visual().visible_now(enemy)) {
-			collide::rq_results	rq_storage;
-			draw_visiblity_rays	(this,enemy,rq_storage);
+			collide::rq_results	rq_storage1;
+			draw_visiblity_rays	(this,enemy,rq_storage1);
 		}
 	}
 }
@@ -1109,190 +1109,6 @@ xr_vector<Fmatrix>						g_stalker_skeleton;
 
 static Fvector s_spine_bone;
 
-static Fmatrix aim_on_actor		(
-		Fvector const& bone_position,
-		Fvector const& weapon_position,
-		Fvector const& weapon_direction,
-		Fvector const& target,
-		bool const& debug_draw
-	)
-{
-	VERIFY								( XrMath::fsimilar(1.f, weapon_direction.square_magnitude()) );
-
-#ifdef DEBUG_RENDER
-	CDebugRenderer&						renderer = Level().debug_renderer();
-	Fmatrix								temp;
-	
-	if (debug_draw)
-	{
-		temp.scale						(.01f, .01f, .01f);
-		temp.c							= bone_position;
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(255, 0, 0));
-
-		temp.c							= weapon_position;
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(0, 255, 0));
-		Fvector const weapon_position_target= Fvector().mad(weapon_position, weapon_direction, weapon_position.distance_to(target));
-		renderer.draw_line				(Fidentity, weapon_position, weapon_position_target, D3DCOLOR_XRGB(255, 0, 255));
-	}
-#endif // #ifdef DEBUG_RENDER
-
-	Fvector	const weapon2bone			= Fvector().sub(bone_position, weapon_position);
-	float const offset					= weapon2bone.dotproduct(weapon_direction);
-	Fvector current_point				= Fvector().mad(weapon_position, weapon_direction, offset);
-
-#ifdef DEBUG_RENDER
-	if (debug_draw)
-	{
-		temp.c							= current_point;
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(0, 0, 255));
-	}
-#endif // #ifdef DEBUG_RENDER
-
-	Fvector const bone2current			= Fvector().sub(current_point, bone_position);
-	float const sphere_radius_sqr		= bone2current.square_magnitude();
-	Fvector direction_target			= Fvector().sub(target, bone_position);
-	VERIFY								(direction_target.magnitude() > XrMath::EPS_L);
-	float const invert_magnitude		= 1.f/direction_target.magnitude();
-	direction_target.mul				(invert_magnitude);
-	float const to_circle_center		= sphere_radius_sqr*invert_magnitude;
-	Fvector const circle_center			= Fvector().mad(bone_position, direction_target, to_circle_center);
-
-	Fplane plane						= Fplane().build(circle_center, direction_target);
-	Fvector								projection;
-	plane.project						(projection, current_point);
-
-	Fvector const center2projection_direction	= Fvector().sub(projection, circle_center).normalize();
-	float const circle_radius_sqr		= sphere_radius_sqr - XrMath::sqr(to_circle_center);
-	VERIFY								(circle_radius_sqr >= 0.f);
-	float const circle_radius			= XrMath::sqrt(circle_radius_sqr);
-	Fvector const target_point			= Fvector().mad(circle_center, center2projection_direction, circle_radius);
-	Fvector const current_direction		= Fvector().sub(current_point, bone_position).normalize();
-	Fvector const target_direction		= Fvector().sub(target_point,  bone_position).normalize();
-
-#ifdef DEBUG_RENDER
-	if (debug_draw)
-	{
-		temp.c							= target_point;
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(255, 255, 255));
-
-		float const sphere_radius		= XrMath::sqrt(sphere_radius_sqr);
-		temp.scale						(sphere_radius, sphere_radius, sphere_radius);
-		temp.c							= bone_position;
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(255, 255, 0));
-	}
-#endif // #ifdef DEBUG_RENDER
-
-	Fmatrix								transform0;
-	{
-		Fvector							cross_product = Fvector().crossproduct(current_direction, target_direction);
-		float const sin_alpha			= cross_product.magnitude();
-		if (!XrMath::fis_zero(sin_alpha)) {
-			float const cos_alpha		= current_direction.dotproduct(target_direction);
-			transform0.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
-		}
-		else {
-			float const dot_product		= current_direction.dotproduct(target_direction);
-			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
-				transform0.identity		();
-			else {
-				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
-				cross_product.crossproduct	(current_direction, direction_target);
-				transform0.rotation		(cross_product.normalize(), dot_product > 0.f ? 0.f : XrMath::M_PI);
-			}
-		}
-	}
-
-	Fmatrix								transform1;
-	{
-		Fvector const new_direction		= Fvector().sub(target, target_point).normalize();
-		Fvector old_direction;
-		transform0.transform_dir		(old_direction, weapon_direction);
-		Fvector 						cross_product = Fvector().crossproduct(old_direction, new_direction);
-		float const sin_alpha			= cross_product.magnitude();
-		if (!XrMath::fis_zero(sin_alpha)) {
-			float const cos_alpha		= old_direction.dotproduct(new_direction);
-			transform1.rotation			(cross_product.div(sin_alpha), atan2f(sin_alpha, cos_alpha));
-		}
-		else {
-			float const dot_product		= current_direction.dotproduct(target_direction);
-			if (XrMath::fsimilar(XrMath::abs(dot_product), 0.f))
-				transform1.identity		();
-			else {
-				VERIFY					(XrMath::fsimilar(XrMath::abs(dot_product), 1.f));
-				transform1.rotation		(target_direction, dot_product > 0.f ? 0.f : XrMath::M_PI);
-			}
-		}
-	}
-
-	Fmatrix								transform;
-	transform.mul_43					(transform1, transform0);
-
-#ifdef DEBUG_RENDER
-	if (debug_draw)
-	{
-		temp.scale						(.01f, .01f, .01f);
-		transform.transform_dir			(temp.c, Fvector().sub(weapon_position, bone_position));
-		temp.c.add						(bone_position);
-		renderer.draw_ellipse			(temp, D3DCOLOR_XRGB(0, 255, 255));
-	}
-#endif // #ifdef DEBUG_RENDER
-
-	return								(transform);
-}
-
-static void fill_bones				(CAI_Stalker& self, Fmatrix const& transform, IKinematicsAnimated* kinematics_animated, LPCSTR animation_id, bool const local)
-{
-	IKinematics*						kinematics = smart_cast<IKinematics*>(kinematics_animated);
-	u16									bone_count = kinematics->LL_BoneCount();
-	MotionID							animation = kinematics_animated->LL_MotionID(animation_id);
-	VERIFY								(animation.valid());
-
-	u16 const root_bone_id				= kinematics->LL_GetBoneRoot();
-	CBoneInstance& root_bone			= kinematics->LL_GetBoneInstance(root_bone_id);
-	BoneCallback callback				= root_bone.callback();
-	void* callback_params				= root_bone.callback_param();
-	root_bone.set_callback				( bctCustom, 0, 0 );
-
-	for (u16 i=0; i<MAX_PARTS; ++i) {
-#if 0
-		CBlend* const blend				= kinematics_animated->LL_PlayCycle(i, animation, 0, 0, 0, 1);
-		if (blend)
-			blend->timeCurrent			= 0.f;//blend->timeTotal - (SAMPLE_SPF + XrMath::EPS);
-#else // #if 0
-		u32 const blend_count			= kinematics_animated->LL_PartBlendsCount(i);
-		for (u32 j=0; j<blend_count; ++j) {
-			CBlend* const blend			= kinematics_animated->LL_PartBlend(i, j);
-			CBlend* const new_blend		= kinematics_animated->LL_PlayCycle( i, blend->motionID, TRUE, 0, 0, 1 );
-			VERIFY						(new_blend);
-			*new_blend					= *blend;
-			new_blend->channel			= 1;
-		}
-#endif // #if 0
-	}
-
-	animation_movement_controller const*controller = self.animation_movement();
-	Fmatrix								start_transform;
-	if (!controller)
-		start_transform					= self.XFORM();
-	else
-		start_transform					= controller->start_transform();
-
-	u32									buffer_size = u32(bone_count)*sizeof(Fmatrix);
-	Fmatrix*							buffer = (Fmatrix*)_alloca(buffer_size);
-	buffer_vector<Fmatrix>				bones(buffer, bone_count);
-	for (u16 i = 0; i<bone_count; ++i) {
-		Fmatrix							matrix;
-		kinematics->Bone_GetAnimPos		(matrix, i,	1 << 1, false);
-		bones.push_back					(local ? matrix : Fmatrix().mul_43(start_transform, matrix));
-	}
-
-	for (u16 i=0; i<MAX_PARTS; ++i)
-		kinematics_animated->LL_CloseCycle		(i, 1 << 1);
-
-	root_bone.set_callback				( bctCustom, callback, callback_params );
-
-	g_stalker_skeleton.assign			(bones.begin(), bones.end());
-}
 
 struct callback_param {
 	Fmatrix			transform;
@@ -1301,329 +1117,11 @@ struct callback_param {
 	u16				bone_id;
 };
 
-static void	_BCL test_callback			(CBoneInstance *B)
-{
-	VERIFY								(B);
-
-	callback_param*						params = static_cast<callback_param*>(B->callback_param());
-	VERIFY								(params);
-
-	Fvector const position				= B->mTransform.c;
-	B->mTransform.mulA_43				(params->transform);
-	B->mTransform.c						= position;
-}
 
 #ifdef DEBUG_RENDER
-static void draw_bones				(
-		IKinematics& kinematics,
-		Fvector const& box_size,
-		u32 const& box_color,
-		u32 const& line_color,
-		Fmatrix const* const transform = 0
-	)
-{
-	CDebugRenderer&						renderer = Level().debug_renderer();
-	u16 const							bone_count = kinematics.LL_BoneCount();
-	Fmatrix								temp, temp2;
-	for (u16 i = 0; i<bone_count; ++i) {
-		if (transform)
-			temp.mul_43					(*transform, g_stalker_skeleton[i]);
-		else
-			temp						= g_stalker_skeleton[i];
 
-		renderer.draw_obb				(
-			temp,
-			box_size,
-			box_color
-		);
-
-		CBoneData&						bone_data = kinematics.LL_GetData(i);
-		u16								parent_bone_id = bone_data.GetParentID();
-		if (parent_bone_id == BI_NONE)
-			continue;
-
-		if (transform)
-			temp2.mul_43				(*transform, g_stalker_skeleton[parent_bone_id]);
-		else
-			temp2						= g_stalker_skeleton[parent_bone_id];
-
-		renderer.draw_line				(
-			Fidentity,
-			temp2.c,
-			temp.c,
-			line_color
-		);
-	}
-}
 #endif // #ifdef DEBUG_RENDER
 
-static void draw_animation_bones	(CAI_Stalker& self, Fmatrix const& transform, IKinematicsAnimated* kinematics_animated, LPCSTR animation_id)
-{
-	IKinematics* kinematics				= smart_cast<IKinematics*>(kinematics_animated);
-
-	u16									spine_bone_id = 
-		(u16)kinematics->LL_BoneID(
-			pSettings->r_string(self.cNameSect().c_str(),"bone_spin")
-		);
-	u16									shoulder_bone_id = 
-		(u16)kinematics->LL_BoneID(
-			pSettings->r_string(self.cNameSect().c_str(),"bone_shoulder")
-		);
-	u16									weapon_bone_id0 = 
-		(u16)kinematics->LL_BoneID(
-			pSettings->r_string(self.cNameSect().c_str(),"weapon_bone0")
-		);
-	u16									weapon_bone_id1 = 
-		(u16)kinematics->LL_BoneID(
-			pSettings->r_string(self.cNameSect().c_str(),"weapon_bone2")
-		);
-
-	fill_bones						(self, transform, kinematics_animated, animation_id, true);
-
-	Fmatrix mL						= g_stalker_skeleton[weapon_bone_id1];
-	Fmatrix mR						= g_stalker_skeleton[weapon_bone_id0];
-
-	Fvector							D;
-	D.sub							(mL.c,mR.c);	
-	D.normalize						();
-
-	bool forward_blend_callbacks	= self.animation().forward_blend_callbacks();
-	bool backward_blend_callbacks	= self.animation().backward_blend_callbacks();
-
-	self.animation().remove_bone_callbacks	();
-
-#if 0
-	Fmatrix								player_head;
-	IKinematics* actor_kinematics		= smart_cast<IKinematics*>(Actor()->Visual());
-	actor_kinematics->Bone_GetAnimPos	(player_head, actor_kinematics->LL_BoneID("bip01_head"), 1, false);
-	player_head.mulA_43					(Actor()->XFORM());
-	Fvector								target = player_head.c;
-#else // #if 0
-	Fvector								target = self.sight().aiming_position();
-#endif // #if 0
-
-	Fmatrix								spine_offset;
-	Fmatrix								shoulder_offset;
-
-	fill_bones							(self, transform, kinematics_animated, animation_id, true);
-
-#ifdef DEBUG_RENDER
-//	self.setVisible						(FALSE);
-
-	draw_bones							(
-		*kinematics,
-		Fvector().set(.011f, .011f, .011f),
-		D3DCOLOR_XRGB(0, 255, 0),
-		D3DCOLOR_XRGB(0, 255, 255),
-		&transform
-	);
-#endif // #ifdef DEBUG_RENDER
-
-	Fmatrix							weapon_bone_0;
-
-	Fmatrix							spine_bone;
-	spine_bone.mul_43				(transform, g_stalker_skeleton[spine_bone_id]);
-
-	CWeapon* weapon					= smart_cast<CWeapon*>(self.best_weapon());
-	VERIFY							(weapon);
-	
-	Fvector							pos,ypr;
-	pos								= pSettings->r_fvector3		(weapon->cNameSect(),"position");
-	ypr								= pSettings->r_fvector3		(weapon->cNameSect(),"orientation");
-	ypr.mul							(XrMath::M_PI/180.f);
-
-	Fmatrix							offset;
-	offset.setHPB					(ypr.x,ypr.y,ypr.z);
-	offset.translate_over			(pos);
-
-	mL								= g_stalker_skeleton[weapon_bone_id1];
-	mR								= g_stalker_skeleton[weapon_bone_id0];
-
-	Fmatrix							mRes;
-	Fvector							R,N;
-	D.sub							(mL.c,mR.c);	
-	D.normalize						();
-	R.crossproduct					(mR.j,D);
-
-	N.crossproduct					(D,R);			
-	N.normalize						();
-
-	mRes.set						(R,N,D,mR.c);
-	mRes.mulA_43					(transform);
-
-	weapon_bone_0.mul				(mRes, offset);
-	
-	Fvector	const vLoadedFirePoint	= pSettings->r_fvector3		( weapon->cNameSect(), "fire_point" );
-	Fvector weapon_bone_position;
-	weapon_bone_0.transform_tiny	( weapon_bone_position, vLoadedFirePoint );
-
-	Fvector weapon_bone_direction;
-	weapon_bone_0.transform_dir		( weapon_bone_direction, Fvector().set( 0.f, 0.f, 1.f ) );
-
-	spine_offset						= 
-		aim_on_actor(
-			spine_bone.c,
-			weapon_bone_position,
-			weapon_bone_direction.normalize(),
-			target,
-			false
-		);
-
-	callback_param					param;
-	param.transform					= Fmatrix(transform).invert().mulB_43(spine_offset).mulB_43(Fmatrix(transform));
-	{
-		Fvector						temp;
-		param.transform.getXYZ		(temp);
-		temp.mul					(.5f);
-		param.transform.setXYZ		(temp);
-	}
-	param.xform						= transform;
-	param.kinematics				= kinematics;
-	param.bone_id					= spine_bone_id;
-	kinematics->LL_GetBoneInstance	( spine_bone_id ).set_callback ( bctCustom, &test_callback, &param );
-
-	fill_bones						(self, transform, kinematics_animated, animation_id, true);
-
-	Fmatrix							shoulder_bone;
-	shoulder_bone.mul_43			(transform, g_stalker_skeleton[shoulder_bone_id]);
-
-	mL								= g_stalker_skeleton[weapon_bone_id1];
-	mR								= g_stalker_skeleton[weapon_bone_id0];
-
-	D.sub							(mL.c,mR.c);	
-	D.normalize						();
-	R.crossproduct					(mR.j,D);
-
-	N.crossproduct					(D,R);			
-	N.normalize						();
-
-	mRes.set						(R,N,D,mR.c);
-	mRes.mulA_43					(transform);
-
-	weapon_bone_0.mul				(mRes, offset);
-	weapon_bone_0.transform_tiny	(weapon_bone_position, vLoadedFirePoint);
-	weapon_bone_0.transform_dir		(weapon_bone_direction, Fvector().set( 0.f, 0.f, 1.f ));
-
-	shoulder_offset						= 
-		aim_on_actor(
-			shoulder_bone.c,
-			weapon_bone_position,
-			weapon_bone_direction.normalize(),
-			target,
-			true
-		);
-
-	callback_param					param2;
-	param2.transform				= Fmatrix(transform).invert().mulB_43(shoulder_offset).mulB_43(Fmatrix(transform));;
-	param2.xform					= transform;
-	param2.kinematics				= kinematics;
-	param2.bone_id					= shoulder_bone_id;
-	kinematics->LL_GetBoneInstance	( shoulder_bone_id ).set_callback ( bctCustom, &test_callback, &param2 );
-
-	fill_bones						(self, transform, kinematics_animated, animation_id, false);
-
-	mL								= g_stalker_skeleton[weapon_bone_id1];
-	mR								= g_stalker_skeleton[weapon_bone_id0];
-
-	Fmatrix							m_start_transform;
-	animation_movement_controller const*	controller = self.animation_movement();
-	if (!controller)
-		m_start_transform			= self.XFORM();
-	else
-		m_start_transform			= controller->start_transform();
-
-	m_start_transform.invert		();
-
-	mL.mulA_43						(m_start_transform);
-	mR.mulA_43						(m_start_transform);
-
-	D.sub							(mL.c,mR.c);	
-	D.normalize						();
-	R.crossproduct					(mR.j,D);
-
-	N.crossproduct					(D,R);			
-	N.normalize						();
-
-	mRes.set						(R,N,D,mR.c);
-	mRes.mulA_43					(transform);
-
-	weapon_bone_0.mul				(mRes, offset);
-		
-	weapon_bone_0.transform_tiny	(weapon_bone_position, vLoadedFirePoint);
-		
-	weapon_bone_direction			= Fvector().set(0.f, 0.f, 1.f);
-	weapon_bone_0.transform_dir		( weapon_bone_direction );
-
-	kinematics->LL_GetBoneInstance	( spine_bone_id ).reset_callback ( );
-	kinematics->LL_GetBoneInstance	( shoulder_bone_id ).reset_callback ( );
-
-	if (forward_blend_callbacks)
-		self.animation().assign_bone_blend_callbacks(true);
-	else {
-		if (backward_blend_callbacks)
-			self.animation().assign_bone_blend_callbacks(false);
-		else
-			self.animation().assign_bone_callbacks();
-	}
-
-	kinematics->CalculateBones		(TRUE);
-
-	VERIFY							(!g_stalker_skeleton.empty());
-
-#ifdef DEBUG_RENDER
-	CDebugRenderer&					renderer = Level().debug_renderer();
-
-	if (self.inventory().ActiveItem()) {
-		CWeapon*					weapon = smart_cast<CWeapon*>(self.inventory().ActiveItem());
-		if (weapon) {
-			Fvector position		= weapon->get_LastFP();
-			Fvector direction		= weapon->get_LastFD();
-			renderer.draw_line		(
-				Fidentity,
-				position,
-				Fvector().mad(position, direction, position.distance_to(target)),
-				D3DCOLOR_XRGB(255, 0, 0)
-			);
-		}
-	}
-
-	Fvector const weapon_position_target= Fvector().mad(weapon_bone_position, weapon_bone_direction, weapon_bone_position.distance_to(target));
-	renderer.draw_line				(Fidentity, weapon_bone_position, weapon_position_target, D3DCOLOR_XRGB(255, 255, 0));
-
-	Fmatrix							target_transform;
-	target_transform.scale			(.01f, .01f, .01f);
-	target_transform.c				= target;
-	renderer.draw_ellipse			(target_transform, D3DCOLOR_XRGB(255, 0, 0));
-
-	target_transform.scale			(.015f, .015f, .015f);
-	target_transform.c				= weapon_bone_position;
-	renderer.draw_ellipse			(target_transform, D3DCOLOR_XRGB(255, 0, 0));
-
-	draw_bones						(
-		*kinematics,
-		Fvector().set(.01f, .01f, .01f),
-		D3DCOLOR_XRGB(0, 0, 255),
-		D3DCOLOR_XRGB(255, 255, 0)
-	);
-
-	renderer.draw_obb				(
-		g_stalker_skeleton[weapon_bone_id0],
-		Fvector().set(.01f, .01f, .01f),
-		D3DCOLOR_XRGB(255, 0, 0)
-	);
-	renderer.draw_obb				(
-		g_stalker_skeleton[weapon_bone_id1],
-		Fvector().set(.01f, .01f, .01f),
-		D3DCOLOR_XRGB(255, 0, 0)
-	);
-	renderer.draw_line				(
-		Fidentity,
-		g_stalker_skeleton[weapon_bone_id0].c,
-		g_stalker_skeleton[weapon_bone_id1].c,
-		D3DCOLOR_XRGB(255, 0, 0)
-	);
-#endif // #ifdef DEBUG_RENDER
-}
 
 Fvector	g_debug_position_0		= Fvector().set(0.f, 0.f, 0.f);
 Fvector	g_debug_position_1		= Fvector().set(0.f, 0.f, 0.f);
@@ -1781,20 +1279,20 @@ void CAI_Stalker::OnRender				()
 
 			// low
 			{
-			Fvector						direction;
-			float						best_value = -1.f;
-
-			for (u32 i=0, j = 0; i<36; ++i) {
-				float				value = ai().level_graph().low_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
-				direction.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
-				direction.normalize	();
-				direction.mul		(value*half_size);
-				direction.add		(position);
-				direction.y			= position.y;
-				Level().debug_renderer().draw_line	(Fidentity,position,direction,D3DCOLOR_XRGB(0,0,255));
+			Fvector						direction1;
+			float						best_value1 = -1.f;
+			j = 0;
+			for (u32 i = 0; i < 36; ++i) {
+								value = ai().level_graph().low_cover_in_direction(float(10*i)/180.f*XrMath::M_PI,v);
+				direction1.setHP		(float(10*i)/180.f*XrMath::M_PI,0);
+				direction1.normalize	();
+				direction1.mul		(value*half_size);
+				direction1.add		(position);
+				direction1.y			= position.y;
+				Level().debug_renderer().draw_line	(Fidentity,position,direction1,D3DCOLOR_XRGB(0,0,255));
 				value				= ai().level_graph().compute_low_square(float(10*i)/180.f*XrMath::M_PI,XrMath::M_PI/2.f,v);
-				if (value > best_value) {
-					best_value		= value;
+				if (value > best_value1) {
+					best_value1		= value;
 					j				= i;
 				}
 			}
@@ -1811,7 +1309,7 @@ void CAI_Stalker::OnRender				()
 			direction.set		(position.x,position.y,position.z - half_size*float(v->low_cover(3))/15.f);
 			Level().debug_renderer().draw_line(Fidentity,position,direction,D3DCOLOR_XRGB(255,0,0));
 
-			float				value = ai().level_graph().low_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
+							value = ai().level_graph().low_cover_in_direction(float(10*j)/180.f*XrMath::M_PI,v);
 			direction.setHP		(float(10*j)/180.f*XrMath::M_PI,0);
 			direction.normalize	();
 			direction.mul		(value*half_size);

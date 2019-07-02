@@ -78,9 +78,9 @@ bool CStateMonsterEatingAbstract::check_completion()
 }
 
 TEMPLATE_SPECIALIZATION
-void CStateMonsterEatingAbstract::remove_links	(CObject* object)
+void CStateMonsterEatingAbstract::remove_links	(CObject* object1)
 {
-	if (corpse == object)
+	if (corpse == object1)
 		corpse				= 0;
 }
 

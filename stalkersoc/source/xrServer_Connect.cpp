@@ -9,10 +9,7 @@
 #include "game_cl_single.h"
 #include "MainMenu.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 xrServer::EConnect xrServer::Connect(shared_str &session_name)
 {
@@ -26,12 +23,12 @@ xrServer::EConnect xrServer::Connect(shared_str &session_name)
 
 	string1024				options;
 	R_ASSERT2(xr_strlen(session_name) <= sizeof(options), "session_name too BIIIGGG!!!");
-	strcpy					(options,strchr(*session_name,'/')+1);
+	BearCore::BearString::Copy					(options,strchr(*session_name,'/')+1);
 	
 	// Parse game type
 	string1024				type;
 	R_ASSERT2(xr_strlen(options) <= sizeof(type), "session_name too BIIIGGG!!!");
-	strcpy					(type,options);
+	BearCore::BearString::Copy					(type,options);
 	if (strchr(type,'/'))	*strchr(type,'/') = 0;
 	game					= NULL;
 
@@ -102,7 +99,7 @@ IClient* xrServer::new_client( SClientConnectData* cl_data )
 	
 	if ( !HasProtected() && game->NewPlayerName_Exists( CL, new_name ) )
 	{
-		game->NewPlayerName_Generate( CL, new_name );
+		game->NewPlayerName_Generate( CL, new_name ,64);
 		game->NewPlayerName_Replace( CL, new_name );
 	}
 	CL->name._set( new_name );

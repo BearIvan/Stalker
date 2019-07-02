@@ -586,56 +586,55 @@ void CStalkerActionLookOut::finalize		()
 	inherited::finalize					();
 }
 
-void CStalkerActionLookOut::execute		()
+void CStalkerActionLookOut::execute()
 {
 #ifdef TEST_MENTAL_STATE
-	VERIFY					((start_level_time() == Device.dwTimeGlobal) || (object().movement().mental_state() == eMentalStateDanger));
+	VERIFY((start_level_time() == Device.dwTimeGlobal) || (object().movement().mental_state() == eMentalStateDanger));
 #endif // TEST_MENTAL_STATE
 
-	inherited::execute					();
-	
-	CMemoryInfo							mem_object = object().memory().memory(object().memory().enemy().selected());
+	inherited::execute();
+	{
+		CMemoryInfo							mem_object = object().memory().memory(object().memory().enemy().selected());
 
-	if (!mem_object.m_object)
-		return;
+		if (!mem_object.m_object)
+			return;
 
-	object().sight().setup				(CSightAction(SightManager::eSightTypePosition,mem_object.m_object_params.m_position,true));
+		object().sight().setup(CSightAction(SightManager::eSightTypePosition, mem_object.m_object_params.m_position, true));
 
-	if (current_cover(m_object) >= 3.f) {
-		object().movement().set_nearest_accessible_position	();
-		m_storage->set_property			(eWorldPropertyLookedOut,true);
-		return;
+		if (current_cover(m_object) >= 3.f) {
+			object().movement().set_nearest_accessible_position();
+			m_storage->set_property(eWorldPropertyLookedOut, true);
+			return;
+		}
+
+		Fvector								position = mem_object.m_object_params.m_position;
+		object().m_ce_close->setup(position, 0.f, 170.f, 10.f);
+		const CCoverPoint					*point = ai().cover_manager().best_cover(object().Position(), 10.f, *object().m_ce_close);//,CStalkerMovementRestrictor(m_object,true,false));
+		if (!point || (point->position().similar(object().Position()) && object().movement().path_completed())) {
+			object().m_ce_close->setup(position, 0.f, 170.f, 10.f);
+			point = ai().cover_manager().best_cover(object().Position(), 30.f, *object().m_ce_close);//,CStalkerMovementRestrictor(m_object,true,false));
+		}
+
+		if (point) {
+			object().movement().set_level_dest_vertex(point->level_vertex_id());
+			object().movement().set_desired_position(&point->position());
+		}
+		else
+			object().movement().set_nearest_accessible_position();
+
+		//	if (point && point->position().similar(object().Position(),.5f) && object().movement().path_completed()) {
+		//		m_storage->set_property			(eWorldPropertyLookedOut,true);
+		//		object().movement().set_nearest_accessible_position	();
+		//	}
 	}
-
-	Fvector								position = mem_object.m_object_params.m_position;
-	object().m_ce_close->setup			(position,0.f,170.f,10.f);
-	const CCoverPoint					*point = ai().cover_manager().best_cover(object().Position(),10.f,*object().m_ce_close);//,CStalkerMovementRestrictor(m_object,true,false));
-	if (!point || (point->position().similar(object().Position()) && object().movement().path_completed())) {
-		object().m_ce_close->setup		(position,0.f,170.f,10.f);
-		point							= ai().cover_manager().best_cover(object().Position(),30.f,*object().m_ce_close);//,CStalkerMovementRestrictor(m_object,true,false));
-	}
-
-	if (point) {
-		object().movement().set_level_dest_vertex	(point->level_vertex_id());
-		object().movement().set_desired_position	(&point->position());
-	}
-	else
-		object().movement().set_nearest_accessible_position	();
-
-//	if (point && point->position().similar(object().Position(),.5f) && object().movement().path_completed()) {
-//		m_storage->set_property			(eWorldPropertyLookedOut,true);
-//		object().movement().set_nearest_accessible_position	();
-//	}
-
 	if (object().memory().enemy().selected()) {
 		CMemoryInfo					mem_object = object().memory().memory(object().memory().enemy().selected());
 
 		if (mem_object.m_object) {
-			object().best_cover		(mem_object.m_object_params.m_position);
+			object().best_cover(mem_object.m_object_params.m_position);
 		}
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////
 // CStalkerActionHoldPosition
 //////////////////////////////////////////////////////////////////////////
@@ -706,10 +705,10 @@ void CStalkerActionHoldPosition::execute		()
 	}
 
 	if (object().memory().enemy().selected()) {
-		CMemoryInfo					mem_object = object().memory().memory(object().memory().enemy().selected());
+		CMemoryInfo					mem_object1 = object().memory().memory(object().memory().enemy().selected());
 
 		if (mem_object.m_object) {
-			object().best_cover		(mem_object.m_object_params.m_position);
+			object().best_cover		(mem_object1.m_object_params.m_position);
 		}
 	}
 }

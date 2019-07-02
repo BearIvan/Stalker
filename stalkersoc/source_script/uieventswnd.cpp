@@ -229,7 +229,7 @@ void CUIEventsWnd::ShowDescription			(CGameTask* t, int idx)
 		{
 			string512	need_group;
 			if(0==idx){
-				strcpy(need_group,*t->m_ID);
+				BearCore::BearString::Copy(need_group,*t->m_ID);
 			}else
 			if(o.article_key.size())
 			{
@@ -258,9 +258,9 @@ void CUIEventsWnd::ShowDescription			(CGameTask* t, int idx)
 					}else
 					if(o.article_id.size() && it->article_id ==o.article_id)
 					{
-						CEncyclopediaArticle			A;
-						A.Load							(it->article_id);
-						m_UITaskInfoWnd->AddArticle		(&A);
+						CEncyclopediaArticle			A1;
+						A1.Load							(it->article_id);
+						m_UITaskInfoWnd->AddArticle		(&A1);
 					}
 				}
 			}

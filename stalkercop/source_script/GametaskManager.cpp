@@ -12,10 +12,7 @@
 #include "encyclopedia_article.h"
 #include "ui/UIMapWnd.h"
 
-#pragma warning(push)
-#pragma warning(disable:4995)
 #include <malloc.h>
-#pragma warning(pop)
 
 shared_str	g_active_task_id;
 

@@ -459,10 +459,10 @@ void game_cl_TeamDeathmatch::shedule_Update			(u32 dt)
 				if (local_player->testFlag(GAME_PLAYER_FLAG_ONBASE) &&
 					!local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
 				{
-					string1024 msg;
-					xr_sprintf(msg, *st.translate("mp_press_to_buy"), "B");
+					string1024 msg1;
+					xr_sprintf(msg1, *st.translate("mp_press_to_buy"), "B");
 					if(m_game_ui)
-						m_game_ui->SetBuyMsgCaption(msg);
+						m_game_ui->SetBuyMsgCaption(msg1);
 					m_bBuyEnabled = true;
 				} else if (	!local_player->testFlag(GAME_PLAYER_FLAG_ONBASE) &&
 							!local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))

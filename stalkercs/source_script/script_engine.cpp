@@ -37,16 +37,6 @@
 void jit_command(lua_State*, LPCSTR);
 
 #if defined(USE_DEBUGGER) && defined(USE_LUA_STUDIO)
-static void log_callback			(LPCSTR message)
-{
-/*	if (s_old_log_callback)
-		s_old_log_callback			(message);*/
-
-	if (!ai().script_engine().debugger())
-		return;
-
-	ai().script_engine().debugger()->add_log_line	(message);
-}
 
 static void initialize_lua_studio	( lua_State* state, cs::lua_debugger::world*& world, lua_studio_engine*& engine)
 {
@@ -341,7 +331,6 @@ void CScriptEngine::load_common_scripts()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string_path		S;
 	CInifile		*l_tpIniFile = xr_new<CInifile>("%config%", "script.ltx");
 	R_ASSERT		(l_tpIniFile);
 	if (!l_tpIniFile->section_exist("common")) {
@@ -355,8 +344,9 @@ void CScriptEngine::load_common_scripts()
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(XrTrims::GetItem(caScriptString,i,I));
-			if (object("_G",strcat(I,"_initialize"),LUA_TFUNCTION)) {
-//				lua_dostring			(lua(),strcat(I,"()"));
+			BearCore::BearString::Contact(I, "_initialize");
+			if (object("_G",I,LUA_TFUNCTION)) {
+//				lua_dostring			(lua(),BearCore::BearString::Contact(I,"()"));
 				luabind::functor<void>	f;
 				R_ASSERT				(functor(I,f));
 				f						();
@@ -415,7 +405,6 @@ void CScriptEngine::register_script_classes		()
 #ifdef DBG_DISABLE_SCRIPTS
 	return;
 #endif
-	string_path					S;
 	CInifile					*l_tpIniFile = xr_new<CInifile>("%config%","script.ltx");
 	R_ASSERT					(l_tpIniFile);
 
@@ -447,7 +436,7 @@ bool CScriptEngine::function_object(LPCSTR function_to_call, luabind::object &ob
 
 	string256				name_space, function;
 
-	parse_script_namespace	(function_to_call,name_space,function);
+	parse_script_namespace	(function_to_call,name_space,256,function,256);
 	if (xr_strcmp(name_space,"_G")) {
 		LPSTR				file_name = strchr(name_space,'.');
 		if (!file_name)

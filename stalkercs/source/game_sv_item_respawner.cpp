@@ -78,7 +78,7 @@ void item_respawn_manager::load_respawn_items(shared_str const section)
 	u32 temp_int;
 	for (sect_iter i = resp_sect.Data.begin(); i != ie; ++i)
 	{
-		sscanf(i->second.c_str(), "%d", &temp_int);
+		BearCore::BearString::Scanf(i->second.c_str(), "%d", &temp_int);
 		m_respawns.insert(std::make_pair(i->first, spawn_item(temp_int * 1000)));
 	}
 }
@@ -184,7 +184,7 @@ u32 item_respawn_manager::load_section_items(CInifile & ini, const char* section
 	while (ini.line_exist(section_name, item_name))
 	{
 		section_item	temp_sect_item;
-		strcpy_s(item_value, ini.r_string(section_name, item_name));
+		BearCore::BearString::Copy(item_value, ini.r_string(section_name, item_name));
 		if (!parse_string(item_value, xr_strlen(item_value), temp_sect_item))
 		{
 			Msg("! WARNING: failed to parse item [%s] in section [%s]", item_name, section_name);
@@ -275,7 +275,7 @@ void item_respawn_manager::add_new_rpoint(shared_str profile_sect, RPoint const 
 		} else
 		{
 #ifndef MASTER_GOLD
-			Msg("! ERROR: failed to create entity [%s] with addons [%d]", iter_rsect->section_name, iter_rsect->addons);
+			Msg("! ERROR: failed to create entity [%s] with addons [%d]", *iter_rsect->section_name, iter_rsect->addons);
 #endif // #ifndef MASTER_GOLD
 		}
 	}
@@ -362,7 +362,6 @@ void item_respawn_manager::clear_level_items()
 void item_respawn_manager::respawn_level_items()
 {
 	clear_level_items();
-	string_path				fn_spawn;
 	if (FS.ExistFile( "%level%", "level_rs.spawn"))
 	{
 		IReader*			SP		=XRayBearReader::Create( FS.Read("%level%", "level_rs.spawn"));

@@ -12,17 +12,6 @@ demo_info_loader::~demo_info_loader()
 	delete_data(m_demo_info_cache);
 }
 
-static bool sort_team_players_by_spots(demo_player_info const * left, demo_player_info const* right)
-{
-	u8 left_team	= left->get_team();
-	u8 right_team	= right->get_team();
-	if (left_team != right_team)
-	{
-		return left_team < right_team;
-	}
-	return left->get_spots() > right->get_spots();
-}
-
 demo_info* demo_info_loader::load_demofile(LPCSTR demo_file_name)
 {
 /*	CStreamReader*	tmp_reader	= FS.rs_open("$logs$", demo_file_name);

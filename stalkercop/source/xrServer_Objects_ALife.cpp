@@ -30,11 +30,8 @@
 #ifdef XRSE_FACTORY_EXPORTS
 #	include "ai_space.h"
 #	include "script_engine.h"
-#	pragma warning(push)
-#	pragma warning(disable:4995)
 #		include <luabind/luabind.hpp>
 #		include <shlwapi.h>
-#	pragma warning(pop)
 
 
 struct logical_string_predicate {
@@ -130,7 +127,8 @@ void	SFillPropData::load			()
 	for (int i=0; i<GameGraph::LOCATION_TYPE_COUNT; ++i){
         DEBUGFATALERROR1				(locations[i].empty());
         string256			caSection, T;
-        strconcat			(sizeof(caSection),caSection,SECTION_HEADER,itoa(i,T,10));
+			BearCore::BearString::Printf(T, TEXT("%d"),i);
+        strconcat			(sizeof(caSection),caSection,SECTION_HEADER,T);
         R_ASSERT			(Ini->section_exist(caSection));
         for (k = 0; Ini->r_line(caSection,k,&N,&V); ++k)
             locations[i].push_back	(xr_rtoken(V,atoi(N)));
@@ -138,7 +136,7 @@ void	SFillPropData::load			()
     for (k = 0; Ini->r_line("graph_points_draw_color_palette",k,&N,&V); ++k)
 	{
 		u32 color;
-		if(1==sscanf(V,"%x", &color))
+		if(1==BearCore::BearString::Scanf(V,"%x", &color))
 		{
 			location_colors[N]  = color;
 		}else
@@ -2229,8 +2227,8 @@ void CSE_ALifeInventoryBox::STATE_Read( NET_Packet &tNetPacket, u16 size )
 {
 	inherited::STATE_Read( tNetPacket, size );
 
-	u16 m_wVersion		= base()->m_wVersion;
-	if ( m_wVersion > 124 )
+	u16 m_wVersion1		= base()->m_wVersion;
+	if ( m_wVersion1 > 124 )
 	{
 		u8 temp;
 		tNetPacket.r_u8	( temp );		m_can_take = (temp == 1);

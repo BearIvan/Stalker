@@ -36,8 +36,8 @@ struct SScriptThread{
 		active			= other.active;
 		name[0]			=0;
 		process[0]	=0;
-		strcat(name,other.name);
-		strcat(process,other.process);
+		BearCore::BearString::Contact(name,other.name);
+		BearCore::BearString::Contact(process,other.process);
 
 		return *this;
 	}

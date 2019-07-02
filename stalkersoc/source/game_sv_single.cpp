@@ -142,7 +142,7 @@ void game_sv_Single::OnDetach(u16 eid_who, u16 eid_what)
 #ifdef DEBUG
 			else
 				if (psAI_Flags.test(aiALife)) {
-					Msg			("Cannot detach object [%s][%s][%d] from object [%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name,l_tpALifeInventoryItem->base()->ID,l_tpDynamicObject->base()->name_replace(),l_tpDynamicObject->base()->s_name,l_tpDynamicObject->ID);
+					Msg			("Cannot detach object [%s][%s][%d] from object [%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name,l_tpALifeInventoryItem->base()->ID,l_tpDynamicObject->base()->name_replace(),*l_tpDynamicObject->base()->s_name,l_tpDynamicObject->ID);
 				}
 #endif
 		}
@@ -323,8 +323,8 @@ void game_sv_Single::restart_simulator			(LPCSTR saved_game_name)
 	delete_data				(m_alife_simulator);
 	server().clear_ids		();
 
-	strcpy					(g_pGamePersistent->m_game_params.m_game_or_spawn,saved_game_name);
-	strcpy					(g_pGamePersistent->m_game_params.m_new_or_load,"load");
+	BearCore::BearString::Copy					(g_pGamePersistent->m_game_params.m_game_or_spawn,saved_game_name);
+	BearCore::BearString::Copy					(g_pGamePersistent->m_game_params.m_new_or_load,"load");
 
 	pApp->LoadBegin			();
 	m_alife_simulator		= xr_new<CALifeSimulator>(&server(),&options);

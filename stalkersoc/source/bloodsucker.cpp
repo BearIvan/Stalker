@@ -27,7 +27,7 @@
 #include "CharacterPhysicsSupport.h"
 
 #ifdef DEBUG
-#include <dinput.h>
+
 #endif
 
 
@@ -204,9 +204,9 @@ void CAI_Bloodsucker::LoadVampirePPEffector(LPCSTR section)
 	pp_vampire_effector.noise.fps			= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(pp_vampire_effector.noise.fps));
 
-	sscanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &pp_vampire_effector.color_base.r, &pp_vampire_effector.color_base.g, &pp_vampire_effector.color_base.b);
-	sscanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &pp_vampire_effector.color_gray.r, &pp_vampire_effector.color_gray.g, &pp_vampire_effector.color_gray.b);
-	sscanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &pp_vampire_effector.color_add.r,  &pp_vampire_effector.color_add.g,  &pp_vampire_effector.color_add.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &pp_vampire_effector.color_base.r, &pp_vampire_effector.color_base.g, &pp_vampire_effector.color_base.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &pp_vampire_effector.color_gray.r, &pp_vampire_effector.color_gray.g, &pp_vampire_effector.color_gray.b);
+	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &pp_vampire_effector.color_add.r,  &pp_vampire_effector.color_add.g,  &pp_vampire_effector.color_add.b);
 }
 
 

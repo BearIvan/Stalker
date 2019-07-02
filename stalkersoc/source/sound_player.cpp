@@ -222,7 +222,7 @@ void CSoundPlayer::play				(u32 internal_type, u32 max_start_time, u32 min_start
 	if (max_stop_time)
 		random_time				= (max_stop_time > min_stop_time) ? random(max_stop_time - min_stop_time) + min_stop_time : max_stop_time;
 
-	sound_single.m_stop_time	= sound_single.m_start_time + (sound_single.m_sound->get_length_sec()*1000.f) + random_time;
+	sound_single.m_stop_time	= sound_single.m_start_time + static_cast<u32>(sound_single.m_sound->get_length_sec()*1000.f) + random_time;
 	m_playing_sounds.push_back	(sound_single);
 	
 	if (Device.dwTimeGlobal >= m_playing_sounds.back().m_start_time)
@@ -248,17 +248,17 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 		XrTrims::GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
 		if (FS.ExistFile("%sounds%",S,".ogg")) {
-			ref_sound					*temp = add(params.m_type,S);
-			if (temp)
-				m_sounds.push_back		(temp);
+			ref_sound					*temp1 = add(params.m_type,S);
+			if (temp1)
+				m_sounds.push_back		(temp1);
 		}
 		for (u32 i=0; i<params.m_max_count; ++i){
 			string256					name;
 			sprintf_s						(name,"%s%d",S,i);
 			if (FS.ExistFile("%sounds%",name,".ogg")) {
-				ref_sound				*temp = add(params.m_type,name);
-				if (temp)
-					m_sounds.push_back	(temp);
+				ref_sound				*temp1 = add(params.m_type,name);
+				if (temp1)
+					m_sounds.push_back	(temp1);
 			}
 		}
 	}
