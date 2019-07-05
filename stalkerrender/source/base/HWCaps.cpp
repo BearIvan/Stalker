@@ -6,7 +6,9 @@
 
 #ifndef _EDITOR
 	#include "nvapi\nvapi.h"
+#ifdef X32
 	#include "ATI\atimgpud.h"
+#endif
 #endif
 
 namespace
@@ -71,9 +73,11 @@ u32 GetNVGpuNum()
 
 u32 GetATIGpuNum()
 {
+#ifdef X32
 	int iGpuNum = AtiMultiGPUAdapters();
-	//int iGpuNum = 1;
-
+#else
+	int iGpuNum = 1;
+#endif
 	if (iGpuNum>1)
 	{
 		Msg	("* ATI MGPU: %d-Way CrossFire detected.", iGpuNum);

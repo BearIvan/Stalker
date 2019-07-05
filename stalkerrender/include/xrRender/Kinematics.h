@@ -57,7 +57,7 @@ virtual	const IBoneData&		_BCL	GetBoneData(u16 bone_id) const = 0;
 	virtual Fobb&						LL_GetBox(u16 bone_id) = 0;
 	virtual const Fbox&			_BCL	GetBox()const = 0;
 	virtual void						LL_GetBindTransform(xr_vector<Fmatrix>& matrices) = 0;
-	virtual int 						LL_GetBoneGroups(xr_vector<xr_vector<u16> >& groups) = 0;
+	virtual bsize 						LL_GetBoneGroups(xr_vector<xr_vector<u16> >& groups) = 0;
 
 	virtual u16					_BCL	LL_GetBoneRoot() = 0;
 	virtual void						LL_SetBoneRoot(u16 bone_id) = 0;

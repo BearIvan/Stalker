@@ -96,11 +96,11 @@ CGlowManager::~CGlowManager	()
 void CGlowManager::Load		(IReader* fs)
 {
 	// glows itself
-	u32 size	= fs->length();
+	bsize size	= fs->length();
 	R_ASSERT	(size);
-	u32 one		= 4*sizeof(float)+1*sizeof(u16);
+	bsize one		= 4*sizeof(float)+1*sizeof(u16);
 	R_ASSERT	(size%one == 0);
-	u32 count	= size/one;
+	bsize count	= size/one;
 	Glows.reserve(count);
 
 	for (;count;count--)
@@ -280,7 +280,7 @@ void CGlowManager::render_selected()
 		count	= 0;
 		while	((pos+count<Selected.size()) && (((CGlow*)Selected[pos+count]._get())->shader==T)) count++;
 
-		u32		vOffset;
+		bsize		vOffset;
 		u32		end		= pos+count;
 		FVF::LIT* pvs	= pv = (FVF::LIT*) RCache.Vertex.Lock(count*4,hGeom->vb_stride,vOffset);
 		for (; pos<end; pos++)

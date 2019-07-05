@@ -283,7 +283,7 @@ public:
             if (name.equal((*it)->m_Name)) return it;
         return materials.end();
     }
-    IC GameMtlIt GetMaterialItByID(int id)
+    IC GameMtlIt GetMaterialItByID(bsize id)
     {
         for (GameMtlIt it = materials.begin(); materials.end() != it; ++it)
             if ((*it)->ID == id) return it;
@@ -298,7 +298,7 @@ public:
     // editor
     SGameMtl* AppendMaterial (SGameMtl* parent);
     void RemoveMaterial (LPCSTR name);
-    IC SGameMtl* GetMaterialByID (int ID)
+    IC SGameMtl* GetMaterialByID (bsize ID)
     {
         GameMtlIt it=GetMaterialItByID(ID);
         return materials.end() != it?*it:0;
@@ -319,7 +319,7 @@ public:
 
     IC GameMtlIt FirstMaterial() { return materials.begin(); }
     IC GameMtlIt LastMaterial () {return materials.end();}
-    IC u32 CountMaterial () {return materials.size();}
+    IC bsize CountMaterial () {return materials.size();}
 
     // material pair routine
 #ifdef _EDITOR
@@ -335,8 +335,8 @@ public:
     void RemoveMaterialPair (GameMtlPairIt rem_it);
     void RemoveMaterialPair (int mtl);
     void RemoveMaterialPair (int mtl0, int mtl1);
-    GameMtlPairIt GetMaterialPairIt (int id);
-    SGameMtlPair* GetMaterialPair(int id);
+    GameMtlPairIt GetMaterialPairIt (bsize id);
+    SGameMtlPair* GetMaterialPair(bsize id);
     GameMtlPairIt GetMaterialPairIt(int mtl0, int mtl1);
     SGameMtlPair* GetMaterialPair(int mtl0, int mtl1);
     SGameMtlPair* GetMaterialPair(LPCSTR name);

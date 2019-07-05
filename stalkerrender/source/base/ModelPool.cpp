@@ -416,12 +416,12 @@ dxRender_Visual* CModelPool::CreatePG	(PS::CPGDef* source)
 void CModelPool::dump()
 {
 	Log	("--- model pool --- begin:");
-	u32 sz					= 0;
-	u32 k					= 0;
+	bsize sz					= 0;
+	bsize k					= 0;
 	for (xr_vector<ModelDef>::iterator I=Models.begin(); I!=Models.end(); I++) {
 		CKinematics* K		= PCKinematics(I->model);
 		if (K){
-			u32 cur			= K->mem_usage	(false);
+			bsize cur			= K->mem_usage	(false);
 			sz				+= cur;
 			Msg("#%3d: [%3d/%5d Kb] - %s",k++,I->refs,cur/1024,I->name.c_str());
 		}
@@ -435,7 +435,7 @@ void CModelPool::dump()
 		CKinematics* K		= PCKinematics((dxRender_Visual*)it->first);
 		VERIFY				(K);
 		if (K){
-			u32 cur			= K->mem_usage	(true);
+			bsize cur			= K->mem_usage	(true);
 			sz				+= cur;
 			bool b_free		= (Pool.find(it->second)!=Pool.end() );
 			if(b_free)		++free_cnt;

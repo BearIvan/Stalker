@@ -74,7 +74,7 @@ void CPortal::OnRender	()
 }
 #endif
 //
-void	CPortal::Setup	(Fvector* V, int vcnt, CSector* face, CSector* back)
+void	CPortal::Setup	(Fvector* V, bsize vcnt, CSector* face, CSector* back)
 {
 	// calc sphere
 	Fbox				BB;
@@ -93,7 +93,7 @@ void	CPortal::Setup	(Fvector* V, int vcnt, CSector* face, CSector* back)
 	N.set				(0,0,0);
 
 	//FPU::m64r();
-	u32	_cnt			= 0;
+	bsize	_cnt			= 0;
 	for (int i=2; i<vcnt; i++) {
 		T.mknormal_non_normalized		(poly[0],poly[i-1],poly[i]);
 		float		m	= T.magnitude	();
@@ -253,8 +253,8 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 void CSector::load		(IReader& fs)
 {
 	// Assign portal polygons
-	u32 size			= fs.find_chunk(fsP_Portals); R_ASSERT(0==(size&1));
-	u32 count			= size/2;
+	bsize size			= fs.find_chunk(fsP_Portals); R_ASSERT(0==(size&1));
+	bsize count			= size/2;
 	m_portals.reserve	(count);
 	while (count) {
 		u16 ID		= fs.r_u16();

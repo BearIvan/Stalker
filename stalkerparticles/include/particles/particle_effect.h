@@ -6,18 +6,18 @@ namespace PAPI{
 	// A effect of particles - Info and an array of Particles
 	struct ParticleEffect
 	{
-		u32			p_count;				// Number of particles currently existing.
-		u32			max_particles;			// Max particles allowed in effect.
-		u32			particles_allocated;	// Actual allocated size.
+		bsize			p_count;				// Number of particles currently existing.
+		bsize			max_particles;			// Max particles allowed in effect.
+		bsize			particles_allocated;	// Actual allocated size.
 		Particle*	particles;				// Actually, num_particles in size
 		void*		real_ptr;				// Base, possible not aligned pointer
         OnBirthParticleCB 	b_cb;
         OnDeadParticleCB	d_cb;
         void*				owner;
-        u32					param;
+		bsize					param;
         
         public:
-					ParticleEffect	(int mp)
+					ParticleEffect	(bsize mp)
 		{
         	owner					= 0;
             param 					= 0;
@@ -28,14 +28,14 @@ namespace PAPI{
 			particles_allocated		= max_particles;
 
 			real_ptr				= xr_malloc( sizeof( Particle ) * ( max_particles + 1 ) );
-			particles				= (Particle*) ( (DWORD) real_ptr + ( 64 - ( (DWORD) real_ptr & 63 ) ) );
+			particles				= (Particle*) ( (bsize) real_ptr + ( 64 - ( (bsize) real_ptr & 63 ) ) );
 			//Msg( "Allocated %u bytes (%u particles) with base address 0x%p" , max_particles * sizeof( Particle ) , max_particles , particles );
 		}
 					~ParticleEffect	()
 		{
 			xr_free					(real_ptr);
 		}
-		IC int		Resize			(u32 max_count)
+		IC bsize		Resize			(bsize max_count)
 		{
 			// Reducing max.
 			if(particles_allocated >= max_count)
@@ -58,7 +58,7 @@ namespace PAPI{
 				return max_particles;
 			}
 
-			Particle* new_particles	= (Particle*) ( (DWORD) new_real_ptr + ( 64 - ( (DWORD) new_real_ptr & 63 ) ) );
+			Particle* new_particles	= (Particle*) ( (bsize) new_real_ptr + ( 64 - ( (bsize) new_real_ptr & 63 ) ) );
 			//Msg( "Re-allocated %u bytes (%u particles) with base address 0x%p" , max_count * sizeof( Particle ) , max_count , new_particles );
 
 			CopyMemory			(new_particles, particles, p_count * sizeof(Particle));
@@ -71,7 +71,7 @@ namespace PAPI{
 			particles_allocated		= max_count;
 			return max_count;
 		}
-		IC void		Remove			(int i)
+		IC void		Remove			(bsize i)
 		{
         	if (0==p_count)			return;
 			Particle& m				= particles[i];

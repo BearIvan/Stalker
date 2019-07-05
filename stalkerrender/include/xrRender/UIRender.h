@@ -57,7 +57,7 @@ public:
 //.	virtual void PushPoint(int x, int y, u32 c, float u, float v) = 0;
 	virtual void PushPoint(float x, float y, float z, u32 C, float u, float v) = 0;
 
-	virtual void StartPrimitive(u32 iMaxVerts, ePrimitiveType primType, ePointType pointType) = 0;
+	virtual void StartPrimitive(bsize iMaxVerts, ePrimitiveType primType, ePointType pointType) = 0;
 	virtual void FlushPrimitive() = 0;
 
 	virtual LPCSTR	UpdateShaderName(LPCSTR tex_name, LPCSTR sh_name) = 0;

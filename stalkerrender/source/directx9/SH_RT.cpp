@@ -21,10 +21,10 @@ CRT::~CRT			()
 	DEV->_DeleteRT	(this);
 }
 
-IC	u32		btwLowestBitMask(u32 x) { return x & ~(x - 1); }
-IC	bool	btwIsPow2(u32 v) { return (btwLowestBitMask(v) == v); }
+IC	bsize		btwLowestBitMask(bsize x) { return x & ~(x - 1); }
+IC	bool	btwIsPow2(bsize v) { return (btwLowestBitMask(v) == v); }
 bsize cnt_crt= 0;
-void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
+void CRT::create	(LPCSTR Name, bsize w, bsize h,	D3DFORMAT f, bsize SampleCount )
 {
 	if (pSurface)	return;
 
@@ -74,7 +74,7 @@ void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 
 	// Try to create texture/surface
 	DEV->Evict				();
-	_hr = HW.pDevice->CreateTexture		(w, h, 1, usage, f, D3DPOOL_DEFAULT, &pSurface,NULL);
+	_hr = HW.pDevice->CreateTexture		(static_cast<UINT>(w), static_cast<UINT>(h), 1, usage, f, D3DPOOL_DEFAULT, &pSurface,NULL);
 	HW.stats_manager.increment_stats_rtarget	( pSurface );
 
 	if (FAILED(_hr) || (0==pSurface))	return;
@@ -108,7 +108,7 @@ void CRT::reset_end		()
 {
 	create		(*cName,dwWidth,dwHeight,fmt);
 }
-void resptrcode_crt::create(LPCSTR Name, u32 w, u32 h, D3DFORMAT f, u32 SampleCount )
+void resptrcode_crt::create(LPCSTR Name, bsize w, bsize h, D3DFORMAT f, bsize SampleCount )
 {
 	_set			(DEV->_CreateRT(Name,w,h,f));
 }

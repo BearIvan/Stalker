@@ -13,7 +13,7 @@
 
 BOOL CCF_DynamicMesh::_RayQuery(const collide::ray_defs& Q, collide::rq_results& R)
 {
-    int s_count = R.r_count();
+    bsize s_count = R.r_count();
     BOOL res = inherited::_RayQuery(Q, R);
     if (!res)
         return FALSE;

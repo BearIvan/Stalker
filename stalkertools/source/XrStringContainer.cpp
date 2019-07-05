@@ -158,8 +158,8 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 	XrStringContainerValue* result = 0;
 
 	// calc len
-	u32 s_len = BearCore::BearString::GetSize(value);
-	u32 s_len_with_zero = (u32)s_len + 1;
+	bsize s_len = BearCore::BearString::GetSize(value);
+	bsize s_len_with_zero = (bsize)s_len + 1;
 	VERIFY(HEADER + s_len_with_zero < 4096);
 
 	// setup find structure

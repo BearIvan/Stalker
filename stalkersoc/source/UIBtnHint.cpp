@@ -18,8 +18,9 @@ CUIButtonHint::CUIButtonHint	()
 	
 
 	xml_init.InitWindow			(uiXml,"button_hint",0,this);
-	
-	m_border					= xr_new<CUIFrameLineWnd>();m_border->SetAutoDelete(true);
+	Msg("sizeof(CUIFrameLineWnd)==%u", static_cast<uint32>(sizeof(CUIFrameLineWnd)));
+	m_border					= xr_new<CUIFrameLineWnd>();
+	m_border->SetAutoDelete(true);
 	AttachChild					(m_border);
 	xml_init.InitFrameLine		(uiXml,"button_hint:frame_line",0,m_border);
 

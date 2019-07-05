@@ -129,11 +129,11 @@ void CSoundRender_Core::update	( const Fvector& P, const Fvector& D, const Fvect
     bLocked							= FALSE;
 }
 
-static	u32	g_saved_event_count		= 0;
+static	bsize	g_saved_event_count		= 0;
 void	CSoundRender_Core::update_events		()
 {
 	g_saved_event_count				= s_events.size();
-	for (u32 it=0; it<s_events.size(); it++)
+	for (bsize it=0; it<s_events.size(); it++)
 	{
 		event&	E	= s_events[it];
 	
@@ -204,11 +204,11 @@ float CSoundRender_Core::get_occlusion_to( const Fvector& hear_pt, const Fvector
 #else
 		geom_DB.ray_options		(CDB::OPT_CULL);
 		geom_DB.ray_query		(geom_SOM,hear_pt,dir,range);
-		u32 r_cnt				= geom_DB.r_count();
+		bsize r_cnt				= geom_DB.r_count();
 		CDB::RESULT*	_B 		= geom_DB.r_begin();
 #endif            
 		if (0!=r_cnt){
-			for (u32 k=0; k<r_cnt; k++){
+			for (bsize k=0; k<r_cnt; k++){
 				CDB::RESULT* R	 = _B+k;
 				occ_value		*= *(float*)&R->dummy;
 			}
@@ -271,11 +271,11 @@ float CSoundRender_Core::get_occlusion(Fvector& P, float R, Fvector* occ)
 #else
 		geom_DB.ray_options		(CDB::OPT_CULL);
 		geom_DB.ray_query		(geom_SOM,base,dir,range);
-		u32 r_cnt				= geom_DB.r_count();
+		bsize r_cnt				= geom_DB.r_count();
         CDB::RESULT*	_B 		= geom_DB.r_begin();
 #endif            
 		if (0!=r_cnt){
-			for (u32 k=0; k<r_cnt; k++){
+			for (bsize k=0; k<r_cnt; k++){
 				CDB::RESULT* _R	 = _B+k;
 				occ_value		*= *(float*)&_R->dummy;
 			}

@@ -20,8 +20,8 @@ private:
 	Fmatrix					m_xform;
 	Fmatrix					m_xform_01;
 #ifdef DEBUG
-	u32						tris_in_frame_visible	;
-	u32						tris_in_frame			;
+	bsize						tris_in_frame_visible	;
+	bsize						tris_in_frame			;
 #endif
 
 	xrCriticalSection		MT;

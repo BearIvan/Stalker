@@ -17,17 +17,17 @@
 
 struct SPrimitiveBuffer{
     ref_geom				pGeom;
-    u32						v_cnt;
-    u32						i_cnt;
+    bsize						v_cnt;
+    bsize						i_cnt;
     D3DPRIMITIVETYPE 		p_type;
-    u32						p_cnt;
+    bsize						p_cnt;
 	typedef fastdelegate::FastDelegate0<> TOnRender;
     TOnRender				OnRender;
     void xr_stdcall			RenderDIP()	{DU_DRAW_DIP(p_type,pGeom,0,0,v_cnt,0,p_cnt);}
     void xr_stdcall			RenderDP()	{DU_DRAW_DP	(p_type,pGeom,0,p_cnt);}
 public:
                             SPrimitiveBuffer():OnRender(0),pGeom(0){;}
-    void					CreateFromData(D3DPRIMITIVETYPE _pt, u32 _p_cnt, u32 FVF, LPVOID vertices, u32 _v_cnt, u16* indices=0, u32 _i_cnt=0);
+    void					CreateFromData(D3DPRIMITIVETYPE _pt, bsize _p_cnt, u32 FVF, LPVOID vertices, bsize _v_cnt, u16* indices=0, bsize _i_cnt=0);
     void					Destroy();
     void					Render(){OnRender();}
 };
@@ -54,7 +54,7 @@ public:
 protected:
     FVF::L*		m_DD_pv;
     FVF::L*		m_DD_pv_start;
-    u32 		m_DD_base;
+	bsize 		m_DD_base;
     BOOL		m_DD_wire;
 	void 		DD_DrawFace_flush		(BOOL try_again);
 public:
@@ -139,10 +139,10 @@ public:
 	virtual void __stdcall DrawObjectAxis(const Fmatrix& T, float sz, BOOL sel);
 	virtual void __stdcall DrawSelectionRect(const Ivector2& m_SelStart, const Ivector2& m_SelEnd);
 
-	virtual void __stdcall DrawIndexedPrimitive	(int prim_type, u32 pc, const Fvector& pos, const Fvector* vb, const u32& vb_size, const u32* ib, const u32& ib_size, const u32& clr_argb, float scale=1.0f){};
-    virtual void __stdcall DrawPrimitiveL(D3DPRIMITIVETYPE pt, u32 pc, Fvector* vertices, int vc, u32 color, BOOL bCull, BOOL bCycle);
-    virtual void __stdcall DrawPrimitiveTL(D3DPRIMITIVETYPE pt, u32 pc, FVF::TL* vertices, int vc, BOOL bCull, BOOL bCycle);
-    virtual void __stdcall DrawPrimitiveLIT(D3DPRIMITIVETYPE pt, u32 pc, FVF::LIT* vertices, int vc, BOOL bCull, BOOL bCycle);
+	virtual void __stdcall DrawIndexedPrimitive	(int prim_type, bsize pc, const Fvector& pos, const Fvector* vb, const bsize& vb_size, const u32* ib, const bsize& ib_size, const u32& clr_argb, float scale=1.0f){};
+    virtual void __stdcall DrawPrimitiveL(D3DPRIMITIVETYPE pt, bsize pc, Fvector* vertices, int vc, u32 color, BOOL bCull, BOOL bCycle);
+    virtual void __stdcall DrawPrimitiveTL(D3DPRIMITIVETYPE pt, bsize pc, FVF::TL* vertices, int vc, BOOL bCull, BOOL bCycle);
+    virtual void __stdcall DrawPrimitiveLIT(D3DPRIMITIVETYPE pt, bsize pc, FVF::LIT* vertices, int vc, BOOL bCull, BOOL bCycle);
 
     virtual void __stdcall OutText	(const Fvector& pos, LPCSTR text, u32 color=0xFF000000, u32 shadow_color=0xFF909090);
 

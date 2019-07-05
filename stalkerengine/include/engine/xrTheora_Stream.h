@@ -27,7 +27,7 @@ class ENGINE_API CTheoraStream
     u32 key_rate; // theora have const key rate
     float fpms;
 protected:
-    int ReadData();
+    bsize ReadData();
     BOOL ParseHeaders();
 public:
     CTheoraStream();

@@ -837,7 +837,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         LPCSTR sashName = "-openautomate ";
         if (strstr(lpCmdLine, sashName))
         {
-            int sz = xr_strlen(sashName);
+			bsize sz = xr_strlen(sashName);
             string512 sash_arg;
             sscanf(strstr(GetCommandLine(), sashName) + sz, "%[^ ] ", sash_arg);
             //doBenchmark (sash_arg);
@@ -919,16 +919,25 @@ int stack_overflow_exception_filter(int exception_code)
         return EXCEPTION_EXECUTE_HANDLER;
     }
     else
-        return EXCEPTION_CONTINUE_SEARCH;
+        return EXCEPTION_CONTINUE_SEARCH; 
 }
 
-#include <boost/crc.hpp>
-
+#ifndef CONSOLE
 int APIENTRY WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     char* lpCmdLine,
-                     int nCmdShow)
+	HINSTANCE hPrevInstance,
+	char* lpCmdLine,
+	int nCmdShow)
 {
+#else
+
+int main()
+{
+	HINSTANCE hInstance = 0;
+	HINSTANCE hPrevInstance = 0;
+	char* lpCmdLine = "";
+	int nCmdShow = 0;
+#endif
+
     //FILE* file = 0;
     //fopen_s ( &file, "z:\\development\\call_of_prypiat\\resources\\gamedata\\shaders\\r3\\objects\\r4\\accum_sun_near_msaa_minmax.ps\\2048__1___________4_11141_", "rb" );
     //u32 const file_size = 29544;
@@ -971,7 +980,7 @@ LPCSTR _GetFontTexName(LPCSTR section)
     else if (w <= 1280)idx = 1;
     else idx = 2;
 #else
-    u32 h = Device.dwHeight;
+	bsize h = Device.dwHeight;
 
     if (h <= 600) idx = 0;
     else if (h < 1024) idx = 1;
@@ -1340,7 +1349,7 @@ void gen_logo_name(string_path& dest, LPCSTR level_name, int num)
 {
 	strconcat(sizeof(dest), dest, "intro\\intro_", level_name);
 
-	u32 len = xr_strlen(dest);
+	bsize len = xr_strlen(dest);
 	if (dest[len - 1] == '\\')
 		dest[len - 1] = 0;
 
@@ -1352,7 +1361,7 @@ void gen_logo_name(string_path& dest, LPCSTR level_name, int num)
 	}
 }
 
-void CApplication::Level_Set(u32 L)
+void CApplication::Level_Set(bsize L)
 {
     SECUROM_MARKER_PERFORMANCE_ON(9)
 
@@ -1399,9 +1408,9 @@ void CApplication::Level_Set(u32 L)
     SECUROM_MARKER_PERFORMANCE_OFF(9)
 }
 
-int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
+bsize CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
 {
-    int result = -1;
+	bsize result = bsize (-1);
 
     SECUROM_MARKER_SECURITY_ON(7)
 
@@ -1436,7 +1445,7 @@ int CApplication::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
         }
     }
 
-    if (bSet && result != -1)
+    if (bSet && result != bsize (-1))
         Level_Set(result);
 
     if (arch_res)

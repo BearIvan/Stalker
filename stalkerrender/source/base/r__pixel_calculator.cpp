@@ -36,8 +36,8 @@ r_aabb_ssa		r_pixel_calculator::calculate	(dxRender_Visual* V)	{
 	float		area			= float(XrMath::sqr(rt_dimensions));
 
 	// 
-	u32	id				[6]		;
-	for (u32 face=0; face<6; face++)	{
+	bsize	id				[6]		;
+	for (bsize face=0; face<6; face++)	{
 		// setup matrices
 		Fmatrix						mProject,mView	;
 		Fvector						vFrom			;

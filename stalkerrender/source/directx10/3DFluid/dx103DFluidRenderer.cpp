@@ -66,7 +66,7 @@ dx103DFluidRenderer::~dx103DFluidRenderer()
 	Destroy();
 }
 
-void dx103DFluidRenderer::Initialize(int gridWidth, int gridHeight, int gridDepth)
+void dx103DFluidRenderer::Initialize(bsize gridWidth, bsize gridHeight, int gridDepth)
 {
 	Destroy();
 
@@ -440,15 +440,15 @@ void dx103DFluidRenderer::CreateHHGGTexture()
 	_RELEASE(HHGGTexture);
 }
 
-void dx103DFluidRenderer::SetScreenSize( int width, int height )
+void dx103DFluidRenderer::SetScreenSize( bsize width, bsize height )
 {
 	CreateRayDataResources(width, height);
 }
 
-void dx103DFluidRenderer::CalculateRenderTextureSize(int screenWidth, int screenHeight)
+void dx103DFluidRenderer::CalculateRenderTextureSize(bsize screenWidth, bsize screenHeight)
 {
-	int maxProjectedSide = int(3.0 * XrMath::sqrt(3.0)*m_fMaxDim);
-	int maxScreenDim = XrMath::max(screenWidth, screenHeight);
+	bsize maxProjectedSide = bsize(3.0 * XrMath::sqrt(3.0)*m_fMaxDim);
+	bsize maxScreenDim = XrMath::max(screenWidth, screenHeight);
 
 	float screenAspectRatio = ((float)screenWidth)/screenHeight;
 
@@ -472,7 +472,7 @@ void dx103DFluidRenderer::CalculateRenderTextureSize(int screenWidth, int screen
 	}
 }
 
-void dx103DFluidRenderer::CreateRayDataResources( int width, int height )
+void dx103DFluidRenderer::CreateRayDataResources(bsize width, bsize height )
 {
 
 //	SAFE_RELEASE(pRayDataTex2D);
@@ -905,9 +905,9 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData &FluidData, Fo
 		size
 		);
 
-	u32 iNumRenderables = m_lstRenderables.size();
+	bsize iNumRenderables = m_lstRenderables.size();
 	// Determine visibility for dynamic part of scene
-	for (u32 i=0; i<iNumRenderables; ++i)
+	for (bsize i=0; i<iNumRenderables; ++i)
 	{
 		ISpatial*	spatial		= m_lstRenderables[i];
 

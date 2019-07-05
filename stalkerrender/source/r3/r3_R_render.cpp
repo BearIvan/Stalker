@@ -193,7 +193,7 @@ void CRender::render_menu	()
 	RCache.set_Geometry				( Target->g_menu	);
 
 	Fvector2						p0,p1;
-	u32								Offset;
+	bsize								Offset;
 	u32		C						=XrColor::color_rgba	(255,255,255,255);
 	float	_w						= float(Device.dwWidth);
 	float	_h						= float(Device.dwHeight);
@@ -358,7 +358,7 @@ void CRender::Render		()
 	{
 		PIX_EVENT(DEFER_TEST_LIGHT_VIS);
 		// perform tests
-		u32	count			= 0;
+		bsize	count			= 0;
 		light_Package&	LP	= Lights.package;
 
 		// stats

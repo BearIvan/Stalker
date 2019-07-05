@@ -5,7 +5,7 @@ void CRenderTarget::draw_rain( light &RainSetup )
 	float	fRainFactor	= GetEnv().CurrentEnv->rain_density;
 
 	// Common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);

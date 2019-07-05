@@ -132,7 +132,7 @@ void CPGDef::Save(IWriter& F)
 	F.w_chunk		(PGD_CHUNK_FLAGS,&m_Flags,sizeof(m_Flags));
 
 	F.open_chunk	(PGD_CHUNK_EFFECTS);
-    F.w_u32			(m_Effects.size());
+    F.w_u32			((u32)m_Effects.size());
     for (EffectIt it=m_Effects.begin(); it!=m_Effects.end(); it++){
     	F.w_stringZ	((*it)->m_EffectName);
     	F.w_stringZ	((*it)->m_OnPlayChildName);
@@ -155,7 +155,7 @@ void CPGDef::Save2(CInifile& ini)
 
 	ini.w_u32		("_group", "flags", m_Flags.get());
 
-    ini.w_u32		("_group", "effects_count", m_Effects.size());
+    ini.w_u32		("_group", "effects_count",(u32) m_Effects.size());
 
 	u32 counter		= 0;
 	string256		buff;
@@ -218,7 +218,7 @@ void CParticleGroup::SItem::StartRelatedChild(CParticleEffect* emitter, LPCSTR e
     C->UpdateParent			(M,vel,FALSE);
     _children_related.push_back(C);
 }
-void CParticleGroup::SItem::StopRelatedChild(u32 idx)
+void CParticleGroup::SItem::StopRelatedChild(bsize idx)
 {
 	VERIFY(idx<_children_related.size());
     dxRender_Visual*& V 			= _children_related[idx];
@@ -300,7 +300,7 @@ void CParticleGroup::SItem::UpdateParent(const Fmatrix& m, const Fvector& veloci
     if (E) E->UpdateParent(m,velocity,bXFORM);
 }
 //------------------------------------------------------------------------------
-void OnGroupParticleBirth(void* owner, u32 param, PAPI::Particle& m, u32 idx)
+void OnGroupParticleBirth(void* owner, bsize param, PAPI::Particle& m, bsize idx)
 {
 	CParticleGroup* PG 	= static_cast<CParticleGroup*>(owner); 	VERIFY(PG);
     CParticleEffect*PE	= static_cast<CParticleEffect*>(PG->items[param]._effect);
@@ -313,7 +313,7 @@ void OnGroupParticleBirth(void* owner, u32 param, PAPI::Particle& m, u32 idx)
     if (eff->m_Flags.is(CPGDef::SEffect::flOnPlayChild))
     	PG->items[param].StartRelatedChild		(PE,*eff->m_OnPlayChildName,m);
 }
-void OnGroupParticleDead(void* owner, u32 param, PAPI::Particle& m, u32 idx)
+void OnGroupParticleDead(void* owner, bsize param, PAPI::Particle& m, bsize idx)
 {
 	CParticleGroup* PG 	= static_cast<CParticleGroup*>(owner); VERIFY(PG);
     CParticleEffect*PE	= static_cast<CParticleEffect*>(PG->items[param]._effect);
@@ -341,11 +341,11 @@ void CParticleGroup::SItem::OnFrame(u32 u_dt, const CPGDef::SEffect& def, Fbox& 
             if (E->vis.box.is_valid())     box.merge	(E->vis.box);
             if (def.m_Flags.is(CPGDef::SEffect::flOnPlayChild)&&def.m_OnPlayChildName.size()){
                 PAPI::Particle* particles;
-                u32 p_cnt;
+				bsize p_cnt;
                 PAPI::ParticleManager()->GetParticles(E->GetHandleEffect(),particles,p_cnt);
                 VERIFY(p_cnt==_children_related.size());
                 if (p_cnt){
-                    for(u32 i = 0; i < p_cnt; i++){
+                    for(bsize i = 0; i < p_cnt; i++){
                         PAPI::Particle &m	= particles[i]; 
                         CParticleEffect* C 	= static_cast<CParticleEffect*>(_children_related[i]);
                         Fmatrix M; 			M.translate(m.pos);
@@ -413,9 +413,9 @@ void CParticleGroup::SItem::OnDeviceDestroy()
     for (VisualVecIt it=visuals.begin(); it!=visuals.end(); it++)
 	    static_cast<CParticleEffect*>(*it)->OnDeviceDestroy();
 }
-u32	CParticleGroup::SItem::ParticlesCount()
+bsize	CParticleGroup::SItem::ParticlesCount()
 {
-	u32 p_count=0;
+	bsize p_count=0;
 	VisualVec 		visuals;
     GetVisuals		(visuals);
     for (VisualVecIt it=visuals.begin(); it!=visuals.end(); it++)
@@ -535,9 +535,9 @@ void CParticleGroup::OnDeviceDestroy()
     for (SItemVecIt i_it=items.begin(); i_it!=items.end(); i_it++) i_it->OnDeviceDestroy();
 }
 
-u32 CParticleGroup::ParticlesCount()
+bsize CParticleGroup::ParticlesCount()
 {
-	int p_count=0;
+	bsize p_count=0;
     for (SItemVecIt i_it=items.begin(); i_it!=items.end(); i_it++)
         p_count 	+= i_it->ParticlesCount();
 	return p_count;

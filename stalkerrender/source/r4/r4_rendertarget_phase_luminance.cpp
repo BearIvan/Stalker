@@ -17,7 +17,7 @@ struct v_filter {
 
 void	CRenderTarget::phase_luminance()
 {
-	u32		Offset	= 0;
+	bsize		Offset	= 0;
 //	float	eps		= XrMath::EPS_S;
 	float	eps		= 0;
 

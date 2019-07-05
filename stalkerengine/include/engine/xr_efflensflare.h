@@ -122,7 +122,7 @@ public:
     void OnDeviceDestroy();
 
     shared_str AppendDef(CEnvironment& environment, CInifile* pIni, LPCSTR sect);
-	int					AppendDef(CInifile* pIni, LPCSTR sect);
+	bsize					AppendDef(CInifile* pIni, LPCSTR sect);
     void Invalidate() { m_State = lfsNone; }
 };
 

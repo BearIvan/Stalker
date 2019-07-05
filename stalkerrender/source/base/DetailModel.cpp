@@ -13,7 +13,7 @@ void CDetail::Unload	()
 	shader.destroy		();
 }
 
-void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest, u32 iOffset)
+void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest, bsize iOffset)
 {
 	// Transfer vertices
 	{
@@ -31,18 +31,18 @@ void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest,
 	// Transfer indices (in 32bit lines)
 	VERIFY	(iOffset<65535);
 	{
-		u32	item	= (iOffset<<16) | iOffset;
-		u32	count	= number_indices/2;
+		bsize	item	= (iOffset<<16) | iOffset;
+		bsize	count	= number_indices/2;
 		LPDWORD	sit		= LPDWORD(indices);
 		LPDWORD	send	= sit+count;
 		LPDWORD	dit		= LPDWORD(iDest);
-		for		(; sit!=send; dit++,sit++)	*dit=*sit+item;
+		for		(; sit!=send; dit++,sit++)	*dit= static_cast<DWORD>(*sit + item);
 		if		(number_indices&1)	
 			iDest[number_indices-1]=u16(indices[number_indices-1]+u16(iOffset));
 	}
 }
 
-void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest, u32 iOffset, float du, float dv)
+void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest, bsize iOffset, float du, float dv)
 {
 	// Transfer vertices
 	{
@@ -60,12 +60,12 @@ void CDetail::transfer	(Fmatrix& mXform, fvfVertexOut* vDest, u32 C, u16* iDest,
 	// Transfer indices (in 32bit lines)
 	VERIFY	(iOffset<65535);
 	{
-		u32	item	= (iOffset<<16) | iOffset;
-		u32	count	= number_indices/2;
+		bsize	item	= (iOffset<<16) | iOffset;
+		bsize	count	= number_indices/2;
 		LPDWORD	sit		= LPDWORD(indices);
 		LPDWORD	send	= sit+count;
 		LPDWORD	dit		= LPDWORD(iDest);
-		for		(; sit!=send; dit++,sit++)	*dit=*sit+item;
+		for		(; sit!=send; dit++,sit++)	*dit=static_cast<DWORD>(*sit+item);
 		if		(number_indices&1)	
 			iDest[number_indices-1]=u16(indices[number_indices-1]+u16(iOffset));
 	}
@@ -88,24 +88,24 @@ void CDetail::Load		(IReader* S)
 	R_ASSERT		(0==(number_indices%3));
 	
 	// Vertices                             
-	u32				size_vertices		= number_vertices*sizeof(fvfVertexIn); 
+	bsize				size_vertices		= number_vertices*sizeof(fvfVertexIn);
 	vertices		= xr_alloc<CDetail::fvfVertexIn>	(number_vertices);
 	S->r			(vertices,size_vertices);
 	
 	// Indices
-	u32				size_indices		= number_indices*sizeof(u16);
+	bsize				size_indices		= number_indices*sizeof(u16);
 	indices			= xr_alloc<u16>						(number_indices);
 	S->r			(indices,size_indices);
 	
 	// Validate indices
 #ifdef DEBUG
-	for (u32 idx = 0; idx<number_indices; idx++)
+	for (bsize idx = 0; idx<number_indices; idx++)
 		R_ASSERT	(indices[idx]<(u16)number_vertices);
 #endif
 
 	// Calc BB & SphereRadius
 	bv_bb.invalidate	();
-	for (u32 i=0; i<number_vertices; i++)
+	for (bsize i=0; i<number_vertices; i++)
 		bv_bb.modify	(vertices[i].P);
 	bv_bb.getsphere		(bv_sphere.P,bv_sphere.R);
 

@@ -27,7 +27,7 @@ public:
 	~INetLog();	
 
 	void		LogPacket(u32 Time, NET_Packet* pPacket, bool IsIn = FALSE);
-	void		LogData(u32 Time, void* data, u32 size, bool IsIn = FALSE);
+	void		LogData(u32 Time, void* data, bsize size, bool IsIn = FALSE);
 };
 
 /*

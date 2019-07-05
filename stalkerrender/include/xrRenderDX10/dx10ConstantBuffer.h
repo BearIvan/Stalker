@@ -26,7 +26,7 @@ public:
 	void			seta(R_constant* C, R_constant_load& L, u32 e, const Fmatrix& A);
 	void			seta(R_constant* C, R_constant_load& L, u32 e, const Fvector4& A);
 
-	void*			AccessDirect(R_constant_load& L, u32 DataSize);
+	void*			AccessDirect(R_constant_load& L, bsize DataSize);
 
 private:
 	Fvector4*		Access(u16	offset);

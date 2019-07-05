@@ -14,8 +14,8 @@ class light;
 class CRenderTarget		: public IRender_Target
 {
 private:
-	u32							dwWidth;
-	u32							dwHeight;
+	bsize							dwWidth;
+	bsize							dwHeight;
 	u32							dwAccumulatorClearMark;
 public:
 	enum	eStencilOptimizeMode
@@ -240,7 +240,7 @@ public:
 	void						u_compute_texgen_jitter	(Fmatrix&	dest);
 	void						u_setrt					(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb);
 	void						u_setrt					(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencilView* zb);
-	void						u_setrt					(u32 W, u32 H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb);
+	void						u_setrt					(bsize W, bsize H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb);
 	void						u_calc_tc_noise			(Fvector2& p0, Fvector2& p1);
 	void						u_calc_tc_duality_ss	(Fvector2& r0, Fvector2& r1, Fvector2& l0, Fvector2& l1);
 	BOOL						u_need_PP				();
@@ -287,7 +287,7 @@ public:
 	void						accum_direct_f			(u32	sub_phase);
 	void						accum_direct_lum		();
 	void						accum_direct_blend		();
-	void						accum_direct_volumetric	(u32	sub_phase, const u32 Offset, const Fmatrix &mShadow);
+	void						accum_direct_volumetric	(u32	sub_phase, const bsize Offset, const Fmatrix &mShadow);
 	void						accum_point				(light* L);
 	void						accum_spot				(light* L);
 	void						accum_reflected			(light* L);
@@ -310,8 +310,8 @@ public:
 	virtual void				set_color_gray			(u32	f)		{ param_color_gray=f;				}
 	virtual void				set_color_add			(const Fvector	&f)		{ param_color_add=f;		}
 
-	virtual u32					get_width				()				{ return dwWidth;					}
-	virtual u32					get_height				()				{ return dwHeight;					}
+	virtual bsize					get_width				()				{ return dwWidth;					}
+	virtual bsize					get_height				()				{ return dwHeight;					}
 
 	virtual void				set_cm_imfluence	(float	f)		{ param_color_map_influence = f;							}
 	virtual void				set_cm_interpolate	(float	f)		{ param_color_map_interpolate = f;							}

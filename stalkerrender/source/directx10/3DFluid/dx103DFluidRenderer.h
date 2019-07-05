@@ -20,10 +20,10 @@ public:
 	dx103DFluidRenderer();
 	~dx103DFluidRenderer();
 
-	void	Initialize(int gridWidth, int gridHeight, int gridDepth);
+	void	Initialize(bsize gridWidth, bsize gridHeight, int gridDepth);
 	void	Destroy();
 
-	void	SetScreenSize(int width, int height);
+	void	SetScreenSize(bsize width, bsize height);
 
 	void	Draw(const dx103DFluidData &FluidData);
 
@@ -62,8 +62,8 @@ private:
 	void	CreateJitterTexture();
 	void	CreateHHGGTexture();
 
-	void	CalculateRenderTextureSize(int screenWidth, int screenHeight);
-	void	CreateRayDataResources( int width, int height );
+	void	CalculateRenderTextureSize(bsize screenWidth, bsize screenHeight);
+	void	CreateRayDataResources(bsize width, bsize height );
 
 	void	ComputeRayData();
 	void	ComputeEdgeTexture();
@@ -79,8 +79,8 @@ private:
 	Fvector3	m_vGridDim;
 	float		m_fMaxDim;
 
-	int			m_iRenderTextureWidth;
-	int			m_iRenderTextureHeight;
+	bsize			m_iRenderTextureWidth;
+	bsize			m_iRenderTextureHeight;
 
 	D3DXMATRIX	m_gridMatrix;
 	//Fmatrix		m_gridMatrix;

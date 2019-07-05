@@ -180,7 +180,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		{
 			file =XRayBearReader::Create(FS.Read(TEXT("%shaders%"), cname));
 		}
-		u32	const size			= file->length();
+		bsize	const size			= file->length();
 		char* const data		= (LPSTR)_alloca(size + 1);
 		CopyMemory				( data, file->pointer(), size );
 		data[size]				= 0;
@@ -195,7 +195,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		if (strstr(data, "main_vs_1_1"))	{ c_target = "vs_1_1"; c_entry = "main_vs_1_1";	}
 		if (strstr(data, "main_vs_2_0"))	{ c_target = "vs_2_0"; c_entry = "main_vs_2_0";	}
 
-		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)data,size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs );
+		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)data,static_cast<UINT>(size), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs );
 
 		VERIFY(SUCCEEDED(_hr));
 
@@ -286,7 +286,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR _name)
 		}
 
 		R_ASSERT2				( file, cname );
-		u32	const size			= file->length();
+		bsize	const size			= file->length();
 		char* const data		= (LPSTR)_alloca(size + 1);
 		CopyMemory				( data, file->pointer(), size );
 		data[size]				= 0;
@@ -301,7 +301,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR _name)
 		if (strstr(data,"main_ps_1_4"))			{ c_target = "ps_1_4"; c_entry = "main_ps_1_4";	}
 		if (strstr(data,"main_ps_2_0"))			{ c_target = "ps_2_0"; c_entry = "main_ps_2_0";	}
 
-		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)data,size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps );
+		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)data, static_cast<UINT>(size), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps );
 		
 		VERIFY(SUCCEEDED(_hr));
 
@@ -364,7 +364,7 @@ SGS*	CResourceManager::_CreateGS			(LPCSTR name)
 		LPCSTR						c_target	= "gs_4_0";
 		LPCSTR						c_entry		= "main";
 
-		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)file->pointer(),file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_gs );
+		HRESULT	const _hr		= ::Render->shader_compile(name,(DWORD const*)file->pointer(),static_cast<UINT>(file->length()), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_gs );
 
 		VERIFY(SUCCEEDED(_hr));
 
@@ -448,9 +448,9 @@ void				CResourceManager::_DeleteConstantTable	(const R_constant_table* C)
 
 //--------------------------------------------------------------------------------------------------------------
 #ifdef USE_DX11
-CRT*	CResourceManager::_CreateRT		(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount, bool useUAV )
+CRT*	CResourceManager::_CreateRT		(LPCSTR Name, bsize w, bsize h,	D3DFORMAT f, bsize SampleCount, bool useUAV )
 #else
-CRT*	CResourceManager::_CreateRT		(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
+CRT*	CResourceManager::_CreateRT		(LPCSTR Name, bsize w, bsize h,	D3DFORMAT f, bsize SampleCount )
 #endif
 {
 	R_ASSERT(Name && Name[0] && w && h);

@@ -84,7 +84,7 @@ void	smapvis::flushoccq	()
 	// the tough part
 	if (testQ_frame != Device.dwFrame)			return;
 	if ( (state != state_working) || (!testQ_V) ) return;
-	u64	fragments	=	RImplementation.occq_get(testQ_id);
+	bsize	fragments	=	RImplementation.occq_get(testQ_id);
 	if	(0==fragments)			{
 		// this is invisible shadow-caster, register it
 		// next time we will not get this caster, so 'test_current' remains the same

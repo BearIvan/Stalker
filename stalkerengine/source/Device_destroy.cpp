@@ -61,8 +61,8 @@ void CRenderDevice::Destroy(void)
 extern BOOL bNeed_re_create_env;
 void CRenderDevice::Reset(bool precache)
 {
-    u32 dwWidth_before = dwWidth;
-    u32 dwHeight_before = dwHeight;
+	bsize dwWidth_before = dwWidth;
+    bsize dwHeight_before = dwHeight;
 
  //   ShowCursor(TRUE);
     u32 tm_start = TimerAsync();

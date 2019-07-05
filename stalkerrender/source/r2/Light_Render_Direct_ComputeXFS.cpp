@@ -21,7 +21,7 @@ void CLight_Compute_XFORM_and_VIS::compute_xf_spot	(light* L)
 	L_pos.set						(L->position);
 	
 	// 
-	int _cached_size			= L->X.S.size;
+	bsize _cached_size			= L->X.S.size;
 	L->X.S.posX	= L->X.S.posY	= 0;
 	L->X.S.size					= SMAP_adapt_max;
 	L->X.S.transluent			= FALSE;

@@ -32,9 +32,9 @@ public:
 	~dx103DFluidManager();
 
 	//		Manager setup
-	void	Initialize( int width, int height, int depth );
+	void	Initialize(bsize width, bsize height, int depth );
 	void	Destroy();
-	void	SetScreenSize( int width, int height ) {if (m_bInited) m_pRenderer->SetScreenSize( width, height ); }
+	void	SetScreenSize(bsize width, bsize height ) {if (m_bInited) m_pRenderer->SetScreenSize( width, height ); }
 
 	//		Interface for fluid volume 
 	void	Update( dx103DFluidData &FluidData, float timestep );

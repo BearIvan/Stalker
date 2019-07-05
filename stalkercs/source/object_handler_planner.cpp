@@ -93,7 +93,7 @@ void CObjectHandlerPlanner::set_goal	(MonsterSpace::EObjectAction object_action,
 		m_max_queue_interval	= max_queue_interval;
 
 		if (m_max_queue_size == m_min_queue_size)
-			m_queue_size		= XrMath::max(bsize(1),m_min_queue_size);
+			m_queue_size		= XrMath::max(u32(1),m_min_queue_size);
 		else
 			m_queue_size		= XrMath::max(1,::Random.randI(m_min_queue_size,m_max_queue_size));
 

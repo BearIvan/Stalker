@@ -16,7 +16,10 @@ public class stalker_r1 :Project
 		Projects.Private.Add("openautomate");
 		Projects.Private.Add("nvapi");
 		Projects.Private.Add("loki");
-		Projects.Private.Add("atimgpud");
+		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32)
+		{
+			Projects.Private.Add("atimgpud");
+		}
 		LibrariesStatic.Private.Add("d3d9.lib");
 		LibrariesStatic.Private.Add("d3dx9.lib");
 		

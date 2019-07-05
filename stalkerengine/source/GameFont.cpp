@@ -200,7 +200,7 @@ void CGameFont::OutSetI(float x, float y)
     OutSet(DI2PX(x), DI2PY(y));
 }
 
-u32 CGameFont::smart_strlen(const char* S)
+bsize CGameFont::smart_strlen(const char* S)
 {
     return (IsMultibyte() ? mbhMulti2Wide(NULL, NULL, 0, S) : xr_strlen(S));
 }
@@ -353,10 +353,10 @@ float CGameFont::SizeOf_(LPCSTR s)
         return SizeOf_(wsStr);
     }
 
-    int len = xr_strlen(s);
+	bsize len = xr_strlen(s);
     float X = 0;
     if (len)
-        for (int j = 0; j < len; j++)
+        for (bsize j = 0; j < len; j++)
             X += GetCharTC((u16)(u8)s[j]).z;
 
     return (X*vInterval.x);

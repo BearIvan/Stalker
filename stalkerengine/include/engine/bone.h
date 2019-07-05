@@ -69,18 +69,18 @@ public:
     }
     void set_callback_overwrite(BOOL v) { Callback_overwrite = v; }
 
-   void set_param(u32 idx, float data)
+   void set_param(bsize idx, float data)
    {
 	   VERIFY(idx < MAX_BONE_PARAMS);
 	   param[idx] = data;
    }
-   float get_param(u32 idx)
+   float get_param(bsize idx)
    {
 	   VERIFY(idx < MAX_BONE_PARAMS);
 	   return param[idx];
 	}
 
-    u32 mem_usage() { return sizeof(*this); }
+    bsize mem_usage() { return sizeof(*this); }
 };
 
 #pragma pack( push,2 )
@@ -255,7 +255,7 @@ struct ECORE_API SJointIKData
     void Export(IWriter& F)
     {
         F.w_u32(type);
-        for (int k = 0; k < 3; k++)
+        for (bsize k = 0; k < 3; k++)
         {
             // Kostya Slipchenko say:
             // направление вращения в ОДЕ отличается от направления вращение в X-Ray
@@ -534,9 +534,9 @@ private:
     float _BCL lo_limit(u8 k) const { return IK_data.limits[k].limit.x; }
     float _BCL hi_limit(u8 k) const { return IK_data.limits[k].limit.y; }
 public:
-    virtual u32 mem_usage()
+    virtual bsize mem_usage()
     {
-        u32 sz = sizeof(*this) + sizeof(vecBones::value_type)*children.size();
+		bsize sz = sizeof(*this) + sizeof(vecBones::value_type)*children.size();
         for (ChildFacesVecIt c_it = child_faces.begin(); c_it != child_faces.end(); c_it++)
             sz += c_it->size()*sizeof(FacesVec::value_type) + sizeof(*c_it);
         return sz;

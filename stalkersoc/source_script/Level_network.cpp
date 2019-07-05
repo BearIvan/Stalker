@@ -194,7 +194,7 @@ void CLevel::ClientSend()
 u32	CLevel::Objects_net_Save	(NET_Packet* _Packet, u32 start, u32 max_object_size)
 {
 	NET_Packet& Packet	= *_Packet;
-	u32			position;
+	bsize			position;
 	for (; start<Objects.o_count(); start++)	{
 		CObject		*_P = Objects.o_get_by_iterator(start);
 		CGameObject *P = smart_cast<CGameObject*>(_P);

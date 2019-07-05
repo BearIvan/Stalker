@@ -19,7 +19,7 @@ void XrSharedMemoryContainer::Destroy()
 xrCriticalSection *XrSharedMemoryContainer::cs =0;
 xr_vector<XrSharedMemoryValue*> *XrSharedMemoryContainer::container= 0;
 
-XrSharedMemoryValue* XrSharedMemoryContainer::dock(u32 dwCRC, u32 dwLength, void* ptr)
+XrSharedMemoryValue* XrSharedMemoryContainer::dock(u32 dwCRC, bsize dwLength, void* ptr)
 {
     VERIFY(dwCRC && dwLength && ptr);
 

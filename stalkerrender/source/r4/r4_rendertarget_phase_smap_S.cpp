@@ -52,7 +52,7 @@ void	CRenderTarget::phase_smap_spot_tsh	(light* L)
 
 		// Fill vertex buffer
 		Fvector2						p0,p1;
-		u32		Offset;
+		bsize		Offset;
 		u32		C						=XrColor::color_rgba	(255,255,255,255);
 		float	_w						= float(L->X.S.size);
 		float	_h						= float(L->X.S.size);

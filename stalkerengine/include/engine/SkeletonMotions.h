@@ -67,14 +67,14 @@ public:
     void set_flag(u8 mask, u8 val) { if (val)_flags |= mask; else _flags &= ~mask; }
     BOOL test_flag(u8 mask) const { return BOOL(_flags&mask); }
 
-    void set_count(u32 cnt) { VERIFY(cnt); _count = cnt; }
-    ICF u32 get_count() const { return (u32(_count) & 0x00FFFFFF); }
+    void set_count(bsize cnt) { VERIFY(cnt); _count = cnt; }
+    ICF bsize get_count() const { return (bsize(_count) & 0x00FFFFFF); }
 
     float GetLength() { return float(_count)*SAMPLE_SPF; }
 
-    u32 mem_usage()
+    bsize mem_usage()
     {
-        u32 sz = sizeof(*this);
+        bsize sz = sizeof(*this);
         if (_keysR.size()) sz += _keysR.size()*sizeof(CKeyQR) / _keysR.ref_count();
         if (_keysT8.size()) sz += _keysT8.size()*sizeof(CKeyQT8) / _keysT8.ref_count();
         if (_keysT16.size()) sz += _keysT16.size()*sizeof(CKeyQT16) / _keysT16.ref_count();
@@ -154,7 +154,7 @@ public:
     xr_vector<u32> bones;
     CPartDef() : Name(0) {};
 
-    u32 mem_usage() { return sizeof(*this) + bones.size()*sizeof(u32) + sizeof(Name); }
+    bsize mem_usage() { return sizeof(*this) + bones.size()*sizeof(u32) + sizeof(Name); }
 };
 class ENGINE_API CPartition
 {
@@ -163,7 +163,7 @@ public:
     IC CPartDef& operator[] (u16 id) { return P[id]; }
     IC const CPartDef& part(u16 id) const { return P[id]; }
     u16 part_id(const shared_str& name) const;
-    u32 mem_usage() { return P[0].mem_usage()*MAX_PARTS; }
+    bsize mem_usage() { return P[0].mem_usage()*MAX_PARTS; }
     void load(IKinematics* V, LPCSTR model_name);
     u8 count() const { u8 ret = 0; for (u8 i = 0; i < MAX_PARTS; ++i) if (P[i].Name.size())ret++; return ret; };
 };
@@ -185,9 +185,9 @@ struct ENGINE_API motions_value
     BOOL load(LPCSTR N, IReader* data, vecBones* bones);
     MotionVec* bone_motions(shared_str bone_name);
 
-    u32 mem_usage()
+	bsize mem_usage()
     {
-        u32 sz = sizeof(*this) + m_motion_map.size() * 6 + m_partition.mem_usage();
+        bsize sz = sizeof(*this) + m_motion_map.size() * 6 + m_partition.mem_usage();
         for (MotionDefVecIt it = m_mdefs.begin(); it != m_mdefs.end(); it++)
             sz += it->mem_usage();
         for (BoneMotionMapIt bm_it = m_motions.begin(); bm_it != m_motions.end(); bm_it++)

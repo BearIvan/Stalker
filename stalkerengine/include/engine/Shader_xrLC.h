@@ -69,8 +69,8 @@ public:
             return;
         };
 
-        int count = fs->length() / sizeof(Shader_xrLC);
-        R_ASSERT(int(fs->length()) == int(count*sizeof(Shader_xrLC)));
+        bsize count = fs->length() / sizeof(Shader_xrLC);
+        R_ASSERT(bsize(fs->length()) == bsize(count*sizeof(Shader_xrLC)));
         library.resize(count);
         fs->r(&*library.begin(), fs->length());
         FS.r_close(fs);
@@ -93,11 +93,11 @@ public:
     {
         library.clear();
     }
-    u32 GetID(LPCSTR name)
+    bsize GetID(LPCSTR name)
     {
         for (Shader_xrLCIt it = library.begin(); it != library.end(); it++)
-            if (0 == stricmp(name, it->Name)) return u32(it - library.begin());
-        return u32(-1);
+            if (0 == stricmp(name, it->Name)) return bsize(it - library.begin());
+        return bsize(-1);
     }
     Shader_xrLC* Get(LPCSTR name)
     {
@@ -105,7 +105,7 @@ public:
             if (0 == stricmp(name, it->Name)) return &(*it);
         return NULL;
     }
-    Shader_xrLC* Get(int id)
+    Shader_xrLC* Get(bsize id)
     {
         return &library[id];
     }
@@ -123,7 +123,7 @@ public:
                 break;
             }
     }
-    void Remove(int id)
+    void Remove(bsize id)
     {
         library.erase(library.begin() + id);
     }

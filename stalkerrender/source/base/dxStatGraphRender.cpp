@@ -24,8 +24,8 @@ void dxStatGraphRender::OnRender(CStatGraph &owner)
 
 	RenderBack(owner);
 
-	u32			TriElem = 0;
-	u32			LineElem = 0;
+	bsize			TriElem = 0;
+	bsize			LineElem = 0;
 	for (CStatGraph::SubGraphVecIt it=owner.subgraphs.begin(); it!=owner.subgraphs.end(); it++)
 	{
 		switch (it->style)
@@ -49,7 +49,7 @@ void dxStatGraphRender::OnRender(CStatGraph &owner)
 		};
 	};
 
-	u32			dwOffsetTri = 0, dwOffsetLine = 0,dwCount;
+	bsize			dwOffsetTri = 0, dwOffsetLine = 0,dwCount;
 	FVF::TL0uv* pv_Tri_start	= NULL;
 	FVF::TL0uv* pv_Tri;
 	FVF::TL0uv* pv_Line_start	= NULL;
@@ -114,7 +114,7 @@ void dxStatGraphRender::OnRender(CStatGraph &owner)
 void dxStatGraphRender::RenderBack(CStatGraph &owner)
 {
 	// draw back
-	u32			dwOffset,dwCount;
+	bsize			dwOffset,dwCount;
 	FVF::TL0uv* pv_start				= (FVF::TL0uv*)RCache.Vertex.Lock(4,hGeomTri->vb_stride,dwOffset);
 	FVF::TL0uv* pv						= pv_start;
 	// base rect

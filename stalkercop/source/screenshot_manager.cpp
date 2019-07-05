@@ -212,12 +212,12 @@ void screenshot_manager::shedule_Update(u32 dt)
 			}
 		}
 #endif //#ifdef DEBUG*/
-		DWORD	process_affinity_mask;
+		DWORD	process_affinity_mask=1;
 		DWORD	tmp_dword;
-		GetProcessAffinityMask(
+	/*	GetProcessAffinityMask(
 			GetCurrentProcess(),
 			&process_affinity_mask,
-			&tmp_dword);
+			&tmp_dword);*/
 		process_screenshot(
 			btwCount1(static_cast<u32>(process_affinity_mask)) == 1
 		);

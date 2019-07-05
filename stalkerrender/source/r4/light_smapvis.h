@@ -14,7 +14,7 @@ public:
 	u32							test_count;
 	u32							test_current;
 	dxRender_Visual*			testQ_V;
-	u32							testQ_id;
+	bsize							testQ_id;
 	u32							testQ_frame;
 public:
 	smapvis			();

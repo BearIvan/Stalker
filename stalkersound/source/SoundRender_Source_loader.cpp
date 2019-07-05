@@ -12,9 +12,9 @@
 int ov_seek_func(void *datasource, s64 offset, int whence)	
 {
 	switch (whence){
-	case SEEK_SET: ((IReader*)datasource)->seek((int)offset);	 break;
-	case SEEK_CUR: ((IReader*)datasource)->advance((int)offset); break;
-	case SEEK_END: ((IReader*)datasource)->seek((int)offset + ((IReader*)datasource)->length()); break;
+	case SEEK_SET: ((IReader*)datasource)->seek((bint)offset);	 break;
+	case SEEK_CUR: ((IReader*)datasource)->advance((bint)offset); break;
+	case SEEK_END: ((IReader*)datasource)->seek((bint)offset + ((IReader*)datasource)->length()); break;
 	}
 	return 0; 
 }
@@ -23,7 +23,7 @@ size_t ov_read_func(void *ptr, size_t size, size_t nmemb, void *datasource)
 	IReader* F			= (IReader*)datasource; 
 	size_t exist_block	= XrMath::max(0, XrMath::iFloor(F->elapsed()/(float)size));
 	size_t read_block	= XrMath::min(exist_block,nmemb);
-	F->r				(ptr,(int)(read_block*size));	
+	F->r				(ptr,(bsize)(read_block*size));
 	return read_block;
 }
 int ov_close_func(void *datasource)									
@@ -32,7 +32,7 @@ int ov_close_func(void *datasource)
 }
 long ov_tell_func(void *datasource)									
 {	
-	return ((IReader*)datasource)->tell(); 
+	return static_cast<long>(((IReader*)datasource)->tell()); 
 }
 
 void CSoundRender_Source::decompress(u32 line, OggVorbis_File* ovf)

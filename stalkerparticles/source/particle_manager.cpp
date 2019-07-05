@@ -21,23 +21,23 @@ CParticleManager::~CParticleManager	()
 {
 }
 
-ParticleEffect*	CParticleManager::GetEffectPtr(int effect_id)
+ParticleEffect*	CParticleManager::GetEffectPtr(bint effect_id)
 {
-	R_ASSERT(effect_id>=0&&effect_id<(int)effect_vec.size());
+	R_ASSERT(effect_id>=0&&effect_id<static_cast<bint>(effect_vec.size()));
 	return effect_vec[effect_id];
 }
 
-ParticleActions* CParticleManager::GetActionListPtr(int a_list_num)
+ParticleActions* CParticleManager::GetActionListPtr(bint a_list_num)
 {
-	R_ASSERT(a_list_num>=0&&a_list_num<(int)m_alist_vec.size());
+	R_ASSERT(a_list_num>=0&&a_list_num< static_cast<bint>(m_alist_vec.size()));
 	return m_alist_vec[a_list_num];
 }
 
 // create
-int CParticleManager::CreateEffect(u32 max_particles)
+bint CParticleManager::CreateEffect(bsize max_particles)
 {
-	int eff_id 		= -1;
-	for(int i=0; i<(int)effect_vec.size(); i++)
+	 bint eff_id = -1;
+	for(bsize i=0; i<effect_vec.size(); i++)
 		if(!effect_vec[i]){ eff_id=i; break;}
 	
     if (eff_id<0){
@@ -50,15 +50,15 @@ int CParticleManager::CreateEffect(u32 max_particles)
 	
 	return eff_id;
 }
-void CParticleManager::DestroyEffect(int effect_id)
+void CParticleManager::DestroyEffect(bint effect_id)
 {
-	R_ASSERT(effect_id>=0&&effect_id<(int)effect_vec.size());
+	R_ASSERT(effect_id>=0&&effect_id< static_cast<bint>(effect_vec.size()));
     xr_delete(effect_vec[effect_id]);
 }
-int	CParticleManager::CreateActionList()
+bint	CParticleManager::CreateActionList()
 {
-	int list_id 		= -1;
-	for(u32 i=0; i<m_alist_vec.size(); ++i)
+	bint list_id 		= -1;
+	for(bsize i=0; i<m_alist_vec.size(); ++i)
 		if(!m_alist_vec[i])
 		{ 
 			list_id=i; 
@@ -76,14 +76,14 @@ int	CParticleManager::CreateActionList()
 	
 	return list_id;
 }
-void CParticleManager::DestroyActionList(int alist_id)
+void CParticleManager::DestroyActionList(bint alist_id)
 {
-	R_ASSERT(alist_id>=0&&alist_id<(int)m_alist_vec.size());
+	R_ASSERT(alist_id>=0&&alist_id< static_cast<bint>(m_alist_vec.size()));
     xr_delete(m_alist_vec[alist_id]);
 }
 
 // control
-void CParticleManager::PlayEffect(int effect_id, int alist_id)
+void CParticleManager::PlayEffect(bint effect_id, bint alist_id)
 {
 	// effect
 //    ParticleEffect* pe		= GetEffectPtr(effect_id);
@@ -105,7 +105,7 @@ void CParticleManager::PlayEffect(int effect_id, int alist_id)
 	pa->unlock();
 }
 
-void CParticleManager::StopEffect(int effect_id, int alist_id, BOOL deffered)
+void CParticleManager::StopEffect(bint effect_id, bint alist_id, BOOL deffered)
 {
     // Execute the specified action list.
     ParticleActions* pa	= GetActionListPtr(alist_id);
@@ -128,7 +128,7 @@ void CParticleManager::StopEffect(int effect_id, int alist_id, BOOL deffered)
 }
 
 // update&render
-void CParticleManager::Update(int effect_id, int alist_id, float dt)
+void CParticleManager::Update(bint effect_id, bint alist_id, float dt)
 {
     ParticleEffect* pe	= GetEffectPtr(effect_id);
     ParticleActions* pa	= GetActionListPtr(alist_id);
@@ -147,11 +147,11 @@ void CParticleManager::Update(int effect_id, int alist_id, float dt)
 	}
 	pa->unlock();
 }
-void CParticleManager::Render(int effect_id)
+void CParticleManager::Render(bint effect_id)
 {
 //    ParticleEffect* pe	= GetEffectPtr(effect_id);
 }
-void CParticleManager::Transform(int alist_id, const Fmatrix& full, const Fvector& vel)
+void CParticleManager::Transform(bint alist_id, const Fmatrix& full, const Fvector& vel)
 {
 	// Execute the specified action list.
 	ParticleActions* pa	= GetActionListPtr(alist_id);
@@ -178,17 +178,17 @@ void CParticleManager::Transform(int alist_id, const Fmatrix& full, const Fvecto
 }
 
 // effect
-void CParticleManager::RemoveParticle(int effect_id, u32 p_id)
+void CParticleManager::RemoveParticle(bint effect_id, bsize p_id)
 {
 	ParticleEffect *pe = GetEffectPtr(effect_id);
 	pe->Remove		(p_id);
 }
-void CParticleManager::SetMaxParticles(int effect_id, u32 max_particles)
+void CParticleManager::SetMaxParticles(bint effect_id, bsize max_particles)
 {
 	ParticleEffect *pe = GetEffectPtr(effect_id);
 	pe->Resize		(max_particles);
 }
-void CParticleManager::SetCallback(int effect_id, OnBirthParticleCB b, OnDeadParticleCB d, void* owner, u32 param)
+void CParticleManager::SetCallback(bint effect_id, OnBirthParticleCB b, OnDeadParticleCB d, void* owner, bsize param)
 {
 	ParticleEffect *pe = GetEffectPtr(effect_id);
 	pe->b_cb		= b;
@@ -196,13 +196,13 @@ void CParticleManager::SetCallback(int effect_id, OnBirthParticleCB b, OnDeadPar
     pe->owner		= owner;
     pe->param		= param;
 }
-void CParticleManager::GetParticles(int effect_id, Particle*& particles, u32& cnt)
+void CParticleManager::GetParticles(bint effect_id, Particle*& particles, bsize& cnt)
 {
 	ParticleEffect *pe = GetEffectPtr(effect_id);
     particles		= pe->particles;
     cnt				= pe->p_count;
 }
-u32	CParticleManager::GetParticlesCount	(int effect_id)
+bsize	CParticleManager::GetParticlesCount	(bint effect_id)
 {
 	ParticleEffect *pe = GetEffectPtr(effect_id);
     return 			pe->p_count;
@@ -249,7 +249,7 @@ ParticleAction* CParticleManager::CreateAction(PActionEnum type)
     pa->type					= type;
     return pa;
 }
-u32 CParticleManager::LoadActions(int alist_id, IReader& R)
+bsize CParticleManager::LoadActions(bint alist_id, IReader& R)
 {
 	// Execute the specified action list.
 	ParticleActions* pa		= GetActionListPtr(alist_id);
@@ -266,13 +266,13 @@ u32 CParticleManager::LoadActions(int alist_id, IReader& R)
     }
     return pa->size();
 }
-void CParticleManager::SaveActions(int alist_id, IWriter& W)
+void CParticleManager::SaveActions(bint alist_id, IWriter& W)
 {
 	// Execute the specified action list.
 	ParticleActions* pa		= GetActionListPtr(alist_id);
 	VERIFY(pa);
 	pa->lock();
-    W.w_u32					(pa->size());
+    W.w_u32					((u32)pa->size());
     for (PAVecIt it=pa->begin(); it!=pa->end(); it++)
         (*it)->Save			(W);
 	pa->unlock();

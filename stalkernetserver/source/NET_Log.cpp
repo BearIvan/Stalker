@@ -107,7 +107,7 @@ void		INetLog::LogPacket(u32 Time, NET_Packet* pPacket, bool IsIn)
 	SLogPacket NewPacket;
 	
 	NewPacket.m_u16Type = *((u16*)&pPacket->B.data);
-	NewPacket.m_u32Size = pPacket->B.count;
+	NewPacket.m_u32Size = static_cast<uint32>(pPacket->B.count);
 	NewPacket.m_u32Time = Time - m_dwStartTime;
 	NewPacket.m_bIsIn = IsIn;
 
@@ -117,7 +117,7 @@ void		INetLog::LogPacket(u32 Time, NET_Packet* pPacket, bool IsIn)
 	m_cs.Leave();
 };
 
-void		INetLog::LogData(u32 Time, void* data, u32 size, bool IsIn)
+void		INetLog::LogData(u32 Time, void* data, bsize size, bool IsIn)
 {
 	if (!data) return;
 
@@ -126,7 +126,7 @@ void		INetLog::LogData(u32 Time, void* data, u32 size, bool IsIn)
 	SLogPacket NewPacket;
 	
 	NewPacket.m_u16Type = *((u16*)data);
-	NewPacket.m_u32Size = size;
+	NewPacket.m_u32Size =static_cast<uint32>( size);
 	NewPacket.m_u32Time = Time - m_dwStartTime;
 	NewPacket.m_bIsIn = IsIn;
 

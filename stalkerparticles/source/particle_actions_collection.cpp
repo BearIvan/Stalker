@@ -986,7 +986,7 @@ void PAKillOld::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
     tm_max = age_limit;
-	for(int i = effect->p_count-1; i >= 0; i--)
+	for(bsize i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		
@@ -1346,7 +1346,7 @@ void PARestore::Transform(const Fmatrix&){;}
 void PASink::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
-	for(int i = effect->p_count-1; i >= 0; i--)
+	for(bsize i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		
@@ -1365,7 +1365,7 @@ void PASink::Transform(const Fmatrix& m)
 void PASinkVelocity::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
-	for(int i = effect->p_count-1; i >= 0; i--)
+	for(bsize i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		
@@ -1385,7 +1385,7 @@ void PASource::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	if (m_Flags.is(flSilent)) return;
 
-	int rate = int(floor(particle_rate * dt));
+	bsize rate = bsize(floor(particle_rate * dt));
 	
 	// Dither the fraction particle in time.
 	if(drand48() < particle_rate * dt - float(rate))
@@ -1774,7 +1774,7 @@ void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max
 
 	age += dt;
 
-	u32 p_cnt = effect->p_count;
+	bsize p_cnt = effect->p_count;
 
 	if (!p_cnt)
 		return;
@@ -1788,16 +1788,16 @@ void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max
 
 	// Give ~1% more for the last worker
 	// to minimize wait in final spin
-	u32 nSlice = p_cnt / 128;
+	bsize nSlice = p_cnt / 128;
 
-	u32 nStep = ((p_cnt - nSlice) / nWorkers);
+	bsize nStep = ((p_cnt - nSlice) / nWorkers);
 	//u32 nStep = ( p_cnt / nWorkers );
 
 	//Msg( "Trb: %u" , nStep );
 
-	for (u32 i = 0; i < nWorkers; ++i) {
-		tesParams[i].p_from = i * nStep;
-		tesParams[i].p_to = (i == (nWorkers - 1)) ? p_cnt : (tesParams[i].p_from + nStep);
+	for (bsize i = 0; i < nWorkers; ++i) {
+		tesParams[i].p_from = static_cast<u32>(i * nStep);
+		tesParams[i].p_to =static_cast<u32>( (i == (nWorkers - 1)) ? p_cnt : (tesParams[i].p_from + nStep));
 
 		tesParams[i].effect = effect;
 		tesParams[i].offset = offset;

@@ -125,7 +125,7 @@ void	CRenderTarget::phase_scene_end		()
 	RCache.set_ColorWriteEnable			();
 
 	// common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);

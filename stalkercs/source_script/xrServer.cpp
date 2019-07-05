@@ -373,7 +373,7 @@ void xrServer::InsertFirstPacketToUpdate(NET_Packet const & P)
 void xrServer::MakeUpdatePackets(NET_Packet const & firstExportPacket)
 {
 	NET_Packet						tmpPacket;			
-	u32								position;
+	bsize								position;
 	NET_Packet* pCurUpdatePacket	= &(m_aUpdatePackets[0]);
 	
 	m_aUpdatePackets[0].w(firstExportPacket.B.data, firstExportPacket.B.count);

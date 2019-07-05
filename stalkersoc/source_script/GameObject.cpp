@@ -379,7 +379,7 @@ return ret;
 
 void CGameObject::net_Save		(NET_Packet &net_packet)
 {
-	u32							position;
+	bsize							position;
 	net_packet.w_chunk_open16	(position);
 	save						(net_packet);
 

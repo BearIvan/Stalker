@@ -2,7 +2,7 @@
 
 void CRenderTarget::mark_msaa_edges()
 {
-   u32	Offset;
+   bsize	Offset;
 	float	d_Z	= XrMath::EPS_S, d_W = 1.f;
 	u32	C		=XrColor::color_rgba	(255,255,255,255);
 

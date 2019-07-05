@@ -62,21 +62,39 @@ namespace luabind { namespace detail
 	inline string_class name_of_type(by_value<short>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<int>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<long>, lua_State*, int) { return "number"; }
+#ifdef _MSC_VER
+	inline string_class name_of_type(by_value< __int64>, lua_State*, int) { return "number"; }
+#else
+	inline string_class name_of_type(by_value< long long>, lua_State*, int) { return "number"; }
+#endif
 	inline string_class name_of_type(by_value<unsigned char>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<unsigned short>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<unsigned int>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<unsigned long>, lua_State*, int) { return "number"; }
-
+#ifdef _MSC_VER
+	inline string_class name_of_type(by_value<unsigned __int64>, lua_State*, int) { return "number"; }
+#else
+	inline string_class name_of_type(by_value<unsigned long long>, lua_State*, int) { return "number"; }
+#endif
 	inline string_class name_of_type(by_value<const bool>, lua_State*, int) { return "boolean"; }
 	inline string_class name_of_type(by_value<const char>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const short>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const int>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const long>, lua_State*, int) { return "number"; }
+#ifdef _MSC_VER
+	inline string_class name_of_type(by_value<const __int64>, lua_State*, int) { return "number"; }
+#else
+	inline string_class name_of_type(by_value<const long long>, lua_State*, int) { return "number"; }
+#endif
 	inline string_class name_of_type(by_value<const unsigned char>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const unsigned short>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const unsigned int>, lua_State*, int) { return "number"; }
 	inline string_class name_of_type(by_value<const unsigned long>, lua_State*, int) { return "number"; }
-
+#ifdef _MSC_VER
+	inline string_class name_of_type(by_value<const unsigned __int64>, lua_State*, int) { return "number"; }
+#else
+	inline string_class name_of_type(by_value<const unsigned long long>, lua_State*, int) { return "number"; }
+#endif
 	template<class T>
 	inline string_class name_of_type(by_value<luabind::functor<T> >, lua_State* L, long) { return "function<" + name_of_type(LUABIND_DECORATE_TYPE(T), L, 0L) + ">"; }
 

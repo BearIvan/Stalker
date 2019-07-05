@@ -76,7 +76,7 @@ int get_texture_load_lod(LPCSTR fn)
 		return 2;
 }
 
-u32 calc_texture_size(int lod, u32 mip_cnt, u32 orig_size)
+bsize calc_texture_size(int lod, bsize mip_cnt, bsize orig_size)
 {
 	if(1==mip_cnt)
 		return orig_size;
@@ -130,8 +130,8 @@ ID3DTexture2D*	TW_LoadTextureFromTexture
 	ID3DTexture2D*		t_from,
 	D3DFORMAT&				t_dest_fmt,
 	int						levels_2_skip,
-	u32&					w,
-	u32&					h
+	bsize&					w,
+	bsize&					h
 )
 {
 	// Calculate levels & dimensions
@@ -285,15 +285,15 @@ IC u32 it_height_rev_base(u32 d, u32 s)	{	return	XrColor::color_rgba	(
 	(XrColor::color_get_R(s)+XrColor::color_get_G(s)+XrColor::color_get_B(s))/3	);	// height
 }
 
-ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize)
+ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, bsize& ret_msize)
 {
 	ID3DTexture2D*		pTexture2D		= NULL;
 	IDirect3DCubeTexture9*	pTextureCUBE	= NULL;
-	u32						dwWidth,dwHeight;
-	u32						img_size		= 0;
+	bsize						dwWidth,dwHeight;
+	bsize						img_size		= 0;
 	int						img_loaded_lod	= 0;
 	D3DFORMAT				fmt;
-	u32						mip_cnt=u32(-1);
+	bsize						mip_cnt= bsize(-1);
 	// validation
 	R_ASSERT				(fRName);
 	R_ASSERT				(fRName[0]);
@@ -349,7 +349,7 @@ _DDS:
 
 		img_size				= S->length	();
 		R_ASSERT				(S);
-		HRESULT const result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(),S->length(),&IMG);
+		HRESULT const result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(), static_cast<UINT>(S->length()),&IMG);
 		if ( FAILED(result) ) {
 			Msg					("! Can't get image info for texture '%s'", fname);
 			XRayBearReader::Destroy			(S);
@@ -365,7 +365,7 @@ _DDS_CUBE:
 			HRESULT const result1	=
 				D3DXCreateCubeTextureFromFileInMemoryEx(
 					HW.pDevice,
-					S->pointer(),S->length(),
+					S->pointer(), static_cast<UINT>(S->length()),
 					D3DX_DEFAULT,
 					IMG.MipLevels,0,
 					IMG.Format,
@@ -399,7 +399,7 @@ _DDS_2D:
 			ID3DTexture2D*		T_sysmem;
 			HRESULT const result1	=
 				D3DXCreateTextureFromFileInMemoryEx(
-					HW.pDevice,S->pointer(),S->length(),
+					HW.pDevice,S->pointer(), static_cast<UINT>(S->length()),
 					D3DX_DEFAULT,D3DX_DEFAULT,
 					IMG.MipLevels,0,
 					IMG.Format,
@@ -543,7 +543,7 @@ _BUMP_from_base:
 		img_size				= S->length	();
 		ID3DTexture2D*		T_base;
 		R_CHK2(D3DXCreateTextureFromFileInMemoryEx(
-			HW.pDevice,	S->pointer(),S->length(),
+			HW.pDevice,	S->pointer(), static_cast<UINT>(S->length()),
 			D3DX_DEFAULT,D3DX_DEFAULT,	D3DX_DEFAULT,0,D3DFMT_A8R8G8B8,
 			D3DPOOL_SYSTEMMEM,			D3DX_DEFAULT,D3DX_DEFAULT,
 			0,&IMG,0,&T_base	), fname);
@@ -570,7 +570,7 @@ _BUMP_from_base:
 
 		// Calculate difference
 		ID3DTexture2D*	T_normal_1D = 0;
-		R_CHK(D3DXCreateTexture(HW.pDevice,dwWidth,dwHeight,T_normal_1U->GetLevelCount(),0,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&T_normal_1D));
+		R_CHK(D3DXCreateTexture(HW.pDevice, static_cast<UINT>(dwWidth), static_cast<UINT>(dwHeight),T_normal_1U->GetLevelCount(),0,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&T_normal_1D));
 		TW_Iterate_2OP		(T_normal_1D,T_normal_1,T_normal_1U,it_difference);
 
 		// Reverse channels back + transfer heightmap

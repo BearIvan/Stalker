@@ -113,7 +113,7 @@ struct CSaver {
 		xr_vector<bool>::const_iterator E = data.end();
 		u32								mask = 0;
 		if (I != E) {
-			for (int j=0; I != E; ++I, ++j) {
+			for (bsize j=0; I != E; ++I, ++j) {
 				if (j >= 32) {
 					stream.w_u32		(mask);
 					mask				= 0;
@@ -126,7 +126,7 @@ struct CSaver {
 		}
 	};
 
-	template <typename T, int size>
+	template <typename T, bsize size>
 	IC	static void save_data(const svector<T,size> &data, M &stream, const P &p)
 	{
 		stream.w_u32					((u32)data.size());

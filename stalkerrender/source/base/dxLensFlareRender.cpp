@@ -39,7 +39,7 @@ void dxLensFlareRender::Render(CLensFlare &owner, BOOL bSun, BOOL bFlares, BOOL 
 	dwLight.set							( owner.LightColor );
 	svector<ref_shader,MAX_Flares>		_2render;
 
-	u32									VS_Offset;
+	bsize									VS_Offset;
 	FVF::LIT *pv = (FVF::LIT*) RCache.Vertex.Lock(MAX_Flares * 4, hGeom.stride(), VS_Offset); float 	fDistance = 0;
 	if(gameVersionController->getGame() == gameVersionController->SOC)
 		fDistance = FAR_DIST_SOC*0.75f;
@@ -111,7 +111,7 @@ void dxLensFlareRender::Render(CLensFlare &owner, BOOL bSun, BOOL bFlares, BOOL 
 	{
 		if (_2render[i])
 		{
-			u32						vBase	= i*4+VS_Offset;
+			bsize						vBase	= i*4+VS_Offset;
 			RCache.set_Shader		(_2render[i]);
 			RCache.Render			(D3DPT_TRIANGLELIST,vBase, 0,4,0,2);
 		}

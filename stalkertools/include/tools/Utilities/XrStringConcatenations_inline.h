@@ -69,7 +69,7 @@ public:
 
 		bsize result = m_strings[0].second;
 
-        for (u32 j = 1; j < m_count; ++j)
+        for (bsize j = 1; j < m_count; ++j)
             result += m_strings[j].second;
 
         if (result > max_concat_result_size)
@@ -88,7 +88,7 @@ public:
 		BearCore::bear_copy(i, m_strings[0].first, m_strings[0].second*sizeof(*m_strings[0].first));
         i += m_strings[0].second;
 
-        for (u32 j = 1; j < m_count; ++j)
+        for (bsize j = 1; j < m_count; ++j)
         {
 			BearCore::bear_copy(i, m_strings[j].first, m_strings[j].second*sizeof(*m_strings[j].first));
             i += m_strings[j].second;
@@ -100,7 +100,7 @@ public:
 private:
     enum
     {
-        max_concat_result_size = u32(512 * 1024),
+        max_concat_result_size = bsize(512 * 1024),
         max_item_count = 6,
     };
 
@@ -109,7 +109,7 @@ private:
     struct helper
     {
 
-        static inline u32 length(LPCSTR string)
+        static inline bsize length(LPCSTR string)
         {
             return (string ? (unsigned int)BearCore::BearString::GetSize(string) : 0);
         }
@@ -119,7 +119,7 @@ private:
             return (string);
         }
 
-        static inline u32 length(shared_str const& string)
+        static inline bsize length(shared_str const& string)
         {
             return (string.size());
         }
@@ -129,7 +129,7 @@ private:
             return (string.c_str());
         }
 
-        static inline u32 length(xr_string const& string)
+        static inline bsize length(xr_string const& string)
         {
             return (string.size());
         }
@@ -153,11 +153,11 @@ private:
 private:
     typedef std::pair<LPCSTR, bsize> StringPair;
 	public:
-		XRCORE_API static  void  check_stack_overflow(u32 stack_increment);
+		XRCORE_API static  void  check_stack_overflow(bsize stack_increment);
 
 private:
     StringPair m_strings[max_item_count];
-    u32 m_count;
+	bsize m_count;
 };
 
 

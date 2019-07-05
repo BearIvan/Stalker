@@ -292,7 +292,7 @@ void CLightShadows::calculate	()
 	if (bRTS)
 	{
 		// Fill VB
-		u32							Offset;
+		bsize							Offset;
 		FVF::TL4uv* pv				= (FVF::TL4uv*) RCache.Vertex.Lock	(4,geom_Blur.stride(),Offset);
 		RImplementation.ApplyBlur4	(pv,S_rt_size,S_rt_size,S_blur_kernel);
 		RCache.Vertex.Unlock		(4,geom_Blur.stride());
@@ -393,7 +393,7 @@ void CLightShadows::render	()
 	RCache.set_Shader			(sh_World);
 	RCache.set_Geometry			(geom_World);
 	int batch					= 0;
-	u32 Offset					= 0;
+	bsize Offset					= 0;
 	FVF::LIT* pv				= (FVF::LIT*) RCache.Vertex.Lock	(batch_size*3,geom_World->vb_stride,Offset);
 	for (u32 s_it=0; s_it<shadows.size(); s_it++)
 	{
@@ -490,7 +490,7 @@ void CLightShadows::render	()
 			CI->Op					= CI->O->renderable.xform.c;
 			CI->L					= S.L;
 			CI->Lp					= CI->L->position;
-			CI->tcnt				= tess.size();
+			CI->tcnt				= static_cast<u32>(tess.size());
 			//Msg						("---free--- %x",u32(CI->tris));
 			xr_free					(CI->tris);	VERIFY(0==CI->tris);	
 			if (tess.size())		{

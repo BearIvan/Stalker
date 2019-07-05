@@ -45,7 +45,7 @@ public:
     BOOL Load(const char* fname);
 
     BOOL Update(u32 _time);
-    void DecompressFrame(u32* dst, u32 _width, int& count);
+    void DecompressFrame(u32* dst, bsize _width, bsize& count);
 
     void Play(BOOL _looped, u32 _time);
     void Pause(BOOL _pause) { playing = !_pause; }

@@ -62,8 +62,10 @@ void CHW::Reset		(HWND hwnd)
 	BOOL	bWindowed		= TRUE;
 	if (!g_dedicated_server)
 		bWindowed		= !psDeviceFlags.is	(rsFullscreen);
-
-	selectResolution		(DevPP.BackBufferWidth, DevPP.BackBufferHeight, bWindowed);
+	bsize w, h;
+	selectResolution		(w,h, bWindowed);
+	DevPP.BackBufferWidth = static_cast<UINT>(w);
+	DevPP.BackBufferHeight = static_cast<UINT>(h);
 /*	Device.dwWidth = DevPP.BackBufferWidth;
 	Device.dwHeight = DevPP.BackBufferHeight;
 	Device.fWidth_2 = Device.dwWidth / 2.f;
@@ -72,7 +74,7 @@ void CHW::Reset		(HWND hwnd)
 	DevPP.SwapEffect			= bWindowed?D3DSWAPEFFECT_COPY:D3DSWAPEFFECT_DISCARD;
 	DevPP.Windowed				= bWindowed;
 	DevPP.PresentationInterval	= D3DPRESENT_INTERVAL_IMMEDIATE;
-	if( !bWindowed )		DevPP.FullScreen_RefreshRateInHz	= selectRefresh	(DevPP.BackBufferWidth,DevPP.BackBufferHeight,Caps.fTarget);
+	if( !bWindowed )		DevPP.FullScreen_RefreshRateInHz	= static_cast<UINT>(selectRefresh	(DevPP.BackBufferWidth,DevPP.BackBufferHeight,Caps.fTarget));
 	else					DevPP.FullScreen_RefreshRateInHz	= D3DPRESENT_RATE_DEFAULT;
 #endif
 
@@ -182,7 +184,7 @@ void	CHW::DestroyDevice	()
 	free_vid_mode_list		();
 #endif
 }
-void	CHW::selectResolution	(u32 &dwWidth, u32 &dwHeight, BOOL bWindowed)
+void	CHW::selectResolution	(bsize &dwWidth, bsize &dwHeight, BOOL bWindowed)
 {
 	fill_vid_mode_list			(this);
 #ifndef _EDITOR
@@ -330,10 +332,11 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
     // Set up the presentation parameters
 	D3DPRESENT_PARAMETERS&	P	= DevPP;
     ZeroMemory				( &P, sizeof(P) );
+	bsize w, h;
+	selectResolution(w, h, bWindowed);
+	P.BackBufferWidth = static_cast<UINT>(w);
+	P.BackBufferHeight = static_cast<UINT>(h);
 
-#ifndef _EDITOR
-	selectResolution	(P.BackBufferWidth, P.BackBufferHeight, bWindowed);
-#endif
 /*	Device.dwWidth = P.BackBufferWidth;
 	Device.dwHeight = P.BackBufferHeight;
 	Device.fWidth_2 = Device.dwWidth / 2.f;
@@ -360,11 +363,11 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
 
 	// Refresh rate
 	P.PresentationInterval	= D3DPRESENT_INTERVAL_IMMEDIATE;
-    if( !bWindowed )		P.FullScreen_RefreshRateInHz	= selectRefresh	(P.BackBufferWidth, P.BackBufferHeight,fTarget);
+    if( !bWindowed )		P.FullScreen_RefreshRateInHz	= static_cast<UINT>(selectRefresh	(P.BackBufferWidth, P.BackBufferHeight,fTarget));
     else					P.FullScreen_RefreshRateInHz	= D3DPRESENT_RATE_DEFAULT;
 
     // Create the device
-	u32 GPU		= selectGPU();	
+	u32 GPU		= selectGPU();
 	HRESULT R	= HW.pD3D->CreateDevice(DevAdapter,
 										DevT,
 										m_hWnd,
@@ -423,7 +426,7 @@ void		CHW::CreateDevice		(HWND m_hWnd, bool move_window)
 #endif
 }
 
-u32	CHW::selectPresentInterval	()
+bsize	CHW::selectPresentInterval	()
 {
 	D3DCAPS9	caps;
 	pD3D->GetDeviceCaps(DevAdapter,DevT,&caps);
@@ -501,17 +504,17 @@ u32 CHW::selectGPU ()
 	} else return D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 }
 
-u32 CHW::selectRefresh(u32 dwWidth, u32 dwHeight, D3DFORMAT fmt)
+bsize CHW::selectRefresh(bsize dwWidth, bsize dwHeight, D3DFORMAT fmt)
 {
 	if (psDeviceFlags.is(rsRefresh60hz))	return D3DPRESENT_RATE_DEFAULT;
 	else
 	{
 		u32 selected	= D3DPRESENT_RATE_DEFAULT;
-		u32 count		= pD3D->GetAdapterModeCount(DevAdapter,fmt);
-		for (u32 I=0; I<count; I++)
+		bsize count		= pD3D->GetAdapterModeCount(DevAdapter,fmt);
+		for (bsize I=0; I<count; I++)
 		{
 			D3DDISPLAYMODE	Mode;
-			pD3D->EnumAdapterModes(DevAdapter,fmt,I,&Mode);
+			pD3D->EnumAdapterModes(DevAdapter,fmt,static_cast<UINT>(I),&Mode);
 			if (Mode.Width==dwWidth && Mode.Height==dwHeight)
 			{
 				if (Mode.RefreshRate>selected) selected = Mode.RefreshRate;
@@ -714,7 +717,7 @@ void fill_vid_mode_list(CHW* _hw)
 		_tmp.back()					= xr_strdup(str);
 	}
 
-	u32 _cnt						= _tmp.size()+1;
+	bsize _cnt						= _tmp.size()+1;
 
 	vid_mode_token					= xr_alloc<xr_token>(_cnt);
 

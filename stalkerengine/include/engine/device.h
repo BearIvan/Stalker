@@ -32,7 +32,6 @@
 
 class engine_impl;
 
-#pragma pack(push,4)
 
 class IRenderDevice
 {
@@ -46,8 +45,8 @@ class ENGINE_API CRenderDeviceData
 {
 
 public:
-    u32 dwWidth;
-    u32 dwHeight;
+	bsize dwWidth;
+	bsize dwHeight;
 
     u32 dwPrecacheFrame;
     BOOL b_is_Ready;
@@ -115,8 +114,6 @@ class ENGINE_API CRenderDeviceBase :
 public:
 };
 
-#pragma pack(pop)
-// refs
 class ENGINE_API CRenderDevice : public CRenderDeviceBase
 {
 private:

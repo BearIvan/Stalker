@@ -73,8 +73,8 @@ protected:
 	Ivector2			effect_period;
 public:
 	void				load				(const shared_str& section);
-	IC SEffect*			get_rnd_effect		(){return effects.empty()?0:&effects[Random.randI(effects.size())];}
-	IC ref_sound*		get_rnd_sound		(){return sounds.empty()?0:&sounds[Random.randI(sounds.size())];}
+	IC SEffect*			get_rnd_effect		(){return effects.empty()?0:&effects[static_cast<bsize>(Random.randI(static_cast<s32>(effects.size())))];}
+	IC ref_sound*		get_rnd_sound		(){return sounds.empty()?0:&sounds[static_cast<bsize>(Random.randI(static_cast<s32>(sounds.size())))];}
 	IC const shared_str&name				(){return section;}
 	IC u32				get_rnd_sound_time	(){return Random.randI(sound_period.x,sound_period.y);}
 	IC float			get_rnd_sound_dist	(){return Random.randF(sound_dist.x,sound_dist.y);}

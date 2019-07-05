@@ -28,8 +28,8 @@ const	u32		CULL_NONE			= D3DCULL_NONE;
 
 ///		detailed statistic
 struct	R_statistics_element	{
-	u32		verts,dips;
-	ICF		void	add			(u32 _verts)	{ verts+=_verts; dips++; }
+	bsize		verts,dips;
+	ICF		void	add			(bsize _verts)	{ verts+=_verts; dips++; }
 };
 struct	R_statistics			{
 	R_statistics_element		s_static		;
@@ -120,7 +120,7 @@ private:
 #endif	//	USE_DX10
 	ID3DVertexBuffer*			vb;
 	ID3DIndexBuffer*			ib;
-	u32								vb_stride;
+	bsize								vb_stride;
 
 	// Pixel/Vertex constants
 	ALIGN(16)	R_constants			constants;
@@ -190,28 +190,28 @@ private:
 public:
 	struct _stats
 	{
-		u32								polys;
-		u32								verts;
-		u32								calls;
-		u32								vs;
-		u32								ps;
+		bsize								polys;
+		bsize								verts;
+		bsize								calls;
+		bsize								vs;
+		bsize								ps;
 #ifdef	DEBUG
-		u32								decl;
-		u32								vb;
-		u32								ib;
-		u32								states;			// Number of times the shader-state changes
-		u32								textures;		// Number of times the shader-tex changes
-		u32								matrices;		// Number of times the shader-xform changes
-		u32								constants;		// Number of times the shader-consts changes
+		bsize								decl;
+		bsize								vb;
+		bsize								ib;
+		bsize								states;			// Number of times the shader-state changes
+		bsize								textures;		// Number of times the shader-tex changes
+		bsize								matrices;		// Number of times the shader-xform changes
+		bsize								constants;		// Number of times the shader-consts changes
 #endif
-		u32								xforms;
-		u32								target_rt;
-		u32								target_zb;
+		bsize								xforms;
+		bsize								target_rt;
+		bsize								target_zb;
 
 		R_statistics					r	;
 	}									stat;
 public:
-	IC	CTexture*					get_ActiveTexture			(u32 stage)
+	IC	CTexture*					get_ActiveTexture			(bsize stage)
 	{
 		if (stage<CTexture::rstVertex)			return textures_ps[stage];
 		else if (stage<CTexture::rstGeometry)	return textures_vs[stage-CTexture::rstVertex];
@@ -234,14 +234,14 @@ public:
 	}
 
 #if defined(USE_DX10) || defined(USE_DX11)
-	IC	void						get_ConstantDirect	(shared_str& n, u32 DataSize, void** pVData, void** pGData, void** pPData);
+	IC	void						get_ConstantDirect	(shared_str& n, bsize DataSize, void** pVData, void** pGData, void** pPData);
 #else	//USE_DX10
 	IC	R_constant_array&			get_ConstantCache_Vertex	()			{ return constants.a_vertex;	}
 	IC	R_constant_array&			get_ConstantCache_Pixel		()			{ return constants.a_pixel;		}
 #endif	//	USE_DX10
 
 	// API
-	IC	void						set_xform			(u32 ID, const Fmatrix& M);
+	IC	void						set_xform			(bsize ID, const Fmatrix& M);
 	IC	void						set_xform_world		(const Fmatrix& M);
 	IC	void						set_xform_view		(const Fmatrix& M);
 	IC	void						set_xform_project	(const Fmatrix& M);
@@ -249,9 +249,9 @@ public:
 	IC	const Fmatrix&				get_xform_view		();
 	IC	const Fmatrix&				get_xform_project	();
 
-	IC	void						set_RT				(ID3DRenderTargetView* RT, u32 ID=0);
+	IC	void						set_RT				(ID3DRenderTargetView* RT, bsize ID=0);
 	IC	void						set_ZB				(ID3DDepthStencilView* ZB);
-	IC	ID3DRenderTargetView*		get_RT				(u32 ID=0);
+	IC	ID3DRenderTargetView*		get_RT				(bsize ID=0);
 	IC	ID3DDepthStencilView*		get_ZB				();
 
 	IC	void						set_Constants		(R_constant_table* C);
@@ -265,11 +265,11 @@ public:
 	IC	void						set_Matrices		(ref_matrix_list& M1)				{ set_Matrices(&*M1);			}
 #endif
 
-	IC	void						set_Element			(ShaderElement* S, u32	pass=0);
-	IC	void						set_Element			(ref_selement& S, u32	pass=0)		{ set_Element(&*S,pass);		}
+	IC	void						set_Element			(ShaderElement* S, bsize	pass=0);
+	IC	void						set_Element			(ref_selement& S, bsize	pass=0)		{ set_Element(&*S,pass);		}
 
-	IC	void						set_Shader			(Shader* S, u32 pass=0);
-	IC	void						set_Shader			(ref_shader& S, u32 pass=0)			{ set_Shader(&*S,pass);			}
+	IC	void						set_Shader			(Shader* S, bsize pass=0);
+	IC	void						set_Shader			(ref_shader& S, bsize pass=0)			{ set_Shader(&*S,pass);			}
 
 	ICF	void						set_States			(ID3DState* _state);
 	ICF	void						set_States			(ref_state& _state)					{ set_States(_state->state);	}
@@ -316,7 +316,7 @@ protected:	//	In DX10 we need input shader signature which is stored in ref_vs
 public:
 #endif	//	USE_DX10
 
-	ICF	void						set_Vertices		(ID3DVertexBuffer* _vb, u32 _vb_stride);
+	ICF	void						set_Vertices		(ID3DVertexBuffer* _vb, bsize _vb_stride);
 	ICF	void						set_Indices			(ID3DIndexBuffer* _ib);
 	ICF void						set_Geometry		(SGeometry* _geom);
 	ICF void						set_Geometry		(ref_geom& _geom)					{	set_Geometry(&*_geom);		}
@@ -327,7 +327,7 @@ public:
 	IC  void						set_ColorWriteEnable(u32 _mask = D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
 	IC  void						set_CullMode		(u32 _mode);
 	IC  u32							get_CullMode		(){return cull_mode;}
-	void							set_ClipPlanes		(u32 _enable, Fplane*	_planes=NULL, u32 count=0);
+	void							set_ClipPlanes		(u32 _enable, Fplane*	_planes=NULL, bsize count=0);
 	void							set_ClipPlanes		(u32 _enable, Fmatrix*	_xform =NULL, u32 fmask=0xff);
 	IC	void						set_Scissor			(Irect*	rect=NULL);
 
@@ -372,8 +372,8 @@ public:
 	ICF	void						set_c				(shared_str& n, int A)												{ if(ctable)	set_c	(&*ctable->get(n),A);		}
 #endif	//	USE_DX10
 
-	ICF	void						Render				(D3DPRIMITIVETYPE T, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
-	ICF	void						Render				(D3DPRIMITIVETYPE T, u32 startV, u32 PC);
+	ICF	void						Render				(D3DPRIMITIVETYPE T, bsize baseV, bsize startV, bsize countV, bsize startI, bsize PC);
+	ICF	void						Render				(D3DPRIMITIVETYPE T, bsize startV, bsize PC);
 
 #ifdef USE_DX11
 	ICF	void						Compute				(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ);
@@ -388,8 +388,8 @@ public:
 	void							OnDeviceDestroy		();
 
 	// Debug render
-	void dbg_DP						(D3DPRIMITIVETYPE pt, ref_geom geom, u32 vBase, u32 pc);
-	void dbg_DIP					(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
+	void dbg_DP						(D3DPRIMITIVETYPE pt, ref_geom geom, bsize vBase, bsize pc);
+	void dbg_DIP					(D3DPRIMITIVETYPE pt, ref_geom geom, bsize baseV, bsize startV, bsize countV, bsize startI, bsize PC);
 #if defined(USE_DX10) || defined(USE_DX11)
 	//	TODO: DX10: Implement this.
 	IC void	dbg_SetRS				(D3DRENDERSTATETYPE p1, u32 p2)
@@ -403,8 +403,8 @@ public:
 	{ CHK_DX(HW.pDevice->SetSamplerState(sampler,type,value)); }
 #endif	//	USE_DX10
 #ifdef DEBUG
-	void dbg_Draw					(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int vcnt, u16* pIdx, int pcnt);
-	void dbg_Draw					(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int pcnt);
+	void dbg_Draw					(D3DPRIMITIVETYPE T1, FVF::L* pVerts, bsize vcnt, u16* pIdx, bsize pcnt);
+	void dbg_Draw					(D3DPRIMITIVETYPE T1, FVF::L* pVerts, bsize pcnt);
 	IC void dbg_DrawAABB			(Fvector& T1, float sx, float sy, float sz, u32 C1)						{	Fvector half_dim;	half_dim.set(sx,sy,sz); Fmatrix	TM;	TM.translate(T1); dbg_DrawOBB(TM,half_dim,C1);	}
 	void dbg_DrawOBB				(Fmatrix& T1, Fvector& half_dim, u32 C1);
 	IC void dbg_DrawTRI				(Fmatrix& T1, Fvector* p, u32 C1)											{	dbg_DrawTRI(T1,p[0],p[1],p[2],C1);	}

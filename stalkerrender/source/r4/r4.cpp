@@ -147,7 +147,7 @@ void					CRender::create					()
 		//.		??? if (date < 22-march-07)		
 		if (0)
 		{
-			u32 device_id	= HW.Caps.id_device;
+			bsize device_id	= HW.Caps.id_device;
 			bool disable_nullrt = false;
 			switch (device_id)	
 			{
@@ -685,7 +685,7 @@ void	CRender::Statistics	(CGameFont* _F)
 	F.OutNext	(" total  : %2d",	stats.o_queries	);	stats.o_queries = 0;
 	F.OutNext	(" culled : %2d",	stats.o_culled	);	stats.o_culled	= 0;
 	F.OutSkip	();
-	u32	ict		= stats.ic_total + stats.ic_culled;
+	bsize	ict		= stats.ic_total + stats.ic_culled;
 	F.OutNext	(" **** iCULL(%03.1f) **** ",100.f*f32(stats.ic_culled)/f32(ict?ict:1));
 	F.OutNext	(" visible: %2d",	stats.ic_total	);	stats.ic_total	= 0;
 	F.OutNext	(" culled : %2d",	stats.ic_culled	);	stats.ic_culled	= 0;
@@ -719,7 +719,7 @@ template <typename T>
 static HRESULT create_shader				(
 		LPCSTR const	pTarget,
 		DWORD const*	buffer,
-		u32	const		buffer_size,
+	bsize	const		buffer_size,
 		LPCSTR const	file_name,
 		T*&				result,
 		bool const		disasm
@@ -748,7 +748,7 @@ static HRESULT create_shader				(
 static HRESULT create_shader				(
 		LPCSTR const	pTarget,
 		DWORD const*	buffer,
-		u32	const		buffer_size,
+	bsize	const		buffer_size,
 		LPCSTR const	file_name,
 		void*&			result,
 		bool const		disasm
@@ -959,14 +959,14 @@ public:
 		}
 
 		// duplicate and zero-terminate
-		u32				size = R->length();
+		bsize				size = R->length();
 		u8*				data = xr_alloc<u8>(size + 1);
 		CopyMemory(data, R->pointer(), size);
 		data[size] = 0;
 		XRayBearReader::Destroy(R);
 
 		*ppData = data;
-		*pBytes = size;
+		*pBytes = static_cast<UINT>(size);
 		return	D3D_OK;
 	}
 	HRESULT __stdcall	Close	(LPCVOID	pData)
@@ -1003,7 +1003,7 @@ HRESULT	CRender::shader_compile			(
 			defines[def_it++]			= m_ShaderOptions[i];
 	}
 
-	u32		len = xr_strlen(sh_name);
+	bsize		len = xr_strlen(sh_name);
 	// options
 	{
 		xr_sprintf						(c_smapsize,"%04d",u32(o.smapsize));
@@ -1551,7 +1551,7 @@ HRESULT	CRender::shader_compile			(
 
 static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length )
 {
-	u32 const full_shader_id_length	= xr_strlen( full_shader_id );
+	bsize const full_shader_id_length	= xr_strlen( full_shader_id );
 	R_ASSERT2				(
 		full_shader_id_length == mask_length,
 		make_string(

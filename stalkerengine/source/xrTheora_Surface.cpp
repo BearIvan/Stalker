@@ -184,7 +184,7 @@ u32 CTheoraSurface::Height(bool bRealSize)
 
 }
 
-void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
+void CTheoraSurface::DecompressFrame(u32* data, bsize _width, bsize& _pos)
 {
     VERIFY(m_rgb);
     yuv_buffer* yuv_rgb = m_rgb->CurrentFrame();
@@ -203,22 +203,22 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
     {
         yuv_buffer& yuv = *yuv_rgb;
 
-        u32 pos = 0;
+		bsize pos = 0;
 
         if (!bShaderYUV2RGB)
         {
-            for (u32 h = 0; h < height; ++h)
+            for (bsize h = 0; h < height; ++h)
             {
 
-                u32 uv_stride_add = yuv.uv_stride * (h >> 1);
+				bsize uv_stride_add = yuv.uv_stride * (h >> 1);
                 u8* Y = yuv.y + yuv.y_stride * h;
                 u8* U = yuv.u + uv_stride_add;
                 u8* V = yuv.v + uv_stride_add;
 
-                for (u32 w = 0; w < width; ++w)
+                for (bsize w = 0; w < width; ++w)
                 {
 
-                    u32 uv_idx = w >> 1;
+					bsize uv_idx = w >> 1;
                     u8 y = Y[w];
                     u8 u = U[uv_idx];
                     u8 v = V[uv_idx];
@@ -241,13 +241,13 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
         else
         {
 
-            u32 buff_step = width + _width;
-            u32 buff_double_step = buff_step << 1;
+			bsize buff_step = width + _width;
+			bsize buff_double_step = buff_step << 1;
 
-            for (u32 y_h = 0, uv_h = 0; y_h < height; y_h += 2, ++uv_h, pos += buff_double_step)
+            for (bsize y_h = 0, uv_h = 0; y_h < height; y_h += 2, ++uv_h, pos += buff_double_step)
             {
 
-                u32 uv_stride_add = yuv.uv_stride * uv_h;
+				bsize uv_stride_add = yuv.uv_stride * uv_h;
                 u8* Y0 = yuv.y + yuv.y_stride * y_h;
                 u8* U = yuv.u + uv_stride_add;
                 u8* Y1 = Y0 + yuv.y_stride;
@@ -265,7 +265,7 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
                     u8 u = U[uv_w];
                     u8 v = V[uv_w];
 
-                    u32 idx = pos + y_w;
+					bsize idx = pos + y_w;
 
                     u32 common_part = 255 << 24 | u << 8 | v;
 

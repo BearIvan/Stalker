@@ -32,12 +32,12 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 	dv					= (owner.lightning_phase>0.5f)?Random.randI(2)*0.5f:dv;
 
 	RCache.set_CullMode	(CULL_NONE);
-	u32					v_offset,i_offset;
+	bsize					v_offset,i_offset;
 	
 	dxThunderboltDescRender *pThRen = (dxThunderboltDescRender*)&*owner.current->m_pRender;
 
-	u32					vCount_Lock		= pThRen->l_model->number_vertices;
-	u32					iCount_Lock		= pThRen->l_model->number_indices;
+	bsize					vCount_Lock		= pThRen->l_model->number_vertices;
+	bsize					iCount_Lock		= pThRen->l_model->number_indices;
 	IRender_DetailModel::fvfVertexOut* v_ptr= (IRender_DetailModel::fvfVertexOut*) 	RCache.Vertex.Lock	(vCount_Lock, hGeom_model->vb_stride, v_offset);
 	u16*				i_ptr				=										RCache.Index.Lock	(iCount_Lock, i_offset);
 	// XForm verts
@@ -53,7 +53,7 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt &owner)
 
 	// gradient
 	Fvector				vecSx, vecSy;
-	u32					VS_Offset;
+	bsize					VS_Offset;
 	FVF::LIT *pv		= (FVF::LIT*) RCache.Vertex.Lock(8,hGeom_gradient.stride(),VS_Offset);
 	// top
 	{

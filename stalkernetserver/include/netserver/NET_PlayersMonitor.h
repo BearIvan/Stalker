@@ -39,7 +39,7 @@ public:
 		return false;
 	}
 #endif
-	 IClient*getClient(u32 id)
+	 IClient*getClient(bsize id)
 	{
 		IClient* ret_client = NULL;
 		if (id >= net_Players.size())return NULL;
@@ -115,9 +115,9 @@ public:
 		csPlayers.Leave();
 	}
 	template<typename SearchPredicate, typename ActionFunctor>
-	u32	ForFoundClientsDo				(SearchPredicate const & predicate,	ActionFunctor & functor)
+	bsize	ForFoundClientsDo				(SearchPredicate const & predicate,	ActionFunctor & functor)
 	{
-		u32 ret_count = 0;
+		bsize ret_count = 0;
 		//Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
 		csPlayers.Enter();
 		//LogStackTrace(
@@ -281,13 +281,13 @@ public:
 		csPlayers.Leave();
 	}*/
 
-	u32			ClientsCount					()
+	bsize			ClientsCount					()
 	{
 		//Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
 		csPlayers.Enter();
 		//LogStackTrace(
 		//	make_string("-S- Entered to csPlayers [%d]", GetCurrentThreadId()).c_str());
-		u32 ret_count = net_Players.size();
+		bsize ret_count = net_Players.size();
 		//Msg("-S- Leaving from csPlayers [%d]", GetCurrentThreadId());
 		csPlayers.Leave();
 		return ret_count;

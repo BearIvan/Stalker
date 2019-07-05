@@ -41,7 +41,7 @@ public:
 	BOOL			bForceGPU_NonPure;
 	BOOL			SceneMode;
 
-	u32				iGPUNum;
+	bsize				iGPUNum;
 
 	// device format
 	D3DFORMAT		fTarget;
@@ -56,8 +56,8 @@ public:
 	u16				raster_minor	;
 	caps_Raster		raster			;
 
-	u32				id_vendor		;
-	u32				id_device		;
+	bsize				id_vendor		;
+	bsize				id_device		;
 
 	BOOL			bStencil;			// stencil buffer present
 	BOOL			bScissor;			// scissor rect supported
@@ -65,7 +65,7 @@ public:
 
 	// some precalculated values
 	D3DSTENCILOP	soDec, soInc;		// best stencil OPs for shadows
-	u32				dwMaxStencilValue;  // maximum value the stencil buffer can hold
+	bsize				dwMaxStencilValue;  // maximum value the stencil buffer can hold
 
 	void			Update(void);
 };

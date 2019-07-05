@@ -88,9 +88,9 @@ void CLensFlareDescriptor::load(CInifile* pIni, LPCSTR sect)
         LPCSTR R = pIni->r_string(sect, "flare_radius");
         LPCSTR O = pIni->r_string(sect, "flare_opacity");
         LPCSTR P = pIni->r_string(sect, "flare_position");
-        u32 tcnt = XrTrims::GetItemCount(T);
+		bsize tcnt = XrTrims::GetItemCount(T);
         string256 name;
-        for (u32 i = 0; i < tcnt; i++)
+        for (bsize i = 0; i < tcnt; i++)
         {
             XrTrims::GetItem(R, i, name);
             float r = (float)atof(name);
@@ -771,9 +771,9 @@ shared_str CLensFlare::AppendDef(CEnvironment& environment, CInifile* pIni, LPCS
     return sect;
 }
 
-int CLensFlare::AppendDef(CInifile * pIni, LPCSTR sect)
+bsize CLensFlare::AppendDef(CInifile * pIni, LPCSTR sect)
 {
-	if (!sect || (0 == sect[0])) return -1;
+	if (!sect || (0 == sect[0])) return bsize(-1);
 	for (LensFlareDescIt it = m_Palette.begin(); it != m_Palette.end(); it++)
 		if (0 == xr_strcmp(*(*it)->section, sect)) return int(it - m_Palette.begin());
 	m_Palette.push_back(xr_new<CLensFlareDescriptor>());

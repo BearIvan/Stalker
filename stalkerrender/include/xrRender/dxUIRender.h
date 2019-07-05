@@ -31,7 +31,7 @@ public:
 //	virtual void PushPoint(int x, int y, u32 c, float u, float v);
 	virtual void PushPoint(float x, float y, float z, u32 C, float u, float v);
 
-	virtual void StartPrimitive(u32 iMaxVerts, ePrimitiveType primType, ePointType pointType);
+	virtual void StartPrimitive(bsize iMaxVerts, ePrimitiveType primType, ePointType pointType);
 	virtual void FlushPrimitive();
 
 	virtual LPCSTR	UpdateShaderName(LPCSTR tex_name, LPCSTR sh_name);
@@ -47,8 +47,8 @@ private:
 	ePointType		m_PointType;
 
 	//	Vertex buffer attributes
-	u32				m_iMaxVerts;
-	u32				vOffset;
+	bsize				m_iMaxVerts;
+	bsize				vOffset;
 
 	FVF::TL*		TL_start_pv;
 	FVF::TL*		TL_pv;

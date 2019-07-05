@@ -55,15 +55,15 @@ void CDetailManager::hw_Load_Geom()
 	Msg				("* [DETAILS] VertexConsts(%d), Batch(%d)",u32(HW.Caps.geometry.dwRegisters),hw_BatchSize);
 
 	// Pre-process objects
-	u32			dwVerts		= 0;
-	u32			dwIndices	= 0;
-	for (u32 o=0; o<objects.size(); o++)
+	bsize			dwVerts		= 0;
+	bsize			dwIndices	= 0;
+	for (bsize o=0; o<objects.size(); o++)
 	{
 		const CDetail& D	=	*objects[o];
 		dwVerts		+=	D.number_vertices*hw_BatchSize;
 		dwIndices	+=	D.number_indices*hw_BatchSize;
 	}
-	u32			vSize		= sizeof(vertHW);
+	bsize			vSize		= sizeof(vertHW);
 	Msg("* [DETAILS] %d v(%d), %d p",dwVerts,vSize,dwIndices/3);
 
 #if !defined(USE_DX10) && !defined(USE_DX11)
@@ -71,9 +71,9 @@ void CDetailManager::hw_Load_Geom()
 	u32 dwUsage		=	D3DUSAGE_WRITEONLY;
 
 	// Create VB/IB
-	R_CHK			(HW.pDevice->CreateVertexBuffer	(dwVerts*vSize,dwUsage,0,D3DPOOL_MANAGED,&hw_VB,0));
+	R_CHK			(HW.pDevice->CreateVertexBuffer	(static_cast<UINT>(dwVerts*vSize),dwUsage,0,D3DPOOL_MANAGED,&hw_VB,0));
 	HW.stats_manager.increment_stats_vb				(hw_VB);
-	R_CHK			(HW.pDevice->CreateIndexBuffer	(dwIndices*2,dwUsage,D3DFMT_INDEX16,D3DPOOL_MANAGED,&hw_IB,0));
+	R_CHK			(HW.pDevice->CreateIndexBuffer	(static_cast<UINT>(dwIndices*2),dwUsage,D3DFMT_INDEX16,D3DPOOL_MANAGED,&hw_IB,0));
 	HW.stats_manager.increment_stats_ib				(hw_IB);
 
 #endif	//	USE_DX10
@@ -110,7 +110,7 @@ void CDetailManager::hw_Load_Geom()
 			}
 		}
 #if defined(USE_DX10) || defined(USE_DX11)
-		R_CHK(dx10BufferUtils::CreateVertexBuffer(&hw_VB, pVOriginal, dwVerts*vSize));
+		R_CHK(dx10BufferUtils::CreateVertexBuffer(&hw_VB, pVOriginal, static_cast<UINT>(dwVerts*vSize)));
 		HW.stats_manager.increment_stats_vb		( hw_VB);
 		xr_free(pVOriginal);
 #else	//	USE_DX10
@@ -140,7 +140,7 @@ void CDetailManager::hw_Load_Geom()
 			}
 		}
 #if defined(USE_DX10) || defined(USE_DX11)
-		R_CHK(dx10BufferUtils::CreateIndexBuffer(&hw_IB, pIOriginal, dwIndices*2));
+		R_CHK(dx10BufferUtils::CreateIndexBuffer(&hw_IB, pIOriginal, static_cast<UINT>(dwIndices*2)));
 		HW.stats_manager.increment_stats_ib		(hw_IB);
 		xr_free(pIOriginal);
 #else	//	USE_DX10
@@ -255,8 +255,8 @@ void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_
 	RDEVICE.Statistic->RenderDUMP_DT_Count	= 0;
 
 	// Matrices and offsets
-	u32		vOffset	=	0;
-	u32		iOffset	=	0;
+	bsize		vOffset	=	0;
+	bsize		iOffset	=	0;
 
 	vis_list& list	=	m_visibles	[var_id];
 
@@ -332,8 +332,8 @@ void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_
 					if (dwBatch == hw_BatchSize)	{
 						// flush
 						RDEVICE.Statistic->RenderDUMP_DT_Count					+=	dwBatch;
-						u32 dwCNT_verts			= dwBatch * Object.number_vertices;
-						u32 dwCNT_prims			= (dwBatch * Object.number_indices)/3;
+						bsize dwCNT_verts			= dwBatch * Object.number_vertices;
+						bsize dwCNT_prims			= (dwBatch * Object.number_indices)/3;
 						RCache.get_ConstantCache_Vertex().b_dirty				=	TRUE;
 						RCache.get_ConstantCache_Vertex().get_array_f().dirty	(c_base,c_base+dwBatch*4);
 						RCache.Render			(D3DPT_TRIANGLELIST,vOffset, 0, dwCNT_verts,iOffset,dwCNT_prims);
@@ -348,8 +348,8 @@ void	CDetailManager::hw_Render_dump		(ref_constant x_array, u32 var_id, u32 lod_
 			if (dwBatch)
 			{
 				RDEVICE.Statistic->RenderDUMP_DT_Count	+= dwBatch;
-				u32 dwCNT_verts			= dwBatch * Object.number_vertices;
-				u32 dwCNT_prims			= (dwBatch * Object.number_indices)/3;
+				bsize dwCNT_verts			= dwBatch * Object.number_vertices;
+				bsize dwCNT_prims			= (dwBatch * Object.number_indices)/3;
 				RCache.get_ConstantCache_Vertex().b_dirty				=	TRUE;
 				RCache.get_ConstantCache_Vertex().get_array_f().dirty	(c_base,c_base+dwBatch*4);
 				RCache.Render				(D3DPT_TRIANGLELIST,vOffset,0,dwCNT_verts,iOffset,dwCNT_prims);

@@ -28,9 +28,9 @@ CRT::~CRT			()
 }
 static bsize cnt_rt = 0;
 #ifdef USE_DX11
-void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount, bool useUAV )
+void CRT::create	(LPCSTR Name, bsize w, bsize h,	D3DFORMAT f, bsize SampleCount, bool useUAV )
 #else
-void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
+void CRT::create	(LPCSTR Name, bsize w, bsize h,	D3DFORMAT f, bsize SampleCount )
 #endif
 {
 	if (pSurface)	return;
@@ -109,12 +109,12 @@ void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 	// Create the render target texture
 	D3D_TEXTURE2D_DESC desc;
 	ZeroMemory( &desc, sizeof(desc) );
-	desc.Width = dwWidth;
-	desc.Height = dwHeight;
+	desc.Width =static_cast<UINT>( dwWidth);
+	desc.Height = static_cast<UINT>(dwHeight);
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = dx10FMT;
-	desc.SampleDesc.Count = SampleCount;
+	desc.SampleDesc.Count = static_cast<UINT>(SampleCount);
 	desc.Usage = D3D_USAGE_DEFAULT;
    if( SampleCount <= 1 )
 	   desc.BindFlags = D3D_BIND_SHADER_RESOURCE | (bUseAsDepth ? D3D_BIND_DEPTH_STENCIL : D3D_BIND_RENDER_TARGET);
@@ -179,7 +179,7 @@ void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 		UAVDesc.Format = dx10FMT;
 		UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
 		UAVDesc.Buffer.FirstElement = 0;
-		UAVDesc.Buffer.NumElements = dwWidth * dwHeight;
+		UAVDesc.Buffer.NumElements = static_cast<UINT>(dwWidth * dwHeight);
 		CHK_DX( HW.pDevice->CreateUnorderedAccessView( pSurface, &UAVDesc, &pUAView ) );
     }
 #endif
@@ -213,12 +213,12 @@ void CRT::reset_end		()
 }
 
 #ifdef USE_DX11
-void resptrcode_crt::create(LPCSTR Name, u32 w, u32 h, D3DFORMAT f, u32 SampleCount, bool useUAV )
+void resptrcode_crt::create(LPCSTR Name, bsize w, bsize h, D3DFORMAT f, bsize SampleCount, bool useUAV )
 {
 	_set			(DEV->_CreateRT(Name,w,h,f, SampleCount, useUAV ));
 }
 #else
-void resptrcode_crt::create(LPCSTR Name, u32 w, u32 h, D3DFORMAT f, u32 SampleCount)
+void resptrcode_crt::create(LPCSTR Name, bsize w, bsize h, D3DFORMAT f, bsize SampleCount)
 {
 	_set			(DEV->_CreateRT(Name,w,h,f, SampleCount));
 }

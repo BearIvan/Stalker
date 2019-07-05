@@ -97,7 +97,7 @@ dx103DFluidManager::~dx103DFluidManager()
 	Destroy();
 }
 
-void dx103DFluidManager::Initialize( int width, int height, int depth )
+void dx103DFluidManager::Initialize( bsize width, bsize height, int depth )
 {
 	//if (strstr(Core.Params,"-no_volumetric_fog"))
 	if (!RImplementation.o.volumetricfog)
@@ -105,9 +105,9 @@ void dx103DFluidManager::Initialize( int width, int height, int depth )
 
 	Destroy();
 
-	m_iTextureWidth = width;
-	m_iTextureHeight = height;
-	m_iTextureDepth = depth;
+	m_iTextureWidth =static_cast<int>( width);
+	m_iTextureHeight = static_cast<int>(height);
+	m_iTextureDepth = static_cast<int>(depth);
 
 	InitShaders();
 
@@ -117,9 +117,9 @@ void dx103DFluidManager::Initialize( int width, int height, int depth )
 	desc.MipLevels = 1;
 	desc.MiscFlags = 0;
 	desc.Usage = D3D_USAGE_DEFAULT;
-	desc.Width =  width;
-	desc.Height = height;
-	desc.Depth =  depth;
+	desc.Width = m_iTextureWidth;
+	desc.Height = m_iTextureHeight;
+	desc.Depth = m_iTextureDepth;
 
 	D3D_SHADER_RESOURCE_VIEW_DESC SRVDesc;
 	ZeroMemory( &SRVDesc, sizeof(SRVDesc) );
@@ -764,7 +764,7 @@ void dx103DFluidManager::UpdateObstacles( const dx103DFluidData &FluidData, floa
 #ifdef	DEBUG
 void dx103DFluidManager::RegisterFluidData(dx103DFluidData* pData, const xr_string &SectionName)
 {
-	int iDataNum = m_lstFluidData.size();
+	bsize iDataNum = m_lstFluidData.size();
 
 	int i;
 
@@ -787,7 +787,7 @@ void dx103DFluidManager::RegisterFluidData(dx103DFluidData* pData, const xr_stri
 
 void dx103DFluidManager::DeregisterFluidData(dx103DFluidData* pData)
 {
-	int iDataNum = m_lstFluidData.size();
+	bsize iDataNum = m_lstFluidData.size();
 
 	int i;
 
@@ -812,7 +812,7 @@ void dx103DFluidManager::DeregisterFluidData(dx103DFluidData* pData)
 
 void dx103DFluidManager::UpdateProfiles()
 {
-	int iDataNum = m_lstFluidData.size();
+	bsize iDataNum = m_lstFluidData.size();
 
 	int i;
 

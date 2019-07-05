@@ -8,11 +8,11 @@
 
 void __stdcall xrSkin1W_x86(	vertRender*		D,
 								vertBoned1W*	S,
-								u32				vCount,
+	bsize				vCount,
 								CBoneInstance*	Bones) 
 {
 	// Prepare
-	int U_Count			= vCount/8;
+	bsize U_Count			= vCount/8;
 	vertBoned1W*	V	= S;
 	vertBoned1W*	E	= V+U_Count*8;
 
@@ -93,11 +93,11 @@ void __stdcall xrSkin1W_x86(	vertRender*		D,
  
 void __stdcall xrSkin2W_x86(vertRender*		D,
 							vertBoned2W*	S,
-							u32				vCount,
+	bsize				vCount,
 							CBoneInstance*	Bones) 
 {
 	// Prepare
-	int U_Count			= vCount;
+	bsize U_Count			= vCount;
 	vertBoned2W*	V	= S;
 	vertBoned2W*	E	= V+U_Count;
 	Fvector			P0,N0,P1,N1;
@@ -132,11 +132,11 @@ void __stdcall xrSkin2W_x86(vertRender*		D,
 
 void __stdcall xrSkin3W_x86(vertRender*		D,
 							vertBoned3W*	S,
-							u32				vCount,
+	bsize				vCount,
 							CBoneInstance*	Bones) 
 {
 	// Prepare
-	int U_Count			= vCount;
+	bsize U_Count			= vCount;
 	vertBoned3W*	V	= S;
 	vertBoned3W*	E	= V+U_Count;
 	Fvector			P0,N0,P1,N1,P2,N2;
@@ -181,11 +181,11 @@ void __stdcall xrSkin3W_x86(vertRender*		D,
 
 void __stdcall xrSkin4W_x86(vertRender*		D,
 							vertBoned4W*	S,
-							u32				vCount,
+	bsize				vCount,
 							CBoneInstance*	Bones) 
 {
 	// Prepare
-	int U_Count			= vCount;
+	bsize  U_Count			= vCount;
 	vertBoned4W*	V	= S;
 	vertBoned4W*	E	= V+U_Count;
 	Fvector			P0,N0,P1,N1,P2,N2,P3,N3;

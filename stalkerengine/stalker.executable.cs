@@ -47,21 +47,27 @@ public class stalker :Executable
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
 		IncludeAutonomousProjects.Add("stalker_r1");
          IncludeAutonomousProjects.Add("stalker_r2");
-		IncludeAutonomousProjects.Add("stalker_r5");
-		IncludeAutonomousProjects.Add("stalker_r3");
-		IncludeAutonomousProjects.Add("stalker_r4");
-		
-       IncludeAutonomousProjects.Add("stalkersoc");
-	//	IncludeAutonomousProjects.Add("stalkercs");
-		//IncludeAutonomousProjects.Add("stalkercop");
-		Console = false;
+        IncludeAutonomousProjects.Add("stalker_r3");
+        IncludeAutonomousProjects.Add("stalker_r4");
+      /*  IncludeAutonomousProjects.Add("stalker_r5");
+
+            */
+
+        IncludeAutonomousProjects.Add("stalkersoc");
+		//IncludeAutonomousProjects.Add("stalkercs");
+        //IncludeAutonomousProjects.Add("stalkercop");
+        if (BearBuildTool.Config.Global.Configure != BearBuildTool.Config.Configure.Release)
+        {
+            Console = true;
+        }
+  
         ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
 		//ProjectsToDynamicLibrary = true;
 	}	
 	public override void StartBuild()
 	{
 		BearBuildTool.Config.Global.UNICODE=false;
-        //BearBuildTool.Config.Global.WithoutWarning = true;
+    //    BearBuildTool.Config.Global.WithoutWarning = true;
 
     }
 } 

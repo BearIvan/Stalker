@@ -200,7 +200,7 @@ NET_Packet*		INetQueue::Retreive	()
 	else
 	{
 		u32 tmp_time = GetTickCount()-60000;
-		u32 size = unused.size();
+		bsize size = unused.size();
 		if ((LastTimeCreate < tmp_time) &&  (size > 32))
 		{
 			xr_delete(unused.back());
@@ -220,7 +220,7 @@ void			INetQueue::Release	()
 	VERIFY			(!ready.empty());
 	//---------------------------------------------
 	u32 tmp_time = GetTickCount()-60000;
-	u32 size = unused.size();
+	bsize size = unused.size();
 	ready.front()->B.count = 0;
 	if ((LastTimeCreate < tmp_time) &&  (size > 32))
 	{
@@ -604,7 +604,7 @@ if(!psNET_direct_connect)
 		string64						EnumData;
 		EnumData[0] = 0;
 		xr_strcat	(EnumData, "ToConnect");
-		DWORD	EnumSize = xr_strlen(EnumData) + 1;
+		DWORD	EnumSize =static_cast<DWORD>( xr_strlen(EnumData) + 1);
 		// We now have the host address so lets enum
 		u32 c_port			= psCL_Port;
 		HRESULT res = S_FALSE;

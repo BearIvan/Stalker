@@ -6,7 +6,7 @@
 
 namespace CDB
 {
-	u32		Collector::VPack	(const Fvector& V, float eps)
+	bsize		Collector::VPack	(const Fvector& V, float eps)
 	{
 		xr_vector<Fvector>::iterator I,E;
 		I=verts.begin();	E=verts.end();
@@ -21,9 +21,9 @@ namespace CDB
 		)
 	{
 		TRI T;
-		T.verts		[0] = verts.size();
-		T.verts		[1] = verts.size()+1;
-		T.verts		[2] = verts.size()+2;  
+		T.verts		[0] = static_cast<u32>(verts.size());
+		T.verts		[1] = static_cast<u32>(verts.size()+1);
+		T.verts		[2] = static_cast<u32>(verts.size()+2);
 		T.dummy			= dummy;
 
 		verts.push_back(v0);
@@ -35,9 +35,9 @@ namespace CDB
 	void	Collector::add_face		(	const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector )
 	{
 		TRI			T;
-		T.verts	[0]		= verts.size();
-		T.verts	[1]		= verts.size()+1;
-		T.verts	[2]		= verts.size()+2;
+		T.verts	[0]		=static_cast<u32>( verts.size());
+		T.verts[1] = static_cast<u32>(verts.size() + 1);
+		T.verts	[2]		= static_cast<u32>(verts.size()+2);
 		T.material		= material;
 		T.sector		= sector;
 
@@ -54,9 +54,9 @@ namespace CDB
 		)
 	{
 		TRI T;
-		T.verts	[0]		= VPack(v0,eps);
-		T.verts	[1]		= VPack(v1,eps);
-		T.verts	[2]		= VPack(v2,eps);
+		T.verts	[0]		= static_cast<u32>(VPack(v0,eps));
+		T.verts	[1]		= static_cast<u32>(VPack(v1,eps));
+		T.verts	[2]		= static_cast<u32>(VPack(v2,eps));
 		T.material		= material;
 		T.sector		= sector;
 		faces.push_back(T);
@@ -68,9 +68,9 @@ namespace CDB
 		)
 	{
 		TRI T;
-		T.verts	[0] = VPack(v0,eps);
-		T.verts	[1] = VPack(v1,eps);
-		T.verts	[2] = VPack(v2,eps);
+		T.verts	[0] = static_cast<u32>(VPack(v0,eps));
+		T.verts	[1] = static_cast<u32>(VPack(v1,eps));
+		T.verts	[2] = static_cast<u32>(VPack(v2,eps));
 		T.dummy			= dummy;
 		faces.push_back(T);
 	}
@@ -109,7 +109,7 @@ namespace CDB
 	{
 #if 1
 		VERIFY							(faces.size() < 65536);
-		const u32						edge_count = faces.size()*3;
+		const bsize						edge_count = faces.size()*3;
 #ifdef _EDITOR
 		xr_vector<edge> _edges			(edge_count);
 		edge 							*edges = &*_edges.begin();
@@ -350,7 +350,7 @@ namespace CDB
 		}
 		if (0xffffffff==P)
 		{
-			P = verts.size();
+			P = static_cast<u32>(verts.size());
 			verts.push_back(V);
 
 			VM[ix][iy][iz].push_back(P);

@@ -270,7 +270,7 @@ BOOL dxRenderDeviceRender::GetForceGPU_REF()
 	return HW.Caps.bForceGPU_REF;
 }
 
-u32 dxRenderDeviceRender::GetCacheStatPolys()
+bsize dxRenderDeviceRender::GetCacheStatPolys()
 {
 	return RCache.stat.polys;
 }

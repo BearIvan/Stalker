@@ -14,7 +14,7 @@ struct GameDescriptionData
 #define NET_TAG_MERGED                  0xE1
 #define NET_TAG_NONMERGED               0xE0
 
-#define NET_USE_COMPRESSION             1
+#define NET_USE_COMPRESSION             0
 #define NET_TAG_COMPRESSED              0xC1
 #define NET_TAG_NONCOMPRESSED           0xC0
 
@@ -45,13 +45,13 @@ public:
                     MultipacketSender();
     virtual         ~MultipacketSender() {}
 
-    void            SendPacket( const void* packet_data, u32 packet_sz, u32 flags, u32 timeout );
+    void            SendPacket( const void* packet_data, bsize packet_sz, u32 flags, u32 timeout );
     void            FlushSendBuffer( u32 timeout );
 
 
 protected:
 
-    virtual void    _SendTo_LL( const void* data, u32 size, u32 flags, u32 timeout ) =0;
+    virtual void    _SendTo_LL( const void* data, bsize size, u32 flags, u32 timeout ) =0;
 
 
 private:
@@ -85,12 +85,12 @@ public:
 
     virtual         ~MultipacketReciever() {}
 
-    void            RecievePacket( const void* packet_data, u32 packet_sz, u32 param=0 );
+    void            RecievePacket( const void* packet_data, bsize packet_sz, u32 param=0 );
 
 
 protected:
 
-    virtual void    _Recieve( const void* data, u32 data_size, u32 param ) =0;
+    virtual void    _Recieve( const void* data, bsize data_size, u32 param ) =0;
 };
 
 

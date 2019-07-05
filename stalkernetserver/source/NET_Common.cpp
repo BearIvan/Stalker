@@ -71,7 +71,7 @@ MultipacketSender::MultipacketSender()
 //------------------------------------------------------------------------------
 
 void
-MultipacketSender::SendPacket( const void* packet_data, u32 packet_sz, u32 flags, u32 timeout )
+MultipacketSender::SendPacket( const void* packet_data, bsize packet_sz, u32 flags, u32 timeout )
 {
     _buf_cs.Enter();
 
@@ -177,7 +177,7 @@ MultipacketSender::_FlushSendBuffer( u32 timeout, Buffer* buf )
 //------------------------------------------------------------------------------
 
 void            
-MultipacketReciever::RecievePacket( const void* packet_data, u32 packet_sz, u32 param )
+MultipacketReciever::RecievePacket( const void* packet_data, bsize packet_sz, u32 param )
 {
     MultipacketHeader*  header = (MultipacketHeader*)packet_data;
     u8                  data[MaxMultipacketSize];

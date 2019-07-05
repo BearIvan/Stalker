@@ -66,7 +66,7 @@ public:
 	//	Device state
 	virtual DeviceState GetDeviceState();
 	virtual BOOL	GetForceGPU_REF();
-	virtual u32		GetCacheStatPolys();
+	virtual bsize		GetCacheStatPolys();
 	virtual void	Begin();
 	virtual void	Clear();
 	virtual void	End();

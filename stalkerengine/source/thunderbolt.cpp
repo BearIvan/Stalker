@@ -113,8 +113,8 @@ SThunderboltCollection::SThunderboltCollection(CInifile * pIni, LPCSTR sect)
 {
 	VERIFY(gameVersionController->getGame() == gameVersionController->SOC);
 	section = sect;
-	int tb_count = pIni->line_count(sect);
-	for (int tb_idx = 0; tb_idx<tb_count; tb_idx++) {
+	bsize tb_count = pIni->line_count(sect);
+	for (bsize tb_idx = 0; tb_idx<tb_count; tb_idx++) {
 		LPCSTR		N, V;
 		if (pIni->r_line(sect, tb_idx, &N, &V))
 			palette.push_back(xr_new<SThunderboltDesc>(pIni, N));
@@ -133,8 +133,8 @@ void SThunderboltCollection::load(CInifile* pIni, CInifile* thunderbolts, LPCSTR
 {
 	VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     section = sect;
-    int tb_count = pIni->line_count(sect);
-    for (int tb_idx = 0; tb_idx < tb_count; tb_idx++)
+	bsize tb_count = pIni->line_count(sect);
+    for (bsize tb_idx = 0; tb_idx < tb_count; tb_idx++)
     {
         LPCSTR N, V;
         if (pIni->r_line(sect, tb_idx, &N, &V))
@@ -198,7 +198,7 @@ CEffect_Thunderbolt::~CEffect_Thunderbolt()
     //hGeom_gradient.destroy ();
 }
 
-void CEffect_Thunderbolt::OnFrame(int id, float period, float duration)
+void CEffect_Thunderbolt::OnFrame(bsize id, float period, float duration)
 {
 	VERIFY(gameVersionController->getGame() == gameVersionController->SOC);
 	BOOL enabled = (id >= 0);
@@ -241,9 +241,9 @@ shared_str CEffect_Thunderbolt::AppendDef(CEnvironment& environment, CInifile* p
     return collection.back()->section;
 }
 
-int CEffect_Thunderbolt::AppendDef(CInifile * pIni, LPCSTR sect)
+bsize CEffect_Thunderbolt::AppendDef(CInifile * pIni, LPCSTR sect)
 {
-	if (!sect || (0 == sect[0])) return -1;
+	if (!sect || (0 == sect[0])) return bsize(-1);
 	for (CollectionVecIt it = collection.begin(); it != collection.end(); it++)
 		if ((*it)->section == sect)	return int(it - collection.begin());
 	collection.push_back(xr_new<SThunderboltCollection>(pIni, sect));
@@ -328,7 +328,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
     current_direction.invert(); // for env-sun
 }
 
-void CEffect_Thunderbolt::Bolt(int id, float period, float lt)
+void CEffect_Thunderbolt::Bolt(bsize id, float period, float lt)
 {
 	VERIFY(gameVersionController->getGame() == gameVersionController->SOC);
 	VERIFY(id >= 0 && id<(int)collection.size());

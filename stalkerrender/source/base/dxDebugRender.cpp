@@ -24,7 +24,7 @@ void dxDebugRender::Render()
 	m_line_indices.resize			(0);
 }
 
-void dxDebugRender::try_render		(u32 const &vertex_count, u32 const &index_count)
+void dxDebugRender::try_render		(bsize const &vertex_count, bsize const &index_count)
 {
 	VERIFY							((m_line_indices.size() % 2) == 0);
 
@@ -38,12 +38,12 @@ void dxDebugRender::try_render		(u32 const &vertex_count, u32 const &index_count
 		return;
 	}
 }
-void _add_lines		(  xr_vector<FVF::L> &vertices, xr_vector<u16>& indices, Fvector const *pvertices, u32 const &vertex_count, u16 const *pairs, u32 const &pair_count, u32 const &color)
+void _add_lines		(  xr_vector<FVF::L> &vertices, xr_vector<u16>& indices, Fvector const *pvertices, bsize const &vertex_count, u16 const *pairs, bsize const &pair_count, u32 const &color)
 {
 	VERIFY							(vertices.size() < u16(-1));
 	u16								vertices_size = (u16)vertices.size();
 
-	u32								indices_size = indices.size();
+	bsize								indices_size = indices.size();
 	indices.resize					(indices_size + 2*pair_count);
 	xr_vector<u16>::iterator				I = indices.begin() + indices_size;
 	xr_vector<u16>::iterator				E = indices.end();
@@ -60,7 +60,7 @@ void _add_lines		(  xr_vector<FVF::L> &vertices, xr_vector<u16>& indices, Fvecto
 		(*i).p						= *j;
 	}
 }
-void dxDebugRender::add_lines		(Fvector const *vertices, u32 const &vertex_count, u16 const *pairs, u32 const &pair_count, u32 const &color)
+void dxDebugRender::add_lines		(Fvector const *vertices, bsize const &vertex_count, u16 const *pairs, bsize const &pair_count, u32 const &color)
 {
 	try_render						(vertex_count, pair_count);
 	_add_lines( m_line_vertices, m_line_indices, vertices, vertex_count, pairs, pair_count, color );

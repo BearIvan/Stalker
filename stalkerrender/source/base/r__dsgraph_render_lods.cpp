@@ -26,22 +26,22 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 	float			ssaRange		= r_ssaLOD_A - r_ssaLOD_B;
 	if (ssaRange<XrMath::EPS_S)	ssaRange	= XrMath::EPS_S;
 
-	const u32	uiVertexPerImposter	= 4;
-	const u32	uiImpostersFit		= RCache.Vertex.GetSize()
+	const bsize	uiVertexPerImposter	= 4;
+	const bsize	uiImpostersFit		= RCache.Vertex.GetSize()
 		/ (firstV->geom->vb_stride*uiVertexPerImposter);
 
 	//Msg						("dbg_lods: shid[%d],firstV[%X]",shid,u32((void*)firstV));
 	//Msg						("dbg_lods: shader[%X]",u32((void*)firstV->shader._get()));
 	//Msg						("dbg_lods: shader_E[%X]",u32((void*)cur_S._get()));
 
-	for (u32 i=0; i<lstLODs.size(); i++)
+	for (bsize i=0; i<lstLODs.size(); i++)
 	{
-		const u32	iBatchSize	= XrMath::min( lstLODs.size()-i, uiImpostersFit);
+		const bsize	iBatchSize	= XrMath::min( lstLODs.size()-i, uiImpostersFit);
 		int			cur_count	= 0;
-		u32			vOffset;
+		bsize			vOffset;
 		FLOD::_hw*	V			= (FLOD::_hw*)RCache.Vertex.Lock	(iBatchSize*uiVertexPerImposter,firstV->geom->vb_stride, vOffset);
 
-		for ( u32 j=0; j<iBatchSize; ++j, ++i )
+		for (bsize j=0; j<iBatchSize; ++j, ++i )
 		{
 			// sort out redundancy
 			R_dsgraph::_LodItem		&P		= lstLODs[i];
@@ -105,15 +105,15 @@ void R_dsgraph_structure::r_dsgraph_render_lods	(bool _setup_zb, bool _clear)
 
 		// *** Render
 		RCache.set_xform_world		(Fidentity);
-		for ( u32 uiPass = 0; uiPass < SHADER_PASSES_MAX; ++uiPass)
+		for (bsize uiPass = 0; uiPass < SHADER_PASSES_MAX; ++uiPass)
 		{
 			int current=0;
-			u32 vCurOffset = vOffset;
+			bsize vCurOffset = vOffset;
 			
-			for (u32 g=0; g<lstLODgroups.size(); g++)	
+			for (bsize g=0; g<lstLODgroups.size(); g++)
 			{
 				int p_count				= lstLODgroups[g];
-				u32 uiNumPasses			= lstLODs[current].pVisual->shader->E[shid]->passes.size();
+				bsize uiNumPasses			= lstLODs[current].pVisual->shader->E[shid]->passes.size();
 				if (uiPass<uiNumPasses)
 				{
 					RCache.set_Element		(lstLODs[current].pVisual->shader->E[shid], uiPass);

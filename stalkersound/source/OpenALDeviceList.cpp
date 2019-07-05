@@ -147,7 +147,7 @@ void ALDeviceList::Enumerate()
 		Msg("SOUND: OpenAL: EnumerationExtension NOT Present");
 
 //make token
-	u32 _cnt								= GetNumDevices();
+	bint _cnt								= GetNumDevices();
 	snd_devices_token						= xr_alloc<xr_token>(_cnt+1);
 	snd_devices_token[_cnt].id				= -1;
 	snd_devices_token[_cnt].name			= NULL;

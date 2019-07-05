@@ -103,7 +103,7 @@ int __cdecl Lua::LuaOut(Lua::ELuaMessageType tLuaMessageType, LPCSTR caFormat, .
 
     xr_strcpy(S2, S);
     S1 = S2 + xr_strlen(S);
-    int l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, l_tMarker);
+	bsize l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, l_tMarker);
     Msg("%s", S2);
 
     xr_strcpy(S2, SS);
@@ -118,7 +118,7 @@ int __cdecl Lua::LuaOut(Lua::ELuaMessageType tLuaMessageType, LPCSTR caFormat, .
 
     va_end(l_tMarker);
 
-    return (l_iResult);
+    return static_cast<int>(l_iResult);
 }
 
 #ifndef ENGINE_BUILD

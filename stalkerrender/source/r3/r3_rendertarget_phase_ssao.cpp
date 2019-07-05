@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static void set_viewport(ID3D10Device *dev, u32 w, u32 h)
+static void set_viewport(ID3D10Device *dev, bsize w, bsize h)
 {
 	static D3D10_VIEWPORT viewport[1] =
 	{
@@ -11,7 +11,7 @@ static void set_viewport(ID3D10Device *dev, u32 w, u32 h)
 
 void CRenderTarget::phase_ssao	()
 {
-	u32	Offset	= 0;
+	bsize	Offset	= 0;
 
 	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	HW.pDevice->ClearRenderTargetView(rt_ssao_temp->pRT, ColorRGBA);
@@ -49,8 +49,8 @@ void CRenderTarget::phase_ssao	()
 	float	scale_X				= float(Device.dwWidth)	* 0.5f / float(TEX_jitter);
 	float	scale_Y				= float(Device.dwHeight) * 0.5f / float(TEX_jitter);
 
-	u32 _w = Device.dwWidth/2;
-	u32 _h = Device.dwHeight/2;
+	bsize _w = Device.dwWidth/2;
+	bsize _h = Device.dwHeight/2;
 
 	set_viewport(HW.pDevice, _w, _h);
 
@@ -114,13 +114,13 @@ void CRenderTarget::phase_downsamp	()
 	//HW.pDevice->StretchRect(source, NULL, dest, NULL, D3DTEXF_POINT);
 
 	//Fvector2	p0,p1;
-	u32			Offset = 0;
+	bsize			Offset = 0;
 
     u_setrt( rt_half_depth,0,0,0/*HW.pBaseZB*/ );
    	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     HW.pContext->ClearRenderTargetView(rt_half_depth->pRT, ColorRGBA);
-	u32 w = Device.dwWidth;
-	u32 h = Device.dwHeight;
+	bsize w = Device.dwWidth;
+	bsize h = Device.dwHeight;
 
 	if (RImplementation.o.ssao_half_data)
 	{

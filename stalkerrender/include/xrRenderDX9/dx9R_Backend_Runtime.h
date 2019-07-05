@@ -2,20 +2,20 @@
 #define	dx9R_Backend_Runtime_included
 #pragma once
 
-IC void		CBackend::set_xform			(u32 ID, const Fmatrix& M1)
+IC void		CBackend::set_xform			(bsize ID, const Fmatrix& M1)
 {
 	stat.xforms			++;
 	CHK_DX				(HW.pDevice->SetTransform((D3DTRANSFORMSTATETYPE)ID,(D3DMATRIX*)&M1));
 }
 
-IC void CBackend::set_RT(ID3DRenderTargetView* RT, u32 ID)
+IC void CBackend::set_RT(ID3DRenderTargetView* RT, bsize ID)
 {
 	if (RT!=pRT[ID])
 	{
 		PGO				(Msg("PGO:setRT"));
 		stat.target_rt	++;
 		pRT[ID]			= RT;
-		CHK_DX			(HW.pDevice->SetRenderTarget(ID,RT));
+		CHK_DX			(HW.pDevice->SetRenderTarget(static_cast<UINT>(ID),RT));
 	}
 }
 
@@ -71,7 +71,7 @@ ICF void CBackend::set_VS(ID3DVertexShader* _vs, LPCSTR _n)
 	}
 }
 
-ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, u32 _vb_stride)
+ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, bsize _vb_stride)
 {
 	if ((vb!=_vb) || (vb_stride!=_vb_stride))
 	{
@@ -81,7 +81,7 @@ ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, u32 _vb_stride)
 #endif
 		vb				= _vb;
 		vb_stride		= _vb_stride;
-		CHK_DX			(HW.pDevice->SetStreamSource(0,vb,0,vb_stride));
+		CHK_DX			(HW.pDevice->SetStreamSource(0,vb,0, static_cast<UINT>(vb_stride)));
 	}
 }
 
@@ -98,7 +98,7 @@ ICF void CBackend::set_Indices(ID3DIndexBuffer* _ib)
 	}
 }
 
-ICF void CBackend::Render(D3DPRIMITIVETYPE T1, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
+ICF void CBackend::Render(D3DPRIMITIVETYPE T1, bsize baseV, bsize startV, bsize countV, bsize startI, bsize PC)
 {
 	//Fix D3D ERROR
 	if (PC==0)
@@ -108,11 +108,11 @@ ICF void CBackend::Render(D3DPRIMITIVETYPE T1, u32 baseV, u32 startV, u32 countV
 	stat.verts			+= countV;
 	stat.polys			+= PC;
 	constants.flush		();
-	CHK_DX				(HW.pDevice->DrawIndexedPrimitive(T1,baseV, startV, countV,startI,PC));
+	CHK_DX				(HW.pDevice->DrawIndexedPrimitive(T1,static_cast<UINT>(baseV), static_cast<UINT>(startV), static_cast<UINT>(countV), static_cast<UINT>(startI), static_cast<UINT>(PC)));
 	PGO					(Msg("PGO:DIP:%dv/%df",countV,PC));
 }
 
-ICF void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
+ICF void CBackend::Render(D3DPRIMITIVETYPE T1, bsize startV, bsize PC)
 {
 	//Fix D3D ERROR
 	if (PC==0)
@@ -122,7 +122,7 @@ ICF void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
 	stat.verts			+= 3*PC;
 	stat.polys			+= PC;
 	constants.flush		();
-	CHK_DX				(HW.pDevice->DrawPrimitive(T1, startV, PC));
+	CHK_DX				(HW.pDevice->DrawPrimitive(T1, static_cast<UINT>(startV), static_cast<UINT>(PC)));
 	PGO					(Msg("PGO:DIP:%dv/%df",3*PC,PC));
 }
 

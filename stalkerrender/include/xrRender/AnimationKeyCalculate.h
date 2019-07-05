@@ -80,7 +80,7 @@ IC void Dequantize(CKey& K,const CBlend& BD,const CMotion& M)
 	VERIFY			(time >= 0.f);
 	u32				frame	=	XrMath::iFloor(time);
 	float			delta	=	time-float(frame);
-	u32				count	=	M.get_count();
+	bsize				count	=	M.get_count();
 	// rotation
 	if (M.test_flag(flRKeyAbsent)){
 		const CKeyQR *		K1		=	&M._keysR[0];

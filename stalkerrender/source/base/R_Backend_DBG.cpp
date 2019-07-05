@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-void CBackend::dbg_DP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 vBase, u32 pc)
+void CBackend::dbg_DP(D3DPRIMITIVETYPE pt, ref_geom geom, bsize vBase, bsize pc)
 {
 	RCache.set_Geometry		(geom);
 	RCache.Render			(pt,vBase,pc);
 }
 
-void CBackend::dbg_DIP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
+void CBackend::dbg_DIP(D3DPRIMITIVETYPE pt, ref_geom geom, bsize baseV, bsize startV, bsize countV, bsize startI, bsize PC)
 {
 	RCache.set_Geometry		(geom);
 	RCache.Render			(pt,baseV,startV,countV,startI,PC);
@@ -15,7 +15,7 @@ void CBackend::dbg_DIP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV
 
 #ifdef DEBUG
 
-void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int vcnt, u16* pIdx, int pcnt)
+void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, bsize vcnt, u16* pIdx, bsize pcnt)
 {
 #if defined(USE_DX10) || defined(USE_DX11)
 	//	TODO: DX10: implement
@@ -23,13 +23,13 @@ void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int vcnt, u16* p
 #else	//	USE_DX10
 	OnFrameEnd					();
 	CHK_DX(HW.pDevice->SetFVF	(FVF::F_L));
-	CHK_DX(HW.pDevice->DrawIndexedPrimitiveUP(T1, 0, vcnt, pcnt,
+	CHK_DX(HW.pDevice->DrawIndexedPrimitiveUP(T1, 0, static_cast<UINT>(vcnt), static_cast<UINT>(pcnt),
 		pIdx, D3DFMT_INDEX16,
 		pVerts, sizeof(FVF::L)
 		));
 #endif	//	USE_DX10
 }
-void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int pcnt)
+void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, bsize pcnt)
 {
 #if defined(USE_DX10) || defined(USE_DX11)
 	//	TODO: DX10: implement
@@ -37,7 +37,7 @@ void CBackend::dbg_Draw			(D3DPRIMITIVETYPE T1, FVF::L* pVerts, int pcnt)
 #else	//	USE_DX10
 	OnFrameEnd					();
 	CHK_DX(HW.pDevice->SetFVF	(FVF::F_L));
-	CHK_DX(HW.pDevice->DrawPrimitiveUP(T1, pcnt, pVerts, sizeof(FVF::L)	));
+	CHK_DX(HW.pDevice->DrawPrimitiveUP(T1, static_cast<UINT>(pcnt), pVerts, sizeof(FVF::L)	));
 #endif	//	USE_DX10
 }
 

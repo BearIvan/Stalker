@@ -31,7 +31,7 @@ public:
 	ip_filter		();
 	~ip_filter		();
 
-	u32		load			();
+	bsize		load			();
 	void	unload			();
 	bool	is_ip_present	(u32 ip_address);
 };

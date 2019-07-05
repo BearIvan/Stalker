@@ -1,6 +1,6 @@
 #pragma once
 
-template <class T, const int dim>
+template <class T, const bsize dim,class SizeT=bsize>
 class svector
 {
 public:
@@ -13,12 +13,12 @@ public:
 
 private:
     value_type array[dim];
-    bsize count;
+	SizeT count;
 
 public:
     svector() : count(0)
     {}
-    svector(iterator p, int c)
+    svector(iterator p, bsize c)
     {
         assign(p, c);
     }
@@ -27,43 +27,43 @@ public:
     IC iterator end() { return array + count; }
     IC const_iterator begin() const { return array; }
     IC const_iterator end() const { return array + count; }
-    IC bsize size() const { return count; }
+    IC SizeT size() const { return count; }
     IC void clear() { count = 0; }
-    IC void resize(int c) { VERIFY(c <= dim); count = c; }
-    IC void reserve(int c) { }
+    IC void resize(bsize c) { VERIFY(c <= dim); count = c; }
+    IC void reserve(bsize c) { }
 
-    IC void push_back(value_type e) { VERIFY(count < dim); array[count++] = e; }
+    IC void push_back(value_type e) { VERIFY(count < dim); array[static_cast<bsize>(count++)] = e; }
     IC void pop_back() { VERIFY(count); count--; }
 
-    IC reference operator[] (bsize id) { VERIFY(id < count); return array[id]; }
-    IC const_reference operator[] (bsize id) const { VERIFY(id < count); return array[id]; }
+    IC reference operator[] (SizeT id) { VERIFY(id < count); return array[static_cast<bsize>(id)]; }
+    IC const_reference operator[] (SizeT id) const { VERIFY(id < count); return array[static_cast<bsize>(id)]; }
 
     IC reference front() { return array[0]; }
-    IC reference back() { return array[count - 1]; }
-    IC reference last() { VERIFY(count < dim); return array[count]; }
+    IC reference back() { return array[static_cast<bsize>(count - 1)]; }
+    IC reference last() { VERIFY(count < dim); return array[static_cast<bsize>(count)]; }
     IC const_reference front() const { return array[0]; }
-    IC const_reference back() const { return array[count - 1]; }
-    IC const_reference last() const { VERIFY(count < dim); return array[count]; }
+    IC const_reference back() const { return array[static_cast<bsize>(count - 1)]; }
+    IC const_reference last() const { VERIFY(count < dim); return array[static_cast<bsize>(count)]; }
     IC void inc() { count++; }
     IC bool empty() const { return 0 == count; }
 
-    IC void erase(bsize id)
+    IC void erase(SizeT id)
     {
         VERIFY(id < count);
         count--;
-        for (bsize i = id; i < count; i++)
+        for (bsize i = id; i <static_cast<bsize>( count); i++)
             array[i] = array[i + 1];
     }
-    IC void erase(iterator it) { erase(bsize(it - begin())); }
+    IC void erase(iterator it) { erase(static_cast<SizeT>(it - begin())); }
 
-    IC void insert(bsize id, reference V)
+    IC void insert(SizeT id, reference V)
     {
         VERIFY(id < count);
-        for (int i = count; i > int(id); i--) array[i] = array[i - 1];
+        for (bsize i = count; i > static_cast<bsize>(id); i--) array[i] = array[i - 1];
         count++;
-        array[id] = V;
+        array[static_cast<bsize>(id)] = V;
     }
-    IC void assign(iterator p, int c) { VERIFY(c > 0 && c < dim); CopyMemory(array, p, c*sizeof(value_type)); count = c; }
+    IC void assign(iterator p, bsize c) { VERIFY(c > 0 && c < dim); CopyMemory(array, p, c*sizeof(value_type)); count = c; }
     IC BOOL equal(const svector<value_type, dim>& base) const
     {
         if (size() != base.size()) return FALSE;

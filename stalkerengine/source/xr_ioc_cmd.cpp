@@ -332,19 +332,19 @@ class CCC_Start : public IConsole_Command
         {
             return;
         }
-        int begin_p = xr_strlen(str) - xr_strlen(name1) + xr_strlen(name_str);
+		bsize begin_p = xr_strlen(str) - xr_strlen(name1) + xr_strlen(name_str);
         if (begin_p < 1)
         {
             return;
         }
 
         LPCSTR name2 = strchr(name1, '/');
-        int end_p = xr_strlen(str) - ((name2) ? xr_strlen(name2) : 0);
+		bsize end_p = xr_strlen(str) - ((name2) ? xr_strlen(name2) : 0);
         if (begin_p >= end_p)
         {
             return;
         }
-        for (int i = begin_p; i < end_p; ++i)
+        for (bsize i = begin_p; i < end_p; ++i)
         {
             str[i] = out[i];
         }

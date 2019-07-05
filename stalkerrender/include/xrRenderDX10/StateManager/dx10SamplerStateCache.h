@@ -12,7 +12,7 @@ public:
 	};
 
 	//	State handle
-	typedef	u32	SHandle;
+	typedef	bsize	SHandle;
 	typedef	xr_vector<SHandle>	HArray;
 public:
 	dx10SamplerStateCache();

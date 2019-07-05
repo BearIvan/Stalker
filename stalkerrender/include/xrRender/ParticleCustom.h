@@ -17,7 +17,7 @@ public:
 	virtual void	Stop				(BOOL bDefferedStop=TRUE)=0;
 	virtual BOOL	IsPlaying			()=0;
 
-	virtual u32		ParticlesCount		()=0;
+	virtual bsize		ParticlesCount		()=0;
 
 	virtual float	GetTimeLimit		()=0;
 	virtual BOOL	IsLooped			(){return GetTimeLimit()<0.f;}

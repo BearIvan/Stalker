@@ -111,8 +111,8 @@ void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave
 	Device.Statistic->RenderDUMP_DT_Count	= 0;
 
 	// Matrices and offsets
-	u32		vOffset	=	0;
-	u32		iOffset	=	0;
+	bsize		vOffset	=	0;
+	bsize		iOffset	=	0;
 
 	vis_list& list	=	m_visibles	[var_id];
 
@@ -191,8 +191,8 @@ void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave
 						if (dwBatch == hw_BatchSize)	{
 							// flush
 							Device.Statistic->RenderDUMP_DT_Count					+=	dwBatch;
-							u32 dwCNT_verts			= dwBatch * Object.number_vertices;
-							u32 dwCNT_prims			= (dwBatch * Object.number_indices)/3;
+							bsize dwCNT_verts			= dwBatch * Object.number_vertices;
+							bsize dwCNT_prims			= (dwBatch * Object.number_indices)/3;
 							//RCache.get_ConstantCache_Vertex().b_dirty				=	TRUE;
 							//RCache.get_ConstantCache_Vertex().get_array_f().dirty	(c_base,c_base+dwBatch*4);
 							RCache.Render			(D3DPT_TRIANGLELIST,vOffset, 0, dwCNT_verts,iOffset,dwCNT_prims);
@@ -217,8 +217,8 @@ void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave
 				if (dwBatch)
 				{
 					Device.Statistic->RenderDUMP_DT_Count	+= dwBatch;
-					u32 dwCNT_verts			= dwBatch * Object.number_vertices;
-					u32 dwCNT_prims			= (dwBatch * Object.number_indices)/3;
+					bsize dwCNT_verts			= dwBatch * Object.number_vertices;
+					bsize dwCNT_prims			= (dwBatch * Object.number_indices)/3;
 					//RCache.get_ConstantCache_Vertex().b_dirty				=	TRUE;
 					//RCache.get_ConstantCache_Vertex().get_array_f().dirty	(c_base,c_base+dwBatch*4);
 					RCache.Render				(D3DPT_TRIANGLELIST,vOffset,0,dwCNT_verts,iOffset,dwCNT_prims);

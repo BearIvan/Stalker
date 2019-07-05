@@ -4,13 +4,13 @@
 namespace strconcat_error
 {
 
-void process(u32 const index, u32 const count, LPCSTR* strings)
+void process(bsize const index, bsize const count, LPCSTR* strings)
 {
-    u32 const max_string_size = 1024;
+	bsize const max_string_size = 1024;
     LPSTR temp = (LPSTR)_alloca((count*(max_string_size + 4) + 1)*sizeof(**strings));
     LPSTR k = temp;
     *k++ = '[';
-    for (u32 i = 0; i < count; ++i)
+    for (bsize i = 0; i < count; ++i)
     {
         for (LPCSTR j = strings[i], e = j + max_string_size; *j && j < e; ++k, ++j)
             *k = *j;
@@ -36,7 +36,7 @@ void process(u32 const index, u32 const count, LPCSTR* strings)
     );
 }
 
-template <u32 count>
+template <bsize count>
 static inline void process(LPSTR& i, LPCSTR e, u32 const index, LPCSTR(&strings)[count])
 {
     VERIFY(i <= e);
@@ -68,7 +68,7 @@ int stack_overflow_exception_filter(int exception_code)
         return EXCEPTION_CONTINUE_SEARCH;
 }
 
-void XrStringTupples::check_stack_overflow(u32 stack_increment)
+void XrStringTupples::check_stack_overflow(bsize stack_increment)
 {
     __try
     {
@@ -85,8 +85,8 @@ void XrStringTupples::error_process() const
 {
     LPCSTR strings[6];
 
-    u32 part_size = 0;
-    u32 overrun_string_index = (u32)-1;
+    bsize part_size = 0;
+	bsize overrun_string_index = (u32)-1;
     for (u32 i = 0; i < m_count; ++i)
     {
         strings[i] = m_strings[i].first;

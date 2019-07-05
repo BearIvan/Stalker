@@ -19,7 +19,7 @@ class					CBlender_Compile;
 class					IBlender;
 #define	SHADER_PASSES_MAX		2
 
-#pragma pack(push,4)
+
 
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		STextureList	: public xr_resource_flagged, public xr_vector<std::pair<u32,ref_texture> >	{
@@ -59,7 +59,7 @@ struct	 ECORE_API		SGeometry		: public xr_resource_flagged									{
 	ref_declaration		dcl;
 	ID3DVertexBuffer*	vb;
 	ID3DIndexBuffer*	ib;
-	u32					vb_stride;
+	bsize					vb_stride;
 						~SGeometry		();
 };
 
@@ -68,7 +68,7 @@ struct 	ECORE_API	resptrcode_geom	: public resptr_base<SGeometry>
 	void 				create			(D3DVERTEXELEMENT9* decl, ID3DVertexBuffer* vb, ID3DIndexBuffer* ib);
 	void				create			(u32 FVF				, ID3DVertexBuffer* vb, ID3DIndexBuffer* ib);
 	void				destroy			()			{ _set(NULL);		}
-	u32					stride			()	const	{ return _get()->vb_stride;	}
+	bsize					stride			()	const	{ return _get()->vb_stride;	}
 };
 
 typedef	resptr_core<SGeometry,resptrcode_geom>												ref_geom;
@@ -103,6 +103,7 @@ typedef	resptr_core<SPass,resptr_base<SPass> >												ref_pass;
 //////////////////////////////////////////////////////////////////////////
 struct 	 ECORE_API	ShaderElement	: public xr_resource_flagged									{
 public:
+#pragma pack(push,4)
 	struct Sflags
 	{
 		u32	iPriority	:	2;
@@ -111,6 +112,7 @@ public:
 		u32	bDistort	:	1;
 		u32	bWmark		:	1;
 	};
+#pragma pack(pop)
 public:
 	Sflags								flags;
 	svector<ref_pass,SHADER_PASSES_MAX>	passes;
@@ -155,6 +157,6 @@ enum	SE_R1				{
 //	E[4] - distortion or self illumination(self emission). 
 //	E[4] Can use for lightmap capturing.
 
-#pragma pack(pop)
+
 
 #endif // !defined(AFX_SHADER_H__9CBD70DD_E147_446B_B4EE_5DA321EB726F__INCLUDED_)

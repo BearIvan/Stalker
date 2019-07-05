@@ -70,15 +70,15 @@ private:
         type* m_alphabet = (type*)_alloca(sizeof(type)*alphabet_size);
 #endif // TRIVIAL_ENCRYPTOR_ENCODER
 
-        for (u32 i = 0; i < alphabet_size; ++i)
+        for (bsize i = 0; i < alphabet_size; ++i)
             m_alphabet[i] = (type)i;
 
         random32 temp;
         temp.seed(m_table_seed);
-        for (u32 i = 0; i < m_table_iterations; ++i)
+        for (bsize i = 0; i < m_table_iterations; ++i)
         {
-            u32 j = temp.random(alphabet_size);
-            u32 k = temp.random(alphabet_size);
+            bsize j = temp.random(alphabet_size);
+            bsize k = temp.random(alphabet_size);
             while (j == k)
                 k = temp.random(alphabet_size);
 
@@ -86,14 +86,14 @@ private:
         }
 
 #ifdef TRIVIAL_ENCRYPTOR_DECODER
-        for (u32 i = 0; i < alphabet_size; ++i)
+        for (bsize i = 0; i < alphabet_size; ++i)
             m_alphabet_back[m_alphabet[i]] = (type)i;
 #endif // TRIVIAL_ENCRYPTOR_DECODER
     }
 
 #ifdef TRIVIAL_ENCRYPTOR_ENCODER
 public:
-    IC static void encode(pcvoid source, const u32& source_size, pvoid destination)
+    IC static void encode(pcvoid source, const bsize& source_size, pvoid destination)
     {
 # ifndef TRIVIAL_ENCRYPTOR_DECODER
         static bool m_initialized = false;
@@ -116,7 +116,7 @@ public:
 
 #ifdef TRIVIAL_ENCRYPTOR_DECODER
 public:
-    IC static void decode(pcvoid source, const u32& source_size, pvoid destination)
+    IC static void decode(pcvoid source, const bsize& source_size, pvoid destination)
     {
 # ifndef TRIVIAL_ENCRYPTOR_ENCODER
         static bool m_initialized = false;

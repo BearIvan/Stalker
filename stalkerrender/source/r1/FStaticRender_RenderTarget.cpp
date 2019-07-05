@@ -65,7 +65,7 @@ BOOL CRenderTarget::Create	()
 	//RImplementation.o.color_mapping = RT_color_map->valid();
 
 	if ((rtHeight!=Device.dwHeight) || (rtWidth!=Device.dwWidth))	{
-		R_CHK		(HW.pDevice->CreateDepthStencilSurface	(rtWidth,rtHeight,HW.Caps.fDepth,D3DMULTISAMPLE_NONE,0,TRUE,&ZB,NULL));
+		R_CHK		(HW.pDevice->CreateDepthStencilSurface	(static_cast<UINT>(rtWidth), static_cast<UINT>(rtHeight),HW.Caps.fDepth,D3DMULTISAMPLE_NONE,0,TRUE,&ZB,NULL));
 	} else {
 		ZB			= HW.pBaseZB;
 		ZB->AddRef	();
@@ -78,7 +78,7 @@ BOOL CRenderTarget::Create	()
 	//	Create an RT for online screenshot makining
 	//u32		w = Device.dwWidth, h = Device.dwHeight;
 	//HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
-	HW.pDevice->CreateOffscreenPlainSurface(rtWidth,rtHeight,HW.Caps.fTarget,D3DPOOL_SYSTEMMEM,&pFB,NULL);
+	HW.pDevice->CreateOffscreenPlainSurface(static_cast<UINT>(rtWidth), static_cast<UINT>(rtHeight),HW.Caps.fTarget,D3DPOOL_SYSTEMMEM,&pFB,NULL);
 
 	// Shaders and stream
 	s_postprocess[0].create				("postprocess");
@@ -132,10 +132,10 @@ void	CRenderTarget::calc_tc_noise		(Fvector2& p0, Fvector2& p1)
 	u32			shift_h				= im_noise_shift_h;
 	float		start_u				= (float(shift_w)+.5f)/(tw);
 	float		start_v				= (float(shift_h)+.5f)/(th);
-	u32			_w					= Device.dwWidth;
-	u32			_h					= Device.dwHeight;
-	u32			cnt_w				= _w / tw;
-	u32			cnt_h				= _h / th;
+	bsize			_w					= Device.dwWidth;
+	bsize			_h					= Device.dwHeight;
+	bsize			cnt_w				= _w / tw;
+	bsize			cnt_h				= _h / th;
 	float		end_u				= start_u + float(cnt_w) + 1;
 	float		end_v				= start_v + float(cnt_h) + 1;
  
@@ -315,7 +315,7 @@ void CRenderTarget::End		()
 	// Msg				("add:  %d,%d,%d",	XrColor::color_get_R(p_brightness),	XrColor::color_get_G(p_brightness),	XrColor::color_get_B(p_brightness));
 	
 	// Draw full-screen quad textured with our scene image
-	u32		Offset;
+	bsize		Offset;
 	float	_w			= float(Device.dwWidth);
 	float	_h			= float(Device.dwHeight);
 	

@@ -63,7 +63,7 @@ public:
 #endif
 
 	IC CKinematics*		Parent				(){return m_Parent;}
-	IC u32				VCount				(){return m_Faces.size()*3;}
+	IC bsize				VCount				(){return m_Faces.size()*3;}
 	IC bool				Similar				(ref_shader& sh, const Fvector& cp, float eps){return (m_Shader==sh)&&m_ContactPoint.similar(cp,eps);}
 	IC float			TimeStart			(){return m_fTimeStart;}
 	IC const Fmatrix*	XFORM				(){return m_XForm;}
@@ -213,7 +213,7 @@ public:
 	Fobb&							LL_GetBox			(u16 bone_id)		{	VERIFY(bone_id<LL_BoneCount());	return (*bones)[bone_id]->obb;	}
 	const Fbox&				_BCL	GetBox				()const				{	return vis.box ;}
 	void							LL_GetBindTransform (xr_vector<Fmatrix>& matrices);
-    int 							LL_GetBoneGroups 	(xr_vector<xr_vector<u16> >& groups);
+	bsize 							LL_GetBoneGroups 	(xr_vector<xr_vector<u16> >& groups);
 
 	u16						_BCL	LL_GetBoneRoot		()					{	return iRoot;													}
 	void							LL_SetBoneRoot		(u16 bone_id)		{	VERIFY(bone_id<LL_BoneCount());	iRoot=bone_id;					}
@@ -255,9 +255,9 @@ public:
 	virtual IKinematics*	_BCL dcast_PKinematics()  { return this; }
 //	virtual	CKinematics*		dcast_PKinematics	()				{ return this;	}
 
-	virtual u32					mem_usage			(bool bInstance)
+	virtual bsize					mem_usage			(bool bInstance)
 	{
-		u32 sz					= sizeof(*this);
+		bsize sz					= sizeof(*this);
 		sz						+= bone_instances?bone_instances->mem_usage():0;
 		if (!bInstance){
 //			sz					+= pUserData?pUserData->mem_usage():0;

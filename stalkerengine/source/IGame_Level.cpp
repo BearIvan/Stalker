@@ -196,7 +196,7 @@ void IGame_Level::OnFrame()
         Sounds_Random_dwNextTime = Device.dwTimeGlobal + ::Random.randI(10000, 20000);
         Fvector pos;
         pos.random_dir().normalize().mul(::Random.randF(30, 100)).add(Device.vCameraPosition);
-        int id = ::Random.randI(Sounds_Random.size());
+        bsize id = static_cast<bsize>(::Random.randI(static_cast<s32>(Sounds_Random.size())));
         if (Sounds_Random_Enabled)
         {
             Sounds_Random[id].play_at_pos(0, pos, 0);

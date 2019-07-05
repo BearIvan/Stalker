@@ -26,9 +26,9 @@ IC	BlendSVec			&blend_vector	()	{ return Blend;}
 	void				blend_add		(CBlend* H);
 	void				blend_remove	(CBlend* H);
 
-	u32					mem_usage		()
+	bsize					mem_usage		()
 	{
-		u32 sz			= sizeof(*this);
+		bsize sz			= sizeof(*this);
 		for (BlendSVecIt it=Blend.begin(); it!=Blend.end(); it++)
 			sz			+= (*it)->mem_usage();
 		return			sz;
@@ -108,8 +108,8 @@ public:
 	std::pair<LPCSTR,LPCSTR>	LL_MotionDefName_dbg	(MotionID	ID);
 	void						LL_DumpBlends_dbg		( );
 #endif
-	u32							LL_PartBlendsCount			( u32 bone_part_id );
-	CBlend						*LL_PartBlend				( u32 bone_part_id, u32 n );
+	bsize							LL_PartBlendsCount			( bsize bone_part_id );
+	CBlend						*LL_PartBlend				( bsize bone_part_id, bsize n );
 	void						LL_IterateBlends			( IterateBlendsCallback &callback );
 
 	void						SetUpdateTracksCalback		( IUpdateTracksCallback	*callback );
@@ -117,9 +117,9 @@ public:
 //	LPCSTR						LL_MotionDefName_dbg	(LPVOID		ptr);
 
 #ifdef _EDITOR
-    u32							LL_CycleCount	(){u32 cnt=0; for (u32 k=0; k<m_Motions.size(); k++) cnt+=m_Motions[k].motions.cycle()->size(); return cnt;}
-    u32							LL_FXCount		(){u32 cnt=0; for (u32 k=0; k<m_Motions.size(); k++) cnt+=m_Motions[k].motions.fx()->size(); return cnt;}
-	accel_map*					LL_Motions		(u32 slot){return m_Motions[slot].motions.motion_map();}
+    bsize							LL_CycleCount	(){bsize cnt=0; for (bsize k=0; k<m_Motions.size(); k++) cnt+=m_Motions[k].motions.cycle()->size(); return cnt;}
+    bsize							LL_FXCount		(){bsize cnt=0; for (bsize k=0; k<m_Motions.size(); k++) cnt+=m_Motions[k].motions.fx()->size(); return cnt;}
+	accel_map*					LL_Motions		(bsize slot){return m_Motions[slot].motions.motion_map();}
 	MotionID					ID_Motion		(LPCSTR  N, u16 slot);
 #endif
 	u16							LL_MotionsSlotCount(){return (u16)m_Motions.size();}
@@ -177,13 +177,13 @@ public:
 	virtual						~CKinematicsAnimated	();
 								CKinematicsAnimated		();
 
-	virtual u32					mem_usage		(bool bInstance)
+	virtual bsize					mem_usage		(bool bInstance)
 	{
-		u32 sz					= CKinematics::mem_usage(bInstance)+sizeof(*this)+(bInstance&&blend_instances?blend_instances->mem_usage():0);
+		bsize sz					= CKinematics::mem_usage(bInstance)+sizeof(*this)+(bInstance&&blend_instances?blend_instances->mem_usage():0);
 		return sz;
 	}
 
-	IC	const BlendSVec			&blend_cycle	(const u32 &bone_part_id) const
+	IC	const BlendSVec			&blend_cycle	(const bsize &bone_part_id) const
 	{
 		VERIFY					(bone_part_id < MAX_PARTS);
 		return					(blend_cycles[bone_part_id]);

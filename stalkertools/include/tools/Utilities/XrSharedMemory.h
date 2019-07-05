@@ -4,9 +4,9 @@
 /////////////////////////////////////////////////////////////////////
 struct XrSharedMemoryValue
 {
-    u32 dwReference;
+	bsize dwReference;
     u32 dwCRC;
-    u32 dwLength;
+    bsize dwLength;
     u32 _align_16;
     u8 *value;
 };
@@ -44,7 +44,7 @@ private:
 	static  xrCriticalSection *cs;
 	static cdb *container;
 public:
-   static XrSharedMemoryValue* dock(u32 dwCRC, u32 dwLength, void* ptr);
+   static XrSharedMemoryValue* dock(u32 dwCRC, bsize dwLength, void* ptr);
    static void clean();
    static void dump();
    static u32 stat_economy();
@@ -68,7 +68,7 @@ public:
     ref_smem(ref_smem<T> const& rhs) { p_ = 0; _set(rhs); }
     ~ref_smem() { _dec(); }
 
-    void create(u32 dwCRC, u32 dwLength, T* ptr)
+    void create(u32 dwCRC, bsize dwLength, T* ptr)
     {
 		auto v= XrSharedMemoryContainer::dock(dwCRC, dwLength*sizeof(T), ptr);
         if (0 != v) v->dwReference++;
@@ -83,10 +83,10 @@ public:
     T& operator[] (size_t id) { return ((T*)(p_->value))[id]; }
     const T& operator[] (size_t id) const { return ((T*)(p_->value))[id]; }
     // misc func
-    u32 size() { if (0 == p_) return 0; else return p_->dwLength / sizeof(T); }
+    bsize size() { if (0 == p_) return 0; else return p_->dwLength / sizeof(T); }
     void swap(ref_smem<T>& rhs) { XrSharedMemoryValue* tmp = p_; p_ = rhs.p_; rhs.p_ = tmp; }
     bool equal(ref_smem<T>& rhs) { return p_ == rhs.p_; }
-    u32 ref_count() { if (0 == p_) return 0; else return p_->dwReference; }
+	bsize ref_count() { if (0 == p_) return 0; else return p_->dwReference; }
 };
 
 // res_ptr == res_ptr

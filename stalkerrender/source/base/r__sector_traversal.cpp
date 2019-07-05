@@ -99,11 +99,11 @@ void CPortalTraverser::fade_render	()
 	std::sort						(f_portals.begin(),f_portals.end(),psort_pred);
 	
 	// calc poly-count
-	u32		_pcount					= 0;
-	for		(u32 _it = 0; _it<f_portals.size(); _it++)	_pcount	+= f_portals[_it].first->getPoly().size()-2;
+	bsize		_pcount					= 0;
+	for		(bsize _it = 0; _it<f_portals.size(); _it++)	_pcount	+= f_portals[_it].first->getPoly().size()-2;
 
 	// fill buffers
-	u32			_offset				= 0;
+	bsize			_offset				= 0;
 	FVF::L*		_v					= (FVF::L*)RCache.Vertex.Lock(_pcount*3,f_geom.stride(),_offset);
 	float		ssaRange			= r_ssaLOD_A - r_ssaLOD_B;
 	u32			_ambient = 0;
@@ -121,7 +121,7 @@ void CPortalTraverser::fade_render	()
 					_ambient =XrColor::color_rgba_f(_ambient_f.x, _ambient_f.y, _ambient_f.z, 0);
 		
 	}
-	for (u32 _it = 0; _it < f_portals.size(); _it++)
+	for (bsize _it = 0; _it < f_portals.size(); _it++)
 	{
 		std::pair<CPortal*, float>&	fp = f_portals[_it];
 		CPortal*					_P = fp.first;
@@ -132,7 +132,7 @@ void CPortalTraverser::fade_render	()
 		u32							_clr = XrColor::subst_alpha(_ambient, u32(iA));
 
 		// fill polys
-		u32			_polys = _P->getPoly().size() - 2;
+		bsize			_polys = _P->getPoly().size() - 2;
 		for (u32 _pit = 0; _pit < _polys; _pit++) {
 			_v->set(_P->getPoly()[0], _clr);	_v++;
 			_v->set(_P->getPoly()[_pit + 1], _clr);	_v++;

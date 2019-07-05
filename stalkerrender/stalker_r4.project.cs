@@ -16,7 +16,10 @@ public class stalker_r4 :Project
 		Projects.Private.Add("openautomate");
 		Projects.Private.Add("nvapi");
 		Projects.Private.Add("loki");
-		Projects.Private.Add("atimgpud");
+		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32)
+		{
+			Projects.Private.Add("atimgpud");
+		}
 		LibrariesStatic.Private.Add("d3d9.lib");
 		LibrariesStatic.Private.Add("d3dx9.lib");
 		LibrariesStatic.Private.Add("dxgi.lib");
@@ -24,6 +27,8 @@ public class stalker_r4 :Project
 		LibrariesStatic.Private.Add("d3d11.lib");
 		LibrariesStatic.Private.Add("d3dx11.lib");
 		LibrariesStatic.Private.Add("d3dcompiler.lib");
+		
+	
 		AddSourceFiles(Path.Combine(ProjectPath,"source","base"),true);
 		AddSourceFiles(Path.Combine(ProjectPath,"source","directx10"),true);
 		AddSourceFiles(Path.Combine(ProjectPath,"source","r4"),true);

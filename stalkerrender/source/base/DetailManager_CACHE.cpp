@@ -148,7 +148,7 @@ void	CDetailManager::cache_Update	(int v_x, int v_z, Fvector& view, int limit)
 	if (cache_task.size() == dm_cache_size)	{ limit = dm_cache_size; bFullUnpack=TRUE; }
 
 	for (int iteration=0; cache_task.size() && (iteration<limit); iteration++){
-		u32		best_id		= 0;
+		bsize		best_id		= 0;
 		float	best_dist	= flt_max;
 
 		if (bFullUnpack){
@@ -198,11 +198,11 @@ void	CDetailManager::cache_Update	(int v_x, int v_z, Fvector& view, int limit)
 
 DetailSlot&	CDetailManager::QueryDB(int sx, int sz)
 {
-	int db_x = sx+dtH.offs_x;
-	int db_z = sz+dtH.offs_z;
-	if ((db_x>=0) && (db_x<int(dtH.size_x)) && (db_z>=0) && (db_z<int(dtH.size_z)))
+	bint db_x = sx+dtH.offs_x;
+	bint db_z = sz+dtH.offs_z;
+	if ((db_x>=0) && (db_x<bint(dtH.size_x)) && (db_z>=0) && (db_z<bint(dtH.size_z)))
 	{
-		u32 linear_id				= db_z*dtH.size_x + db_x;
+		bsize linear_id				= db_z*dtH.size_x + db_x;
 		return dtSlots				[linear_id];
 	} else {
 		// Empty slot

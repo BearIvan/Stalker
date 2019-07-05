@@ -220,7 +220,7 @@ void CUIListWnd::UpdateList()
 	
 	//спрятать все элементы до участка 
 	//отображающейся в данный момент
-	for(bsize i=0; i<XrMath::min(m_ItemList.size(),u32(m_iFirstShownIndex)); ++i, ++it)
+	for(bsize i=0; i<XrMath::min(m_ItemList.size(),bsize(m_iFirstShownIndex)); ++i, ++it)
 	{
 		(*it)->Show(false);
 	}
@@ -228,7 +228,7 @@ void CUIListWnd::UpdateList()
 
 	//показать текущий список
 	for(bsize i=m_iFirstShownIndex;
-			i<XrMath::min(m_ItemList.size(), u32(m_iFirstShownIndex + m_iRowNum+1));
+			i<XrMath::min(m_ItemList.size(), bsize(m_iFirstShownIndex + m_iRowNum+1));
 			++i, ++it)
 	{
 		Frect rect_to_set;

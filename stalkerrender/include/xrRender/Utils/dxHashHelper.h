@@ -6,7 +6,7 @@ class dxHashHelper
 {
 public:
 	dxHashHelper();
-	IC	void	AddData(const void* P, u32 len);
+	IC	void	AddData(const void* P, bsize len);
 	u32		GetHash() const;
 private:
 	// Reflects CRC bits in the lookup table 
@@ -20,7 +20,7 @@ private:
 	static u32	m_CrcTable[256];
 };
 
-IC void dxHashHelper::AddData(const void* P, u32 len)
+IC void dxHashHelper::AddData(const void* P, bsize len)
 {
 	u8* buffer = (u8*)P;
 

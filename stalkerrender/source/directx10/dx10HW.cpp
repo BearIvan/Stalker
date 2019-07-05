@@ -274,9 +274,10 @@ void CHW::CreateDevice( HWND m_hWnd, bool move_window )
 	// Set up the presentation parameters
 	DXGI_SWAP_CHAIN_DESC	&sd	= m_ChainDesc;
 	ZeroMemory				( &sd, sizeof(sd) );
-
-	selectResolution	(sd.BufferDesc.Width, sd.BufferDesc.Height, bWindowed);
-
+	bsize w, h;
+	selectResolution	(w,h, bWindowed);
+	sd.BufferDesc.Width = static_cast<UINT>(w);
+	sd.BufferDesc.Height = static_cast<UINT>(h);
 	// Back buffer
 	//.	P.BackBufferWidth		= dwWidth;
 	//. P.BackBufferHeight		= dwHeight;
@@ -485,7 +486,10 @@ void CHW::Reset (HWND hwnd)
 
 	DXGI_MODE_DESC	&desc = m_ChainDesc.BufferDesc;
 
-	selectResolution(desc.Width, desc.Height, bWindowed);
+	bsize w, h;
+	selectResolution(w, h, bWindowed);
+	desc.Width = static_cast<UINT>(w);
+	desc.Height = static_cast<UINT>(h);
 
 	if (bWindowed)
 	{
@@ -588,7 +592,7 @@ D3DFORMAT CHW::selectDepthStencil	(D3DFORMAT fTarget)
 	return D3DFMT_D24S8;
 }
 
-void CHW::selectResolution( u32 &dwWidth, u32 &dwHeight, BOOL bWindowed )
+void CHW::selectResolution(bsize &dwWidth, bsize &dwHeight, BOOL bWindowed )
 {
 	fill_vid_mode_list			(this);
 
@@ -648,7 +652,7 @@ u32 CHW::selectGPU ()
 	} else return D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 }
 */
-DXGI_RATIONAL CHW::selectRefresh(u32 dwWidth, u32 dwHeight, DXGI_FORMAT fmt)
+DXGI_RATIONAL CHW::selectRefresh(bsize dwWidth, bsize dwHeight, DXGI_FORMAT fmt)
 {
 	DXGI_RATIONAL	res;
 
@@ -925,7 +929,7 @@ void fill_vid_mode_list(CHW* _hw)
 //	_tmp.push_back				(NULL);
 //	_tmp.back()					= xr_strdup("1024x768");
 
-	u32 _cnt						= _tmp.size()+1;
+	bsize _cnt						= _tmp.size()+1;
 
 	vid_mode_token					= xr_alloc<xr_token>(_cnt);
 

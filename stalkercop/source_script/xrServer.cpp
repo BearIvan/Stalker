@@ -282,7 +282,7 @@ void _stdcall xrServer::SendGameUpdateTo(IClient* client)
 void xrServer::MakeUpdatePackets()
 {
 	NET_Packet						tmpPacket;			
-	u32								position;
+	bsize								position;
 
 	m_updator.begin_updates			();
 	

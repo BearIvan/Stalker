@@ -122,7 +122,7 @@ void dxApplicationRender::load_draw_internal(CApplication &owner)
 	back_tex_coords.rb.x		/= tsz.x; 
 	back_tex_coords.rb.y		/= tsz.y;
 
-	u32	Offset;
+	bsize	Offset;
 	u32	C						= 0xffffffff;
 	FVF::TL* pv					= NULL;
 	u32 v_cnt					= 40;
@@ -250,7 +250,7 @@ void dxApplicationRender::load_draw_internal(CApplication &owner)
 
 void dxApplicationRender::draw_face(ref_shader& sh, Frect& coords, Frect& tex_coords, const Fvector2& tsz)
 {
-	u32	Offset;
+	bsize	Offset;
 	u32	C						= 0xffffffff;
 	FVF::TL* pv					= NULL;
 
@@ -357,7 +357,7 @@ LPCSTR _GetFontTexName(LPCSTR section)
 	else if (w <= 1280)idx = 1;
 	else 			idx = 2;
 #else
-	u32 h = Device.dwHeight;
+	bsize h = Device.dwHeight;
 
 	if (h <= 600)		idx = 0;
 	else if (h <= 900)	idx = 1;
@@ -453,10 +453,10 @@ void dxApplicationRenderSOC::load_draw_internal(CApplication & owner)
 		return;
 	}
 	// Draw logo
-	u32	Offset;
+	bsize	Offset;
 	u32	C = 0xffffffff;
-	u32	_w = Device.dwWidth;
-	u32	_h = Device.dwHeight;
+	bsize	_w = Device.dwWidth;
+	bsize	_h = Device.dwHeight;
 	FVF::TL* pv = NULL;
 
 	//progress

@@ -11,7 +11,7 @@ void set_viewport(ID3DDeviceContext *dev, float w, float h)
 
 void CRenderTarget::phase_ssao	()
 {
-	u32	Offset	= 0;
+	bsize	Offset	= 0;
 
 	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	HW.pContext->ClearRenderTargetView(rt_ssao_temp->pRT, ColorRGBA);
@@ -114,13 +114,13 @@ void CRenderTarget::phase_downsamp	()
 	//HW.pDevice->StretchRect(source, NULL, dest, NULL, D3DTEXF_POINT);
 
 	//Fvector2	p0,p1;
-	u32			Offset = 0;
+	bsize			Offset = 0;
 
     u_setrt( rt_half_depth,0,0,0/*HW.pBaseZB*/ );
 	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     HW.pContext->ClearRenderTargetView(rt_half_depth->pRT, ColorRGBA);
-	u32 w = Device.dwWidth;
-	u32 h = Device.dwHeight;
+	bsize w = Device.dwWidth;
+	bsize h = Device.dwHeight;
 
 	if (RImplementation.o.ssao_half_data)
 	{

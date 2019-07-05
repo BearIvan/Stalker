@@ -254,13 +254,13 @@ void IReader::r_string(char* dest, u32 tgt_sz)
 void IReader::r_string(xr_string& dest)
 {
 	char* src = (char*)data + Pos;
-	u32 sz = advance_term_string();
+	bsize sz = advance_term_string();
 	dest.assign(src, sz);
 }
 void IReader::r_stringZ(char* dest, u32 tgt_sz)
 {
 	char* src = (char*)data;
-	u32 sz = BearCore::BearString::GetSize(src);
+	bsize sz = BearCore::BearString::GetSize(src);
 	R_ASSERT2(sz < tgt_sz, "Dest string less than needed.");
 	while ((src[Pos] != 0) && (!eof())) *dest++ = src[Pos++];
 	*dest = 0;

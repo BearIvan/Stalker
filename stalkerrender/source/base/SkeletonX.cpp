@@ -53,7 +53,7 @@ void CSkeletonX::_Copy		(CSkeletonX *B)
 #endif	//	USE_DX10
 }
 //////////////////////////////////////////////////////////////////////
-void CSkeletonX::_Render	(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
+void CSkeletonX::_Render	(ref_geom& hGeom, bsize vCount, bsize iOffset, bsize pCount)
 {
 	RCache.stat.r.s_dynamic.add		(vCount);
 	switch (RenderMode)
@@ -106,9 +106,9 @@ void CSkeletonX::_Render	(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
 		break;
 	}
 }
-void CSkeletonX::_Render_soft	(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
+void CSkeletonX::_Render_soft	(ref_geom& hGeom, bsize vCount, bsize iOffset, bsize pCount)
 {
-	u32 vOffset				= cache_vOffset;
+	bsize vOffset				= cache_vOffset;
 
 	_VertexStream&	_VS		= RCache.Vertex;
 	if (cache_DiscardID!=_VS.DiscardID() || vCount!=cache_vCount )
@@ -165,7 +165,7 @@ void CSkeletonX::_Render_soft	(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCo
 	RCache.Render			(D3DPT_TRIANGLELIST,vOffset,0,vCount,iOffset,pCount);
 }
 
-void CSkeletonX::_Load	(const char* N, IReader *data, u32& dwVertCount) 
+void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 {	
 	s_bones_array_const		= "sbones_array";
 	xr_vector<u16>			bids;
@@ -187,7 +187,8 @@ void CSkeletonX::_Load	(const char* N, IReader *data, u32& dwVertCount)
 	hw_bones_cnt					= 0;
 #endif
 
-	u32								dwVertType,size,it,crc;
+	bsize								dwVertType, size, it;
+	u32 crc;
 	dwVertType						= data->r_u32(); 
 	dwVertCount						= data->r_u32();
 

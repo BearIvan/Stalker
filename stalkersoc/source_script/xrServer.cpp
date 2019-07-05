@@ -300,7 +300,7 @@ void xrServer::Update	()
 }
 void xrServer::SendUpdatesToAll(IClient*client)
 {
-	u32	 position;
+	bsize	 position;
 	xrClientData*	Client = (xrClientData*)client;
 	if (!Client->net_Ready)			return;
 	if (!HasBandwidth(Client)

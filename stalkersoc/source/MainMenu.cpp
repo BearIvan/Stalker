@@ -656,9 +656,7 @@ LPCSTR CMainMenu::GetGSVer()
 	static string256	buff;
 	static string256	buff2;
 	BearCore::BearString::Copy(buff2, ENGINE_VERSION);
-#ifdef X64
-	BearCore::BearString::Contact(buff2, "-X64");
-#endif
+
 	if (gameVersionController->getPath() == GameVersionController::SOC_1004)
 	{
 		BearCore::BearString::Contact(buff2, "(1.0.04)");
@@ -667,5 +665,8 @@ LPCSTR CMainMenu::GetGSVer()
 	{
 		BearCore::BearString::Contact(buff2, "(1.0.06)");
 	}
+#ifdef X64
+	BearCore::BearString::Contact(buff2, "-X64");
+#endif
 	return buff2;
 }

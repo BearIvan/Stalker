@@ -45,12 +45,12 @@ void CTheoraStream::Reset()
     d_frame = -1;
 }
 
-int CTheoraStream::ReadData()
+bsize CTheoraStream::ReadData()
 {
     char* buffer = ogg_sync_buffer(&o_sync_state, 4096);
-    long bytes = 4096 > (size_t)source->elapsed() ? source->elapsed() : 4096;
+	bsize bytes = 4096 > (bsize)source->elapsed() ? source->elapsed() : 4096;
     source->r(buffer, bytes);
-    ogg_sync_wrote(&o_sync_state, bytes);
+    ogg_sync_wrote(&o_sync_state, static_cast<long>(bytes));
     return bytes;
 }
 
@@ -63,7 +63,7 @@ BOOL CTheoraStream::ParseHeaders()
     // find Theora stream
     while (!stateflag)
     {
-        int ret = ReadData();
+        bsize ret = ReadData();
         if (ret == 0) break;
         while (ogg_sync_pageout(&o_sync_state, &o_page) > 0)
         {
@@ -131,7 +131,7 @@ BOOL CTheoraStream::ParseHeaders()
         }
         else
         {
-            int ret1 = ReadData(); // someone needs more data
+			bsize ret1 = ReadData(); // someone needs more data
             if (ret1 == 0) FATAL("End of file while searching for codec headers.");
         }
     }

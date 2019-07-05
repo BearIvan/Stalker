@@ -70,8 +70,8 @@ bool dx10ConstantBuffer::Similar(dx10ConstantBuffer &_in)
 
 	VERIFY(m_MembersNames.size() == _in.m_MembersNames.size());
 
-	int iMemberNum = m_MembersNames.size();
-	for ( int i=0; i<iMemberNum; ++i)
+	bsize iMemberNum = m_MembersNames.size();
+	for (bsize i=0; i<iMemberNum; ++i)
 	{
 		if (m_MembersNames[i].c_str()!=_in.m_MembersNames[i].c_str())
 			return false;

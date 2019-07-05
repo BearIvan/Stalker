@@ -207,12 +207,12 @@ public:
 	virtual void			Disconnect			();
 
 	// send
-	virtual void			SendTo_LL			(ClientID ID, void* data, u32 size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
-	virtual void			SendTo_Buf			(ClientID ID, void* data, u32 size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
+	virtual void			SendTo_LL			(ClientID ID, void* data, bsize size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
+	virtual void			SendTo_Buf			(ClientID ID, void* data, bsize size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
 	virtual void			Flush_Clients_Buffers	();
 
 	void					SendTo				(ClientID ID, NET_Packet& P, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
-	void					SendBroadcast_LL	(ClientID exclude, void* data, u32 size, u32 dwFlags=DPNSEND_GUARANTEED);
+	void					SendBroadcast_LL	(ClientID exclude, void* data, bsize size, u32 dwFlags=DPNSEND_GUARANTEED);
 	virtual void			SendBroadcast		(ClientID exclude, NET_Packet& P, u32 dwFlags=DPNSEND_GUARANTEED);
 
 	// statistic
@@ -252,7 +252,7 @@ public:
 	virtual void			Assign_ServerType( string512& res ) {};
 	virtual void			GetServerInfo( CServerInfo* si ) {};
 
-	u32						GetClientsCount		()			{ return net_players.ClientsCount(); };
+	bsize						GetClientsCount		()			{ return net_players.ClientsCount(); };
 	IClient*				GetServerClient		()			{ return SV_Client; };
 	template<typename SearchPredicate>
 	IClient*				FindClient		(SearchPredicate const & predicate) { return net_players.GetFoundClient(predicate); }
@@ -284,7 +284,7 @@ public:
 	IClient*				GetClientByID	(ClientID clientId)					{return net_players.GetFoundClient(ClientIdSearchPredicate(clientId));};
 	//IClient*				GetDisconnectedClientByID(ClientID clientId)		{return net_players.GetFoundDisconnectedClient(ClientIdSearchPredicate(clientId));}
 
-	inline IClient*getClient(u32 id) { return net_players.getClient(id); }
+	inline IClient*getClient(bsize id) { return net_players.getClient(id); }
 	const shared_str&		GetConnectOptions	() const {return connect_options;}
 
 
@@ -293,6 +293,6 @@ private:
 	bool					sender_functor_invoked;
 #endif
 
-    virtual void    _Recieve( const void* data, u32 data_size, u32 param );
+    virtual void    _Recieve( const void* data, bsize data_size, u32 param );
 };
 

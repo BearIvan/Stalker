@@ -29,7 +29,7 @@ public:
 	u32								marker;
 	BOOL							bDualRender;
 
-	void							Setup								(Fvector* V, int vcnt, CSector* face, CSector* back);
+	void							Setup								(Fvector* V, bsize vcnt, CSector* face, CSector* back);
 
 	svector<Fvector,8>&				getPoly()							{ return poly;		}
 	CSector*						Back()								{ return pBack;		}

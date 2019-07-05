@@ -6,8 +6,8 @@ extern Fvector	c_spatial_offset[8];
 class	walker
 {
 public:
-	u32			o_count;
-	u32			n_count;
+	bsize			o_count;
+	bsize			n_count;
 public:
 	walker					()
 	{

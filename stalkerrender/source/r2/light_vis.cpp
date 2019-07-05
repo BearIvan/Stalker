@@ -47,7 +47,7 @@ void	light::vis_prepare			()
 	vis.pending										= true;
 	xform_calc										();
 	RCache.set_xform_world							(m_xform);
-	vis.query_order	= RImplementation.occq_begin	(vis.query_id);
+	vis.query_order	=static_cast<u32>( RImplementation.occq_begin	(vis.query_id));
 	//	Hack: Igor. Light is visible if it's frutum is visible. (Only for volumetric)
 	//	Hope it won't slow down too much since there's not too much volumetric lights
 	//	TODO: sort for performance improvement if this technique hurts
@@ -73,7 +73,7 @@ void	light::vis_update			()
 	if (!vis.pending)	return;
 
 	u32	frame			= Device.dwFrame;
-	u32 fragments		= RImplementation.occq_get	(vis.query_id);
+	bsize fragments		= RImplementation.occq_get	(vis.query_id);
 	//Log					("",fragments);
 	vis.visible			= (fragments > cullfragments);
 	vis.pending			= false;

@@ -7,7 +7,7 @@ void xrServer::SLS_Save	(IWriter& fs)
 {
 	// Generate spawn+update
 	NET_Packet		P;
-	u32				position;
+	bsize				position;
 	xrS_entities::iterator	I=entities.begin(),E=entities.end();
 	for (u32 C=0; I!=E; ++I,++C)
 	{

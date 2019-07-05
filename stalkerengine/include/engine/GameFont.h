@@ -94,7 +94,7 @@ public:
     void MasterOut(BOOL bCheckDevice, BOOL bUseCoords, BOOL bScaleCoords, BOOL bUseSkip,
         float _x, float _y, float _skip, LPCSTR fmt, va_list p);
 
-    u32 smart_strlen(const char* S);
+	bsize smart_strlen(const char* S);
     BOOL IsMultibyte() { return (uFlags & fsMultibyte); };
     u16 SplitByWidth(u16* puBuffer, u16 uBufferSize, float fTargetWidth, const char* pszText);
     u16 GetCutLengthPos(float fTargetWidth, const char* pszText);

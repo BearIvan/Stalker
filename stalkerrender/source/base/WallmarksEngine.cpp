@@ -195,7 +195,7 @@ void CWallmarksEngine::AddWallmark_internal	(CDB::TRI* pTri, const Fvector* pVer
 		bb_query.get_CD		(bbc,bbd);
 		xrc.box_options		(CDB::OPT_FULL_TEST);
 		xrc.box_query		(g_pGameLevel->ObjectSpace.GetStaticModel(),bbc,bbd);
-		u32	triCount		= xrc.r_count	();
+		bsize	triCount		= xrc.r_count	();
 		if (0==triCount)	
 			return;
 
@@ -317,14 +317,14 @@ void CWallmarksEngine::AddSkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm)
 }
 
 extern float r_ssaDISCARD;
-ICF void BeginStream(ref_geom hGeom, u32& w_offset, FVF::LIT*& w_verts, FVF::LIT*& w_start)
+ICF void BeginStream(ref_geom hGeom, bsize& w_offset, FVF::LIT*& w_verts, FVF::LIT*& w_start)
 {
 	w_offset				= 0;
 	w_verts					= (FVF::LIT*)RCache.Vertex.Lock	(MAX_TRIS*3,hGeom->vb_stride,w_offset);
 	w_start					= w_verts;
 }
 
-ICF void FlushStream(ref_geom hGeom, ref_shader shader, u32& w_offset, FVF::LIT*& w_verts, FVF::LIT*& w_start, BOOL bSuppressCull)
+ICF void FlushStream(ref_geom hGeom, ref_shader shader, bsize& w_offset, FVF::LIT*& w_verts, FVF::LIT*& w_start, BOOL bSuppressCull)
 {
 	u32 w_count					= u32(w_verts-w_start);
 	RCache.Vertex.Unlock		(w_count,hGeom->vb_stride);
@@ -364,7 +364,7 @@ void CWallmarksEngine::Render()
 	lock.Enter		();			// Physics may add wallmarks in parallel with rendering
 
 	for (WMSlotVecIt slot_it=marks.begin(); slot_it!=marks.end(); slot_it++){
-		u32			w_offset;
+		bsize			w_offset;
 		FVF::LIT	*w_verts, *w_start;
 		BeginStream	(hGeom,w_offset,w_verts,w_start);
 		wm_slot* slot			= *slot_it;	

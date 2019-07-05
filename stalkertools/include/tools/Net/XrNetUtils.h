@@ -65,7 +65,7 @@ class XRCORE_API NET_Packet
 public:
     IIniFileStream* inistream;
 
-    void construct(const void* data, unsigned size)
+    void construct(const void* data, bsize size)
     {
         memcpy(B.data, data, size);
         B.count = size;

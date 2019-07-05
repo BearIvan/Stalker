@@ -44,7 +44,7 @@ static void hton_bo(u32 const source_ip, subnet_item & dest)
 }
 
 #define SUBNET_LIST_SECT_NAME "subnet_list"
-u32 ip_filter::load()
+bsize ip_filter::load()
 {
 	//BEAR_ASSERT(0);
 	//return 0;
@@ -57,7 +57,7 @@ u32 ip_filter::load()
 	if (!ini.section_exist(SUBNET_LIST_SECT_NAME))
 		return 0;
 
-	for (u32 i = 0, line_count = ini.line_count(SUBNET_LIST_SECT_NAME);
+	for (bsize i = 0, line_count = ini.line_count(SUBNET_LIST_SECT_NAME);
 		i != line_count; ++i)
 	{
 		LPCSTR address;

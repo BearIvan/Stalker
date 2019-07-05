@@ -13,6 +13,7 @@
 #include "doug_lea_memory_allocator.h"
 #include "opt.lua.h"
 #include "opt_inline.lua.h"
+
 LPCSTR	file_header_old = "\
 local function script_name() \
 return \"%s\" \
@@ -182,8 +183,11 @@ void CScriptStorage::reinit	()
 		file_header			= file_header_old;*/
 	if (m_virtual_machine)
 		lua_close(m_virtual_machine);
-
+#ifdef X64
+	m_virtual_machine = luaL_newstate();
+#else
 	m_virtual_machine = lua_newstate(lua_alloc, NULL);
+#endif
 
 	if (!m_virtual_machine) {
 		Msg("! ERROR : Cannot initialize script virtual machine!");

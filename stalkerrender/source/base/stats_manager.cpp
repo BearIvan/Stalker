@@ -16,7 +16,7 @@
     const bool g_dedicated_server = false;
 #endif
 
-void stats_manager::increment_stats( u32 size, enum_stats_buffer_type type, _D3DPOOL location )
+void stats_manager::increment_stats(bsize size, enum_stats_buffer_type type, _D3DPOOL location )
 {
 	if( g_dedicated_server )
 		return;
@@ -26,7 +26,7 @@ void stats_manager::increment_stats( u32 size, enum_stats_buffer_type type, _D3D
 	memory_usage_summary [type][location]		+= size;
 }
  
-void stats_manager::increment_stats( u32 size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr )
+void stats_manager::increment_stats(bsize size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr )
 {
 	if( g_dedicated_server )
 		return;
@@ -41,7 +41,7 @@ void stats_manager::increment_stats( u32 size, enum_stats_buffer_type type, _D3D
 	new_item.buff_ptr	= buff_ptr;
 	new_item.location	= location;
 	new_item.type		= type;
-	new_item.size		= size;
+	new_item.size		= static_cast<u32>(size);
 	
 	m_buffers_list.push_back(new_item);
 #endif
@@ -165,7 +165,7 @@ void stats_manager::decrement_stats_ib( ID3DIndexBuffer*	buff )
 #endif
 }
 
-void stats_manager::decrement_stats( u32 size, enum_stats_buffer_type type, _D3DPOOL location )
+void stats_manager::decrement_stats(bsize size, enum_stats_buffer_type type, _D3DPOOL location )
 {
 	if( g_dedicated_server )
 		return;
@@ -175,7 +175,7 @@ void stats_manager::decrement_stats( u32 size, enum_stats_buffer_type type, _D3D
 	memory_usage_summary [type][location]		-= size;
 }
 
-void stats_manager::decrement_stats( u32 size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr )
+void stats_manager::decrement_stats(bsize size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr )
 {
 	if( buff_ptr == 0 || g_dedicated_server )
 		return;

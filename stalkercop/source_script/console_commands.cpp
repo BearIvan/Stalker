@@ -1350,7 +1350,7 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	CCC_StartTimeSingle(LPCSTR N) : IConsole_Command(N) {};
 	virtual void	Execute	(LPCSTR args)
 	{
-		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
+		bsize year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
 		BearCore::BearString::Scanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
 		year				= XrMath::max(year,bsize(1));
 		month				= XrMath::max(month,bsize(1));

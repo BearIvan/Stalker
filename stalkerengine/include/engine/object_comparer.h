@@ -50,7 +50,7 @@ struct CComparer {
 		);
 	}
 
-	template <typename T, int size>
+	template <typename T, bsize size>
 	IC	static bool compare(const svector<T,size> &_1, const svector<T,size> &_2, const P &p)
 	{
 		if (_1.size() != _2.size())

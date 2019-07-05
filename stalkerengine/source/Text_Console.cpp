@@ -241,47 +241,47 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
     LPCSTR s_edt = ec().str_edit();
     LPCSTR s_cur = ec().str_before_cursor();
 
-    u32 cur_len = xr_strlen(s_cur) + xr_strlen(ch_cursor) + 1;
+	bsize cur_len = xr_strlen(s_cur) + xr_strlen(ch_cursor) + 1;
     PSTR buf = (PSTR)_alloca(cur_len * sizeof(char));
     xr_strcpy(buf, cur_len, s_cur);
     xr_strcat(buf, cur_len, ch_cursor);
     buf[cur_len - 1] = 0;
 
-    u32 cur0_len = xr_strlen(s_cur);
+	bsize cur0_len = xr_strlen(s_cur);
 
     int xb = 25;
 
     SetTextColor(hDC, RGB(255, 255, 255));
-    TextOut(hDC, xb, Height - tm.tmHeight - 1, buf, cur_len - 1);
+    TextOut(hDC, xb, Height - tm.tmHeight - 1, buf, static_cast<int>(cur_len - 1));
     buf[cur0_len] = 0;
 
     SetTextColor(hDC, RGB(0, 0, 0));
-    TextOut(hDC, xb, Height - tm.tmHeight - 1, buf, cur0_len);
+    TextOut(hDC, xb, Height - tm.tmHeight - 1, buf, static_cast<int>(cur0_len));
 
 
     SetTextColor(hDC, RGB(255, 255, 255));
-    TextOut(hDC, 0, Height - tm.tmHeight - 3, ioc_prompt, xr_strlen(ioc_prompt)); // ">>> "
+    TextOut(hDC, 0, Height - tm.tmHeight - 3, ioc_prompt,static_cast<int>( xr_strlen(ioc_prompt))); // ">>> "
 
     SetTextColor(hDC, (COLORREF)XrColor::bgr2rgb(get_mark_color(mark11)));
-    TextOut(hDC, xb, Height - tm.tmHeight - 3, s_edt, xr_strlen(s_edt));
+    TextOut(hDC, xb, Height - tm.tmHeight - 3, s_edt, static_cast<int>(xr_strlen(s_edt)));
 
     SetTextColor(hDC, RGB(205, 205, 225));
 
 	auto &str = BearCore::BearLog::Lock();
 
-    u32 log_line = str.size() - 1;
+	bsize log_line = str.size() - 1;
     string16 q, q2;
 	BearCore::BearString::Printf(q, "%u", log_line);
     xr_strcpy(q2, sizeof(q2), "[");
     xr_strcat(q2, sizeof(q2), q);
     xr_strcat(q2, sizeof(q2), "]");
-    u32 qn = xr_strlen(q2);
+	bsize qn = xr_strlen(q2);
 
-    TextOut(hDC, Width - 8 * qn, Height - tm.tmHeight - tm.tmHeight, q2, qn);
+    TextOut(hDC, static_cast<int>(Width - 8 * qn), Height - tm.tmHeight - tm.tmHeight, q2, static_cast<int>(qn));
 
     int ypos = Height - tm.tmHeight - tm.tmHeight;
 
-    for (int i = str.size() - 1 - scroll_delta; i >= 0; --i)
+    for (bsize i = str.size() - 1 - scroll_delta; i >= 0; --i)
     {
         ypos -= tm.tmHeight;
         if (ypos < y_top_max)
@@ -300,7 +300,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
         u8 b = (is_mark(cm)) ? 2 : 0;
         LPCSTR pOut = ls + b;
 
-        BOOL res = TextOut(hDC, 10, ypos, pOut, xr_strlen(pOut));
+        BOOL res = TextOut(hDC, 10, ypos, pOut, static_cast<int>(xr_strlen(pOut)));
         if (!res)
         {
             R_ASSERT2(0, "TextOut(..) return NULL");
@@ -319,7 +319,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
     for (u32 i = 0; i < m_server_info.Size(); ++i)
     {
         SetTextColor(hDC, m_server_info[i].color);
-        TextOut(hDC, 10, ypos, m_server_info[i].name, xr_strlen(m_server_info[i].name));
+        TextOut(hDC, 10, ypos, m_server_info[i].name, static_cast<int>(xr_strlen(m_server_info[i].name)));
 
         ypos += tm.tmHeight;
         if (ypos > y_top_max)

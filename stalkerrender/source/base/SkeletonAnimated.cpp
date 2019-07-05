@@ -117,12 +117,12 @@ void	CKinematicsAnimated::LL_DumpBlends_dbg	( )
 
 #endif
 
-u32	CKinematicsAnimated::LL_PartBlendsCount	( u32 bone_part_id )
+bsize	CKinematicsAnimated::LL_PartBlendsCount	(bsize bone_part_id )
 {
 	return blend_cycle(bone_part_id).size();
 }
 
-CBlend*	CKinematicsAnimated::LL_PartBlend	( u32 bone_part_id, u32 n  )
+CBlend*	CKinematicsAnimated::LL_PartBlend	( bsize bone_part_id, bsize n  )
 {
 	if( LL_PartBlendsCount(bone_part_id)<=n )
 		return 0;
@@ -584,9 +584,9 @@ CKinematicsAnimated::CKinematicsAnimated():
 void	CKinematicsAnimated::IBoneInstances_Create()
 {
     inherited::IBoneInstances_Create();
-	u32				size	= bones->size();
+	bsize				size	= bones->size();
 	blend_instances			= xr_alloc<CBlendInstance>(size);
-	for (u32 i=0; i<size; i++)
+	for (bsize i=0; i<size; i++)
 		blend_instances[i].construct();
 }
 
@@ -683,11 +683,11 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
     {
     	string_path		items_nm;
         data->r_stringZ	(items_nm,sizeof(items_nm));
-        u32 set_cnt		= XrTrims::GetItemCount(items_nm);
+		bsize set_cnt		= XrTrims::GetItemCount(items_nm);
         R_ASSERT		(set_cnt<MAX_ANIM_SLOT);
 		m_Motions.reserve(set_cnt);
     	string_path		nm;
-        for (u32 k=0; k<set_cnt; ++k)
+        for (bsize k=0; k<set_cnt; ++k)
         {
         	XrTrims::GetItem	(items_nm,k,nm);
             xr_strcat		(nm,".omf");

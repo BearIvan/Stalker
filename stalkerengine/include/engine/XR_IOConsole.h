@@ -20,8 +20,8 @@ class line_edit_control;
 struct TipString
 {
     shared_str text;
-    int HL_start; // Highlight
-    int HL_finish;
+	bsize HL_start; // Highlight
+	bsize HL_finish;
 
     TipString()
     {
@@ -29,13 +29,13 @@ struct TipString
         HL_start = 0;
         HL_finish = 0;
     }
-    TipString(shared_str const& tips_text, int start_pos, int finish_pos)
+    TipString(shared_str const& tips_text, bsize start_pos, bsize finish_pos)
     {
         text._set(tips_text);
         HL_start = start_pos;
         HL_finish = finish_pos;
     }
-    TipString(LPCSTR tips_text, int start_pos, int finish_pos)
+    TipString(LPCSTR tips_text, bsize start_pos, bsize finish_pos)
     {
         text._set(tips_text);
         HL_start = start_pos;
@@ -78,7 +78,7 @@ public:
     enum { VIEW_TIPS_COUNT = 14, MAX_TIPS_COUNT = 220 };
 
 protected:
-    int scroll_delta;
+	bsize scroll_delta;
 
     CGameFont* pFont;
     CGameFont* pFont2;
@@ -91,7 +91,7 @@ protected:
 private:
     vecHistory m_cmd_history;
     u32 m_cmd_history_max;
-    int m_cmd_history_idx;
+	bsize m_cmd_history_idx;
     shared_str m_last_cmd;
     BENCH_SEC_SCRAMBLEMEMBER1
 
@@ -99,9 +99,9 @@ private:
     vecTipsEx m_tips;
     u32 m_tips_mode;
     shared_str m_cur_cmd;
-    int m_select_tip;
-    int m_start_tip;
-    u32 m_prev_length_str;
+	bsize m_select_tip;
+	bsize m_start_tip;
+    bsize m_prev_length_str;
 
 public:
     CConsole();

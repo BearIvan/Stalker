@@ -241,7 +241,7 @@ void CObjectList::Update(bool bForce)
             Device.Statistic->UpdateClient_active = objects_active.size();
             Device.Statistic->UpdateClient_total = objects_active.size() + objects_sleeping.size();
 
-            u32 const objects_count = workload->size();
+			bsize const objects_count = workload->size();
             CObject** objects = (CObject**)_alloca(objects_count*sizeof(CObject*));
             std::copy(workload->begin(), workload->end(), objects);
 
@@ -267,14 +267,14 @@ void CObjectList::Update(bool bForce)
     {
         // Info
         for (Objects::iterator oit = objects_active.begin(); oit != objects_active.end(); oit++)
-            for (int it = destroy_queue.size() - 1; it >= 0; it--)
+            for (bsize it = destroy_queue.size() - 1; it >= 0; it--)
             {
                 (*oit)->net_Relcase(destroy_queue[it]);
             }
         for (Objects::iterator oit = objects_sleeping.begin(); oit != objects_sleeping.end(); oit++)
-            for (int it = destroy_queue.size() - 1; it >= 0; it--) (*oit)->net_Relcase(destroy_queue[it]);
+            for (bsize it = destroy_queue.size() - 1; it >= 0; it--) (*oit)->net_Relcase(destroy_queue[it]);
 
-        for (int it = destroy_queue.size() - 1; it >= 0; it--) Sound->object_relcase(destroy_queue[it]);
+        for (bsize it = destroy_queue.size() - 1; it >= 0; it--) Sound->object_relcase(destroy_queue[it]);
 
         RELCASE_CALLBACK_VEC::iterator It = m_relcase_callbacks.begin();
         RELCASE_CALLBACK_VEC::iterator Ite = m_relcase_callbacks.end();
@@ -291,7 +291,7 @@ void CObjectList::Update(bool bForce)
         }
 
         // Destroy
-        for (int it = destroy_queue.size() - 1; it >= 0; it--)
+        for (bsize it = destroy_queue.size() - 1; it >= 0; it--)
         {
             CObject* O = destroy_queue[it];
             // Msg ("Object [%x]", O);
@@ -335,12 +335,12 @@ void CObjectList::net_Unregister(CObject* O)
 
 int g_Dump_Export_Obj = 0;
 
-u32 CObjectList::net_Export(NET_Packet* _Packet, u32 start, u32 max_object_size)
+bsize CObjectList::net_Export(NET_Packet* _Packet, bsize start, bsize max_object_size)
 {
     if (g_Dump_Export_Obj) Msg("---- net_export --- ");
 
     NET_Packet& Packet = *_Packet;
-    u32 position;
+    bsize position;
     for (; start < objects_active.size() + objects_sleeping.size(); start++)
     {
         CObject* P = (start < objects_active.size()) ? objects_active[start] : objects_sleeping[start - objects_active.size()];
@@ -391,7 +391,7 @@ void CObjectList::net_Import(NET_Packet* Packet)
         if (P)
         {
 
-            u32 rsize = Packet->r_tell();
+			bsize rsize = Packet->r_tell();
 
             P->net_Import(*Packet);
 
@@ -534,7 +534,7 @@ void CObjectList::relcase_register(RELCASE_CALLBACK cb, int* ID)
                                         cb);
     VERIFY(It == m_relcase_callbacks.end());
 #endif
-    *ID = m_relcase_callbacks.size();
+    *ID =static_cast<int>( m_relcase_callbacks.size());
     m_relcase_callbacks.push_back(SRelcasePair(ID, cb));
 }
 

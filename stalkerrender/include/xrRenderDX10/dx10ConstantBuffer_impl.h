@@ -179,7 +179,7 @@ IC void dx10ConstantBuffer::seta(R_constant* C, R_constant_load& L, u32 e, const
 	//c_f.dirty	(base,base+1);
 }
 
-IC void* dx10ConstantBuffer::AccessDirect(R_constant_load& L, u32 DataSize)
+IC void* dx10ConstantBuffer::AccessDirect(R_constant_load& L, bsize DataSize)
 {
 	//	Check buffer size in client code: don't know if actual data will cross
 	//	buffer boundaries.

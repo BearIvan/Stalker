@@ -12,7 +12,7 @@ public:
 					dxDebugRender		();
 
 	virtual void	Render				();
-	virtual void	add_lines			(Fvector const *vertices, u32 const &vertex_count, u16 const *pairs, u32 const &pair_count, u32 const &color);
+	virtual void	add_lines			(Fvector const *vertices, bsize const &vertex_count, u16 const *pairs, bsize const &pair_count, u32 const &color);
 
 	// routed to RCache
 	virtual void	NextSceneMode		();
@@ -32,7 +32,7 @@ public:
 #endif	//	DEBUG
 
 private:
-			void	try_render			(u32 const &vertex_count, u32 const &index_count);
+			void	try_render			(bsize const &vertex_count, bsize const &index_count);
 
 private:
 	enum {

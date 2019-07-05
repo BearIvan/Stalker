@@ -92,7 +92,7 @@ void		CDetailManager::cache_Decompress(Slot* S)
 #else
 	xrc.box_options		(CDB::OPT_FULL_TEST); 
 	xrc.box_query		(g_pGameLevel->ObjectSpace.GetStaticModel(),bC,bD);
-	u32	triCount		= xrc.r_count	();
+	bsize	triCount		= xrc.r_count	();
 	CDB::TRI*	tris	= g_pGameLevel->ObjectSpace.GetStaticTris();
 	Fvector*	verts	= g_pGameLevel->ObjectSpace.GetStaticVerts();
 #endif
@@ -101,7 +101,7 @@ void		CDetailManager::cache_Decompress(Slot* S)
 
 	// Build shading table
 	float		alpha255	[dm_obj_in_slot][4];
-	for (int i=0; i<dm_obj_in_slot; i++)
+	for (bsize i=0; i<dm_obj_in_slot; i++)
 	{
 		alpha255[i][0]	= 255.f*float(DS.palette[i].a0)/15.f;
 		alpha255[i][1]	= 255.f*float(DS.palette[i].a1)/15.f;
@@ -156,9 +156,9 @@ void		CDetailManager::cache_Decompress(Slot* S)
 			// Select
 			if (selected.empty())	continue;
 #ifndef		DBG_SWITCHOFF_RANDOMIZE
-			u32 index;
+			bsize index;
 			if (selected.size()==1)	index = selected[0];
-			else					index = selected[r_selection.randI(selected.size())];
+			else					index = selected[static_cast<bsize>(r_selection.randI(static_cast<s32>(selected.size())))];
 #else
 			u32 index = selected[0];
 #endif

@@ -103,7 +103,7 @@ public:
 		flush_cache();
 	}
 
-	ICF void				access_direct(R_constant* C, u32 DataSize, void** ppVData, void** ppGData, void** ppPData)
+	ICF void				access_direct(R_constant* C, bsize DataSize, void** ppVData, void** ppGData, void** ppPData)
 	{
 		if (ppPData)
 		{
@@ -163,7 +163,7 @@ private:
 		Buffer.seta(C, L, e, A);	
 	}
 
-	void					access_direct(R_constant* C, R_constant_load& L, void **ppData, u32 DataSize, BufferType BType)
+	void					access_direct(R_constant* C, R_constant_load& L, void **ppData, bsize DataSize, BufferType BType)
 	{
 		dx10ConstantBuffer& Buffer = GetCBuffer(C, BType);
 		*ppData = Buffer.AccessDirect( L, DataSize );

@@ -112,7 +112,7 @@ public:
 	IC		size_type					count				(const key_type &key) const;
 	IC		size_type					max_size			() const;
 //	IC		size_type					size				() const;
-	IC		u32							size				() const;
+	IC		bsize							size				() const;
 	IC		bool						empty				() const;
 	IC		key_compare					key_comp			() const;
 	IC		value_compare				value_comp			() const;

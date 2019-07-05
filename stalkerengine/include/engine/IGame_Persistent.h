@@ -47,14 +47,14 @@ public:
         params() { reset(); }
         void reset()
         {
-            for (int i = 0; i < 4; ++i)
+            for (bsize i = 0; i < 4; ++i)
                 xr_strcpy(m_params[i], "");
         }
         void parse_cmd_line(LPCSTR cmd_line)
         {
             reset();
-            int n = XrMath::min(bsize(4), XrTrims::GetItemCount(cmd_line, '/'));
-            for (int i = 0; i < n; ++i)
+            bsize n = XrMath::min(bsize(4), XrTrims::GetItemCount(cmd_line, '/'));
+            for (bsize i = 0; i < n; ++i)
             {
                 XrTrims::GetItem(cmd_line, i, m_params[i], '/');
                 BearCore::BearString::ToLower(m_params[i]);

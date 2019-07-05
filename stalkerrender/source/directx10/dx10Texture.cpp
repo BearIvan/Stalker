@@ -69,7 +69,7 @@ int get_texture_load_lod(LPCSTR fn)
 			return 2;
 }
 
-u32 calc_texture_size(int lod, u32 mip_cnt, u32 orig_size)
+bsize calc_texture_size(int lod, bsize mip_cnt, bsize orig_size)
 {
 	if(1==mip_cnt)
 		return orig_size;
@@ -296,7 +296,7 @@ IC u32 it_height_rev_base(u32 d, u32 s)	{	return	XrColor::color_rgba	(
 	(XrColor::color_get_R(s)+XrColor::color_get_G(s)+XrColor::color_get_B(s))/3	);	// height
 }
 */
-ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStaging)
+ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, bsize& ret_msize, bool bStaging)
 {
 	//	Moved here just to avoid warning
 #ifdef USE_DX11
@@ -313,10 +313,10 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 	ID3DBaseTexture*		pTexture2D		= NULL;
 	//IDirect3DCubeTexture9*	pTextureCUBE	= NULL;
 	//u32						dwWidth,dwHeight;
-	u32						img_size		= 0;
+	bsize						img_size		= 0;
 	int						img_loaded_lod	= 0;
 	//D3DFORMAT				fmt;
-	u32						mip_cnt=u32(-1);
+	bsize						mip_cnt= bsize(-1);
 	// validation
 	R_ASSERT				(fRName);
 	R_ASSERT				(fRName[0]);

@@ -144,7 +144,7 @@ DX10_ONLY(gs					= NULL);
 #endif
 }
 
-void	CBackend::set_ClipPlanes	(u32 _enable, Fplane*	_planes /*=NULL */, u32 count/* =0*/)
+void	CBackend::set_ClipPlanes	(u32 _enable, Fplane*	_planes /*=NULL */, bsize count/* =0*/)
 {
 #if defined(USE_DX10) || defined(USE_DX11)
 	//	TODO: DX10: Implement in the corresponding vertex shaders

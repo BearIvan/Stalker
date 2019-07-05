@@ -24,7 +24,7 @@ using namespace	collide;
 //--------------------------------------------------------------------------------
 // RayTest - Occluded/No
 //--------------------------------------------------------------------------------
-BOOL CObjectSpace::RayTest	( const Fvector &start, const Fvector &dir, float range, collide::rq_target tgt, collide::ray_cache* cache, CObject* ignore_object)
+bool CObjectSpace::RayTest	( const Fvector &start, const Fvector &dir, float range, collide::rq_target tgt, collide::ray_cache* cache, CObject* ignore_object)
 {
 	Lock.Enter		();
 	BOOL	_ret	= _RayTest(start,dir,range,tgt,cache,ignore_object);
@@ -32,7 +32,7 @@ BOOL CObjectSpace::RayTest	( const Fvector &start, const Fvector &dir, float ran
 	Lock.Leave		();
 	return			_ret;
 }
-BOOL CObjectSpace::_RayTest	( const Fvector &start, const Fvector &dir, float range, collide::rq_target tgt, collide::ray_cache* cache, CObject* ignore_object)
+bool CObjectSpace::_RayTest	( const Fvector &start, const Fvector &dir, float range, collide::rq_target tgt, collide::ray_cache* cache, CObject* ignore_object)
 {
 	VERIFY					(XrMath::abs(dir.magnitude()-1)< XrMath::EPS);
 	r_temp.r_clear			();
@@ -101,15 +101,15 @@ BOOL CObjectSpace::_RayTest	( const Fvector &start, const Fvector &dir, float ra
 //--------------------------------------------------------------------------------
 // RayPick
 //--------------------------------------------------------------------------------
-BOOL CObjectSpace::RayPick	( const Fvector &start, const Fvector &dir, float range, rq_target tgt, rq_result& R, CObject* ignore_object)
+bool CObjectSpace::RayPick	( const Fvector &start, const Fvector &dir, float range, rq_target tgt, rq_result& R, CObject* ignore_object)
 {
 	Lock.Enter		();
-	BOOL	_res	= _RayPick(start,dir,range,tgt,R,ignore_object);
+	bool	_res	= _RayPick(start,dir,range,tgt,R,ignore_object);
 	r_spatial.clear	();
 	Lock.Leave		();
 	return	_res;
 }
-BOOL CObjectSpace::_RayPick	( const Fvector &start, const Fvector &dir, float range, rq_target tgt, rq_result& R, CObject* ignore_object)
+bool CObjectSpace::_RayPick	( const Fvector &start, const Fvector &dir, float range, rq_target tgt, rq_result& R, CObject* ignore_object)
 {
 	r_temp.r_clear			();
 	R.O		= 0; R.range = range; R.element = -1;
@@ -155,15 +155,15 @@ BOOL CObjectSpace::_RayPick	( const Fvector &start, const Fvector &dir, float ra
 //--------------------------------------------------------------------------------
 // RayQuery
 //--------------------------------------------------------------------------------
-BOOL CObjectSpace::RayQuery		(collide::rq_results& dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
+bool CObjectSpace::RayQuery		(collide::rq_results& dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
 {
 	Lock.Enter					();
-	BOOL						_res = _RayQuery2(dest,R,CB,user_data,tb,ignore_object);
+	bool						_res = _RayQuery2(dest,R,CB,user_data,tb,ignore_object);
 	r_spatial.clear_not_free	();
 	Lock.Leave					();
 	return						(_res);
 }
-BOOL CObjectSpace::_RayQuery2	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
+bool CObjectSpace::_RayQuery2	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
 {
 	// initialize query
 	r_dest.r_clear		();
@@ -212,10 +212,10 @@ BOOL CObjectSpace::_RayQuery2	(collide::rq_results& r_dest, const collide::ray_d
 			if (R.flags&(CDB::OPT_ONLYNEAREST|CDB::OPT_ONLYFIRST))	return r_dest.r_count();
 		}
 	}
-	return r_dest.r_count();
+	return r_dest.r_count()>0;
 }
 
-BOOL CObjectSpace::_RayQuery3	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
+bool CObjectSpace::_RayQuery3	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
 {
 	// initialize query
 	r_dest.r_clear			();
@@ -265,9 +265,9 @@ BOOL CObjectSpace::_RayQuery3	(collide::rq_results& r_dest, const collide::ray_d
 				ECollisionFormType tp		= collidable->collidable.model->Type();
 				if (((R.tgt&(rqtObject|rqtObstacle))&&(tp==cftObject))||((R.tgt&rqtShape)&&(tp==cftShape))){
 					if (tb&&!tb(d_rd,collidable,user_data))continue;
-					u32 r_cnt				= r_temp.r_count();
+					bsize r_cnt				= r_temp.r_count();
 					cform->_RayQuery		(d_rd,r_temp);
-					for (int k=r_cnt; k<r_temp.r_count(); k++){
+					for (bsize k=r_cnt; k<r_temp.r_count(); k++){
 						rq_result& d_res	= *(r_temp.r_begin()+k);
 						d_res.range			+= d_range;
 					}
@@ -289,10 +289,10 @@ BOOL CObjectSpace::_RayQuery3	(collide::rq_results& r_dest, const collide::ray_d
 		}
 		if ((R.flags&(CDB::OPT_ONLYNEAREST|CDB::OPT_ONLYFIRST)) && r_dest.r_count()) return r_dest.r_count();
 	}while(r_temp.r_count());
-	return r_dest.r_count()	;
+	return r_dest.r_count()>0	;
 }
 
-BOOL CObjectSpace::_RayQuery	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
+bool CObjectSpace::_RayQuery	(collide::rq_results& r_dest, const collide::ray_defs& R, collide::rq_callback* CB, LPVOID user_data, collide::test_callback* tb, CObject* ignore_object)
 {
 #ifdef DEBUG
 	if (R.range< XrMath::EPS || !_valid(R.range))
@@ -403,10 +403,10 @@ BOOL CObjectSpace::_RayQuery	(collide::rq_results& r_dest, const collide::ray_de
 		}
 		if ((R.flags&CDB::OPT_ONLYFIRST)||(R.flags&CDB::OPT_ONLYNEAREST)) break;
 	} while (next_test!=rqtNone)		;
-	return r_dest.r_count	()	;
+	return r_dest.r_count	()>0	;
 }
 
-BOOL CObjectSpace::RayQuery	(collide::rq_results& r_dest, ICollisionForm* target, const collide::ray_defs& R)
+bool CObjectSpace::RayQuery	(collide::rq_results& r_dest, ICollisionForm* target, const collide::ray_defs& R)
 {
 	VERIFY					(target);
 	r_dest.r_clear			();

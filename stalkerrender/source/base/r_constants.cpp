@@ -249,7 +249,7 @@ void R_constant_table::merge(R_constant_table* T)
 void R_constant_table::clear	()
 {
 	//.
-	for (u32 it=0; it<table.size(); it++)
+	for (bsize it=0; it<table.size(); it++)
 		table[it]	= 0;//.g_constant_allocator.destroy(table[it]);
 	table.clear		();
 #if defined(USE_DX10) || defined(USE_DX11)
@@ -260,8 +260,8 @@ void R_constant_table::clear	()
 BOOL R_constant_table::equal(R_constant_table& C)
 {
 	if (table.size() != C.table.size())	return FALSE;
-	u32 size			= table.size();
-	for (u32 it=0; it<size; it++)
+	bsize size			= table.size();
+	for (bsize it=0; it<size; it++)
 	{
 		if (!table[it]->equal(&*C.table[it]))	return FALSE;
 	}

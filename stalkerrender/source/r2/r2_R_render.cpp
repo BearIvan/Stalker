@@ -167,7 +167,7 @@ void CRender::render_menu	()
 	RCache.set_Geometry				( Target->g_menu	);
 
 	Fvector2						p0,p1;
-	u32								Offset;
+	bsize								Offset;
 	u32		C						=XrColor::color_rgba	(255,255,255,255);
 	float	_w						= float(Device.dwWidth);
 	float	_h						= float(Device.dwHeight);
@@ -320,7 +320,7 @@ void CRender::Render		()
 	LP_pending.clear							();
 	{
 		// perform tests
-		u32	count			= 0;
+		bsize	count			= 0;
 		light_Package&	LP	= Lights.package;
 
 		// stats
@@ -332,7 +332,7 @@ void CRender::Render		()
 		count				= XrMath::max	(count,LP.v_point.size());
 		count				= XrMath::max	(count,LP.v_spot.size());
 		count				= XrMath::max	(count,LP.v_shadowed.size());
-		for (u32 it=0; it<count; it++)	{
+		for (bsize it=0; it<count; it++)	{
 			if (it<LP.v_point.size())		{
 				light*	L			= LP.v_point	[it];
 				L->vis_prepare		();

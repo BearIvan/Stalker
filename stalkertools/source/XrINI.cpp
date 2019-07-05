@@ -154,7 +154,7 @@ CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
                    BOOL ReadOnly,
                    BOOL bLoad,
                    BOOL SaveAtEnd,
-                   u32 sect_count
+	bsize sect_count
 #ifndef _EDITOR
                    , allow_include_func_t allow_include_func
 #endif
@@ -521,16 +521,16 @@ BOOL CInifile::line_exist(LPCSTR S, LPCSTR L)const
     return (A != I.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0);
 }
 
-u32 CInifile::line_count(LPCSTR Sname)const
+bsize CInifile::line_count(LPCSTR Sname)const
 {
     Sect& S = r_section(Sname);
     SectCIt I = S.Data.begin();
-    u32 C = 0;
+	bsize C = 0;
     for (; I != S.Data.end(); I++) if (*I->first) C++;
     return C;
 }
 
-u32 CInifile::section_count()const
+bsize CInifile::section_count()const
 {
     return DATA.size();
 }
@@ -539,7 +539,7 @@ u32 CInifile::section_count()const
 //--------------------------------------------------------------------------------------
 CInifile::Sect& CInifile::r_section(const shared_str& S)const { return r_section(*S); }
 BOOL CInifile::line_exist(const shared_str& S, const shared_str& L)const { return line_exist(*S, *L); }
-u32 CInifile::line_count(const shared_str& S)const { return line_count(*S); }
+bsize CInifile::line_count(const shared_str& S)const { return line_count(*S); }
 BOOL CInifile::section_exist(const shared_str& S)const { return section_exist(*S); }
 
 //--------------------------------------------------------------------------------------
@@ -589,7 +589,7 @@ shared_str CInifile::r_string_wb(LPCSTR S, LPCSTR L)const
 
     string4096 _original;
     BearCore::BearString::Copy(_original, sizeof(_original), _base);
-    u32 _len = BearCore::BearString::GetSize(_original);
+	bsize _len = BearCore::BearString::GetSize(_original);
     if (0 == _len) return shared_str("");
     if ('"' == _original[_len - 1]) _original[_len - 1] = 0; // skip end
     if ('"' == _original[0]) return shared_str(&_original[0] + 1); // skip begin
@@ -752,10 +752,10 @@ int CInifile::r_token(LPCSTR S, LPCSTR L, const xr_token* token_list)const
     return 0;
 }
 
-BOOL CInifile::r_line(LPCSTR S, int L, const char** N, const char** V)const
+BOOL CInifile::r_line(LPCSTR S, bsize L, const char** N, const char** V)const
 {
     Sect& SS = r_section(S);
-    if (L >= (int)SS.Data.size() || L < 0) return FALSE;
+    if (L >= SS.Data.size() || L < 0) return FALSE;
     for (SectCIt I = SS.Data.begin(); I != SS.Data.end(); I++)
         if (!(L--))
         {
@@ -766,7 +766,7 @@ BOOL CInifile::r_line(LPCSTR S, int L, const char** N, const char** V)const
     return FALSE;
 }
 
-BOOL CInifile::r_line(const shared_str& S, int L, const char** N, const char** V)const
+BOOL CInifile::r_line(const shared_str& S, bsize L, const char** N, const char** V)const
 {
     return r_line(*S, L, N, V);
 }

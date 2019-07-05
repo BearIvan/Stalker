@@ -38,7 +38,7 @@ IC	const Fmatrix&	CBackend::get_xform_world	()	{ return xforms.get_W();	}
 IC	const Fmatrix&	CBackend::get_xform_view	()	{ return xforms.get_V();	}
 IC	const Fmatrix&	CBackend::get_xform_project	()	{ return xforms.get_P();	}
 
-IC	ID3DRenderTargetView* CBackend::get_RT(u32 ID)
+IC	ID3DRenderTargetView* CBackend::get_RT(bsize ID)
 {
 	VERIFY((ID>=0)&&(ID<4));
 
@@ -89,7 +89,7 @@ IC void CBackend::set_Matrices			(SMatrixList*	_M)
 }
 #endif
 
-IC void CBackend::set_Element			(ShaderElement* S, u32	pass)
+IC void CBackend::set_Element			(ShaderElement* S, bsize	pass)
 {
 	SPass&	P		= *(S->passes[pass]);
 	set_States		(P.state);
@@ -110,7 +110,7 @@ IC void CBackend::set_Element			(ShaderElement* S, u32	pass)
 #endif
 }
 
-ICF void CBackend::set_Shader			(Shader* S, u32 pass)
+ICF void CBackend::set_Shader			(Shader* S, bsize pass)
 {
 	set_Element			(S->E[0],pass);
 }

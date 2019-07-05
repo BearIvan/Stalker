@@ -93,7 +93,7 @@ void	CRenderTarget::u_setrt			(const ref_rt& _1, const ref_rt& _2, ID3DDepthSten
 //	RImplementation.rmNormal				();
 }
 
-void	CRenderTarget::u_setrt			(u32 W, u32 H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb)
+void	CRenderTarget::u_setrt			(bsize W, bsize H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb)
 {
 	//VERIFY									(_1);
 	dwWidth									= W;
@@ -111,7 +111,7 @@ void	CRenderTarget::u_stencil_optimize	(eStencilOptimizeMode eSOM)
 	//	TODO: DX10: remove half pixel offset?
 	VERIFY	(RImplementation.o.nvstencil);
 	//RCache.set_ColorWriteEnable	(FALSE);
-	u32		Offset;
+	bsize		Offset;
 	float	_w					= float(Device.dwWidth);
 	float	_h					= float(Device.dwHeight);
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
@@ -349,7 +349,7 @@ CRenderTarget::CRenderTarget		()
 	}
 	//	NORMAL
 	{
-		u32		w=Device.dwWidth, h=Device.dwHeight;
+		bsize		w=Device.dwWidth, h=Device.dwHeight;
 		rt_Position.create			(r2_RT_P,		w,h,D3DFMT_A16B16G16R16F, SampleCount );
 
       if( RImplementation.o.dx10_msaa )
@@ -613,8 +613,8 @@ CRenderTarget::CRenderTarget		()
 	// HBAO
 	if (RImplementation.o.ssao_opt_data)
 	{
-		u32		w = 0;
-		u32		h = 0;
+		bsize		w = 0;
+		bsize		h = 0;
 		if (RImplementation.o.ssao_half_data)
 		{
 			w = Device.dwWidth / 2;
@@ -634,7 +634,7 @@ CRenderTarget::CRenderTarget		()
 
     if (RImplementation.o.ssao_blur_on)
 	{
-		u32		w = Device.dwWidth, h = Device.dwHeight;
+		bsize		w = Device.dwWidth, h = Device.dwHeight;
 		rt_ssao_temp.create			(r2_RT_ssao_temp, w, h, D3DFMT_G16R16F, SampleCount);
 		s_ssao.create				(b_ssao, "r2\\ssao");
 
@@ -681,8 +681,8 @@ CRenderTarget::CRenderTarget		()
 		// Testure for async sreenshots
 		{
 			D3D10_TEXTURE2D_DESC	desc;
-			desc.Width = Device.dwWidth;
-			desc.Height = Device.dwHeight;
+			desc.Width =static_cast<UINT>( Device.dwWidth);
+			desc.Height = static_cast<UINT>(Device.dwHeight);
 			desc.MipLevels = 1;
 			desc.ArraySize = 1;
 			desc.SampleDesc.Count = 1;
@@ -1047,7 +1047,7 @@ void CRenderTarget::reset_light_marker( bool bResetStencil)
 	dwLightMarkerID = 5;
 	if (bResetStencil)
 	{
-		u32		Offset;
+		bsize		Offset;
 		float	_w					= float(Device.dwWidth);
 		float	_h					= float(Device.dwHeight);
 		u32		C					=XrColor::color_rgba	(255,255,255,255);

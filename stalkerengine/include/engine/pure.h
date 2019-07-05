@@ -66,7 +66,7 @@ public:
 #ifdef DEBUG
         VERIFY(priority != REG_PRIORITY_INVALID);
         VERIFY(obj);
-        for (u32 i = 0; i < R.size(); i++) VERIFY(!((R[i].Prio != REG_PRIORITY_INVALID) && (R[i].Object == (void*)obj)));
+        for (bsize i = 0; i < R.size(); i++) VERIFY(!((R[i].Prio != REG_PRIORITY_INVALID) && (R[i].Object == (void*)obj)));
 #endif
         _REG_INFO I;
         I.Object = obj;
@@ -79,7 +79,7 @@ public:
     };
     void Remove(T* obj)
     {
-        for (u32 i = 0; i < R.size(); i++)
+        for (bsize i = 0; i < R.size(); i++)
         {
             if (R[i].Object == obj) R[i].Prio = REG_PRIORITY_INVALID;
         }
@@ -93,7 +93,7 @@ public:
         if (R[0].Prio == REG_PRIORITY_CAPTURE) f(R[0].Object);
         else
         {
-            for (u32 i = 0; i < R.size(); i++)
+            for (bsize i = 0; i < R.size(); i++)
                 if (R[i].Prio != REG_PRIORITY_INVALID)
                     f(R[i].Object);
 

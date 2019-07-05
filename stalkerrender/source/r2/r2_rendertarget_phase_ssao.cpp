@@ -16,7 +16,7 @@ float	hclip(float v, float dim);
 void CRenderTarget::phase_ssao	()
 {
 	Fvector2	p0,p1;
-	u32			Offset = 0;
+	bsize			Offset = 0;
 
 	// Targets
 	u_setrt									( rt_ssao_temp,NULL,NULL,NULL );		// No need for ZBuffer at all
@@ -87,7 +87,7 @@ void CRenderTarget::phase_downsamp	()
 	//HW.pDevice->StretchRect(source, NULL, dest, NULL, D3DTEXF_POINT);
 
 	Fvector2	p0,p1;
-	u32			Offset = 0;
+	bsize			Offset = 0;
 
 	// Targets
 	u_setrt								( rt_half_depth,NULL,NULL,NULL );		// No need for ZBuffer at all

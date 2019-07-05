@@ -35,13 +35,13 @@ public:
 	XrTimerStat	 EngineTOTAL; //
 	XrTimerStat	 Sheduler; //
 	XrTimerStat	 UpdateClient; //
-    u32 UpdateClient_updated; //
-    u32 UpdateClient_crows; //
-    u32 UpdateClient_active; //
-    u32 UpdateClient_total; //
-    u32 Particles_starting; // starting
-    u32 Particles_active; // active
-    u32 Particles_destroy; // destroying
+	bsize UpdateClient_updated; //
+	bsize UpdateClient_crows; //
+	bsize UpdateClient_active; //
+	bsize UpdateClient_total; //
+	bsize Particles_starting; // starting
+	bsize Particles_active; // active
+	bsize Particles_destroy; // destroying
     // CStatTimer Physics; // movement+collision
     // CStatTimer ph_collision; // collision
     // CStatTimer ph_core; // collision

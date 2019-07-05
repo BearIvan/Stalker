@@ -42,7 +42,7 @@ void	CRenderTarget::phase_combine	()
 	//	TODO: DX10: Remove half poxel offset
 	bool	_menu_pp	= g_pGamePersistent?g_pGamePersistent->OnRenderPPUI_query():false;
 
-	u32			Offset					= 0;
+	bsize			Offset					= 0;
 	Fvector2	p0,p1;
 
 	//*** exposure-pipeline
@@ -576,7 +576,7 @@ void CRenderTarget::phase_wallmarks		()
 void CRenderTarget::phase_combine_volumetric()
 {
 	PIX_EVENT(phase_combine_volumetric);
-	u32			Offset					= 0;
+	bsize			Offset					= 0;
 	//Fvector2	p0,p1;
 
 	//	TODO: DX10: Remove half pixel offset here

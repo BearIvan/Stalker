@@ -32,47 +32,47 @@ void CDetailManager::soft_Render	()
 	for (u32 O=0; O<objects.size(); O++)
 	{
 		CDetail& Object		= *objects[O];
-		u32	vCount_Object	= Object.number_vertices;
-		u32	iCount_Object	= Object.number_indices;
+		bsize	vCount_Object	= Object.number_vertices;
+		bsize	iCount_Object	= Object.number_indices;
 
 		xr_vector<SlotItemVec*>& _vis	= m_visibles[0][O];
 		xr_vector <SlotItemVec* >::iterator _vI = _vis.begin();
 		xr_vector <SlotItemVec* >::iterator _vE = _vis.end();
 		for (; _vI!=_vE; _vI++){
 			SlotItemVec*	items	= *_vI;
-			u32	vCount_Total		= items->size()*vCount_Object;
+			bsize	vCount_Total		= items->size()*vCount_Object;
 			// calculate lock count needed
-			u32	lock_count			= vCount_Total/vs_size;
+			bsize	lock_count			= vCount_Total/vs_size;
 			if	(vCount_Total>(lock_count*vs_size))	lock_count++;
 
 			// calculate objects per lock
-			u32	o_total			= items->size();
-			u32	o_per_lock		= o_total/lock_count;
+			bsize	o_total			= items->size();
+			bsize	o_per_lock		= o_total/lock_count;
 			if  (o_total > (o_per_lock*lock_count))	o_per_lock++;
 
 			// Fill VB (and flush it as nesessary)
 			RCache.set_Shader	(Object.shader);
 
 			Fmatrix		mXform;
-			for (u32 L_ID=0; L_ID<lock_count; L_ID++){
+			for (bsize L_ID=0; L_ID<lock_count; L_ID++){
 				// Calculate params
-				u32	item_start	= L_ID*o_per_lock;
-				u32	item_end	= item_start+o_per_lock;
+				bsize	item_start	= L_ID*o_per_lock;
+				bsize	item_end	= item_start+o_per_lock;
 				if (item_end>o_total)	item_end = o_total;
 				if (item_end<=item_start)	break;
-				u32	item_range	= item_end-item_start;
+				bsize	item_range	= item_end-item_start;
 
 				// Calc Lock params
-				u32	vCount_Lock	= item_range*vCount_Object;
-				u32	iCount_Lock = item_range*iCount_Object;
+				bsize	vCount_Lock	= item_range*vCount_Object;
+				bsize	iCount_Lock = item_range*iCount_Object;
 
 				// Lock buffers
-				u32	vBase,iBase,iOffset=0;
+				bsize	vBase,iBase,iOffset=0;
 				CDetail::fvfVertexOut* vDest	= (CDetail::fvfVertexOut*)	_VS.Lock(vCount_Lock,soft_Geom->vb_stride,vBase);
 				u16*	iDest					= (u16*)					_IS.Lock(iCount_Lock,iBase);
 
 				// Filling itself
-                for (u32 item_idx=item_start; item_idx<item_end; ++item_idx){
+                for (bsize item_idx=item_start; item_idx<item_end; ++item_idx){
 					SlotItem&	Instance	= *items->at(item_idx);
 					float	scale			= Instance.scale_calculated;
 
@@ -100,12 +100,12 @@ void CDetailManager::soft_Render	()
 					// Transfer indices (in 32bit lines)
 					VERIFY	(iOffset<65535);
 					{
-						u32	item	= (iOffset<<16) | iOffset;
-						u32	count	= Object.number_indices/2;
+						bsize	item	= (iOffset<<16) | iOffset;
+						bsize	count	= Object.number_indices/2;
 						LPDWORD	sit		= LPDWORD(Object.indices);
 						LPDWORD	send	= sit+count;
 						LPDWORD	dit		= LPDWORD(iDest);
-						for		(; sit!=send; dit++,sit++)	*dit=*sit+item;
+						for		(; sit!=send; dit++,sit++)	*dit=static_cast<DWORD>(*sit+item);
 						if		(Object.number_indices&1)
 							iDest[Object.number_indices-1]=(u16)(Object.indices[Object.number_indices-1]+u16(iOffset));
 					}
@@ -119,7 +119,7 @@ void CDetailManager::soft_Render	()
 				_IS.Unlock		(iCount_Lock);
 
 				// Render
-				u32	dwNumPrimitives		= iCount_Lock/3;
+				bsize	dwNumPrimitives		= iCount_Lock/3;
 				RCache.set_Geometry		(soft_Geom);
 				RCache.Render			(D3DPT_TRIANGLELIST,vBase,0,vCount_Lock,iBase,dwNumPrimitives);
 			}

@@ -152,7 +152,7 @@ void CStats::Show()
 
         if (RenderTOTAL_Real.GetResult() > XrMath::EPS_S)
         {
-            u32 rendered_polies = Device.m_pRender->GetCacheStatPolys();
+            bsize rendered_polies = Device.m_pRender->GetCacheStatPolys();
             fTPS = fInv*fTPS + fOne*float(rendered_polies) / (RenderTOTAL.GetResult()*1000.f);
             //fTPS = fInv*fTPS + fOne*float(RCache.stat.polys)/(RenderTOTAL.GetResult()*1000.f);
             fRFPS = fInv*fRFPS + fOne*1000.f / RenderTOTAL.GetResult();

@@ -29,10 +29,10 @@ public:
 	dx103DFluidRenderer();
 	~dx103DFluidRenderer();
 
-	void	Initialize(int gridWidth, int gridHeight, int gridDepth);
+	void	Initialize(bsize gridWidth, bsize gridHeight, int gridDepth);
 	void	Destroy();
 
-	void	SetScreenSize(int width, int height);
+	void	SetScreenSize(bsize width, bsize height);
 
 	void	Draw(const dx103DFluidData &FluidData);
 

@@ -196,7 +196,7 @@ protected:
 	/////////////////////////////////////////////////////////////////////////////////
 
 	bool IsCW(NvFaceInfo *faceInfo, int v0, int v1);
-	bool NextIsCW(const int numIndices);
+	bool NextIsCW(const bsize numIndices);
 	static int  GetNextIndex(const WordVec &indices, NvFaceInfo *face);
 	static NvEdgeInfo *FindEdgeInfo(NvEdgeInfoVec &edgeInfos, int v0, int v1);
 	static NvFaceInfo *FindOtherFace(NvEdgeInfoVec &edgeInfos, int v0, int v1, NvFaceInfo *faceInfo);
@@ -207,7 +207,7 @@ protected:
 	void RemoveSmallStrips(NvStripInfoVec& allStrips, NvStripInfoVec& allBigStrips, NvFaceInfoVec& faceList);
 	
 	bool FindTraversal(NvFaceInfoVec &faceInfos, NvEdgeInfoVec &edgeInfos, NvStripInfo *strip, NvStripStartInfo &startInfo);
-	int  CountRemainingTris(xr_list<NvStripInfo*>::iterator iter, xr_list<NvStripInfo*>::iterator  end);
+	bsize  CountRemainingTris(xr_list<NvStripInfo*>::iterator iter, xr_list<NvStripInfo*>::iterator  end);
 	
 	void CommitStrips(NvStripInfoVec &allStrips, const NvStripInfoVec &strips);
 	

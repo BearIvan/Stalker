@@ -5,14 +5,14 @@
 #include "StateManager/dx10StateManager.h"
 #include "StateManager/dx10ShaderResourceStateCache.h"
 
-IC void CBackend::set_xform( u32 ID, const Fmatrix& M1 )
+IC void CBackend::set_xform( bsize ID, const Fmatrix& M1 )
 {
 	stat.xforms			++;
 	//	TODO: DX10: Implement CBackend::set_xform
 	//VERIFY(!"Implement CBackend::set_xform");
 }
 
-IC void CBackend::set_RT(ID3DRenderTargetView* RT, u32 ID)
+IC void CBackend::set_RT(ID3DRenderTargetView* RT, bsize ID)
 {
 	if (RT!=pRT[ID])
 	{
@@ -173,7 +173,7 @@ ICF void CBackend::set_VS(ID3DVertexShader* _vs, LPCSTR _n)
 	}
 }
 
-ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, u32 _vb_stride)
+ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, bsize _vb_stride)
 {
 	if ((vb!=_vb) || (vb_stride!=_vb_stride))
 	{
@@ -195,7 +195,8 @@ ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, u32 _vb_stride)
 		//const UINT *pStrides,
 		//const UINT *pOffsets
 		u32	iOffset = 0;
-		HW.pContext->IASetVertexBuffers( 0, 1, &vb, &_vb_stride, &iOffset);
+		u32 stride = static_cast<u32>(_vb_stride);
+		HW.pContext->IASetVertexBuffers( 0, 1, &vb, &stride, &iOffset);
 	}
 }
 
@@ -235,7 +236,7 @@ IC D3D_PRIMITIVE_TOPOLOGY TranslateTopology(D3DPRIMITIVETYPE T)
 	return result;
 }
 
-IC u32 GetIndexCount(D3DPRIMITIVETYPE T, u32 iPrimitiveCount)
+IC bsize GetIndexCount(D3DPRIMITIVETYPE T, bsize iPrimitiveCount)
 {
 	switch (T)
 	{
@@ -278,14 +279,14 @@ IC void CBackend::Compute(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT T
 }
 #endif
 
-IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
+IC void CBackend::Render(D3DPRIMITIVETYPE T1, bsize baseV, bsize startV, bsize countV, bsize startI, bsize PC)
 {
 	//VERIFY(vs);
 	//HW.pDevice->VSSetShader(vs);
 	//HW.pDevice->GSSetShader(0);
 
 	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T1);
-	u32	iIndexCount = GetIndexCount(T1, PC);
+	bsize	iIndexCount = GetIndexCount(T1, PC);
 
 	//!!! HACK !!!
 #ifdef USE_DX11
@@ -321,13 +322,13 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 baseV, u32 startV, u32 countV,
 	constants.flush();
 //	Msg("DrawIndexed: Start");
 //	Msg("iIndexCount=%d, startI=%d, baseV=%d", iIndexCount, startI, baseV);
-	HW.pContext->DrawIndexed(iIndexCount, startI, baseV);
+	HW.pContext->DrawIndexed(static_cast<UINT>(iIndexCount),static_cast<UINT>( startI), static_cast<UINT>(baseV));
 //	Msg("DrawIndexed: End\n");
 
 	PGO					(Msg("PGO:DIP:%dv/%df",countV,PC));
 }
 
-IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
+IC void CBackend::Render(D3DPRIMITIVETYPE T1, bsize startV, bsize PC)
 {
 	//	TODO: DX10: Remove triangle fan usage from the engine
 	if (T1 == D3DPT_TRIANGLEFAN)
@@ -337,7 +338,7 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
 	//HW.pDevice->VSSetShader(vs);
 
 	D3D_PRIMITIVE_TOPOLOGY Topology = TranslateTopology(T1);
-	u32	iVertexCount = GetIndexCount(T1, PC);
+	bsize	iVertexCount = GetIndexCount(T1, PC);
 
 	stat.calls++;
 	stat.verts += 3*PC;
@@ -353,7 +354,7 @@ IC void CBackend::Render(D3DPRIMITIVETYPE T1, u32 startV, u32 PC)
 //	Msg("Draw: Start");
 //	Msg("iVertexCount=%d, startV=%d", iVertexCount, startV);
 	//CHK_DX				(HW.pDevice->DrawPrimitive(T1, startV, PC));
-	HW.pContext->Draw(iVertexCount, startV);
+	HW.pContext->Draw(static_cast<UINT>(iVertexCount), static_cast<UINT>(startV));
 //	Msg("Draw: End\n");
 	PGO					(Msg("PGO:DIP:%dv/%df",3*PC,PC));
 }
@@ -462,7 +463,7 @@ IC void CBackend::ApplyVertexLayout()
 
 		CHK_DX(HW.pDevice->CreateInputLayout(
 			&decl->dx10_dcl_code[0],
-			decl->dx10_dcl_code.size()-1,
+			static_cast<UINT>(decl->dx10_dcl_code.size()-1),
 			m_pInputSignature->GetBufferPointer(),
 			m_pInputSignature->GetBufferSize(),
 			&pLayout
@@ -749,7 +750,7 @@ ICF void CBackend::ApplyRTandZB()
 	}
 }
 
-IC	void CBackend::get_ConstantDirect(shared_str& n, u32 DataSize, void** pVData, void** pGData, void** pPData)
+IC	void CBackend::get_ConstantDirect(shared_str& n, bsize DataSize, void** pVData, void** pGData, void** pPData)
 {
 	ref_constant C1 = get_c(n);
 

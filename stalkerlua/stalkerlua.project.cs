@@ -10,11 +10,10 @@ public class stalkerlua :Project
 		
 		Defines.Private.Add("LUABIND_BUILDING");
 		Defines.Private.Add("LUA_LIB");
-		AddSourceFiles(Path.Combine(ProjectPath,"src"),true);
+		Defines.Public.Add("LUA_BUILD_AS_DLL");
+			Projects.Public.Add("luajit");
 		AddSourceFiles(Path.Combine(ProjectPath,"luabind"),true);
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
-		Include.Private.Add(Path.Combine(ProjectPath,"include","lua"));
-		Include.Private.Add(Path.Combine(ProjectPath,"dynasm"));
 		Projects.Private.Add("stalkertools");
 	}
 } 

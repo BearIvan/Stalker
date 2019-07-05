@@ -2,8 +2,8 @@
 
 IC		bool	pred_area		(light* _1, light* _2)
 {
-	u32		a0		= _1->X.S.size;
-	u32		a1		= _2->X.S.size;
+	bsize		a0		= _1->X.S.size;
+	bsize		a1		= _2->X.S.size;
 	return	a0>a1;	// reverse -> descending
 }
 
@@ -33,7 +33,7 @@ void	CRender::render_lights	(light_Package& LP)
 		xr_vector<light*>&		source		= LP.v_shadowed;
 		xr_vector<light*>		refactored	;
 		refactored.reserve		(source.size());
-		u32						total		= source.size();
+		bsize						total		= source.size();
 
 		for		(u16 smap_ID=0; refactored.size()!=total; smap_ID++)
 		{
@@ -43,7 +43,7 @@ void	CRender::render_lights	(light_Package& LP)
 			{
 				light*	L	= source[test];
 				SMAP_Rect	R;
-				if		(LP_smap_pool.push(R,L->X.S.size))	{
+				if		(LP_smap_pool.push(R,static_cast<u32>(L->X.S.size)))	{
 					// OK
 					L->X.S.posX			= R.min.x;
 					L->X.S.posY			= R.min.y;

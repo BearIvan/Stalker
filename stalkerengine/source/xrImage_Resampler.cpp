@@ -211,7 +211,7 @@ u32 CC(float a)
     return p;
 }
 
-void imf_Process(u32* dstI, u32 dstW, u32 dstH, u32* srcI, u32 srcW, u32 srcH, EIMF_Type FILTER)
+void imf_Process(u32* dstI, bsize dstW, bsize dstH, u32* srcI, bsize srcW, bsize srcH, EIMF_Type FILTER)
 {
     R_ASSERT(dstI);
     R_ASSERT(dstW > 1);
@@ -222,15 +222,15 @@ void imf_Process(u32* dstI, u32 dstW, u32 dstH, u32* srcI, u32 srcW, u32 srcH, E
 
     // SRC & DST images
     Image src;
-    src.xsize = srcW;
-    src.ysize = srcH;
-    src.data = srcI;
-    src.span = srcW;
+	src.xsize = static_cast<int>(srcW);
+	src.ysize = static_cast<int>(srcH);
+	src.data = srcI;
+	src.span = static_cast<int>(srcW);
     Image dst;
-    dst.xsize = dstW;
-    dst.ysize = dstH;
-    dst.data = dstI;
-    dst.span = dstW;
+	dst.xsize = static_cast<int>(dstW);
+	dst.ysize = static_cast<int>(dstH);
+	dst.data = dstI;
+	dst.span = static_cast<int>(dstW);
 
     // Select filter
     float(*filterf)(float);

@@ -79,7 +79,7 @@ namespace PS
         	void			Set				(dxRender_Visual* e);
             void			Clear			();
 
-            IC u32			GetVisuals		(xr_vector<dxRender_Visual*>& visuals)
+            IC bsize			GetVisuals		(xr_vector<dxRender_Visual*>& visuals)
             {
             	visuals.reserve				(_children_related.size()+_children_free.size()+1);
                 if (_effect)				visuals.push_back(_effect);
@@ -92,13 +92,13 @@ namespace PS
             void			OnDeviceDestroy	();
 
             void			StartRelatedChild	(CParticleEffect* emitter, LPCSTR eff_name, PAPI::Particle& m);
-            void			StopRelatedChild	(u32 idx);
+            void			StopRelatedChild	(bsize idx);
             void			StartFreeChild		(CParticleEffect* emitter, LPCSTR eff_name, PAPI::Particle& m);
 
             void 			UpdateParent	(const Fmatrix& m, const Fvector& velocity, BOOL bXFORM);
             void			OnFrame			(u32 u_dt, const CPGDef::SEffect& def, Fbox& box, bool& bPlaying);
 
-            u32				ParticlesCount	();
+            bsize				ParticlesCount	();
             BOOL			IsPlaying		();
             void			Play			();
             void			Stop			(BOOL def_stop);
@@ -138,7 +138,7 @@ namespace PS
 
 		virtual const shared_str	Name		(){VERIFY(m_Def); return m_Def->m_Name;}
 
-        virtual u32 		ParticlesCount	();
+        virtual bsize 		ParticlesCount	();
 	};
 
 }

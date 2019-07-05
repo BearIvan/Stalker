@@ -25,11 +25,11 @@ IC u32 convert				(float c)	{
 }
 IC void MouseRayFromPoint	( Fvector& direction, int x, int y, Fmatrix& m_CamMat )
 {
-	int halfwidth		= Device.dwWidth/2;
-	int halfheight		= Device.dwHeight/2;
+	bsize halfwidth		= Device.dwWidth/2;
+	bsize halfheight		= Device.dwHeight/2;
 
 	Ivector2 point2;
-	point2.set			(x-halfwidth, halfheight-y);
+	point2.set			(x-static_cast<int>(halfwidth), static_cast<int>(halfheight)-y);
 
 	float size_y		= VIEWPORT_NEAR * tanf( XrMath::deg2rad(60.f) * 0.5f );
 	float size_x		= size_y / (Device.fHeight_2/Device.fWidth_2);
@@ -252,7 +252,7 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 	IDirect3DSurface9*	pFB;
 	D3DLOCKED_RECT		D;
 	HRESULT				hr1;
-	hr1					= HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
+	hr1					= HW.pDevice->CreateOffscreenPlainSurface(static_cast<UINT>(Device.dwWidth), static_cast<UINT>(Device.dwHeight),D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
 	if(hr1!=D3D_OK)		return;
 
 	hr1					= HW.pDevice->GetFrontBufferData(0,pFB);
@@ -417,9 +417,9 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				// save
 				u32* data			= (u32*)xr_malloc(Device.dwHeight*Device.dwHeight*4);
 				imf_Process			(data,Device.dwHeight,Device.dwHeight,(u32*)D.pBits,Device.dwWidth,Device.dwHeight,imf_lanczos3);
-				p.scanlenght		= Device.dwHeight*4;
-				p.width				= Device.dwHeight;
-				p.height			= Device.dwHeight;
+				p.scanlenght		= static_cast<int>(Device.dwHeight*4);
+				p.width				= static_cast<int>(Device.dwHeight);
+				p.height			= static_cast<int>(Device.dwHeight);
 				p.data				= data;
 				p.maketga			(*fs);
 				xr_free				(data);
@@ -519,11 +519,11 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter &memory_writer)
 	if(hr!=D3D_OK)		return;
 
 #if	RENDER == R_R1
-	u32 rtWidth = Target->get_rtwidth();
-	u32 rtHeight = Target->get_rtheight();
+	bsize rtWidth = Target->get_rtwidth();
+	bsize rtHeight = Target->get_rtheight();
 #else	//	RENDER != R_R1
-	u32 rtWidth = Device.dwWidth;
-	u32 rtHeight = Device.dwHeight;
+	bsize rtWidth = Device.dwWidth;
+	bsize rtHeight = Device.dwHeight;
 #endif	//	RENDER != R_R1
 
 	// Image processing (gamma-correct)

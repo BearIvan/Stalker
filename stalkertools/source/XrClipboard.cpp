@@ -12,7 +12,7 @@ void XrClipboard::copy_to_clipboard(LPCSTR buf)
 {
     if (!OpenClipboard(0))
         return;
-    u32 handle_size = (BearCore::BearString::GetSize(buf) + 1) * sizeof(char);
+    bsize handle_size = (BearCore::BearString::GetSize(buf) + 1) * sizeof(char);
     HGLOBAL handle = GlobalAlloc(GHND, handle_size);
     if (!handle)
     {
@@ -28,7 +28,7 @@ void XrClipboard::copy_to_clipboard(LPCSTR buf)
     CloseClipboard();
 }
 
-void XrClipboard::paste_from_clipboard(LPSTR buffer, u32 const& buffer_size)
+void XrClipboard::paste_from_clipboard(LPSTR buffer, bsize const& buffer_size)
 {
     VERIFY(buffer);
     VERIFY(buffer_size > 0);
@@ -70,9 +70,9 @@ void XrClipboard::update_clipboard(LPCSTR string)
     }
 
     LPSTR memory = (LPSTR)GlobalLock(handle);
-    int memory_length = (int)strlen(memory);
-    int string_length = (int)strlen(string);
-    int buffer_size = (memory_length + string_length + 1) * sizeof(char);
+	bsize memory_length = (bsize)strlen(memory);
+	bsize string_length = (bsize)strlen(string);
+	bsize buffer_size = (memory_length + string_length + 1) * sizeof(char);
 #ifndef _EDITOR
     LPSTR buffer = (LPSTR)_alloca(buffer_size);
 #else // #ifndef _EDITOR

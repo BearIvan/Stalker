@@ -273,22 +273,22 @@ void CRender::LoadLights(IReader *fs)
 	L_Glows->Load	(chunk);
 	chunk->close	();
 }
-
+#pragma pack(push,4)
 struct b_portal
 {
 	u16				sector_front;
 	u16				sector_back;
-	svector<Fvector,6>	vertices;
+	svector<Fvector,6,u32>	vertices;
 };
-
+#pragma pack(pop)
 void CRender::LoadSectors(IReader* fs)
 {
 	// allocate memory for portals
-	u32 size = fs->find_chunk(fsL_PORTALS); 
+	bsize size = fs->find_chunk(fsL_PORTALS); 
 	R_ASSERT(0==size%sizeof(b_portal));
-	u32 count = size/sizeof(b_portal);
+	bsize count = size/sizeof(b_portal);
 	Portals.resize	(count);
-	for (u32 c=0; c<count; c++)
+	for (bsize c=0; c<count; c++)
 		Portals[c]	= xr_new<CPortal> ();
 
 	// load sectors

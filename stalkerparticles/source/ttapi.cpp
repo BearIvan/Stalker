@@ -39,7 +39,7 @@ DWORD WINAPI ttapiThreadProc( LPVOID lpParameter )
 				// Msg( "0x%8.8X Fast %u" , dwId , i );
 				goto process;
 			}
-			__asm pause;
+			//__asm pause;
 		}
 
 		// Moderate
@@ -82,7 +82,7 @@ typedef struct tagTHREADNAME_INFO {
 
 void SetThreadName( DWORD dwThreadID , LPCSTR szThreadName )
 {
-  THREADNAME_INFO info;
+ /* THREADNAME_INFO info;
   {
     info.dwType = 0x1000;
     info.szName = szThreadName;
@@ -95,7 +95,7 @@ void SetThreadName( DWORD dwThreadID , LPCSTR szThreadName )
   }
   __except (EXCEPTION_CONTINUE_EXECUTION)
   {
-  }
+  }*/
 }
 
 PARTICLES_API DWORD ttapi_Init( )
@@ -121,7 +121,7 @@ PARTICLES_API DWORD ttapi_Init( )
 	for ( i = 0 ; i < dwNumIter ; ++i ) {
 		if ( dwDummy == 0 )
 			goto process1;
-		__asm pause;
+		//__asm pause;
 	}
 	process1:
 	QueryPerformanceCounter( &liEnd );
@@ -243,8 +243,8 @@ PARTICLES_API VOID ttapi_RunAllWorkers()
 
 		// Waiting task queue to become empty
 		//Start = __rdtsc();
-		while( ttapi_queue_size.size )
-			__asm pause;
+	/*	while( ttapi_queue_size.size )
+			__asm pause;*/
 		//Stop = __rdtsc();
 		//Msg( "Wait: %u ticks" , Stop - Start );
 

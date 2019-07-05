@@ -1,9 +1,14 @@
 #pragma once
 #include "../xr_level_controller.h"
 class CUIWindow;
-
-struct _12b	{ DWORD _[3]; };
+struct _12b { uint32 _[3]; };
+struct _24b { uint32 _[6]; };
+#ifdef X32
 extern poolSS< _12b, 128>	ui_allocator;
+#else
+extern poolSS< _24b, 128>	ui_allocator;
+#endif
+
 
 
 template <class T>
@@ -38,14 +43,24 @@ public:
 							void					deallocate		(pointer p, size_type n) const			
 							{	
 								VERIFY(1==n);
+#ifdef X32
 								_12b* p_ = (_12b*)p;
-								ui_allocator.destroy	(p_);				
+								ui_allocator.destroy	(p_);	
+#else
+								_24b* p_ = (_24b*)p;
+								ui_allocator.destroy(p_);
+#endif
 							}
 							void					deallocate		(void* p, size_type n) const		
 							{	
 								VERIFY(1==n);
+#ifdef X32
 								_12b* p_ = (_12b*)p;
-								ui_allocator.destroy	(p_);				
+								ui_allocator.destroy(p_);
+#else
+								_24b* p_ = (_24b*)p;
+								ui_allocator.destroy(p_);
+#endif			
 							}
 							void					construct		(pointer p, const T& _Val)				{	std::_Construct(p, _Val);	}
 							void					destroy			(pointer p)								{	std::_Destroy(p);			}

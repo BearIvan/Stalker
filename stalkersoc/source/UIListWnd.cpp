@@ -229,10 +229,10 @@ void CUIListWnd::UpdateList()
 		(*it)->Show(false);
 	}
 	   
-
+#pragma FIXME("Внимание INT!!!!")
 	//показать текущий список
 	for(bsize i=m_iFirstShownIndex;
-			i<XrMath::min(m_ItemList.size(),u32(m_iFirstShownIndex + m_iRowNum+1));
+			i<XrMath::min(m_ItemList.size(),bsize(m_iFirstShownIndex + m_iRowNum+1));
 			++i, ++it)
 	{
 		(*it)->SetWndRect((*it)->GetWndRect().left, m_bVertFlip?GetHeight()-(i-m_iFirstShownIndex)* m_iItemHeight-m_iItemHeight:(i-m_iFirstShownIndex)* m_iItemHeight, 

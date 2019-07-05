@@ -23,10 +23,10 @@ void	CRenderTarget::u_calc_tc_noise		(Fvector2& p0, Fvector2& p1)
 	u32			shift_h				= im_noise_shift_h;
 	float		start_u				= (float(shift_w)+.5f)/(tw);
 	float		start_v				= (float(shift_h)+.5f)/(th);
-	u32			_w					= Device.dwWidth;
-	u32			_h					= Device.dwHeight;
-	u32			cnt_w				= _w / tw;
-	u32			cnt_h				= _h / th;
+	bsize			_w					= Device.dwWidth;
+	bsize			_h					= Device.dwHeight;
+	bsize			cnt_w				= _w / tw;
+	bsize			cnt_h				= _h / th;
 	float		end_u				= start_u + float(cnt_w) + 1;
 	float		end_v				= start_v + float(cnt_h) + 1;
  
@@ -131,7 +131,7 @@ void CRenderTarget::phase_pp		()
 	// Msg				("add:  %d,%d,%d",	XrColor::color_get_R(p_brightness),	XrColor::color_get_G(p_brightness),	XrColor::color_get_B(p_brightness));
 	
 	// Draw full-screen quad textured with our scene image
-	u32		Offset;
+	bsize		Offset;
 	float	_w			= float(Device.dwWidth);
 	float	_h			= float(Device.dwHeight);
 	

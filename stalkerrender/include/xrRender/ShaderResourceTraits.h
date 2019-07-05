@@ -110,7 +110,7 @@
 			LPCSTR						c_entry		= "main";
 
 			// Compile
-			HRESULT	const _hr			= ::Render->shader_compile(name,(DWORD const*)file->pointer(),file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)sh );
+			HRESULT	const _hr			= ::Render->shader_compile(name,(DWORD const*)file->pointer(), static_cast<UINT>(file->length()), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)sh );
 
 			XRayBearReader::Destroy(file);
 

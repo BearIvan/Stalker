@@ -385,9 +385,9 @@ void CConsole::OnRender()
     }
 	auto &str = BearCore::BearLog::Lock();
     // ---------------------
-    u32 log_line = str.size() - 1;
+	bsize log_line = str.size() - 1;
     ypos -= LDIST;
-    for (int i = log_line - scroll_delta; i >= 0; --i)
+    for (bsize i = log_line - scroll_delta; i >= 0; --i)
     {
         ypos -= LDIST;
         if (ypos < -1.0f)
@@ -408,8 +408,8 @@ void CConsole::OnRender()
     }
 	BearCore::BearLog::Unlock();
     string16 q;
-    itoa(log_line, q, 10);
-    u32 qn = xr_strlen(q);
+	BearCore::BearString::Printf(q, TEXT("%u"), log_line);
+	bsize qn = xr_strlen(q);
     pFont->SetColor(total_font_color);
     pFont->OutI(0.95f - 0.03f * qn, fMaxY - 2.0f * LDIST, "[%d]", log_line);
 
@@ -455,7 +455,7 @@ void CConsole::DrawBackgrounds(bool bGame)
     float list_w = pFont->SizeOf_(max_str) + 2.0f * w1;
 
     float font_h = pFont->CurrentHeight_();
-    float tips_h = XrMath::min(m_tips.size(), (u32)VIEW_TIPS_COUNT) * font_h;
+    float tips_h = XrMath::min(m_tips.size(), (bsize)VIEW_TIPS_COUNT) * font_h;
     tips_h += (m_tips.size() > 0) ? 5.0f : 0.0f;
 
     Frect pr, sr;
@@ -472,7 +472,7 @@ void CConsole::DrawBackgrounds(bool bGame)
 
     if (m_select_tip >= 0 && m_select_tip < (int)m_tips.size())
     {
-        int sel_pos = m_select_tip - m_start_tip;
+		bsize sel_pos = m_select_tip - m_start_tip;
 
         select_y = sel_pos * font_h;
         select_h = font_h; //1 string
@@ -528,7 +528,7 @@ void CConsole::DrawBackgrounds(bool bGame)
 
     // --------------------------- scroll bar --------------------
 
-    u32 tips_sz = m_tips.size();
+	bsize tips_sz = m_tips.size();
     if (tips_sz > VIEW_TIPS_COUNT)
     {
         Frect rb, rs;
@@ -574,7 +574,7 @@ void CConsole::DrawRect(Frect const& r, u32 color)
 
 void CConsole::ExecuteCommand(LPCSTR cmd_str, bool record_cmd)
 {
-    u32 str_size = xr_strlen(cmd_str);
+	bsize str_size = xr_strlen(cmd_str);
     PSTR edt = (PSTR)malloc((str_size + 1) * sizeof(char));
     PSTR first = (PSTR)malloc((str_size + 1) * sizeof(char));
     PSTR last = (PSTR)malloc((str_size + 1) * sizeof(char));
@@ -736,7 +736,7 @@ void CConsole::Execute(LPCSTR cmd)
 
 void CConsole::ExecuteScript(LPCSTR str)
 {
-    u32 str_size = xr_strlen(str);
+	bsize str_size = xr_strlen(str);
     PSTR buf = (PSTR)malloc((str_size + 10) * sizeof(char));
     xr_strcpy(buf, str_size + 10, "cfg_load ");
     xr_strcat(buf, str_size + 10, str);
@@ -750,7 +750,7 @@ IConsole_Command* CConsole::find_next_cmd(LPCSTR in_str, shared_str& out_str)
 {
     LPCSTR radmin_cmd_name = "ra ";
     bool b_ra = (in_str == strstr(in_str, radmin_cmd_name));
-    u32 offset = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
+	bsize offset = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
 
     LPSTR t2;
     STRCONCAT(t2, in_str + offset, " ");
@@ -760,7 +760,7 @@ IConsole_Command* CConsole::find_next_cmd(LPCSTR in_str, shared_str& out_str)
     {
         IConsole_Command* cc = it->second;
         LPCSTR name_cmd = cc->Name();
-        u32 name_cmd_size = xr_strlen(name_cmd);
+		bsize name_cmd_size = xr_strlen(name_cmd);
         PSTR new_str = (PSTR)malloc((offset + name_cmd_size + 2) * sizeof(char));
 
         xr_strcpy(new_str, offset + name_cmd_size + 2, (b_ra) ? radmin_cmd_name : "");
@@ -775,7 +775,7 @@ IConsole_Command* CConsole::find_next_cmd(LPCSTR in_str, shared_str& out_str)
 
 bool CConsole::add_next_cmds(LPCSTR in_str, vecTipsEx& out_v)
 {
-    u32 cur_count = out_v.size();
+	bsize cur_count = out_v.size();
     if (cur_count >= MAX_TIPS_COUNT)
     {
         return false;
@@ -792,7 +792,7 @@ bool CConsole::add_next_cmds(LPCSTR in_str, vecTipsEx& out_v)
     }
 
     bool res = false;
-    for (u32 i = cur_count; i < MAX_TIPS_COUNT * 2; ++i) //fake=protect
+    for (bsize i = cur_count; i < MAX_TIPS_COUNT * 2; ++i) //fake=protect
     {
         temp._set(cc->Name());
         bool dup = (std::find(out_v.begin(), out_v.end(), temp) != out_v.end());
@@ -819,12 +819,12 @@ bool CConsole::add_next_cmds(LPCSTR in_str, vecTipsEx& out_v)
 
 bool CConsole::add_internal_cmds(LPCSTR in_str, vecTipsEx& out_v)
 {
-    u32 cur_count = out_v.size();
+	bsize cur_count = out_v.size();
     if (cur_count >= MAX_TIPS_COUNT)
     {
         return false;
     }
-    u32 in_sz = xr_strlen(in_str);
+	bsize in_sz = xr_strlen(in_str);
 
     bool res = false;
     // word in begin
@@ -834,7 +834,7 @@ bool CConsole::add_internal_cmds(LPCSTR in_str, vecTipsEx& out_v)
     for (; itb != ite; ++itb)
     {
         LPCSTR name = itb->first;
-        u32 name_sz = xr_strlen(name);
+		bsize name_sz = xr_strlen(name);
         if (name_sz >= in_sz)
         {
             name2.assign(name, in_sz);
@@ -871,8 +871,8 @@ bool CConsole::add_internal_cmds(LPCSTR in_str, vecTipsEx& out_v)
             bool dup = (std::find(out_v.begin(), out_v.end(), temp) != out_v.end());
             if (!dup)
             {
-                u32 name_sz = xr_strlen(name);
-                int fd_sz = name_sz - xr_strlen(fd_str);
+				bsize name_sz = xr_strlen(name);
+				bsize fd_sz = name_sz - xr_strlen(fd_str);
                 out_v.push_back(TipString(temp, fd_sz, fd_sz + in_sz));
                 res = true;
             }
@@ -898,7 +898,7 @@ void CConsole::update_tips()
     }
 
     LPCSTR cur = ec().str_edit();
-    u32 cur_length = xr_strlen(cur);
+	bsize cur_length = xr_strlen(cur);
 
     if (cur_length == 0)
     {
@@ -916,7 +916,7 @@ void CConsole::update_tips()
     PSTR last = (PSTR)malloc((cur_length + 1) * sizeof(char));
     text_editor::split_cmd(first, last, cur);
 
-    u32 first_lenght = xr_strlen(first);
+	bsize first_lenght = xr_strlen(first);
 
     if ((first_lenght > 2) && (first_lenght + 1 <= cur_length)) // param
     {
@@ -982,7 +982,7 @@ void CConsole::update_tips()
 void CConsole::select_for_filter(LPCSTR filter_str, vecTips& in_v, vecTipsEx& out_v)
 {
     out_v.clear_not_free();
-    u32 in_count = in_v.size();
+	bsize in_count = in_v.size();
     if (in_count == 0 || !filter_str)
     {
         return;
@@ -1004,7 +1004,7 @@ void CConsole::select_for_filter(LPCSTR filter_str, vecTips& in_v, vecTipsEx& ou
             LPCSTR fd_str = strstr(str.c_str(), filter_str);
             if (fd_str)
             {
-                int fd_sz = str.size() - xr_strlen(fd_str);
+				bsize fd_sz = str.size() - xr_strlen(fd_str);
                 TipString ts(str, fd_sz, fd_sz + xr_strlen(filter_str));
                 out_v.push_back(ts);
             }

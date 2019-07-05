@@ -388,7 +388,7 @@ void CEngineAPI::CreateRendererList()
 
 		}
 
-		vid_quality_token[cnt].id = i;
+		vid_quality_token[cnt].id =static_cast<int>( i);
 		vid_quality_token[cnt].name = val;
 		cnt++;
 #ifdef DEBUG

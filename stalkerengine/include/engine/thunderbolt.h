@@ -66,7 +66,7 @@ public:
     SThunderboltCollection();
     ~SThunderboltCollection();
     void load(CInifile* pIni, CInifile* thunderbolts, LPCSTR sect);
-    SThunderboltDesc* GetRandomDesc() { VERIFY(palette.size() > 0); return palette[Random.randI(palette.size())]; }
+    SThunderboltDesc* GetRandomDesc() { VERIFY(palette.size() > 0); return palette[static_cast<bsize>(Random.randI(static_cast<s32>(palette.size())))]; }
 };
 
 #define THUNDERBOLT_CACHE_SIZE 8
@@ -115,18 +115,18 @@ private:
 private:
 	BOOL RayPick(const Fvector& s, const Fvector& d, float& range);
 	void Bolt(shared_str id, float period, float life_time);
-	void						Bolt(int id, float period, float life_time);
+	void						Bolt(bsize id, float period, float life_time);
 
 public:
 	CEffect_Thunderbolt();
 	~CEffect_Thunderbolt();
-	void						OnFrame(int id, float period, float duration);
+	void						OnFrame(bsize id, float period, float duration);
 
 	void OnFrame(shared_str id, float period, float duration);
 	void Render();
 
 	shared_str AppendDef(CEnvironment& environment, CInifile* pIni, CInifile* thunderbolts, LPCSTR sect);
-	int							AppendDef(CInifile* pIni, LPCSTR sect);
+	bsize							AppendDef(CInifile* pIni, LPCSTR sect);
 
 };
 

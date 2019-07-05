@@ -145,7 +145,7 @@ namespace CDB
 		ICF RESULT*		r_end			()	{	return &*rd.end();			};
 		RESULT&			r_add			()	;
 		void			r_free			()	;
-		ICF int			r_count			()	{	return rd.size();			};
+		ICF bsize			r_count			()	{	return rd.size();			};
 		ICF void		r_clear			()	{	rd.clear_not_free();		};
 		ICF void		r_clear_compact	()	{	rd.clear_and_free();		};
 	};
@@ -156,7 +156,7 @@ namespace CDB
 		xr_vector<Fvector>	verts;
 		xr_vector<TRI>		faces;
 
-		u32				VPack				( const Fvector& V, float eps);
+		bsize				VPack				( const Fvector& V, float eps);
 	public:
 		void			add_face			( const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector	);
 		void			add_face_D			( const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy );

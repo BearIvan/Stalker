@@ -6,8 +6,11 @@
 #include "xrRender/DebugRender.h"
 #include "xrRender/UIRender.h"
 
-poolSS< _12b, 128>	ui_allocator;
-
+#ifdef X32
+ poolSS< _12b, 128>	ui_allocator;
+#else
+ poolSS< _24b, 128>	ui_allocator;
+#endif
 // #define LOG_ALL_WNDS
 #ifdef LOG_ALL_WNDS
 	int ListWndCount = 0;

@@ -11,7 +11,7 @@ R_occlusion::~R_occlusion(void)
 {
 	occq_destroy	();
 }
-void	R_occlusion::occq_create	(u32	limit	)
+void	R_occlusion::occq_create	(bsize	limit	)
 {
 	pool.reserve	(limit);
 	used.reserve	(limit);
@@ -37,7 +37,7 @@ void	R_occlusion::occq_destroy	(				)
 	pool.clear	();
 	fids.clear	();
 }
-u32		R_occlusion::occq_begin		(u32&	ID		)
+u32		R_occlusion::occq_begin		(bsize&	ID		)
 {
 	if (!enabled)		return 0;
 
@@ -69,7 +69,7 @@ u32		R_occlusion::occq_begin		(u32&	ID		)
 
 	return			used[ID].order;
 }
-void	R_occlusion::occq_end		(u32&	ID		)
+void	R_occlusion::occq_end		(bsize&	ID		)
 {
 	if (!enabled)		return;
 
@@ -80,7 +80,7 @@ void	R_occlusion::occq_end		(u32&	ID		)
 	//CHK_DX			(used[ID].Q->Issue	(D3DISSUE_END));
 	CHK_DX			(EndQuery(used[ID].Q));
 }
-R_occlusion::occq_result R_occlusion::occq_get		(u32&	ID		)
+R_occlusion::occq_result R_occlusion::occq_get		(bsize&	ID		)
 {
 	if (!enabled)		return 0xffffffff;
 

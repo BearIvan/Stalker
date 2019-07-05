@@ -168,7 +168,7 @@ IClient*	IPureServer::ID_to_client		(ClientID ID, bool ScanAll)
 }
 
 void
-IPureServer::_Recieve( const void* data, u32 data_size, u32 param )
+IPureServer::_Recieve( const void* data, bsize data_size, u32 param )
 {
 	if (data_size >= NET_PacketSizeLimit) {
 		Msg		("! too large packet size[%d] received, DoS attack?", data_size);
@@ -589,7 +589,7 @@ void	IPureServer::Flush_Clients_Buffers	()
 	);
 }
 
-void	IPureServer::SendTo_Buf(ClientID id, void* data, u32 size, u32 dwFlags, u32 dwTimeout)
+void	IPureServer::SendTo_Buf(ClientID id, void* data, bsize size, u32 dwFlags, u32 dwTimeout)
 {
 	IClient* tmp_client = net_players.GetFoundClient(
 		ClientIdSearchPredicate(id));
@@ -598,7 +598,7 @@ void	IPureServer::SendTo_Buf(ClientID id, void* data, u32 size, u32 dwFlags, u32
 }
 
 
-void	IPureServer::SendTo_LL(ClientID ID/*DPNID ID*/, void* data, u32 size, u32 dwFlags, u32 dwTimeout)
+void	IPureServer::SendTo_LL(ClientID ID/*DPNID ID*/, void* data, bsize size, u32 dwFlags, u32 dwTimeout)
 {
 	//	if (psNET_Flags.test(NETFLAG_LOG_SV_PACKETS)) pSvNetLog->LogData(TimeGlobal(device_timer), data, size);
 	if (psNET_Flags.test(NETFLAG_LOG_SV_PACKETS)) 
@@ -609,7 +609,7 @@ void	IPureServer::SendTo_LL(ClientID ID/*DPNID ID*/, void* data, u32 size, u32 d
 
 	// send it
 	DPN_BUFFER_DESC		desc;
-	desc.dwBufferSize	= size;
+	desc.dwBufferSize	=static_cast<DWORD>( size);
 	desc.pBufferData	= LPBYTE(data);
 
 #ifdef _DEBUG
@@ -621,7 +621,7 @@ void	IPureServer::SendTo_LL(ClientID ID/*DPNID ID*/, void* data, u32 size, u32 d
 		stats.dwSendTime = time_global;
 	};
 	if ( ID.value() )
-		stats.dwBytesSended += size;
+		stats.dwBytesSended += static_cast<DWORD>(size);
 #endif
 
 	// verify
@@ -651,7 +651,7 @@ void	IPureServer::SendTo		(ClientID ID/*DPNID ID*/, NET_Packet& P, u32 dwFlags, 
 	SendTo_LL( ID, P.B.data, P.B.count, dwFlags, dwTimeout );
 }
 
-void	IPureServer::SendBroadcast_LL(ClientID exclude, void* data, u32 size, u32 dwFlags)
+void	IPureServer::SendBroadcast_LL(ClientID exclude, void* data, bsize size, u32 dwFlags)
 {
 	struct ClientExcluderPredicate
 	{
@@ -672,9 +672,9 @@ void	IPureServer::SendBroadcast_LL(ClientID exclude, void* data, u32 size, u32 d
 	{
 		IPureServer*	m_owner;
 		void*			m_data;
-		u32				m_size;
+		bsize				m_size;
 		u32				m_dwFlags;
-		ClientSenderFunctor(IPureServer* owner, void* data, u32 size, u32 dwFlags) :
+		ClientSenderFunctor(IPureServer* owner, void* data, bsize size, u32 dwFlags) :
 			m_owner(owner), m_data(data), m_size(size), m_dwFlags(dwFlags)
 		{}
 		void operator()(IClient* client)
@@ -800,14 +800,14 @@ bool			IPureServer::DisconnectClient	(IClient* C, LPCSTR Reason)
 {
 	if (!C) return false;
 
-	HRESULT res = NET->DestroyClient(C->ID.value(), Reason, xr_strlen(Reason)+1, 0);
+	HRESULT res = NET->DestroyClient(C->ID.value(), Reason, static_cast<DWORD>(xr_strlen(Reason)+1), 0);
 	CHK_DX(res);
 	return true;
 }
 
 bool	IPureServer::DisconnectAddress	(const ip_address& Address, LPCSTR reason)
 {
-	u32 players_count = net_players.ClientsCount();
+	bsize players_count = net_players.ClientsCount();
 	buffer_vector<IClient*>	PlayersToDisconnect(
 		_alloca(players_count * sizeof(IClient*)),
 		players_count

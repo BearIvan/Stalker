@@ -24,7 +24,7 @@ class CSE_Abstract;
 //-----------------------------------------------------------------------------------------------------------
 class IPhysicsShell;
 xr_pure_interface IObjectPhysicsCollision;
-#pragma pack(push,4)
+
 class ENGINE_API CObject :
     public DLL_Pure,
     public ISpatial,
@@ -33,6 +33,7 @@ class ENGINE_API CObject :
     public ICollidable
 {
 public:
+#pragma pack(push,4)
     struct SavedPosition
     {
         u32 dwTime;
@@ -55,6 +56,7 @@ public:
         };
         u32 storage;
     };
+#pragma pack(pop)
 private:
     BENCH_SEC_SCRAMBLEMEMBER1
     BENCH_SEC_SCRAMBLEVTBL2
@@ -187,7 +189,7 @@ public:
     virtual void net_Relcase(CObject* O) { }; // destroy all links to another objects
 
     // Position stack
-    IC u32 ps_Size() const { return PositionStack.size(); }
+    IC bsize ps_Size() const { return PositionStack.size(); }
     virtual SavedPosition ps_Element(u32 ID) const;
     virtual void ForceTransform(const Fmatrix& m) {};
 
@@ -211,6 +213,6 @@ public:
     virtual Fvector get_last_local_point_on_mesh(Fvector const& last_point, u16 bone_id) const;
 };
 
-#pragma pack(pop)
+
 
 #endif //__XR_OBJECT_H__

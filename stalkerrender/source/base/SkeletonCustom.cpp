@@ -121,9 +121,9 @@ CKinematics::~CKinematics	()
 void	CKinematics::IBoneInstances_Create()
 {
 	// VERIFY2				(bones->size() < 64, "More than 64 bones is a crazy thing!");
-	u32				size	= bones->size();
+	bsize				size	= bones->size();
 	bone_instances			=xr_alloc<CBoneInstance>(size);
-	for (u32 i=0; i<size; i++)
+	for (bsize i=0; i<size; i++)
 		bone_instances[i].construct();
 }
 
@@ -414,12 +414,12 @@ void CKinematics::Depart		()
 	visimask.zero				();
 	if(bones)
 	{
-		u32 count = bones->size();
+		bsize count = bones->size();
 #ifdef DEBUG
     	if (count > 64)
         	Msg("ahtung !!! %d", count);
 #endif // #ifdef DEBUG
-		for (u32 b=0; b<count; b++) visimask.set((u64(1)<<b),TRUE);
+		for (bsize b=0; b<count; b++) visimask.set((u64(1)<<b),TRUE);
 	}
 	// visibility
 	children.insert				(children.end(),children_invisible.begin(),children_invisible.end());
@@ -728,7 +728,7 @@ void CKinematics::ClearWallmarks()
 	wallmarks.clear ();
 }
 
-int CKinematics::LL_GetBoneGroups(xr_vector<xr_vector<u16> >& groups)
+bsize CKinematics::LL_GetBoneGroups(xr_vector<xr_vector<u16> >& groups)
 {
 	groups.resize	(children.size());
     for (u16 bone_idx=0; bone_idx<(u16)bones->size(); bone_idx++) {

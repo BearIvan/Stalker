@@ -46,7 +46,7 @@ void CRenderTarget::accum_direct		(u32 sub_phase)
 	light*			fuckingsun			= (light*)RImplementation.Lights.sun_adapted._get()	;
 
 	// Common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
@@ -331,7 +331,7 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 	light*			fuckingsun			= (light*)RImplementation.Lights.sun_adapted._get()	;
 
 	// Common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
@@ -504,7 +504,7 @@ void CRenderTarget::accum_direct_cascade	( u32 sub_phase, Fmatrix& xform, Fmatri
 		j1.set						(scale_X,scale_X).add(offset);
 
 		// Fill vertex buffer
-		u32		i_offset;
+		bsize		i_offset;
 		{
 			u16*	pib					= RCache.Index.Lock	(sizeof(facetable)/sizeof(u16),i_offset);
 			CopyMemory					(pib,&facetable,sizeof(facetable));
@@ -694,7 +694,7 @@ void CRenderTarget::accum_direct_blend	()
 
 		//	TODO: DX10: remove half pixel offset
 		// Common calc for quad-rendering
-		u32		Offset;
+	  bsize		Offset;
 		u32		C					=XrColor::color_rgba	(255,255,255,255);
 		float	_w					= float			(Device.dwWidth);
 		float	_h					= float			(Device.dwHeight);
@@ -770,7 +770,7 @@ void CRenderTarget::accum_direct_f		(u32 sub_phase)
 	light*			fuckingsun			= (light*)RImplementation.Lights.sun_adapted._get()	;
 
 	// Common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
@@ -976,7 +976,7 @@ void CRenderTarget::accum_direct_lum	()
 	light*			fuckingsun			= (light*)RImplementation.Lights.sun_adapted._get()	;
 
 	// Common calc for quad-rendering
-	u32		Offset;
+	bsize		Offset;
 	// u32		C					=XrColor::color_rgba	(255,255,255,255);
 	float	_w					= float			(Device.dwWidth);
 	float	_h					= float			(Device.dwHeight);
@@ -1079,7 +1079,7 @@ void CRenderTarget::accum_direct_lum	()
       }
 }
 
-void CRenderTarget::accum_direct_volumetric	(u32 sub_phase, const u32 Offset, const Fmatrix &mShadow)
+void CRenderTarget::accum_direct_volumetric	(u32 sub_phase, const bsize Offset, const Fmatrix &mShadow)
 {
 	PIX_EVENT(accum_direct_volumetric);
 

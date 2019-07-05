@@ -222,7 +222,9 @@ void XrDebug::backend(const char* expression, const char* description, const cha
 # ifdef USE_BUG_TRAP
     BT_SetUserMessage (assertion_info);
 # endif // USE_BUG_TRAP
+	Msg(assertion_info);
 	BearCore::BearLog::Flush();
+
     BEAR_FATALERROR(false,TEXT("Внутринея ошибка движка!!!"));
 # endif // USE_OWN_ERROR_MESSAGE_WINDOW
 #endif

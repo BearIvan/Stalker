@@ -102,13 +102,13 @@ void CEnvAmbient::SSndChannel::load(CInifile& config, LPCSTR sect)
     R_ASSERT2(m_sound_dist.y > m_sound_dist.x, sect);
 
     LPCSTR snds = config.r_string(sect, "sounds");
-    u32 cnt = XrTrims::GetItemCount(snds);
+	bsize cnt = XrTrims::GetItemCount(snds);
     string_path tmp;
     R_ASSERT3(cnt, "sounds empty", sect);
 
     m_sounds.resize(cnt);
 
-    for (u32 k = 0; k < cnt; ++k)
+    for (bsize k = 0; k < cnt; ++k)
     {
         XrTrims::GetItem(snds, k, tmp);
         m_sounds[k].create(tmp, st_Effect, sg_SourceType);
@@ -180,11 +180,11 @@ void CEnvAmbient::load(
 
     // sounds
     LPCSTR channels = ambients_config.r_string(sect, "sound_channels");
-    u32 cnt = XrTrims::GetItemCount(channels);
+	bsize cnt = XrTrims::GetItemCount(channels);
     // R_ASSERT3 (cnt,"sound_channels empty", sect.c_str());
     m_sound_channels.resize(cnt);
 
-    for (u32 i = 0; i < cnt; ++i)
+    for (bsize i = 0; i < cnt; ++i)
         m_sound_channels[i] = create_sound_channel(sound_channels_config, XrTrims::GetItem(channels, i, tmp));
 
     // effects
@@ -543,7 +543,7 @@ void CEnvironment::mods_load()
 		IReader*	fs = XRayBearReader::Create(FS.Read("%level%", "level.env_mod"));
         u32 id = 0;
         u32 ver = 0x0015;
-        u32 sz;
+		bsize sz;
 
         while (0 != (sz = fs->find_chunk(id)))
         {
@@ -632,7 +632,7 @@ void CEnvironment::load_weathers()
 	auto e = list.end();
     for (; i != e; ++i)
     {
-        u32 length = xr_strlen(**i);
+		bsize length = xr_strlen(**i);
         VERIFY(length >= 4);
 		id.assign(**i, length - 4);
         EnvVec& env = WeatherCycles[id.c_str()];
@@ -685,7 +685,7 @@ void CEnvironment::load_weather_effects()
 	auto e = list.end();
     for (; i != e; ++i)
     {
-        u32 length = xr_strlen(**i);
+		bsize length = xr_strlen(**i);
 		VERIFY(length >= 4);
         id.assign(**i, length - 4);
         EnvVec& env = WeatherFXs[id.c_str()];

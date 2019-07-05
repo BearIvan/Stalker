@@ -28,7 +28,7 @@ void	CRenderTarget::u_setrt			(const ref_rt& _1, const ref_rt& _2, const ref_rt&
 //	RImplementation.rmNormal				();
 }
 
-void	CRenderTarget::u_setrt			(u32 W, u32 H, IDirect3DSurface9* _1, IDirect3DSurface9* _2, IDirect3DSurface9* _3, IDirect3DSurface9* zb)
+void	CRenderTarget::u_setrt			(bsize W, bsize H, IDirect3DSurface9* _1, IDirect3DSurface9* _2, IDirect3DSurface9* _3, IDirect3DSurface9* zb)
 {
 	VERIFY									(_1);
 	dwWidth									= W;
@@ -45,7 +45,7 @@ void	CRenderTarget::u_stencil_optimize	(BOOL		common_stencil)
 {
 	VERIFY	(RImplementation.o.nvstencil);
 	RCache.set_ColorWriteEnable	(FALSE);
-	u32		Offset;
+	bsize		Offset;
 	float	_w					= float(Device.dwWidth);
 	float	_h					= float(Device.dwHeight);
 	u32		C					=XrColor::color_rgba	(255,255,255,255);
@@ -215,7 +215,7 @@ CRenderTarget::CRenderTarget		()
 
 	//	NORMAL
 	{
-		u32		w=Device.dwWidth, h=Device.dwHeight;
+		bsize		w=Device.dwWidth, h=Device.dwHeight;
 		rt_Position.create			(r2_RT_P,		w,h,D3DFMT_A16B16G16R16F);
 		rt_Normal.create			(r2_RT_N,		w,h,D3DFMT_A16B16G16R16F);
 
@@ -358,8 +358,8 @@ CRenderTarget::CRenderTarget		()
 	{
 		if (RImplementation.o.ssao_opt_data)
 		{
-			u32		w = 0;
-			u32		h = 0;
+			bsize		w = 0;
+			bsize		h = 0;
 			if (RImplementation.o.ssao_half_data)
 			{
 				w = Device.dwWidth / 2;
@@ -379,7 +379,7 @@ CRenderTarget::CRenderTarget		()
 		//SSAO
 		if (RImplementation.o.ssao_blur_on)
 		{
-			u32		w = Device.dwWidth, h = Device.dwHeight;
+			bsize		w = Device.dwWidth, h = Device.dwHeight;
 			rt_ssao_temp.create(r2_RT_ssao_temp, w, h, D3DFMT_G16R16F);
 			s_ssao.create(b_ssao, "r2\\ssao");
 		}
@@ -619,7 +619,7 @@ CRenderTarget::CRenderTarget		()
 	{
 		D3DSURFACE_DESC	desc;
 		HW.pBaseRT->GetDesc(&desc);
-		HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth, Device.dwHeight, desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
+		HW.pDevice->CreateOffscreenPlainSurface(static_cast<UINT>(Device.dwWidth), static_cast<UINT>(Device.dwHeight), desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
 	}
 	else
 	{
@@ -715,7 +715,7 @@ void CRenderTarget::reset_light_marker( bool bResetStencil)
 	if (bResetStencil)
 	{
 		RCache.set_ColorWriteEnable	(FALSE);
-		u32		Offset;
+		bsize		Offset;
 		float	_w					= float(Device.dwWidth);
 		float	_h					= float(Device.dwHeight);
 		u32		C					=XrColor::color_rgba	(255,255,255,255);

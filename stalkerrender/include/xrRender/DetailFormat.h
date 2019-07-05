@@ -62,9 +62,9 @@
 struct DetailHeader
 {
 	u32		version;
-	u32		object_count;
-	int		offs_x,	offs_z;
-	u32		size_x,	size_z;
+	bsize		object_count;
+	bint		offs_x,	offs_z;
+	bsize		size_x,	size_z;
 };
 struct DetailPalette
 {
@@ -104,7 +104,7 @@ public:
 
 //	static void		verify		()						{	VERIFY(16==sizeof(DetailSlot));	}
     void			color_editor(){c_dir=w_qclr(0.5f,15);c_hemi=w_qclr(0.5f,15);c_r=w_qclr(0.f,15);c_g=w_qclr(0.f,15);c_b=w_qclr(0.f,15);}
-    u8				r_id		(u32 idx) {	
+    u8				r_id		(bsize idx) {
         switch(idx)	{
         case 0: return (u8)id0;
         case 1: return (u8)id1;
@@ -116,7 +116,7 @@ public:
 		return 0;
 #endif
     }
-    void			w_id		(u32 idx, u8 val) {	
+    void			w_id		(bsize idx, u8 val) {	
         switch(idx){
         case 0: id0=val; break;
         case 1: id1=val; break;

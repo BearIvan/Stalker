@@ -35,12 +35,12 @@ void dxFontRender::OnRender(CGameFont &owner)
 
 	for (u32 i=0; i<owner.strings.size(); ){
 		// calculate first-fit
-		int		count	=	1;
+		bsize		count	=	1;
 
-		int length = owner.smart_strlen( owner.strings[ i ].string );
+		bsize length = owner.smart_strlen( owner.strings[ i ].string );
 
 		while	((i+count)<owner.strings.size()) {
-			int L = owner.smart_strlen( owner.strings[ i + count ].string );
+			bsize L = owner.smart_strlen( owner.strings[ i + count ].string );
 
 			if ((L+length)<MAX_MB_CHARS){
 				count	++;
@@ -50,17 +50,17 @@ void dxFontRender::OnRender(CGameFont &owner)
 		}
 
 		// lock AGP memory
-		u32	vOffset;
+		bsize	vOffset;
 		FVF::TL* v		= (FVF::TL*)RCache.Vertex.Lock	(length*4,pGeom.stride(),vOffset);
 		FVF::TL* start	= v;
 
 		// fill vertices
-		u32 last		= i+count;
+		bsize last		= i+count;
 		for (; i<last; i++) {
 			CGameFont::String		&PS	= owner.strings[i];
 			wide_char wsStr[ MAX_MB_CHARS ];
 
-			int	len	= owner.IsMultibyte() ? 
+			bsize	len	= owner.IsMultibyte() ?
 				mbhMulti2Wide( wsStr , NULL , MAX_MB_CHARS , PS.string ) :
 			xr_strlen( PS.string );
 

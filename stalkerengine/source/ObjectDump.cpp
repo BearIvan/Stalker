@@ -18,7 +18,7 @@ ENGINE_API std::string dbg_object_poses_dump_string(const CObject* obj)
     if (!obj)
         return std::string("");
 
-    u32 ps_size = obj->ps_Size();
+	bsize ps_size = obj->ps_Size();
     std::string buf("");
     for (u32 i = 0; i < ps_size; ++i)
     {

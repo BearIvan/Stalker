@@ -544,19 +544,19 @@ void CRender::Calculate				()
 void	CRender::rmNear		()
 {
 	IRender_Target* T	=	getTarget	();
-	D3DVIEWPORT9 VP		=	{0,0,T->get_width(),T->get_height(),0,0.02f };
+	D3DVIEWPORT9 VP		=	{0,0,static_cast<DWORD>(T->get_width()),static_cast<DWORD>(T->get_height()),0,0.02f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
 void	CRender::rmFar		()
 {
 	IRender_Target* T	=	getTarget	();
-	D3DVIEWPORT9 VP		=	{0,0,T->get_width(),T->get_height(),0.99999f,1.f };
+	D3DVIEWPORT9 VP		=	{0,0,static_cast<DWORD>(T->get_width()),static_cast<DWORD>(T->get_height()),0.99999f,1.f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
 void	CRender::rmNormal	()
 {
 	IRender_Target* T	=	getTarget	();
-	D3DVIEWPORT9 VP		= {0,0,T->get_width(),T->get_height(),0,1.f };
+	D3DVIEWPORT9 VP		= {0,0,static_cast<DWORD>(T->get_width()),static_cast<DWORD>(T->get_height()),0,1.f };
 	CHK_DX				(HW.pDevice->SetViewport(&VP));
 }
 
@@ -706,14 +706,14 @@ public:
 
 
 		// duplicate and zero-terminate
-		u32				size	= R->length();
+		bsize				size	= R->length();
 		u8*				data	= xr_alloc<u8>	(size + 1);
 		CopyMemory			(data,R->pointer(),size);
 		data[size]				= 0;
 		XRayBearReader::Destroy			(R);
 
 		*ppData					= data;
-		*pBytes					= size;
+		*pBytes					= static_cast<UINT>(size);
 		return	D3D_OK;
 	}
 	HRESULT __stdcall	Close	(LPCVOID	pData)
@@ -726,7 +726,7 @@ public:
 static HRESULT create_shader				(
 		LPCSTR const	pTarget,
 		DWORD const*	buffer,
-		u32	const		buffer_size,
+	bsize	const		buffer_size,
 		LPCSTR const	file_name,
 		void*&			result,
 		bool const		disasm
@@ -955,7 +955,7 @@ HRESULT	CRender::shader_compile			(
 
 static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length )
 {
-	u32 const full_shader_id_length	= xr_strlen( full_shader_id );
+	bsize const full_shader_id_length	= xr_strlen( full_shader_id );
 	R_ASSERT2				(
 		full_shader_id_length == mask_length,
 		make_string(

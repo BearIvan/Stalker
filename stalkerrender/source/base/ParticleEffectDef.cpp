@@ -99,10 +99,10 @@ void CPEDef::pTimeLimit(float time_limit)
 	m_fTimeLimit		= time_limit;
 }
 */
-void CPEDef::ExecuteAnimate(Particle *particles, u32 p_cnt, float dt)
+void CPEDef::ExecuteAnimate(Particle *particles, bsize p_cnt, float dt)
 {
 	float speedFac = m_Frame.m_fSpeed * dt;
-	for(u32 i = 0; i < p_cnt; i++){
+	for(bsize i = 0; i < p_cnt; i++){
 		Particle &m = particles[i];
 		float f						= (float(m.frame)/255.f+((m.flags.is(Particle::ANIMATE_CCW))?-1.f:1.f)*speedFac);
 		if (f>m_Frame.m_iFrameCount)f-=m_Frame.m_iFrameCount;
@@ -111,11 +111,11 @@ void CPEDef::ExecuteAnimate(Particle *particles, u32 p_cnt, float dt)
 	}
 }
 
-void CPEDef::ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb)
+void CPEDef::ExecuteCollision(PAPI::Particle* particles, bsize p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb)
 {
 	pVector pt,n;
 	// Must traverse list in reverse order so Remove will work
-	for(int i = p_cnt-1; i >= 0; i--){
+	for(bsize i = p_cnt-1; i >= 0; i--){
 		Particle &m = particles[i];
 
 		bool pick_needed;
@@ -188,7 +188,7 @@ BOOL CPEDef::Load(IReader& F)
 	m_MaxParticles	= F.r_u32();
 
 	{
-		u32 action_list	= F.find_chunk(PED_CHUNK_ACTIONLIST); 
+		bsize action_list	= F.find_chunk(PED_CHUNK_ACTIONLIST);
 		R_ASSERT(action_list);
 		m_Actions.w		(F.pointer(),action_list);
 	}

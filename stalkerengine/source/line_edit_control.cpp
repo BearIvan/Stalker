@@ -63,7 +63,7 @@ static bool terminate_char(char c, bool check_space = false)
 
 // -------------------------------------------------------------------------------------------------
 
-line_edit_control::line_edit_control(u32 str_buffer_size)
+line_edit_control::line_edit_control(bsize str_buffer_size)
 {
     m_edit_str = NULL;
     m_inserted = NULL;
@@ -73,7 +73,7 @@ line_edit_control::line_edit_control(u32 str_buffer_size)
     m_buf2 = NULL;
     m_buf3 = NULL;
 
-    for (u32 i = 0; i < DIK_COUNT; ++i)
+    for (bsize i = 0; i < DIK_COUNT; ++i)
     {
         m_actions[i] = NULL;
     }
@@ -176,10 +176,10 @@ void line_edit_control::clear_states()
     update_key_states();
 }
 
-void line_edit_control::init(u32 str_buffer_size, init_mode mode)
+void line_edit_control::init(bsize str_buffer_size, init_mode mode)
 {
     m_buffer_size = str_buffer_size;
-	XrMath::clamp(m_buffer_size, (int)MIN_BUF_SIZE, (int)MAX_BUF_SIZE);
+	XrMath::clamp(m_buffer_size, (bsize)MIN_BUF_SIZE, (bsize)MAX_BUF_SIZE);
 
     xr_free(m_edit_str);
     m_edit_str = (LPSTR)xr_malloc(m_buffer_size * sizeof(char));
@@ -412,8 +412,8 @@ bool line_edit_control::empty_inserted()
 
 void line_edit_control::set_edit(LPCSTR str)
 {
-    u32 str_size = xr_strlen(str);
-	XrMath::clamp(str_size, (u32)0, (u32)(m_buffer_size - 1));
+	bsize str_size = xr_strlen(str);
+	XrMath::clamp(str_size, (bsize)0, (bsize)(m_buffer_size - 1));
     strncpy_s(m_edit_str, m_buffer_size, str, str_size);
     m_edit_str[str_size] = 0;
 
@@ -575,7 +575,7 @@ void line_edit_control::add_inserted_text()
         return;
     }
 
-    int old_edit_size = (int)xr_strlen(m_edit_str);
+	bsize old_edit_size = (int)xr_strlen(m_edit_str);
     for (int i = 0; i < old_edit_size; ++i)
     {
         if ((m_edit_str[i] == '\n') || (m_edit_str[i] == '\t'))
@@ -588,7 +588,7 @@ void line_edit_control::add_inserted_text()
    strncpy_s(buf, m_buffer_size, m_edit_str, m_p1); // part 1
     strncpy_s(m_undo_buf, m_buffer_size, m_edit_str + m_p1, m_p2 - m_p1);
 
-    int new_size = (int)xr_strlen(m_inserted);
+	bsize new_size = (bsize)xr_strlen(m_inserted);
     if (m_buffer_size - 1 < m_p1 + new_size)
     {
         m_inserted[m_buffer_size - 1 - m_p1] = 0;
@@ -601,7 +601,7 @@ void line_edit_control::add_inserted_text()
 		XrMath::min(old_edit_size - m_p2 - ds, m_buffer_size - m_p1 - new_size)); // part 3
     buf[m_buffer_size] = 0;
 
-    int szn = m_p1 + new_size + old_edit_size - m_p2 - ds;
+	bsize szn = m_p1 + new_size + old_edit_size - m_p2 - ds;
     if (szn < m_buffer_size)
     {
         strncpy_s(m_edit_str, m_buffer_size-1, buf, szn); // part 1+2+3
@@ -620,7 +620,7 @@ void line_edit_control::copy_to_clipboard()
     {
         return;
     }
-    u32 edit_len = xr_strlen(m_edit_str);
+	bsize edit_len = xr_strlen(m_edit_str);
     PSTR buf = (PSTR)malloc((edit_len + 1) * sizeof(char));
     strncpy_s(buf, edit_len + 1, m_edit_str + m_p1, m_p2 - m_p1);
     buf[edit_len] = 0;
@@ -741,7 +741,7 @@ void line_edit_control::move_pos_right()
 
 void line_edit_control::move_pos_left_word()
 {
-    int i = m_cur_pos - 1;
+	bsize i = m_cur_pos - 1;
     while (i >= 0 && m_edit_str[i] == ' ') { --i; }
     if (!terminate_char(m_edit_str[i]))
     {
@@ -753,8 +753,8 @@ void line_edit_control::move_pos_left_word()
 
 void line_edit_control::move_pos_right_word()
 {
-    int edit_len = (int)xr_strlen(m_edit_str);
-    int i = m_cur_pos + 1;
+	bsize edit_len = xr_strlen(m_edit_str);
+    bsize i = m_cur_pos + 1;
     while (i < edit_len && !terminate_char(m_edit_str[i], true)) { ++i; }
     //while( i < edit_len && terminate_char( m_edit_str[i] ) ) { ++i; }
     while (i < edit_len && m_edit_str[i] == ' ') { ++i; }
@@ -782,7 +782,7 @@ void line_edit_control::compute_positions()
 
 void line_edit_control::clamp_cur_pos()
 {
-	XrMath::clamp(m_cur_pos, 0, (int)xr_strlen(m_edit_str));
+	XrMath::clamp(m_cur_pos, bsize(0), xr_strlen(m_edit_str));
 }
 
 void line_edit_control::SwitchKL()
@@ -794,7 +794,7 @@ void line_edit_control::SwitchKL()
 
 void remove_spaces(PSTR str1) // in & out
 {
-	u32 str_size = xr_strlen(str1);
+	bsize str_size = xr_strlen(str1);
 
 	PSTR new_str = (PSTR)malloc((str_size + 1) * sizeof(char));
 	PSTR str2 = str1;
@@ -811,7 +811,7 @@ void split_cmd(PSTR first, PSTR second, LPCSTR str)
 {
     first[0] = 0;
     second[0] = 0;
-    u32 str_size = xr_strlen(str);
+	bsize str_size = xr_strlen(str);
     if (str_size < 1)
     {
         return;

@@ -96,7 +96,7 @@ void CTexture::apply_theora	(u32 dwStage)
 
 		R_CHK				(T2D->LockRect(0,&R,&rect,0));
 		R_ASSERT			(R.Pitch == int(pTheora->Width(false)*4));
-		int _pos			= 0;
+		bsize _pos			= 0;
 		pTheora->DecompressFrame((u32*)R.pBits, _w - rect.right, _pos);
 		VERIFY				(u32(_pos) == rect.bottom*_w);
 		R_CHK				(T2D->UnlockRect(0));
@@ -124,14 +124,14 @@ void CTexture::apply_avi	(u32 dwStage)
 };
 void CTexture::apply_seq	(u32 dwStage)	{
 	// SEQ
-	u32	frame		=RDEVICE.dwTimeContinual/seqMSPF; //RDEVICE.dwTimeGlobal
-	u32	frame_data	= seqDATA.size();
+	bsize	frame		=RDEVICE.dwTimeContinual/seqMSPF; //RDEVICE.dwTimeGlobal
+	bsize	frame_data	= seqDATA.size();
 	if (flags.seqCycles)		{
-		u32	frame_id	= frame%(frame_data*2);
+		bsize	frame_id	= frame%(frame_data*2);
 		if (frame_id>=frame_data)	frame_id = (frame_data-1) - (frame_id%frame_data);
 		pSurface 			= seqDATA[frame_id];
 	} else {
-		u32	frame_id	= frame%frame_data;
+		bsize	frame_id	= frame%frame_data;
 		pSurface 			= seqDATA[frame_id];
 	}
 	CHK_DX(HW.pDevice->SetTexture(dwStage,pSurface));
@@ -258,13 +258,13 @@ void CTexture::Load		()
 				if (buffer[0])	
 				{
 					// Load another texture
-					u32	mem  = 0;
+					bsize	mem  = 0;
 					pSurface = ::RImplementation.texture_load	(buffer,mem);
 					if (pSurface)	
 					{
 						// pSurface->SetPriority	(PRIORITY_LOW);
 						seqDATA.push_back		(pSurface);
-						flags.MemoryUsage		+= mem;
+						flags.MemoryUsage		+= static_cast<u32>(mem);
 					}
 				}
 			}
@@ -274,13 +274,13 @@ void CTexture::Load		()
 		else
 		{
 			// Normal texture
-			u32	mem  = 0;
+			bsize	mem  = 0;
 			pSurface = ::RImplementation.texture_load	(*cName,mem);
 
 			// Calc memory usage and preload into vid-mem
 			if (pSurface) {
 				// pSurface->SetPriority	(PRIORITY_NORMAL);
-				flags.MemoryUsage		=	mem;
+				flags.MemoryUsage		=	static_cast<u32>(mem);
 			}
 		}
 //#endif

@@ -18,10 +18,10 @@ class	ENGINE_API CRenderDevice;
 // S: SysMem		non-aligned
 // Bones: SysMem	64b aligned
 
-typedef void	__stdcall	xrSkin1W		(vertRender* D, vertBoned1W* S, u32 vCount, CBoneInstance* Bones);
-typedef void	__stdcall	xrSkin2W		(vertRender* D, vertBoned2W* S, u32 vCount, CBoneInstance* Bones);
-typedef void	__stdcall	xrSkin3W		(vertRender* D, vertBoned3W* S, u32 vCount, CBoneInstance* Bones);
-typedef void	__stdcall	xrSkin4W		(vertRender* D, vertBoned4W* S, u32 vCount, CBoneInstance* Bones);
+typedef void	__stdcall	xrSkin1W		(vertRender* D, vertBoned1W* S, bsize vCount, CBoneInstance* Bones);
+typedef void	__stdcall	xrSkin2W		(vertRender* D, vertBoned2W* S, bsize vCount, CBoneInstance* Bones);
+typedef void	__stdcall	xrSkin3W		(vertRender* D, vertBoned3W* S, bsize vCount, CBoneInstance* Bones);
+typedef void	__stdcall	xrSkin4W		(vertRender* D, vertBoned4W* S, bsize vCount, CBoneInstance* Bones);
 
 typedef void	__stdcall	xrPLC_calc3		(int& c0, int& c1, int& c2, CRenderDevice& Device, Fvector* P, Fvector& N, light* L, float energy, Fvector& O);
 

@@ -11,7 +11,7 @@ LPSTR XRCORE_API strconcat(int dest_sz, char* dest, const char* S1, const char* 
 #define STRCONCAT(dest, ...) \
  do { \
 XrStringTupples STRCONCAT_tupples_unique_identifier(__VA_ARGS__); \
- u32 STRCONCAT_buffer_size = STRCONCAT_tupples_unique_identifier.size(); \
+ bsize STRCONCAT_buffer_size = STRCONCAT_tupples_unique_identifier.size(); \
 XrStringTupples::check_stack_overflow(STRCONCAT_buffer_size); \
  (dest) = (LPSTR)_alloca(STRCONCAT_buffer_size); \
  STRCONCAT_tupples_unique_identifier.concat (dest); \

@@ -20,14 +20,14 @@ struct					IRender_Mesh
 
 	// verts
 	ID3DVertexBuffer*		p_rm_Vertices;
-	u32							vBase;
-	u32							vCount;
+	bsize							vBase;
+	bsize							vCount;
 
 	// indices
 	ID3DIndexBuffer*		p_rm_Indices;
-	u32							iBase;
-	u32							iCount;
-	u32							dwPrimitives;
+	bsize							iBase;
+	bsize							iCount;
+	bsize							dwPrimitives;
 
 	IRender_Mesh				()				{ p_rm_Vertices=0; p_rm_Indices=0;						}
 	virtual ~IRender_Mesh		();

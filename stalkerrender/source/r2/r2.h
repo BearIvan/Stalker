@@ -81,11 +81,11 @@ public:
 		float	forcegloss_v		;
 	}			o;
 	struct		_stats		{
-		u32		l_total,	l_visible;
-		u32		l_shadowed,	l_unshadowed;
-		s32		s_used,		s_merged,	s_finalclip;
-		u32		o_queries,	o_culled;
-		u32		ic_total,	ic_culled;
+		bsize		l_total,	l_visible;
+		bsize		l_shadowed,	l_unshadowed;
+		bsize		s_used,		s_merged,	s_finalclip;
+		bsize		o_queries,	o_culled;
+		bsize		ic_total,	ic_culled;
 	}			stats;
 public:
 	// Sector detection and visibility
@@ -180,9 +180,9 @@ public:
 	int								translateSector				(IRender_Sector* pSector);
 
 	// HW-occlusion culling
-	IC u32							occq_begin					(u32&	ID		)	{ return HWOCC.occq_begin	(ID);	}
-	IC void							occq_end					(u32&	ID		)	{ HWOCC.occq_end	(ID);			}
-	IC u32							occq_get					(u32&	ID		)	{ return HWOCC.occq_get		(ID);	}
+	IC bsize							occq_begin					(bsize&	ID		)	{ return HWOCC.occq_begin	(ID);	}
+	IC void							occq_end					(bsize&	ID		)	{ HWOCC.occq_end	(ID);			}
+	IC bsize							occq_get					(bsize&	ID		)	{ return HWOCC.occq_get		(ID);	}
 
 	ICF void						apply_object				(IRenderable*	O)
 	{
@@ -238,7 +238,7 @@ public:
 	virtual	void					level_Load					(IReader*);
 	virtual void					level_Unload				();
 
-	virtual IDirect3DBaseTexture9*	texture_load			(LPCSTR	fname, u32& msize);
+	virtual IDirect3DBaseTexture9*	texture_load			(LPCSTR	fname, bsize& msize);
 	virtual HRESULT					shader_compile			(
 		LPCSTR							name,
 		DWORD const*					pSrcData,

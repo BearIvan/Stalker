@@ -86,7 +86,7 @@ public:
     void OnDeviceCreate();
     void OnDeviceDestroy();
 
-    IC void SetStyle(EStyle s, u32 SubGraphID = 0)
+    IC void SetStyle(EStyle s, bsize SubGraphID = 0)
     {
         if (SubGraphID >= subgraphs.size()) return;
         SubGraphVecIt it = subgraphs.begin() + SubGraphID;
@@ -117,7 +117,7 @@ public:
             while (it->elements.size() > max_item_count) it->elements.pop_front();
         };
     }
-    IC void AppendItem(float d, u32 clr, u32 SubGraphID = 0)
+    IC void AppendItem(float d, u32 clr, bsize SubGraphID = 0)
     {
         if (SubGraphID >= subgraphs.size()) return;
 
@@ -127,7 +127,7 @@ public:
         it->elements.push_back(SElement(d, clr));
         while (it->elements.size() > max_item_count) it->elements.pop_front();
     };
-    IC u32 AppendSubGraph(EStyle S)
+    IC bsize AppendSubGraph(EStyle S)
     {
         subgraphs.push_back(SSubGraph(S));
         return subgraphs.size() - 1;
@@ -143,13 +143,13 @@ public:
         m_Markers.push_back(NewMarker);
     };
 
-    IC const SMarker& Marker(u32 ID)
+    IC const SMarker& Marker(bsize ID)
     {
         VERIFY(ID < m_Markers.size());
         return m_Markers[ID];
     };
 
-    IC void UpdateMarkerPos(u32 ID, float NewPos)
+    IC void UpdateMarkerPos(bsize ID, float NewPos)
     {
         if (ID >= m_Markers.size()) return;
         SMarker& pMarker = m_Markers[ID];
@@ -160,7 +160,7 @@ public:
         m_Markers.clear();
     }
 
-    IC void RemoveMarker(u32 ID)
+    IC void RemoveMarker(bsize ID)
     {
         if (ID >= m_Markers.size()) return;
         m_Markers.erase(m_Markers.begin() + ID);

@@ -76,7 +76,7 @@ public:
         typedef xr_vector<ref_sound> sounds_type;
 
         void load(CInifile& config, LPCSTR sect);
-        ref_sound& get_rnd_sound() { return sounds()[Random.randI(sounds().size())]; }
+        ref_sound& get_rnd_sound() { return sounds()[static_cast<bsize>(Random.randI(static_cast<s32>(sounds().size())))]; }
         u32 get_rnd_sound_time() { return (m_sound_period.z < m_sound_period.w) ? Random.randI(m_sound_period.z, m_sound_period.w) : 0; }
         u32 get_rnd_sound_first_time() { return (m_sound_period.x < m_sound_period.y) ? Random.randI(m_sound_period.x, m_sound_period.y) : 0; }
         float get_rnd_sound_dist() { return (m_sound_dist.x < m_sound_dist.y) ? Random.randF(m_sound_dist.x, m_sound_dist.y) : 0; }
@@ -106,7 +106,7 @@ public:
         CInifile& effects_config,
         const shared_str& section
         );
-    IC SEffect* get_rnd_effect() { return effects().empty() ? 0 : effects()[Random.randI(effects().size())]; }
+    IC SEffect* get_rnd_effect() { return effects().empty() ? 0 : effects()[static_cast<bsize>(Random.randI(static_cast<s32>(effects().size())))]; }
     IC u32 get_rnd_effect_time() { return Random.randI(m_effect_period.x, m_effect_period.y); }
 
     INGAME_EDITOR_VIRTUAL SEffect* create_effect(CInifile& config, LPCSTR id);

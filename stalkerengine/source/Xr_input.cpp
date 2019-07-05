@@ -551,7 +551,7 @@ void CInput::iRelease(IInputReceiver* p)
     else
     {
         // we are not topmost receiver, so remove the nearest one
-        u32 cnt = cbStack.size();
+		bsize cnt = cbStack.size();
         for (; cnt > 0; --cnt)
             if (cbStack[cnt - 1] == p)
             {

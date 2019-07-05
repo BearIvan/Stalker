@@ -45,7 +45,7 @@ static void ApplyTexgen( const Fmatrix &mVP )
 	RCache.set_c( "mVPTexgen", mTexgen );
 }
 
-void PS::OnEffectParticleBirth(void* owner, u32 , PAPI::Particle& m, u32 )
+void PS::OnEffectParticleBirth(void* owner, bsize, PAPI::Particle& m, bsize)
 {
 	CParticleEffect* PE = static_cast<CParticleEffect*>(owner); VERIFY(PE);
     CPEDef* PED			= PE->GetDefinition(); 
@@ -56,7 +56,7 @@ void PS::OnEffectParticleBirth(void* owner, u32 , PAPI::Particle& m, u32 )
             m.flags.set(Particle::ANIMATE_CCW,TRUE);
     }
 }
-void PS::OnEffectParticleDead(void* , u32 , PAPI::Particle& , u32 )
+void PS::OnEffectParticleDead(void* , bsize, PAPI::Particle& , bsize)
 {
 //	CPEDef* PE = static_cast<CPEDef*>(owner);
 }
@@ -143,7 +143,7 @@ void CParticleEffect::OnFrame(u32 frame_dt)
             ParticleManager()->Update(m_HandleEffect,m_HandleActionList,fDT_STEP);
 
             PAPI::Particle* particles;
-            u32 p_cnt;
+			bsize p_cnt;
             ParticleManager()->GetParticles(m_HandleEffect,particles,p_cnt);
             
 			// our actions
@@ -202,7 +202,7 @@ void CParticleEffect::SetBirthDeadCB(PAPI::OnBirthParticleCB bc, PAPI::OnDeadPar
     ParticleManager()->SetCallback		(m_HandleEffect,bc,dc,owner,p);
 }
 
-u32 CParticleEffect::ParticlesCount()
+bsize CParticleEffect::ParticlesCount()
 {
 	return ParticleManager()->GetParticlesCount(m_HandleEffect);
 }
@@ -266,15 +266,11 @@ IC void FillSprite_fpu	(FVF::LIT*& pv, const Fvector& T, const Fvector& R, const
 	pv->set		(b.x+pos.x,b.y+pos.y,b.z+pos.z,	clr, rb.x,lt.y);	pv++;
 }
 
-__forceinline void fsincos( const float angle , float &sine , float &cosine )
-{ __asm {
-    fld			DWORD PTR [angle]
-    fsincos
-    mov			eax , DWORD PTR [cosine]
-    fstp		DWORD PTR [eax]
-    mov			eax , DWORD PTR [sine]
-    fstp		DWORD PTR [eax]
-} }
+inline void fsincos( const float angle , float &sine , float &cosine )
+{
+	sine = sinf(angle);
+	cosine = cosf(angle);
+}
 
 
 IC void FillSprite	(FVF::LIT*& pv, const Fvector& T, const Fvector& R, const Fvector& pos, const Fvector2& lt, const Fvector2& rb, float r1, float r2, u32 clr, float sina , float cosa )
@@ -446,12 +442,8 @@ void ParticleRenderStream( LPVOID lpvParams )
 
 				if ( angle != *((DWORD*)&m.rot.x) ) {
 					angle = *((DWORD*)&m.rot.x);
-					__asm {
-						fld			DWORD PTR [angle]
-						fsincos
-						fstp		DWORD PTR [cosa]
-						fstp		DWORD PTR [sina]
-					}
+					cosa = cosf(m.rot.x);
+					sina = sinf(m.rot.x);
 				}
 
 				 _mm_prefetch( 64 + (char*) &particles[i + 1] , _MM_HINT_NTA );
@@ -530,10 +522,10 @@ void CParticleEffect::Render(float )
 		TAL_SCOPED_TASK_NAMED( "CParticleEffect::Render()" );
 	#endif // _GPA_ENABLED
 
-	u32			dwOffset,dwCount;
+		bsize			dwOffset,dwCount;
 	// Get a pointer to the particles in gp memory
     PAPI::Particle* particles;
-    u32 			p_cnt;
+	bsize 			p_cnt;
     ParticleManager()->GetParticles(m_HandleEffect,particles,p_cnt);
 
 	if(p_cnt>0){
@@ -550,17 +542,17 @@ void CParticleEffect::Render(float )
 
 			// Give ~1% more for the last worker
 			// to minimize wait in final spin
-			u32 nSlice = p_cnt / 128;
+			bsize nSlice = p_cnt / 128;
 
-			u32 nStep = ( ( p_cnt - nSlice ) / nWorkers );
+			bsize nStep = ( ( p_cnt - nSlice ) / nWorkers );
 			//u32 nStep = ( p_cnt  / nWorkers );
 
 			//Msg( "Rnd: %u" , nStep );
 
-			for ( u32 i = 0 ; i < nWorkers ; ++i ) {
+			for (bsize i = 0 ; i < nWorkers ; ++i ) {
 				prsParams[i].pv = pv + i*nStep*4;
-				prsParams[i].p_from = i * nStep;
-				prsParams[i].p_to = ( i == ( nWorkers - 1 ) ) ? p_cnt : ( prsParams[i].p_from + nStep );
+				prsParams[i].p_from = static_cast<u32>(i * nStep);
+				prsParams[i].p_to = static_cast<u32>(( i == ( nWorkers - 1 ) ) ? p_cnt : ( prsParams[i].p_from + nStep ));
 				prsParams[i].particles = particles;
 				prsParams[i].pPE = this;
 				ttapi_AddWorker( ParticleRenderStream , (LPVOID) &prsParams[i] );

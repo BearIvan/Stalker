@@ -59,7 +59,7 @@ public:
              BOOL ReadOnly = TRUE,
              BOOL bLoadAtStart = TRUE,
              BOOL SaveAtEnd = TRUE,
-             u32 sect_count = 0
+		bsize sect_count = 0
 #ifndef _EDITOR
                               , allow_include_func_t allow_include_func = NULL
 #endif
@@ -76,9 +76,9 @@ public:
     Sect& r_section(const shared_str& S)const;
     BOOL line_exist(LPCSTR S, LPCSTR L)const;
     BOOL line_exist(const shared_str& S, const shared_str& L)const;
-    u32 line_count(LPCSTR S)const;
-    u32 line_count(const shared_str& S)const;
-    u32 section_count()const;
+	bsize line_count(LPCSTR S)const;
+	bsize line_count(const shared_str& S)const;
+	bsize section_count()const;
     BOOL section_exist(LPCSTR S)const;
     BOOL section_exist(const shared_str& S)const;
     Root& sections() { return DATA; }
@@ -125,8 +125,8 @@ public:
     BOOL r_bool(LPCSTR S, LPCSTR L)const;
     BOOL r_bool(const shared_str& S, LPCSTR L)const { return r_bool(*S, L); }
     int r_token(LPCSTR S, LPCSTR L, const xr_token* token_list)const;
-    BOOL r_line(LPCSTR S, int L, LPCSTR* N, LPCSTR* V)const;
-    BOOL r_line(const shared_str& S, int L, LPCSTR* N, LPCSTR* V)const;
+    BOOL r_line(LPCSTR S, bsize L, LPCSTR* N, LPCSTR* V)const;
+    BOOL r_line(const shared_str& S, bsize L, LPCSTR* N, LPCSTR* V)const;
 
     void w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment = 0);
     void w_u8(LPCSTR S, LPCSTR L, u8 V, LPCSTR comment = 0);

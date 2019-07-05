@@ -23,7 +23,7 @@ void dxConsoleRender::OnRender(bool bGame)
 	if		(bGame) R.y2 /= 2;
 
 #if defined(USE_DX10) || defined(USE_DX11)
-	u32	vOffset = 0;
+bsize	vOffset = 0;
 	//	TODO: DX10: Implement console background clearing for DX10
 	FVF::TL*	verts = (FVF::TL*)RCache.Vertex.Lock(4, m_Geom->vb_stride, vOffset);
 	verts->set						( R.x1,	R.y2, D3DCOLOR_XRGB(32,32,32), 0, 0 );	verts++;

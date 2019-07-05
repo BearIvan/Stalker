@@ -25,7 +25,7 @@ namespace	animation
 	class channels
 	{
 	public:
-		static	const	u32		max = MAX_CHANNELS;
+		static	const	bsize		max = MAX_CHANNELS;
 
 	private:
 		static	const	channal_rule	rules	[ max ];

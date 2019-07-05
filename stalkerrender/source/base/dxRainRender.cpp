@@ -88,7 +88,7 @@ void dxRainRender::Render(CEffect_Rain &owner)
 	src_plane.build(upper,norm);
 
 	// perform update
-	u32			vOffset;
+	bsize			vOffset;
 	FVF::LIT	*verts		= (FVF::LIT	*) RCache.Vertex.Lock(desired_items*4,hGeom_Rain->vb_stride,vOffset);
 	FVF::LIT	*start		= verts;
 	const Fvector&	vEye	= Device.vCameraPosition;
@@ -200,9 +200,9 @@ void dxRainRender::Render(CEffect_Rain &owner)
 
 		Fmatrix					mXform,mScale;
 		int						pcount  = 0;
-		u32						v_offset,i_offset;
-		u32						vCount_Lock		= particles_cache*DM_Drop->number_vertices;
-		u32						iCount_Lock		= particles_cache*DM_Drop->number_indices;
+		bsize						v_offset,i_offset;
+		bsize						vCount_Lock		= particles_cache*DM_Drop->number_vertices;
+		bsize						iCount_Lock		= particles_cache*DM_Drop->number_indices;
 		IRender_DetailModel::fvfVertexOut* v_ptr= (IRender_DetailModel::fvfVertexOut*) RCache.Vertex.Lock	(vCount_Lock, hGeom_Drops->vb_stride, v_offset);
 		u16*					i_ptr			= _IS.Lock													(iCount_Lock, i_offset);
 		while (P)	{
@@ -233,7 +233,7 @@ void dxRainRender::Render(CEffect_Rain &owner)
 
 				if (pcount >= particles_cache) {
 					// flush
-					u32	dwNumPrimitives		= iCount_Lock/3;
+					bsize	dwNumPrimitives		= iCount_Lock/3;
 					RCache.Vertex.Unlock	(vCount_Lock,hGeom_Drops->vb_stride);
 					_IS.Unlock				(iCount_Lock);
 					RCache.set_Geometry		(hGeom_Drops);
@@ -252,7 +252,7 @@ void dxRainRender::Render(CEffect_Rain &owner)
 		// Flush if needed
 		vCount_Lock						= pcount*DM_Drop->number_vertices;
 		iCount_Lock						= pcount*DM_Drop->number_indices;
-		u32	dwNumPrimitives				= iCount_Lock/3;
+		bsize	dwNumPrimitives				= iCount_Lock/3;
 		RCache.Vertex.Unlock			(vCount_Lock,hGeom_Drops->vb_stride);
 		_IS.Unlock						(iCount_Lock);
 		if (pcount)	{

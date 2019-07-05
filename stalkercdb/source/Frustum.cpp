@@ -129,7 +129,7 @@ EFC_Visible	CFrustum::testSAABB			(Fvector& c, float r, const float* mM, u32& te
 	return test_mask ? fcvPartial:fcvFully;
 }
 
-BOOL		CFrustum::testPolyInside_dirty(Fvector* p, int count) const
+BOOL		CFrustum::testPolyInside_dirty(Fvector* p, bsize count) const
 {
 	Fvector* e = p+count;
 	for (int i=0; i<p_count; i++)
@@ -142,7 +142,7 @@ BOOL		CFrustum::testPolyInside_dirty(Fvector* p, int count) const
 }
 
 //////////////////////////////////////////////////////////////////////
-void CFrustum::CreateFromPoints(Fvector* p, int count, Fvector& COP)
+void CFrustum::CreateFromPoints(Fvector* p, bsize count, Fvector& COP)
 {
 	VERIFY(count<FRUSTUM_MAXPLANES);
 	VERIFY(count>=3);
@@ -153,7 +153,7 @@ void CFrustum::CreateFromPoints(Fvector* p, int count, Fvector& COP)
 	_add(COP,p[count-1],p[0]);
 }
 
-void CFrustum::CreateFromPlanes(Fplane* p, int count){
+void CFrustum::CreateFromPlanes(Fplane* p, bsize count){
 	for (int k=0; k<count; k++)
 		planes[k].set(p[k]);
 
@@ -243,7 +243,7 @@ void CFrustum::SimplifyPoly_AABB(sPoly* poly, Fplane& plane)
 	mInv.transform_tiny23(poly->last(),p2);		poly->inc();
 }
 
-void CFrustum::CreateOccluder(Fvector* p, int count, Fvector& vBase, CFrustum& clip)
+void CFrustum::CreateOccluder(Fvector* p, bsize count, Fvector& vBase, CFrustum& clip)
 {
 	VERIFY(count<FRUSTUM_SAFE);
 	VERIFY(count>=3);
@@ -342,7 +342,7 @@ sPoly*	CFrustum::ClipPoly(sPoly& S, sPoly& D) const
 	return dest;
 }
 
-BOOL CFrustum::CreateFromClipPoly(Fvector* p, int count, Fvector& vBase, CFrustum& clip)
+BOOL CFrustum::CreateFromClipPoly(Fvector* p, bsize count, Fvector& vBase, CFrustum& clip)
 {
 	VERIFY(count<FRUSTUM_MAXPLANES);
 	VERIFY(count>=3);

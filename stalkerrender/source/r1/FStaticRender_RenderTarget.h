@@ -7,11 +7,11 @@ class CRenderTarget		: public IRender_Target
 {
 private:
 	BOOL				bAvailable;
-	u32					rtWidth;
-	u32					rtHeight;
+	bsize					rtWidth;
+	bsize					rtHeight;
 
-	u32					curWidth;
-	u32					curHeight;
+	bsize					curWidth;
+	bsize					curHeight;
 
 	ref_rt				RT;
 	ref_rt				RT_color_map;
@@ -87,9 +87,9 @@ public:
 	virtual void		set_cm_interpolate	(float	f)		{ param_color_map_interpolate = f;							}
 	virtual void		set_cm_textures		(const shared_str &tex0, const shared_str &tex1) {color_map_manager.SetTextures(tex0, tex1);}
 
-	virtual u32			get_width			()				{ return curWidth;											}
-	virtual u32			get_height			()				{ return curHeight;											}
+	virtual bsize			get_width			()				{ return curWidth;											}
+	virtual bsize			get_height			()				{ return curHeight;											}
 
-			u32			get_rtwidth			()				{ return rtWidth;											}
-			u32			get_rtheight		()				{ return rtHeight;											}
+	bsize			get_rtwidth			()				{ return rtWidth;											}
+			bsize			get_rtheight		()				{ return rtHeight;											}
 };

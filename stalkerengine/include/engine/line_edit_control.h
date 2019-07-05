@@ -55,8 +55,8 @@ private:
     typedef fastdelegate::FastDelegate0<void> Callback;
 
 public:
-    line_edit_control(u32 str_buffer_size);
-    void init(u32 str_buffer_size, init_mode mode = im_standart);
+    line_edit_control(bsize str_buffer_size);
+    void init(bsize str_buffer_size, init_mode mode = im_standart);
     ~line_edit_control();
 
     void clear_states();
@@ -139,12 +139,12 @@ private:
     char* m_buf3;
 
     enum { MIN_BUF_SIZE = 8, MAX_BUF_SIZE = 4096 };
-    int m_buffer_size;
+	bsize m_buffer_size;
 
-    int m_cur_pos;
-    int m_select_start;
-    int m_p1;
-    int m_p2;
+	bsize m_cur_pos;
+	bsize m_select_start;
+	bsize m_p1;
+	bsize m_p2;
 
     float m_accel;
     float m_cur_time;

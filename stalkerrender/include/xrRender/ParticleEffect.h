@@ -22,8 +22,8 @@ namespace PS
 	protected:
 		float				m_fElapsedLimit;
 
-		int					m_HandleEffect;
-		int					m_HandleActionList;
+		bsize					m_HandleEffect;
+		bsize					m_HandleActionList;
 
 		s32					m_MemDT;
 
@@ -65,8 +65,8 @@ namespace PS
 		BOOL				Compile				(CPEDef* def);
 
 		IC CPEDef*			GetDefinition		(){return m_Def;}
-		IC int				GetHandleEffect		(){return m_HandleEffect;}
-		IC int				GetHandleActionList	(){return m_HandleActionList;}
+		IC bsize				GetHandleEffect		(){return m_HandleEffect;}
+		IC bsize				GetHandleActionList	(){return m_HandleActionList;}
 
 		virtual void		Play				();
 		virtual void		Stop				(BOOL bDefferedStop=TRUE);
@@ -83,10 +83,10 @@ namespace PS
         void				SetCollisionCB		(CollisionCallback	collision_cb)	{m_CollisionCallback= collision_cb;}
         void				SetBirthDeadCB		(PAPI::OnBirthParticleCB bc, PAPI::OnDeadParticleCB dc, void* owner, u32 p);		
 
-	    virtual u32			ParticlesCount		();
+	    virtual bsize			ParticlesCount		();
 	};
-    void OnEffectParticleBirth	(void* owner, u32 param, PAPI::Particle& m, u32 idx);
-    void OnEffectParticleDead	(void* owner, u32 param, PAPI::Particle& m, u32 idx);
+    void OnEffectParticleBirth	(void* owner, bsize param, PAPI::Particle& m, bsize idx);
+    void OnEffectParticleDead	(void* owner, bsize param, PAPI::Particle& m, bsize idx);
 
     extern const u32		uDT_STEP;
 	extern const float		fDT_STEP;
