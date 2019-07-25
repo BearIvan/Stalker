@@ -284,7 +284,7 @@ static HRESULT WINAPI Handler (PVOID pvUserContext, DWORD dwMessageType, PVOID p
 //------------------------------------------------------------------------------
 
 void    
-IPureClient::_SendTo_LL( const void* data, u32 size, u32 flags, u32 timeout )
+IPureClient::_SendTo_LL( const void* data, bsize size, u32 flags, u32 timeout )
 {
     IPureClient::SendTo_LL( const_cast<void*>(data), size, flags, timeout );
 }
@@ -293,7 +293,7 @@ IPureClient::_SendTo_LL( const void* data, u32 size, u32 flags, u32 timeout )
 //------------------------------------------------------------------------------
 
 void    
-IPureClient::_Recieve( const void* data, u32 data_size, u32 /*param*/ )
+IPureClient::_Recieve( const void* data, bsize data_size, u32 /*param*/ )
 {
     MSYS_PING*    cfg = (MSYS_PING*)data;
 	net_Statistic.dwBytesReceived += data_size;
@@ -921,7 +921,7 @@ HRESULT	IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
 	return S_OK;
 }
 
-void	IPureClient::OnMessage(void* data, u32 size)
+void	IPureClient::OnMessage(void* data, bsize size)
 {
 	// One of the messages - decompress it
 	net_Queue.Lock();
@@ -943,7 +943,7 @@ void	IPureClient::timeServer_Correct(u32 sv_time, u32 cl_time)
 	Sync_Average		();
 }
 
-void	IPureClient::SendTo_LL(void* data, u32 size, u32 dwFlags, u32 dwTimeout)
+void	IPureClient::SendTo_LL(void* data, bsize size, u32 dwFlags, u32 dwTimeout)
 {
 	if( net_Disconnected )	
 	    return;

@@ -65,11 +65,11 @@ public:
 	//-----------------------------------------------------------------------
 	u32		dwTimesBlocked;
 	
-	u32		dwBytesSended;
-	u32		dwBytesSendedPerSec;
+	bsize		dwBytesSended;
+	bsize		dwBytesSendedPerSec;
 	
-	u32		dwBytesReceived;
-	u32		dwBytesReceivedPerSec;
+	bsize		dwBytesReceived;
+	bsize		dwBytesReceivedPerSec;
 
 };
 

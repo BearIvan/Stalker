@@ -20,7 +20,13 @@ CInifile* CInifile::Create(LPCSTR FsPath, const char* szFileName, BOOL ReadOnly)
 {
     return xr_new<CInifile>(FsPath,szFileName, ReadOnly);
 }
-
+CInifile * CInifile::Create(LPCSTR szFileName)
+{
+	IReader*F = XRayBearReader::Create(szFileName);
+	auto result= xr_new<CInifile>(F, (const bchar*)0,*BearCore::BearFileManager::GetPathFile(szFileName));
+	XRayBearReader::Destroy(F);
+	return result;
+}
 void CInifile::Destroy(CInifile* ini)
 {
     xr_delete(ini);
@@ -294,7 +300,16 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
 				if (!allow_include_func || allow_include_func(fn))
 #endif
 				{
-					IReader* R = XRayBearReader::Create(FS.Read(FsPath, fn));
+					IReader* R = 0;
+					if (FsPath)
+					{
+							R=	XRayBearReader::Create(FS.Read(FsPath, fn));
+					}
+					else
+					{
+						R = XRayBearReader::Create(fn);
+					}
+					
 						Load(R, FsPath, *path_inc
 #ifndef _EDITOR
 							, allow_include_func

@@ -74,7 +74,7 @@ protected:
 	void					SetClientID		(ClientID const & local_client) { net_ClientID = local_client; };
 		
 
-	IC virtual	void			SendTo_LL				(void* data, u32 size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);													
+	IC virtual	void			SendTo_LL				(void* data, bsize size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
 
 public:
 	IPureClient				(BearCore::BearTimer* tm);
@@ -101,7 +101,7 @@ public:
 	// send
 	virtual	void			Send					(NET_Packet& P, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
 	virtual void			Flush_Send_Buffer		();
-	virtual void			OnMessage				(void* data, u32 size);
+	virtual void			OnMessage				(void* data, bsize size);
 	virtual void			OnInvalidHost			()	{};
 	virtual void			OnInvalidPassword		()	{};
 	virtual void			OnSessionFull			()	{};
@@ -131,7 +131,7 @@ public:
 private:
 	ClientID				net_ClientID;
 
-    virtual void    _Recieve( const void* data, u32 data_size, u32 param );
-    virtual void    _SendTo_LL( const void* data, u32 size, u32 flags, u32 timeout );
+    virtual void    _Recieve( const void* data, bsize data_size, u32 param );
+    virtual void    _SendTo_LL( const void* data, bsize size, u32 flags, u32 timeout );
 };
 

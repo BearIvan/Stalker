@@ -30,10 +30,9 @@ public:
     typedef Root::iterator RootIt;
     typedef Root::const_iterator RootCIt;
 
-#ifndef _EDITOR
     typedef fastdelegate::FastDelegate1<LPCSTR, bool> allow_include_func_t;
-#endif
     static CInifile* Create(LPCSTR FsPath,LPCSTR szFileName, BOOL ReadOnly = TRUE);
+	static CInifile* Create(LPCSTR szFileName);
     static void Destroy(CInifile*);
     static IC BOOL IsBOOL(LPCSTR B) { return (BearCore::BearString::Compare(B, "on") == 0 || BearCore::BearString::Compare(B, "yes") == 0 || BearCore::BearString::Compare(B, "true") == 0 || BearCore::BearString::Compare(B, "1") == 0); }
 private:
@@ -43,16 +42,12 @@ private:
     Root DATA;
 
     void Load(IReader* F, LPCSTR FsPath, LPCSTR path
-#ifndef _EDITOR
               , allow_include_func_t allow_include_func = NULL
-#endif
              );
 public:
     CInifile(IReader* F, LPCSTR FsPath,
              LPCSTR path = 0
-#ifndef _EDITOR
                            , allow_include_func_t allow_include_func = NULL
-#endif
             );
 
     CInifile(LPCSTR FsPath, LPCSTR szFileName,
@@ -60,9 +55,7 @@ public:
              BOOL bLoadAtStart = TRUE,
              BOOL SaveAtEnd = TRUE,
 		bsize sect_count = 0
-#ifndef _EDITOR
                               , allow_include_func_t allow_include_func = NULL
-#endif
             );
 
     virtual ~CInifile();

@@ -67,7 +67,7 @@ public class stalker :Executable
 	public override void StartBuild()
 	{
 		BearBuildTool.Config.Global.UNICODE=false;
-    //    BearBuildTool.Config.Global.WithoutWarning = true;
+        BearBuildTool.Config.Global.WithoutWarning = true;
 
     }
 } 

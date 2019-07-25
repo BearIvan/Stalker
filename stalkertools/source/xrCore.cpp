@@ -53,19 +53,16 @@ void XrCore::Initialize()
 
 void XrCore::Destroy()
 {
-
-	if (0 == init_counter)
+	if(init_counter!=0) --init_counter;
+	if (! init_counter)
 	{
+		
 		XrCompressor::Destroy();
 		XrStringContainer::Destroy();
 		XrSharedMemoryContainer::Destroy();
 		//CInifile::Destroy();
 		XrThread::Destroy();
 		XrCompressor::Destroy();
-	}else
-
-	{
-		--init_counter;
 	}
 }
 
