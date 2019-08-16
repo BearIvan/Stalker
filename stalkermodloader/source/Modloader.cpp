@@ -15,51 +15,25 @@ bool Modloader::Run()
 		
 		BearUI::BearViewport viewport(1000, 600);
 		MainForm mainform;
-		
+		mainform.Reload();
 
 		BearGraphics::BearRenderInterface::AttachRenderTargetView(
 			viewport);
-		BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
+		/*BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
 		BearGraphics::BearDepthStencilStateRef  DepthStencilState;
 		{
 			BearGraphics::BearDepthStencilStateInitializer Initializer;
 			Initializer.DepthEnable = false;
 			DepthStencilState = BearGraphics::BearDepthStencilStateRef(Initializer);
 		}
-		BearGraphics::BearRenderInterface::SetDepthStencilState(DepthStencilState, 0);
+		BearGraphics::BearRenderInterface::SetDepthStencilState(DepthStencilState, 0);*/
 		while (viewport.Update()&& mainform.Ok==-1)
 		{
 
 			BearUI::BearEventViewport ev;
 			while (viewport.GetEvent(ev))
 			{
-				switch (ev.Type)
-				{
-				case BearUI::EVT_Active:
-					mainform.KillFocus();
-					break;
-				case BearUI::EVT_Deactive:
-					mainform.KillFocus();
-					break;
-				case  BearUI::EVT_Char:
-					break;
-				case BearUI::EVT_MouseEnter:
-				case BearUI::EVT_MouseLevae:
-					mainform.KillFocus();
-					break;
-				case BearUI::EVT_MouseMove:
-					mainform.OnMouse(ev.Position.x, ev.Position.y);
-					break;
-				case BearUI::EVT_KeyDown:
-					mainform.OnKeyDown(ev.Key);
-					break;
-				case BearUI::EVT_KeyUp:
-					mainform.OnKeyUp(ev.Key);
-					break;
-				default:
-
-					break;
-				}
+				mainform.UseEventViewport(ev);
 			}
 			viewport.ClearColor(BearCore::BearColor::BearColor(uint8(30),30,30));
 			mainform.Update(0);

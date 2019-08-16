@@ -4,10 +4,10 @@ class MainForm:public BearUI::BearUI
 public:
 	MainForm();
 	~MainForm();
-	::BearUI::BearUIButton btOk;
-	::BearUI::BearUIButton btMods;
-	::BearUI::BearUIComboBox cbGames;
-	::BearUI::BearUIListBox lbMods;
+	::BearUI::Classic::BearUIButton btOk;
+	::BearUI::Classic::BearUIButton btMods;
+	::BearUI::Classic::BearUIComboBox cbGames;
+	::BearUI::Classic::BearUIListBox lbMods;
 
 	ButtonLink btVK;
 	ButtonLink btTwitter;
@@ -17,7 +17,7 @@ public:
 	::BearUI::BearUIText lbHelp;
 	ButtonLink btYandexM;
 
-	::BearUI::BearUIButton cbHelp;
+	::BearUI::Classic::BearUIButton cbHelp;
 	bint Ok;
 	GameVersionController::Path path;
 private:

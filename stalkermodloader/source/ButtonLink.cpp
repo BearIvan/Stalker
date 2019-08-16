@@ -16,12 +16,9 @@ ButtonLink::~ButtonLink()
 {
 }
 
-void ButtonLink::Update()
-{
-	__super::Update();
-}
 
-void ButtonLink::Draw(BearUI::BearUI * ui, float time)
+
+void ButtonLink::Draw(BearUI::BearUI * ui, BearCore::BearTime  time)
 {
 	__super::Draw(ui,time);
 }

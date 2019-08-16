@@ -1,12 +1,11 @@
 #pragma once
-class ButtonLink :public BearUI::BearUIButton
+class ButtonLink :public BearUI::Classic::BearUIButton
 {
 public:
 	ButtonLink(const bchar*link,const bchar*textures);
 	~ButtonLink();
 private:
-	virtual void Update();
-	virtual void Draw(BearUI::BearUI * ui, float time);
+	virtual void Draw(BearUI::BearUI * ui, BearCore::BearTime time);
 	virtual void OnMessage(int32 message);
 	virtual bool OnMouse(float x, float y);
 	virtual bool OnKeyDown(BearUI::BearInput::Key key);

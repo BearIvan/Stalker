@@ -17,7 +17,7 @@ MainForm::MainForm() :BearUI(1000, 600), Ok(-1), btVK(TEXT("https://vk.com/isobo
 	lbHelp.Text = TEXT("Будем рады за поддержку нашего проекта:");
 	lbHelp.Rect.set(610, 550, 180, 32);
 	lbHelp.Style = lbSalf.ST_CenterOfHeight;
-	btYandexM.Rect.set(610+16+ lbHelp.GetMaxSizeLine(*lbHelp.Text), 550, 32, 32);
+	btYandexM.Rect.set(610+16+ lbHelp.CalcWidth(), 550, 32, 32);
 
 
 	lbSalf.Text = TEXT("Связь со мной:");
@@ -34,10 +34,10 @@ MainForm::MainForm() :BearUI(1000, 600), Ok(-1), btVK(TEXT("https://vk.com/isobo
 
 	cbGames.Rect.set(610, 20, 380, 21 * 5);
 	cbGames.Font = GetFont(F_RUS, 16);
-	cbGames.Items.push_back(TEXT("S.T.A.L.K.E.R.: Тень Чернобыля(1.0.04)"));
-	cbGames.Items.push_back(TEXT("S.T.A.L.K.E.R.: Тень Чернобыля(1.0.06)"));
-	cbGames.Items.push_back(TEXT("S.T.A.L.K.E.R.: Чистое небо"));
-	cbGames.Items.push_back(TEXT("S.T.A.L.K.E.R.: Зов Припяти"));
+	cbGames.GetItems().push_back(TEXT("S.T.A.L.K.E.R.: Тень Чернобыля(1.0004)"));
+	cbGames.GetItems().push_back(TEXT("S.T.A.L.K.E.R.: Тень Чернобыля(1.0006)"));
+	cbGames.GetItems().push_back(TEXT("S.T.A.L.K.E.R.: Чистое небо"));
+	cbGames.GetItems().push_back(TEXT("S.T.A.L.K.E.R.: Зов Припяти"));
 	cbGames.SelectItem = 0;
 	cbGames.SetCallback(this, &MainForm::cbCbGames);
 	path = GameVersionController::Path::SOC_1004;
@@ -69,8 +69,8 @@ MainForm::~MainForm()
 
 void MainForm::UpdateMods()
 {
-	lbMods.Items.clear_not_free();
-	lbMods.Items.push_back(TEXT("Оригинал"));
+	lbMods.GetItems().clear_not_free();
+	lbMods.GetItems().push_back(TEXT("Оригинал"));
 	lbMods.SelectItem = 0;
 	BearCore::BearVector<BearCore::BearString> mods;
 	switch (path)
@@ -88,8 +88,7 @@ void MainForm::UpdateMods()
 		FS.GetDirectories(mods, TEXT("%mods_cop%"));
 		break;
 	}
-	lbMods.Items.insert(lbMods.Items.end(), mods.begin(), mods.end());
-	lbMods.Reset();
+	lbMods.GetItems().insert(lbMods.GetItems().end(), mods.begin(), mods.end());
 }
 extern BearCore::BearString1024 GNameMod;
 void MainForm::cbBtOk()
@@ -98,59 +97,59 @@ void MainForm::cbBtOk()
 	{
 
 		BearCore::BearStringPath path_mods;
-		BearCore::BearString::Copy(path_mods, *lbMods.Items[lbMods.SelectItem]);
+		BearCore::BearString::Copy(path_mods, *lbMods.GetItems()[lbMods.SelectItem]);
 		BearCore::BearString::Contact(path_mods,BEAR_PATH);
 		BearCore::BearString::Contact(path_mods, TEXT("gamedata"));
 		const bchar*PathToMods = TEXT("%mods_soc14%");
 		switch (path)
 		{
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"),* cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"),* cbGames.GetItems()[1]);
 			PathToMods = TEXT("%mods_soc16%");
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[2]);
 			PathToMods = TEXT("%mods_cs%");
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[3]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[3]);
 			PathToMods = TEXT("%mods_cop%");
 			break;
 		default:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[0]);
 			break;
 		}
 
-		BearCore::BearLog::Printf(TEXT("Мод:[%s]"), *lbMods.Items[lbMods.SelectItem]);
-		if(lbMods.SelectItem)BearCore::BearString::Copy(GNameMod, *lbMods.Items[lbMods.SelectItem]);
+		BearCore::BearLog::Printf(TEXT("Мод:[%s]"), *lbMods.GetItems()[lbMods.SelectItem]);
+		if(lbMods.SelectItem)BearCore::BearString::Copy(GNameMod, *lbMods.GetItems()[lbMods.SelectItem]);
 		if (FS.ExistDirectory(PathToMods, path_mods))
 		{
 			FS.AppendPath(TEXT("%content%"), path_mods, PathToMods, 1000);
 		}
 		else
 		{
-			FS.AppendPath(TEXT("%content%"), *lbMods.Items[lbMods.SelectItem], PathToMods, 1000);
+			FS.AppendPath(TEXT("%content%"), *lbMods.GetItems()[lbMods.SelectItem], PathToMods, 1000);
 		}
-		FS.AppendPath(TEXT("%user%"), *lbMods.Items[lbMods.SelectItem], TEXT("%guser%"), 0);
+		FS.AppendPath(TEXT("%user%"), *lbMods.GetItems()[lbMods.SelectItem], TEXT("%guser%"), 0);
 	}
 	else
 	{
 		switch (path)
 		{
 		case GameVersionController::SOC_1004:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[0]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[0]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::SOC_1007:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[1]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[1]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::CS_1510:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"),* cbGames.Items[2]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"),* cbGames.GetItems()[2]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
 			break;
 		case GameVersionController::COP_1602:
-			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.Items[3]);
+			BearCore::BearLog::Printf(TEXT("Игра:[%s]"), *cbGames.GetItems()[3]);
 			FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
 			break;
 		}
