@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{de9854d8-44e3-47a3-aa5d-a399c9e3c857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{5bcf8c13-47f3-4752-bd0e-9e4ed4017e5d}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\include\api\StalkerAPI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\include\api\stdafx.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\include\api\XrGameVersionController.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\source\StalkerAPI.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\source\stdafx.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkerapi\source\XrGameVersionController.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

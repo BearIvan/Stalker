@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{a01551f7-5424-41f7-ae38-958c3de2a4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{5527df75-aa72-4d9f-8e9a-931945b3a7cf}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\stdafx.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\xrCore.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\XrTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Compressor\XrCompressor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Debug\XrDebug.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Debug\XrDebugDefines.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Debug\XrDumpString.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Debug\XrLog.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Filesystem\XrFS.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Filesystem\XrFS_impl.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrCylinder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrFbox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrFbox2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrMath.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrMatrix.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrMatrix33.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrObb.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrPlane.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrPlane2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrQuaternion.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrRect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrSphere.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrVector2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrVector3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrVector3d2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Math\XrVector4.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Net\XrClientID.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Net\XrNetUtils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Parsers\XrINI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Parsers\XrTrims.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrAlgorithm.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrBufferVector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrBufferVector_Inline.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrDeque.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrDestructor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrFastdelegate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrFixedMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrFixedSet.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrFixedVector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrHashMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrMultimap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrMultiset.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrSet.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrStack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrTypeTraits.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Template\XrVector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Timer\XrTimer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Timer\XrTimerController.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrClipboard.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrClsid.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrColor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrFlags.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrIntrusivePtr.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrIntrusivePtr_inline.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\xrMemory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrPool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrRandom.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrResource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrShared.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrSharedMemory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrShortcut.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrString.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrStringConcatenations.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrStringConcatenations_inline.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrStringContainer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrSyncronize.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrThread.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\include\tools\Utilities\XrToken.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\stdafx.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrClipboard.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrClsid.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrCompressor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\xrCore.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrDebug.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrDumpString.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrFS.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrINI.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrNET.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrSharedMemory.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrStringConcatenations.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrStringContainer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\xrSyncronize.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrThread.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrTimer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrTimerController.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\XrTrims.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkertools\source\LzHuf\LzHuf.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -10,7 +10,7 @@
 #define SMART_CAST_H
 
 #ifdef DEBUG
-#	define PURE_DYNAMIC_CAST
+//#	define PURE_DYNAMIC_CAST
 #endif // DEBUG
 
 #define  TL_FAST_COMPILATION

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{23e7dcf7-c488-4f49-8855-02efc1380dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{a64552af-4346-43ea-b205-fb31fecd7d54}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\Frustum.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\ISpatial.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\Opcode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_AABB.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_AABBCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_AABBTree.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_BoundingSphere.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_BoxBoxOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_BVTCache.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Collider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Container.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_FPU.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Matrix3x3.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Matrix4x4.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_MemoryMacros.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Model.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_OBB.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_OBBCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_OptimizedTree.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Plane.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_PlanesAABBOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_PlanesCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_PlanesTriOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Point.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Preprocessor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Ray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_RayAABBOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_RayCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_RayTriOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Settings.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_SphereAABBOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_SphereCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_SphereTriOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_TreeBuilders.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_TreeCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Triangle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_TriBoxOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_TriTriOverlap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_Types.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\OPC_VolumeCollider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\StdAfx.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\xrCDB.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\xrXRC.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\xr_area.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\include\cdb\xr_collide_defs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\source\Frustum.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\GameDev\BearSDK\projects\stalker\stalker_engine\stalkercdb\source\xrCDB_Collector.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
