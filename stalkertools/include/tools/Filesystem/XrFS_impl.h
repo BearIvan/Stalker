@@ -125,6 +125,10 @@ IC  bsize IReaderBase<T>::find_chunk (u32 ID, BOOL* bCompressed)
         {
             dwType = r_u32();
             dwSize = static_cast<bsize>(r_u32());
+			if (dwSize + impl().tell() > impl().length())
+			{
+				break;
+			}
             if ((dwType & (~CFS_CompressMark)) == ID)
             {
                 success = true;
