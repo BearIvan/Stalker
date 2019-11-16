@@ -548,7 +548,7 @@ void NvStripInfo::Combine(const NvFaceInfoVec &forward, const NvFaceInfoVec &bac
 	
 	// add backward faces
 	bsize numFaces = backward.size();
-	for (bsize i = numFaces - 1; i >= 0; i--)
+	for (bint i = numFaces - 1; i >= 0; i--)
 		m_faces.push_back(backward[i]);
 	
 	// add forward faces
