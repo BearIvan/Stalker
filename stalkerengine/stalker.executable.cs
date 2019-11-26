@@ -9,7 +9,7 @@ public class stalker :Executable
         PCHFile =Path.Combine(ProjectPath,"source","stdafx.cpp");
 		PCHIncludeFile="stdafx.h";
 		
-		Projects.Public.Add("bear_ui");
+		Projects.Public.Add("bear_graphics");
 		
 		Projects.Public.Add("stalkertools");
 		Projects.Public.Add("stalkerlua");

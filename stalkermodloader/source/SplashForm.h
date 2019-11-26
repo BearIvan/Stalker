@@ -1,4 +1,5 @@
 #pragma once 
+#ifdef MODLOADER_UI
 class SplashForm :public BearUI::BearUI
 {
 public:
@@ -7,3 +8,4 @@ public:
 	::BearUI::BearUITexture texture;
 
 };
+#endif

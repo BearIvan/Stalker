@@ -267,14 +267,14 @@ void CObjectList::Update(bool bForce)
     {
         // Info
         for (Objects::iterator oit = objects_active.begin(); oit != objects_active.end(); oit++)
-            for (bsize it = destroy_queue.size() - 1; it >= 0; it--)
+            for (bint it = destroy_queue.size() - 1; it >= 0; it--)
             {
                 (*oit)->net_Relcase(destroy_queue[it]);
             }
         for (Objects::iterator oit = objects_sleeping.begin(); oit != objects_sleeping.end(); oit++)
-            for (bsize it = destroy_queue.size() - 1; it >= 0; it--) (*oit)->net_Relcase(destroy_queue[it]);
+            for (bint it = destroy_queue.size() - 1; it >= 0; it--) (*oit)->net_Relcase(destroy_queue[it]);
 
-        for (bsize it = destroy_queue.size() - 1; it >= 0; it--) Sound->object_relcase(destroy_queue[it]);
+        for (bint it = destroy_queue.size() - 1; it >= 0; it--) Sound->object_relcase(destroy_queue[it]);
 
         RELCASE_CALLBACK_VEC::iterator It = m_relcase_callbacks.begin();
         RELCASE_CALLBACK_VEC::iterator Ite = m_relcase_callbacks.end();
@@ -291,7 +291,7 @@ void CObjectList::Update(bool bForce)
         }
 
         // Destroy
-        for (bsize it = destroy_queue.size() - 1; it >= 0; it--)
+        for (bint it = destroy_queue.size() - 1; it >= 0; it--)
         {
             CObject* O = destroy_queue[it];
             // Msg ("Object [%x]", O);

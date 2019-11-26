@@ -196,7 +196,7 @@ PROTECT_API void CRenderDevice::Create()
         true
     );
 #ifdef WINDOWS
-	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
+	GetWindow().SetFullscreen(psDeviceFlags.is(rsFullscreen));
 	GetWindow().Resize(psCurrentVidMode[0], psCurrentVidMode[1]);
 	ShowCursor(FALSE);
 #endif

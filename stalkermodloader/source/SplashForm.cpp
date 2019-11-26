@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#ifdef MODLOADER_UI
 SplashForm::SplashForm(BearGraphics::BearTexture2DRef&texture_) :BearUI(static_cast<bsize>(texture_.GetSize().x),static_cast<bsize>( texture_.GetSize().y))
 {
 	texture.Texture.Clear();
@@ -40,3 +40,4 @@ int32 UpdateThread()
 	}
 	return 0;
 }
+#endif

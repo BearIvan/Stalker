@@ -6,74 +6,118 @@ extern BearCore::BearMutex SplashMutex;
 extern int32 UpdateThread();
 bool Modloader::Run()
 {
-	if (!BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx11")))
+	if (strstr(GetCommandLine(), "-game soc14"))
 	{
-		BEAR_ERRORMESSAGE(BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx10")), TEXT("Yе подерживается минимальная версия directx 10!!"));
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
+		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::SOC_1004);
+		return true;
 	}
-	bint ok = 0;
+	else if (strstr(GetCommandLine(), "-game soc"))
 	{
-		
-		BearUI::BearViewport viewport(1000, 600);
-		MainForm mainform;
-		mainform.Reload();
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
+		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::SOC_1007);
+		return true;
+	}
+	else if (strstr(GetCommandLine(), "-game cs"))
+	{
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
+		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::CS_1510);
+		return true;
 
-		BearGraphics::BearRenderInterface::AttachRenderTargetView(
-			viewport);
-		/*BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
-		BearGraphics::BearDepthStencilStateRef  DepthStencilState;
+	}
+	else if (strstr(GetCommandLine(), "-game cop"))
+	{
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
+		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::COP_1602);
+		return true;
+	}
+#ifdef MODLOADER_UI
+	else
+	{
+		if (!BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx11")))
 		{
-			BearGraphics::BearDepthStencilStateInitializer Initializer;
-			Initializer.DepthEnable = false;
-			DepthStencilState = BearGraphics::BearDepthStencilStateRef(Initializer);
+			BEAR_ERRORMESSAGE(BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx10")), TEXT("Yе подерживается минимальная версия directx 10!!"));
 		}
-		BearGraphics::BearRenderInterface::SetDepthStencilState(DepthStencilState, 0);*/
-		while (viewport.Update()&& mainform.Ok==-1)
+		bint ok = 0;
 		{
 
-			BearUI::BearEventViewport ev;
-			while (viewport.GetEvent(ev))
+			BearUI::BearViewport viewport(1000, 600);
+			MainForm mainform;
+			mainform.Reload();
+
+			BearGraphics::BearRenderInterface::AttachRenderTargetView(
+				viewport);
+			/*BearGraphics::BearRenderInterface::SetViewport(0, 0, 1000, 600);
+			BearGraphics::BearDepthStencilStateRef  DepthStencilState;
 			{
-				mainform.UseEventViewport(ev);
+				BearGraphics::BearDepthStencilStateInitializer Initializer;
+				Initializer.DepthEnable = false;
+				DepthStencilState = BearGraphics::BearDepthStencilStateRef(Initializer);
 			}
-			viewport.ClearColor(BearCore::BearColor::BearColor(uint8(30),30,30));
-			mainform.Update(0);
-			mainform.Draw(0);
-			viewport.Swap();
+			BearGraphics::BearRenderInterface::SetDepthStencilState(DepthStencilState, 0);*/
+			while (viewport.Update() && mainform.Ok == -1)
+			{
+
+				BearUI::BearEventViewport ev;
+				while (viewport.GetEvent(ev))
+				{
+					mainform.UseEventViewport(ev);
+				}
+				viewport.ClearColor(BearCore::BearColor::BearColor(uint8(30), 30, 30));
+				mainform.Update(0);
+				mainform.Draw(0);
+				viewport.Swap();
+			}
+			if (mainform.Ok == 1)
+			{
+				gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
+				switch (gameVersionController->getPath())
+				{
+				case	GameVersionController::Path::SOC_1004:
+					FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+					break;
+				case	GameVersionController::Path::SOC_1007:
+					FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+					FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
+					break;
+				case	GameVersionController::Path::CS_1510:
+					FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
+					break;
+				case	GameVersionController::Path::COP_1602:
+					FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+					break;
+				default:
+					break;
+				}
+			}
+			ok = mainform.Ok;
 		}
-		if (mainform.Ok == 1)
+		if (ok == 1)
 		{
-			gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
-			switch (gameVersionController->getPath())
-			{
-			case	GameVersionController::Path::SOC_1004:
-				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
-				break;
-			case	GameVersionController::Path::SOC_1007:
-				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
-				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
-				break;
-			case	GameVersionController::Path::CS_1510:
-				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
-				break;
-			case	GameVersionController::Path::COP_1602:
-				FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
-				break;
-			default:
-				break;
-			}
+			SplashTread = BearCore::bear_new<BearCore::BearThread>(UpdateThread);
+			SplashTread->Join(TEXT("Splash"));
 		}
-		ok = mainform.Ok;
+		return ok >= 1;
 	}
-	if (ok == 1)
+#else
+	else 
 	{
-		SplashTread = BearCore::bear_new<BearCore::BearThread>(UpdateThread);
-		SplashTread->Join(TEXT("Splash"));
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
+		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::COP_1602);
+		return true;
 	}
-	return ok>=1;
+#endif
+
 }
 
 void  Modloader::Destroy()
 {
+#ifdef MODLOADER_UI
 	if (SplashTread)
 	{
 		{
@@ -85,6 +129,7 @@ void  Modloader::Destroy()
 		BearCore::bear_delete(SplashTread);
 	}
 	BearGraphics::BearRenderInterface::Destroy();
+#endif
 }
 BearCore::BearString1024 GNameMod = TEXT("");
 const bchar * Modloader::GetNameMod()

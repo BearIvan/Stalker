@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#ifdef MODLOADER_UI
 ButtonLink::ButtonLink(const bchar*link, const bchar*texture):Link(link)
 {
 	PushItemInBegin(&UIImage);
@@ -69,3 +69,4 @@ void ButtonLink::CallBack()
 {
 	ShellExecute (NULL, TEXT("Open"), *Link,0,0, SW_SHOWNORMAL);
 }
+#endif

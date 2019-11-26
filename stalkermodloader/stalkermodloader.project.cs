@@ -8,7 +8,7 @@ public class stalkermodloader :Project
 		OnlyAsStatic=true;
 		Projects.Private.Add("stalkerapi");
 		Projects.Private.Add("stalkertools");
-        Projects.Private.Add("bear_ui");
+        //Projects.Private.Add("bear_ui");
         PCHFile =Path.Combine(ProjectPath,"source","stdafx.cpp");
 		PCHIncludeFile="stdafx.h";
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));

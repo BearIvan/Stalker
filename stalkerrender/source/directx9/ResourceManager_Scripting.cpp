@@ -128,7 +128,11 @@ int LuaPanic(lua_State*L)
 }
 void	CResourceManager::LS_Load			()
 {
-	LSVM			= lua_newstate(lua_alloc, NULL);
+#ifdef X64
+	LSVM			= luaL_newstate();
+#else
+	LSVM = lua_newstate(lua_alloc, NULL);
+#endif
 	if (!LSVM)		{
 		Msg			("! ERROR : Cannot initialize LUA VM!");
 		return;

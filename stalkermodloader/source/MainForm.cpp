@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#ifdef MODLOADER_UI
 MainForm::MainForm() :BearUI(1000, 600), Ok(-1), btVK(TEXT("https://vk.com/isoboleskiy"),TEXT("ui") BEAR_PATH TEXT("vk")), btTwitter(TEXT("https://twitter.com/isobolevskiy"), TEXT("ui") BEAR_PATH TEXT("twitter")),btFacebook(TEXT("https://www.facebook.com/profile.php?id=100013416918583"), TEXT("ui") BEAR_PATH TEXT("facebook")),btYandexM(TEXT("https://money.yandex.ru/to/410012333877314"), TEXT("ui") BEAR_PATH TEXT("yandexm"))
 {
 	btOk.Font = GetFont(F_RUS, 16);
@@ -220,3 +220,4 @@ void MainForm::cbBtMods()
 	ShellExecute(NULL, NULL, "explorer.exe", *str, NULL, SW_SHOWNORMAL);
 
 }
+#endif

@@ -885,14 +885,14 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         {
             //CreateProcess need to return results to next two structures
             STARTUPINFO si;
-            PROCESS_INFORMATION pi;
+            PROCESS_INFORMATION  PI;
             ZeroMemory(&si, sizeof(si));
             si.cb = sizeof(si);
-            ZeroMemory(&pi, sizeof(pi));
+            ZeroMemory(&PI, sizeof(PI));
             //We use CreateProcess to setup working folder
             char const* temp_wf = (xr_strlen(g_sLaunchWorkingFolder) > 0) ? g_sLaunchWorkingFolder : NULL;
             CreateProcess(g_sLaunchOnExit_app, g_sLaunchOnExit_params, NULL, NULL, FALSE, 0, NULL,
-                          temp_wf, &si, &pi);
+                          temp_wf, &si, &PI);
 
         }
 #ifndef DEDICATED_SERVER

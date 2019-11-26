@@ -115,7 +115,7 @@ void CPEDef::ExecuteCollision(PAPI::Particle* particles, bsize p_cnt, float dt, 
 {
 	pVector pt,n;
 	// Must traverse list in reverse order so Remove will work
-	for(bsize i = p_cnt-1; i >= 0; i--){
+	for(bint i = p_cnt-1; i >= 0; i--){
 		Particle &m = particles[i];
 
 		bool pick_needed;

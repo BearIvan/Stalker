@@ -898,7 +898,7 @@ CRenderTarget::CRenderTarget		()
 					case 3: numDir = 8.0f; break;
 					case 4: numDir = 8.0f; break;
 					}
-					float angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
+					float angle = 2 * XrMath::M_PI * ::Random.randF(0.0f, 1.0f) / numDir;
 					float dist = ::Random.randF(0.0f, 1.0f);
 
 					float *p	=	(float*)	

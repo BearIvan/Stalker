@@ -8,7 +8,7 @@
 
 //class ENGINE_API CResourceManager;
 //class ENGINE_API CGammaControl;
-#include "BearUI.hpp"
+#include "BearGraphics.hpp"
 #include "tools/xrCore.h"
 #include "api/StalkerAPI.h"
 #include "engine.h"
@@ -96,13 +96,13 @@ public:
     CRegistrator <pureFrame > seqFrame;
     CRegistrator <pureScreenResolutionChanged> seqResolutionChanged;
 
-	inline  BearUI::BearViewport&GetWindow()
+	inline  BearGraphics::BearWindow&GetWindow()
 	{
 		BEAR_ASSERT(window);
 		return *window;
 	}
 
-    BearUI::BearViewport* window;
+    BearGraphics::BearWindow* window;
     // CStats* Statistic;
 
 };

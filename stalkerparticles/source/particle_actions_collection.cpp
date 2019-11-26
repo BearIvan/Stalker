@@ -986,7 +986,7 @@ void PAKillOld::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
     tm_max = age_limit;
-	for(bsize i = effect->p_count-1; i >= 0; i--)
+	for(bint i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		
@@ -1346,7 +1346,7 @@ void PARestore::Transform(const Fmatrix&){;}
 void PASink::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
-	for(bsize i = effect->p_count-1; i >= 0; i--)
+	for(bint i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		
@@ -1365,7 +1365,7 @@ void PASink::Transform(const Fmatrix& m)
 void PASinkVelocity::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 	// Must traverse list in reverse order so Remove will work
-	for(bsize i = effect->p_count-1; i >= 0; i--)
+	for(bint i = effect->p_count-1; i >= 0; i--)
 	{
 		Particle &m = effect->particles[i];
 		

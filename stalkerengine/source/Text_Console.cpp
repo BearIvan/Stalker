@@ -281,7 +281,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 
     int ypos = Height - tm.tmHeight - tm.tmHeight;
 
-    for (bsize i = str.size() - 1 - scroll_delta; i >= 0; --i)
+    for (bint i = str.size() - 1 - scroll_delta; i >= 0; --i)
     {
         ypos -= tm.tmHeight;
         if (ypos < y_top_max)

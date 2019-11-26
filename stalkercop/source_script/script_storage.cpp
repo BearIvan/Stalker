@@ -209,7 +209,7 @@ void CScriptStorage::reinit	()
 		lua_close			(m_virtual_machine);
 
 #ifdef X32
-	m_virtual_machine		= lua_newstate(lua_alloc_xr, NULL);
+	m_virtual_machine		= lua_newstate(lua_alloc, NULL);
 #else 
 	m_virtual_machine = luaL_newstate();
 #endif

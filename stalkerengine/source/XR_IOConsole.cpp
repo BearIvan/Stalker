@@ -387,7 +387,7 @@ void CConsole::OnRender()
     // ---------------------
 	bsize log_line = str.size() - 1;
     ypos -= LDIST;
-    for (bsize i = log_line - scroll_delta; i >= 0; --i)
+    for (bint i = log_line - scroll_delta; i >= 0; --i)
     {
         ypos -= LDIST;
         if (ypos < -1.0f)

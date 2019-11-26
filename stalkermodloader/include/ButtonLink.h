@@ -1,4 +1,5 @@
 #pragma once
+#ifdef MODLOADER_UI
 class ButtonLink :public BearUI::Classic::BearUIButton
 {
 public:
@@ -19,3 +20,4 @@ private:
 	BearCore::BearString Link;
 	BearUI::BearUITexture UIImage;
 };
+#endif

@@ -1,5 +1,9 @@
-#pragma once 
-class MainForm:public BearUI::BearUI
+#pragma once
+#ifdef MODLOADER_UI
+class MainForm
+
+	:public BearUI::BearUI
+
 {
 public:
 	MainForm();
@@ -27,3 +31,4 @@ private:
 	void cbCbGames();
 	void cbBtMods();
 };
+#endif

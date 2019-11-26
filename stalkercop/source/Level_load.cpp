@@ -178,7 +178,7 @@ struct translation_pair {
 	}
 };
 
-void CLevel::Load_GameSpecific_CFORM	( CDB::TRI* tris, u32 count )
+void CLevel::Load_GameSpecific_CFORM	( CDB::TRI* tris, bsize count )
 {
 	typedef xr_vector<translation_pair>	ID_INDEX_PAIRS;
 	ID_INDEX_PAIRS						translator;

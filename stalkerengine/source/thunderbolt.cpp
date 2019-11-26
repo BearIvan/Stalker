@@ -292,7 +292,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
     CEnvironment& environment = ENV;
     environment.CurrentEnv->sun_dir.getHP(sun_h, sun_p);
     float alt = environment.p_var_alt;//Random.randF(environment.p_var_alt.x,environment.p_var_alt.y);
-    float lng = Random.randF(sun_h - environment.p_var_long + PI, sun_h + environment.p_var_long + PI);
+    float lng = Random.randF(sun_h - environment.p_var_long + XrMath::M_PI, sun_h + environment.p_var_long +  XrMath::M_PI);
     float dist = Random.randF(FAR_DIST*environment.p_min_dist, FAR_DIST*.95f);
     current_direction.setHP(lng, alt);
     pos.mad(Device.vCameraPosition, current_direction, dist);
@@ -342,7 +342,7 @@ void CEffect_Thunderbolt::Bolt(bsize id, float period, float lt)
 	float sun_h, sun_p;
 	ENV_SOC.CurrentEnv.sun_dir.getHP(sun_h, sun_p);
 	float alt = Random.randF(p_var_alt.x, p_var_alt.y);
-	float lng = Random.randF(sun_h - p_var_long + PI, sun_h + p_var_long + PI);
+	float lng = Random.randF(sun_h - p_var_long +  XrMath::M_PI, sun_h + p_var_long +  XrMath::M_PI);
 	float dist = Random.randF(FAR_DIST_SOC*p_min_dist, FAR_DIST_SOC);
 	current_direction.setHP(lng, alt);
 	pos.mad(Device.vCameraPosition, current_direction, dist);

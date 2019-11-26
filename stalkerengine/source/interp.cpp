@@ -24,7 +24,7 @@
 //
 // v2 = v - i * (hi - lo)
 //
-//For example, range( 3 pi, 0, 2 pi, i ) returns pi, with i = 1.
+//For example, range( 3  XrMath::M_PI, 0, 2  XrMath::M_PI, i ) returns  XrMath::M_PI, with i = 1.
 //======================================================================
 static float range(float v, float lo, float hi, int* i)
 {

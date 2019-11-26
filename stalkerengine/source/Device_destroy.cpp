@@ -81,7 +81,7 @@ void CRenderDevice::Reset(bool precache)
 	m_pRender->Reset(
 		GetWindow()
 	);
-	GetWindow().SetFullScreen(psDeviceFlags.is(rsFullscreen));
+	GetWindow().SetFullscreen(psDeviceFlags.is(rsFullscreen));
 
     if (g_pGamePersistent)
     {

@@ -42,11 +42,11 @@ public:
 	virtual void	OnDeviceDestroy( BOOL bKeepTextures);
 	virtual void	ValidateHW();
 	virtual void	DestroyHW();
-	virtual void	Reset(BearUI::BearViewport&window);
+	virtual void	Reset(BearGraphics::BearWindow&window);
 	//	Init
 	virtual void	SetupStates();
 	virtual void	OnDeviceCreate(LPCSTR shName);
-	virtual void	Create(BearUI::BearViewport&window, bool);
+	virtual void	Create(BearGraphics::BearWindow&window, bool);
 	virtual void	SetupGPU( BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF);
 	//	Overdraw
 	virtual void	overdrawBegin();

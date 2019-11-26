@@ -80,7 +80,7 @@ void CLight_Compute_XFORM_and_VIS::compute_xf_spot	(light* L)
 	}
 	else
 	{
-		L->X.S.project.build_projection(XrMath::min(L->cone + XrMath::deg2rad(5.f), PI*0.98f), 1.f, SMAP_near_plane, L->range + XrMath::EPS_S);
+		L->X.S.project.build_projection(XrMath::min(L->cone + XrMath::deg2rad(5.f), XrMath::M_PI*0.98f), 1.f, SMAP_near_plane, L->range + XrMath::EPS_S);
 	}
 	L->X.S.combine.mul					(L->X.S.project,L->X.S.view);
 }

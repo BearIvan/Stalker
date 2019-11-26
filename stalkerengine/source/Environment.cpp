@@ -605,7 +605,7 @@ void CEnvironment::calculate_dynamic_sun_dir()
 	XrMath::clamp(cosSZA, -1.0f, 1.0f);
 
     float SZA = acosf(cosSZA);
-    float SEA = PI / 2 - SZA;
+    float SEA =  XrMath::M_PI / 2 - SZA;
 
     // To finish we will calculate the Azimuth Angle (AZ):
     float cosAZ = 0.f;
@@ -628,7 +628,7 @@ void CEnvironment::calculate_dynamic_sun_dir()
     SEA = -SEA;
 
     if (SHA < 0)
-        AZ = 2 * PI - AZ;
+        AZ = 2 *  XrMath::M_PI - AZ;
 
     R_ASSERT(_valid(AZ));
     R_ASSERT(_valid(SEA));

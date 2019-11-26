@@ -388,12 +388,12 @@ void CRenderDevice::message_loop()
 	Device.b_is_Active = true;
 	while (GetWindow().Update())
 	{
-		BearUI::BearEventViewport e;
+		BearGraphics::BearEventWindows e;
 		while (GetWindow().GetEvent(e))
 		{
 			switch (e.Type)
 			{
-			case BearUI::BearEventViewportType::EVT_Deactive:
+			case BearGraphics::BearWindowEventType::WET_Deactive:
 				if (Device.b_is_Active == TRUE)
 				{
 					Device.b_is_Active = FALSE;
@@ -402,7 +402,7 @@ void CRenderDevice::message_loop()
 				}
 				
 				break;
-			case BearUI::BearEventViewportType::EVT_Active:
+			case BearGraphics::BearWindowEventType::WET_Active:
 				if (Device.b_is_Active == FALSE)
 				{
 					Device.b_is_Active = TRUE;
