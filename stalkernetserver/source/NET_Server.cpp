@@ -242,7 +242,7 @@ IPureServer::EConnect IPureServer::Connect(LPCSTR options, GameDescriptionData &
 {
 	connect_options			= options;
 	psNET_direct_connect = FALSE;
-
+	 
 	if(strstr(options, "/single"))
 		psNET_direct_connect	=	TRUE;
 	
