@@ -23,7 +23,7 @@ CInifile* CInifile::Create(LPCSTR FsPath, const char* szFileName, BOOL ReadOnly)
 CInifile * CInifile::Create(LPCSTR szFileName)
 {
 	IReader*F = XRayBearReader::Create(szFileName);
-	auto result= xr_new<CInifile>(F, (const bchar*)0,*BearCore::BearFileManager::GetPathFile(szFileName));
+	auto result= xr_new<CInifile>(F, (const bchar*)0,*BearFileManager::GetPathFile(szFileName));
 	XRayBearReader::Destroy(F);
 	return result;
 }
@@ -34,13 +34,13 @@ void CInifile::Destroy(CInifile* ini)
 
 bool sect_pred(const CInifile::Sect* x, LPCSTR val)
 {
-    return BearCore::BearString::Compare(*x->Name, val) < 0;
+    return BearString::Compare(*x->Name, val) < 0;
 };
 
 bool item_pred(const CInifile::Item& x, LPCSTR val)
 {
     if ((!x.first) || (!val)) return x.first < val;
-    else return  BearCore::BearString::Compare(*x.first, val) < 0;
+    else return  BearString::Compare(*x.first, val) < 0;
 }
 
 //------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ XRCORE_API void _decorate(LPSTR dest, LPCSTR src)
 BOOL CInifile::Sect::line_exist(LPCSTR L, LPCSTR* val)
 {
     SectCIt A = std::lower_bound(Data.begin(), Data.end(), L, item_pred);
-    if (A != Data.end() && BearCore::BearString::Compare(*A->first, L) == 0)
+    if (A != Data.end() && BearString::Compare(*A->first, L) == 0)
     {
         if (val) *val = *A->second;
         return TRUE;
@@ -173,14 +173,14 @@ CInifile::CInifile(LPCSTR FsPath,LPCSTR szFileName,
     m_file_name[0] = 0;
     m_flags.zero();
     if (szFileName)
-        BearCore::BearString::Copy(m_file_name, sizeof(m_file_name), szFileName);
+        BearString::Copy(m_file_name, sizeof(m_file_name), szFileName);
 
     m_flags.set(eSaveAtEnd, SaveAtEnd);
     m_flags.set(eReadOnly, ReadOnly);
 
 	if (bLoad)
 	{
-		BearCore::BearString path = BearCore::BearFileManager::GetPathFile(m_file_name);
+		BearString path = BearFileManager::GetPathFile(m_file_name);
 		if (FS.ExistFile(FsPath, szFileName))
 		{
 			IReader* R = XRayBearReader::Create(FS.Read(FsPath, szFileName));
@@ -295,7 +295,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                 string_path fn;
 		
 				strconcat(sizeof(fn), fn, path,BEAR_PATH, inc_name);
-				BearCore::BearString path_inc = BearCore::BearFileManager::GetPathFile(fn);
+				BearString path_inc = BearFileManager::GetPathFile(fn);
 #ifndef _EDITOR
 				if (!allow_include_func || allow_include_func(fn))
 #endif
@@ -366,7 +366,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
             }
             *strchr(str, ']') = 0;
 		
-             BearCore::BearString::ToLower(str + 1);
+             BearString::ToLower(str + 1);
 			 Current->Name = str + 1;
         }
         else // name = value
@@ -381,29 +381,29 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
                     *t = 0;
                     XrTrims::Trim(name);
                     ++t;
-                    BearCore::BearString::Copy(value_raw, sizeof(value_raw), t);
+                    BearString::Copy(value_raw, sizeof(value_raw), t);
                     bInsideSTR = _parse(str2, value_raw);
                     if (bInsideSTR)//multiline str value
                     {
                         while (bInsideSTR)
                         {
-							BearCore::BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
+							BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
                             string4096 str_add_raw;
                             F->r_string(str_add_raw, sizeof(str_add_raw));
                             R_ASSERT2(
-                                BearCore::BearString::GetSize(value_raw) + BearCore::BearString::GetSize(str_add_raw) < sizeof(value_raw),
+                                BearString::GetSize(value_raw) + BearString::GetSize(str_add_raw) < sizeof(value_raw),
                                 make_string(
                                     "Incorrect inifile format: section[%s], variable[%s]. Odd number of quotes (\") found, but should be even.",
                                     Current->Name.c_str(),
                                     name
                                 )
                             );
-							BearCore::BearString::Contact(value_raw, sizeof(value_raw), str_add_raw);
+							BearString::Contact(value_raw, sizeof(value_raw), str_add_raw);
                             bInsideSTR = _parse(str2, value_raw);
                             if (bInsideSTR)
                             {
                                 if (is_empty_line_now(F))
-									BearCore::BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
+									BearString::Contact(value_raw, sizeof(value_raw), "\r\n");
                             }
                         }
                     }
@@ -453,11 +453,11 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
     string4096 temp, val;
     for (RootCIt r_it = DATA.begin(); r_it != DATA.end(); ++r_it)
     {
-		BearCore::BearString::Printf(temp, "[%s]", (*r_it)->Name.c_str());
+		BearString::Printf(temp, "[%s]", (*r_it)->Name.c_str());
         writer.w_string(temp);
         if (bcheck)
         {
-            BearCore::BearString::Printf(temp, "; %d %d %d", (*r_it)->Name._get()->dwCRC,
+            BearString::Printf(temp, "; %d %d %d", (*r_it)->Name._get()->dwCRC,
                        (*r_it)->Name._get()->dwReference,
                        (*r_it)->Name._get()->dwLength);
             writer.w_string(temp);
@@ -472,12 +472,12 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
                 {
                     _decorate(val, *I.second);
                     // only name and value
-                    BearCore::BearString::Printf(temp, "%8s%-32s = %-32s", " ", I.first.c_str(), val);
+                    BearString::Printf(temp, "%8s%-32s = %-32s", " ", I.first.c_str(), val);
                 }
                 else
                 {
                     // only name
-                    BearCore::BearString::Printf(temp, "%8s%-32s = ", " ", I.first.c_str());
+                    BearString::Printf(temp, "%8s%-32s = ", " ", I.first.c_str());
                 }
             }
             else
@@ -500,13 +500,13 @@ bool CInifile::save_as(LPCSTR new_fname)
 
 		// save if needed
 		if (new_fname && new_fname[0])
-			BearCore::BearString::Copy(m_file_name, sizeof(m_file_name), new_fname);
+			BearString::Copy(m_file_name, sizeof(m_file_name), new_fname);
 
 		R_ASSERT(m_file_name&&m_file_name[0]);
-		auto fs = BearCore::bear_new<BearCore::BearFileStream>();
+		auto fs = bear_new<BearFileStream>();
 		if (!fs->Open(new_fname, fs->M_Write))
 		{
-			BearCore::bear_free(fs);
+			bear_free(fs);
 		}
 		IWriter*F = XRayBearWriter::Create(fs);
 
@@ -525,7 +525,7 @@ bool CInifile::save_as(LPCSTR new_fname)
 BOOL CInifile::section_exist(LPCSTR S)const
 {
     RootCIt I = std::lower_bound(DATA.begin(), DATA.end(), S, sect_pred);
-    return (I != DATA.end() && BearCore::BearString::Compare(*(*I)->Name, S) == 0);
+    return (I != DATA.end() && BearString::Compare(*(*I)->Name, S) == 0);
 }
 
 BOOL CInifile::line_exist(LPCSTR S, LPCSTR L)const
@@ -533,7 +533,7 @@ BOOL CInifile::line_exist(LPCSTR S, LPCSTR L)const
     if (!section_exist(S)) return FALSE;
     Sect& I = r_section(S);
     SectCIt A = std::lower_bound(I.Data.begin(), I.Data.end(), L, item_pred);
-    return (A != I.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0);
+    return (A != I.Data.end() && BearString::Compare(*A->first, L) == 0);
 }
 
 bsize CInifile::line_count(LPCSTR Sname)const
@@ -563,10 +563,10 @@ BOOL CInifile::section_exist(const shared_str& S)const { return section_exist(*S
 CInifile::Sect& CInifile::r_section(LPCSTR S)const
 {
     char section[256];
-    BearCore::BearString::Copy(section, sizeof(section), S);
-	BearCore::BearString::ToLower(section);
+    BearString::Copy(section, sizeof(section), S);
+	BearString::ToLower(section);
     RootCIt I = std::lower_bound(DATA.begin(), DATA.end(), section, sect_pred);
-    if (!(I != DATA.end() && BearCore::BearString::Compare(*(*I)->Name, section) == 0))
+    if (!(I != DATA.end() && BearString::Compare(*(*I)->Name, section) == 0))
     {
 
         //g_pStringContainer->verify();
@@ -590,7 +590,7 @@ LPCSTR CInifile::r_string(LPCSTR S, LPCSTR L)const
 {
     Sect const& I = r_section(S);
     SectCIt A = std::lower_bound(I.Data.begin(), I.Data.end(), L, item_pred);
-    if (A != I.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0) return *A->second;
+    if (A != I.Data.end() && BearString::Compare(*A->first, L) == 0) return *A->second;
     else
         Debug.fatal(DEBUG_INFO, "Can't find variable %s in [%s]", L, S);
     return 0;
@@ -603,8 +603,8 @@ shared_str CInifile::r_string_wb(LPCSTR S, LPCSTR L)const
     if (0 == _base) return shared_str(0);
 
     string4096 _original;
-    BearCore::BearString::Copy(_original, sizeof(_original), _base);
-	bsize _len = BearCore::BearString::GetSize(_original);
+    BearString::Copy(_original, sizeof(_original), _base);
+	bsize _len = BearString::GetSize(_original);
     if (0 == _len) return shared_str("");
     if ('"' == _original[_len - 1]) _original[_len - 1] = 0; // skip end
     if ('"' == _original[0]) return shared_str(&_original[0] + 1); // skip begin
@@ -673,7 +673,7 @@ Fcolor CInifile::r_fcolor(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fcolor V = {0, 0, 0, 0};
-    BearCore::BearString::Scanf(C, "%f,%f,%f,%f", &V.r, &V.g, &V.b, &V.a);
+    BearString::Scanf(C, "%f,%f,%f,%f", &V.r, &V.g, &V.b, &V.a);
     return V;
 }
 
@@ -681,7 +681,7 @@ u32 CInifile::r_color(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     u32 r = 0, g = 0, b = 0, a = 255;
-	BearCore::BearString::Scanf(C, "%d,%d,%d,%d", &r, &g, &b, &a);
+	BearString::Scanf(C, "%d,%d,%d,%d", &r, &g, &b, &a);
     return XrColor::color_rgba(r, g, b, a);
 }
 
@@ -689,7 +689,7 @@ Ivector2 CInifile::r_ivector2(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector2 V = {0, 0};
-	BearCore::BearString::Scanf(C, "%d,%d", &V.x, &V.y);
+	BearString::Scanf(C, "%d,%d", &V.x, &V.y);
     return V;
 }
 
@@ -697,7 +697,7 @@ Ivector3 CInifile::r_ivector3(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector V = {0, 0, 0};
-	BearCore::BearString::Scanf(C, "%d,%d,%d", &V.x, &V.y, &V.z);
+	BearString::Scanf(C, "%d,%d,%d", &V.x, &V.y, &V.z);
     return V;
 }
 
@@ -705,7 +705,7 @@ Ivector4 CInifile::r_ivector4(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Ivector4 V = {0, 0, 0, 0};
-	BearCore::BearString::Scanf(C, "%d,%d,%d,%d", &V.x, &V.y, &V.z, &V.w);
+	BearString::Scanf(C, "%d,%d,%d,%d", &V.x, &V.y, &V.z, &V.w);
     return V;
 }
 
@@ -713,7 +713,7 @@ Fvector2 CInifile::r_fvector2(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector2 V = {0.f, 0.f};
-	BearCore::BearString::Scanf(C, "%f,%f", &V.x, &V.y);
+	BearString::Scanf(C, "%f,%f", &V.x, &V.y);
     return V;
 }
 
@@ -721,7 +721,7 @@ Fvector3 CInifile::r_fvector3(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector3 V = {0.f, 0.f, 0.f};
-	BearCore::BearString::Scanf(C, "%f,%f,%f", &V.x, &V.y, &V.z);
+	BearString::Scanf(C, "%f,%f,%f", &V.x, &V.y, &V.z);
     return V;
 }
 
@@ -729,7 +729,7 @@ Fvector4 CInifile::r_fvector4(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     Fvector4 V = {0.f, 0.f, 0.f, 0.f};
-	BearCore::BearString::Scanf(C, "%f,%f,%f,%f", &V.x, &V.y, &V.z, &V.w);
+	BearString::Scanf(C, "%f,%f,%f,%f", &V.x, &V.y, &V.z, &V.w);
     return V;
 }
 
@@ -737,7 +737,7 @@ BOOL CInifile::r_bool(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
     VERIFY2(
-        BearCore::BearString::GetSize(C) <= 5,
+        BearString::GetSize(C) <= 5,
         make_string(
             "\"%s\" is not a valid bool value, section[%s], line[%s]",
             C,
@@ -748,7 +748,7 @@ BOOL CInifile::r_bool(LPCSTR S, LPCSTR L)const
     char B[8];
     strncpy_s(B, sizeof(B), C, 7);
     B[7] = 0;
-    BearCore::BearString::ToLower(B);
+    BearString::ToLower(B);
     return IsBOOL(B);
 }
 
@@ -796,7 +796,7 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
     // section
     string256 sect;
     _parse(sect, S);
-    BearCore::BearString::ToLower(sect);
+    BearString::ToLower(sect);
 
     if (!section_exist(sect))
     {
@@ -827,7 +827,7 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
     if (it != data.Data.end())
     {
         // Check for "first" matching
-        if (0 == BearCore::BearString::Compare(*it->first, *I.first))
+        if (0 == BearString::Compare(*it->first, *I.first))
         {
             BOOL b = m_flags.test(eOverrideNames);
             R_ASSERT2(b, make_string("name[%s] already exist in section[%s]", line, sect).c_str());
@@ -846,19 +846,19 @@ void CInifile::w_string(LPCSTR S, LPCSTR L, LPCSTR V, LPCSTR comment)
 void CInifile::w_u8(LPCSTR S, LPCSTR L, u8 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_u16(LPCSTR S, LPCSTR L, u16 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_u32(LPCSTR S, LPCSTR L, u32 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 
@@ -887,79 +887,79 @@ void CInifile::w_s64(LPCSTR S, LPCSTR L, s64 V, LPCSTR comment)
 void CInifile::w_s8(LPCSTR S, LPCSTR L, s8 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_s16(LPCSTR S, LPCSTR L, s16 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_s32(LPCSTR S, LPCSTR L, s32 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d", V);
+    BearString::Printf(temp,  "%d", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_float(LPCSTR S, LPCSTR L, float V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%f", V);
+    BearString::Printf(temp,  "%f", V);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_fcolor(LPCSTR S, LPCSTR L, const Fcolor& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%f,%f,%f,%f", V.r, V.g, V.b, V.a);
+    BearString::Printf(temp,  "%f,%f,%f,%f", V.r, V.g, V.b, V.a);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_color(LPCSTR S, LPCSTR L, u32 V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d,%d,%d,%d", XrColor::color_get_R(V), XrColor::color_get_G(V), XrColor::color_get_B(V), XrColor::color_get_A(V));
+    BearString::Printf(temp,  "%d,%d,%d,%d", XrColor::color_get_R(V), XrColor::color_get_G(V), XrColor::color_get_B(V), XrColor::color_get_A(V));
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector2(LPCSTR S, LPCSTR L, const Ivector2& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d,%d", V.x, V.y);
+    BearString::Printf(temp,  "%d,%d", V.x, V.y);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector3(LPCSTR S, LPCSTR L, const Ivector3& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d,%d,%d", V.x, V.y, V.z);
+    BearString::Printf(temp,  "%d,%d,%d", V.x, V.y, V.z);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_ivector4(LPCSTR S, LPCSTR L, const Ivector4& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%d,%d,%d,%d", V.x, V.y, V.z, V.w);
+    BearString::Printf(temp,  "%d,%d,%d,%d", V.x, V.y, V.z, V.w);
     w_string(S, L, temp, comment);
 }
 void CInifile::w_fvector2(LPCSTR S, LPCSTR L, const Fvector2& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%f,%f", V.x, V.y);
+    BearString::Printf(temp,  "%f,%f", V.x, V.y);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_fvector3(LPCSTR S, LPCSTR L, const Fvector3& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%f,%f,%f", V.x, V.y, V.z);
+    BearString::Printf(temp,  "%f,%f,%f", V.x, V.y, V.z);
     w_string(S, L, temp, comment);
 }
 
 void CInifile::w_fvector4(LPCSTR S, LPCSTR L, const Fvector4& V, LPCSTR comment)
 {
     string128 temp;
-    BearCore::BearString::Printf(temp,  "%f,%f,%f,%f", V.x, V.y, V.z, V.w);
+    BearString::Printf(temp,  "%f,%f,%f,%f", V.x, V.y, V.z, V.w);
     w_string(S, L, temp, comment);
 }
 
@@ -976,7 +976,7 @@ void CInifile::remove_line(LPCSTR S, LPCSTR L)
     {
         Sect& data = r_section(S);
         SectIt_ A = std::lower_bound(data.Data.begin(), data.Data.end(), L, item_pred);
-        R_ASSERT(A != data.Data.end() && BearCore::BearString::Compare(*A->first, L) == 0);
+        R_ASSERT(A != data.Data.end() && BearString::Compare(*A->first, L) == 0);
         data.Data.erase(A);
     }
 }

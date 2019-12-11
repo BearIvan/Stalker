@@ -255,7 +255,7 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config)
 {
  VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     Ivector3 tm = {0, 0, 0};
-	BearCore::BearString::Scanf(m_identifier.c_str(), "%d:%d:%d", &tm.x, &tm.y, &tm.z);
+	BearString::Scanf(m_identifier.c_str(), "%d:%d:%d", &tm.x, &tm.y, &tm.z);
     R_ASSERT3((tm.x >= 0) && (tm.x < 24) && (tm.y >= 0) && (tm.y < 60) && (tm.z >= 0) && (tm.z < 60), "Incorrect weather time", m_identifier.c_str());
     exec_time = tm.x*3600.f + tm.y*60.f + tm.z;
     exec_time_loaded = exec_time;
@@ -267,7 +267,7 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config)
     clouds_texture_name = config.r_string(m_identifier.c_str(), "clouds_texture");
     LPCSTR cldclr = config.r_string(m_identifier.c_str(), "clouds_color");
     float multiplier = 0, save = 0;
-	BearCore::BearString::Scanf(cldclr, "%f,%f,%f,%f,%f", &clouds_color.x, &clouds_color.y, &clouds_color.z, &clouds_color.w, &multiplier);
+	BearString::Scanf(cldclr, "%f,%f,%f,%f,%f", &clouds_color.x, &clouds_color.y, &clouds_color.z, &clouds_color.w, &multiplier);
     save = clouds_color.w;
     clouds_color.mul(.5f*multiplier);
     clouds_color.w = save;
@@ -624,7 +624,7 @@ void CEnvironment::load_weathers()
  VERIFY(gameVersionController->getGame() != gameVersionController->SOC);
     if (!WeatherCycles.empty())
         return;
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	FS.GetFiles(list,"%weathers%", "*.ltx");
     VERIFY(list.size());
     xr_string id;
@@ -677,7 +677,7 @@ void CEnvironment::load_weather_effects()
     if (!WeatherFXs.empty())
         return;
     typedef xr_vector<LPSTR> file_list_type;
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	FS.GetFiles(list, "%weather_effects%", "*.ltx");
 	VERIFY(list.size());
     xr_string id;

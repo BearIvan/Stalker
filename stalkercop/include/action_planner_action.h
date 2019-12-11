@@ -25,8 +25,9 @@ protected:
 	typedef typename inherited_action::_edge_value_type		_edge_value_type;
 	typedef typename inherited_action::_condition_type		_condition_type;
 	typedef typename inherited_action::_value_type			_value_type;
-
+	
 public:
+	using _world_operator = typename inherited_planner::_world_operator;
 	typedef typename inherited_action::COperatorCondition	COperatorCondition;
 
 #ifdef LOG_ACTION

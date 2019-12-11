@@ -13,7 +13,7 @@ SplashForm::~SplashForm()
 {
 }
 int32 SplashStatus=0;
-BearCore::BearMutex SplashMutex;
+BearMutex SplashMutex;
 int32 UpdateThread()
 {
 	SplashMutex.Lock();
@@ -32,8 +32,8 @@ int32 UpdateThread()
 	{
 		viewport.Update();
 		if (SplashStatus == 0)break;
-		BearCore::BearMutexLock lock(SplashMutex);
-		viewport.ClearColor(BearCore::BearColor::Brown);
+		BearMutexLock lock(SplashMutex);
+		viewport.ClearColor(BearColor::Brown);
 		splash.Update(0);
 		splash.Draw(0);
 		viewport.Swap();

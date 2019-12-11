@@ -5,7 +5,7 @@ namespace secure_messaging
 {
 
 seed_generator::seed_generator() :
-	m_random(static_cast<s32>(BearCore::BearTimer::GetCurrentTime().asmiliseconds()))
+	m_random(static_cast<s32>(BearTimer::GetCurrentTime().asmiliseconds()))
 {
 };
 seed_generator::~seed_generator()
@@ -35,7 +35,7 @@ u32 const	generate_key	(s32 const seed, key_t& result_key)
 #ifdef DEBUG
 		string16 dst_num;
 		xr_sprintf				(dst_num, "%08x", result_key.m_key[i]);
-		BearCore::BearString::Contact				(tmp_str, dst_num);
+		BearString::Contact				(tmp_str, dst_num);
 #endif
 	}
 #ifdef DEBUG

@@ -271,21 +271,21 @@ shared_str	ui_core::get_xml_name(LPCSTR fn)
 	string_path				str;
 	if(!is_widescreen()){
 		xr_sprintf(str, "%s", fn);
-		if ( NULL==strext(fn) ) BearCore::BearString::Contact(str, ".xml");
+		if ( NULL==strext(fn) ) BearString::Contact(str, ".xml");
 	}else{
 
 		if ( strext(fn) )
 		{
 			xr_strcpy	(str, fn);
 			*strext(str)	= 0;
-			BearCore::BearString::Contact	(str, "_16.xml");
+			BearString::Contact	(str, "_16.xml");
 		}else
 			xr_sprintf				(str, "%s_16", fn);
 
 		if(NULL==FS.ExistFile( "%config%", "ui\\" , str) )
 		{
 			xr_sprintf(str, "%s", fn);
-			if ( NULL==strext(fn) ) BearCore::BearString::Contact(str, ".xml");
+			if ( NULL==strext(fn) ) BearString::Contact(str, ".xml");
 		}
 #ifdef DEBUG
 		Msg("[16-9] get_xml_name for[%s] returns [%s]", fn, str);

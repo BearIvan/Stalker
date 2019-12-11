@@ -67,7 +67,7 @@ public:
 	void Unref ()	{ 
 		if (--m_refCount == 0) 
 		{
-			BearCore::bear_free(this);
+			bear_free(this);
 		}
 	}
 	

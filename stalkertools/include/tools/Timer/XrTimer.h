@@ -1,7 +1,7 @@
 #pragma once/*
-using XrTimer = BearCore::BearTimer;
-using XrTimerPause = BearCore::BearTimer;*/
-class XRCORE_API  XrTimerStat :private  BearCore::BearTimer
+using XrTimer = BearTimer;
+using XrTimerPause = BearTimer;*/
+class XRCORE_API  XrTimerStat :private  BearTimer
 {
 public:
 	XrTimerStat();
@@ -21,9 +21,9 @@ public:
 
 private:
 	bsize m_count;
-	BearCore::BearTime m_R;
+	BearTime m_R;
 };
-class XRCORE_API XrTimerPaused : public  BearCore::BearTimer
+class XRCORE_API XrTimerPaused : public  BearTimer
 {
 public:
 	XrTimerPaused();

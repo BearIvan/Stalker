@@ -20,10 +20,10 @@ void fix_texture_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-	  (0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
+	  (0==BearString::CompareWithoutCase(_ext,".tga")	||
+		0==BearString::CompareWithoutCase(_ext,".dds")	||
+		0==BearString::CompareWithoutCase(_ext,".bmp")	||
+		0==BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
@@ -305,7 +305,7 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, bsize& ret_msize)
 	IReader* S				= NULL;
 	//if (FS.exist(fn,"$game_textures$",fname,	".dds")	&& strstr(fname,"_bump"))	goto _BUMP;
 
-	if ( BearCore::BearString::Find(fname, TEXT("_bump")))
+	if ( BearString::Find(fname, TEXT("_bump")))
 	{
 		goto _BUMP_from_base;
 	}
@@ -394,7 +394,7 @@ _DDS_CUBE:
 		}
 _DDS_2D:
 		{
-			BearCore::BearString::ToLower					(fname);
+			BearString::ToLower					(fname);
 			// Load   SYS-MEM-surface, bound to device restrictions
 			ID3DTexture2D*		T_sysmem;
 			HRESULT const result1	=

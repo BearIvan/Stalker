@@ -181,7 +181,7 @@ void CAniVector::Load(IKinematicsAnimated *tpKinematics, LPCSTR caBaseName)
 	string256	S1, S2;
 	MotionID	tpMotionDef;
 	for (int i = 0; ; ++i) {
-		BearCore::BearString::Printf(S2, TEXT("%d"), i);
+		BearString::Printf(S2, TEXT("%d"), i);
 		if (!!(tpMotionDef = tpKinematics->ID_Cycle_Safe(strconcat(sizeof(S1), S1, caBaseName, S2)))) {
 			A.push_back(tpMotionDef);
 #ifdef DEBUG

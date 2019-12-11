@@ -241,8 +241,8 @@ void CCustomOutfit::ApplySkinModel(CActor* pActor, bool bDress, bool bHUDOnly)
 					string256 SkinName;
 
 					xr_strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
-					BearCore::BearString::Contact(SkinName, *NewVisual);
-					BearCore::BearString::Contact(SkinName, ".ogf");
+					BearString::Contact(SkinName, *NewVisual);
+					BearString::Contact(SkinName, ".ogf");
 					NewVisual._set(SkinName);
 				}
 			}

@@ -151,7 +151,7 @@ void	CSoundRender_Cache::cat_create	(cache_cat& cat, u32 bytes)
 	if	(bytes%_line)	cat.size += 1;
 	u32 allocsize		=	(cat.size&1)?cat.size+1:cat.size;
 	cat.table			=	xr_alloc<u16>(allocsize);
-	BearCore::bear_fill	(cat.table,allocsize, 0xff);
+	bear_fill	(cat.table,allocsize, 0xff);
 }
 
 void	CSoundRender_Cache::cat_destroy	(cache_cat& cat)

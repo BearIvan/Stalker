@@ -121,12 +121,12 @@ void xrServer::AttachNewClient			(IClient* CL)
 		SendTo_LL				(CL->ID,&msgConfig,sizeof(msgConfig), net_flags(TRUE, TRUE, TRUE, TRUE));
 		Server_Client_Check		(CL); 
 	}
-
+	Check_GameSpy_CDKey_Success(CL);
 	// gen message
 	/*if (!NeedToCheckClient_GameSpy_CDKey(CL))
 	{
 		//-------------------------------------------------------------
-		Check_GameSpy_CDKey_Success(CL);
+		
 	}*/
 
 	//xrClientData * CL_D=(xrClientData*)(CL); 

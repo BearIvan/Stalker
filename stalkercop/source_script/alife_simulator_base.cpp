@@ -43,7 +43,7 @@ CALifeSimulatorBase::CALifeSimulatorBase	(xrServer *server, LPCSTR section)
 	m_registry_container		= 0;
 	m_upgrade_manager			= 0;
 
-	random().seed				(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	random().seed				(BearTimer::GetCurrentTime().asmiliseconds());
 	m_can_register_objects		= true;
 }
 
@@ -109,14 +109,14 @@ CSE_Abstract *CALifeSimulatorBase::spawn_item	(LPCSTR section, const Fvector &po
 	string256					s_name_replace;
 	xr_strcpy						(s_name_replace,*abstract->s_name);
 	if (abstract->ID < 1000)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	if (abstract->ID < 100)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	if (abstract->ID < 10)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	string16					S1;
-	BearCore::BearString::Printf(S1, TEXT("%d"),abstract->ID);
-	BearCore::BearString::Contact						(s_name_replace,S1);
+	BearString::Printf(S1, TEXT("%d"),abstract->ID);
+	BearString::Contact						(s_name_replace,S1);
 	abstract->set_name_replace	(s_name_replace);
 
 	CSE_ALifeDynamicObject		*dynamic_object = smart_cast<CSE_ALifeDynamicObject*>(abstract);
@@ -166,14 +166,14 @@ CSE_Abstract *CALifeSimulatorBase::create(CSE_ALifeGroupAbstract *tpALifeGroupAb
 	string256					s_name_replace;
 	xr_strcpy						(s_name_replace,*k->s_name);
 	if (k->ID < 1000)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	if (k->ID < 100)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	if (k->ID < 10)
-		BearCore::BearString::Contact					(s_name_replace,"0");
+		BearString::Contact					(s_name_replace,"0");
 	string16					S1;
-	BearCore::BearString::Printf(S1, TEXT("%d"),k->ID);
-	BearCore::BearString::Contact						(s_name_replace,S1);
+	BearString::Printf(S1, TEXT("%d"),k->ID);
+	BearString::Contact						(s_name_replace,S1);
 	k->set_name_replace			(s_name_replace);
 
 	register_object				(k,true);

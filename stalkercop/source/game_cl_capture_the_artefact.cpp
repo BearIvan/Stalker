@@ -241,7 +241,7 @@ void game_cl_CaptureTheArtefact::UpdateMoneyIndicator()
 		total_money = lookat_player->money_for_round;
 	}
 	if (total_money != last_money)
-	{	BearCore::BearString::Printf(MoneyStr, TEXT("%d"), total_money);
+	{	BearString::Printf(MoneyStr, TEXT("%d"), total_money);
 		m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
 		last_money = total_money;
 	}
@@ -1317,8 +1317,8 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 #ifdef CLIENT_CTA_LOG
 		Msg("---Next cat iteration state: %s", vstr);
 #endif
-		BearCore::BearString::Contact(vstr, vstr_size, " ");
-		BearCore::BearString::Contact(vstr, vstr_size, st.translate(args[i]).c_str());
+		BearString::Contact(vstr, vstr_size, " ");
+		BearString::Contact(vstr, vstr_size, st.translate(args[i]).c_str());
 	}
 	const bchar*				t_vote_str = st.translate("mp_voting_started").c_str();
 	VERIFY				(t_vote_str);

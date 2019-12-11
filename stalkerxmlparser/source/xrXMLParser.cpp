@@ -112,9 +112,9 @@ XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, LPCSTR  path, int node_inde
 	int tmp						= 0;
 
     //разбить путь на отдельные подпути
-	BearCore::BearString512 str;
+	BearString512 str;
 	str[0] = 0;
-	bchar*out = BearCore::BearString::ReadTo(buf_str, ':', str);
+	bchar*out = BearString::ReadTo(buf_str, ':', str);
 
 	if(str[0])
 	{
@@ -128,7 +128,7 @@ XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, LPCSTR  path, int node_inde
 	
     while(out[0]&& str[0])
     {
-		out = BearCore::BearString::ReadTo(out, ':', str);
+		out = BearString::ReadTo(out, ':', str);
 
 		if(str[0])
 			if(node != 0) 

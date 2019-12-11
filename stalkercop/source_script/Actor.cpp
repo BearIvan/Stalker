@@ -265,7 +265,7 @@ void set_box(LPCSTR section, CPHMovementControl &mc, u32 box_num )
 	Fbox	bb;Fvector	vBOX_center,vBOX_size;
 	// m_PhysicMovementControl: BOX
 	string64 buff, buff1;
-	BearCore::BearString::Printf(buff1, TEXT("%d"), box_num);
+	BearString::Printf(buff1, TEXT("%d"), box_num);
 	strconcat( sizeof(buff), buff, "ph_box", buff1,"_center" );
 	vBOX_center= pSettings->r_fvector3	(section, buff	);
 	strconcat( sizeof(buff), buff, "ph_box", buff1,"_size" );

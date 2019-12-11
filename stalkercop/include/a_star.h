@@ -11,7 +11,6 @@
 #include "vertex_path.h"
 #include "data_storage_constructor.h"
 #include "dijkstra.h"
-
 namespace AStar {
 	template <
 		typename _dist_type, 
@@ -115,9 +114,9 @@ protected:
 		_data_storage_constructor,
 		_iteration_type
 	>											inherited;
-	typedef typename CDataStorage::CGraphVertex CGraphVertex;
+/*	typedef typename CDataStorage::CGraphVertex CGraphVertex;
 	typedef typename CGraphVertex::_dist_type	_dist_type;
-	typedef typename CGraphVertex::_index_type	_index_type;
+	typedef typename CGraphVertex::_index_type	_index_type;*/
 
 protected:
 	template <typename _PathManager>

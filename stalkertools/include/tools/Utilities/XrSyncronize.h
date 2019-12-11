@@ -2,7 +2,7 @@
 // Desc: Simple wrapper for critical section
 class xrCriticalSection
 {
-	BEAR_CLASS_NO_COPY(xrCriticalSection);
+	BEAR_CLASS_WITHOUT_COPY(xrCriticalSection);
 public:
 	class XRCORE_API raii
 	{
@@ -15,7 +15,7 @@ public:
 	};
 
 private:
-	BearCore::BearMutex m_mutex;
+	BearMutex m_mutex;
 public:
 	xrCriticalSection() {}
 	IC ~xrCriticalSection() {}

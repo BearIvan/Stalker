@@ -36,25 +36,25 @@ CALifeStorageManager::~CALifeStorageManager	()
 
 void CALifeStorageManager::save	(LPCSTR save_name_no_cheak, bool update_name)
 {
-	BearCore::BearStringPath save_name;
+	BearStringPath save_name;
 	if(/*FS.ExistFile(TEXT("%saves%"), save_name_no_cheak, SAVE_EXTENSION)*/false)
 	{
 		int i = 0;
 		do
 		{
-			BearCore::BearString::Copy(save_name, save_name_no_cheak);
+			BearString::Copy(save_name, save_name_no_cheak);
 			{
-				bchar*ext = BearCore::BearString::ToCharWithEnd(save_name, TEXT('.'));
+				bchar*ext = BearString::ToCharWithEnd(save_name, TEXT('.'));
 				if (ext)*ext = 0;
 			}
-			BearCore::BearString::Printf(save_name, TEXT("%s_%03d"), save_name_no_cheak,i);
+			BearString::Printf(save_name, TEXT("%s_%03d"), save_name_no_cheak,i);
 		} while (FS.ExistFile(TEXT("%saves%"), save_name, SAVE_EXTENSION));
 	}
 	else
 	{
-		BearCore::BearString::Copy(save_name, save_name_no_cheak);
+		BearString::Copy(save_name, save_name_no_cheak);
 		{
-			bchar*ext = BearCore::BearString::ToCharWithEnd(save_name, TEXT('.'));
+			bchar*ext = BearString::ToCharWithEnd(save_name, TEXT('.'));
 			if (ext)*ext = 0;
 		}
 	}
@@ -88,9 +88,8 @@ void CALifeStorageManager::save	(LPCSTR save_name_no_cheak, bool update_name)
 		void					*source_data = stream.pointer();
 		dest_count = XrCompressor::RtcSize(source_count);
 		dest_data = xr_malloc(dest_count);
-		XrCompressor::RtcCompress(dest_data, dest_count, source_data, source_count);
+		dest_count = XrCompressor::RtcCompress(dest_data, dest_count, source_data, source_count);
 	}
-
 	IWriter						*writer = XRayBearWriter::Create(FS.Write("%saves%", m_save_name, 0));
 	writer->w_u32(u32(-1));
 	writer->w_u32(ALIFE_VERSION);
@@ -145,30 +144,30 @@ void CALifeStorageManager::load	(void *buffer, const u32 &buffer_size, LPCSTR fi
 
 bool CALifeStorageManager::load	(LPCSTR save_name_no_check)
 {
-	BearCore::BearStringPath save_name;
+	BearStringPath save_name;
 	if (/*FS.ExistFile(TEXT("%saves%"), save_name_no_check, SAVE_EXTENSION)*/false)
 	{
 		do
 		{
-			BearCore::BearString::Copy(save_name, save_name_no_check);
+			BearString::Copy(save_name, save_name_no_check);
 			{
-				bchar*ext = BearCore::BearString::ToCharWithEnd(save_name, TEXT('.'));
+				bchar*ext = BearString::ToCharWithEnd(save_name, TEXT('.'));
 				if (ext)*ext = 0;
 			}
-			BearCore::BearString::Contact(save_name, TEXT("_"));
-			BearCore::BearString::Printf(save_name, TEXT("%s_%03d"));
+			BearString::Contact(save_name, TEXT("_"));
+			BearString::Printf(save_name, TEXT("%s_%03d"));
 		} while (FS.ExistFile(TEXT("%saves%"), save_name, SAVE_EXTENSION));
 	}
 	else
 	{
-		BearCore::BearString::Copy(save_name, save_name_no_check);
+		BearString::Copy(save_name, save_name_no_check);
 		{
-			bchar*ext = BearCore::BearString::ToCharWithEnd(save_name, TEXT('.'));
+			bchar*ext = BearString::ToCharWithEnd(save_name, TEXT('.'));
 			if (ext)*ext = 0;
 		}
 	}
 
-	BearCore::BearTimer						timer;
+	BearTimer						timer;
 	timer.restart();
 	string256					save;
 	strcpy_s(save, m_save_name);

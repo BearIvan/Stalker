@@ -31,7 +31,7 @@ LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_s
 	if (!temp_substr)
 		return new_opt_str;
 
-	BearCore::BearString::Contact(new_opt_str, new_opt_str_size, temp_substr);
+	BearString::Contact(new_opt_str, new_opt_str_size, temp_substr);
 	return new_opt_str;
 }
 
@@ -418,7 +418,7 @@ void CLevel::ClientReceive()
 					if (m_SO)
 					{
 						string4096 additional_options;
-						BearCore::BearString::Contact(NewServerOptions, sizeof(NewServerOptions),
+						BearString::Contact(NewServerOptions, sizeof(NewServerOptions),
 							remove_version_option(m_SO, additional_options, sizeof(additional_options))
 						);
 					}

@@ -27,6 +27,8 @@
 #pragma warning(push)
 #pragma warning(disable:4458)
 #endif
+#define _HAS_AUTO_PTR_ETC 1
+# include <memory>
 #include "config.hpp"
 #include "class.hpp"
 #include "function.hpp"

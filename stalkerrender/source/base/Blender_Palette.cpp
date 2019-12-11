@@ -7,7 +7,7 @@
 #include "blender_clsid.h"
 IC bool		p_sort			(IBlender* A, IBlender* B)
 {
-	return BearCore::BearString::CompareWithoutCase(A->getComment(),B->getComment())<0;
+	return BearString::CompareWithoutCase(A->getComment(),B->getComment())<0;
 }
 
 #ifdef __BORLANDC__

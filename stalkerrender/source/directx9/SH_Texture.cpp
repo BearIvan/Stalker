@@ -154,7 +154,7 @@ void CTexture::Load		()
 
 	flags.bUser						= false;
 	flags.MemoryUsage				= 0;
-	if (0==BearCore::BearString::CompareWithoutCase(*cName,"$null"))	return;
+	if (0==BearString::CompareWithoutCase(*cName,"$null"))	return;
 	if (0!=strstr(*cName,"$user$"))	
 	{
 		flags.bUser	= true;
@@ -243,7 +243,7 @@ void CTexture::Load		()
 
 			flags.seqCycles	= FALSE;
 			_fs->r_string	(buffer,sizeof(buffer));
-			if (0== BearCore::BearString::CompareWithoutCase(buffer,"cycled"))
+			if (0== BearString::CompareWithoutCase(buffer,"cycled"))
 			{
 				flags.seqCycles	= TRUE;
 				_fs->r_string	(buffer,sizeof(buffer));

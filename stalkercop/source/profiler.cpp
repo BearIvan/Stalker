@@ -80,8 +80,8 @@ IC	void CProfiler::convert_string	(LPCSTR str, shared_str &out, u32 max_string_s
 	}
 	xr_strcpy						(m_temp,"");
 	for (u32 k = 0; k<count; ++k)
-		BearCore::BearString::Contact					(m_temp,indent);
-	BearCore::BearString::Contact						(m_temp,j);
+		BearString::Contact					(m_temp,indent);
+	BearString::Contact						(m_temp,j);
 	count						= xr_strlen(m_temp);
 	for ( ; count < max_string_size; ++count)
 		m_temp[count]			= white_character;

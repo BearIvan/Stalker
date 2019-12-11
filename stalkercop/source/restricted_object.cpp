@@ -37,8 +37,8 @@ IC	void construct_string					(LPSTR result, u32 const result_size, const xr_vect
 			continue;
 
 		if (count)
-			BearCore::BearString::Contact(result,result_size,",");
-		BearCore::BearString::Contact(result,result_size,object->name_replace());
+			BearString::Contact(result,result_size,",");
+		BearString::Contact(result,result_size,object->name_replace());
 		++count;
 	}
 }
@@ -53,9 +53,9 @@ IC	void construct_id_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
 		if (count)
-			BearCore::BearString::Contact	(result,",");
+			BearString::Contact	(result,",");
 		xr_sprintf		(temp,"%d",*I);
-		BearCore::BearString::Contact		(result,temp);
+		BearString::Contact		(result,temp);
 		++count;
 	}
 }
@@ -276,9 +276,9 @@ IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions,
 		p						(this,object->ID());
 
 		if (count)
-			BearCore::BearString::Contact(temp_restrictions,temp_restrictions_size,",");
+			BearString::Contact(temp_restrictions,temp_restrictions_size,",");
 
-		BearCore::BearString::Contact(temp_restrictions,temp_restrictions_size,*object->cName());
+		BearString::Contact(temp_restrictions,temp_restrictions_size,*object->cName());
 
 		count++;
 	}

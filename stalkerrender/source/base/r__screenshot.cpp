@@ -11,8 +11,8 @@
 
 char*							timestamp(string64& dest)
 {
-	auto time = BearCore::BearGlobalTime::GetCurrentTime();
-	BearCore::BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
+	auto time = BearGlobalTime::GetCurrentTime();
+	BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
 	return dest;
 }
 
@@ -241,8 +241,8 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 {
 	if (!Device.b_is_Ready)			return;
 	if ((psDeviceFlags.test(rsFullscreen)) == 0) {
-		if(name && BearCore::BearFileManager::FileExists( name))
-			BearCore::BearFileManager::FileDelete(name);
+		if(name && BearFileManager::FileExists( name))
+			BearFileManager::FileDelete(name);
 
 		Log("~ Can't capture screen while in windowed mode...");
 		return;

@@ -64,11 +64,11 @@ void XRayDiscordAPI::OnFrame()
 	default:
 		break;
 	}
-	static BearCore::BearStringAnsi64 state;
+	static BearStringAnsi64 state;
 	if (Modloader::GetNameMod()[0])
 	{
-		BearCore::BearString::Copy(state, "Mod:");
-		BearCore::BearString::Contact(state, Modloader::GetNameMod());
+		BearString::Copy(state, "Mod:");
+		BearString::Contact(state, Modloader::GetNameMod());
 		discordPresence.state = state;
 	}
 

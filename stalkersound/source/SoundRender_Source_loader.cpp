@@ -131,7 +131,7 @@ void CSoundRender_Source::load(LPCSTR name)
 {
 	string_path			fn,N;
 	xr_strcpy				(N,name);
-	BearCore::BearString::ToLower				(N);
+	BearString::ToLower				(N);
 	if (strext(N))		*strext(N) = 0;
 
 	fname				= N;

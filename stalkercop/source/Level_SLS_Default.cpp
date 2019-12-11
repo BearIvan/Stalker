@@ -9,7 +9,7 @@ void	CLevel::SLS_Default				()					// Default/Editor Load
 	LPCSTR		s_cmd			= Engine.Params;
 	string64	s_name			= "actor";
 	if (strstr(s_cmd,"-actor "))	{
-		BearCore::BearString::Scanf(strstr(s_cmd,"-actor ")+xr_strlen("-actor "),"%s",s_name);
+		BearString::Scanf(strstr(s_cmd,"-actor ")+xr_strlen("-actor "),"%s",s_name);
 		ph_world			= xr_new<CPHWorld> ();
 		ph_world->Create	();
 	}

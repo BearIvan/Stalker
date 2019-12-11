@@ -323,7 +323,7 @@ protected:
 	virtual	void					ScreenshotImpl				(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
 
 private:
-	BearCore::BearVector<BearCore::BearString>						m_file_set;
+	BearVector<BearString>						m_file_set;
 };
 
 extern CRender						RImplementation;

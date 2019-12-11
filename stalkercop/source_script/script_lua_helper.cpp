@@ -258,27 +258,27 @@ void CDbgLuaHelper::DrawStackTrace()
 		{
 			szDesc[0] = '\0';
 /*			if ( ar.name )
-				BearCore::BearString::Contact(szDesc, ar.name);
-			BearCore::BearString::Contact(szDesc, ",");
+				BearString::Contact(szDesc, ar.name);
+			BearString::Contact(szDesc, ",");
 			if ( ar.namewhat )
-				BearCore::BearString::Contact(szDesc, ar.namewhat);
-			BearCore::BearString::Contact(szDesc, ",");
+				BearString::Contact(szDesc, ar.namewhat);
+			BearString::Contact(szDesc, ",");
 			if ( ar.what )
-				BearCore::BearString::Contact(szDesc, ar.what);
-			BearCore::BearString::Contact(szDesc, ",");
+				BearString::Contact(szDesc, ar.what);
+			BearString::Contact(szDesc, ",");
 */
 			if ( ar.name ){
-				BearCore::BearString::Contact(szDesc, ar.name);
-				BearCore::BearString::Contact(szDesc, " ");
+				BearString::Contact(szDesc, ar.name);
+				BearString::Contact(szDesc, " ");
 			}
 
 			char szTmp[6];
-	BearCore::BearString::Printf(szTmp, TEXT("%d"),ar.currentline);
-			BearCore::BearString::Contact(szDesc, szTmp);
-			BearCore::BearString::Contact(szDesc, " ");
+	BearString::Printf(szTmp, TEXT("%d"),ar.currentline);
+			BearString::Contact(szDesc, szTmp);
+			BearString::Contact(szDesc, " ");
 
 			if ( ar.short_src )
-				BearCore::BearString::Contact(szDesc, ar.short_src);
+				BearString::Contact(szDesc, ar.short_src);
 
 			debugger()->AddStackTrace(szDesc, ar.source+1, ar.currentline);
 		}

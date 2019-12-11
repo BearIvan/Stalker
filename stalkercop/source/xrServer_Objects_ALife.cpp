@@ -127,7 +127,7 @@ void	SFillPropData::load			()
 	for (int i=0; i<GameGraph::LOCATION_TYPE_COUNT; ++i){
         DEBUGFATALERROR1				(locations[i].empty());
         string256			caSection, T;
-			BearCore::BearString::Printf(T, TEXT("%d"),i);
+			BearString::Printf(T, TEXT("%d"),i);
         strconcat			(sizeof(caSection),caSection,SECTION_HEADER,T);
         R_ASSERT			(Ini->section_exist(caSection));
         for (k = 0; Ini->r_line(caSection,k,&N,&V); ++k)
@@ -136,7 +136,7 @@ void	SFillPropData::load			()
     for (k = 0; Ini->r_line("graph_points_draw_color_palette",k,&N,&V); ++k)
 	{
 		u32 color;
-		if(1==BearCore::BearString::Scanf(V,"%x", &color))
+		if(1==BearString::Scanf(V,"%x", &color))
 		{
 			location_colors[N]  = color;
 		}else
@@ -376,7 +376,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
     fp_data.inc					();
 #endif // XRSE_FACTORY_EXPORTS
 	m_flags.set					(flOfflineNoMove,FALSE);
-	seed						(u32(BearCore::BearTimer::GetCurrentTime().asmiliseconds()));
+	seed						(u32(BearTimer::GetCurrentTime().asmiliseconds()));
 }
 
 #ifdef XRGAME_EXPORTS
@@ -999,7 +999,7 @@ CSE_ALifeObjectPhysic::CSE_ALifeObjectPhysic(LPCSTR caSection) : CSE_ALifeDynami
 #else
 	m_freeze_time				= 0;
 #endif
-	m_relevent_random.seed		(u32(BearCore::BearTimer::GetCurrentTime().asmiliseconds()));
+	m_relevent_random.seed		(u32(BearTimer::GetCurrentTime().asmiliseconds()));
 }
 
 CSE_ALifeObjectPhysic::~CSE_ALifeObjectPhysic		() 

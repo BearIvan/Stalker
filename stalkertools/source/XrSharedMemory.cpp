@@ -5,14 +5,14 @@ using namespace std;
 
 void XrSharedMemoryContainer::Initialize()
 {
-	cs = BearCore::bear_new< xrCriticalSection>();
-	container = BearCore::bear_new< xr_vector<XrSharedMemoryValue*>>();
+	cs = bear_new< xrCriticalSection>();
+	container = bear_new< xr_vector<XrSharedMemoryValue*>>();
 }
 
 void XrSharedMemoryContainer::Destroy()
 {
-	BearCore::bear_delete(cs);
-	BearCore::bear_delete(container);
+	bear_delete(cs);
+	bear_delete(container);
 	clean();
 
 }
@@ -54,7 +54,7 @@ XrSharedMemoryValue* XrSharedMemoryContainer::dock(u32 dwCRC, bsize dwLength, vo
     // if not found - create new entry
     if (0 == result)
     {
-        result = (XrSharedMemoryValue*)BearCore::BearMemory::Malloc(sizeof(XrSharedMemoryValue) + dwLength
+        result = (XrSharedMemoryValue*)BearMemory::Malloc(sizeof(XrSharedMemoryValue) + dwLength
                                                , "storage: smem"
                                               );
         result->dwReference = 0;

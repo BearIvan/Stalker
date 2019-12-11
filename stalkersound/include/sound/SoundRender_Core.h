@@ -28,7 +28,7 @@ public:
     BOOL								bDeferredEAX;
     BOOL								bReady;
 
-	BearCore::BearTimer								Timer;
+	BearTimer								Timer;
 	float								fTimer_Value;
 	float								fTimer_Delta;
 	sound_event*						Handler;

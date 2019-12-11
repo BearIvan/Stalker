@@ -17,7 +17,7 @@
 
  bchar* XrTrims::TrimRight( bchar* str)
 {
-     bchar* p = str + BearCore::BearString::GetSize(str);
+     bchar* p = str + BearString::GetSize(str);
     while ((p != str) && (u8(*p) <= u8(' '))) p--;
     *(++p) = 0;
     return str;
@@ -47,12 +47,12 @@ const bchar* XrTrims::CopyVal(const bchar* src,  bchar* dst, char separator)
     const bchar* p;
     size_t n;
     p = strchr(src, separator);
-    n = (p > 0) ? (p - src) : BearCore::BearString::GetSize(src);
+    n = (p > 0) ? (p - src) : BearString::GetSize(src);
 	for (size_t i = 0; i < n; i++)
 	{
 		dst[i] = src[i];
 	}
-	//BearCore::BearString::Copy(dst, n + 1, src);
+	//BearString::Copy(dst, n + 1, src);
    // strncpy(dst, src, n);
     dst[n] = 0;
     return dst;
@@ -72,7 +72,7 @@ bsize XrTrims::GetItemCount(const bchar* src, char separator)
             cnt++;
             if (res[0] == separator) break;
         }
-        if (BearCore::BearString::GetSize(last_res)) cnt++;
+        if (BearString::GetSize(last_res)) cnt++;
     }
     return cnt;
 }
@@ -82,7 +82,7 @@ bsize XrTrims::GetItemCount(const bchar* src, char separator)
     const bchar* ptr;
     ptr = SetPos(src, index, separator);
     if (ptr) CopyVal(ptr, dst, separator);
-    else BearCore::BearString::Copy(dst, dst_size, def);
+    else BearString::Copy(dst, dst_size, def);
     if (trim) Trim(dst);
     return dst;
 }
@@ -248,7 +248,7 @@ const bchar* _CopyVal(const bchar* src, AnsiString& dst, char separator)
     const bchar* p;
     bsize n;
     p = strchr(src, separator);
-    n = (p > 0) ? (p - src) : BearCore::BearString::GetSize(src);
+    n = (p > 0) ? (p - src) : BearString::GetSize(src);
     dst = src;
     dst = dst.Delete(n + 1, dst.Length());
     return dst.c_str();
@@ -358,7 +358,7 @@ void XrTrims::SequenceToList(LPSTRVec& lst, const bchar* in, char separator)
     {
         GetItem(in, i, T, separator, 0);
         Trim(T);
-        if (BearCore::BearString::GetSize(T)) lst.push_back(xr_strdup(T));
+        if (BearString::GetSize(T)) lst.push_back(xr_strdup(T));
     }
 }
 
@@ -436,7 +436,7 @@ const bchar* XrTrims::CopyVal(const bchar* src, xr_string& dst, char separator)
     const bchar* p;
     ptrdiff_t n;
     p = strchr(src, separator);
-    n = (p > 0) ? (p - src) : BearCore::BearString::GetSize(src);
+    n = (p > 0) ? (p - src) : BearString::GetSize(src);
     dst = src;
     dst = dst.erase(n, dst.length());
     return dst.c_str();

@@ -220,21 +220,21 @@ public:
     virtual void Execute(LPCSTR args)
     {
         string_path cfg_full_name;
-		BearCore::BearStringPath fn;
+		BearStringPath fn;
         xr_strcpy(cfg_full_name, (xr_strlen(args) > 0) ? args : Console->ConfigFile);
 
         bool b_abs_name = xr_strlen(cfg_full_name) > 2 && cfg_full_name[1] == ':';
 
-		BearCore::BearStringPath path;
+		BearStringPath path;
 
         if (!b_abs_name)
             FS.UpdatePath( "%user%",0,  path);
 
-		BearCore::BearString::Contact(path,TEXT( BEAR_PATH));
+		BearString::Contact(path,TEXT( BEAR_PATH));
 		if (strext(cfg_full_name))
 			*strext(cfg_full_name) = 0;
 		xr_strcat(cfg_full_name, ".ltx");
-		BearCore::BearString::Contact(path, cfg_full_name);
+		BearString::Contact(path, cfg_full_name);
 
 
 
@@ -274,7 +274,7 @@ void CCC_LoadCFG::Execute(LPCSTR args)
 		{
 			F = XRayBearReader::Create(FS.Read(TEXT("%config%"), cfg_name));
 		}
-		else if (BearCore::BearFileManager::FileExists(cfg_name))
+		else if (BearFileManager::FileExists(cfg_name))
 		{
 			F = XRayBearReader::Create(cfg_name);
 		}

@@ -54,7 +54,7 @@ void dxRenderDeviceRender::DestroyHW()
 	HW.DestroyDevice			();
 }
 
-void  dxRenderDeviceRender::Reset(BearGraphics::BearWindow&window)
+void  dxRenderDeviceRender::Reset(BearWindow&window)
 {
 #ifdef DEBUG
 	_SHOW_REF("*ref -CRenderDevice::ResetTotal: DeviceREF:",HW.pDevice);
@@ -139,7 +139,7 @@ void dxRenderDeviceRender::OnDeviceCreate(LPCSTR shName)
 //#endif
 }
 
-void dxRenderDeviceRender::Create(BearGraphics::BearWindow&window, bool move_window)
+void dxRenderDeviceRender::Create(BearWindow&window, bool move_window)
 {
 	HW.CreateDevice		(window.GetWindowHandle(), move_window);
 	Resources			= xr_new<CResourceManager>		();

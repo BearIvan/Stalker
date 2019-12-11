@@ -343,7 +343,7 @@ IPureClient::_Recieve( const void* data, bsize data_size, u32 /*param*/ )
 
 //==============================================================================
 
-IPureClient::IPureClient	(BearCore::BearTimer* timer): net_Statistic(timer)
+IPureClient::IPureClient	(BearTimer* timer): net_Statistic(timer)
 #ifdef PROFILE_CRITICAL_SECTIONS
 	,net_csEnumeration(MUTEX_PROFILE_ID(IPureClient::net_csEnumeration))
 #endif // PROFILE_CRITICAL_SECTIONS
@@ -519,7 +519,7 @@ if(!psNET_direct_connect)
 
 		R_CHK(NET->SetClientInfo	(&Pinfo,0,0,DPNSETCLIENTINFO_SYNC));
 	}
-		if ( BearCore::BearString::CompareWithoutCase( server_name, "localhost" ) == 0 )	
+		if ( BearString::CompareWithoutCase( server_name, "localhost" ) == 0 )	
 	{
 		WCHAR	SessionPasswordUNICODE[4096];
 			if ( xr_strlen( password_str ) )

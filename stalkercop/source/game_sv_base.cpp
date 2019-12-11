@@ -209,7 +209,7 @@ float					game_sv_GameState::get_option_f				(LPCSTR lst, LPCSTR name, float def
 	if (found)
 	{	
 		float		val;
-		int cnt		= BearCore::BearString::Scanf(found+xr_strlen(op),"%f",&val);
+		int cnt		= BearString::Scanf(found+xr_strlen(op),"%f",&val);
 		VERIFY		(cnt==1);
 		return		val;
 //.		return atoi	(strstr(lst,op)+xr_strlen(op));
@@ -227,7 +227,7 @@ string64&			game_sv_GameState::get_option_s				(LPCSTR lst, LPCSTR name, LPCSTR 
 	if (start)		
 	{
 		LPCSTR			begin	= start + xr_strlen(op); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 	}
 	else			
 	{
@@ -465,7 +465,7 @@ void game_sv_GameState::Create					(shared_str &options)
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		BearCore::BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -807,7 +807,7 @@ void game_sv_GameState::OnEvent (NET_Packet &tNetPacket, u16 type, u32 time, Cli
 	default:
 		{
 			string16 tmp;
-			BearCore::BearString::Printf(tmp, TEXT("%d"), type);
+			BearString::Printf(tmp, TEXT("%d"), type);
 			R_ASSERT3	(0,"Game Event not implemented!!!", tmp);
 		};
 	};
@@ -1291,7 +1291,7 @@ void game_sv_GameState::GenerateNewName			(char const * old_name, char * dest, u
 
 	strncpy_s	(dest, dest_size, old_name, name_length);
 	xr_sprintf	(new_suffix, "%c%u", suffix_symbol, curret_number);
-	BearCore::BearString::Contact	(dest, dest_size, new_suffix);
+	BearString::Contact	(dest, dest_size, new_suffix);
 }
 
 void game_sv_GameState::CheckPlayerName(xrClientData* CL)

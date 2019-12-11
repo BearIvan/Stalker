@@ -107,8 +107,8 @@ void description::load_loopholes	(shared_str const &table_id)
 {
 	string256					temp;
 	xr_strcpy					(temp, "smart_covers.descriptions.");
-	BearCore::BearString::Contact					(temp, *table_id);
-	BearCore::BearString::Contact					(temp, ".loopholes");
+	BearString::Contact					(temp, *table_id);
+	BearString::Contact					(temp, ".loopholes");
 	m_table_id					= table_id;
 
 	luabind::object				loopholes;
@@ -191,8 +191,8 @@ void description::load_transitions	(shared_str const &table_id)
 {
 	string256					temp;
 	xr_strcpy					(temp, "smart_covers.descriptions.");
-	BearCore::BearString::Contact					(temp, *table_id);
-	BearCore::BearString::Contact					(temp, ".transitions");
+	BearString::Contact					(temp, *table_id);
+	BearString::Contact					(temp, ".transitions");
 
 	luabind::object				transitions;
 	bool						result = 

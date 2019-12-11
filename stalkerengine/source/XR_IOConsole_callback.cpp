@@ -44,13 +44,13 @@ void CConsole::Register_callbacks()
 
 void CConsole::Prev_log() // DIK_PRIOR=PAGE_UP
 {
-	auto &str = BearCore::BearLog::Lock();
+	auto &str = BearLog::Lock();
     scroll_delta++;
     if (scroll_delta > int(str.size()) - 1)
     {
         scroll_delta = str.size() - 1;
     }
-	BearCore::BearLog::Unlock();
+	BearLog::Unlock();
 }
 
 void CConsole::Next_log() // DIK_NEXT=PAGE_DOWN
@@ -64,9 +64,9 @@ void CConsole::Next_log() // DIK_NEXT=PAGE_DOWN
 
 void CConsole::Begin_log() // PAGE_UP+Ctrl
 {
-	auto &str = BearCore::BearLog::Lock();
+	auto &str = BearLog::Lock();
     scroll_delta = str.size() - 1;
-	BearCore::BearLog::Unlock();
+	BearLog::Unlock();
 }
 
 void CConsole::End_log() // PAGE_DOWN+Ctrl

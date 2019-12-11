@@ -143,5 +143,5 @@ void CUICursor::SetUICursorPosition(Fvector2 pos)
 /*	if (m_b_use_win_cursor)
 		ClientToScreen(Device.GetWindow().GetWindowHandle(), (LPPOINT)&p);*/
 
-	Device.window->SetMousePosition(BearCore::BearFVector2(vPos.x * Device.GetWindow().GetSizeFloat().x / UI_BASE_WIDTH, vPos.y * Device.GetWindow().GetSizeFloat().y / UI_BASE_HEIGHT));
+	Device.window->SetMousePosition(BearFVector2(vPos.x * Device.GetWindow().GetSizeFloat().x / UI_BASE_WIDTH, vPos.y * Device.GetWindow().GetSizeFloat().y / UI_BASE_HEIGHT));
 }

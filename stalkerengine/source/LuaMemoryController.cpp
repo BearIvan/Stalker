@@ -14,7 +14,7 @@ static LPVOID __cdecl luabind_allocator(
 	}
 	LPVOID	non_const_pointer = const_cast<LPVOID>(pointer);
 
-	return		(BearCore::BearMemory::Realloc(non_const_pointer, size, "luabind"));
+	return		(BearMemory::Realloc(non_const_pointer, size, "luabind"));
 }
 
 void setup_luabind_allocator()

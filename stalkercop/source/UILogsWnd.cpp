@@ -110,7 +110,7 @@ void CUILogsWnd::Init()
 
 	string256 buf;
 	xr_strcpy( buf, sizeof(buf), m_center_caption->GetText() );
-	BearCore::BearString::Contact( buf, sizeof(buf), CStringTable().translate("ui_logs_center_caption").c_str() );
+	BearString::Contact( buf, sizeof(buf), CStringTable().translate("ui_logs_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 
 	CUIFixedScrollBar* tmp_scroll = xr_new<CUIFixedScrollBar>();

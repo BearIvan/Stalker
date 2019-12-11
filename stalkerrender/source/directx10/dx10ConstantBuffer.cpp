@@ -43,7 +43,7 @@ dx10ConstantBuffer::dx10ConstantBuffer(ID3DShaderReflectionConstantBuffer* pTabl
 		m_MembersNames[i] = var_desc.Name;
 	}
 
-	m_uiMembersCRC = BearCore::BearCheckSum::CRC32( &m_MembersList[0], Desc.Variables*sizeof(m_MembersList[0]));
+	m_uiMembersCRC = BearCheckSum::CRC32( &m_MembersList[0], Desc.Variables*sizeof(m_MembersList[0]));
 
 	R_CHK(dx10BufferUtils::CreateConstantBuffer(&m_pBuffer, Desc.Size));
 	VERIFY(m_pBuffer);

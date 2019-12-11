@@ -96,13 +96,13 @@ public:
     CRegistrator <pureFrame > seqFrame;
     CRegistrator <pureScreenResolutionChanged> seqResolutionChanged;
 
-	inline  BearGraphics::BearWindow&GetWindow()
+	inline  BearWindow&GetWindow()
 	{
 		BEAR_ASSERT(window);
 		return *window;
 	}
 
-    BearGraphics::BearWindow* window;
+    BearWindow* window;
     // CStats* Statistic;
 
 };
@@ -125,7 +125,7 @@ private:
     //u32 Timer_MM_Delta;
     //CTimer_paused Timer;
     //CTimer_paused TimerGlobal;
-    BearCore::BearTimer TimerMM;
+    BearTimer TimerMM;
 
     void _Create(LPCSTR shName);
     void _Destroy(BOOL bKeepTextures);

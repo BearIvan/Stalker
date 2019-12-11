@@ -274,7 +274,7 @@ void CRender::Render		()
 	Device.Statistic->RenderDUMP_Wait_S.Begin	();
 	if (1)
 	{
-		BearCore::BearTimer	T;							T.restart	();
+		BearTimer	T;							T.restart	();
 		BOOL	result						= FALSE;
 		HRESULT	hr							= S_FALSE;
 		//while	((hr=q_sync_point[q_sync_count]->GetData	(&result,sizeof(result),D3DGETDATA_FLUSH))==S_FALSE) {

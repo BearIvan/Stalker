@@ -827,9 +827,9 @@ void CBaseMonster::load_effector(LPCSTR section, LPCSTR line, SAttackEffector &e
 	effector.ppi.noise.fps			= pSettings->r_float(ppi_section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(effector.ppi.noise.fps));
 
-	BearCore::BearString::Scanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &effector.ppi.color_base.r,	&effector.ppi.color_base.g,	&effector.ppi.color_base.b);
-	BearCore::BearString::Scanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &effector.ppi.color_gray.r,	&effector.ppi.color_gray.g,	&effector.ppi.color_gray.b);
-	BearCore::BearString::Scanf(pSettings->r_string(ppi_section,"color_add"),	"%f,%f,%f", &effector.ppi.color_add.r,	&effector.ppi.color_add.g,	&effector.ppi.color_add.b);
+	BearString::Scanf(pSettings->r_string(ppi_section,"color_base"),	"%f,%f,%f", &effector.ppi.color_base.r,	&effector.ppi.color_base.g,	&effector.ppi.color_base.b);
+	BearString::Scanf(pSettings->r_string(ppi_section,"color_gray"),	"%f,%f,%f", &effector.ppi.color_gray.r,	&effector.ppi.color_gray.g,	&effector.ppi.color_gray.b);
+	BearString::Scanf(pSettings->r_string(ppi_section,"color_add"),	"%f,%f,%f", &effector.ppi.color_add.r,	&effector.ppi.color_add.g,	&effector.ppi.color_add.b);
 
 	effector.time				= pSettings->r_float(ppi_section,"time");
 	effector.time_attack		= pSettings->r_float(ppi_section,"time_attack");

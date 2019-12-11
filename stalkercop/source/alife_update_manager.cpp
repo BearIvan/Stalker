@@ -294,7 +294,7 @@ void CALifeUpdateManager::reload		(LPCSTR section)
 
 bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 {
-	BearCore::BearString1024 temp;
+	BearString1024 temp;
 	{
 		strconcat				(sizeof(temp),temp,game_name,SAVE_EXTENSION);
 		if (!FS.ExistFile("%saves%", temp)) {

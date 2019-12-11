@@ -35,7 +35,7 @@ void CUINewsItemWnd::Setup			(GAME_NEWS_DATA& news_data)
 	u32    sz  = (time_str.size() + 5) * sizeof(char);
 	PSTR   str = (PSTR)_alloca( sz );
 	xr_strcpy( str, sz, time_str.c_str() );
-	BearCore::BearString::Contact( str, sz, " -" );
+	BearString::Contact( str, sz, " -" );
 	m_UIDate->SetText(str);
 	m_UIDate->AdjustWidthToText();
 

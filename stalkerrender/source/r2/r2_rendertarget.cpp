@@ -575,7 +575,7 @@ CRenderTarget::CRenderTarget		()
 			for (int it = 0; it < TEX_jitter_count - 1; it++)
 			{
 				string_path					name;
-				BearCore::BearString::Printf(name, "%s%d", r2_jitter, it);
+				BearString::Printf(name, "%s%d", r2_jitter, it);
 				R_CHK(D3DXCreateTexture(HW.pDevice, TEX_jitter, TEX_jitter, 1, 0, D3DFMT_Q8W8V8U8, D3DPOOL_MANAGED, &t_noise_surf[it]));
 				t_noise[it] = dxRenderDeviceRender::Instance().Resources->_CreateTexture(name);
 				t_noise[it]->surface_set(t_noise_surf[it]);

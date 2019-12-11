@@ -74,7 +74,7 @@ void CGameFont::Initialize(LPCSTR cShader, LPCSTR cTextureName)
     string_path buf;
     xr_strcpy(buf, cTexture);
     if (strext(buf)) *strext(buf) = 0;
-	BearCore::BearString::Contact(buf, ".ini");
+	BearString::Contact(buf, ".ini");
     CInifile* ini = CInifile::Create("%textures%", buf);
 
     nNumChars = 0x100;

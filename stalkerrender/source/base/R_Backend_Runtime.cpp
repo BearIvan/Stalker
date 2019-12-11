@@ -52,7 +52,7 @@ void CBackend::OnFrameBegin	()
 		set_RT				(HW.pBaseRT);
 		set_ZB				(HW.pBaseZB);
 #endif	//	USE_DX10
-		BearCore::bear_fill		(stat);
+		bear_fill		(stat);
 		Vertex.Flush		();
 		Index.Flush			();
 		set_Stencil			(FALSE);

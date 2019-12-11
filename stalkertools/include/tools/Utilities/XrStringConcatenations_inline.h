@@ -85,12 +85,12 @@ public:
         VERIFY(m_count > 0);
 
         LPSTR i = const_cast<LPSTR>(result);
-		BearCore::bear_copy(i, m_strings[0].first, m_strings[0].second*sizeof(*m_strings[0].first));
+		bear_copy(i, m_strings[0].first, m_strings[0].second*sizeof(*m_strings[0].first));
         i += m_strings[0].second;
 
         for (bsize j = 1; j < m_count; ++j)
         {
-			BearCore::bear_copy(i, m_strings[j].first, m_strings[j].second*sizeof(*m_strings[j].first));
+			bear_copy(i, m_strings[j].first, m_strings[j].second*sizeof(*m_strings[j].first));
             i += m_strings[j].second;
         }
 
@@ -111,7 +111,7 @@ private:
 
         static inline bsize length(LPCSTR string)
         {
-            return (string ? (unsigned int)BearCore::BearString::GetSize(string) : 0);
+            return (string ? (unsigned int)BearString::GetSize(string) : 0);
         }
 
         static inline LPCSTR string(LPCSTR string)

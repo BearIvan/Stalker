@@ -236,7 +236,7 @@ _action* action_name_to_ptr(LPCSTR _name)
 	int idx				= 0;
 	while( actions[idx].action_name )
 	{
-		if( !BearCore::BearString::CompareWithoutCase(_name,actions[idx].action_name) )
+		if( !BearString::CompareWithoutCase(_name,actions[idx].action_name) )
 			return &actions[idx];
 		++idx;
 	}
@@ -280,7 +280,7 @@ _keyboard*	keyname_to_ptr(LPCSTR _name)
 	while(keyboards[idx].key_name)
 	{
 		_keyboard&	kb		= keyboards[idx];
-		if( !BearCore::BearString::CompareWithoutCase(_name, kb.key_name) )
+		if( !BearString::CompareWithoutCase(_name, kb.key_name) )
 			return &keyboards[idx];
 		++idx;
 	}	
@@ -390,7 +390,7 @@ public:
 		*action								= 0;
 		*key								= 0;
 
-		BearCore::BearString::Scanf								(args,"%s %s", action, key);
+		BearString::Scanf								(args,"%s %s", action, key);
 		if (!*action)
 			return;
 

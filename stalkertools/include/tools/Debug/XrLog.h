@@ -1,5 +1,5 @@
 #pragma once
-#define Msg(a,...) 	BearCore::BearLog::Printf(a,##__VA_ARGS__)
+#define Msg(a,...) 	BearLog::Printf(a,##__VA_ARGS__)
 #define VPUSH(a)	((a).x), ((a).y), ((a).z)
 IC void 			Log(LPCSTR msg)
 {

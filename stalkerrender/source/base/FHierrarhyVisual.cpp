@@ -69,8 +69,8 @@ void FHierrarhyVisual::Load(const char* N, IReader *data, u32 dwFlags)
 					string_path			name_load,short_name,num;
 					xr_strcpy				(short_name,N);
 					if (strext(short_name)) *strext(short_name)=0;
-					BearCore::BearString32 Num;
-					BearCore::BearString::Printf(Num, "%d", num);
+					BearString32 Num;
+					BearString::Printf(Num, "%d", num);
 					strconcat			(sizeof(name_load),name_load,short_name,":", Num);
 					children.push_back	((dxRender_Visual*)::Render->model_CreateChild(name_load,O));
                     O->close			();

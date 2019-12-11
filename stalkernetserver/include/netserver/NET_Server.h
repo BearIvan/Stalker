@@ -59,7 +59,7 @@ public:
 		u32		bVerified	: 1;
 	};
 
-                        IClient(BearCore::BearTimer* timer );
+                        IClient(BearTimer* timer );
 	virtual             ~IClient();
 
 	IClientStatistic	stats;
@@ -112,7 +112,7 @@ class XRNETSERVER_API IBannedClient
 {
 public:
 	ip_address			HAddr;
-	BearCore::BearGlobalTime				BanTime;
+	BearGlobalTime				BanTime;
 	
 	IBannedClient ()
 	{
@@ -182,7 +182,7 @@ protected:
 	
 	// Statistic
 	IServerStatistic		stats;
-	BearCore::BearTimer*					device_timer;
+	BearTimer*					device_timer;
 	BOOL					m_bDedicated;
 
 	IClient*				ID_to_client		(ClientID ID, bool ScanAll = false);
@@ -199,7 +199,7 @@ protected:
 
 			void			UpdateBannedList	();
 public:
-							IPureServer			(BearCore::BearTimer* timer, BOOL Dedicated = FALSE);
+							IPureServer			(BearTimer* timer, BOOL Dedicated = FALSE);
 	virtual					~IPureServer		();
 	HRESULT					net_Handler			(u32 dwMessageType, PVOID pMessage);
 	

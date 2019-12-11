@@ -85,12 +85,12 @@ void	INetLog::FlushLog()
 		for(xr_vector<SLogPacket>::iterator it = m_aLogPackets.begin(); it != m_aLogPackets.end(); it++)
 		{
 			SLogPacket* pLPacket = &(*it);
-			BearCore::BearString str;
+			BearString str;
 			if (pLPacket->m_u16Type >= sizeof(PacketName)/sizeof(PacketName[0]))
 				str.assign_printf( "%s %10u %10u %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, pLPacket->m_u16Type, pLPacket->m_u32Size);
 			else
 				str.assign_printf("%s %10u %10s %10u\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, PacketName[pLPacket->m_u16Type], pLPacket->m_u32Size);
-			m_pLogFile.WriteString(str, BearCore::BearEncoding::UTF8, false);
+			m_pLogFile.WriteString(str, BearEncoding::UTF8, false);
 		};
 
 	};

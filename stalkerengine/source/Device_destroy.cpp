@@ -30,7 +30,7 @@ void CRenderDevice::Destroy(void)
     m_pRender->ValidateHW();
 
     _Destroy(FALSE);
-	BearCore::bear_delete(window);
+	bear_delete(window);
     // real destroy
     m_pRender->DestroyHW();
 

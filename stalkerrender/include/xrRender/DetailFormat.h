@@ -58,14 +58,16 @@
 */
 
 #define DO_NO_WAVING	0x0001
+#pragma pack(push,4)
 
 struct DetailHeader
 {
 	u32		version;
-	bsize		object_count;
-	bint		offs_x,	offs_z;
-	bsize		size_x,	size_z;
+	u32		object_count;
+	s32		offs_x,	offs_z;
+	u32		size_x,	size_z;
 };
+#pragma pack(pop)
 struct DetailPalette
 {
 	u16		a0:4;

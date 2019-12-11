@@ -57,7 +57,7 @@ public:
             for (bsize i = 0; i < n; ++i)
             {
                 XrTrims::GetItem(cmd_line, i, m_params[i], '/');
-                BearCore::BearString::ToLower(m_params[i]);
+                BearString::ToLower(m_params[i]);
             }
         }
     };

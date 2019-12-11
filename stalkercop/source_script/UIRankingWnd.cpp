@@ -131,7 +131,7 @@ void CUIRankingWnd::Init()
 
 	string256 buf;
 	xr_strcpy( buf, sizeof(buf), m_center_caption->GetText() );
-	BearCore::BearString::Contact( buf, sizeof(buf), CStringTable().translate("ui/UI_ranking_center_caption").c_str() );
+	BearString::Contact( buf, sizeof(buf), CStringTable().translate("ui/UI_ranking_center_caption").c_str() );
 	m_center_caption->SetText( buf );
 
 

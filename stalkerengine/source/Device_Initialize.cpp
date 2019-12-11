@@ -45,7 +45,7 @@ PROTECT_API void CRenderDevice::Initialize()
         initialize_editor();
 #endif // #ifdef INGAME_EDITOR
 
-	window = BearCore::bear_new<BearGraphics::BearWindow>();
+	window = bear_new<BearWindow>();
     // Unless a substitute hWnd has been specified, create a window to render into
    /* if (m_hWnd == NULL)
     {

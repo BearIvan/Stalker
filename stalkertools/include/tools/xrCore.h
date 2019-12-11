@@ -1,4 +1,6 @@
 #pragma once
+#define _HAS_AUTO_PTR_ETC 1
+#include <memory>
 #include "BearCore.hpp"
 
 
@@ -20,6 +22,7 @@
 // stl
 #pragma warning (push)
 #pragma warning (disable:4702)
+#include <functional>
 #include <algorithm>
 #include <limits>
 #include <vector>

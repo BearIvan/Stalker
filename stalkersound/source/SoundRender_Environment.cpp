@@ -180,13 +180,13 @@ void	SoundEnvironment_LIB::Unload	()
 int		SoundEnvironment_LIB::GetID		(LPCSTR name)
 {
 	for (SE_IT it=library.begin(); it!=library.end(); it++)
-		if (0==BearCore::BearString::CompareWithoutCase(name,*(*it)->name)) return int(it-library.begin());
+		if (0==BearString::CompareWithoutCase(name,*(*it)->name)) return int(it-library.begin());
 	return -1;
 }
 CSoundRender_Environment*	SoundEnvironment_LIB::Get		(LPCSTR name)
 {
 	for (SE_IT it=library.begin(); it!=library.end(); it++)
-		if (0== BearCore::BearString::CompareWithoutCase(name,*(*it)->name)) return *it;
+		if (0== BearString::CompareWithoutCase(name,*(*it)->name)) return *it;
 	return NULL;
 }
 CSoundRender_Environment*	SoundEnvironment_LIB::Get		(int id)
@@ -201,7 +201,7 @@ CSoundRender_Environment*	SoundEnvironment_LIB::Append	(CSoundRender_Environment
 void						SoundEnvironment_LIB::Remove	(LPCSTR name)
 {
 	for (SE_IT it=library.begin(); it!=library.end(); it++)
-		if (0== BearCore::BearString::CompareWithoutCase(name,*(*it)->name))
+		if (0== BearString::CompareWithoutCase(name,*(*it)->name))
 		{
 			xr_delete		(*it);
 			library.erase	(it);

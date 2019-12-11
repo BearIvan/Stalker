@@ -19,6 +19,7 @@ CParticleManager::CParticleManager	()
 
 CParticleManager::~CParticleManager	()
 {
+	ttapi_Done();
 }
 
 ParticleEffect*	CParticleManager::GetEffectPtr(bint effect_id)

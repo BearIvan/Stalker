@@ -68,7 +68,7 @@ void CEngineAPI::InitializeNotDedicated()
 			// try to initialize R4
 			Log("Loading DLL:", TEXT("stalker_r5"));
 
-			if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r5")))
+			if (0 == BearManagerProjects::CheckProject(TEXT("stalker_r5")))
 			{
 				Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
 				psDeviceFlags.set(rsR2, TRUE);
@@ -84,7 +84,7 @@ void CEngineAPI::InitializeNotDedicated()
 		// try to initialize R4
 		Log("Loading DLL:", TEXT("stalker_r4"));
 
-		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
+		if (0 == BearManagerProjects::CheckProject(TEXT("stalker_r4")))
 		{
 			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
 			psDeviceFlags.set(rsR2, TRUE);
@@ -100,7 +100,7 @@ void CEngineAPI::InitializeNotDedicated()
 	{
 		// try to initialize R3
 		Log("Loading DLL:", TEXT("stalker_r3"));
-		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r3")))
+		if (0 == BearManagerProjects::CheckProject(TEXT("stalker_r3")))
 		{
 			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
 			psDeviceFlags.set(rsR2, TRUE);
@@ -119,7 +119,7 @@ void CEngineAPI::InitializeNotDedicated()
 		psDeviceFlags.set(rsR4, FALSE);
 		psDeviceFlags.set(rsR3, FALSE);
 		Log("Loading DLL:", TEXT("stalker_r2"));
-		if (0 == BearCore::BearProjectTool::CheckProject(TEXT("stalker_r2")))
+		if (0 == BearManagerProjects::CheckProject(TEXT("stalker_r2")))
 		{
 			Msg("! ...Failed - incompatible hardware/pre-Vista OS.");
 		}
@@ -154,7 +154,7 @@ void CEngineAPI::Initialize(void)
 	
         Log("Loading DLL:", TEXT("stalker_r1") );
 
-		R_ASSERT(BearCore::BearProjectTool::CheckProject(TEXT("stalker_r1")));
+		R_ASSERT(BearManagerProjects::CheckProject(TEXT("stalker_r1")));
 		bRender = true;
         g_current_renderer = 1;
     }
@@ -180,9 +180,9 @@ void CEngineAPI::Initialize(void)
 			break;
 		}
         Log("Loading DLL:", name);
-        R_ASSERT2(BearCore::BearProjectTool::CheckProject(name), "Game DLL raised exception during loading or there is no game DLL at all");
-        pCreate = BearCore::BearProjectTool::GetFunctionInProject< Factory_Create*>(name, TEXT("xrFactory_Create"));
-		pDestroy = BearCore::BearProjectTool::GetFunctionInProject< Factory_Destroy*>(name, TEXT("xrFactory_Destroy"));
+        R_ASSERT2(BearManagerProjects::CheckProject(name), "Game DLL raised exception during loading or there is no game DLL at all");
+        pCreate = BearManagerProjects::GetFunctionInProject< Factory_Create*>(name, TEXT("xrFactory_Create"));
+		pDestroy = BearManagerProjects::GetFunctionInProject< Factory_Destroy*>(name, TEXT("xrFactory_Destroy"));
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -209,13 +209,13 @@ void CEngineAPI::Destroy(void)
 			NODEFAULT;
 			break;
 		}
-		BearCore::BearProjectTool::UnLoad(name);
+		BearManagerProjects::UnLoad(name);
 	}
-	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r1"));
-	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r2"));
-	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r3"));
-	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
-	BearCore::BearProjectTool::UnLoad(TEXT("stalker_r5"));
+	BearManagerProjects::UnLoad(TEXT("stalker_r1"));
+	BearManagerProjects::UnLoad(TEXT("stalker_r2"));
+	BearManagerProjects::UnLoad(TEXT("stalker_r3"));
+	BearManagerProjects::UnLoad(TEXT("stalker_r4"));
+	BearManagerProjects::UnLoad(TEXT("stalker_r5"));
 
     pCreate = 0;
     pDestroy = 0;
@@ -259,31 +259,31 @@ void CEngineAPI::CreateRendererList()
     }
     else
     {
-		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r2")))
+		if (BearManagerProjects::CheckProject(TEXT("stalker_r2")))
 		{
 			bSupports_r2 = true;
-			SupportsAdvancedRendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsAdvancedRendering*>(TEXT("stalker_r2"), TEXT("SupportsAdvancedRendering"));
+			SupportsAdvancedRendering* test_rendering = BearManagerProjects::GetFunctionInProject< SupportsAdvancedRendering*>(TEXT("stalker_r2"), TEXT("SupportsAdvancedRendering"));
 			R_ASSERT(test_rendering);
 			bSupports_r2_5 = test_rendering();
-			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r2"));
+			BearManagerProjects::UnLoad(TEXT("stalker_r2"));
 		}
-		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r3")))
+		if (BearManagerProjects::CheckProject(TEXT("stalker_r3")))
 		{
-			SupportsDX10Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX10Rendering*>(TEXT("stalker_r3"), TEXT("SupportsDX10Rendering"));
+			SupportsDX10Rendering* test_rendering = BearManagerProjects::GetFunctionInProject< SupportsDX10Rendering*>(TEXT("stalker_r3"), TEXT("SupportsDX10Rendering"));
 			bSupports_r3= test_rendering();
-			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r3"));
+			BearManagerProjects::UnLoad(TEXT("stalker_r3"));
 		}
-		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r4")))
+		if (BearManagerProjects::CheckProject(TEXT("stalker_r4")))
 		{
-			SupportsDX11Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r4"), TEXT("SupportsDX11Rendering"));
+			SupportsDX11Rendering* test_rendering = BearManagerProjects::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r4"), TEXT("SupportsDX11Rendering"));
 			bSupports_r4 = test_rendering();
-			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r4"));
+			BearManagerProjects::UnLoad(TEXT("stalker_r4"));
 		}
-		if (BearCore::BearProjectTool::CheckProject(TEXT("stalker_r5")))
+		if (BearManagerProjects::CheckProject(TEXT("stalker_r5")))
 		{
-			SupportsDX11Rendering* test_rendering = BearCore::BearProjectTool::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r5"), TEXT("SupportsBearRendering"));
+			SupportsDX11Rendering* test_rendering = BearManagerProjects::GetFunctionInProject< SupportsDX11Rendering*>(TEXT("stalker_r5"), TEXT("SupportsBearRendering"));
 			bSupports_r5 = test_rendering();
-			BearCore::BearProjectTool::UnLoad(TEXT("stalker_r5"));
+			BearManagerProjects::UnLoad(TEXT("stalker_r5"));
 		}
         // try to initialize R2
       /*  Log("Loading DLL:", r2_name);

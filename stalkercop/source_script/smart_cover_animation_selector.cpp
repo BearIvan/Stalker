@@ -118,7 +118,7 @@ MotionID animation_selector::select_animation		(bool &animation_movement_control
 		VERIFY				( hud_item );
 
 		string16			animation_slot_string;
-			BearCore::BearString::Printf(animation_slot_string, TEXT("%d"), hud_item->animation_slot());
+			BearString::Printf(animation_slot_string, TEXT("%d"), hud_item->animation_slot());
 		R_ASSERT			( !animation_slot_string );
 
 		LPSTR				result;

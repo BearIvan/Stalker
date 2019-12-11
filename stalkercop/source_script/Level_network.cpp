@@ -610,8 +610,8 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 	{
 		string1024 tmpstr;
 		xr_strcpy(tmpstr, *m_caClientOptions);
-		BearCore::BearString::Contact(tmpstr, "name=");
-		BearCore::BearString::Contact(tmpstr, NewName);
+		BearString::Contact(tmpstr, "name=");
+		BearString::Contact(tmpstr, NewName);
 		m_caClientOptions = tmpstr;
 	}
 	else
@@ -619,10 +619,10 @@ void				CLevel::net_OnChangeSelfName			(NET_Packet* P)
 		string1024 tmpstr;
 		xr_strcpy(tmpstr, *m_caClientOptions);
 		*(strstr(tmpstr, "name=")+5) = 0;
-		BearCore::BearString::Contact(tmpstr, NewName);
+		BearString::Contact(tmpstr, NewName);
 		const char* ptmp = strstr(strstr(*m_caClientOptions, "name="), "");
 		if (ptmp)
-			BearCore::BearString::Contact(tmpstr, ptmp);
+			BearString::Contact(tmpstr, ptmp);
 		m_caClientOptions = tmpstr;
 	}
 }

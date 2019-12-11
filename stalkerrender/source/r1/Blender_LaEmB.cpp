@@ -46,7 +46,7 @@ void	CBlender_LaEmB::Compile(CBlender_Compile& C)
 {
 	IBlender::Compile		(C);
 
-	BOOL bConstant			= (0!= BearCore::BearString::CompareWithoutCase(oT2_const,"$null"));
+	BOOL bConstant			= (0!= BearString::CompareWithoutCase(oT2_const,"$null"));
 	if (C.bEditor)	{
 		if (bConstant)	compile_EDc	(C);
 		else			compile_ED	(C);

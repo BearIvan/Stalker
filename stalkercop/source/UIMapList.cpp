@@ -77,11 +77,11 @@ void CUIMapList::StartDedicatedServer(){
 	ModuleName[0]		= 0;
 			
 	xr_strcpy			(g_sLaunchOnExit_app, g_sLaunchWorkingFolder);
-	BearCore::BearString::Contact			(g_sLaunchOnExit_app, "dedicated\\xrEngine.exe");
+	BearString::Contact			(g_sLaunchOnExit_app, "dedicated\\xrEngine.exe");
 
 	xr_strcpy			(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
-	BearCore::BearString::Contact			(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");
-	BearCore::BearString::Contact			(g_sLaunchOnExit_params, GetCommandLine(""));
+	BearString::Contact			(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");
+	BearString::Contact			(g_sLaunchOnExit_params, GetCommandLine(""));
 	Msg					("Going to quit before starting dedicated server");
 	Msg					("Working folder is:%s", g_sLaunchWorkingFolder);
 	Msg					("%s %s",g_sLaunchOnExit_app, g_sLaunchOnExit_params);

@@ -45,8 +45,8 @@ public:
     IC void w_s16(s16 d) { w(&d, sizeof(s16)); }
     IC void w_s8(s8 d) { w(&d, sizeof(s8)); }
     IC void w_float(float d) { w(&d, sizeof(float)); }
-    IC void w_string(const char* p) { w(p, (bsize)BearCore::BearString::GetSize(p)); w_u8(13); w_u8(10); }
-    IC void w_stringZ(const char* p) { w(p, (bsize)BearCore::BearString::GetSize(p) + 1); }
+    IC void w_string(const char* p) { w(p, (bsize)BearString::GetSize(p)); w_u8(13); w_u8(10); }
+    IC void w_stringZ(const char* p) { w(p, (bsize)BearString::GetSize(p) + 1); }
     IC void w_stringZ(const shared_str& p) { w(*p ? *p : "", p.size()); w_u8(0); }
     IC void w_stringZ(shared_str& p) { w(*p ? *p : "", p.size()); w_u8(0); }
     IC void w_stringZ(const xr_string& p) { w(p.c_str() ? p.c_str() : "", (bsize)p.size()); w_u8(0); }
@@ -318,10 +318,10 @@ private:
 #endif
 
 #pragma once
-#define FS (*BearCore::FS)
+#define FS (*GFS)
 class  XRCORE_API XRayBearReader:public IReader
 {
-	IC XRayBearReader(BearCore::BearStreamRef< BearCore::BearInputStream> stream_ref) :m_stream(**stream_ref)
+	IC XRayBearReader(BearRef< BearInputStream> stream_ref) :m_stream(**stream_ref)
 	{
 		data = (char*)m_stream.Begin();
 		Size = m_stream.Size();
@@ -329,46 +329,46 @@ class  XRCORE_API XRayBearReader:public IReader
 		iterpos = 0;
 	}
 public:
-	IC static XRayBearReader* Create(BearCore::BearStreamRef< BearCore::BearInputStream> stream_ref)
+	IC static XRayBearReader* Create(BearRef< BearInputStream> stream_ref)
 	{
-		XRayBearReader*result = BearCore::bear_alloc< XRayBearReader>(1);
+		XRayBearReader*result = bear_alloc< XRayBearReader>(1);
 		new(result)XRayBearReader(stream_ref);
 		return result;
 	}
 	IC static XRayBearReader* Create(const bchar*file)
 	{
-		XRayBearReader*result = BearCore::bear_alloc< XRayBearReader>(1);
-		new(result)XRayBearReader(BearCore::bear_new<BearCore::BearFileStream>(file));
+		XRayBearReader*result = bear_alloc< XRayBearReader>(1);
+		new(result)XRayBearReader(bear_new<BearFileStream>(file));
 		return result;
 	}
 	IC static void Destroy(IReader*stream)
 	{
-		BearCore::bear_delete(static_cast<XRayBearReader*>(stream));
+		bear_delete(static_cast<XRayBearReader*>(stream));
 	}
 private:
-	BearCore::BearMemoryStream m_stream;
+	BearMemoryStream m_stream;
 };
 class XRCORE_API XRayBearWriter :public IWriter
 {
-	XRayBearWriter(BearCore::BearStreamRef< BearCore::BearOutputStream> stream_ref);
+	XRayBearWriter(BearRef< BearOutputStream> stream_ref);
 public:
-	IC static XRayBearWriter* Create(BearCore::BearStreamRef< BearCore::BearOutputStream> stream_ref)
+	IC static XRayBearWriter* Create(BearRef< BearOutputStream> stream_ref)
 	{
-		XRayBearWriter*result = BearCore::bear_alloc< XRayBearWriter>(1);
+		XRayBearWriter*result = bear_alloc< XRayBearWriter>(1);
 		new(result)XRayBearWriter(stream_ref);
 		return result;
 	}
 	IC static XRayBearWriter* Create(const bchar*file)
 	{
-		XRayBearWriter*result = BearCore::bear_alloc< XRayBearWriter>(1);
-		auto fs=	BearCore::bear_new<BearCore::BearFileStream>(file);
+		XRayBearWriter*result = bear_alloc< XRayBearWriter>(1);
+		auto fs=	bear_new<BearFileStream>(file);
 		fs->Open(file, fs->M_Write);
 		new(result)XRayBearWriter(fs);
 		return result;
 	}
 	IC static void Destroy(IWriter*stream)
 	{
-		BearCore::bear_delete(static_cast<XRayBearWriter*>(stream));
+		bear_delete(static_cast<XRayBearWriter*>(stream));
 	}
 	virtual ~XRayBearWriter();
 	virtual void seek(bsize pos);
@@ -376,30 +376,30 @@ public:
 	virtual void w(const void* ptr, bsize count);
 	virtual void flush();
 private:
-	BearCore::BearStreamRef< BearCore::BearOutputStream> m_stream;
+	BearRef< BearOutputStream> m_stream;
 
 };
 
 class  XRCORE_API XRayBearFileStream :public  IReaderBase < XRayBearFileStream >
 {
-	XRayBearFileStream(BearCore::BearStreamRef< BearCore::BearInputStream> stream_ref):m_stream(stream_ref){}
+	XRayBearFileStream(BearRef< BearInputStream> stream_ref):m_stream(stream_ref){}
 public:
-	IC static XRayBearFileStream* Create(BearCore::BearStreamRef< BearCore::BearInputStream> stream_ref)
+	IC static XRayBearFileStream* Create(BearRef< BearInputStream> stream_ref)
 	{
-		XRayBearFileStream*result = BearCore::bear_alloc< XRayBearFileStream>(1);
+		XRayBearFileStream*result = bear_alloc< XRayBearFileStream>(1);
 		new(result)XRayBearFileStream(stream_ref);
 		return result;
 	}
 	IC static void Destroy(XRayBearFileStream*stream)
 	{
-		BearCore::bear_delete(static_cast<XRayBearFileStream*>(stream));
+		bear_delete(static_cast<XRayBearFileStream*>(stream));
 	}
 	IC void advance(bsize offset) { m_stream->Seek(offset+ m_stream->Tell()); }
 	IC bsize elapsed() const { return  m_stream->Size() - m_stream->Tell(); }
 	IC bsize length() const { return  m_stream->Size(); }
 	IC void seek(bsize offset) { m_stream->Seek(offset); }
 	IC bsize tell() const {return  m_stream->Tell(); }
-	IC void r(void* _buffer, bsize buffer_size) { m_stream->Read(_buffer, buffer_size); }
+	IC void r(void* _buffer, bsize buffer_size) { m_stream->ReadBuffer(_buffer, buffer_size); }
 	XRayBearFileStream* open_chunk(const uint32& chunk_id)
 	{
 		return Create(m_stream->ReadChunkAsInputStream(chunk_id));
@@ -410,7 +410,7 @@ public:
 		return m_stream->GoToChunk(ID);
 	}
 private:
-	BearCore::BearStreamRef< BearCore::BearInputStream>m_stream;
+	BearRef< BearInputStream>m_stream;
 };
 class CTempReader : public IReader
 {

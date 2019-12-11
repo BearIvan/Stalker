@@ -267,11 +267,11 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
 
     SetTextColor(hDC, RGB(205, 205, 225));
 
-	auto &str = BearCore::BearLog::Lock();
+	auto &str = BearLog::Lock();
 
 	bsize log_line = str.size() - 1;
     string16 q, q2;
-	BearCore::BearString::Printf(q, "%u", log_line);
+	BearString::Printf(q, "%u", log_line);
     xr_strcpy(q2, sizeof(q2), "[");
     xr_strcat(q2, sizeof(q2), q);
     xr_strcat(q2, sizeof(q2), "]");
@@ -327,7 +327,7 @@ void CTextConsole::DrawLog(HDC hDC, RECT* pRect)
             break;
         }
     }
-	BearCore::BearLog::Unlock();
+	BearLog::Unlock();
 }
 /*
 void CTextConsole::IR_OnKeyboardPress( int dik ) !!!!!!!!!!!!!!!!!!!!!

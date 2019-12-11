@@ -218,7 +218,7 @@ cdkey_ban_list::banned_client::banned_client()
 time_t get_time_from_string(LPCSTR str_time)
 {
 	tm	tmp_time;
-	int res_t	= BearCore::BearString::Scanf(
+	int res_t	= BearString::Scanf(
 		str_time,
 		"%02d.%02d.%d_%02d:%02d:%02d", 
 		&tmp_time.tm_mday, 

@@ -454,7 +454,7 @@ void capped_cylinder_ray_collision_test()
 	//Fcylinder::ecode code[2];
 	c.intersect(pos,dir1,ir,code);
 	RAYvsCYLINDER(c,pos,dir1,R,TRUE);//false
-	BearCore::BearTimer t;
+	BearTimer t;
 	t.restart();
 	for(int i=0;i<1000000;i++)
 	{

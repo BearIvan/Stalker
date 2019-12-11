@@ -6,7 +6,7 @@ public:
 	ButtonLink(const bchar*link,const bchar*textures);
 	~ButtonLink();
 private:
-	virtual void Draw(BearUI::BearUI * ui, BearCore::BearTime time);
+	virtual void Draw(BearUI::BearUI * ui, BearTime time);
 	virtual void OnMessage(int32 message);
 	virtual bool OnMouse(float x, float y);
 	virtual bool OnKeyDown(BearUI::BearInput::Key key);
@@ -17,7 +17,7 @@ private:
 	virtual void KillFocus();
 private:
 	void CallBack();
-	BearCore::BearString Link;
+	BearString Link;
 	BearUI::BearUITexture UIImage;
 };
 #endif

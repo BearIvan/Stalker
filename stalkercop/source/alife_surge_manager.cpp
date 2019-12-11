@@ -36,7 +36,7 @@ void CALifeSurgeManager::spawn_new_spawns			()
 		VERIFY3					(spawn,spawns().spawns().vertex(*I)->data()->object().name(),spawns().spawns().vertex(*I)->data()->object().name_replace());
 
 #ifdef DEBUG
-		BearCore::BearTimer					timer;
+		BearTimer					timer;
 		timer.restart				();
 #endif
 		create					(object,spawn,*I);

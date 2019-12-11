@@ -78,7 +78,7 @@ void item_respawn_manager::load_respawn_items(shared_str const section)
 	u32 temp_int;
 	for (sect_iter i = resp_sect.Data.begin(); i != ie; ++i)
 	{
-		BearCore::BearString::Scanf(i->second.c_str(), "%d", &temp_int);
+		BearString::Scanf(i->second.c_str(), "%d", &temp_int);
 		m_respawns.insert(std::make_pair(i->first, spawn_item(temp_int * 1000)));
 	}
 }

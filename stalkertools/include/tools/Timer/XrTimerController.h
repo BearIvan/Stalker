@@ -13,7 +13,7 @@ private:
 	static void Initialize();
 	static void Destroy();
 private:
-	static BearCore::BearVector< XrTimerPaused*>* m_timers;
+	static BearVector< XrTimerPaused*>* m_timers;
 	static bool m_pause;
 public:
 	static void Pause(bool);

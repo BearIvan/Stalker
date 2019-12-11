@@ -141,10 +141,10 @@ static void *lua_alloc	(void *ud, void *ptr, size_t osize, size_t nsize) {
 	(void)ud;
 	(void)osize;
 	if (!nsize) {
-		BearCore::BearMemory::Free(ptr);
+		BearMemory::Free(ptr);
 		return					0;
 	}
-	return BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
+	return BearMemory::Realloc(ptr, nsize, "LUA");
 }
 
 // export
@@ -271,7 +271,7 @@ void	CResourceManager::LS_Load			()
 	];
 
 	// load shaders
-	BearCore::BearVector<BearCore::BearString> folder;
+	BearVector<BearString> folder;
 	FS.GetFiles(folder, TEXT("%cur_shaders%"), TEXT("*.s"));
 	VERIFY(folder.size());
 	for (u32 it = 0; it < folder.size(); it++) {
@@ -280,7 +280,7 @@ void	CResourceManager::LS_Load			()
 		if (0 == strext(namesp) || 0 != xr_strcmp(strext(namesp), ".s"))	continue;
 		*strext(namesp) = 0;
 		if (0 == namesp[0])			xr_strcpy(namesp, "_G");
-		BearCore::BearString::Copy(fn, *(folder[it]));
+		BearString::Copy(fn, *(folder[it]));
 		try {
 			Script::bfLoadFileIntoNamespace(LSVM, TEXT("%cur_shaders%"), fn, namesp, true);
 		}

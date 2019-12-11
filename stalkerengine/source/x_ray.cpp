@@ -330,9 +330,9 @@ void Startup()
 	// Main cycle
 	CheckCopyProtection();
 	//Memory.mem_usage();
-	DiscordAPI = BearCore::bear_new<XRayDiscordAPI>();
+	DiscordAPI = bear_new<XRayDiscordAPI>();
 	Device.Run();
-	BearCore::bear_delete(DiscordAPI);
+	bear_delete(DiscordAPI);
 
 	// Destroy APP
 	xr_delete(g_SpatialSpacePhysic);
@@ -549,7 +549,7 @@ BOOL IsOutOfVirtualMemory()
     HINSTANCE hApp = 0;
     char pszError[VIRT_ERROR_SIZE];
     char pszMessage[VIRT_MESSAGE_SIZE];
-	BearCore::bear_fill(reinterpret_cast<void*>(&statex), sizeof(MEMORYSTATUSEX));
+	bear_fill(reinterpret_cast<void*>(&statex), sizeof(MEMORYSTATUSEX));
     ZeroMemory(&statex, sizeof(MEMORYSTATUSEX));
     statex.dwLength = sizeof(MEMORYSTATUSEX);
 
@@ -632,7 +632,7 @@ BOOL IsPCAccessAllowed();
 
 void FatalErrorCallBack()
 {
-	BearCore::bear_delete(Device.window);
+	bear_delete(Device.window);
 }
 
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
@@ -648,7 +648,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #else // DEDICATED_SERVER
     //Debug.();
 #endif // DEDICATED_SERVER
-	BearCore::Initialize(TEXT("stalker"), TEXT(""));
+	BearCore::Initialize(TEXT("stalker"));
 #ifdef NO_MULTI_INSTANCES
 #define STALKER_PRESENCE_MUTEX "Local\\STALKER"
 
@@ -669,24 +669,24 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		return 1;
 	}
 #endif
-	BearCore::BearLog::Printf(TEXT("S.T.A.L.K.E.R. build %s"), *BearCore::BearLog::GetBuild(start_year, start_month, start_day));
+	BearLog::Printf(TEXT("S.T.A.L.K.E.R. build %s"), *BearLog::GetBuild(start_year, start_month, start_day));
 
-	BearCore::BearDebug::SetCallBack(FatalErrorCallBack);
+	BearDebug::SetCallBack(FatalErrorCallBack);
 
 
-	BearCore::BearStringPath FSFilePath;
-	BearCore::BearFileManager::GetApplicationPath(FSFilePath);
+	BearStringPath FSFilePath;
+	BearFileManager::GetApplicationPath(FSFilePath);
 
-	BearCore::BearString::Contact(FSFilePath, BEAR_PATH);
-	BearCore::BearString::Contact(FSFilePath, TEXT(".."));
-	BearCore::BearString::Contact(FSFilePath, BEAR_PATH);
-	BearCore::BearString::Contact(FSFilePath, TEXT("stalker.fs"));
+	BearString::Contact(FSFilePath, BEAR_PATH);
+	BearString::Contact(FSFilePath, TEXT(".."));
+	BearString::Contact(FSFilePath, BEAR_PATH);
+	BearString::Contact(FSFilePath, TEXT("stalker.fs"));
 	
 #undef FS
-	BearCore::FS = BearCore::bear_new<BearCore::BearFileSystem>();
+	GFS = bear_new<BearFileSystem>();
 	
-	BEAR_ERRORMESSAGE(BearCore::FS->LoadFromFile(FSFilePath, BearCore::BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
-#define FS (*BearCore::FS)
+	BEAR_ERRORMESSAGE(GFS->LoadFromFile(FSFilePath, BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
+#define FS (*GFS)
 
 	FS.SetPackage(TEXT("%main%"), TEXT("TheBearProject"));
 
@@ -698,8 +698,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	if (!Modloader::Run())
 	{
 		Modloader::Destroy();
-		BearCore::bear_delete(gameVersionController);
-		BearCore::Destroy();
+		bear_delete(gameVersionController);
+        BearCore::Destroy();
 		return 0;
 	}
 
@@ -709,10 +709,10 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	FS.CreateDirectory(TEXT("%screenshots%"), 0);
 
 	{
-		BearCore::BearStringPath path;
+		BearStringPath path;
 		FS.UpdatePath(TEXT("%logs%"), 0, path);
-		BearCore::BearFileManager::PathCombine(path, TEXT("engine.log"));
-		BearCore::BearLog::SetFile(path);
+		BearFileManager::PathCombine(path, TEXT("engine.log"));
+		BearLog::SetFile(path);
 	}
 
     if (!IsDebuggerPresent())
@@ -795,10 +795,10 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	case GameVersionController::SOC:
 		break;
 	case GameVersionController::COP:
-		BearCore::BearString::Copy( fsgame, TEXT("fscop.ltx"));
+		BearString::Copy( fsgame, TEXT("fscop.ltx"));
 		break;
 	case GameVersionController::CS:
-		BearCore::BearString::Copy(fsgame, TEXT("fscs.ltx"));
+		BearString::Copy(fsgame, TEXT("fscs.ltx"));
 		break;
 	default:
 		NODEFAULT;
@@ -903,8 +903,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     }
     // here damn_keys_filter class instanse will be destroyed
 #endif // DEDICATED_SERVER
-	BearCore::bear_delete(gameVersionController);
-	BearCore::Destroy();
+	bear_delete(gameVersionController);
+    BearCore::Destroy();
     return 0;
 }
 
@@ -1189,7 +1189,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
     }
 }
 
-static BearCore::BearTimer phase_timer;
+static BearTimer phase_timer;
 extern ENGINE_API BOOL g_appLoaded = FALSE;
 
 void CApplication::LoadBegin()
@@ -1328,11 +1328,11 @@ void CApplication::Level_Scan()
     }
     Levels.clear();
 
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	FS.GetFiles(list, "%levels%", "*.ltx",true);
 	VERIFY(list.size());
 
-	BearCore::BearVector<BearCore::BearString> dirs;
+	BearVector<BearString> dirs;
 	FS.GetDirectories(dirs, "%levels%");
 	VERIFY(dirs.size());
 

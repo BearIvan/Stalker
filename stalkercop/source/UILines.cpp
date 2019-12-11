@@ -338,7 +338,7 @@ LPCSTR GetElipsisText(CGameFont* pFont, float width, LPCSTR source_text, LPSTR b
 			buff[pos]					= 0;
 		}
 
-		BearCore::BearString::Contact						(buff,buff_len,"..");
+		BearString::Contact						(buff,buff_len,"..");
 		return							buff;
 	}
 }

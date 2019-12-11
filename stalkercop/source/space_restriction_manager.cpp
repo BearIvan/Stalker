@@ -207,8 +207,8 @@ u32	CSpaceRestrictionManager::accessible_nearest			(ALife::_OBJECT_ID id, const 
 	for (u32 i=0, n=XrTrims::GetItemCount(*update), count = xr_strlen(m_temp2); i<n; ++i)
 		if (!restriction_presented(m_temp2,XrTrims::GetItem(*update,i,m_temp1))) {
 			if (count)
-				BearCore::BearString::Contact			(m_temp2,",");
-			BearCore::BearString::Contact				(m_temp2,m_temp1);
+				BearString::Contact			(m_temp2,",");
+			BearString::Contact				(m_temp2,m_temp1);
 			++count;
 		}
 	restrictions				= shared_str(m_temp2);
@@ -222,8 +222,8 @@ u32	CSpaceRestrictionManager::accessible_nearest			(ALife::_OBJECT_ID id, const 
 	for (u32 i=0, n=XrTrims::GetItemCount(*restrictions), count = 0; i<n; ++i)
 		if (!restriction_presented(update,XrTrims::GetItem(*restrictions,i,m_temp1))) {
 			if (count)
-				BearCore::BearString::Contact			(m_temp2,",");
-			BearCore::BearString::Contact				(m_temp2,m_temp1);
+				BearString::Contact			(m_temp2,",");
+			BearString::Contact				(m_temp2,m_temp1);
 			++count;
 		}
 	restrictions				= shared_str(m_temp2);

@@ -20,31 +20,31 @@ void fix_texture_thm_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-	  (0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
-		0== BearCore::BearString::CompareWithoutCase(_ext,".thm")	||
-		0== BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
-		0== BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
-		0== BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
+	  (0==BearString::CompareWithoutCase(_ext,".tga")	||
+		0== BearString::CompareWithoutCase(_ext,".thm")	||
+		0== BearString::CompareWithoutCase(_ext,".dds")	||
+		0== BearString::CompareWithoutCase(_ext,".bmp")	||
+		0== BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
 void CTextureDescrMngr::LoadTHM(LPCSTR initial)
 {
 	
-	BearCore::BearVector<BearCore::BearString> flist;
+	BearVector<BearString> flist;
 	FS.GetFiles(flist, initial, TEXT("*.thm"), true);
 
 
 	auto It			= flist.begin();
 	auto It_e		= flist.end();
 	STextureParams			tp;
-			BearCore::BearStringPath		fn;
+			BearStringPath		fn;
 	for(;It!=It_e;++It)
 	{
 
 		IReader* F			=XRayBearReader::Create( FS.Read(initial,**It));
-		BearCore::BearString::Copy(fn, **It);
-		auto ext = BearCore::BearString::ToCharWithEnd(fn,TEXT('.'));
+		BearString::Copy(fn, **It);
+		auto ext = BearString::ToCharWithEnd(fn,TEXT('.'));
 		if(ext)*ext = 0;
 		fix_texture_thm_name(fn);
 
@@ -124,7 +124,7 @@ void CTextureDescrMngr::LoadLTX()
 				string_path				T;
 				float					s;
 
-				int res = BearCore::BearString::Scanf(*item.second, "%[^,],%f", T, &s);
+				int res = BearString::Scanf(*item.second, "%[^,],%f", T, &s);
 				R_ASSERT(res == 2);
 				desc.m_assoc->detail_name = T;
 				desc.m_assoc->cs = xr_new<cl_dt_scaler>(s);
@@ -151,7 +151,7 @@ void CTextureDescrMngr::LoadLTX()
 				desc.m_spec = xr_new<texture_spec>();
 
 				string_path				bmode;
-				int res = BearCore::BearString::Scanf(item.second.c_str(), "bump_mode[%[^]]], material[%f]", bmode, &desc.m_spec->m_material);
+				int res = BearString::Scanf(item.second.c_str(), "bump_mode[%[^]]], material[%f]", bmode, &desc.m_spec->m_material);
 				R_ASSERT(res == 2);
 				if ((bmode[0] == 'u') && (bmode[1] == 's') && (bmode[2] == 'e') && (bmode[3] == ':'))
 				{
@@ -179,7 +179,7 @@ void CTextureDescrMngr::LoadLTX()
 void CTextureDescrMngr::Load()
 {
 #ifdef DEBUG
-	BearCore::BearTimer					TT;
+	BearTimer					TT;
 	TT.restart();
 #endif // #ifdef DEBUG
 

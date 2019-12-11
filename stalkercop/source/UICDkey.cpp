@@ -217,7 +217,7 @@ void WriteCDKey_ToRegistry(LPSTR cdkey)
 
 void GetPlayerName_FromRegistry(char* name, u32 const name_size)
 {
-	BearCore::BearString::Copy(name, name_size, "NONE");
+	BearString::Copy(name, name_size, "NONE");
 }
 
 void WritePlayerName_ToRegistry(LPSTR name)

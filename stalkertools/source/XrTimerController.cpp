@@ -1,5 +1,5 @@
 #include "stdafx.h"
-BearCore::BearVector< XrTimerPaused*>* XrTimerController::m_timers = 0;
+BearVector< XrTimerPaused*>* XrTimerController::m_timers = 0;
 bool XrTimerController::m_pause = false;
 void XrTimerController::Register(XrTimerPaused *a)
 {
@@ -24,14 +24,14 @@ void XrTimerController::UnRegister(XrTimerPaused *a)
 
 void XrTimerController::Initialize()
 {
-	m_timers = BearCore::bear_new< BearCore::BearVector< XrTimerPaused*>>();
+	m_timers = bear_new< BearVector< XrTimerPaused*>>();
 }
 
 void XrTimerController::Destroy()
 {
 	BEAR_ASSERT(m_timers);
 	BEAR_ASSERT(m_timers->size()==0);
-	BearCore::bear_delete(m_timers);
+	bear_delete(m_timers);
 }
 
 void XrTimerController::Pause(bool a)

@@ -19,10 +19,10 @@ void fix_texture_name(LPSTR fn)
 {
 	LPSTR _ext = strext(fn);
 	if(  _ext					&&
-		(0==BearCore::BearString::CompareWithoutCase(_ext,".tga")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".dds")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".bmp")	||
-		0==BearCore::BearString::CompareWithoutCase(_ext,".ogm")	) )
+		(0==BearString::CompareWithoutCase(_ext,".tga")	||
+		0==BearString::CompareWithoutCase(_ext,".dds")	||
+		0==BearString::CompareWithoutCase(_ext,".bmp")	||
+		0==BearString::CompareWithoutCase(_ext,".ogm")	) )
 		*_ext = 0;
 }
 
@@ -327,7 +327,7 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, bsize& ret_msize, bool bSt
 	fix_texture_name		(fname);
 	IReader* S				= NULL;
 
-	if (BearCore::BearString::Find(fname, TEXT("_bump")))
+	if (BearString::Find(fname, TEXT("_bump")))
 	{
 		goto _BUMP_from_base;
 	}
@@ -450,7 +450,7 @@ _DDS_CUBE:
 _DDS_2D:
 		{
 			// Check for LMAP and compress if needed
-			BearCore::BearString::ToLower					(fname);
+			BearString::ToLower					(fname);
 
 
 			// Load   SYS-MEM-surface, bound to device restrictions

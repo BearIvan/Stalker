@@ -274,7 +274,7 @@ public:
 	virtual void		Execute			(LPCSTR arguments)
 	{
 		string64 cdkey;
-		if ( 0 == BearCore::BearString::CompareWithoutCase(arguments,"clear") )
+		if ( 0 == BearString::CompareWithoutCase(arguments,"clear") )
 		{
 			cdkey[0] = 0;
 		}
@@ -585,7 +585,7 @@ public:
 			return;
 		}
 		float new_speed;
-		BearCore::BearString::Scanf(args, "%f", &new_speed);
+		BearString::Scanf(args, "%f", &new_speed);
 		Level().SetDemoPlaySpeed(new_speed);
 	};
 
@@ -1210,7 +1210,7 @@ public:
 			exclude_raid_from_args(args, tmp_dest, sizeof(tmp_dest));
 			if (xr_strlen(tmp_dest))
 			{
-				BearCore::BearString::Scanf(tmp_dest, "%s", filter_string);
+				BearString::Scanf(tmp_dest, "%s", filter_string);
 				tmp_functor.filter_string = filter_string;
 			}
 		}
@@ -1293,7 +1293,7 @@ public:
 		exclude_raid_from_args(args, tmp_dest, sizeof(tmp_dest));
 		if (xr_strlen(tmp_dest))
 		{
-			BearCore::BearString::Scanf(tmp_dest, "%s", filter_dest);
+			BearString::Scanf(tmp_dest, "%s", filter_dest);
 		}
 		tmp_sv_game->PrintBanList(filter_dest);
 		Level().Server->Print_Banned_Addreses();
@@ -1375,7 +1375,7 @@ public:
 
 		//string256			GameType;	
 		//GameType[0]			=0;
-		//BearCore::BearString::Scanf				(args,"%s", GameType);
+		//BearString::Scanf				(args,"%s", GameType);
 
 		string1024			argsNew;
 		xr_sprintf				(argsNew, "%s %s %s", 
@@ -1664,7 +1664,7 @@ public:
 	{
 		u32 hours = 0, mins = 0;
 		
-		BearCore::BearString::Scanf				(args,"%d:%d", &hours, &mins);
+		BearString::Scanf				(args,"%d:%d", &hours, &mins);
 		u64 NewTime			= generate_time	(1,1,1,hours,mins,0,0);
 
 		if (!g_pGameLevel)
@@ -1763,7 +1763,7 @@ public:
 
 		string512			Team = "";
 		s32 TeamMoney		= 0;
-		BearCore::BearString::Scanf				(args,"%s %i", Team, &TeamMoney);
+		BearString::Scanf				(args,"%s %i", Team, &TeamMoney);
 
 		if (!Team[0])
 		{
@@ -1782,7 +1782,7 @@ public:
 		{
 			u32 TeamID			= 0;
 			s32 TeamStartMoney	= 0;
-			BearCore::BearString::Scanf				(args,"%i %i", &TeamID, &TeamStartMoney);
+			BearString::Scanf				(args,"%i %i", &TeamID, &TeamStartMoney);
 			TeamStruct* pTS		= pGameMP->GetTeamData(TeamID);
 			if (pTS) 
 				pTS->m_iM_Start = TeamStartMoney;
@@ -1831,7 +1831,7 @@ public:
 		{
 			string512			user;
 			string512			pass;
-			if(2==BearCore::BearString::Scanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
+			if(2==BearString::Scanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
 			{
 				NET_Packet		P;			
 				P.w_begin		(M_REMOTE_CONTROL_AUTH);

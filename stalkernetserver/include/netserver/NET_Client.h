@@ -45,7 +45,7 @@ protected:
 		shared_str				dpSessionName;
 	};
 	GameDescriptionData		m_game_description;
-	BearCore::BearTimer*					device_timer;
+	BearTimer*					device_timer;
 protected:
 	IDirectPlay8Client*		NET;
 	IDirectPlay8Address*	net_Address_device;
@@ -77,7 +77,7 @@ protected:
 	IC virtual	void			SendTo_LL				(void* data, bsize size, u32 dwFlags=DPNSEND_GUARANTEED, u32 dwTimeout=0);
 
 public:
-	IPureClient				(BearCore::BearTimer* tm);
+	IPureClient				(BearTimer* tm);
 	virtual ~IPureClient	();
 	HRESULT					net_Handler				(u32 dwMessageType, PVOID pMessage);
 	

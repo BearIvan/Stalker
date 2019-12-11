@@ -2,7 +2,7 @@
 
 XrTimerPaused::XrTimerPaused()
 {
-	//BearCore::BearTimer timer;
+	//BearTimer timer;
 
 	XrTimerController::Register(this);
 }

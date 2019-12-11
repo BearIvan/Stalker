@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "api/XrGameVersionController.h"
-BearCore::BearThread*SplashTread = 0;
+BearThread*SplashTread = 0;
 extern int32 SplashStatus;
-extern BearCore::BearMutex SplashMutex;
+extern BearMutex SplashMutex;
 extern int32 UpdateThread();
 bool Modloader::Run()
 {
@@ -10,21 +10,21 @@ bool Modloader::Run()
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc14"), TEXT("%guser%"), 0);
-		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::SOC_1004);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1004);
 		return true;
 	}
 	else if (strstr(GetCommandLine(), "-game soc"))
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
-		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::SOC_1007);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1007);
 		return true;
 	}
 	else if (strstr(GetCommandLine(), "-game cs"))
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cs"), TEXT("%guser%"), 0);
-		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::CS_1510);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::CS_1510);
 		return true;
 
 	}
@@ -32,7 +32,7 @@ bool Modloader::Run()
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
-		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::COP_1602);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::COP_1602);
 		return true;
 	}
 #ifdef MODLOADER_UI
@@ -67,14 +67,14 @@ bool Modloader::Run()
 				{
 					mainform.UseEventViewport(ev);
 				}
-				viewport.ClearColor(BearCore::BearColor::BearColor(uint8(30), 30, 30));
+				viewport.ClearColor(BearColor::BearColor(uint8(30), 30, 30));
 				mainform.Update(0);
 				mainform.Draw(0);
 				viewport.Swap();
 			}
 			if (mainform.Ok == 1)
 			{
-				gameVersionController = BearCore::bear_new<GameVersionController>(mainform.path);
+				gameVersionController = bear_new<GameVersionController>(mainform.path);
 				switch (gameVersionController->getPath())
 				{
 				case	GameVersionController::Path::SOC_1004:
@@ -98,7 +98,7 @@ bool Modloader::Run()
 		}
 		if (ok == 1)
 		{
-			SplashTread = BearCore::bear_new<BearCore::BearThread>(UpdateThread);
+			SplashTread = bear_new<BearThread>(UpdateThread);
 			SplashTread->Join(TEXT("Splash"));
 		}
 		return ok >= 1;
@@ -108,7 +108,7 @@ bool Modloader::Run()
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
-		gameVersionController = BearCore::bear_new<GameVersionController>(GameVersionController::COP_1602);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::COP_1602);
 		return true;
 	}
 #endif
@@ -121,17 +121,17 @@ void  Modloader::Destroy()
 	if (SplashTread)
 	{
 		{
-			BearCore::BearMutexLock lock(SplashMutex);
+			BearMutexLock lock(SplashMutex);
 			SplashStatus = 0;
 
 		}
 		SplashTread->Wait();
-		BearCore::bear_delete(SplashTread);
+		bear_delete(SplashTread);
 	}
 	BearGraphics::BearRenderInterface::Destroy();
 #endif
 }
-BearCore::BearString1024 GNameMod = TEXT("");
+BearString1024 GNameMod = TEXT("");
 const bchar * Modloader::GetNameMod()
 {
 	return GNameMod;

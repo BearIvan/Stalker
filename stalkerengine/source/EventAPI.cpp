@@ -28,7 +28,7 @@ public:
 
     BOOL Equal(CEvent& E)
     {
-        return BearCore::BearString::CompareWithoutCase(Name, E.Name) == 0;
+        return BearString::CompareWithoutCase(Name, E.Name) == 0;
     }
 
     void Attach(IEventReceiver* H)
@@ -52,7 +52,7 @@ public:
 CEvent::CEvent(const char* S)
 {
     Name = xr_strdup(S);
-    BearCore::BearString::ToUpper(Name);
+    BearString::ToUpper(Name);
     dwRefCount = 1;
 }
 CEvent::~CEvent()
@@ -160,11 +160,11 @@ void CEventAPI::Defer(LPCSTR N, u64 P1, u64 P2)
 #ifdef DEBUG
 void msParse(LPCSTR c)
 {
-    if (0 == BearCore::BearString::CompareWithoutCase(c, "exit"))
+    if (0 == BearString::CompareWithoutCase(c, "exit"))
     {
         Console->Execute("quit");
     }
-    if (0 == BearCore::BearString::CompareWithoutCase(c, "quit"))
+    if (0 == BearString::CompareWithoutCase(c, "quit"))
     {
         TerminateProcess(GetCurrentProcess(), 0);
         Console->Execute("quit");
@@ -196,7 +196,7 @@ BOOL CEventAPI::Peek(LPCSTR EName)
     for (u32 I = 0; I < Events_Deferred.size(); I++)
     {
         Deferred& DEF = Events_Deferred[I];
-        if (BearCore::BearString::CompareWithoutCase(DEF.E->GetFull(), EName) == 0)
+        if (BearString::CompareWithoutCase(DEF.E->GetFull(), EName) == 0)
         {
             CS.Leave();
             return TRUE;

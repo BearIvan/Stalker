@@ -55,7 +55,7 @@ typedef char string1024[1024];
 typedef char string2048[2048];
 typedef char string4096[4096];
 
-typedef BearCore::BearStringPath string_path;
+typedef BearStringPath string_path;
 
 #ifndef DEBUG
 # define MASTER_GOLD

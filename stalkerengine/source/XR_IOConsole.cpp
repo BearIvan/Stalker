@@ -383,7 +383,7 @@ void CConsole::OnRender()
         pFont->SetColor(cursor_font_color);
         pFont->OutI(-1.0f + str_length * scr_x, ypos, "%s", ch_cursor);
     }
-	auto &str = BearCore::BearLog::Lock();
+	auto &str = BearLog::Lock();
     // ---------------------
 	bsize log_line = str.size() - 1;
     ypos -= LDIST;
@@ -406,9 +406,9 @@ void CConsole::OnRender()
         //OutFont( ls + b, ypos );
         OutFont(ls, ypos);
     }
-	BearCore::BearLog::Unlock();
+	BearLog::Unlock();
     string16 q;
-	BearCore::BearString::Printf(q, TEXT("%u"), log_line);
+	BearString::Printf(q, TEXT("%u"), log_line);
 	bsize qn = xr_strlen(q);
     pFont->SetColor(total_font_color);
     pFont->OutI(0.95f - 0.03f * qn, fMaxY - 2.0f * LDIST, "[%d]", log_line);

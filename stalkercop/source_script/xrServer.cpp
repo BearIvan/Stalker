@@ -409,14 +409,14 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 				string1024			buff;
 				P.r_stringZ			(buff);
 				Msg("* Radmin [%s] is running command: %s", CL->ps->getName(), buff);
-				BearCore::BearLog::SetCallBack			(console_log_cb);
+				BearLog::SetCallBack			(console_log_cb);
 				_tmp_log.clear		();
 				LPSTR		result_command;
 				string64	tmp_number_str;
 				xr_sprintf(tmp_number_str, " raid:%u", CL->ID.value());
 				STRCONCAT(result_command, buff, tmp_number_str);
 				Console->Execute	(result_command);
-				BearCore::BearLog::SetCallBack(_LogCallback3);
+				BearLog::SetCallBack(_LogCallback3);
 
 				NET_Packet			P_answ;			
 				for(u32 i=0; i<_tmp_log.size(); ++i)
@@ -636,7 +636,7 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			shared_str				user;
 			shared_str				pass;
 			P.r_stringZ				(user);
-			if(0==BearCore::BearString::CompareWithoutCase(user.c_str(),"logoff"))
+			if(0==BearString::CompareWithoutCase(user.c_str(),"logoff"))
 			{
 				CL->m_admin_rights.m_has_admin_rights	= FALSE;
 				if (CL->ps)
@@ -717,7 +717,7 @@ bool xrServer::CheckAdminRights(const shared_str& user, const shared_str& pass, 
 	return				res;
 }
 
-void xrServer::SendTo_LL			(ClientID ID, void* data, u32 size, u32 dwFlags, u32 dwTimeout)
+void xrServer::SendTo_LL			(ClientID ID, void* data, bsize size, u32 dwFlags, u32 dwTimeout)
 {
 	if ((SV_Client && SV_Client->ID==ID) || (psNET_direct_connect))
 	{
@@ -1048,7 +1048,7 @@ void xrServer::GetServerInfo( CServerInfo* si )
 {
 	string32  tmp;
 	string256 tmp256;
-	BearCore::BearString::Printf(tmp, TEXT("%d"),GetPort());
+	BearString::Printf(tmp, TEXT("%d"),GetPort());
 	si->AddItem( "Server port", tmp, RGB(128,128,255) );
 	LPCSTR time = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
 	si->AddItem( "Uptime", time, RGB(255,228,0) );
@@ -1057,30 +1057,30 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
 	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
 	{
-			BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwFragLimit);
-		BearCore::BearString::Contact( tmp256, " [" );
-		BearCore::BearString::Contact( tmp256, tmp );
-		BearCore::BearString::Contact( tmp256, "] " );
+			BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwFragLimit);
+		BearString::Contact( tmp256, " [" );
+		BearString::Contact( tmp256, tmp );
+		BearString::Contact( tmp256, "] " );
 	}
 	else if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{	BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_ah_dwArtefactsNum);
-		BearCore::BearString::Contact( tmp256, " [" );
-		BearCore::BearString::Contact( tmp256, tmp);
-		BearCore::BearString::Contact( tmp256, "] " );
+	{	BearString::Printf(tmp, TEXT("%d"),g_sv_ah_dwArtefactsNum);
+		BearString::Contact( tmp256, " [" );
+		BearString::Contact( tmp256, tmp);
+		BearString::Contact( tmp256, "] " );
 		g_sv_ah_iReinforcementTime;
 	}
 	
 	//if ( g_sv_dm_dwTimeLimit > 0 )
-	{BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwTimeLimit);
-		BearCore::BearString::Contact( tmp256, " time limit [" );
-		BearCore::BearString::Contact( tmp256, tmp );
-		BearCore::BearString::Contact( tmp256, "] " );
+	{BearString::Printf(tmp, TEXT("%d"),g_sv_dm_dwTimeLimit);
+		BearString::Contact( tmp256, " time limit [" );
+		BearString::Contact( tmp256, tmp );
+		BearString::Contact( tmp256, "] " );
 	}
 	if ( game->Type() == eGameIDArtefactHunt || game->Type() == eGameIDCaptureTheArtefact )
-	{BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_ah_iReinforcementTime);
-		BearCore::BearString::Contact( tmp256, " RT [" );
-		BearCore::BearString::Contact( tmp256,tmp );
-		BearCore::BearString::Contact( tmp256, "]" );
+	{BearString::Printf(tmp, TEXT("%d"),g_sv_ah_iReinforcementTime);
+		BearString::Contact( tmp256, " RT [" );
+		BearString::Contact( tmp256,tmp );
+		BearString::Contact( tmp256, "]" );
 	}
 	si->AddItem( "Game type", tmp256, RGB(128,255,255) );
 
@@ -1091,13 +1091,13 @@ void xrServer::GetServerInfo( CServerInfo* si )
 		xr_strcpy( tmp256, time );
 		if ( g_sv_mp_iDumpStatsPeriod > 0 )
 		{
-			BearCore::BearString::Contact( tmp256, " statistic [" );
-			BearCore::BearString::Printf(tmp, TEXT("%d"),g_sv_mp_iDumpStatsPeriod);
-			BearCore::BearString::Contact( tmp256, tmp );
-			BearCore::BearString::Contact( tmp256, "]" );
+			BearString::Contact( tmp256, " statistic [" );
+			BearString::Printf(tmp, TEXT("%d"),g_sv_mp_iDumpStatsPeriod);
+			BearString::Contact( tmp256, tmp );
+			BearString::Contact( tmp256, "]" );
 			if ( g_bCollectStatisticData )
 			{
-				BearCore::BearString::Contact( tmp256, "[weapons]" );
+				BearString::Contact( tmp256, "[weapons]" );
 			}
 			
 		}

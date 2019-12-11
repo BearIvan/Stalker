@@ -152,7 +152,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		SVS*	_vs					= xr_new<SVS>	();
 		_vs->dwFlags				|= xr_resource_flagged::RF_REGISTERED;
 		m_vs.insert					(mk_pair(_vs->set_name(name),_vs));
-		if (0== BearCore::BearString::CompareWithoutCase(_name,"null"))	{
+		if (0== BearString::CompareWithoutCase(_name,"null"))	{
 			_vs->vs				= NULL;
 			return _vs;
 		}
@@ -183,7 +183,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, static_cast<UINT>(size), c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_vs);
 
 		if ( FAILED(_hr) ) {
-			BearCore::BearLog::Flush();
+			BearLog::Flush();
 		}
 
 		CHECK_OR_EXIT			(
@@ -220,7 +220,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		SPS*	_ps					=	xr_new<SPS>	();
 		_ps->dwFlags				|=	xr_resource_flagged::RF_REGISTERED;
 		m_ps.insert					(mk_pair(_ps->set_name(name),_ps));
-		if (0==BearCore::BearString::CompareWithoutCase(name,"null"))	{
+		if (0==BearString::CompareWithoutCase(name,"null"))	{
 			_ps->ps				= NULL;
 			return _ps;
 		}
@@ -250,7 +250,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		HRESULT const _hr		= ::Render->shader_compile( name, (DWORD const*)data, static_cast<UINT>(size), c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_ps);
 
 		if ( FAILED(_hr) ) {
-			BearCore::BearLog::Flush();
+			BearLog::Flush();
 		}
 
 		CHECK_OR_EXIT		(
@@ -470,7 +470,7 @@ void	CResourceManager::DBG_VerifyTextures	()
 CMatrix*	CResourceManager::_CreateMatrix	(LPCSTR Name)
 {
 	R_ASSERT(Name && Name[0]);
-	if (0==BearCore::BearString::CompareWithoutCase(Name,"$null"))	return NULL;
+	if (0==BearString::CompareWithoutCase(Name,"$null"))	return NULL;
 
 	LPSTR N = LPSTR(Name);
 	map_Matrix::iterator I = m_matrices.find	(N);
@@ -504,7 +504,7 @@ void	CResourceManager::ED_UpdateMatrix		(LPCSTR Name, CMatrix* data)
 CConstant*	CResourceManager::_CreateConstant	(LPCSTR Name)
 {
 	R_ASSERT(Name && Name[0]);
-	if (0== BearCore::BearString::CompareWithoutCase(Name,"$null"))	return NULL;
+	if (0== BearString::CompareWithoutCase(Name,"$null"))	return NULL;
 
 	LPSTR N = LPSTR(Name);
 	map_Constant::iterator I	= m_constants.find	(N);

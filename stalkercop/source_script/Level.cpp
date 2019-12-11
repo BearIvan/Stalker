@@ -233,7 +233,7 @@ int	CLevel::get_RPID(LPCSTR /**name/**/)
     // Read data
     Fvector4	pos;
     int			team;
-    BearCore::BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
+    BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
 
     // Search respawn point
     svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
@@ -738,7 +738,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
     if (E == eEntitySpawn)
     {
         char	Name[128];	Name[0] = 0;
-        BearCore::BearString::Scanf(LPCSTR(P1), "%s", Name);
+        BearString::Scanf(LPCSTR(P1), "%s", Name);
         Level().g_cl_Spawn(Name, 0xff, M_SPAWN_OBJECT_LOCAL, Fvector().set(0, 0, 0));
     }
     else if (E == eChangeRP && P1)
@@ -749,7 +749,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
         char* name = (char*)P1;
         string_path RealName;
         xr_strcpy(RealName, name);
-        BearCore::BearString::Contact(RealName, ".xrdemo");
+        BearString::Contact(RealName, ".xrdemo");
         Cameras().AddCamEffector(xr_new<CDemoPlay>(RealName, 1.3f, 0));
     }
     else if (E == eChangeTrack && P1)
@@ -760,7 +760,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
     else if (E == eEnvironment)
     {
         // int id=0; float s=1;
-        // BearCore::BearString::Scanf((char*)P1,"%d,%f",&id,&s);
+        // BearString::Scanf((char*)P1,"%d,%f",&id,&s);
         // Environment->set_EnvMode(id,s);
     }
 }

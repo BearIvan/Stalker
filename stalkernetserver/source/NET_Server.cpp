@@ -33,7 +33,7 @@ XRNETSERVER_API ClientID BroadcastCID(0xffffffff);
 void ip_address::set(LPCSTR src_string)
 {
 	u32		buff[4];
-	int cnt = BearCore::BearString::Scanf(src_string, "%d.%d.%d.%d", &buff[0], &buff[1], &buff[2], &buff[3]);
+	int cnt = BearString::Scanf(src_string, "%d.%d.%d.%d", &buff[0], &buff[1], &buff[2], &buff[3]);
 	if(cnt==4)
 	{
 		m_data.a1	= u8(buff[0]&0xff);
@@ -60,7 +60,7 @@ void IBannedClient::Load(CInifile& ini, const shared_str& sect)
 
 	
 	const shared_str& time_to	= ini.r_string(sect,"time_to");
-	int res_t					= BearCore::BearString::Scanf(	time_to.c_str(),
+	int res_t					= BearString::Scanf(	time_to.c_str(),
 											"%02d.%02d.%d_%02d:%02d:%02d", 
 											&BanTime.Day, 
 											&BanTime.Month,
@@ -95,7 +95,7 @@ xr_string IBannedClient::BannedTimeTo() const
 	return res;
 }
 
-IClient::IClient( BearCore::BearTimer* timer )
+IClient::IClient( BearTimer* timer )
   : stats(timer),
     server(NULL)
 {
@@ -205,7 +205,7 @@ IPureServer::_Recieve( const void* data, bsize data_size, u32 param )
 
 //==============================================================================
 
-IPureServer::IPureServer	(BearCore::BearTimer*timer, BOOL	Dedicated)
+IPureServer::IPureServer	(BearTimer*timer, BOOL	Dedicated)
 	:	m_bDedicated(Dedicated)
 #ifdef PROFILE_CRITICAL_SECTIONS
 	,csPlayers(MUTEX_PROFILE_ID(IPureServer::csPlayers))
@@ -460,7 +460,7 @@ HRESULT	IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
 		{
 			PDPNMSG_ENUM_HOSTS_QUERY	msg = PDPNMSG_ENUM_HOSTS_QUERY(pMessage);
 			if (0 == msg->dwReceivedDataSize) return S_FALSE;
-			if (!BearCore::BearString::CompareWithoutCase((const char*)msg->pvReceivedData, "ToConnect")) return S_OK;
+			if (!BearString::CompareWithoutCase((const char*)msg->pvReceivedData, "ToConnect")) return S_OK;
 			if (*((const GUID*) msg->pvReceivedData) != NET_GUID) return S_FALSE;
 			if (!OnCL_QueryHost()) return S_FALSE;
 			return S_OK;
@@ -903,7 +903,7 @@ void IPureServer::BanAddress(const ip_address& Address, u32 BanTimeSec)
 
 	IBannedClient* pNewClient = xr_new<IBannedClient>();
 	pNewClient->HAddr				= Address;
-	pNewClient->BanTime =  BearCore::BearGlobalTime::GetCurrentTime();;
+	pNewClient->BanTime =  BearGlobalTime::GetCurrentTime();;
 	if (pNewClient) 
 	{
 		BannedAddresses.push_back	(pNewClient);
@@ -998,7 +998,7 @@ void IPureServer::UpdateBannedList()
 	;
 	
 	IBannedClient* Cl			= BannedAddresses.back();
-	if(Cl->BanTime< BearCore::BearGlobalTime::GetCurrentTime())
+	if(Cl->BanTime< BearGlobalTime::GetCurrentTime())
 	{
 		ip_address				Address = Cl->HAddr;
 		UnBanAddress			(Address);

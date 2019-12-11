@@ -103,12 +103,12 @@ int __cdecl Lua::LuaOut(Lua::ELuaMessageType tLuaMessageType, LPCSTR caFormat, .
 
     xr_strcpy(S2, S);
     S1 = S2 + xr_strlen(S);
-	bsize l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, l_tMarker);
+	bsize l_iResult = BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, l_tMarker);
     Msg("%s", S2);
 
     xr_strcpy(S2, SS);
     S1 = S2 + xr_strlen(SS);
-	BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S2) - xr_strlen(S), caFormat, l_tMarker);
+	BearString::PrintfVa(S1, 4096 - xr_strlen(S2) - xr_strlen(S), caFormat, l_tMarker);
 
 #ifdef ENGINE_BUILD
     // Msg("[LUA Output] : %s",S2);

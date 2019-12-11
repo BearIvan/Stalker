@@ -72,7 +72,7 @@ private:
     bool m_bExecutingConsoleCommand; // Guard to pass to OA only those command that were issued by OA
     // Native benchmarking
     string64 m_strBenchCfgName;
-    BearCore::BearTimer m_FrameTimer;
+    BearTimer m_FrameTimer;
     xr_vector<float> m_aFrimeTimes;
 };
 

@@ -29,7 +29,7 @@ protected:
 	const _index_type		*best_node_index;
 
 public:
-	typedef	typename _Graph::const_iterator const_iterator;
+	using const_iterator = typename _Graph::const_iterator;
 
 						CPathManagerGeneric	();
 	virtual				~CPathManagerGeneric();

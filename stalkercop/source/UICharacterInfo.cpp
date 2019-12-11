@@ -174,11 +174,11 @@ void CUICharacterInfo::InitCharacter(u16 id)
 	LPCSTR   community0 = comm_id.c_str();
 	string64 community1;
 	xr_strcpy( community1, sizeof(community1), community0 );
-	BearCore::BearString::Contact( community1, sizeof(community1), "_icon" );
+	BearString::Contact( community1, sizeof(community1), "_icon" );
 
 	string64 community2;
 	xr_strcpy( community2, sizeof(community2), community0 );
-	BearCore::BearString::Contact( community2, sizeof(community2), "_wide" );
+	BearString::Contact( community2, sizeof(community2), "_wide" );
 
 	m_bForceUpdate	= true;
 	for ( int i = eIcon; i < eMaxCaption; ++i )
@@ -207,10 +207,10 @@ void CUICharacterInfo::InitCharacter(u16 id)
 		if ( xr_strcmp( our_comm, "actor" ) ) // !=
 		{
 			xr_strcpy( community1, sizeof(community1), our_comm.c_str() );
-			BearCore::BearString::Contact( community1, sizeof(community1), "_icon" );
+			BearString::Contact( community1, sizeof(community1), "_icon" );
 
 			xr_strcpy( community2, sizeof(community2), our_comm.c_str() );
-			BearCore::BearString::Contact( community2, sizeof(community2), "_wide" );
+			BearString::Contact( community2, sizeof(community2), "_wide" );
 
 			if ( m_icons[eCommunityIcon   ] ) { m_icons[eCommunityIcon   ]->InitTexture( community1 ); }
 			if ( m_icons[eCommunityBigIcon] ) { m_icons[eCommunityBigIcon]->InitTexture( community2 ); }

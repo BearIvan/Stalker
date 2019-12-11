@@ -422,7 +422,7 @@ void LoadStrings(CharInfoStrings *container, LPCSTR section, LPCSTR field)
 
 		XrTrims::GetItem(cfgRecord, k + 1, singleThreshold);
 		if(k+1!=count)
-			BearCore::BearString::Scanf(singleThreshold, "%i", &upBoundThreshold);
+			BearString::Scanf(singleThreshold, "%i", &upBoundThreshold);
 		else
 			upBoundThreshold	+= 1;
 

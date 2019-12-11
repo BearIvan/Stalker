@@ -85,7 +85,7 @@ static void initialize_lua_studio	( lua_State* state, cs::lua_studio::world*& wo
 	world							= s_create_world( *engine, false, false );
 	DEBUGFATALERROR1							(world);
 
-	BearCore::BearLog::SetCallBack(&log_callback);
+	BearLog::SetCallBack(&log_callback);
 
 	jit_command						(state, "debug=2");
 	jit_command						(state, "off");
@@ -107,7 +107,7 @@ static void finalize_lua_studio		( lua_State* state, cs::lua_studio::world*& wor
 	FreeLibrary						(s_script_debugger_handle);
 	s_script_debugger_handle		= 0;
 
-	BearCore::BearLog::SetCallBack(0);
+	BearLog::SetCallBack(0);
 }
 
 void CScriptEngine::try_connect_to_debugger		()
@@ -359,9 +359,9 @@ void CScriptEngine::load_common_scripts()
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(XrTrims::GetItem(caScriptString,i,I));
-			BearCore::BearString::Contact	(I,"_initialize");
+			BearString::Contact	(I,"_initialize");
 			if (object("_G",I,LUA_TFUNCTION)) {
-//				lua_dostring			(lua(),BearCore::BearString::Contact(I,"()"));
+//				lua_dostring			(lua(),BearString::Contact(I,"()"));
 				luabind::functor<void>	f;
 				R_ASSERT				(functor(I,f));
 				f						();

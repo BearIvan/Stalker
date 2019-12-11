@@ -107,9 +107,9 @@ bool UIProperty::compute_value( ItemUpgrades_type const& item_upgrades )
 				LPCSTR upgr_section = upgr->section();
 				if ( prop_count > 0 )
 				{
-					BearCore::BearString::Contact( buf, sizeof(buf), ", " );
+					BearString::Contact( buf, sizeof(buf), ", " );
 				}
-				BearCore::BearString::Contact( buf, sizeof(buf), upgr_section );
+				BearString::Contact( buf, sizeof(buf), upgr_section );
 				++prop_count;
 			}
 		}

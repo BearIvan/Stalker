@@ -20,10 +20,10 @@ CTheoraStream::CTheoraStream()
     theora_comment_init(&t_comment);
     theora_info_init(&t_info);
     // clear struct
-	BearCore::bear_fill(o_stream_state);
-	BearCore::bear_fill(o_page);
-	BearCore::bear_fill(t_state);
-	BearCore::bear_fill(t_yuv_buffer);
+	bear_fill(o_stream_state);
+	bear_fill(o_page);
+	bear_fill(t_state);
+	bear_fill(t_yuv_buffer);
 }
 
 CTheoraStream::~CTheoraStream()

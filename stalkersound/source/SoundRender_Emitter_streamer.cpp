@@ -88,7 +88,7 @@ void	CSoundRender_Emitter::fill_block	(void* ptr, u32 size)
 				if(get_cursor(true) >= dwBytesTotal)
 				{
 					// ??? We requested the block after remainder - just zero
-					BearCore::bear_fill(dest,size);
+					bear_fill(dest,size);
 				}else 
 				{
 					// Calculate remainder
@@ -96,7 +96,7 @@ void	CSoundRender_Emitter::fill_block	(void* ptr, u32 size)
 					u32 sz_zero		= (get_cursor(true)+size) - dwBytesTotal;
 					VERIFY			(size == (sz_data+sz_zero));
 					fill_data		(dest,get_cursor(false),sz_data);
-					BearCore::bear_fill(dest+sz_data,sz_zero);
+					bear_fill(dest+sz_data,sz_zero);
 				}
 				move_cursor					(size);
 			}

@@ -18,7 +18,7 @@ class CSpectator:
 {
 private:
 	typedef CGameObject		inherited;
-	BearCore::BearTimer			m_timer;			//for pause case (in demo mode)
+	BearTimer			m_timer;			//for pause case (in demo mode)
 	float			m_fTimeDelta;
 protected:
 public:

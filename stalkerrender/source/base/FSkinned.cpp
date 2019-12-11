@@ -420,7 +420,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				bsize size				= V.vCount*sizeof(vertBoned1W);
-				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
+				u32 crc					= BearCheckSum::CRC32( _verts_, size);
 				Vertices1W.create		( crc, V.vCount, (vertBoned1W*)_verts_);
 			}
 
@@ -461,7 +461,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				bsize size				= V.vCount*sizeof(vertBoned2W);
-				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
+				u32 crc					= BearCheckSum::CRC32( _verts_, size);
 				Vertices2W.create		( crc, V.vCount, (vertBoned2W*)_verts_);
 			}
 
@@ -502,7 +502,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				bsize size				= V.vCount*sizeof(vertBoned3W);
-				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
+				u32 crc					= BearCheckSum::CRC32( _verts_, size);
 				Vertices3W.create		( crc, V.vCount, (vertBoned3W*)_verts_);
 			}
 
@@ -546,7 +546,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				bsize size				= V.vCount*sizeof(vertBoned4W);
-				u32 crc					= BearCore::BearCheckSum::CRC32( _verts_, size);
+				u32 crc					= BearCheckSum::CRC32( _verts_, size);
 				Vertices4W.create		( crc, V.vCount, (vertBoned4W*)_verts_);
 			}
 
@@ -712,7 +712,7 @@ static void verify_vertex( const vertex_type& v, const Fvisual* V, const CKinema
 			Msg( " iBase: %d, iCount: %d, V->iBase %d, V->iCount %d, V->vBase: %d,  V->vCount  %d, vertex_idx: %d, idx: %d", iBase, iCount, V->iBase, V->iCount, V->vBase, V->vCount, vertex_idx, idx  );
 			Msg( " v.P: %s , v.N: %s, v.T: %s, v.B: %s", XrDumpString::get_string( v.P ).c_str(), XrDumpString::get_string(  v.N ).c_str(), XrDumpString::get_string(  v.T ).c_str(), XrDumpString::get_string(  v.B  ).c_str());
 			Msg( "Parent->dbg_name: %s ", Parent->dbg_name.c_str() );
-			BearCore::BearLog::Flush();
+			BearLog::Flush();
 			FATAL( "v.get_bone_id(i) >= Parent->LL_BoneCount()" );
 		}
 #endif        

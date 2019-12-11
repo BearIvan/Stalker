@@ -18,7 +18,7 @@ ButtonLink::~ButtonLink()
 
 
 
-void ButtonLink::Draw(BearUI::BearUI * ui, BearCore::BearTime  time)
+void ButtonLink::Draw(BearUI::BearUI * ui, BearTime  time)
 {
 	__super::Draw(ui,time);
 }

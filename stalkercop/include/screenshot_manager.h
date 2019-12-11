@@ -56,7 +56,7 @@ private:
 
 
 #ifdef DEBUG
-	BearCore::BearTimer				m_debug_timer;
+	BearTimer				m_debug_timer;
 	u32					m_start_time;
 	shared_str			m_timer_comment;
 			void		timer_begin		(LPCSTR comment);

@@ -44,8 +44,8 @@ void XrCompressor::Destroy()
 	/*if (trained_model)
 	{
 		void* buffer = trained_model->buffer();
-		BearCore::bear_free(buffer);
-		BearCore::bear_delete(trained_model);
+		bear_free(buffer);
+		bear_delete(trained_model);
 	}*/
 }
 
@@ -135,12 +135,12 @@ void XrCompressor::PvDecompress(Fvector & vec, uint16 mVec)
 
 bsize XrCompressor::RtcCompress(void * dst, bsize dst_len, const void * src, bsize src_len)
 {
-	return BearCore::BearLZO::Compressor(src, src_len, dst, dst_len);
+	return BearLZO::Compressor(src, src_len, dst, dst_len);
 }
 
 bsize XrCompressor::RtcDecompress(void * dst, bsize dst_len, const void * src, bsize src_len)
 {
-	return BearCore::BearLZO::Decompressor(src, src_len, dst, dst_len);
+	return BearLZO::Decompressor(src, src_len, dst, dst_len);
 }
 
 bsize XrCompressor::RtcSize(bsize in)
@@ -152,12 +152,12 @@ bsize XrCompressor::RtcSize(bsize in)
 
 bsize XrCompressor::Rtc9Compress(void * dst, bsize dst_len, const void * src, bsize src_len)
 {
-	return BearCore::BearLZO::Compressor9(src, src_len, dst, dst_len);
+	return BearLZO::Compressor9(src, src_len, dst, dst_len);
 }
 
 bsize XrCompressor::Rtc9Decompress(void * dst, bsize dst_len, const void * src, bsize src_len)
 {
-	return BearCore::BearLZO::Decompressor9(src, src_len, dst, dst_len);
+	return BearLZO::Decompressor9(src, src_len, dst, dst_len);
 }
 
 bsize XrCompressor::Rtc9Size(bsize in)

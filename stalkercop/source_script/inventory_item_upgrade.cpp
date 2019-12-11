@@ -74,9 +74,9 @@ bool CInventoryItem::get_upgrades_str( string2048& res ) const
 		LPCSTR upgr_section = upgr->section();
 		if ( prop_count > 0 )
 		{
-			BearCore::BearString::Contact( res, sizeof(res), ", " );
+			BearString::Contact( res, sizeof(res), ", " );
 		}
-		BearCore::BearString::Contact( res, sizeof(res), upgr_section );
+		BearString::Contact( res, sizeof(res), upgr_section );
 		++prop_count;
 	}
 	if ( prop_count > 0 )

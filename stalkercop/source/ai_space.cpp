@@ -102,7 +102,7 @@ void CAI_Space::load				(LPCSTR level_name)
 #ifdef DEBUG
 /*	Memory.mem_compact		();
 	u32						mem_usage = Memory.mem_usage();*/
-	BearCore::BearTimer					timer;
+	BearTimer					timer;
 	timer.restart				();
 #endif
 

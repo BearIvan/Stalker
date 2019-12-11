@@ -314,7 +314,7 @@ void CSheduler::ProcessStep()
 {
     // Normal priority
     u32 dwTime = Device.dwTimeGlobal;
-    BearCore::BearTimer eTimer;
+    BearTimer eTimer;
     for (int i = 0; !Items.empty() && Top().dwTimeForExecute < dwTime; ++i)
     {
         u32 delta_ms = dwTime - Top().dwTimeForExecute;

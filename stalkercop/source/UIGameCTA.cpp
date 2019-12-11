@@ -683,7 +683,7 @@ s8 CUIGameCTA::GetSelectedSkinIndex	()
 void CUIGameCTA::SetReinforcementTimes(u32 curTime, u32 maxTime)
 {
 	string128 _buff;
-	BearCore::BearString::Printf(_buff, TEXT("%d"), curTime/1000);
+	BearString::Printf(_buff, TEXT("%d"), curTime/1000);
 	m_pReinforcementInidcator->SetText(_buff);
 }
 
@@ -966,7 +966,7 @@ void CUIGameCTA::LoadDefItemsForRank()
 	char tmp[5];
 	for (int i=1; i<=local_player->rank; i++)
 	{
-		BearCore::BearString::Printf(tmp, TEXT("%d"), i);
+		BearString::Printf(tmp, TEXT("%d"), i);
 		strconcat(sizeof(RankStr),RankStr,"rank_",tmp);
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<PlayerDefItems.size(); it++)

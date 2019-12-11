@@ -5,7 +5,7 @@
 // and with no claim as to its suitability for any purpose.
 #ifndef GET_POINTER_DWA20021219_HPP
 # define GET_POINTER_DWA20021219_HPP
-
+#define _HAS_AUTO_PTR_ETC 1
 # include <memory>
 
 namespace boost { 

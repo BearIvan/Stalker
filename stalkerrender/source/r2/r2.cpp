@@ -643,7 +643,7 @@ static HRESULT create_shader				(
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result );
+static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearVector<BearString> const& file_set, string_path& result );
 
 class	includer				: public ID3DXInclude
 {
@@ -1109,7 +1109,7 @@ static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const fu
 	return					true;
 }
 
-static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result)
+static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearVector<BearString> const& file_set, string_path& result)
 {
 #if 0
 	strcpy_s					( result, "" );

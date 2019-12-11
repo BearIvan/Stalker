@@ -978,7 +978,7 @@ public:
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result );
+static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearVector<BearString> const& file_set, string_path& result );
 
 HRESULT	CRender::shader_compile			(
 	LPCSTR							name,
@@ -1486,7 +1486,7 @@ HRESULT	CRender::shader_compile			(
 	if (FS.ExistFile("%cur_shaders_cache%", file_name))
 	{
 		IReader* file = XRayBearReader::Create(FS.Read("%cur_shaders_cache%", file_name));
-		//BearCore::BearLog::Printf(TEXT("r4 load file %s"), file_name);
+		//BearLog::Printf(TEXT("r4 load file %s"), file_name);
 		if (file->length()>4)
 		{
 			u32 crc = 0;
@@ -1523,7 +1523,7 @@ HRESULT	CRender::shader_compile			(
 		if (SUCCEEDED(_result))
 		{
 			FS.CreateDirectory("%cur_shaders_cache%", 0);
-			//BearCore::BearLog::Printf(TEXT("r4 file %s"), file_name);
+			//BearLog::Printf(TEXT("r4 file %s"), file_name);
 			IWriter* file = XRayBearWriter::Create(FS.Write("%cur_shaders_cache%", file_name, 0));
 
 			boost::crc_32_type		processor;
@@ -1577,7 +1577,7 @@ static inline bool match_shader		( LPCSTR const debug_shader_id, LPCSTR const fu
 	return					true;
 }
 
-static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearCore::BearVector<BearCore::BearString> const& file_set, string_path& result)
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearVector<BearString> const& file_set, string_path& result)
 {
 #if 0
 	strcpy_s(result, "");

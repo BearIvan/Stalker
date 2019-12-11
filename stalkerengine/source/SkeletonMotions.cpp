@@ -97,7 +97,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
         {
             CPartDef& PART = m_partition[part_i];
             MP->r_stringZ(buf, sizeof(buf));
-         BearCore::BearString::ToLower(buf);
+         BearString::ToLower(buf);
 		 PART.Name = buf;
             PART.bones.resize(MP->r_u16());
 
@@ -144,7 +144,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
             for (u16 mot_i = 0; mot_i < mot_count; mot_i++)
             {
                 MP->r_stringZ(buf, sizeof(buf));
-                BearCore::BearString::ToLower(buf);
+                BearString::ToLower(buf);
 				shared_str nm = buf;
                 u32 dwFlags = MP->r_u32();
                 CMotionDef& D = m_mdefs[mot_i];
@@ -204,7 +204,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
             if (M.test_flag(flRKeyAbsent))
             {
                 CKeyQR* r = (CKeyQR*)MS->pointer();
-                u32 crc_q = BearCore::BearCheckSum::CRC32(r, sizeof(CKeyQR));
+                u32 crc_q = BearCheckSum::CRC32(r, sizeof(CKeyQR));
                 M._keysR.create(crc_q, 1, r);
                 MS->advance(1 * sizeof(CKeyQR));
             }

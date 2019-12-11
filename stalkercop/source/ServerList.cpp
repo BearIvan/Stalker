@@ -505,7 +505,7 @@ void CServerList::SrvInfo2LstSrvInfo(const ServerInfo* pServerInfo)
 	xr_string address				= pServerInfo->m_HostName;
 	char							port[8];
 	address							+= "port=";	
-	BearCore::BearString::Printf(port, TEXT("%d"), pServerInfo->m_Port);
+	BearString::Printf(port, TEXT("%d"), pServerInfo->m_Port);
 	address							+= port;
 	m_itemInfo.info.address			= address.c_str();
 	m_itemInfo.info.map				= pServerInfo->m_SessionName;

@@ -149,7 +149,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		m_vs.insert					(mk_pair(_vs->set_name(name),_vs));
 		//_vs->vs				= NULL;
 		//_vs->signature		= NULL;
-		if (0== BearCore::BearString::CompareWithoutCase(_name,"null"))	{
+		if (0== BearString::CompareWithoutCase(_name,"null"))	{
 			return _vs;
 		}
 
@@ -254,7 +254,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR _name)
 		SPS*	_ps					=	xr_new<SPS>	();
 		_ps->dwFlags				|=	xr_resource_flagged::RF_REGISTERED;
 		m_ps.insert					(mk_pair(_ps->set_name(name),_ps));
-		if (0== BearCore::BearString::CompareWithoutCase(_name,"null"))	{
+		if (0== BearString::CompareWithoutCase(_name,"null"))	{
 			_ps->ps				= NULL;
 			return _ps;
 		}
@@ -337,7 +337,7 @@ SGS*	CResourceManager::_CreateGS			(LPCSTR name)
 		SGS*	_gs					=	xr_new<SGS>	();
 		_gs->dwFlags				|=	xr_resource_flagged::RF_REGISTERED;
 		m_gs.insert					(mk_pair(_gs->set_name(name),_gs));
-		if (0==BearCore::BearString::CompareWithoutCase(name,"null"))	{
+		if (0==BearString::CompareWithoutCase(name,"null"))	{
 			_gs->gs				= NULL;
 			return _gs;
 		}
@@ -626,7 +626,7 @@ void	CResourceManager::DBG_VerifyTextures	()
 CMatrix*	CResourceManager::_CreateMatrix	(LPCSTR Name)
 {
 	R_ASSERT(Name && Name[0]);
-	if (0== BearCore::BearString::CompareWithoutCase(Name,"$null"))	return NULL;
+	if (0== BearString::CompareWithoutCase(Name,"$null"))	return NULL;
 
 	LPSTR N = LPSTR(Name);
 	map_Matrix::iterator I = m_matrices.find	(N);
@@ -660,7 +660,7 @@ void	CResourceManager::ED_UpdateMatrix		(LPCSTR Name, CMatrix* data)
 CConstant*	CResourceManager::_CreateConstant	(LPCSTR Name)
 {
 	R_ASSERT(Name && Name[0]);
-	if (0== BearCore::BearString::CompareWithoutCase(Name,"$null"))	return NULL;
+	if (0== BearString::CompareWithoutCase(Name,"$null"))	return NULL;
 
 	LPSTR N = LPSTR(Name);
 	map_Constant::iterator I	= m_constants.find	(N);

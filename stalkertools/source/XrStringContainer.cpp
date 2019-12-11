@@ -53,7 +53,7 @@ namespace Impl
 					if (!value->dwReference)
 					{
 						*current = value->next;
-						BearCore::bear_free(value);
+						bear_free(value);
 					}
 					else
 					{
@@ -71,10 +71,10 @@ namespace Impl
 				XrStringContainerValue* value = buffer[i];
 				while (value)
 				{
-					u32 crc = BearCore::BearCheckSum::CRC32(value->value, value->dwLength);
+					u32 crc = BearCheckSum::CRC32(value->value, value->dwLength);
 					//string32 crc_str;
 					BEAR_RASSERT(crc == value->dwCRC);
-					BEAR_RASSERT(value->dwLength == BearCore::BearString::GetSize(value->value));
+					BEAR_RASSERT(value->dwLength == BearString::GetSize(value->value));
 					value = value->next;
 				}
 			}
@@ -133,15 +133,15 @@ xrCriticalSection *XrStringContainer::cs=0;
 Impl::XrStringContainer* XrStringContainer::impl=0;
 void XrStringContainer::Initialize()
 {
-	impl = BearCore::bear_new<Impl::XrStringContainer>();
-	cs = BearCore::bear_new<xrCriticalSection>();
+	impl = bear_new<Impl::XrStringContainer>();
+	cs = bear_new<xrCriticalSection>();
 }
 
 void XrStringContainer::Destroy()
 {
 	clean();
-	BearCore::bear_delete(impl);
-	BearCore::bear_delete(cs
+	bear_delete(impl);
+	bear_delete(cs
 	);
 }
 
@@ -158,7 +158,7 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 	XrStringContainerValue* result = 0;
 
 	// calc len
-	bsize s_len = BearCore::BearString::GetSize(value);
+	bsize s_len = BearString::GetSize(value);
 	bsize s_len_with_zero = (bsize)s_len + 1;
 	VERIFY(HEADER + s_len_with_zero < 4096);
 
@@ -167,7 +167,7 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 	XrStringContainerValue* sv = (XrStringContainerValue*)header;
 	sv->dwReference = 0;
 	sv->dwLength = s_len;
-	sv->dwCRC = BearCore::BearCheckSum::CRC32(value, s_len);
+	sv->dwCRC = BearCheckSum::CRC32(value, s_len);
 
 	// search
 	result = impl->find(sv, value);
@@ -184,7 +184,7 @@ XrStringContainerValue* XrStringContainer::dock(const bchar* value)
 		)
 	{
 
-		result = (XrStringContainerValue*)BearCore::BearMemory::Malloc(HEADER + s_len_with_zero
+		result = (XrStringContainerValue*)BearMemory::Malloc(HEADER + s_len_with_zero
 			, "storage: sstring"
 		);
 

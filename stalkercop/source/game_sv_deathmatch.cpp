@@ -1125,10 +1125,10 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		//загружено ли достаточно скинов для этой комманды
 		if (TeamList[Team].aSkins.size() > ID)
 		{
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
 		}
 		else
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
 	}
 	else
 	{
@@ -1136,20 +1136,20 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		switch (Team)
 		{
 		case 0:
-			BearCore::BearString::Contact(SkinName, "stalker_hood_multiplayer");
+			BearString::Contact(SkinName, "stalker_hood_multiplayer");
 			break;
 		case 1:
-			BearCore::BearString::Contact(SkinName, "soldat_beret");
+			BearString::Contact(SkinName, "soldat_beret");
 			break;
 		case 2:
-			BearCore::BearString::Contact(SkinName, "stalker_black_mask");
+			BearString::Contact(SkinName, "stalker_black_mask");
 			break;
 		default:
 			R_ASSERT2(0,"Unknown Team");
 			break;
 		};
 	};
-	BearCore::BearString::Contact(SkinName, ".ogf");
+	BearString::Contact(SkinName, ".ogf");
 	Msg("* Skin - %s", SkinName);
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");

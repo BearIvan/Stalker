@@ -30,8 +30,8 @@ public:
     }
 	IC const bchar*error2string(int32 hr)
 	{
-		static BearCore::BearString64 error2string_str;
-		BearCore::BearString::Printf(error2string_str, "%Error Core:0x%x", hr);
+		static BearString64 error2string_str;
+		BearString::Printf(error2string_str, "%Error Core:0x%x", hr);
 		return error2string_str;
 	}
     void fail(const char* e1, const char* file, int line, const char* function, bool& ignore_always);

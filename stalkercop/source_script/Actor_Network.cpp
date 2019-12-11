@@ -70,19 +70,19 @@ CActor*			Actor()
 void	CActor::ConvState(u32 mstate_rl, string128 *buf)
 {
 	xr_strcpy(*buf,"");
-	if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		BearCore::BearString::Contact(*buf,"Accel ");
-	if (mstate_rl&mcCrouch)		BearCore::BearString::Contact(*buf,"Crouch ");
-	if (mstate_rl&mcFwd)		BearCore::BearString::Contact(*buf,"Fwd ");
-	if (mstate_rl&mcBack)		BearCore::BearString::Contact(*buf,"Back ");
-	if (mstate_rl&mcLStrafe)	BearCore::BearString::Contact(*buf,"LStrafe ");
-	if (mstate_rl&mcRStrafe)	BearCore::BearString::Contact(*buf,"RStrafe ");
-	if (mstate_rl&mcJump)		BearCore::BearString::Contact(*buf,"Jump ");
-	if (mstate_rl&mcFall)		BearCore::BearString::Contact(*buf,"Fall ");
-	if (mstate_rl&mcTurn)		BearCore::BearString::Contact(*buf,"Turn ");
-	if (mstate_rl&mcLanding)	BearCore::BearString::Contact(*buf,"Landing ");
-	if (mstate_rl&mcLLookout)	BearCore::BearString::Contact(*buf,"LLookout ");
-	if (mstate_rl&mcRLookout)	BearCore::BearString::Contact(*buf,"RLookout ");
-	if (m_bJumpKeyPressed)		BearCore::BearString::Contact(*buf,"+Jumping ");
+	if (isActorAccelerated(mstate_rl, IsZoomAimingMode()))		BearString::Contact(*buf,"Accel ");
+	if (mstate_rl&mcCrouch)		BearString::Contact(*buf,"Crouch ");
+	if (mstate_rl&mcFwd)		BearString::Contact(*buf,"Fwd ");
+	if (mstate_rl&mcBack)		BearString::Contact(*buf,"Back ");
+	if (mstate_rl&mcLStrafe)	BearString::Contact(*buf,"LStrafe ");
+	if (mstate_rl&mcRStrafe)	BearString::Contact(*buf,"RStrafe ");
+	if (mstate_rl&mcJump)		BearString::Contact(*buf,"Jump ");
+	if (mstate_rl&mcFall)		BearString::Contact(*buf,"Fall ");
+	if (mstate_rl&mcTurn)		BearString::Contact(*buf,"Turn ");
+	if (mstate_rl&mcLanding)	BearString::Contact(*buf,"Landing ");
+	if (mstate_rl&mcLLookout)	BearString::Contact(*buf,"LLookout ");
+	if (mstate_rl&mcRLookout)	BearString::Contact(*buf,"RLookout ");
+	if (m_bJumpKeyPressed)		BearString::Contact(*buf,"+Jumping ");
 };
 //--------------------------------------------------------------------
 void CActor::net_Export	(NET_Packet& P)					// export to server

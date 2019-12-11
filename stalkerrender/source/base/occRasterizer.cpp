@@ -68,7 +68,7 @@ void occRasterizer::clear()
 {
 	//u32 size = occ_dim * occ_dim;
 	//float f = 1.f;
-	BearCore::bear_fill(bufFrame);
+	bear_fill(bufFrame);
 
 	for (bsize i = 0; i < 68; i++)
 		for (bsize a = 0; a < 68; a++)

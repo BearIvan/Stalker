@@ -23,7 +23,7 @@ public:
 
 	CConstant		()
 	{
-		BearCore::bear_fill(*this);
+		bear_fill(*this);
 	}
 	IC void			set_float	(float r, float g, float b, float a)
 	{

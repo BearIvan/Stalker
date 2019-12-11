@@ -62,11 +62,11 @@ static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
   (void)ud;
   (void)osize;
   if (nsize == 0) {
-	  BearCore::BearMemory::Free(ptr);
+	  BearMemory::Free(ptr);
 	  return	NULL;
   }
   else
-	  return   BearCore::BearMemory::Realloc(ptr, nsize, "LUA");
+	  return   BearMemory::Realloc(ptr, nsize, "LUA");
 }
 
 static LPVOID __cdecl luabind_allocator	(
@@ -77,16 +77,16 @@ static LPVOID __cdecl luabind_allocator	(
 {
 	if (!size) {
 		LPVOID	non_const_pointer = const_cast<LPVOID>(pointer);
-		BearCore::bear_free(non_const_pointer);
+		bear_free(non_const_pointer);
 		return	( 0 );
 	}
 
 	if (!pointer) {
-		return BearCore::BearMemory::Malloc(size, "luabind");
+		return BearMemory::Malloc(size, "luabind");
 	}
 
 	LPVOID		non_const_pointer = const_cast<LPVOID>(pointer);
-	return		 BearCore::BearMemory::Realloc(non_const_pointer,size, "luabind");
+	return		 BearMemory::Realloc(non_const_pointer,size, "luabind");
 }
 
 void setup_luabind_allocator		()
@@ -319,15 +319,15 @@ int CScriptStorage::vscript_log		(ScriptStorage::ELuaMessageType tLuaMessageType
 		default : NODEFAULT;
 	}
 	
-	BearCore::BearString::Copy(S2, S);
+	BearString::Copy(S2, S);
 	S1 = S2 + xr_strlen(S);
-	int		l_iResult = BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, marker);
+	int		l_iResult = BearString::PrintfVa(S1, 4096 - xr_strlen(S), caFormat, marker);
 	Msg("%s", S2);
 
-	BearCore::BearString::Copy(S2, SS);
+	BearString::Copy(S2, SS);
 	S1 = S2 + xr_strlen(SS);
-	BearCore::BearString::PrintfVa(S1, 4096 - xr_strlen(S) - xr_strlen(S2), caFormat, marker);
-	BearCore::BearString::Contact(S2, "\r\n");
+	BearString::PrintfVa(S1, 4096 - xr_strlen(S) - xr_strlen(S2), caFormat, marker);
+	BearString::Contact(S2, "\r\n");
 
 #ifdef DEBUG
 #	ifndef ENGINE_BUILD
@@ -403,11 +403,11 @@ bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, u32 const 
 			*S1				= 0;
 
 		if (i)
-			BearCore::BearString::Contact		(b,b_size,"{");
-		BearCore::BearString::Contact			(b,b_size,S);
-		BearCore::BearString::Contact			(b,b_size,"=");
+			BearString::Contact		(b,b_size,"{");
+		BearString::Contact			(b,b_size,S);
+		BearString::Contact			(b,b_size,"=");
 		if (i)
-			BearCore::BearString::Contact		(c,c_size,"}");
+			BearString::Contact		(c,c_size,"}");
 		if (S1)
 			S			= ++S1;
 		else
@@ -438,7 +438,7 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 			if (total_size < 768*1024)
 				script					= (LPSTR)_alloca(total_size);
 			else {
-				script					= (LPSTR)BearCore::BearMemory::Malloc(total_size, "lua script file");
+				script					= (LPSTR)BearMemory::Malloc(total_size, "lua script file");
 
 				dynamic_allocation		= true;
 			}
@@ -448,7 +448,7 @@ bool CScriptStorage::load_buffer	(lua_State *L, LPCSTR caBuffer, size_t tSize, L
 			int							errcode = _resetstkoflw();
 			R_ASSERT2					(errcode, "Could not reset the stack after \"Stack overflow\" exception!");
 #ifdef DEBUG
-			script					= (LPSTR)BearCore::BearMemory::Malloc(total_size, "lua script file (after exception)");
+			script					= (LPSTR)BearMemory::Malloc(total_size, "lua script file (after exception)");
 #else //#ifdef DEBUG
 			script					= (LPSTR)Memory.mem_alloc(total_size);
 #endif //#ifdef DEBUG			
@@ -759,7 +759,7 @@ void CScriptStorage::flush_log()
 {
 	string_path			log_file_name;
 	strconcat           (sizeof(log_file_name),log_file_name,"stalker","_", XrCore::UserName,"_lua.log");
-	FS.Write("%logs%", log_file_name, 0)->Write(m_output.pointer(),m_output.size());
+	FS.Write("%logs%", log_file_name, 0)->WriteBuffer(m_output.pointer(),m_output.size());
 }
 #endif // DEBUG
 
@@ -774,7 +774,7 @@ int CScriptStorage::error_log	(LPCSTR	format, ...)
 	xr_strcpy		(S2,S);
 	S1				= S2 + xr_strlen(S);
 
-	int				result = BearCore::BearString::PrintfVa(S1,4096- xr_strlen(S),format,marker);
+	int				result = BearString::PrintfVa(S1,4096- xr_strlen(S),format,marker);
 	va_end			(marker);
 
 	Msg				("%s",S2);

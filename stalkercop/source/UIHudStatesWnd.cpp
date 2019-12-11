@@ -514,7 +514,7 @@ void CUIHudStatesWnd::UpdateZones()
 		
 		//string256	buff_z;
 		//xr_sprintf( buff_z, "zone %2.2f\n", zone_info.cur_period );
-		//BearCore::BearString::Contact( buff, buff_z );
+		//BearString::Contact( buff, buff_z );
 		if( zone_info.snd_time > zone_info.cur_period )
 		{
 			zone_info.snd_time = 0.0f;

@@ -48,22 +48,22 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 	{
 		string512 tmp;
 		xr_strcpy(tmp, op_client);
-		BearCore::BearString::Contact(tmp, "name=");
-		BearCore::BearString::Contact(tmp, player_name);
+		BearString::Contact(tmp, "name=");
+		BearString::Contact(tmp, player_name);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
 		LPCSTR		begin	= NameStart + xr_strlen("name="); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
 			string1024 tmpstr;
 			xr_strcpy(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
-			BearCore::BearString::Contact(tmpstr, player_name);
+			BearString::Contact(tmpstr, player_name);
 			const char* ptmp = strstr(strstr(op_client, "name="), "");
 			if (ptmp)
-				BearCore::BearString::Contact(tmpstr, ptmp);
+				BearString::Contact(tmpstr, ptmp);
 			m_caClientOptions = tmpstr;
 		}
 		else
@@ -82,7 +82,7 @@ bool CLevel::net_Start(const char* op_server, const char* op_client)
 		int save_demo = g_cl_save_demo;
 		if (pdemosave != NULL)
 		{
-			BearCore::BearString::Scanf(pdemosave, "mpdemosave=%d", &save_demo);
+			BearString::Scanf(pdemosave, "mpdemosave=%d", &save_demo);
 		}
 		if (!is_single && save_demo)
 		{
@@ -176,7 +176,7 @@ bool CLevel::net_start3				()
 
 		string4096	tmp;
 		xr_strcpy(tmp, m_caClientOptions.c_str());
-		BearCore::BearString::Contact(tmp, PortStr);
+		BearString::Contact(tmp, PortStr);
 		
 		m_caClientOptions = tmp;
 	}
@@ -244,7 +244,7 @@ bool CLevel::net_start6				()
 	if(net_start_result_total){
 		if (strstr(GetCommandLine(),"-$")) {
 			string256				buf,cmd,param;
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

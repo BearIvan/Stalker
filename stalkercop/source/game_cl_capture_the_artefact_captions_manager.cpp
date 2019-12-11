@@ -214,7 +214,7 @@ u32 CTAGameClCaptionsManager::SetWarmupTime(u32 current_warmup_time, u32 current
 				}
 			}
 			dwLastTimeRemains = dwCurTimeRemains;
-             BearCore::BearString::Printf(time_str, TEXT("%d"), dwCurTimeRemains);			
+             BearString::Printf(time_str, TEXT("%d"), dwCurTimeRemains);			
 			strconcat(sizeof(warmup_message),warmup_message, *st.translate("mp_ready"), "...", time_str);
 		}
 	};

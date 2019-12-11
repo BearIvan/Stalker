@@ -88,7 +88,7 @@ void ALDeviceList::Enumerate()
 		// Also we assume that if "Generic Hardware" exists, than "Generic Software" is also exists
 		// Maybe wrong
 		
-		if(0==BearCore::BearString::CompareWithoutCase(m_defaultDeviceName, AL_GENERIC_HARDWARE))
+		if(0==BearString::CompareWithoutCase(m_defaultDeviceName, AL_GENERIC_HARDWARE))
 		{
 			xr_strcpy			(m_defaultDeviceName, AL_GENERIC_SOFTWARE);
 			Msg("SOUND: OpenAL: default SndDevice name set to %s", m_defaultDeviceName);
@@ -173,7 +173,7 @@ void ALDeviceList::Enumerate()
 			GetDeviceName(j), 
 			majorVersion, 
 			minorVersion,
-			(BearCore::BearString::CompareWithoutCase(GetDeviceName(j),m_defaultDeviceName)==0)? "(default)":"",
+			(BearString::CompareWithoutCase(GetDeviceName(j),m_defaultDeviceName)==0)? "(default)":"",
 			GetDeviceDesc(j).props.eax,
 			GetDeviceDesc(j).props.efx?"yes":"no",
 			GetDeviceDesc(j).props.xram?"yes":"no"
@@ -201,7 +201,7 @@ void ALDeviceList::SelectBestDevice()
 		u32 new_device_id		= snd_device_id;
 		for (u32 i = 0; i < GetNumDevices(); ++i)
 		{
-			if(BearCore::BearString::CompareWithoutCase(m_defaultDeviceName,GetDeviceName(i))!=0)
+			if(BearString::CompareWithoutCase(m_defaultDeviceName,GetDeviceName(i))!=0)
 				continue;
 
 			GetDeviceVersion		(i, &majorVersion, &minorVersion);

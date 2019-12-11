@@ -137,14 +137,14 @@ CMainMenu::~CMainMenu	()
 
 void CMainMenu::ReadTextureInfo()
 {
-	BearCore::BearVector<BearCore::BearString> fset;
+	BearVector<BearString> fset;
 	FS.GetFiles(fset, "%config%", "ui\\textures_descr\\*.xml", true);
 	auto fit = fset.begin();
 	auto fit_e = fset.end();
 
 	for (; fit != fit_e; ++fit)
 	{
-		auto name = BearCore::BearFileManager::GetFileName((**fit));
+		auto name = BearFileManager::GetFileName((**fit));
 		name.append(".xml");
 
 		CUITextureMaster::ParseShTexInfo(*name);
@@ -628,7 +628,7 @@ void	CMainMenu::OnLoadError				(LPCSTR module)
 	LPCSTR str=CStringTable().translate("ui_st_error_loading").c_str();
 	string1024 Text;
 	strconcat(sizeof(Text),Text,str," ");
-	BearCore::BearString::Contact(Text,sizeof(Text),module);
+	BearString::Contact(Text,sizeof(Text),module);
 	m_pMB_ErrDlgs[LoadingError]->SetText(Text);
 	SetErrorDialog(CMainMenu::LoadingError);
 }
@@ -736,7 +736,7 @@ LPCSTR CMainMenu::GetGSVer()
 	
 		xr_strcpy(buff, ENGINE_VERSION);
 	
-	BearCore::BearString::Contact(buff, "(1.6.02)");
+	BearString::Contact(buff, "(1.6.02)");
 	return buff;
 }
 

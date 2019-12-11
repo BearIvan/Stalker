@@ -49,7 +49,7 @@ void reward_manager::load_rewards		()
 	u32			reward_index = 0;
 	LPCSTR		section_name = NULL;
 	char		tmp_dst_buff[16];
-BearCore::BearString::Printf(tmp_dst_buff, TEXT("%d"), reward_index);
+BearString::Printf(tmp_dst_buff, TEXT("%d"), reward_index);
 	STRCONCAT	(section_name,
 		section_name_prefix,
 		tmp_dst_buff);
@@ -58,7 +58,7 @@ BearCore::BearString::Printf(tmp_dst_buff, TEXT("%d"), reward_index);
 	{
 		load_reward_item(rewards_config, reward_index, section_name);
 		++reward_index;
-		BearCore::BearString::Printf(tmp_dst_buff, TEXT("%d"), reward_index);
+		BearString::Printf(tmp_dst_buff, TEXT("%d"), reward_index);
 		STRCONCAT	(section_name,
 			section_name_prefix,
 			tmp_dst_buff);

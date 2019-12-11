@@ -164,7 +164,7 @@ void CUIKickPlayer::Update()
 	for( ; I != E; ++I)
 	{
 		game_PlayerState* pI = I->second;
-		if( m_selected_item_text.size() && !BearCore::BearString::CompareWithoutCase(pI->getName(), m_selected_item_text.c_str()) )
+		if( m_selected_item_text.size() && !BearString::CompareWithoutCase(pI->getName(), m_selected_item_text.c_str()) )
 			bHasSelected		= true;
 
 
@@ -172,7 +172,7 @@ void CUIKickPlayer::Update()
 		if(fit==m_current_set.end())
 			bNeedRefresh = true;
 		else
-		if( BearCore::BearString::CompareWithoutCase( (*fit)->getName(), pI->getName()) )
+		if( BearString::CompareWithoutCase( (*fit)->getName(), pI->getName()) )
 			bNeedRefresh = true;
 	}
 	if(m_current_set.size() != items.size())

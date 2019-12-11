@@ -479,13 +479,13 @@ void CStats::OnDeviceCreate()
 
     //
 #ifdef DEBUG
-    if (!g_bDisableRedText) BearCore::BearLog::SetCallBack(_LogCallback);
+    if (!g_bDisableRedText) BearLog::SetCallBack(_LogCallback);
 #endif
 }
 
 void CStats::OnDeviceDestroy()
 {
-	BearCore::BearLog::SetCallBack(0);
+	BearLog::SetCallBack(0);
     xr_delete(pFont);
 }
 

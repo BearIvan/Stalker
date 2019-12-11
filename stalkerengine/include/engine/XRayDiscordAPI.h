@@ -2,7 +2,7 @@ struct DiscordUser;
 class XRayDiscordAPI:public pureFrame
 { 
 public:
-	BEAR_CLASS_NO_COPY(XRayDiscordAPI)
+	BEAR_CLASS_WITHOUT_COPY(XRayDiscordAPI)
 	XRayDiscordAPI();
 	~XRayDiscordAPI();
 	virtual void OnFrame();

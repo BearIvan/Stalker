@@ -119,19 +119,19 @@ void CUI3tButton::InitTexture(LPCSTR tex_name)
 
 	// enabled state texture
 	xr_strcpy				(tex_enabled,    tex_name);
-	BearCore::BearString::Contact				(tex_enabled,   "_e");
+	BearString::Contact				(tex_enabled,   "_e");
 
 	// pressed state texture
 	xr_strcpy				(tex_disabled,   tex_name);
-	BearCore::BearString::Contact				(tex_disabled,   "_d");
+	BearString::Contact				(tex_disabled,   "_d");
 
 	// touched state texture
 	xr_strcpy				(tex_touched, tex_name);
-	BearCore::BearString::Contact				(tex_touched, "_t");
+	BearString::Contact				(tex_touched, "_t");
 
 	// touched state texture
 	xr_strcpy				(tex_highlighted, tex_name);
-	BearCore::BearString::Contact				(tex_highlighted, "_h");
+	BearString::Contact				(tex_highlighted, "_h");
 
 	this->InitTexture	(tex_enabled, tex_disabled, tex_touched, tex_highlighted);		
 }

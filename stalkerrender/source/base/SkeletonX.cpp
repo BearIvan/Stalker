@@ -215,7 +215,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 			}
 #ifdef _EDITOR
 			// software
-			crc						= BearCore::BearCheckSum::CRC32	(data->pointer(),size);
+			crc						= BearCheckSum::CRC32	(data->pointer(),size);
 			Vertices1W.create		(crc,dwVertCount,(vertBoned1W*)data->pointer());
 #else
 			if(1==bids.size())	
@@ -234,7 +234,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 			}else 
 			{
 				// software
-				crc								= BearCore::BearCheckSum::CRC32	(data->pointer(),size);
+				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices1W.create				(crc,dwVertCount,(vertBoned1W*)data->pointer());
 				Render->shader_option_skinning	(-1);
 			}
@@ -270,7 +270,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 			else 
 			{
 				// software
-				crc								= BearCore::BearCheckSum::CRC32	(data->pointer(),size);
+				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices2W.create				(crc,dwVertCount,(vertBoned2W*)data->pointer());
 				Render->shader_option_skinning	(-1);
 			}
@@ -300,7 +300,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 				Render->shader_option_skinning	(3);
 			}else
 			{
-				crc								= BearCore::BearCheckSum::CRC32	(data->pointer(),size);
+				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices3W.create				(crc,dwVertCount,(vertBoned3W*)data->pointer());
 				Render->shader_option_skinning	(-1);
 			}
@@ -331,7 +331,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 				Render->shader_option_skinning	(4);
 			}else
 			{
-				crc								= BearCore::BearCheckSum::CRC32	(data->pointer(),size);
+				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices4W.create				(crc,dwVertCount,(vertBoned4W*)data->pointer());
 				Render->shader_option_skinning	(-1);
 			}
@@ -346,7 +346,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 	if (bids.size()>1)	
 #endif
     {
-		crc					= BearCore::BearCheckSum::CRC32(&*bids.begin(),bids.size()*sizeof(u16)); 
+		crc					= BearCheckSum::CRC32(&*bids.begin(),bids.size()*sizeof(u16)); 
 		BonesUsed.create	(crc,bids.size(),&*bids.begin());
 	}
 }
@@ -566,7 +566,7 @@ void CSkeletonX::_DuplicateIndices(const char* N, IReader *data)
 	u32 iCount			= data->r_u32();
 
 	u32 size				= iCount*2;
-	u32 crc					= BearCore::BearCheckSum::CRC32( data->pointer(), size);
+	u32 crc					= BearCheckSum::CRC32( data->pointer(), size);
 	m_Indices.create		( crc, iCount, (u16*)data->pointer());
 }
 #endif	//	USE_DX10

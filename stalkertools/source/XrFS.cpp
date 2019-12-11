@@ -28,10 +28,10 @@ void CMemoryWriter::w(const void* ptr, bsize count)
         // reallocate
         if (mem_size == 0) mem_size = 128;
         while (mem_size <= (position + count)) mem_size *= 2;
-        if (0 == data) data = (BYTE*)BearCore::BearMemory::Malloc(mem_size
+        if (0 == data) data = (BYTE*)BearMemory::Malloc(mem_size
             , "CMemoryWriter - storage"
             );
-        else data = (BYTE*)BearCore::BearMemory::Realloc(data, mem_size
+        else data = (BYTE*)BearMemory::Realloc(data, mem_size
             , "CMemoryWriter - storage"
             );
     }
@@ -128,7 +128,7 @@ void IWriter::w_printf(const char* format, ...)
 #endif
     va_end(mark);
 
-    w(buf, BearCore::BearString::GetSize(buf));
+    w(buf, BearString::GetSize(buf));
 }
 // base stream
 IReader* IReader::open_chunk(u32 ID)
@@ -157,7 +157,7 @@ void IReader::close()
 	if (this)
 	{
 		this->~IReader();
-		BearCore::bear_free((void*)this);
+		bear_free((void*)this);
 	}
 }
 
@@ -260,7 +260,7 @@ void IReader::r_string(xr_string& dest)
 void IReader::r_stringZ(char* dest, u32 tgt_sz)
 {
 	char* src = (char*)data;
-	bsize sz = BearCore::BearString::GetSize(&src[Pos]);
+	bsize sz = BearString::GetSize(&src[Pos]);
 	R_ASSERT2(sz < tgt_sz, "Dest string less than needed.");
 	while ((src[Pos] != 0) && (!eof())) *dest++ = src[Pos++];
 	*dest = 0;
@@ -290,7 +290,7 @@ CTempReader::~CTempReader()
 //---------------------------------------------------
 // pack stream
 
-XRayBearWriter::XRayBearWriter(BearCore::BearStreamRef<BearCore::BearOutputStream> stream_ref) :m_stream(stream_ref)
+XRayBearWriter::XRayBearWriter(BearRef<BearOutputStream> stream_ref) :m_stream(stream_ref)
 {
 }
 
@@ -310,7 +310,7 @@ bsize XRayBearWriter::tell()
 
 void XRayBearWriter::w(const void * ptr, bsize count)
 {
-	m_stream->Write((void*)ptr, count);
+	m_stream->WriteBuffer((void*)ptr, count);
 }
 
 void XRayBearWriter::flush()
