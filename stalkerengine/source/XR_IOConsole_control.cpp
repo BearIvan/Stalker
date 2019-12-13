@@ -58,7 +58,7 @@ void CConsole::check_next_selected_tip()
         m_select_tip = m_tips.size() - 1;
     }
 
-	bsize sel_dif = m_select_tip - VIEW_TIPS_COUNT + 1;
+	bint sel_dif = m_select_tip - VIEW_TIPS_COUNT + 1;
     if (sel_dif < 0)
     {
         sel_dif = 0;
@@ -66,7 +66,7 @@ void CConsole::check_next_selected_tip()
 
     if (sel_dif > m_start_tip)
     {
-        m_start_tip = sel_dif;
+        m_start_tip =static_cast<bsize>( sel_dif);
     }
 }
 

@@ -11,9 +11,10 @@ void XrSharedMemoryContainer::Initialize()
 
 void XrSharedMemoryContainer::Destroy()
 {
+    clean();
 	bear_delete(cs);
 	bear_delete(container);
-	clean();
+
 
 }
 xrCriticalSection *XrSharedMemoryContainer::cs =0;
@@ -27,7 +28,7 @@ XrSharedMemoryValue* XrSharedMemoryContainer::dock(u32 dwCRC, bsize dwLength, vo
     XrSharedMemoryValue* result = 0;
 
     // search a place to insert
-    u8 storage[4 * sizeof(u32)];
+    u8 storage[sizeof(XrSharedMemoryValue)];
     XrSharedMemoryValue* value = (XrSharedMemoryValue*)storage;
     value->dwReference = 0;
     value->dwCRC = dwCRC;

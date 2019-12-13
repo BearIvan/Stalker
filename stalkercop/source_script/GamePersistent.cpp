@@ -63,7 +63,7 @@ CGamePersistent::CGamePersistent(void)
 	ambient_effect_wind_on		= false;
 
 	ZeroMemory					(ambient_sound_next_time, sizeof(ambient_sound_next_time));
-	
+	Msg("%d", sizeof(IGame_Persistent));
 
 	m_pUI_core					= NULL;
 	m_pMainMenu					= NULL;

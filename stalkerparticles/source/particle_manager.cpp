@@ -15,6 +15,7 @@ PARTICLES_API IParticleManager* PAPI::ParticleManager(){	return &PM; }
 // 
 CParticleManager::CParticleManager	()
 {
+	ttapi_Init();
 }
 
 CParticleManager::~CParticleManager	()

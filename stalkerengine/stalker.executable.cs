@@ -56,7 +56,7 @@ public class stalker :Executable
        // IncludeAutonomousProjects.Add("stalkersoc");
 		//IncludeAutonomousProjects.Add("stalkercs");
         IncludeAutonomousProjects.Add("stalkercop");
-        if (BearBuildTool.Config.Global.Configure != BearBuildTool.Config.Configure.Release)
+        if (BearBuildTool.Config.Global.Configure == BearBuildTool.Config.Configure.Debug)
         {
             Console = true;
         }

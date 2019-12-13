@@ -575,6 +575,7 @@ void SArtefactDetectorsSupport::UpdateOnFrame()
 			Fvector			power = dir;
 			power.y			+= 1.0f;
 			power.mul		(m_path_moving_force);
+			if(m_parent->m_pPhysicsShell)
 			m_parent->m_pPhysicsShell->applyGravityAccel(power);
 		}
 	}

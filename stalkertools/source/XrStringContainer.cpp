@@ -141,8 +141,7 @@ void XrStringContainer::Destroy()
 {
 	clean();
 	bear_delete(impl);
-	bear_delete(cs
-	);
+	bear_delete(cs);
 }
 
 XrStringContainerValue* XrStringContainer::dock(const bchar* value)

@@ -224,8 +224,10 @@ void CBulletManager::FireShotmark (SBullet* bullet, const Fvector& vDir, const F
 			//отыграть партиклы попадания в материал
 			CParticlesObject* ps = CParticlesObject::Create(ps_name,TRUE);
 
+
 			ps->UpdateParent( pos, zero_vel );
-			GamePersistent().ps_needtoplay.push_back( ps );
+			auto&gp = GamePersistent();
+			gp.ps_needtoplay.push_back( ps );
 		}
 
 		if( bullet->flags.explosive && bStatic )
@@ -234,6 +236,8 @@ void CBulletManager::FireShotmark (SBullet* bullet, const Fvector& vDir, const F
 		}
 	}
 }
+
+
 
 void CBulletManager::StaticObjectHit	(CBulletManager::_event& E)
 {

@@ -1756,17 +1756,12 @@ void PATurbulenceExecuteStream( LPVOID lpvParams )
 
 }
 
-static bool init = false;
 void PATurbulence::Execute(ParticleEffect *effect, const float dt, float& tm_max)
 {
 #ifdef _GPA_ENABLED	
 	TAL_SCOPED_TASK_NAMED("PATurbulence::Execute()");
 #endif // _GPA_ENABLED
-	if (!init)
-	{
-		init = true;
-		ttapi_Init();
-	}
+
 	if (noise_start) {
 		noise_start = 0;
 		noise3Init();

@@ -132,6 +132,7 @@ void CConsole::InitEditor()
 CConsole::CConsole()
     :m_hShader_back(NULL)
 {
+    m_start_tip = 0;
 	m_editor = 0;
     m_cmd_history_max = cmd_history_max;
     m_disable_tips = false;
@@ -953,7 +954,10 @@ void CConsole::update_tips()
                     reset_selected_tip();
                 }
 				free(first);
-				free(last);
+                if(mode==1)
+                    free(last-1);
+                else
+				    free(last);
                 return;
             }
         }

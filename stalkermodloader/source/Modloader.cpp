@@ -107,6 +107,7 @@ bool Modloader::Run()
 	else 
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cop"), TEXT("%main%"), -500);
+		//FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("coptest"), TEXT("%main%"), -499);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "cop"), TEXT("%guser%"), 0);
 		gameVersionController = bear_new<GameVersionController>(GameVersionController::COP_1602);
 		return true;

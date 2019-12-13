@@ -43,7 +43,11 @@ public:
             string256 m_new_or_load;
             EGameIDs m_e_game_type;
         };
-        string256 m_params[4];
+        struct
+        {
+            string256 m_params[4];
+            int null;
+        };
         params() { reset(); }
         void reset()
         {

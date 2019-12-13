@@ -49,12 +49,14 @@ public:
 
 class CPHCall
 {
+	bool m_in_work;
 	CPHAction*		m_action			;
 	CPHCondition*	m_condition			;
 public:
 					CPHCall							(CPHCondition* condition,CPHAction* action)					;
 					~CPHCall						()															;
 	void 			check							()															;
+
 	bool 			obsolete						()															;
 	bool			equal							(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action);
 	bool			is_any							(CPHReqComparerV* v)										;
@@ -68,11 +70,14 @@ DEFINE_VECTOR(CPHCall*,PHCALL_STORAGE,PHCALL_I);
 class CPHCommander:
 	public IPHWorldUpdateCallbck
 {
+	bool m_in_work;
 	xrCriticalSection	lock;
 	PHCALL_STORAGE	m_calls;
+	xr_vector<bsize>	m_calls_as_delete_buffer;
 	PHCALL_STORAGE	m_calls_as_add_buffer;
 	PHCALL_STORAGE	m_calls_as_remove_buffer;
 public:
+	CPHCommander():m_in_work(false) {}
 						~CPHCommander				()																;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

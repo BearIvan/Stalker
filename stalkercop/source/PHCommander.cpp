@@ -7,15 +7,20 @@
 //extern CPHWorld	*ph_world;
 #include "physics/IPHWorld.h"
 #endif
-
-CPHCall::CPHCall(CPHCondition* condition,CPHAction* action)	
+//#pragma optimize( "", off )
+//static bsize count = 0;
+CPHCall::CPHCall(CPHCondition* condition,CPHAction* action)	:m_in_work(false)
 {
 	m_action=action;
 	m_condition=condition;
+	//count++;
 }
 
 CPHCall::~CPHCall()
 {
+//	count--;
+	//Msg("CPHCall:%d", count);
+	VERIFY(m_in_work == false);
 	xr_delete(m_action);
 	xr_delete(m_condition);
 }
@@ -23,11 +28,18 @@ bool CPHCall::obsolete()
 {
 	return m_action->obsolete()||m_condition->obsolete();
 }
-
 void CPHCall::check()
 {
-	if(m_condition->is_true())m_action->run();
+
+	m_in_work = true;
+	if (m_condition->is_true())
+	{
+		m_action->run();
+	}
+	m_in_work = false;
 }
+
+
 
 bool CPHCall::equal(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action)
 {
@@ -65,10 +77,10 @@ void CPHCommander::clear	()
 		remove_call(m_calls_as_remove_buffer.end()-1);
 	}
 }
-
 void CPHCommander::update	()
 {
-	for(u32 i=0; i<m_calls.size(); i++)
+	m_in_work = true;
+	for(bsize i=0; i<m_calls.size(); i++)
 	{
 		try
 		{
@@ -88,7 +100,15 @@ void CPHCommander::update	()
 			continue;
 		}
 	}
+	m_in_work = false;
+	for (bsize i = m_calls_as_delete_buffer.size(); i !=0; i--)
+	{
+		delete_call(*(m_calls.begin() + m_calls_as_delete_buffer[i-1]));
+		m_calls.erase(m_calls.begin() + m_calls_as_delete_buffer[i-1]);
+	}
+	m_calls_as_delete_buffer.clear_not_free();
 }
+//#pragma optimize( "", on )
 void CPHCommander::update_threadsafety 			()
 {
 	lock.Enter();
@@ -183,7 +203,14 @@ bool				CPHCommander::has_call(CPHReqComparerV* cmp_condition,CPHReqComparerV* c
 }
 
 void CPHCommander::remove_call(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action,PHCALL_STORAGE& cs)
-{
+{/*
+	if (&m_calls == &cs)
+	{
+		if (m_in_work)
+		{
+			m_calls_as_delete_buffer
+		}
+	}*/
 	cs.erase	(
 		std::remove_if(
 			cs.begin(),
@@ -251,8 +278,40 @@ void CPHCommander::remove_calls_threadsafety(CPHReqComparerV* cmp_object)
 	remove_calls(cmp_object);
 	lock.Leave();
 }
+
+struct SFindRped
+{
+	CPHReqComparerV* cmp_object;
+	SFindRped(CPHReqComparerV* cmp_o)
+	{
+		cmp_object = cmp_o;
+	}
+	bool operator() (CPHCall* call)
+	{
+		if (call->is_any(cmp_object))
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+};
+
 void CPHCommander::remove_calls(CPHReqComparerV* cmp_object)
 {
+
+	if (m_in_work)
+	{
+		bsize id =  std::find_if(
+			m_calls.begin(),
+			m_calls.end(),
+			SFindRped(cmp_object))- m_calls.begin();
+		auto item = std::lower_bound(m_calls_as_delete_buffer.begin(), m_calls_as_delete_buffer.end(), id);
+		if (item != m_calls_as_delete_buffer.end() && *item == id)return;
+		m_calls_as_delete_buffer.insert(item, id);
+		return;
+	}
+	
 	remove_calls(cmp_object,m_calls);
 }
 
