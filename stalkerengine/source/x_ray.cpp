@@ -954,16 +954,7 @@ int main()
 
     //free (buffer);
 
-    __try
-    {
         WinMain_impl(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-    }
-    __except (stack_overflow_exception_filter(GetExceptionCode()))
-    {
-        _resetstkoflw();
-        FATAL("stack overflow");
-    }
-
     return (0);
 }
 

@@ -24,6 +24,11 @@ void CConsole::add_cmd_history(shared_str const& str)
 
 void CConsole::next_cmd_history_idx()
 {
+    if (m_cmd_history_idx == bsize(-1))
+    {
+        m_cmd_history_idx = 0;
+        return;
+    }
     --m_cmd_history_idx;
     if (m_cmd_history_idx < 0)
     {
