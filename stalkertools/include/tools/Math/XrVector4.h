@@ -40,7 +40,7 @@ public:
     IC SelfRef div(const Self& a, const Self& v) { x = a.x / v.x; y = a.y / v.y; z = a.z / v.z; w = a.w / v.w; return *this; }
     IC SelfRef div(const Self& a, T s) { x = a.x / s; y = a.y / s; z = a.z / s; w = a.w / s; return *this; }
 
-    IC BOOL similar(const Self& v, T E = EPS_L) { return XrMath::abs(x - v.x) < E && XrMath::abs(y - v.y) < E && XrMath::abs(z - v.z) < E && XrMath::abs(w - v.w) < E; };
+    IC BOOL similar(const Self& v, T E = XrMath::EPS_L) { return XrMath::abs(x - v.x) < E && XrMath::abs(y - v.y) < E && XrMath::abs(z - v.z) < E && XrMath::abs(w - v.w) < E; };
 
     IC T magnitude_sqr() { return x*x + y*y + z*z + w*w; }
     IC T magnitude() { return XrMath::sqrt(magnitude_sqr()); }
@@ -62,11 +62,9 @@ public:
 typedef _vector4<float> Fvector4;
 typedef _vector4<double> Dvector4;
 typedef _vector4<s32> Ivector4;
-#ifndef __BORLANDC__
-typedef __declspec(align(16)) _vector4<float> Fvector4a;
-typedef __declspec(align(16)) _vector4<double> Dvector4a;
-typedef __declspec(align(16)) _vector4<s32> Ivector4a;
-#endif
+typedef BEAR_ALIGNED(16) _vector4<float> Fvector4a;
+typedef BEAR_ALIGNED(16) _vector4<double> Dvector4a;
+typedef BEAR_ALIGNED(16) _vector4<s32> Ivector4a;
 
 template <class T>
 BOOL _valid(const _vector4<T>& v) { return _valid((T)v.x) && _valid((T)v.y) && _valid((T)v.z) && _valid((T)v.w); }

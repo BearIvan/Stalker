@@ -669,8 +669,7 @@ BOOL CActor::net_Spawn		(CSE_Abstract* DC)
 	}
 	
 	typedef CClientSpawnManager::CALLBACK_TYPE	CALLBACK_TYPE;
-	CALLBACK_TYPE	callback;
-	callback.bind	(this,&CActor::on_requested_spawn);
+	CALLBACK_TYPE	callback	(this,&CActor::on_requested_spawn);
 	m_holder_id				= E->m_holderID;
 	if (E->m_holderID != ALife::_OBJECT_ID(-1))
 		if(!g_dedicated_server)

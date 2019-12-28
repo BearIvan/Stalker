@@ -123,7 +123,7 @@ private:
 	bsize								vb_stride;
 
 	// Pixel/Vertex constants
-	ALIGN(16)	R_constants			constants;
+	XR_ALIGNED(16)	R_constants			constants;
 	R_constant_table*				ctable;
 
 	// Shaders/State

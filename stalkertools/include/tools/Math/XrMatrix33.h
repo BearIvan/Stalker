@@ -192,27 +192,27 @@ public:
         for (i = 0; i < 50; i++)
         {
             sm = 0.0f;
-            sm += _abs(a.m[0][1]);
-            sm += _abs(a.m[0][2]);
-            sm += _abs(a.m[1][2]);
+            sm += XrMath::abs(a.m[0][1]);
+            sm += XrMath::abs(a.m[0][2]);
+            sm += XrMath::abs(a.m[1][2]);
             if (sm == 0.0) { set(v); dout.set(d); return i; }
             if (i < 3) tresh = 0.2f*sm / (3.0f*3.0f);
             else tresh = 0.0f;
             {
-                g = 100.0f*_abs(a.m[0][1]);
-                if (i>3 && _abs(d.x) + g == _abs(d.x) && _abs(d.y) + g == _abs(d.y))
+                g = 100.0f*XrMath::abs(a.m[0][1]);
+                if (i>3 && XrMath::abs(d.x) + g == XrMath::abs(d.x) && XrMath::abs(d.y) + g == XrMath::abs(d.y))
                     a.m[0][1] = 0.0;
-                else if (_abs(a.m[0][1]) > tresh)
+                else if (XrMath::abs(a.m[0][1]) > tresh)
                 {
                     h = d.y - d.x;
-                    if (_abs(h) + g == _abs(h)) t = (a.m[0][1]) / h;
+                    if (XrMath::abs(h) + g == XrMath::abs(h)) t = (a.m[0][1]) / h;
                     else
                     {
                         theta = 0.5f*h / (a.m[0][1]);
-                        t = 1.0f / (_abs(theta) + _sqrt(1.0f + theta*theta));
+                        t = 1.0f / (XrMath::abs(theta) + XrMath::sqrt(1.0f + theta*theta));
                         if (theta < 0.0f) t = -t;
                     }
-                    c = 1.0f / _sqrt(1 + t*t);
+                    c = 1.0f / XrMath::sqrt(1 + t*t);
                     s = t*c;
                     tau = s / (1.0f + c);
                     h = t*a.m[0][1];
@@ -229,20 +229,20 @@ public:
                 }
             }
             {
-                g = 100.0f*_abs(a.m[0][2]);
-                if (i>3 && _abs(d.x) + g == _abs(d.x) && _abs(d.z) + g == _abs(d.z))
+                g = 100.0f*XrMath::abs(a.m[0][2]);
+                if (i>3 && XrMath::abs(d.x) + g == XrMath::abs(d.x) && XrMath::abs(d.z) + g == XrMath::abs(d.z))
                     a.m[0][2] = 0.0f;
-                else if (_abs(a.m[0][2]) > tresh)
+                else if (XrMath::abs(a.m[0][2]) > tresh)
                 {
                     h = d.z - d.x;
-                    if (_abs(h) + g == _abs(h)) t = (a.m[0][2]) / h;
+                    if (XrMath::abs(h) + g == XrMath::abs(h)) t = (a.m[0][2]) / h;
                     else
                     {
                         theta = 0.5f*h / (a.m[0][2]);
-                        t = 1.0f / (_abs(theta) + _sqrt(1.0f + theta*theta));
+                        t = 1.0f / (XrMath::abs(theta) + XrMath::sqrt(1.0f + theta*theta));
                         if (theta < 0.0f) t = -t;
                     }
-                    c = 1.0f / _sqrt(1 + t*t);
+                    c = 1.0f / XrMath::sqrt(1 + t*t);
                     s = t*c;
                     tau = s / (1.0f + c);
                     h = t*a.m[0][2];
@@ -259,20 +259,20 @@ public:
                 }
             }
             {
-                g = 100.0f*_abs(a.m[1][2]);
-                if (i>3 && _abs(d.y) + g == _abs(d.y) && _abs(d.z) + g == _abs(d.z))
+                g = 100.0f*XrMath::abs(a.m[1][2]);
+                if (i>3 && XrMath::abs(d.y) + g == XrMath::abs(d.y) && XrMath::abs(d.z) + g == XrMath::abs(d.z))
                     a.m[1][2] = 0.0f;
-                else if (_abs(a.m[1][2]) > tresh)
+                else if (XrMath::abs(a.m[1][2]) > tresh)
                 {
                     h = d.z - d.y;
-                    if (_abs(h) + g == _abs(h)) t = (a.m[1][2]) / h;
+                    if (XrMath::abs(h) + g == XrMath::abs(h)) t = (a.m[1][2]) / h;
                     else
                     {
                         theta = 0.5f*h / (a.m[1][2]);
-                        t = 1.0f / (_abs(theta) + _sqrt(1.0f + theta*theta));
+                        t = 1.0f / (XrMath::abs(theta) + XrMath::sqrt(1.0f + theta*theta));
                         if (theta < 0.0) t = -t;
                     }
-                    c = 1.0f / _sqrt(1 + t*t);
+                    c = 1.0f / XrMath::sqrt(1 + t*t);
                     s = t*c;
                     tau = s / (1.0f + c);
                     h = t*a.m[1][2];
@@ -308,35 +308,35 @@ public:
         return *this;
     }
 
-    IC SelfRef MxMpV(SelfCRef M1, SelfCRef M2, const Tvector& T)
+    IC SelfRef MxMpV(SelfCRef M1, SelfCRef M2, const Tvector& t)
     {
         m[0][0] = (M1.m[0][0] * M2.m[0][0] +
             M1.m[0][1] * M2.m[1][0] +
-            M1.m[0][2] * M2.m[2][0] + T.x);
+            M1.m[0][2] * M2.m[2][0] + t.x);
         m[1][0] = (M1.m[1][0] * M2.m[0][0] +
             M1.m[1][1] * M2.m[1][0] +
-            M1.m[1][2] * M2.m[2][0] + T.y);
+            M1.m[1][2] * M2.m[2][0] + t.y);
         m[2][0] = (M1.m[2][0] * M2.m[0][0] +
             M1.m[2][1] * M2.m[1][0] +
-            M1.m[2][2] * M2.m[2][0] + T.z);
+            M1.m[2][2] * M2.m[2][0] + t.z);
         m[0][1] = (M1.m[0][0] * M2.m[0][1] +
             M1.m[0][1] * M2.m[1][1] +
-            M1.m[0][2] * M2.m[2][1] + T.x);
+            M1.m[0][2] * M2.m[2][1] + t.x);
         m[1][1] = (M1.m[1][0] * M2.m[0][1] +
             M1.m[1][1] * M2.m[1][1] +
-            M1.m[1][2] * M2.m[2][1] + T.y);
+            M1.m[1][2] * M2.m[2][1] + t.y);
         m[2][1] = (M1.m[2][0] * M2.m[0][1] +
             M1.m[2][1] * M2.m[1][1] +
-            M1.m[2][2] * M2.m[2][1] + T.z);
+            M1.m[2][2] * M2.m[2][1] + t.z);
         m[0][2] = (M1.m[0][0] * M2.m[0][2] +
             M1.m[0][1] * M2.m[1][2] +
-            M1.m[0][2] * M2.m[2][2] + T.x);
+            M1.m[0][2] * M2.m[2][2] + t.x);
         m[1][2] = (M1.m[1][0] * M2.m[0][2] +
             M1.m[1][1] * M2.m[1][2] +
-            M1.m[1][2] * M2.m[2][2] + T.y);
+            M1.m[1][2] * M2.m[2][2] + t.y);
         m[2][2] = (M1.m[2][0] * M2.m[0][2] +
             M1.m[2][1] * M2.m[1][2] +
-            M1.m[2][2] * M2.m[2][2] + T.z);
+            M1.m[2][2] * M2.m[2][2] + t.z);
         return *this;
     }
 

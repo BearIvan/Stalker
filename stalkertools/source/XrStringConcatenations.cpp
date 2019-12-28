@@ -7,7 +7,7 @@ namespace strconcat_error
 void process(bsize const index, bsize const count, LPCSTR* strings)
 {
 	bsize const max_string_size = 1024;
-    LPSTR temp = (LPSTR)_alloca((count*(max_string_size + 4) + 1)*sizeof(**strings));
+    LPSTR temp =xr_alloc<char>((count*(max_string_size + 4) + 1)*sizeof(**strings));
     LPSTR k = temp;
     *k++ = '[';
     for (bsize i = 0; i < count; ++i)
@@ -34,6 +34,7 @@ void process(bsize const index, bsize const count, LPCSTR* strings)
             temp
         ).c_str()
     );
+    xr_free(temp);
 }
 
 template <bsize count>
@@ -70,15 +71,18 @@ int stack_overflow_exception_filter(int exception_code)
 
 void XrStringTupples::check_stack_overflow(bsize stack_increment)
 {
+#ifdef MSVC
     __try
     {
         void* p = _alloca(stack_increment);
         p;
+
     }
     __except (stack_overflow_exception_filter(GetExceptionCode()))
     {
         _resetstkoflw();
     }
+#endif
 }
 
 void XrStringTupples::error_process() const

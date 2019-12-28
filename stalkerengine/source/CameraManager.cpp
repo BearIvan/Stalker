@@ -279,7 +279,7 @@ void CCameraManager::RemovePPEffector(EEffectorPPType type)
 void CCameraManager::OnEffectorReleased(SBaseEffector* e)
 {
     if (!e->m_on_b_remove_callback.empty())
-        e->m_on_b_remove_callback();
+        e->m_on_b_remove_callback.call();
 
     xr_delete(e);
 }

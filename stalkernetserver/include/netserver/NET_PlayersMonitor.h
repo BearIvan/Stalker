@@ -94,7 +94,7 @@ public:
 		csPlayers.Leave();
 	}
 
-	void ForEachClientDo				(fastdelegate::FastDelegate1<IClient*, void> & fast_delegate)
+	void ForEachClientDo				(XrFastDelegate<void,IClient*> & fast_delegate)
 	{
 		//Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
 		csPlayers.Enter();
@@ -108,7 +108,7 @@ public:
 			ie = net_Players.end(); i != ie; ++i)
 		{
 			VERIFY2(*i != NULL, "IClient ptr is NULL");
-			fast_delegate(*i);
+			fast_delegate.call(*i);
 		}
 		now_iterating_in_net_players	=	false;
 		//Msg("-S- Leaving from csPlayers [%d]", GetCurrentThreadId());

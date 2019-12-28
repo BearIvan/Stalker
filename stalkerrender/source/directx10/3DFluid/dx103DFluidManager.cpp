@@ -449,7 +449,7 @@ void dx103DFluidManager::AdvectColorBFECC( float timestep, bool bTeperature )
 	u32					dwTextureStage	= _T->find_texture_stage(strColorName);
 	//	This will be overritten by the next technique.
 	//	Otherwise we had to reset current texture list manually.
-	pRTTextures[RENDER_TARGET_TEMPVECTOR]->bind(dwTextureStage);
+	pRTTextures[RENDER_TARGET_TEMPVECTOR]->bind.call(dwTextureStage);
 
 	//TimeStepShaderVariable->SetFloat(timestep);
 	RCache.set_c(strTimeStep, timestep);
@@ -677,7 +677,7 @@ void dx103DFluidManager::ComputePressure( float timestep )
 		//TechniqueJacobi->GetPassByIndex(0)->Apply(0);
 		//SetRenderTarget( RENDER_TARGET_TEMPSCALAR );		
 		RCache.set_RT(pRenderTargetViews[RENDER_TARGET_TEMPSCALAR]);
-		pRTTextures[RENDER_TARGET_PRESSURE]->bind(dwTextureStage);
+		pRTTextures[RENDER_TARGET_PRESSURE]->bind.call(dwTextureStage);
 		m_pGrid->DrawSlices();
 		//m_pD3DDevice->OMSetRenderTargets(0, NULL, NULL);
 		//RCache.set_RT(0);
@@ -686,7 +686,7 @@ void dx103DFluidManager::ComputePressure( float timestep )
 		//TechniqueJacobi->GetPassByIndex(0)->Apply(0);
 		//SetRenderTarget( RENDER_TARGET_PRESSURE );
 		RCache.set_RT(pRenderTargetViews[RENDER_TARGET_PRESSURE]);
-		pRTTextures[RENDER_TARGET_TEMPSCALAR]->bind(dwTextureStage);
+		pRTTextures[RENDER_TARGET_TEMPSCALAR]->bind.call(dwTextureStage);
 		m_pGrid->DrawSlices();
 		//m_pD3DDevice->OMSetRenderTargets(0, NULL, NULL);
 		//RCache.set_RT(0);

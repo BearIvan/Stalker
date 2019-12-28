@@ -122,7 +122,7 @@ void IWriter::w_printf(const char* format, ...)
 
     va_start(mark, format);
 #ifndef _EDITOR
-    vsprintf_s(buf, format, mark);
+    BearString::PrintfVa(buf, format, mark);
 #else
     vsprintf(buf, format, mark);
 #endif
@@ -154,11 +154,9 @@ IReader* IReader::open_chunk(u32 ID)
 };
 void IReader::close()
 {
-	if (this)
-	{
-		this->~IReader();
-		bear_free((void*)this);
-	}
+	this->~IReader();
+	bear_free((void*)this);
+	
 }
 
 //#include "XrFS_impl.h"
@@ -247,7 +245,7 @@ void IReader::r_string(char* dest, u32 tgt_sz)
 #ifdef _EDITOR
 	CopyMemory(dest, src, sz);
 #else
-	strncpy_s(dest, tgt_sz, src, sz);
+	BearString::CopyWithSizeLimit(dest, tgt_sz, src, sz);
 #endif
 	dest[sz] = 0;
 }

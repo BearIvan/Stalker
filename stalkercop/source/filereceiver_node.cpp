@@ -51,7 +51,7 @@ bool filereceiver_node::receive_packet(NET_Packet & packet)
 
 void filereceiver_node::signal_callback(receiving_status_t status)
 {
-	m_process_callback(status, m_writer->tell(), m_data_size_to_receive);
+	m_process_callback.call(status, m_writer->tell(), m_data_size_to_receive);
 }
 
 bool filereceiver_node::is_complete()

@@ -35,7 +35,7 @@
 
 # ifdef DEBUG
 # define NODEFAULT FATAL("nodefault reached")
-# define VERIFY(expr) do {static bool ignore_always = false; if (!ignore_always && !(expr)) ::Debug.fail(#expr,DEBUG_INFO,ignore_always);} while(0)
+# define VERIFY(expr) do {static bool ignore_always = false; if (!ignore_always && !( expr )) ::Debug.fail(#expr,DEBUG_INFO,ignore_always);} while(0)
 # define VERIFY2(expr,e2) do {static bool ignore_always = false; if (!ignore_always && !(expr)) ::Debug.fail(#expr,e2,DEBUG_INFO,ignore_always);} while(0)
 # define VERIFY3(expr,e2,e3) do {static bool ignore_always = false; if (!ignore_always && !(expr)) ::Debug.fail(#expr,e2,e3,DEBUG_INFO,ignore_always);} while(0)
 # define VERIFY4(expr,e2,e3,e4)do {static bool ignore_always = false; if (!ignore_always && !(expr)) ::Debug.fail(#expr,e2,e3,e4,DEBUG_INFO,ignore_always);} while(0)
@@ -76,8 +76,9 @@
 //--------- static assertion
 template<bool> struct CompileTimeError;
 template<> struct CompileTimeError<true> {};
-#define STATIC_CHECK(expr, msg) \
-{ \
+
+#define STATIC_CHECK(expr, msg)\
+{\
  CompileTimeError<((expr) != 0)> ERROR_##msg; \
  (void)ERROR_##msg; \
 }

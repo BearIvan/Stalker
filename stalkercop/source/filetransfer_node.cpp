@@ -358,7 +358,7 @@ bool filetransfer_node::make_data_packet(NET_Packet & packet)
 
 void filetransfer_node::signal_callback(sending_status_t status)
 {
-	m_process_callback(status, m_reader->tell(), m_reader->size());
+	m_process_callback.call(status, m_reader->tell(), m_reader->size());
 }
 
 bool filetransfer_node::is_complete()

@@ -80,33 +80,23 @@ IC T* xr_new(const P1& p1, const P2& p2, const P3& p3, const P4& p4, const P5& p
 	T* ptr = (T*)BearMemory::Malloc(sizeof(T), "XRAY");
 	return new (ptr)T(p1, p2, p3, p4, p5, p6, p7, p8, p9);
 }
-template <bool _is_pm, typename T>
-struct xr_special_free
-{
-	IC void operator()(T*& ptr)
-	{
-		void* _real_ptr = dynamic_cast<void*>(ptr);
-		ptr->~T();
-		BearMemory::Free(_real_ptr);
-	}
-};
-
-template <typename T>
-struct xr_special_free < false, T >
-{
-	IC void operator()(T*& ptr)
-	{
-		ptr->~T();
-		BearMemory::Free(ptr);
-	}
-};
 
 template <class T>
 IC void xr_delete(T*& ptr)
 {
 	if (ptr)
 	{
-		xr_special_free<is_polymorphic<T>::result, T>()(ptr);
+		if constexpr ( xr_is_polymorphic<T>::value )
+		{
+			void* _real_ptr = dynamic_cast<void*>(ptr);
+			ptr->~T();
+			BearMemory::Free(_real_ptr);
+		}
+		else
+		{
+			ptr->~T();
+			BearMemory::Free(ptr);
+		}
 		ptr = NULL;
 	}
 }
@@ -115,7 +105,17 @@ IC void xr_delete(T* const& ptr)
 {
 	if (ptr)
 	{
-		xr_special_free<is_polymorphic<T>::result, T>(ptr);
+		if constexpr ( xr_is_polymorphic<T>::value )
+		{
+			void* _real_ptr = dynamic_cast<void*>(ptr);
+			ptr->~T();
+			BearMemory::Free(_real_ptr);
+		}
+		else
+		{
+			ptr->~T();
+			BearMemory::Free(ptr);
+		}
 		((T*&)ptr) = NULL;
 	}
 }
@@ -129,37 +129,7 @@ IC void* xr_realloc (void* P, size_t size) { return  BearMemory::Realloc(P,size,
 
 
 template <class T>
-class xalloc
-{
-public:
-    typedef size_t size_type;
-    typedef ptrdiff_t difference_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
-    typedef T& reference;
-    typedef const T& const_reference;
-    typedef T value_type;
-
-public:
-    template<class _Other>
-    struct rebind { typedef xalloc<_Other> other; };
-public:
-    pointer address(reference _Val) const { return (&_Val); }
-    const_pointer address(const_reference _Val) const { return (&_Val); }
-    xalloc() { }
-    xalloc(const xalloc<T>&) { }
-    template<class _Other> xalloc(const xalloc<_Other>&) { }
-    template<class _Other> xalloc<T>& operator= (const xalloc<_Other>&) { return (*this); }
-    pointer allocate(size_type n, const void* p = 0) const { return xr_alloc<T>((u32)n); }
-    char* _charalloc(size_type n) { return (char*)allocate(n); }
-    void deallocate(pointer p, size_type n) const { xr_free(p); }
-    void deallocate(void* p, size_type n) const { xr_free(p); }
-	template<class C,class T>
-    void construct(C* p, const T& _Val) { ::new ((void*)p) C(_Val); }
-	template<class C>
-	void destroy(C* p) { p->~C(); }
-    size_type max_size() const { size_type _Count = (size_type)(-1) / sizeof(T); return (0 < _Count ? _Count : 1); }
-};
+using xalloc = BearMemoryAllocator<T>;
 
 struct xr_allocator
 {

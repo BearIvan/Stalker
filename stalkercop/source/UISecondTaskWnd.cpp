@@ -65,7 +65,7 @@ void UITaskListWnd::init_from_xml( CUIXml& xml, LPCSTR path )
 	m_orig_h = GetHeight();
 
 	m_list->SetWindowName("---second_task_list");
-	m_list->m_sort_function = fastdelegate::MakeDelegate( this, &UITaskListWnd::SortingLessFunction );
+	m_list->m_sort_function = m_list->m_sort_function.bind( this, &UITaskListWnd::SortingLessFunction );
 
 	xml.SetLocalRoot( stored_root );
 }

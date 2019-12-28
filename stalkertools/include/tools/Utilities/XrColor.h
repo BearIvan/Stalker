@@ -20,7 +20,7 @@ public:
 	IC static u32 color_get_G(u32 rgba) { return (((rgba) >> 8) & 0xff); }
 	IC static u32 color_get_B(u32 rgba) { return ((rgba) & 0xff); }
 	IC static u32 color_get_A(u32 rgba) { return ((rgba) >> 24); }
-	IC static u32 subst_alpha(u32 rgba, u32 a) { return rgba & ~color_rgba(0, 0, 0, 0xff) | color_rgba(0, 0, 0, a); }
+	IC static u32 subst_alpha(u32 rgba, u32 a) { return (rgba & (~color_rgba(0, 0, 0, 0xff))) | color_rgba(0, 0, 0, a); }
 	IC static u32 bgr2rgb(u32 bgr) { return color_rgba(color_get_B(bgr), color_get_G(bgr), color_get_R(bgr), 0); }
 	IC static u32 rgb2bgr(u32 rgb) { return bgr2rgb(rgb); }
 };
@@ -218,12 +218,12 @@ public:
     // Normalize
     IC SelfRef normalize_rgb(void)
     {
-        VERIFY(magnitude_sqr_rgb() > EPS_S);
+        VERIFY(magnitude_sqr_rgb() > XrMath::EPS_S);
         return mul_rgb(1.f / magnitude_rgb());
     }
     IC SelfRef normalize_rgb(SelfCRef c)
     {
-        VERIFY(c.magnitude_sqr_rgb() > EPS_S);
+        VERIFY(c.magnitude_sqr_rgb() > XrMath::EPS_S);
         return mul_rgb(c, 1.f / c.magnitude_rgb());
     }
     IC SelfRef lerp(SelfCRef c1, SelfCRef c2, T t)

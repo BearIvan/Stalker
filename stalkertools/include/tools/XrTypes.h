@@ -70,11 +70,15 @@ typedef BearStringPath string_path;
 # define BENCH_SEC_SCRAMBLEMEMBER2
 
 #define XRAY_EXCEPTIONS 0 // XRAY
-
+#ifdef MSVC
 #define _inline inline
 #define __inline inline
-#define IC inline
 #define ICF __forceinline 
+#else
+#define ICF 
+#endif
+#define IC inline
+
 # define ICN __declspec (noinline)
 #define	xr_pure_interface	__interface
-#define ALIGN(a) __declspec(align(a))
+#define ALIGN(a) BEAR_ALIGN(a)

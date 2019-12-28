@@ -5,10 +5,10 @@ template <typename T, typename allocator = xalloc<T> >
 class xr_vector : public std::vector < T, allocator >
 {
 private:
-	typedef std::vector<T, allocator> inherited;
+	using inherited = typename std::vector<T, allocator> ;
 
 public:
-	typedef allocator allocator_type;
+	using allocator_type = allocator ;
 
 public:
 	xr_vector() : inherited() {}
@@ -17,13 +17,13 @@ public:
 	bsize size() const { return (bsize)inherited::size(); }
 
 	void clear_and_free() { inherited::clear(); }
-	void clear_not_free() { erase(begin(), end()); }
-	void clear_and_reserve() { if (capacity() <= (size() + size() / 4)) clear_not_free(); else { bsize old = size(); clear_and_free(); reserve(old); } }
+	void clear_not_free() { inherited::erase( inherited::begin(), inherited::end()); }
+	void clear_and_reserve() { if (inherited::capacity() <= (inherited::size() + inherited::size() / 4)) clear_not_free(); else { bsize old = inherited::size(); clear_and_free(); inherited::reserve(old); } }
 
 	void clear() { clear_and_free(); }
 
-	const_reference operator[] (size_type _Pos) const { {VERIFY2(_Pos < size(), make_string("index is out of range: index requested[%d], size of container[%d]", _Pos, size()).c_str()); } return (*(begin() + _Pos)); }
-	reference operator[] (size_type _Pos) { {VERIFY2(_Pos < size(), make_string("index is out of range: index requested[%d], size of container[%d]", _Pos, size()).c_str()); } return (*(begin() + _Pos)); }
+	typename inherited::const_reference operator[] (bsize _Pos) const { {VERIFY2(_Pos < size(), make_string("index is out of range: index requested[%d], size of container[%d]", _Pos, size()).c_str()); } return (*( inherited::begin() + _Pos)); }
+	typename inherited::reference operator[] (bsize _Pos) { {VERIFY2(_Pos < size(), make_string("index is out of range: index requested[%d], size of container[%d]", _Pos, size()).c_str()); } return (*( inherited::begin() + _Pos)); }
 };
 
 template <>
@@ -34,7 +34,7 @@ private:
 
 public:
     bsize size() const { return (bsize)inherited::size(); }
-    void clear() { erase(begin(), end()); }
+    void clear() { inherited::erase(inherited::begin(),inherited::end()); }
 };
 
 template <typename allocator>
@@ -45,7 +45,7 @@ private:
 
 public:
     bsize size() const { return (bsize)inherited::size(); }
-    void clear() { erase(begin(), end()); }
+    void clear() { inherited::erase(inherited::begin(), inherited::end()); }
 };
 
 

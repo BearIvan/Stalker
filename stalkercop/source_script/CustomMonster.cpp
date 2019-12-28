@@ -74,7 +74,7 @@ void CCustomMonster::SAnimState::Create(IKinematicsAnimated* K, LPCSTR base)
 	rs		= K->ID_Cycle_Safe(strconcat(sizeof(buf),buf,base,"_rs"));
 }
 
-//void __stdcall CCustomMonster::TorsoSpinCallback(CBoneInstance* B)
+//void  CCustomMonster::TorsoSpinCallback(CBoneInstance* B)
 //{
 //	CCustomMonster*		M = static_cast<CCustomMonster*> (B->Callback_Param);
 //
@@ -333,7 +333,7 @@ void CCustomMonster::shedule_Update	( u32 DT )
 #else // DEBUG
 		{
 			if (!psAI_Flags.test(aiStalker) || !!smart_cast<CActor*>(Level().CurrentEntity()))
-				Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this,&CCustomMonster::Exec_Visibility));
+				Device.seqParallel.push_back(XrFastDelegate<void>(this,&CCustomMonster::Exec_Visibility));
 			else
 				Exec_Visibility				();
 		}
@@ -453,7 +453,7 @@ void CCustomMonster::UpdateCL	()
 	*/
 
 	if (g_mt_config.test(mtSoundPlayer))
-		Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CCustomMonster::update_sound_player));
+		Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CCustomMonster::update_sound_player));
 	else {
 		START_PROFILE("CustomMonster/client_update/sound_player")
 		update_sound_player	();
@@ -808,13 +808,13 @@ void CCustomMonster::net_Destroy()
 	movement().net_Destroy		();
 	
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CCustomMonster::update_sound_player
 		)
 	);
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CCustomMonster::Exec_Visibility
 		)

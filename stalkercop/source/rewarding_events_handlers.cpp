@@ -26,7 +26,7 @@ void rewarding_event_handlers::OnWeapon_Fire(u16 sender, u16 sender_weapon_id)
 	{
 		if (i->second->OnWeapon_Fire(sender, sender_weapon_id))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -42,7 +42,7 @@ void rewarding_event_handlers::OnBullet_Fire(u16 sender, u16 sender_weapon_id, c
 	{
 		if (i->second->OnBullet_Fire(sender, sender_weapon_id, position, direction))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -57,7 +57,7 @@ void rewarding_event_handlers::OnBullet_Hit		(CObject const * hitter, CObject co
 	{
 		if (i->second->OnBullet_Hit(hitter, victim, weapon, bone))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -71,7 +71,7 @@ void rewarding_event_handlers::OnArtefactSpawned()
 	{
 		if (i->second->OnArtefactSpawned())
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -86,7 +86,7 @@ void rewarding_event_handlers::OnPlayerTakeArtefact(game_PlayerState const * ps)
 	{
 		if (i->second->OnPlayerTakeArtefact(ps))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -101,7 +101,7 @@ void rewarding_event_handlers::OnPlayerDropArtefact(game_PlayerState const * ps)
 	{
 		if (i->second->OnPlayerDropArtefact(ps))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -116,7 +116,7 @@ void rewarding_event_handlers::OnPlayerBringArtefact(game_PlayerState const * ps
 	{
 		if (i->second->OnPlayerBringArtefact(ps))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -131,7 +131,7 @@ void rewarding_event_handlers::OnPlayerSpawned(game_PlayerState const * ps)
 	{
 		if (i->second->OnPlayerSpawned(ps))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -146,7 +146,7 @@ void rewarding_event_handlers::OnPlayerKilled(u16 killer_id, u16 target_id, u16 
 	{
 		if (i->second->OnPlayerKilled(killer_id, target_id, weapon_id, kill_type))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -160,7 +160,7 @@ void rewarding_event_handlers::OnPlayerChangeTeam(s8 team)
 	{
 		if (i->second->OnPlayerChangeTeam(team))
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -175,7 +175,7 @@ void rewarding_event_handlers::OnPlayerRankChanged()
 	{
 		if (i->second->OnPlayerRankChanged())
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -190,7 +190,7 @@ void rewarding_event_handlers::OnRoundEnd()
 	{
 		if (i->second->OnRoundEnd())
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}
@@ -205,7 +205,7 @@ void rewarding_event_handlers::OnRoundStart()
 	{
 		if (i->second->OnRoundStart())
 		{
-			m_reward_action(i->first);
+			m_reward_action.call(i->first);
 			break;
 		}
 	}

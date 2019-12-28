@@ -134,7 +134,7 @@ void CPhantom::SwitchToState_internal(EState new_state)
 	if (new_state!=m_CurState){
 		IKinematicsAnimated *K	= smart_cast<IKinematicsAnimated*>(Visual());
 		Fmatrix	xform			= XFORM_center	();
-		UpdateEvent				= 0;
+		UpdateEvent				= nullptr;
 		// after event
 		switch (m_CurState){
 		case stBirth:		break;
@@ -165,27 +165,27 @@ void CPhantom::SwitchToState_internal(EState new_state)
 			K->PlayCycle		(sdata.motion, TRUE, animation_end_callback, this);
 		}break;
 		case stFly:{
-			UpdateEvent.bind	(this,&CPhantom::OnFlyState);
+			UpdateEvent = UpdateEvent.bind	(this,&CPhantom::OnFlyState);
 			SStateData& sdata	= m_state_data[new_state];
 			m_fly_particles		= PlayParticles(sdata.particles.c_str(),FALSE,xform);
 			sdata.sound.play_at_pos(0,xform.c,sm_Looped);
 			K->PlayCycle		(sdata.motion);
 		}break;
 		case stContact:{
-			UpdateEvent.bind	(this,&CPhantom::OnDeadState);	
+			UpdateEvent = UpdateEvent.bind	(this,&CPhantom::OnDeadState);
 			SStateData& sdata	= m_state_data[new_state];
 			sdata.sound.play_at_pos(0,xform.c);
 			K->PlayCycle		(sdata.motion, TRUE, animation_end_callback, this);
 		}break;
 		case stShoot:{
-			UpdateEvent.bind	(this,&CPhantom::OnDeadState);	
+			UpdateEvent = UpdateEvent.bind	(this,&CPhantom::OnDeadState);
 			SStateData& sdata	= m_state_data[new_state];
 			PlayParticles		(sdata.particles.c_str(),TRUE,xform);
 			sdata.sound.play_at_pos(0,xform.c);
 			K->PlayCycle		(sdata.motion, TRUE, animation_end_callback, this);
 		}break;
 		case stIdle:{
-			UpdateEvent.bind	(this,&CPhantom::OnIdleState);	
+			UpdateEvent = UpdateEvent.bind	(this,&CPhantom::OnIdleState);
 			SStateData& sdata	= m_state_data[m_CurState];
 			sdata.sound.stop	();
 			CParticlesObject::Destroy(m_fly_particles);
@@ -250,7 +250,7 @@ void CPhantom::UpdateCL()
 {
 	inherited::UpdateCL();
 
-	if (!UpdateEvent.empty())	UpdateEvent();
+	if (!UpdateEvent.empty())	UpdateEvent.call();
 	if (m_TgtState!=m_CurState)	SwitchToState_internal(m_TgtState);
 }
 //---------------------------------------------------------------------

@@ -316,7 +316,7 @@ void CAI_Stalker::Hit(SHit* pHDS)
 		}
 	}
 
-	if ( g_Alive() && ( !m_hit_callback || m_hit_callback( &HDS ) ) )
+	if ( g_Alive() && ( !m_hit_callback || m_hit_callback.call( &HDS ) ) )
 	{
 		float const damage_factor	= invulnerable() ? 0.f : 100.f;
 		memory().hit().add			( damage_factor*HDS.damage(), HDS.direction(), HDS.who, HDS.boneID );

@@ -33,7 +33,8 @@ bool shared_str_initialized = false;
 
 void XrCore::Initialize()
 {
-	if (init_counter)return;	init_counter++;
+	if (init_counter)return;
+	init_counter++;
 	DWORD sz_user = sizeof(UserName);
 	GetUserName(UserName, &sz_user);
 

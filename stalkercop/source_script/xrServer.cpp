@@ -254,7 +254,7 @@ void xrServer::Update	()
 	}
 }
 
-void _stdcall xrServer::SendGameUpdateTo(IClient* client)
+void  xrServer::SendGameUpdateTo(IClient* client)
 {
 	xrClientData*	xr_client = static_cast<xrClientData*>(client);
 	VERIFY			(xr_client);
@@ -344,8 +344,7 @@ void xrServer::SendUpdatesToAll()
 
 
 	//sending game_update 
-	fastdelegate::FastDelegate1<IClient*,void> sendtofd;
-	sendtofd.bind(this, &xrServer::SendGameUpdateTo);
+	XrFastDelegate<void,IClient*>sendtofd(this, &xrServer::SendGameUpdateTo);
 	ForEachClientDoSender(sendtofd);
 
 	if ((Device.dwTimeGlobal - m_last_update_time) >= u32(1000/psNET_ServerUpdate))

@@ -20,6 +20,7 @@ public class stalkertools :Project
 		Include.Private.Add(Path.Combine(ProjectPath,"include","tools"));
 		
 		Projects.Private.Add("directx");
+		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64||BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32)
 		LibrariesStatic.Private.Add("dxerr.lib");
 		//Projects.Private.Add("blackbox");
 	}

@@ -88,7 +88,7 @@ void XrSharedMemoryContainer::dump()
    /* cs->Enter();
     cdb::iterator it = container->begin();
     cdb::iterator end = container->end();
-   /* FILE* F = fopen("x:\\$smem_dump$.txt", "w");
+    FILE* F = fopen("x:\\$smem_dump$.txt", "w");
     for (; it != end; it++)
         fprintf(F, "%4u : crc[%6x], %u bytes\n", (*it)->dwReference, (*it)->dwCRC, (*it)->dwLength);
     fclose(F);

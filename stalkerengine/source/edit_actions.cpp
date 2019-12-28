@@ -52,7 +52,7 @@ void callback_base::on_key_press(line_edit_control* const control)
 {
     if (control->get_key_state(m_run_state))
     {
-        m_callback();
+        m_callback.call();
         return;
     }
     base::on_key_press(control);

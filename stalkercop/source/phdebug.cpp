@@ -662,7 +662,7 @@ void CFunctionGraph::Init(type_function fun,float x0,float x1,int l, int t, int 
 	float min=phInfinity;float max=-phInfinity;
 	for(float x=x_min;x<x_max;x+=s)
 	{
-		float val=m_function(x);
+		float val=m_function.call(x);
 	
 		save_min(min,val);save_max(max,val);
 	}
@@ -672,7 +672,7 @@ void CFunctionGraph::Init(type_function fun,float x0,float x1,int l, int t, int 
 
 	for(float x=x_min;x<x_max;x+=s)
 	{
-		float val=m_function(x);
+		float val=m_function.call(x);
 		m_stat_graph->AppendItem(val,color);
 
 	}

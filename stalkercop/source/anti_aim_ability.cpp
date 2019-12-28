@@ -191,7 +191,7 @@ void   anti_aim_ability::start_camera_effector ()
 	
 	if ( m_callback )
 	{
-		m_callback						();
+		m_callback.call						();
 	}
 }
 

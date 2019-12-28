@@ -187,7 +187,7 @@ void mt_Thread(void* ptr)
         mt_Thread_marker = Device.dwFrame;
 
         for (u32 pit = 0; pit < Device.seqParallel.size(); pit++)
-            Device.seqParallel[pit]();
+            Device.seqParallel[pit].call();
         Device.seqParallel.clear_not_free();
         Device.seqFrameMT.Process(rp_Frame);
 
@@ -245,7 +245,7 @@ void CRenderDevice::on_idle()
     else g_bEnableStatGather = FALSE;*/
     if (g_loading_events.size())
     {
-        if (g_loading_events.front()())
+        if (g_loading_events.front().call())
             g_loading_events.pop_front();
         pApp->LoadDraw();
         return;
@@ -325,7 +325,7 @@ void CRenderDevice::on_idle()
     if (dwFrame != mt_Thread_marker)
     {
         for (u32 pit = 0; pit < Device.seqParallel.size(); pit++)
-            Device.seqParallel[pit]();
+            Device.seqParallel[pit].call();
         Device.seqParallel.clear_not_free();
         seqFrameMT.Process(rp_Frame);
     }

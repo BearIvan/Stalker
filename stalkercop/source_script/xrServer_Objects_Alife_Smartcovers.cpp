@@ -188,6 +188,7 @@ void CSE_SmartCover::FillProps	(LPCSTR pref, PropItemVec& items)
 
 #ifdef XRSE_FACTORY_EXPORTS
 void CSE_SmartCover::set_loopholes_table_checker(BOOLValue *value){
+	ÑÄÅÑÜ ÎØÈÁÊÀ,ÏÐÈÊÈÍÜ ÒÛ ÏÎÕÎÄÓ ÇÀÁÛË
 	value->OnChangeEvent.bind	(this,&CSE_SmartCover::OnChangeLoopholes);
 }
 
@@ -338,7 +339,7 @@ void CSE_SmartCover::check_enterable_loopholes(shared_str const &description)
 
 class CSE_SmartVisual : public CSE_Visual {
 public:
-	virtual CSE_Visual* __stdcall visual ()
+	virtual CSE_Visual*  visual ()
 	{
 		return					(this);
 	}

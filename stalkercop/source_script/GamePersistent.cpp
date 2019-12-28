@@ -68,7 +68,7 @@ CGamePersistent::CGamePersistent(void)
 	m_pUI_core					= NULL;
 	m_pMainMenu					= NULL;
 	m_intro						= NULL;
-	m_intro_event.bind			(this, &CGamePersistent::start_logo_intro);
+	m_intro_event = m_intro_event.bind			(this, &CGamePersistent::start_logo_intro);
 #ifdef DEBUG
 	m_frame_counter				= 0;
 	m_last_stats_frame			= u32(-2);
@@ -445,7 +445,7 @@ void CGamePersistent::start_logo_intro()
 {
 	if(Device.dwPrecacheFrame==0)
 	{
-		m_intro_event.bind		(this, &CGamePersistent::update_logo_intro);
+		m_intro_event = m_intro_event.bind		(this, &CGamePersistent::update_logo_intro);
 		if (!g_dedicated_server && 0==xr_strlen(m_game_params.m_game_or_spawn) && NULL==g_pGameLevel)
 		{
 			VERIFY				(NULL==m_intro);
@@ -461,14 +461,14 @@ void CGamePersistent::update_logo_intro()
 {
 	if(m_intro && (false==m_intro->IsActive()))
 	{
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		xr_delete				(m_intro);
 		Msg("intro_delete ::update_logo_intro");
 		Console->Execute		("main_menu on");
 	}else
 	if(!m_intro)
 	{
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 }
 
@@ -487,9 +487,9 @@ void CGamePersistent::game_loaded()
 			m_intro				= xr_new<CUISequencer>();
 			m_intro->Start		("game_loaded");
 			Msg					("intro_start game_loaded");
-			m_intro->m_on_destroy_event.bind(this, &CGamePersistent::update_game_loaded);
+			m_intro->m_on_destroy_event = m_intro->m_on_destroy_event.bind(this, &CGamePersistent::update_game_loaded);
 		}
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 }
 
@@ -504,13 +504,13 @@ void CGamePersistent::start_game_intro		()
 {
 	if(!allow_intro())
 	{
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		return;
 	}
 
 	if (g_pGameLevel && g_pGameLevel->bReady && Device.dwPrecacheFrame<=2)
 	{
-		m_intro_event.bind		(this, &CGamePersistent::update_game_intro);
+		m_intro_event = m_intro_event.bind		(this, &CGamePersistent::update_game_intro);
 		if (0==BearString::CompareWithoutCase(m_game_params.m_new_or_load, "new"))
 		{
 			VERIFY				(NULL==m_intro);
@@ -527,12 +527,12 @@ void CGamePersistent::update_game_intro()
 	{
 		xr_delete				(m_intro);
 		Msg("intro_delete ::update_game_intro");
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 	else
 	if(!m_intro)
 	{
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 }
 
@@ -543,7 +543,7 @@ void CGamePersistent::OnFrame	()
 {
 	if(Device.dwPrecacheFrame==5 && m_intro_event.empty())
 	{
-		m_intro_event.bind			(this,&CGamePersistent::game_loaded);
+		m_intro_event = m_intro_event.bind			(this,&CGamePersistent::game_loaded);
 	}
 
 	if(g_tutorial2)
@@ -562,7 +562,7 @@ void CGamePersistent::OnFrame	()
 #ifdef DEBUG
 	++m_frame_counter;
 #endif
-	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
+	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event.call();
 	
 	if(!g_dedicated_server && Device.dwPrecacheFrame==0 && !m_intro && m_intro_event.empty())
 		load_screen_renderer.stop();

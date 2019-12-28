@@ -48,16 +48,16 @@ protected:
 	CUICellContainer*		m_container;
 	CUIScrollBar*			m_vScrollBar;
 
-	virtual void	__stdcall		OnScrollV				(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemStartDragging		(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemDrop				(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemSelected			(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemLButtonClick		(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemRButtonClick		(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemDBClick			(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemFocusReceived		(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemFocusLost			(CUIWindow* w, void* pData);
-	virtual void	__stdcall		OnItemFocusedUpdate		(CUIWindow* w, void* pData);
+	virtual void			OnScrollV				(CUIWindow* w, void* pData);
+	virtual void			OnItemStartDragging		(CUIWindow* w, void* pData);
+	virtual void			OnItemDrop				(CUIWindow* w, void* pData);
+	virtual void			OnItemSelected			(CUIWindow* w, void* pData);
+	virtual void			OnItemLButtonClick		(CUIWindow* w, void* pData);
+	virtual void			OnItemRButtonClick		(CUIWindow* w, void* pData);
+	virtual void			OnItemDBClick			(CUIWindow* w, void* pData);
+	virtual void			OnItemFocusReceived		(CUIWindow* w, void* pData);
+	virtual void			OnItemFocusLost			(CUIWindow* w, void* pData);
+	virtual void			OnItemFocusedUpdate		(CUIWindow* w, void* pData);
 	
 public:
 	static CUIDragItem*		m_drag_item;
@@ -65,8 +65,8 @@ public:
 	virtual					~CUIDragDropListEx	();
 				void		InitDragDropList		(Fvector2 pos, Fvector2 size);
 
-	typedef					fastdelegate::FastDelegate1<CUICellItem*, bool>			DRAG_CELL_EVENT;
-	typedef					fastdelegate::FastDelegate2<CUIDragItem*, bool, void>	DRAG_ITEM_EVENT;
+	typedef					XrFastDelegate<bool,CUICellItem* >			DRAG_CELL_EVENT;
+	typedef					XrFastDelegate<void,CUIDragItem*, bool>	DRAG_ITEM_EVENT;
 
 	DRAG_CELL_EVENT			m_f_item_drop;
 	DRAG_CELL_EVENT			m_f_item_start_drag;

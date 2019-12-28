@@ -23,7 +23,7 @@ struct profile
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };//struct profile
 
-//typedef fastdelegate::FastDelegate<void (profile const *, shared_str const &)>	login_operation_cb;
+//typedef XrFastDelegate<void (profile const *, shared_str const &)>	login_operation_cb;
 typedef mixed_delegate<void (profile const *, char const *), mdut_login_operation_cb_tag>	login_operation_cb;
 
 class login_manager : private boost::noncopyable

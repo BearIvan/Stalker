@@ -351,15 +351,14 @@ void CLevel::SetDemoPlaySpeed(float const time_factor)
 
 void CLevel::CatchStartingSpawns()
 {
-	message_filter::msg_type_subtype_func_t spawns_catcher =
-		fastdelegate::MakeDelegate(this, &CLevel::MSpawnsCatchCallback);
+	message_filter::msg_type_subtype_func_t spawns_catcher (this, &CLevel::MSpawnsCatchCallback);
 	message_filter* tmp_msg_filter = GetMessageFilter();
 	R_ASSERT(tmp_msg_filter);
 	u32 fake_sub_msg = 0;
 	tmp_msg_filter->filter(M_SPAWN, fake_sub_msg, spawns_catcher);
 }
 
-void __stdcall CLevel::MSpawnsCatchCallback(u32 message, u32 subtype, NET_Packet & packet)
+void  CLevel::MSpawnsCatchCallback(u32 message, u32 subtype, NET_Packet & packet)
 {
 	//see SimulateServerUpdate and using of message_filter
 	m_starting_spawns_pos	= m_prev_packet_pos; 

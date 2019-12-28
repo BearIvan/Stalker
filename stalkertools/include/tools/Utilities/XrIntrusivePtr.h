@@ -35,22 +35,24 @@ struct intrusive_base
     }
 };
 
-template <typename object_type, typename base_type = intrusive_base>
+template <typename object_type_, typename base_type_ = intrusive_base>
 class intrusive_ptr
 {
+public:
+    using self_type =   intrusive_ptr<object_type_, base_type_>;
 private:
-    typedef base_type base_type;
-    typedef object_type object_type;
-    typedef intrusive_ptr<object_type, base_type> self_type;
-    typedef const object_type* (intrusive_ptr::*unspecified_bool_type) () const;
+    using base_type  = base_type_;
+    using object_type  = object_type_;
+  
+    typedef const object_type* ( intrusive_ptr::*unspecified_bool_type) () const;
 
 private:
 #ifdef XRGAME_EXPORTS
     enum
     {
         result =
-        object_type_traits::is_base_and_derived<base_type, object_type>::value ||
-        object_type_traits::is_same<base_type, object_type>::value
+        object_type_traits::is_base_and_derived<base_type_, object_type>::value ||
+        object_type_traits::is_same<base_type_, object_type>::value
     };
 #else
     enum { result = true };

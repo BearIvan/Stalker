@@ -3,18 +3,9 @@
 #undef max
 IC bool _valid(const float x)
 {
-	// check for: Signaling NaN, Quiet NaN, Negative infinity ( –INF), Positive infinity (+INF), Negative denormalized, Positive denormalized
-	int cls = _fpclass(double(x));
-	if (cls&(_FPCLASS_SNAN + _FPCLASS_QNAN + _FPCLASS_NINF + _FPCLASS_PINF + _FPCLASS_ND + _FPCLASS_PD))
-		return false;
-
-	/* *****other cases are*****
-	_FPCLASS_NN Negative normalized non-zero
-	_FPCLASS_NZ Negative zero ( – 0)
-	_FPCLASS_PZ Positive 0 (+0)
-	_FPCLASS_PN Positive normalized non-zero
-	*/
-	return true;
+	// check for: Signaling NaN, Quiet NaN, Negative infinity ( ï¿½INF), Positive infinity (+INF), Negative denormalized, Positive denormalized
+	
+	return BearMath::isvalid(x);
 }
 class  XrMath
 {
@@ -43,13 +34,18 @@ public:
 	template <class T> IC static T max(T a, T b) { return a > b ? a : b; }
 	template <class T> IC static T sqr(T a) { return a * a; }
 	template<class T> IC static T abs(T a) { if (a < 0) return -a; return a; }
+	template<class T>  IC static T copysign(T a,T b)
+	{
+		return ::copysign(a,b);
+	}
 	// float
-	template<>  static IC float abs<float>(float x) { return fabsf(x); }
+    static IC float abs(float x) { return fabsf(x); }
 	static IC float sqrt(float x) { return sqrtf(x); }
 	static IC float sin(float x) { return sinf(x); }
 	static IC float cos(float x) { return cosf(x); }
+	static IC float copysign(float a,float b){return ::copysignf(a,b);}
 
-	template<> static IC double abs<double>(double x) { return ::abs (x); }
+	static IC double abs(double x) { return ::abs (x); }
 	static IC double sqrt(double x) { return ::sqrt(x); }
 	static IC double sin(double x) { return ::sin(x); }
 	static IC double cos(double x) { return ::cos(x); }
@@ -58,23 +54,23 @@ public:
 	static IC BOOL dsimilar(double a, double b, double cmp = EPS) { return abs(a - b) < cmp; }
 
 
-	template<class T>
+	template<typename T>
 	static IC T rsqrt(T v) { return static_cast<T>(1.0) / sqrt(v); }
 	
 	
 	static IC BOOL fis_zero(float val, float cmp = EPS_S) { return abs(val) < cmp; }
 	static IC BOOL dis_zero(double val, double cmp = EPS_S) { return abs(val) < cmp; }
 public:
-	template <class T> IC static T deg2rad(T val) { return (val*T(M_PI) / T(180)); };
-	template <class T> IC static T rad2deg(T val) { return (val*T(180) / T(M_PI)); };
+	template <typename T> IC static T deg2rad(T val) { return (val*T(M_PI) / T(180)); };
+	template <typename T> IC static T rad2deg(T val) { return (val*T(180) / T(M_PI)); };
 	// clamping/snapping
-	template <class T>
+	template <typename T>
 	static IC void clamp(T& val, const T& _low, const T& _high)
 	{
 		if (val < _low) val = _low;
 		else if (val > _high) val = _high;
 	};
-	template <class T>
+	template <typename T>
 	static IC T clampr(const T& val, const T& _low, const T& _high)
 	{
 		if (val < _low) return _low;
@@ -197,7 +193,6 @@ public:
 
 		return A + diff * f;
 	}
-
 	static IC float angle_inertion(float src, float tgt, float speed, float clmp, float dt)
 	{
 		float a = angle_normalize_signed(tgt);
@@ -226,20 +221,20 @@ public:
 #pragma pack(push)
 #pragma pack(1)
 template <class T> struct _quaternion;
-#include "Math/XrVector3d.h"
-#include "Math/XrVector2.h"
-#include "Math/XrVector4.h"
-#include "Math/XrMatrix.h"
-#include "Math/XrMatrix33.h"
-#include "Math/XrQuaternion.h"
-#include "Math/XrRect.h"
-#include "Math/XrFbox.h"
-#include "Math/XrFbox2.h"
-#include "Math/XrObb.h"
-#include "Math/XrSphere.h"
-#include "Math/XrCylinder.h"
-#include "Math/XrPlane.h"
-#include "Math/XrPlane2.h"
+#include "XrVector3d.h"
+#include "XrVector2.h"
+#include "XrVector4.h"
+#include "XrMatrix.h"
+#include "XrMatrix33.h"
+#include "XrQuaternion.h"
+#include "XrRect.h"
+#include "XrFbox.h"
+#include "XrFbox2.h"
+#include "XrObb.h"
+#include "XrSphere.h"
+#include "XrCylinder.h"
+#include "XrPlane.h"
+#include "XrPlane2.h"
 
 template <class T>
 IC _matrix<T>& _matrix<T>::rotation(const _quaternion<T>& Q)

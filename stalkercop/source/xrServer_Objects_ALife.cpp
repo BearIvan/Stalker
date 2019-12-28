@@ -233,6 +233,7 @@ static SFillPropData			fp_data;
 #ifndef XRGAME_EXPORTS
 void CSE_ALifeTraderAbstract::FillProps	(LPCSTR pref, PropItemVec& items)
 {
+	ÑÄÅÑÜ ÒÎÆÅ ÎØÈÁÊÀ .bind ïîìíèøü?
 #	ifdef XRSE_FACTORY_EXPORTS
 	PHelper().CreateU32			(items, PrepareKey(pref,*base()->s_name,"Money"), 	&m_dwMoney,	0, u32(-1));
 	PHelper().CreateFlag32		(items,	PrepareKey(pref,*base()->s_name,"Trader\\Infinite ammo"),&m_trader_flags, eTraderFlagInfiniteAmmo);

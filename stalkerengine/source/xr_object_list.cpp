@@ -285,7 +285,7 @@ void CObjectList::Update(bool bForce)
             Objects::iterator dIte = destroy_queue.end();
             for (; dIt != dIte; ++dIt)
             {
-                (*It).m_Callback(*dIt);
+                (*It).m_Callback.call(*dIt);
                 g_hud->net_Relcase(*dIt);
             }
         }

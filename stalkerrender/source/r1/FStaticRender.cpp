@@ -716,7 +716,7 @@ public:
 		*pBytes					= static_cast<UINT>(size);
 		return	D3D_OK;
 	}
-	HRESULT __stdcall	Close	(LPCVOID	pData)
+	HRESULT  __stdcall	Close	(LPCVOID	pData)
 	{
 		xr_free	(pData);
 		return	D3D_OK;

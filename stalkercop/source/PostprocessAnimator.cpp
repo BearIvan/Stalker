@@ -479,7 +479,7 @@ void CPostProcessValue::get_value(float time, float &value, int index)
 BOOL CPostprocessAnimatorLerp::Process(SPPInfo &PPInfo)
 {
 	if(!m_bStop)
-		m_factor = m_get_factor_func			();
+		m_factor = m_get_factor_func.call();
 	return CPostprocessAnimator::Process		(PPInfo);
 }
 
@@ -495,7 +495,7 @@ CPostprocessAnimatorControlled::CPostprocessAnimatorControlled(CEffectorControll
 :m_controller(c)
 {
 	m_controller->SetPP(this);
-	SetFactorFunc(fastdelegate::FastDelegate0<float>(m_controller, &CEffectorController::GetFactor));
+	SetFactorFunc(XrFastDelegate<float>(m_controller, &CEffectorController::GetFactor));
 }
 
 CPostprocessAnimatorControlled::~CPostprocessAnimatorControlled()

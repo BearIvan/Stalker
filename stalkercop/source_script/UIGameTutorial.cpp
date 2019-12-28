@@ -234,8 +234,8 @@ void CUISequencer::Destroy()
 	m_flags.set					(etsActive, FALSE);
 	m_pStoredInputReceiver		= NULL;
 	
-	if(!m_on_destroy_event.empty())
-		m_on_destroy_event		();
+	if (!m_on_destroy_event.empty())
+		m_on_destroy_event.call		();
 
 	if(g_tutorial==this)
 	{

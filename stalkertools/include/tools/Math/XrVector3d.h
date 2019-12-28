@@ -507,7 +507,7 @@ IC BOOL exact_normalize(float* a)
             a2 /= aa1;
             l = XrMath::rsqrt(a0*a0 + a2*a2 + 1);
             a[0] = a0*l;
-            a[1] = (double)_copysign(l, a1);
+            a[1] = (double)XrMath::copysign(l, a1);
             a[2] = a2*l;
         }
     }
@@ -521,7 +521,7 @@ IC BOOL exact_normalize(float* a)
             l = XrMath::rsqrt(a0*a0 + a1*a1 + 1);
             a[0] = a0*l;
             a[1] = a1*l;
-            a[2] = (double)_copysign(l, a2);
+            a[2] = (double)XrMath::copysign(l, a2);
         }
         else   // aa0 is largest
         {
@@ -536,7 +536,7 @@ IC BOOL exact_normalize(float* a)
             a1 /= aa0;
             a2 /= aa0;
             l = XrMath::rsqrt(a1*a1 + a2*a2 + 1);
-            a[0] = (double)_copysign(l, a0);
+            a[0] = (double)XrMath::copysign(l, a0);
             a[1] = a1*l;
             a[2] = a2*l;
         }

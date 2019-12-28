@@ -17,7 +17,7 @@ public:
         d = P.d;
         return *this;
     }
-    IC BOOL similar(Self& P, T eps_n = EPS, T eps_d = EPS)
+    IC BOOL similar(Self& P, T eps_n =XrMath::EPS, T eps_d =XrMath:: EPS)
     {
         return (n.similar(P.n, eps_n) && (XrMath::abs(d - P.d) < eps_d));
     }
@@ -108,7 +108,7 @@ public:
         if (XrMath::abs(denom) < XrMath::EPS) return false; // they are parallel
 
         dist = -(n.dotproduct(u) + d) / denom;
-        if (dist < -EPS || dist > 1 + EPS) return false;
+        if (dist < -XrMath::EPS || dist > 1 + XrMath::EPS) return false;
         isect.mad(u, t, dist);
         return true;
     }

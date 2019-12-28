@@ -159,7 +159,7 @@ void CUIDragDropReferenceList::OnItemDrop(CUIWindow* w, void* pData)
 	CUICellItem* itm = smart_cast<CUICellItem*>(w);
 	VERIFY(itm->OwnerList() == itm->OwnerList());
 
-	if(m_f_item_drop && m_f_item_drop(itm))
+	if(m_f_item_drop && m_f_item_drop.call(itm))
 	{
 		DestroyDragItem();
 		return;

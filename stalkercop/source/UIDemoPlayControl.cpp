@@ -254,8 +254,7 @@ void CUIDemoPlayControl::OnRepeatRewind(CUIWindow* w, void* d)
 {
 	VERIFY(m_demo_play_control);
 	StopRewind();
-	demoplay_control::user_callback_t	tmpcb;
-	tmpcb.bind(this, &CUIDemoPlayControl::UIStopRewindCb);
+	demoplay_control::user_callback_t	tmpcb(this, &CUIDemoPlayControl::UIStopRewindCb);
 	bool rewind_result = false;
 		
 	switch (m_last_rewind_type)

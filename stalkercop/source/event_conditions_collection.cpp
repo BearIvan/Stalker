@@ -213,7 +213,7 @@ void event_conditions_collection::execute_root_condtiion(event_root_conditions_t
 	VERIFY(rcond.m_root_condition);
 	if (execute_condition(rcond.m_root_condition))
 	{
-		m_event_action(rcond.m_delegate_argument);
+		m_event_action.call(rcond.m_delegate_argument);
 		--rcond.m_rise_count;
 	}
 }

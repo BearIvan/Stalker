@@ -77,7 +77,7 @@ MotionID CStalkerAnimationManager::global_critical_hit		()
 MotionID CStalkerAnimationManager::assign_global_animation	(bool &animation_movement_controller)
 {
 	if (m_global_selector)
-		return					(m_global_selector(animation_movement_controller));
+		return					(m_global_selector.call(animation_movement_controller));
 
 	animation_movement_controller	= false;
 

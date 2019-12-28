@@ -121,8 +121,7 @@ void server_info_uploader::start_upload_info	(IReader const * svlogo,
 												 svinfo_upload_complete_cb const & complete_cb)
 {
 	using namespace file_transfer;
-	sending_state_callback_t	sndcb;
-	sndcb.bind(this, &server_info_uploader::upload_server_info_callback);
+	sending_state_callback_t	sndcb(this, &server_info_uploader::upload_server_info_callback);
 	
 	buffer_vector<mutable_buffer_t>	tmp_bufvec(
 		_alloca(sizeof(mutable_buffer_t) * 2),
@@ -159,11 +158,11 @@ void server_info_uploader::start_upload_info	(IReader const * svlogo,
 void server_info_uploader::execute_complete_cb()
 {
 	R_ASSERT(m_complete_cb);
-	m_complete_cb		(m_to_client);
+	m_complete_cb.call(m_to_client);
 	m_complete_cb.clear	();
 }
 
-void __stdcall server_info_uploader::upload_server_info_callback(
+void  server_info_uploader::upload_server_info_callback(
 	file_transfer::sending_status_t status,
 	u32 uploaded, u32 total)
 {

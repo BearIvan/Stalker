@@ -16,7 +16,7 @@ public:
 
 		queued_async_method	()
 		{
-			pending_proxy_exec.bind(this, &queued_async_method::proxy_execution);
+			pending_proxy_exec = pending_proxy_exec.bind(this, &queued_async_method::proxy_execution);
 		}
 		~queued_async_method() {};
 
@@ -62,7 +62,7 @@ public:
 			}
 		}
 private:
-	return_type __stdcall proxy_execution(param1_type arg1, param2_type arg2)
+	return_type  proxy_execution(param1_type arg1, param2_type arg2)
 	{
 		if (pending_active)
 		{

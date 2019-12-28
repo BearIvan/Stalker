@@ -228,7 +228,7 @@ void XrStringContainer::dump()
 {
 	return;/*
 	cs->Enter();
-/*	FILE* F = fopen("d:\\$str_dump$.txt", "w");
+	FILE* F = fopen("d:\\$str_dump$.txt", "w");
 	impl->dump(F);
 	fclose(F);
 	cs->Leave();*/

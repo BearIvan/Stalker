@@ -17,7 +17,7 @@ public:
 	typedef		Param1											param1_type;
 	typedef		Param2											param2_type;
 	
-	typedef		fastdelegate::FastDelegate<R (Param1, Param2)>	fastdelegate_type;
+	typedef		XrFastDelegate<R , Param1, Param2>	fastdelegate_type;
 	typedef		CScriptCallbackEx<R>							lua_delegate_type;
 	typedef		luabind::object									lua_object_type;
 	typedef		luabind::functor<R>								lua_function_type;
@@ -30,7 +30,7 @@ public:
 	}
 	
 	template<class ThisRef, class ClassType>
-	mixed_delegate(ThisRef* ptr_this, R (xr_stdcall ClassType::*func_ptr)(Param1, Param2)) :
+	mixed_delegate(ThisRef* ptr_this, R ( ClassType::*func_ptr)(Param1, Param2)) :
 		m_cpp_delegate(ptr_this, func_ptr)
 	{
 	};
@@ -49,9 +49,9 @@ public:
 	
 	template<class ThisRef, class ClassType>
 	void bind(ThisRef* ptr_this,
-		R (xr_stdcall ClassType::*func_ptr)(Param1, Param2))
+		R ( ClassType::*func_ptr)(Param1, Param2))
 	{
-		m_cpp_delegate.bind(ptr_this, func_ptr);
+		m_cpp_delegate = m_cpp_delegate.bind(ptr_this, func_ptr);
 	}
 	
 	void bind(lua_object_type ptr_this, lua_function_type func_ptr)
@@ -75,11 +75,11 @@ public:
 	{
 		if (m_cpp_delegate)
 		{
-			return m_cpp_delegate.operator()(arg1, arg2);
+			return m_cpp_delegate.call(arg1, arg2);
 		}
 		if (m_lua_delegate)
 		{
-			return m_lua_delegate.operator()(arg1, arg2);
+			return m_lua_delegate(arg1, arg2);
 		}
 		FATAL("mixed delegate is not bound");
 		return R();

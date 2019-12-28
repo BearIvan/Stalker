@@ -30,7 +30,7 @@ public:
     typedef Root::iterator RootIt;
     typedef Root::const_iterator RootCIt;
 
-    typedef fastdelegate::FastDelegate1<LPCSTR, bool> allow_include_func_t;
+    typedef XrFastDelegate<bool,LPCSTR> allow_include_func_t;
     static CInifile* Create(LPCSTR FsPath,LPCSTR szFileName, BOOL ReadOnly = TRUE);
 	static CInifile* Create(LPCSTR szFileName);
     static void Destroy(CInifile*);
@@ -42,12 +42,12 @@ private:
     Root DATA;
 
     void Load(IReader* F, LPCSTR FsPath, LPCSTR path
-              , allow_include_func_t allow_include_func = NULL
+              , allow_include_func_t allow_include_func = nullptr
              );
 public:
     CInifile(IReader* F, LPCSTR FsPath,
              LPCSTR path = 0
-                           , allow_include_func_t allow_include_func = NULL
+                           , allow_include_func_t allow_include_func = nullptr
             );
 
     CInifile(LPCSTR FsPath, LPCSTR szFileName,
@@ -55,7 +55,7 @@ public:
              BOOL bLoadAtStart = TRUE,
              BOOL SaveAtEnd = TRUE,
 		bsize sect_count = 0
-                              , allow_include_func_t allow_include_func = NULL
+                              , allow_include_func_t allow_include_func = nullptr
             );
 
     virtual ~CInifile();
@@ -79,10 +79,10 @@ public:
 
     CLASS_ID r_clsid(LPCSTR S, LPCSTR L)const;
     CLASS_ID r_clsid(const shared_str& S, LPCSTR L)const { return r_clsid(*S, L); }
-    LPCSTR r_string(LPCSTR S, LPCSTR L)const; // оставляет кавычки
-    LPCSTR r_string(const shared_str& S, LPCSTR L)const { return r_string(*S, L); } // оставляет кавычки
-    shared_str r_string_wb(LPCSTR S, LPCSTR L)const; // убирает кавычки
-    shared_str r_string_wb(const shared_str& S, LPCSTR L)const { return r_string_wb(*S, L); } // убирает кавычки
+    LPCSTR r_string(LPCSTR S, LPCSTR L)const; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    LPCSTR r_string(const shared_str& S, LPCSTR L)const { return r_string(*S, L); } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    shared_str r_string_wb(LPCSTR S, LPCSTR L)const; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    shared_str r_string_wb(const shared_str& S, LPCSTR L)const { return r_string_wb(*S, L); } // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     u8 r_u8(LPCSTR S, LPCSTR L) const;
     u8 r_u8(const shared_str& S, LPCSTR L)const { return r_u8(*S, L); }
     u16 r_u16(LPCSTR S, LPCSTR L)const;

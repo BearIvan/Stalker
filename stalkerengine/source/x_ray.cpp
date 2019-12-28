@@ -142,7 +142,7 @@ struct path_excluder_predicate
         m_ignore(ignore)
     {
     }
-    bool xr_stdcall is_allow_include(LPCSTR path)
+    bool  is_allow_include(LPCSTR path)
     {
         if (!m_ignore)
             return true;
@@ -165,8 +165,7 @@ PROTECT_API void InitSettings()
     fill_auth_check_params(tmp_ignore_pathes, tmp_check_pathes);
 
     path_excluder_predicate tmp_excluder(&tmp_ignore_pathes);
-    CInifile::allow_include_func_t tmp_functor;
-    tmp_functor.bind(&tmp_excluder, &path_excluder_predicate::is_allow_include);
+    CInifile::allow_include_func_t tmp_functor(&tmp_excluder, &path_excluder_predicate::is_allow_include);
     pSettingsAuth = xr_new<CInifile>(
 		"%config%", "system.ltx",
                         TRUE,
@@ -688,7 +687,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	BEAR_ERRORMESSAGE(GFS->LoadFromFile(FSFilePath, BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
 #define FS (*GFS)
 
-	FS.SetPackage(TEXT("%main%"), TEXT("TheBearProject"));
+	//FS.SetPackage(TEXT("%main%"), TEXT("TheBearProject"));
 
 	FS.CreateDirectory(TEXT("%mods_soc14%"), 0);
 	FS.CreateDirectory(TEXT("%mods_soc16%"), 0);

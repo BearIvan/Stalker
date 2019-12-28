@@ -1,0 +1,109 @@
+{
+  "configurations": [
+    {
+      "name": "MinGW",
+      "includePath": [
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include/sound",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkertools/include",
+        "D:/GameDev/BearSDK/projects/bear/bearcore/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkercdb/include",
+        "D:/GameDev/BearSDK/projects/bear/beargraphics/include/BearGraphics",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerapi/include",
+        "D:/GameDev/BearSDK/projects/components/openal/include",
+        "D:/GameDev/BearSDK/projects/components/directxsdk/Include",
+        "D:/GameDev/BearSDK/projects/components/eax/include",
+        "D:/GameDev/BearSDK/projects/components/vorbis/include",
+        "D:/GameDev/BearSDK/projects/components/ogg/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerengine/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include"
+      ],
+      "defines": [
+        "XRSOUND_EXPORTS",
+        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS",
+        "STALKERSOUND_EXPORTS",
+        "WINDOWS",
+        "LIB",
+        "_LIB",
+        "WIN64",
+        "X64",
+        "DEBUG",
+        "_DEBUG",
+        "GCC"
+      ],
+      "compilerPath": "C:/Program Files/mingw-w64/mingw64/bin/g++.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-x64"
+    },
+    {
+      "name": "MinGW",
+      "includePath": [
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include/sound",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkertools/include",
+        "D:/GameDev/BearSDK/projects/bear/bearcore/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkercdb/include",
+        "D:/GameDev/BearSDK/projects/bear/beargraphics/include/BearGraphics",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerapi/include",
+        "D:/GameDev/BearSDK/projects/components/openal/include",
+        "D:/GameDev/BearSDK/projects/components/directxsdk/Include",
+        "D:/GameDev/BearSDK/projects/components/eax/include",
+        "D:/GameDev/BearSDK/projects/components/vorbis/include",
+        "D:/GameDev/BearSDK/projects/components/ogg/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerengine/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include"
+      ],
+      "defines": [
+        "XRSOUND_EXPORTS",
+        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS",
+        "STALKERSOUND_EXPORTS",
+        "WINDOWS",
+        "LIB",
+        "_LIB",
+        "WIN64",
+        "X64",
+        "MIXED",
+        "DEBUG",
+        "GCC"
+      ],
+      "compilerPath": "C:/Program Files/mingw-w64/mingw64/bin/g++.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-x64"
+    },
+    {
+      "name": "MinGW",
+      "includePath": [
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include/sound",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkertools/include",
+        "D:/GameDev/BearSDK/projects/bear/bearcore/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkercdb/include",
+        "D:/GameDev/BearSDK/projects/bear/beargraphics/include/BearGraphics",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerapi/include",
+        "D:/GameDev/BearSDK/projects/components/openal/include",
+        "D:/GameDev/BearSDK/projects/components/directxsdk/Include",
+        "D:/GameDev/BearSDK/projects/components/eax/include",
+        "D:/GameDev/BearSDK/projects/components/vorbis/include",
+        "D:/GameDev/BearSDK/projects/components/ogg/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkerengine/include",
+        "D:/GameDev/BearSDK/projects/engine/stalker/stalkersound/include"
+      ],
+      "defines": [
+        "XRSOUND_EXPORTS",
+        "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS",
+        "STALKERSOUND_EXPORTS",
+        "WINDOWS",
+        "LIB",
+        "_LIB",
+        "WIN64",
+        "X64",
+        "NDEBUG",
+        "GCC"
+      ],
+      "compilerPath": "C:/Program Files/mingw-w64/mingw64/bin/g++.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 4
+}

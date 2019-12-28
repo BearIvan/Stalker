@@ -170,10 +170,10 @@ public:
     PropValue*			propCollideSounds;
     PropValue*			propCollideParticles;
     PropValue*			propCollideMarks;
-    void __stdcall	 	OnFlagChange	(PropValue* sender);
-	void __stdcall	 	OnParentClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
-	void __stdcall	 	OnCommandClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void __stdcall	 	FillChooseMtl	(ChooseItemVec& items, void* param);
+    void 	 	OnFlagChange	(PropValue* sender);
+	void 	 	OnParentClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
+	void 	 	OnCommandClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void 	 	FillChooseMtl	(ChooseItemVec& items, void* param);
 #endif
 public:
 	SGameMtlPair		(CGameMtlLibrary* owner)

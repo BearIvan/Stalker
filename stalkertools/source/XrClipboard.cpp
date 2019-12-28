@@ -41,12 +41,12 @@ void XrClipboard::paste_from_clipboard(LPSTR buffer, bsize const& buffer_size)
         return;
 
     LPCSTR clipdata = (LPCSTR)GlobalLock(hmem);
-    strncpy_s(buffer, buffer_size, clipdata, buffer_size - 1);
+    BearString::CopyWithSizeLimit(buffer, buffer_size, clipdata, buffer_size - 1);
     buffer[buffer_size - 1] = 0;
     for (u32 i = 0; i < strlen(buffer); ++i)
     {
         char c = buffer[i];
-        if (((isprint(c) == 0) && (c != char(-1))) || c == '\t' || c == '\n')// "ÿ" = -1
+        if (((isprint(c) == 0) && (c != char(-1))) || c == '\t' || c == '\n')// "ï¿½" = -1
         {
             buffer[i] = ' ';
         }
@@ -73,7 +73,7 @@ void XrClipboard::update_clipboard(LPCSTR string)
 	bsize memory_length = (bsize)strlen(memory);
 	bsize string_length = (bsize)strlen(string);
 	bsize buffer_size = (memory_length + string_length + 1) * sizeof(char);
-#ifndef _EDITOR
+#ifdef MSVC
     LPSTR buffer = (LPSTR)_alloca(buffer_size);
 #else // #ifndef _EDITOR
     LPSTR buffer = (LPSTR)xr_alloc<char>( buffer_size );
@@ -84,7 +84,7 @@ void XrClipboard::update_clipboard(LPCSTR string)
 	BearString::Contact(buffer, buffer_size, string);
     CloseClipboard();
     copy_to_clipboard(buffer);
-#ifdef _EDITOR
+#ifdef MSVC
     xr_free (buffer);
 #endif // #ifdef _EDITOR
 }

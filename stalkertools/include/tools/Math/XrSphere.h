@@ -70,16 +70,16 @@ public:
     {
         int quantity;
         float afT[2];
-        Fsphere::ERP_Result result = intersect(start, dir, dist, quantity, afT);
+        ERP_Result result = intersect(start, dir, dist, quantity, afT);
 
-        if (result == Fsphere::rpOriginInside || ((result == Fsphere::rpOriginOutside) && (afT[0] < dist)))
+        if (result == rpOriginInside || ((result == rpOriginOutside) && (afT[0] < dist)))
         {
             switch (result)
             {
-            case Fsphere::rpOriginInside:
+            case rpOriginInside:
                 dist = afT[0] < dist ? afT[0] : dist;
                 break;
-            case Fsphere::rpOriginOutside:
+            case rpOriginOutside:
                 dist = afT[0];
                 break;
             }
@@ -142,7 +142,7 @@ public:
     }
     IC BOOL contains(const _vector3<T>& PT) const
     {
-        return P.distance_to_sqr(PT) <= (R*R + EPS_S);
+        return P.distance_to_sqr(PT) <= (R*R + XrMath::EPS_S);
     }
 
     // returns true if this wholly contains the argument sphere
@@ -158,7 +158,7 @@ public:
     // return's volume of sphere
     IC T volume() const
     {
-        return T(PI_MUL_4 / 3) * (R*R*R);
+        return T(XrMath::PI_MUL_4 / 3) * (R*R*R);
     }
 };
 

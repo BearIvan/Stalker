@@ -26,7 +26,7 @@ IC LPCSTR get_token_name(xr_token* tokens, int key)
 IC int get_token_id(xr_token* tokens, LPCSTR key)
 {
 	for (int k = 0; tokens[k].name; k++)
-		if (_stricmp(tokens[k].name, key) == 0)
+		if (BearString::CompareWithoutCase(tokens[k].name, key) == 0)
 			return tokens[k].id;
 	return -1;
 }

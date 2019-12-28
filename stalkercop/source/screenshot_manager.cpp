@@ -179,7 +179,7 @@ void screenshot_manager::shedule_Update(u32 dt)
 			make_jpeg_file	();
 			sign_jpeg_file	();
 			compress_image	();
-			m_complete_callback(m_buffer_for_compress, m_buffer_for_compress_size, m_jpeg_buffer_size);
+			m_complete_callback.call(m_buffer_for_compress, m_buffer_for_compress_size, m_jpeg_buffer_size);
 			m_state &= ~making_screenshot;
 		} else
 		{
@@ -187,7 +187,7 @@ void screenshot_manager::shedule_Update(u32 dt)
 			R_ASSERT((thread_result != WAIT_ABANDONED) && (thread_result != WAIT_FAILED));
 			if (thread_result == WAIT_OBJECT_0)
 			{
-				m_complete_callback(m_buffer_for_compress, m_buffer_for_compress_size, m_jpeg_buffer_size);
+				m_complete_callback.call(m_buffer_for_compress, m_buffer_for_compress_size, m_jpeg_buffer_size);
 				m_state &= ~making_screenshot;
 			}
 		}
@@ -281,7 +281,7 @@ void screenshot_manager::process_screenshot(bool singlecore)
 	m_make_done_event	= CreateEvent(NULL, FALSE, FALSE, NULL);
 	XrThread::Spawn	( "screenshot_maker", &screenshot_manager::screenshot_maker_thread, this);
 }
-void	__stdcall	screenshot_manager::jpeg_compress_cb(long progress)
+void		screenshot_manager::jpeg_compress_cb(long progress)
 {
 /*#ifdef DEBUG
 	Msg("* JPEG encoding progress : %d%%", progress);

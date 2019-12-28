@@ -238,7 +238,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)			
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind	.call	(load_id);
 //					load_surf->Apply	(load_id);
 				}
 			}
@@ -262,7 +262,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind.call		(load_id);
 //					load_surf->Apply	(load_id);
 				}
 			}
@@ -285,7 +285,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind.call		(load_id);
 					//					load_surf->Apply	(load_id);
 				}
 			}
@@ -308,7 +308,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind.call		(load_id);
 					//					load_surf->Apply	(load_id);
 				}
 			}
@@ -330,7 +330,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind.call(load_id);
 					//					load_surf->Apply	(load_id);
 				}
 			}
@@ -352,7 +352,7 @@ void CBackend::set_Textures			(STextureList* _T)
 				if (load_surf)
 				{
 					PGO					(Msg("PGO:tex%d:%s",load_id,load_surf->cName.c_str()));
-					load_surf->bind		(load_id);
+					load_surf->bind.call(load_id);
 					//					load_surf->Apply	(load_id);
 				}
 			}

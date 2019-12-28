@@ -44,7 +44,7 @@ bool item_pred(const CInifile::Item& x, LPCSTR val)
 }
 
 //------------------------------------------------------------------------------
-//Тело функций Inifile
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Inifile
 //------------------------------------------------------------------------------
 
 XRCORE_API BOOL _parseSOC(LPSTR dest, LPCSTR src)
@@ -297,7 +297,7 @@ void CInifile::Load(IReader* F, LPCSTR FsPath,LPCSTR path
 				strconcat(sizeof(fn), fn, path,BEAR_PATH, inc_name);
 				BearString path_inc = BearFileManager::GetPathFile(fn);
 #ifndef _EDITOR
-				if (!allow_include_func || allow_include_func(fn))
+				if (!allow_include_func || allow_include_func.call(fn))
 #endif
 				{
 					IReader* R = 0;
@@ -632,7 +632,7 @@ u32 CInifile::r_u32(LPCSTR S, LPCSTR L)const
 u64 CInifile::r_u64(LPCSTR S, LPCSTR L)const
 {
     LPCSTR C = r_string(S, L);
-#ifndef _EDITOR
+#ifdef MSVC 
     return _strtoui64(C, NULL, 10);
 #else
     return (u64)_atoi64(C);
@@ -746,7 +746,7 @@ BOOL CInifile::r_bool(LPCSTR S, LPCSTR L)const
         )
     );
     char B[8];
-    strncpy_s(B, sizeof(B), C, 7);
+    BearString::CopyWithSizeLimit(B, C, 7);
     B[7] = 0;
     BearString::ToLower(B);
     return IsBOOL(B);
@@ -762,7 +762,7 @@ int CInifile::r_token(LPCSTR S, LPCSTR L, const xr_token* token_list)const
 {
     LPCSTR C = r_string(S, L);
     for (int i = 0; token_list[i].name; i++)
-        if (!_stricmp(C, token_list[i].name))
+        if (!BearString::CompareWithoutCase(C, token_list[i].name))
             return token_list[i].id;
     return 0;
 }
@@ -865,7 +865,7 @@ void CInifile::w_u32(LPCSTR S, LPCSTR L, u32 V, LPCSTR comment)
 void CInifile::w_u64(LPCSTR S, LPCSTR L, u64 V, LPCSTR comment)
 {
     string128 temp;
-#ifndef _EDITOR
+#ifdef MSVC
     _ui64toa_s(V, temp, sizeof(temp), 10);
 #else
     _ui64toa(V, temp, 10);
@@ -876,7 +876,7 @@ void CInifile::w_u64(LPCSTR S, LPCSTR L, u64 V, LPCSTR comment)
 void CInifile::w_s64(LPCSTR S, LPCSTR L, s64 V, LPCSTR comment)
 {
     string128 temp;
-#ifndef _EDITOR
+#ifdef MSVC
     _i64toa_s(V, temp, sizeof(temp), 10);
 #else
     _i64toa(V, temp, 10);

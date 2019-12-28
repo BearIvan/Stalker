@@ -3,25 +3,28 @@
 #include <memory>
 #include "BearCore.hpp"
 
-
 // Warnings
-#pragma warning (disable : 4251 ) // object needs DLL interface
-#pragma warning (disable : 4201 ) // nonstandard extension used : nameless struct/union
-#pragma warning (disable : 4100 ) // unreferenced formal parameter
-#pragma warning (disable : 4127 ) // conditional expression is constant
+#ifdef MSVC
+#pragma warning(disable : 4251) // object needs DLL interface
+#pragma warning(disable : 4201) // nonstandard extension used : nameless struct/union
+#pragma warning(disable : 4100) // unreferenced formal parameter
+#pragma warning(disable : 4127) // conditional expression is constant
 //#pragma warning (disable : 4530 ) // C++ exception handler used, but unwind semantics are not enabled
-#pragma warning (disable : 4345 )
-#pragma warning (disable : 4714 ) // __forceinline not inlined
+#pragma warning(disable : 4345)
+#pragma warning(disable : 4714) // __forceinline not inlined
 
 #ifndef DEBUG
-#pragma warning (disable : 4189 ) // local variable is initialized but not refenced
-#endif 
+#pragma warning(disable : 4189) // local variable is initialized but not refenced
+#endif
+#endif
 
 #include <time.h>
 #include <sys\utime.h>
 // stl
-#pragma warning (push)
-#pragma warning (disable:4702)
+#ifdef MSVC
+#pragma warning(push)
+#pragma warning(disable : 4702)
+#endif
 #include <functional>
 #include <algorithm>
 #include <limits>
@@ -31,18 +34,19 @@
 #include <set>
 #include <map>
 #ifndef _EDITOR
-# include <unordered_map>
-# include <unordered_set>
+#include <unordered_map>
+#include <unordered_set>
 #endif
 #include <string>
-#pragma warning (pop)
-#pragma warning (disable : 4100 ) // unreferenced formal parameter
-
-# ifdef XRCORE_EXPORTS
-# define XRCORE_API BEARPROJECT_EXPORT
-# else
-# define XRCORE_API BEARPROJECT_IMPORT
-# endif
+#ifdef MSVC
+#pragma warning(pop)
+#pragma warning(disable : 4100) // unreferenced formal parameter
+#endif
+#ifdef XRCORE_EXPORTS
+#define XRCORE_API BEARPROJECT_EXPORT
+#else
+#define XRCORE_API BEARPROJECT_IMPORT
+#endif
 
 #include "XrTypes.h"
 
@@ -60,6 +64,8 @@
 
 #include "Utilities/XrClsid.h"
 
+#include "Template/XrTypeTraits.h"
+
 #include "Utilities/xrMemory.h"
 #include "Utilities/XrString.h"
 
@@ -70,14 +76,14 @@
 #include "Template/XrMultimap.h"
 #include "Template/XrMultiset.h"
 #include "Template/XrSet.h"
-#include "Template/XrStack.h"
 #include "Template/XrVector.h"
-#include  "Template/XrAlgorithm.h"
-#include  "Template/XrTypeTraits.h"
+#include "Template/XrStack.h"
+#include "Template/XrAlgorithm.h"
+
 #include "Template/XrBufferVector.h"
-#include  "Template/XrFixedVector.h"
-#include  "Template/XrFixedSet.h"
-#include  "Template/XrFixedMap.h"
+#include "Template/XrFixedVector.h"
+#include "Template/XrFixedSet.h"
+#include "Template/XrFixedMap.h"
 
 using std::swap;
 
@@ -127,15 +133,15 @@ DEFINE_VECTOR(shared_str, RStringVec, RStringVecIt);
 class XRCORE_API XrCore
 {
 public:
-	static  string64 UserName;
+	static string64 UserName;
 	static string64 CompName;
 	static u32 dwFrame;
 
 public:
-    static void Initialize();
+	static void Initialize();
 	static void Destroy();
 };
 
-#define _BCL 
-#define _BGCL 
-
+#define _BCL
+#define _BGCL
+#define XR_ALIGNED  BEAR_ALIGNED

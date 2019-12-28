@@ -66,7 +66,7 @@ void CAI_Stalker::on_best_cover_changed				(const CCoverPoint *new_cover, const 
 	cover_delegates::const_iterator		I = m_cover_delegates.begin();
 	cover_delegates::const_iterator		E = m_cover_delegates.end();
 	for ( ; I != E; ++I)
-		(*I)							(new_cover,old_cover);
+		(*I).call							(new_cover,old_cover);
 }
 
 void CAI_Stalker::compute_enemy_distances			(float &minimum_enemy_distance, float &maximum_enemy_distance)

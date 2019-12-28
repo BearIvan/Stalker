@@ -75,7 +75,7 @@ void message_filter::check_new_data	(NET_Packet & packet)
 			filters_map_t::iterator tmp_iter = m_filters.find(packet_mtype);
 			if (tmp_iter != m_filters.end())
 			{
-				tmp_iter->second(packet_mtype.msg_type,
+				tmp_iter->second.call(packet_mtype.msg_type,
 					packet_mtype.msg_subtype,
 					tmp_packet);
 			}
@@ -85,7 +85,7 @@ void message_filter::check_new_data	(NET_Packet & packet)
 		filters_map_t::iterator tmp_iter = m_filters.find(packet_mtype);
 		if (tmp_iter != m_filters.end())
 		{
-			tmp_iter->second(packet_mtype.msg_type,
+			tmp_iter->second.call(packet_mtype.msg_type,
 				packet_mtype.msg_subtype,
 				packet);
 		}

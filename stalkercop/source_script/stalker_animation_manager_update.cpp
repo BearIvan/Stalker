@@ -25,7 +25,7 @@
 	if (m_call_global_callback) {
 		m_call_global_callback	= false;
 		if (m_global_callback)
-			m_global_callback	();
+			m_global_callback.call();
 		return;
 	}
 }
@@ -138,7 +138,7 @@ bool CStalkerAnimationManager::play_script					()
 	);
 
 	if (m_global_modifier)
-		m_global_modifier	(global().blend());
+		m_global_modifier.call(global().blend());
 
 	head().animation		(assign_head_animation());
 	head().play				(m_skeleton_animated,head_play_callback,false,false);

@@ -63,7 +63,7 @@ public:
         return XrMath::abs(x - p.x) < eu && XrMath::abs(y - p.y) < ev;
     }
 
-    IC bool similar(const Self& p, float E = EPS_L) const
+    IC bool similar(const Self& p, float E = XrMath::EPS_L) const
     {
         return XrMath::abs(x - p.x) < E && XrMath::abs(y - p.y) < E;
     };

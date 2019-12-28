@@ -30,10 +30,10 @@ public:
 	virtual	void				environment_weathers	(property_holder *property_holder) = 0;
 
 public:
-	typedef fastdelegate::FastDelegate0<LPCSTR const*>			weathers_getter_type;
-	typedef fastdelegate::FastDelegate0<u32>					weathers_size_getter_type;
-	typedef fastdelegate::FastDelegate1<LPCSTR, LPCSTR const*>	frames_getter_type;
-	typedef fastdelegate::FastDelegate1<LPCSTR, u32>			frames_size_getter_type;
+	typedef XrFastDelegate<LPCSTR const*>			weathers_getter_type;
+	typedef XrFastDelegate<u32>					weathers_size_getter_type;
+	typedef XrFastDelegate<LPCSTR const*, LPCSTR>	frames_getter_type;
+	typedef XrFastDelegate<u32, LPCSTR>			frames_size_getter_type;
 	virtual	void				weather_editor_setup	(
 									weathers_getter_type const& weathers_getter,
 									weathers_size_getter_type const& weathers_size_getter,

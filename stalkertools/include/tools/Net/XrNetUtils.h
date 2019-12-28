@@ -96,7 +96,7 @@ public:
         B.count += count;
         VERIFY(B.count < NET_PacketSizeLimit);
     }
-    IC void w_seek(bsize pos, const void* p, bsize count);
+    void w_seek(bsize pos, const void* p, bsize count);
     IC bsize w_tell() { return B.count; }
 
     // writing - utilities

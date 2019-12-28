@@ -35,7 +35,7 @@ void CUIMessageBoxEx::OnOKClicked( CUIWindow* w, void* d )
 {
 	if ( !func_on_ok.empty() )
 	{
-		func_on_ok( w, d );
+		func_on_ok.call( w, d );
 	}
 }
 
@@ -43,7 +43,7 @@ void CUIMessageBoxEx::OnNOClicked( CUIWindow* w, void* d )
 {
 	if ( !func_on_no.empty() )
 	{
-		func_on_no( w, d );
+		func_on_no.call( w, d );
 	}
 }
 

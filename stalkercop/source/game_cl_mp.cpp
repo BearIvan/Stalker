@@ -431,8 +431,7 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			clientdata_event_t etype = static_cast<clientdata_event_t>(P.r_u8());
 			if (etype == e_screenshot_request)
 			{
-				screenshot_manager::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
+				screenshot_manager::complete_callback_t compl_cb (this, &game_cl_mp::SendCollectedData);
 				ss_manager.make_screenshot(compl_cb);
 			} else if (etype == e_configs_request)
 			{
@@ -1439,7 +1438,7 @@ void game_cl_mp::OnConnected()
 	inherited::OnConnected();
 };
 
-void __stdcall game_cl_mp::sending_screenshot_callback(file_transfer::sending_status_t status, u32 bytes_sent, u32 data_size)
+void  game_cl_mp::sending_screenshot_callback(file_transfer::sending_status_t status, u32 bytes_sent, u32 data_size)
 {
 	switch (status)
 	{
@@ -1489,8 +1488,7 @@ void game_cl_mp::SendCollectedData(u8 const* buffer, u32 buffer_size, u32 uncomp
 		Msg("! ERROR: CL: no data to send...");
 		return;
 	}
-	file_transfer::sending_state_callback_t sending_cb = 
-		fastdelegate::MakeDelegate(this, &game_cl_mp::sending_screenshot_callback);
+	file_transfer::sending_state_callback_t sending_cb(this, &game_cl_mp::sending_screenshot_callback);
 	
 	//screenshot is compressing in screenshot manager ...
 	/*reinit_compress_buffer(buffer_size);
@@ -1559,8 +1557,7 @@ void game_cl_mp::start_receive_server_info	(ClientID const & svclient_id)
 	tmp_binder->m_downloaded_size = 0;	//initial value for rendering
 	tmp_binder->m_max_size = 1;			//avoiding division by zero
 
-	file_transfer::receiving_state_callback_t receiving_cb_info =
-		fastdelegate::MakeDelegate(tmp_binder,
+	file_transfer::receiving_state_callback_t receiving_cb_info(tmp_binder,
 			&game_cl_mp::fr_callback_binder::receiving_serverinfo_callback);
 
 	tmp_binder->m_frnode = Level().m_file_transfer->start_receive_file(
@@ -1605,8 +1602,7 @@ void game_cl_mp::PrepareToReceiveFile(ClientID const & from_client, shared_str c
 	tmp_binder->m_max_size = 1;			//avoiding division by zero
 	tmp_binder->m_response_type = response_event;
 
-	file_transfer::receiving_state_callback_t receiving_cb =
-		fastdelegate::MakeDelegate(tmp_binder,
+	file_transfer::receiving_state_callback_t receiving_cb (tmp_binder,
 			&game_cl_mp::fr_callback_binder::receiving_file_callback);
 
 	tmp_binder->m_frnode = Level().m_file_transfer->start_receive_file(
@@ -1621,7 +1617,7 @@ void game_cl_mp::PrepareToReceiveFile(ClientID const & from_client, shared_str c
 	}
 }
 
-void __stdcall	game_cl_mp::fr_callback_binder::receiving_file_callback(
+void 	game_cl_mp::fr_callback_binder::receiving_file_callback(
 															file_transfer::receiving_status_t status,
 															u32 bytes_received,
 															u32 data_size)
@@ -1688,7 +1684,7 @@ void __stdcall	game_cl_mp::fr_callback_binder::receiving_file_callback(
 	};
 }
 
-void __stdcall game_cl_mp::fr_callback_binder::receiving_serverinfo_callback(
+void  game_cl_mp::fr_callback_binder::receiving_serverinfo_callback(
 	file_transfer::receiving_status_t status,
 	u32 bytes_received,
 	u32 data_size)
@@ -1977,6 +1973,6 @@ void game_cl_mp::ProcessPlayersInfoReply(NET_Packet & P)
 	{
 		player_info_reply_cb_t tmp_cb = m_players_info_reply;
 		m_players_info_reply.clear	();
-		tmp_cb(info_count);
+		tmp_cb.call(info_count);
 	}
 }

@@ -273,7 +273,7 @@ void CStalkerAnimationPair::on_animation_end	()
 	Callbacks::const_iterator	i = callbacks.begin();
 	Callbacks::const_iterator	e = callbacks.end();
 	for ( ; i != e; ++i)
-		(*i)					();
+		(*i).call();
 }
 
 void CStalkerAnimationPair::target_matrix			(Fvector const &position, Fvector const &direction)

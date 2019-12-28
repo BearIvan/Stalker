@@ -185,7 +185,7 @@ void STextureParams::FillProp(LPCSTR base_name, PropItemVec& items, PropValue::T
 {                             
 	OnTypeChangeEvent	            = on_type_change;
     PropValue* P		            = PHelper().CreateToken32	(items, "Type",		(u32*)&type,		ttype_token);
-    P->OnChangeEvent.bind           (this,&STextureParams::OnTypeChange);
+    P->OnChangeEvent. = P->OnChangeEvent.bind           (this,&STextureParams::OnTypeChange);
     PHelper().CreateCaption			(items, "Source\\Width",			shared_str().printf("%d",width));
     PHelper().CreateCaption			(items, "Source\\Height",			shared_str().printf("%d",height));
     PHelper().CreateCaption			(items, "Source\\Alpha",			HasAlpha	()?"present":"absent"); 
@@ -198,7 +198,7 @@ void STextureParams::FillProp(LPCSTR base_name, PropItemVec& items, PropValue::T
     	PHelper().CreateToken32		(items, "MipMaps\\Filter",			(u32*)&mip_filter,	tparam_token);
 
     	P = PHelper().CreateToken32	(items, "Bump\\Mode",				(u32*)&bump_mode,	tbmode_token);
-        P->OnChangeEvent.bind(this,&STextureParams::OnTypeChange);
+        P->OnChangeEvent= P->OnChangeEvent.bind(this,&STextureParams::OnTypeChange);
         if (tbmUse==bump_mode || tbmUseParallax==bump_mode)
         {
         	AnsiString path;
