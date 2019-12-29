@@ -372,7 +372,7 @@ void CTexture::Load		()
 	flags.bUser						= false;
 	flags.MemoryUsage				= 0;
 	if (0 == BearString::CompareWithoutCase (*cName, "$null"))	return;
-	if (0!= BearString::Compare(*cName,"$user$"))	{
+	if (0!= BearString::Find(*cName,"$user$"))	{
 		flags.bUser	= true;
 		return;
 	}
