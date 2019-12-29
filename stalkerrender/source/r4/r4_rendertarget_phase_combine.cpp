@@ -286,8 +286,16 @@ void	CRenderTarget::phase_combine	()
    if( RImplementation.o.dx10_msaa )
    {
       // we need to resolve rt_Generic_1 into rt_Generic_1_r
-      HW.pContext->ResolveSubresource( rt_Generic_1->pTexture->surface_get(), 0, rt_Generic_1_r->pTexture->surface_get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM );
-      HW.pContext->ResolveSubresource( rt_Generic_0->pTexture->surface_get(), 0, rt_Generic_0_r->pTexture->surface_get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM );
+	   auto Generic_1 = rt_Generic_1->pTexture->surface_get();
+	   auto Generic_1_r = rt_Generic_1_r->pTexture->surface_get();
+	   auto Generic_0 = rt_Generic_0->pTexture->surface_get();
+	   auto Generic_0_r = rt_Generic_1_r->pTexture->surface_get();
+      HW.pContext->ResolveSubresource(Generic_1, 0, Generic_1_r, 0, DXGI_FORMAT_R8G8B8A8_UNORM );
+      HW.pContext->ResolveSubresource(Generic_0, 0, Generic_0_r, 0, DXGI_FORMAT_R8G8B8A8_UNORM );
+	  _RELEASE(Generic_0);
+	  _RELEASE(Generic_1);
+	  _RELEASE(Generic_0_r);
+	  _RELEASE(Generic_1_r);
    }
 
    // for msaa we need a resolved color buffer - Holger

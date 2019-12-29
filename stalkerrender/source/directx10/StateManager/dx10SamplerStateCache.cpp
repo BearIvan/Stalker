@@ -34,7 +34,7 @@ dx10SamplerStateCache::SHandle dx10SamplerStateCache::GetState( D3D_SAMPLER_DESC
 
 	hResult = FindState( desc, crc);
 
-	if ( hResult == hInvalidHandle )
+	if (static_cast<u32>( hResult) == hInvalidHandle )
 	{
 		StateRecord rec;
 		rec.m_crc = crc;
@@ -102,7 +102,7 @@ void dx10SamplerStateCache::PrepareSamplerStates(
 
 	for ( u32 i=0; i<samplers.size(); ++i )
 	{
-		if (samplers[i]!=hInvalidHandle)
+		if (static_cast<u32>(samplers[i])!=hInvalidHandle)
 		{
 			VERIFY(samplers[i]<m_StateArray.size());
 			pSS[i] = m_StateArray[samplers[i]].m_pState;

@@ -108,6 +108,7 @@ void CHUDCrosshair::OnRenderFirstBulletDispertion()
 extern ENGINE_API BOOL g_bRendering; 
 void CHUDCrosshair::OnRender ()
 {
+
 	VERIFY			(g_bRendering);
 	Fvector2		center;
 	Fvector2		scr_size;

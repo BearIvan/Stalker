@@ -668,7 +668,6 @@ void CUIHudStatesWnd::DrawZoneIndicators()
 	CActor* actor = smart_cast<CActor*>(Level().CurrentViewEntity());
 	if(!actor)
 		return;
-
 	UpdateIndicators(actor);
 
 	if(m_indik[ALife::infl_rad]->IsShown())
