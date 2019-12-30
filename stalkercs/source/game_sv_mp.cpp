@@ -115,8 +115,8 @@ void	game_sv_mp::Update	()
 
 IC char*							timestamp(string64& dest)
 {
-	auto time = BearCore::BearGlobalTime::GetCurrentTime();
-	BearCore::BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
+	auto time = BearGlobalTime::GetCurrentTime();
+	BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
 	return dest;
 }
 
@@ -179,7 +179,7 @@ void game_sv_mp::OnRoundEnd()
 	inherited::OnRoundEnd();
 
 	string64 res_str;
-	BearCore::BearString::Copy( res_str, get_token_name( round_end_result_str, round_end_reason ) );
+	BearString::Copy( res_str, get_token_name( round_end_result_str, round_end_reason ) );
 	
 	OnVoteStop();
 
@@ -667,7 +667,7 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	if (!pV) return;
 	//-------------------------------------------
 	string256 SkinName;
-	BearCore::BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
+	BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 
 	if (!TeamList.empty()	&&
@@ -677,16 +677,16 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 		//загружено ли достаточно скинов для этой комманды
 		if (TeamList[Team].aSkins.size() > ID)
 		{
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
 		}
 		else
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
 	}
 	else
 	{
 		R_ASSERT2(0,"Skin not loaded");
 	};
-	BearCore::BearString::Contact(SkinName, ".ogf");
+	BearString::Contact(SkinName, ".ogf");
 	Msg("* Skin - %s", SkinName);
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");
@@ -987,7 +987,7 @@ s32 game_sv_mp::ExcludeBanTimeFromVoteStr(char const * vote_string, char* new_vo
 		return 0;
 	
 	s32 ret_time = 0;
-	BearCore::BearString::CopyWithSizeLimit(new_vote_str,256, vote_string, new_vote_str_size - 1);
+	BearString::CopyWithSizeLimit(new_vote_str,256, vote_string, new_vote_str_size - 1);
 	new_vote_str[new_vote_str_size - 1] = 0;
 	char * start_time_str = strrchr(new_vote_str, ' ');
 	if (!start_time_str || !xr_strlen(++start_time_str))
@@ -1024,17 +1024,17 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 	char	CommandName[256];	CommandName[0]=0;
 	char	CommandParams[256];	CommandParams[0]=0;
 	string1024 resVoteCommand = "";
-	BearCore::BearString::Scanf	(VoteCommand,"%s ", CommandName);
+	BearString::Scanf	(VoteCommand,"%s ", CommandName);
 	if (xr_strlen(CommandName)+1 < xr_strlen(VoteCommand))
 	{
-		BearCore::BearString::Copy(CommandParams, VoteCommand + xr_strlen(CommandName)+1);
+		BearString::Copy(CommandParams, VoteCommand + xr_strlen(CommandName)+1);
 	}
 
 	int i=0;
 	m_bVotingReal = false;
 	while (votecommands[i].command)
 	{
-		if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, CommandName))
+		if (!BearString::CompareWithoutCase(votecommands[i].name, CommandName))
 		{
 			m_bVotingReal = true;
 			if (!IsVotingEnabled(votecommands[i].flag))
@@ -1055,18 +1055,18 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 	m_uVoteStartTime = CurTime;
 	if (m_bVotingReal)
 	{
-		if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, "changeweather"))
+		if (!BearString::CompareWithoutCase(votecommands[i].name, "changeweather"))
 		{
 			string256 WeatherTime = "", WeatherName = "";
-			BearCore::BearString::Scanf(CommandParams, "%s %s", WeatherName, WeatherTime );
+			BearString::Scanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
 			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
-		} else if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, "changemap"))
+		} else if (!BearString::CompareWithoutCase(votecommands[i].name, "changemap"))
 		{
 			string256 LevelName;
 			string256 LevelVersion;
-			BearCore::BearString::Scanf(CommandParams, "%255s %255s",
+			BearString::Scanf(CommandParams, "%255s %255s",
 				LevelName, sizeof(LevelName),
 				LevelVersion, sizeof(LevelVersion)
 			);
@@ -1085,7 +1085,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 				LevelName,
 				LevelVersion
 			);
-		} else if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, "kick"))
+		} else if (!BearString::CompareWithoutCase(votecommands[i].name, "kick"))
 		{
 			SearcherClientByName tmp_predicate(CommandParams);
 			IClient*	tmp_client = m_server->FindClient(tmp_predicate);
@@ -1096,8 +1096,8 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			{
 				m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);	//backward compatibility
 			}
-			BearCore::BearString::Copy(resVoteCommand, VoteCommand);
-		} else if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, "ban"))
+			BearString::Copy(resVoteCommand, VoteCommand);
+		} else if (!BearString::CompareWithoutCase(votecommands[i].name, "ban"))
 		{
 			string256 tmp_victim_name;
 			s32 ban_time = ExcludeBanTimeFromVoteStr(CommandParams, tmp_victim_name, sizeof(tmp_victim_name));
@@ -1116,11 +1116,11 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 			//{
 			//	Msg("! ERROR: failed to extract ban time from vote string.");
 			//}
-			BearCore::BearString::Copy(resVoteCommand, VoteCommand);
+			BearString::Copy(resVoteCommand, VoteCommand);
 		} else
 		{
 			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
-			BearCore::BearString::Copy(resVoteCommand, VoteCommand);
+			BearString::Copy(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
@@ -1328,7 +1328,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 	char tmp[5];
 	for (int i=1; i<=ps->rank; i++)
 	{
-		BearCore::BearString::Printf(tmp, TEXT("%d"), i);
+		BearString::Printf(tmp, TEXT("%d"), i);
 		strconcat(sizeof(RankStr),RankStr,"rank_", tmp);
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<ps->pItemList.size(); it++)
@@ -1342,7 +1342,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 			strconcat(sizeof(ItemStr),ItemStr, "def_item_repl_", *WeaponName);
 			if (!pSettings->line_exist(RankStr, ItemStr)) continue;
 			
-			BearCore::BearString::Copy(NewItemStr,sizeof(NewItemStr),pSettings->r_string(RankStr, ItemStr));
+			BearString::Copy(NewItemStr,sizeof(NewItemStr),pSettings->r_string(RankStr, ItemStr));
 //			if (!GetTeamItem_ByName(&pWpnS, &(TeamList[ps->team].aWeapons), NewItemStr)) continue;
 			if (m_strWeaponsData->GetItemIdx(NewItemStr) == u32(-1)) continue;
 
@@ -1364,7 +1364,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 		if (pSettings->line_exist(WeaponName, "ammo_class"))
 		{
 			string1024 wpnAmmos, BaseAmmoName;
-			BearCore::BearString::Copy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
+			BearString::Copy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
 			XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 			AmmoID = u16(m_strWeaponsData->GetItemIdx(BaseAmmoName)&0xffff);
 		};
@@ -1809,11 +1809,11 @@ void game_sv_mp::ReadOptions(shared_str &options)
 	g_sv_dwMaxClientPing					= get_option_i(*options,"maxping",g_sv_dwMaxClientPing);
 
 	string64	StartTime, TimeFactor;
-	BearCore::BearString::Copy(StartTime,get_option_s			(*options,"estime","9:00"));
-	BearCore::BearString::Copy(TimeFactor,get_option_s		(*options,"etimef","1"));
+	BearString::Copy(StartTime,get_option_s			(*options,"estime","9:00"));
+	BearString::Copy(TimeFactor,get_option_s		(*options,"etimef","1"));
 
 	u32 hours = 0, mins = 0;
-	BearCore::BearString::Scanf									(StartTime,"%d:%d",&hours,&mins);
+	BearString::Scanf									(StartTime,"%d:%d",&hours,&mins);
 	u64 StartEnvGameTime					= generate_time	(1,1,1,hours,mins,0,0);
 	float EnvTimeFactor						= float(atof(TimeFactor))*GetEnvironmentGameTimeFactor();
 

@@ -65,7 +65,7 @@ CSE_ALifeInventoryItem::CSE_ALifeInventoryItem(LPCSTR caSection)
 			m_freeze_time	= 0;
 #endif
 
-	m_relevent_random.seed		(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	m_relevent_random.seed		(BearTimer::GetCurrentTime().asmiliseconds());
 	freezed						= false;
 }
 

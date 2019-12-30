@@ -328,7 +328,7 @@ BOOL is_combat_cover			(shared_str const &table_id)
 		return					(FALSE);
 
 	string256					temp;
-	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
+	BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, *table_id);
 
 	luabind::object				table, value;
@@ -565,7 +565,7 @@ void CSE_SmartCover::set_enterable (shared_str const &id)
 void CSE_SmartCover::check_enterable_loopholes(shared_str const &description)
 {
 	string256					temp;
-	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
+	BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, m_description.c_str());
 	strcat_s					(temp, ".transitions");
 
@@ -706,7 +706,7 @@ shared_str animation_id(luabind::object table)
 
 void CSE_SmartCover::load_draw_data () {
 	string256					temp;
-	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
+	BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, m_description.c_str());
 	strcat_s					(temp, ".loopholes");
 	
@@ -846,7 +846,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
     fp_data.inc					();
 #endif // XRSE_FACTORY_EXPORTS
 	m_flags.set					(flOfflineNoMove,FALSE);
-	seed						(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed						(BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 #ifdef XRGAME_EXPORTS
@@ -1464,7 +1464,7 @@ CSE_ALifeObjectPhysic::CSE_ALifeObjectPhysic(LPCSTR caSection) : CSE_ALifeDynami
 #else
 	m_freeze_time				= 0;
 #endif
-	m_relevent_random.seed		(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	m_relevent_random.seed		(BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 CSE_ALifeObjectPhysic::~CSE_ALifeObjectPhysic		() 

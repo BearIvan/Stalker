@@ -103,7 +103,7 @@ int	UITeamState::InitScrollPanels()
 		mainUiXml->SetLocalRoot(panel_root);
 
 		temp_panel.first = xr_new<CUIScrollView>();
-		temp_panel.first->m_sort_function = fastdelegate::MakeDelegate
+		temp_panel.first->m_sort_function = temp_panel.first->m_sort_function.bind
 			(this, &UITeamState::SortingLessFunction);
 		temp_panel.second = xr_new<UITeamHeader>(this);
 		temp_panel.first->SetAutoDelete(true);

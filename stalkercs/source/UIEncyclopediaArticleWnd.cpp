@@ -24,7 +24,7 @@ void CUIEncyclopediaArticleWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 
 	string512				str;
 
-	BearCore::BearString::Copy				(str,sizeof(str),start_from);
+	BearString::Copy				(str,sizeof(str),start_from);
 	xml_init.InitWindow		(uiXml,str,0,this);
 
 	strconcat				(sizeof(str),str,start_from,":image");

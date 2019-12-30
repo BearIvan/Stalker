@@ -17,7 +17,7 @@ void CContextMenu::Load(CInifile* INI, LPCSTR SECT){
 	for (CInifile::SectCIt I=S.Data.begin(); S.Data.end()!=I; ++I){
 		char	Event[128],Param[128];
 		Event[0]=0; Param[0]=0;
-		BearCore::BearString::Scanf		(*I->second,"%[^,],%s",Event,Param);
+		BearString::Scanf		(*I->second,"%[^,],%s",Event,Param);
 		MenuItem	Item;
 		Item.Name	= xr_strdup(*I->first);
 		Item.Event	= Engine.Event.Create(Event);

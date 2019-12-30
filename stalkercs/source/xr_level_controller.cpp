@@ -245,7 +245,7 @@ _action* action_name_to_ptr(LPCSTR _name)
 	int idx				= 0;
 	while( actions[idx].action_name )
 	{
-		if( !BearCore::BearString::CompareWithoutCase(_name,actions[idx].action_name) )
+		if( !BearString::CompareWithoutCase(_name,actions[idx].action_name) )
 			return &actions[idx];
 		++idx;
 	}
@@ -289,7 +289,7 @@ _keyboard*	keyname_to_ptr(LPCSTR _name)
 	while(keyboards[idx].key_name)
 	{
 		_keyboard&	kb		= keyboards[idx];
-		if( !BearCore::BearString::CompareWithoutCase(_name, kb.key_name) )
+		if( !BearString::CompareWithoutCase(_name, kb.key_name) )
 			return &keyboards[idx];
 		++idx;
 	}	
@@ -364,11 +364,11 @@ void GetActionAllBinding		(LPCSTR _action, char* dst_buff, int dst_buff_sz)
 
 	if(pbinding->m_keyboard[0])
 	{
-		BearCore::BearString::Copy(prim, pbinding->m_keyboard[0]->key_local_name.c_str());
+		BearString::Copy(prim, pbinding->m_keyboard[0]->key_local_name.c_str());
 	}
 	if(pbinding->m_keyboard[1])
 	{
-		BearCore::BearString::Copy(sec, pbinding->m_keyboard[1]->key_local_name.c_str());
+		BearString::Copy(sec, pbinding->m_keyboard[1]->key_local_name.c_str());
 	}
 	
 	sprintf_s		(dst_buff, dst_buff_sz, "%s%s%s", prim[0]?prim:"", (sec[0]&&prim[0])?" , ":"", sec[0]?sec:"");
@@ -390,7 +390,7 @@ public:
 		*action								= 0;
 		*key								= 0;
 
-		BearCore::BearString::Scanf								(args,"%s %s", action, key);
+		BearString::Scanf								(args,"%s %s", action, key);
 		if (!*action)
 			return;
 

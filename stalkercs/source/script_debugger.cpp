@@ -167,7 +167,7 @@ void CScriptDebugger::Connect(LPCSTR mslot_name)
 		msg.w_int(DMSG_GET_BREAKPOINTS);
 		SendMessageToIde(msg);
 		WaitForReply(false);
-		BearCore::BearString::Contact(m_curr_connected_mslot,mslot_name);
+		BearString::Contact(m_curr_connected_mslot,mslot_name);
 	}
 }
 
@@ -302,8 +302,8 @@ void CScriptDebugger::ClearStackTrace()
 void CScriptDebugger::AddStackTrace(const char* szDesc, const char* szFile, int nLine)
 {
 	StackTrace st;
-	BearCore::BearString::Contact(st.szDesc, szDesc);
-	BearCore::BearString::Contact(st.szFile, szFile);
+	BearString::Contact(st.szDesc, szDesc);
+	BearString::Contact(st.szFile, szFile);
 	st.nLine = nLine;
 	_SendMessage(DMSG_ADD_STACKTRACE, (WPARAM)&st, 0);
 }
@@ -341,9 +341,9 @@ void CScriptDebugger::ClearGlobalVariables()
 void CScriptDebugger::AddGlobalVariable(const char *name, const char *type, const char *value)
 {
 	Variable var;
-	BearCore::BearString::Contact(var.szName, name );
-	BearCore::BearString::Contact(var.szType, type );
-	BearCore::BearString::Contact(var.szValue, value );
+	BearString::Contact(var.szName, name );
+	BearString::Contact(var.szType, type );
+	BearString::Contact(var.szValue, value );
 	_SendMessage(DMSG_ADD_GLOBALVARIABLE, (WPARAM)&var, 0);
 }
 
@@ -469,7 +469,7 @@ bool CScriptDebugger::TranslateIdeMessage (CMailSlotMsg* msg)
 bool CScriptDebugger::HasBreakPoint(const char* fileName, s32 lineNum)
 {
 
-	auto name = BearCore::BearFileManager::GetFileName(fileName);
+	auto name = BearFileManager::GetFileName(fileName);
 
 
 	for(u32 i=0; i< m_breakPoints.size(); ++i)
@@ -478,7 +478,7 @@ bool CScriptDebugger::HasBreakPoint(const char* fileName, s32 lineNum)
 		if(bp.nLine == lineNum)
 			if( xr_strlen(bp.fileName) == xr_strlen(*name) )
 			{
-				if(BearCore::BearString::CompareWithoutCase(*bp.fileName, *name) == 0)
+				if(BearString::CompareWithoutCase(*bp.fileName, *name) == 0)
 					return true;
 			}
 	}

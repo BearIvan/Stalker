@@ -82,8 +82,7 @@ void animation_planner::initialize		()
 {
 	typedef CAI_Stalker::HitCallback	HitCallback;
 
-	HitCallback				hit_callback;
-	hit_callback.bind		(this, &animation_planner::hit_callback);
+	HitCallback				hit_callback		(this, &animation_planner::hit_callback);
 	object().hit_callback	(hit_callback);
 
 	m_head_speed			= object().movement().m_head.speed;

@@ -308,8 +308,7 @@ void CHitMemoryManager::load	(IReader &packet)
 		return;
 
 	typedef CClientSpawnManager::CALLBACK_TYPE	CALLBACK_TYPE;
-	CALLBACK_TYPE					callback;
-	callback.bind					(&m_object->memory(),&CMemoryManager::on_requested_spawn);
+	CALLBACK_TYPE					callback				(&m_object->memory(),&CMemoryManager::on_requested_spawn);
 
 	int								count = packet.r_u8();
 	for (int i=0; i<count; ++i) {

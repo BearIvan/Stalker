@@ -219,19 +219,19 @@ protected:
 	bool						synchronize_map_data	();
 	bool						synchronize_client		();
 
-	bool	xr_stdcall			net_start1				();
-	bool	xr_stdcall			net_start2				();
-	bool	xr_stdcall			net_start3				();
-	bool	xr_stdcall			net_start4				();
-	bool	xr_stdcall			net_start5				();
-	bool	xr_stdcall			net_start6				();
+	bool				net_start1				();
+	bool				net_start2				();
+	bool				net_start3				();
+	bool				net_start4				();
+	bool				net_start5				();
+	bool				net_start6				();
 
-	bool	xr_stdcall			net_start_client1				();
-	bool	xr_stdcall			net_start_client2				();
-	bool	xr_stdcall			net_start_client3				();
-	bool	xr_stdcall			net_start_client4				();
-	bool	xr_stdcall			net_start_client5				();
-	bool	xr_stdcall			net_start_client6				();
+	bool				net_start_client1				();
+	bool				net_start_client2				();
+	bool				net_start_client3				();
+	bool				net_start_client4				();
+	bool				net_start_client5				();
+	bool				net_start_client6				();
 
 	void						net_OnChangeSelfName			(NET_Packet* P);
 
@@ -257,7 +257,7 @@ public:
 
 	virtual bool				Load_GameSpecific_Before( );
 	virtual bool				Load_GameSpecific_After ( );
-	virtual void				Load_GameSpecific_CFORM	( CDB::TRI* T, u32 count );
+	virtual void				Load_GameSpecific_CFORM	( CDB::TRI* T, bsize count );
 
 	// Events
 	virtual void				OnEvent					( EVENT E, u64 P1, u64 P2 );

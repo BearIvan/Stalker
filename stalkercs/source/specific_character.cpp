@@ -66,7 +66,7 @@ void CSpecificCharacter::Load(shared_str id)
 void CSpecificCharacter::load_shared	(LPCSTR)
 {
 #if 0
-	BearCore::BearTimer			timer;
+	BearTimer			timer;
 	timer.Start		();
 #endif
 	const ITEM_DATA& item_data = *id_to_index::GetById(m_OwnId);

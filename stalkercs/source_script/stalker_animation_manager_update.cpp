@@ -25,7 +25,7 @@ void CStalkerAnimationManager::play_delayed_callbacks	()
 	if (m_call_global_callback) {
 		m_call_global_callback	= false;
 		if (m_global_callback)
-			m_global_callback	();
+			m_global_callback.call	();
 		return;
 	}
 }
@@ -140,7 +140,7 @@ IC	void CStalkerAnimationManager::play_global_impl			(const MotionID &animation,
 	);
 
 	if (m_global_modifier)
-		m_global_modifier	(global().blend());
+		m_global_modifier.call	(global().blend());
 
 //	if (animation_movement_controller)
 //		return;

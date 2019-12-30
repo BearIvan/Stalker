@@ -434,7 +434,7 @@ CBuyItemCustomDrawCell::CBuyItemCustomDrawCell	(LPCSTR str, CGameFont* pFont)
 {
 	m_pFont		= pFont;
 	VERIFY		(xr_strlen(str)<16);
-	BearCore::BearString::Copy		(m_string,str);
+	BearString::Copy		(m_string,str);
 }
 
 void CBuyItemCustomDrawCell::OnDraw(CUICellItem* cell)

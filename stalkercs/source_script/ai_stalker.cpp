@@ -1152,7 +1152,7 @@ void CAI_Stalker::eye_pp_s0						()
 	if (!m_eye_matrix_callback)
 		return;
 
-	m_eye_matrix_callback	(eye_matrix);
+	m_eye_matrix_callback.call(eye_matrix);
 }
 
 void CAI_Stalker::eye_matrix_callback			(EyeMatrixCallback const& callback)

@@ -78,7 +78,7 @@ void item_respawn_manager::load_respawn_items(shared_str const section)
 	u32 temp_int;
 	for (sect_iter i = resp_sect.Data.begin(); i != ie; ++i)
 	{
-		BearCore::BearString::Scanf(i->second.c_str(), "%d", &temp_int);
+		BearString::Scanf(i->second.c_str(), "%d", &temp_int);
 		m_respawns.insert(std::make_pair(i->first, spawn_item(temp_int * 1000)));
 	}
 }
@@ -184,7 +184,7 @@ u32 item_respawn_manager::load_section_items(CInifile & ini, const char* section
 	while (ini.line_exist(section_name, item_name))
 	{
 		section_item	temp_sect_item;
-		BearCore::BearString::Copy(item_value, ini.r_string(section_name, item_name));
+		BearString::Copy(item_value, ini.r_string(section_name, item_name));
 		if (!parse_string(item_value, xr_strlen(item_value), temp_sect_item))
 		{
 			Msg("! WARNING: failed to parse item [%s] in section [%s]", item_name, section_name);

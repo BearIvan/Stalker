@@ -21,7 +21,7 @@ CSE_Visual::CSE_Visual		   	(LPCSTR name)
 	if(name)
 	{
 		string_path					tmp;
-		BearCore::BearString::Copy						(tmp, name);
+		BearString::Copy						(tmp, name);
 		if(strext(tmp)) 
 			*strext(tmp)			=0;
 		xr_strlwr					(tmp);
@@ -40,7 +40,7 @@ CSE_Visual::~CSE_Visual			()
 void CSE_Visual::set_visual	   	(LPCSTR name, bool load)
 {
 	string_path					tmp;
-    BearCore::BearString::Copy						(tmp,name);
+    BearString::Copy						(tmp,name);
     if (strext(tmp))		 	*strext(tmp) = 0;
 	xr_strlwr					(tmp);
 	visual_name					= tmp; 
@@ -72,6 +72,7 @@ void CSE_Visual::OnChangeAnim(PropValue* sender)
 }
 
 #ifndef XRGAME_EXPORTS
+адърэ ядеяэ ньхайю асдер 
 void CSE_Visual::FillProps		(LPCSTR pref, PropItemVec &items)
 {
 	ISE_Abstract* abstract		= smart_cast<ISE_Abstract*>(this); VERIFY(abstract);

@@ -68,7 +68,7 @@ public:
 	typedef XrFastDelegate<void,PropValue*> TOnChange;
     TOnChange			OnChangeEvent;
 public:
-						PropValue		():tag(0),m_Owner(0),OnChangeEvent(0){;}
+						PropValue		():tag(0),m_Owner(0),OnChangeEvent(nullptr){;}
 	virtual				~PropValue		(){}
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)=0;
     virtual void		ResetValue		()=0;
@@ -99,8 +99,8 @@ public:
 public:
 						CustomValue		(T* val)
 	{
-    	OnBeforeEditEvent 	= 0;
-        OnAfterEditEvent	= 0;
+    	OnBeforeEditEvent 	= nullptr;
+        OnAfterEditEvent	= nullptr;
     	set_value		(value,val);
     	set_value		(init_value,*val);
     };
@@ -155,7 +155,7 @@ public:
     };
     Flags32				m_Flags;
 public:
-						PropItem		(EPropType _type):type(_type),prop_color(0),val_color(0),item(0),key(0),OnClickEvent(0),OnDrawTextEvent(0),OnItemFocused(0){m_Flags.zero();}
+						PropItem		(EPropType _type):type(_type),prop_color(0),val_color(0),item(0),key(0),OnClickEvent(nullptr),OnDrawTextEvent(nullptr),OnItemFocused(nullptr){m_Flags.zero();}
 	virtual 			~PropItem		()
     {
     	for (PropValueIt it=values.begin(); values.end() != it; ++it)
@@ -240,7 +240,7 @@ public:
     {
     	for (PropValueIt it=values.begin(); values.end() != it; ++it)
         	if (!(*it)->OnChangeEvent.empty()) 	
-            	(*it)->OnChangeEvent(*it);
+            	(*it)->OnChangeEvent.call(*it);
     }
 /*    
     template <class T1, class T2>
@@ -277,12 +277,12 @@ public:
     TOnTestEqual		OnTestEqual;
     TOnDrawCanvasEvent	OnDrawCanvasEvent;
 public:
-						CanvasValue		(const shared_str& val, int h):OnDrawCanvasEvent(0),OnTestEqual(0),height(h){value=val;}
+						CanvasValue		(const shared_str& val, int h):OnDrawCanvasEvent(nullptr),OnTestEqual(nullptr),height(h){value=val;}
     virtual xr_string	GetDrawText		(TOnDrawTextEvent){return value.c_str()?value.c_str():"";}
     virtual	void		ResetValue		(){;}
     virtual	bool		Equal			(PropValue* val)
     {
-    	if (!OnTestEqual.empty()){bool res=true; OnTestEqual(this,(CanvasValue*)val,res); return res;}
+    	if (!OnTestEqual.empty()){bool res=true; OnTestEqual.call(this,(CanvasValue*)val,res); return res;}
     	return false;
     }
 };
@@ -301,7 +301,7 @@ public:
 						ButtonValue		(const shared_str& val, u32 flags)
 	{
     	m_Flags.assign	(flags);
-    	OnBtnClickEvent	= 0;
+    	OnBtnClickEvent	= nullptr;
     	btn_num			= -1;
     	xr_string 	v;
         int cnt			=XrTrims::GetItemCount(val.c_str()); 
@@ -315,7 +315,7 @@ public:
     }
     virtual	void		ResetValue		(){;}
     virtual	bool		Equal			(PropValue* val)							{return true;}
-    bool				OnBtnClick		(bool& bSafe){if(!OnBtnClickEvent.empty())	{bool bDModif=true; OnBtnClickEvent(this,bDModif,bSafe); return bDModif;}else return false;}
+    bool				OnBtnClick		(bool& bSafe){if(!OnBtnClickEvent.empty())	{bool bDModif=true; OnBtnClickEvent.call(this,bDModif,bSafe); return bDModif;}else return false;}
 };
 //------------------------------------------------------------------------------
 
@@ -332,7 +332,7 @@ public:
 		if (!(*value==val)){
         	bool allow	= true;
             if (!OnValidateResultEvent.empty())
-            	OnValidateResultEvent(this,val,allow);
+            	OnValidateResultEvent.call(this,val,allow);
             if (allow){
 	            set_value	(*value,val);
     	        return		true;
@@ -347,7 +347,7 @@ public:
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {
         xr_string txt	= GetValue().c_str()?GetValue().c_str():"";
-        if (!OnDrawText.empty())OnDrawText(this, txt);
+        if (!OnDrawText.empty())OnDrawText.call(this, txt);
         return txt;
     }
 };
@@ -357,7 +357,7 @@ public:
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {
         xr_string txt		= GetValue();
-        if (!OnDrawText.empty())OnDrawText(this, txt);
+        if (!OnDrawText.empty())OnDrawText.call(this, txt);
         return txt;
     }
 };
@@ -376,13 +376,13 @@ public:
 public:
 						CTextValue		(LPSTR val, int _lim):value(val),init_value(val),lim(_lim)
     {
-    	OnBeforeEditEvent 	= 0;
-        OnAfterEditEvent	= 0;
+    	OnBeforeEditEvent 	= nullptr;
+        OnAfterEditEvent	= nullptr;
     };
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {
         xr_string txt		= GetValue();
-        if (!OnDrawText.empty())OnDrawText(this, txt);
+        if (!OnDrawText.empty())OnDrawText.call(this, txt);
         return txt;
     }
     virtual bool		Equal			(PropValue* val)
@@ -416,7 +416,7 @@ public:
 // utils
     void				AppendChooseItem	(LPCSTR name, LPCSTR hint){VERIFY(m_Items); m_Items->push_back(SChooseItem(name,hint));}
 public:
-						ChooseValue			(shared_str* val, u32 cid, LPCSTR path, void* param, u32 sub_item_count, u32 choose_flags):RTextValue(val),m_ChooseID(cid),m_StartPath(path),subitem(sub_item_count),m_Items(0),m_FillParam(param),OnChooseFillEvent(0),OnDrawThumbnailEvent(0),m_ChooseFlags(choose_flags){}
+						ChooseValue			(shared_str* val, u32 cid, LPCSTR path, void* param, u32 sub_item_count, u32 choose_flags):RTextValue(val),m_ChooseID(cid),m_StartPath(path),subitem(sub_item_count),m_Items(0),m_FillParam(param),OnChooseFillEvent(nullptr),OnDrawThumbnailEvent(nullptr),m_ChooseFlags(choose_flags){}
 };
 
 typedef CustomValue<BOOL>		BOOLValue;
@@ -473,7 +473,7 @@ public:
 	virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
 	{
         xr_string		draw_val;
-        if (!OnDrawText.empty())	OnDrawText(this, draw_val);
+        if (!OnDrawText.empty())	OnDrawText.call(this, draw_val);
         else			draw_sprintf	(draw_val,*value,dec);
         return draw_val;
     }
@@ -559,7 +559,7 @@ public:
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {	
         xr_string		draw_val;
-        if (!OnDrawText.empty())	OnDrawText(this, draw_val);
+        if (!OnDrawText.empty())	OnDrawText.call(this, draw_val);
         else 			return HaveCaption()?caption[GetValueEx()?1:0].c_str():"";
         return			draw_val;
     }
@@ -598,7 +598,7 @@ public:
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {
         xr_string		draw_val;
-        if (!OnDrawText.empty())	OnDrawText(this, draw_val);
+        if (!OnDrawText.empty())	OnDrawText.call(this, draw_val);
         else			for(int i=0; token[i].name; i++) if (token[i].id==(int)GetValue()) return token[i].name;
         return draw_val;
     }
@@ -623,7 +623,7 @@ public:
     virtual xr_string	GetDrawText		(TOnDrawTextEvent OnDrawText)
     {
         xr_string draw_val;
-        if (!OnDrawText.empty())	OnDrawText(this, draw_val);
+        if (!OnDrawText.empty())	OnDrawText.call(this, draw_val);
         else			for(u32 k=0; k<token_count; k++) if ((T)token[k].id==GetValue()) return *token[k].name;
         return draw_val;
     }

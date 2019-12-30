@@ -96,7 +96,7 @@ void CMapLocation::LoadSpot(LPCSTR type, bool bReload)
 
 	XML_NODE* node = NULL;
 	string512 path_base, path;
-	BearCore::BearString::Copy		(path_base,type);
+	BearString::Copy		(path_base,type);
 	R_ASSERT3		(g_uiSpotXml->NavigateToNode(path_base,0), "XML node not found in file map_spots.xml", path_base);
 	LPCSTR s		= g_uiSpotXml->ReadAttrib(path_base, 0, "hint", "no hint");
 	SetHint			(s);

@@ -20,16 +20,16 @@ class CScriptGameObject;
 template <
 	typename _object_type,
 	bool	 _reverse_search = false,
-	typename _world_operator = CActionBase<_object_type>,
+	typename __world_operator = CActionBase<_object_type>,
 	typename _condition_evaluator = CPropertyEvaluator<_object_type>,
-	typename _world_operator_ptr = _world_operator*,
+	typename _world_operator_ptr = __world_operator*,
 	typename _condition_evaluator_ptr = _condition_evaluator*
 >
 class CActionPlanner : 
 	public CProblemSolver<
 		GraphEngineSpace::CWorldProperty,
 		GraphEngineSpace::CWorldState,
-		_world_operator,
+	__world_operator,
 		_condition_evaluator,
 		u32,
 		_reverse_search,
@@ -41,7 +41,7 @@ public:
 	typedef CProblemSolver<
 		GraphEngineSpace::CWorldProperty,
 		GraphEngineSpace::CWorldState,
-		_world_operator,
+		__world_operator,
 		_condition_evaluator,
 		u32,
 		_reverse_search,
@@ -52,7 +52,13 @@ public:
 	typedef typename inherited::_edge_type			_action_id_type;
 	typedef GraphEngineSpace::CWorldProperty		CWorldProperty;
 	typedef GraphEngineSpace::CWorldState			CWorldState;
-	typedef _world_operator							_world_operator;
+	using _condition_type = typename CProblemSolver::_condition_type;
+	using COperator = typename CProblemSolver::COperator;
+	using CConditionEvaluator = typename CProblemSolver::CConditionEvaluator;
+	using _value_type = typename CProblemSolver::_value_type;
+	using _operator_ptr = typename CProblemSolver::_operator_ptr;
+	using _edge_type = typename CProblemSolver::_edge_type;
+	using _world_operator = typename __world_operator;
 
 protected:
 	bool						m_initialized;

@@ -103,7 +103,7 @@ const char* CUIStatsPlayerInfo::GetInfoByID(const char* id){
 	CStringTable st;
 
 	if (0 == xr_strcmp(id,"name"))
-		BearCore::BearString::Copy(ans,m_pPlayerInfo->name);
+		BearString::Copy(ans,m_pPlayerInfo->name);
 	else if (0 == xr_strcmp(id,"frags"))
 		sprintf_s(ans,"%d",(int)m_pPlayerInfo->frags());
 	else if (0 == xr_strcmp(id,"deaths"))
@@ -127,26 +127,26 @@ const char* CUIStatsPlayerInfo::GetInfoByID(const char* id){
 	else if (0 == xr_strcmp(id, "death_atf"))
 	{		
 		if (m_pPlayerInfo->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
-			BearCore::BearString::Copy(ans,"death");
+			BearString::Copy(ans,"death");
 		else if (GameID() == eGameIDArtefactHunt)
 		{
 			game_cl_ArtefactHunt* pGameAHunt = smart_cast<game_cl_ArtefactHunt*>(&(Game()));
 			R_ASSERT(pGameAHunt);
 			if (m_pPlayerInfo->GameID == pGameAHunt->artefactBearerID)
-				BearCore::BearString::Copy(ans,"artefact");
+				BearString::Copy(ans,"artefact");
 			else
-				BearCore::BearString::Copy(ans,"");
+				BearString::Copy(ans,"");
 		}
 		else
-			BearCore::BearString::Copy(ans,"");
+			BearString::Copy(ans,"");
 		
 	}
 	else if (0 == xr_strcmp(id, "status"))
 	{
 		if (m_pPlayerInfo->testFlag(GAME_PLAYER_FLAG_READY))
-			BearCore::BearString::Copy(ans,*st.translate("st_mp_ready"));
+			BearString::Copy(ans,*st.translate("st_mp_ready"));
 		else
-			BearCore::BearString::Copy(ans,"");
+			BearString::Copy(ans,"");
 	}
 	else
 		R_ASSERT2(false, "invalid info ID");

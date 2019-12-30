@@ -22,7 +22,7 @@ CSoundPlayer::CSoundPlayer			(CObject *object)
 {
 	VERIFY							(object);
 	m_object						= object;
-	seed							(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed							(BearTimer::GetCurrentTime().asmiliseconds());
 	m_sound_prefix					= "";
 }
 
@@ -241,7 +241,7 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 {
 	m_last_sound_id						= u32(-1);
 
-	seed								(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed								(BearTimer::GetCurrentTime().asmiliseconds());
 	m_sounds.clear						();
 	for (int j=0, N = XrTrims::GetItemCount(*params.m_sound_prefix); j<N; ++j) {
 		string_path						 s, temp;

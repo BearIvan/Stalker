@@ -37,8 +37,8 @@ IC	void construct_string					(LPSTR result,bsize size, const xr_vector<ALife::_O
 			continue;
 
 		if (count)
-			BearCore::BearString::Contact(result, size,",");
-		BearCore::BearString::Contact(result, size,object->name_replace());
+			BearString::Contact(result, size,",");
+		BearString::Contact(result, size,object->name_replace());
 		++count;
 	}
 }
@@ -46,16 +46,16 @@ IC	void construct_string					(LPSTR result,bsize size, const xr_vector<ALife::_O
 #if 0
 IC	void construct_id_string					(LPSTR result, const xr_vector<ALife::_OBJECT_ID> &restrictions)
 {
-	BearCore::BearString::Copy			(result,"");
+	BearString::Copy			(result,"");
 	string16		temp;
 	u32				count = 0;
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
 		if (count)
-			BearCore::BearString::Contact	(result,",");
+			BearString::Contact	(result,",");
 		sprintf_s		(temp,"%d",*I);
-		BearCore::BearString::Contact		(result,temp);
+		BearString::Contact		(result,temp);
 		++count;
 	}
 }
@@ -72,8 +72,8 @@ BOOL CRestrictedObject::net_Spawn			(CSE_Abstract* data)
 	string4096					temp0;
 	string4096					temp1;
 	
-	BearCore::BearString::Copy						(temp0,*monster->m_out_space_restrictors);
-	BearCore::BearString::Copy						(temp1,*monster->m_in_space_restrictors);
+	BearString::Copy						(temp0,*monster->m_out_space_restrictors);
+	BearString::Copy						(temp1,*monster->m_in_space_restrictors);
 
 	if (ai().get_alife()) {
 		construct_string		(temp0,4096,monster->m_dynamic_out_restrictions);
@@ -265,7 +265,7 @@ template <typename P, bool value>
 IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions,const bsize size, const xr_vector<ALife::_OBJECT_ID> &restrictions, shared_str current_restrictions, const P &p)
 {
 	u32							count = 0;
-	BearCore::BearString::Copy						(temp_restrictions, size,"");
+	BearString::Copy						(temp_restrictions, size,"");
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	I = restrictions.begin();
 	xr_vector<ALife::_OBJECT_ID>::const_iterator	E = restrictions.end();
 	for ( ; I != E; ++I) {
@@ -276,9 +276,9 @@ IC	void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions,
 		p						(this,object->ID());
 
 		if (count)
-			BearCore::BearString::Contact(temp_restrictions, size,",");
+			BearString::Contact(temp_restrictions, size,",");
 
-		BearCore::BearString::Contact(temp_restrictions, size,*object->cName());
+		BearString::Contact(temp_restrictions, size,*object->cName());
 
 		count++;
 	}

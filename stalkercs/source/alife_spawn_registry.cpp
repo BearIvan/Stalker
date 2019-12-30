@@ -18,7 +18,7 @@
 CALifeSpawnRegistry::CALifeSpawnRegistry	(LPCSTR section)
 {
 	m_spawn_name				= "";
-	seed						(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed						(BearTimer::GetCurrentTime().asmiliseconds());
 	m_game_graph				= 0;
 	m_chunk						= 0;
 	m_file						= 0;

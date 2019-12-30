@@ -22,7 +22,7 @@ LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_s
 	LPCSTR temp_substr = strstr(opt_str, map_ver_string);
 	if (!temp_substr)
 	{
-		BearCore::BearString::Copy(new_opt_str, new_opt_str_size, opt_str);
+		BearString::Copy(new_opt_str, new_opt_str_size, opt_str);
 		return new_opt_str;
 	}
 	strncpy_s(new_opt_str, new_opt_str_size, opt_str, static_cast<size_t>(temp_substr - opt_str - 1));

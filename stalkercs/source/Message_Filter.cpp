@@ -4,9 +4,9 @@
 
 message_filter::message_filter()
 {
-	m_onround_start_pause = fastdelegate::MakeDelegate(this, &message_filter::on_round_start_pause_impl);
-	m_on_kill_pause	= fastdelegate::MakeDelegate(this, &message_filter::on_kill_pause_impl);
-	m_on_artefactdelivering_pause = fastdelegate::MakeDelegate(this, &message_filter::on_artefactdelivering_pause_impl);
+	m_onround_start_pause = m_onround_start_pause.bind(this, &message_filter::on_round_start_pause_impl);
+	m_on_kill_pause	= m_on_kill_pause.bind(this, &message_filter::on_kill_pause_impl);
+	m_on_artefactdelivering_pause = m_on_artefactdelivering_pause.bind(this, &message_filter::on_artefactdelivering_pause_impl);
 	m_msg_log_file = NULL;
 	m_last_string[0]	= 0;
 	m_strrepeat_count	= 0;
@@ -77,7 +77,7 @@ void message_filter::check_new_data	(NET_Packet & packet)
 			filters_map_t::iterator tmp_iter = m_filters.find(packet_mtype);
 			if (tmp_iter != m_filters.end())
 			{
-				tmp_iter->second(packet_mtype.msg_type,
+				tmp_iter->second.call(packet_mtype.msg_type,
 					packet_mtype.msg_subtype,
 					tmp_packet);
 			}
@@ -87,7 +87,7 @@ void message_filter::check_new_data	(NET_Packet & packet)
 		filters_map_t::iterator tmp_iter = m_filters.find(packet_mtype);
 		if (tmp_iter != m_filters.end())
 		{
-			tmp_iter->second(packet_mtype.msg_type,
+			tmp_iter->second.call(packet_mtype.msg_type,
 				packet_mtype.msg_subtype,
 				packet);
 		}
@@ -192,7 +192,7 @@ void message_filter::dbg_print_msg(NET_Packet & packet, msg_type_subtype_t const
 		return;
 	} 
 	Msg(tmp_string);
-	BearCore::BearString::Copy(m_last_string, tmp_string);
+	BearString::Copy(m_last_string, tmp_string);
 	if (m_msg_log_file)
 	{
 		if (m_strrepeat_count)

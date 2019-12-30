@@ -185,7 +185,7 @@ void CUILines::ParseText(){
 				char szTempLine[ MAX_MB_CHARS ] , *pszSearch = NULL;
 				size_t llen = xr_strlen( line->m_subLines[i].m_text.c_str() );
 				VERIFY( llen < MAX_MB_CHARS );
-				BearCore::BearString::Copy( szTempLine , line->m_subLines[i].m_text.c_str() );
+				BearString::Copy( szTempLine , line->m_subLines[i].m_text.c_str() );
 				pszSearch = szTempLine;
 				while ( ( pszTemp = strstr( pszSearch , "\\n" ) ) != NULL ) {
 					bNewLines = TRUE;
@@ -231,14 +231,14 @@ void CUILines::ParseText(){
 				for ( u16 j = 0 ; j < nMarkers ; j ++ ) {
 					uPartLen = aMarkers[ j ] - uFrom;
 					VERIFY( ( uPartLen > 0 ) && ( uPartLen < MAX_MB_CHARS ) );
-					BearCore::BearString::CopyWithSizeLimit( szTempLine , pszText + uFrom , uPartLen );
+					BearString::CopyWithSizeLimit( szTempLine , pszText + uFrom , uPartLen );
 					szTempLine[ uPartLen ] = '\0';
 					tmp_line.AddSubLine( szTempLine , tcolor );
 					m_lines.push_back( tmp_line );
 					tmp_line.Clear();
 					uFrom += uPartLen;
 				}
-				BearCore::BearString::CopyWithSizeLimit( szTempLine , pszText + uFrom , MAX_MB_CHARS );
+				BearString::CopyWithSizeLimit( szTempLine , pszText + uFrom , MAX_MB_CHARS );
 				tmp_line.AddSubLine( szTempLine , tcolor );
 				m_lines.push_back( tmp_line );
 				tmp_line.Clear();

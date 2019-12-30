@@ -74,9 +74,9 @@ void player_hud_motion_container::load(IKinematicsAnimated* model, const shared_
 			for(u32 i=0; i<=8; ++i)
 			{
 				if(i==0)
-					BearCore::BearString::Copy				(buff,pm->m_base_name.c_str());		
+					BearString::Copy				(buff,pm->m_base_name.c_str());		
 				else
-					BearCore::BearString::Printf				(buff,"%s%d",pm->m_base_name.c_str(),i);		
+					BearString::Printf				(buff,"%s%d",pm->m_base_name.c_str(),i);		
 
 				motion_ID				= model->ID_Cycle_Safe(buff);
 				if(motion_ID.valid())

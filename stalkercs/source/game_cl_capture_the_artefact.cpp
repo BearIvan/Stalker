@@ -118,8 +118,8 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
 		string32	tmp_buf1;
 		string32	tmp_buf2;
 		//st.translate("demo play active : ").c_str() (need to translate ?)
-		BearCore::BearString::Printf(tmp_buf1, TEXT("%d"), int(Level().GetDemoPlayPos() * 100));
-		BearCore::BearString::Printf(tmp_buf2, TEXT("%d"), int(Level().GetDemoPlaySpeed()));
+		BearString::Printf(tmp_buf1, TEXT("%d"), int(Level().GetDemoPlayPos() * 100));
+		BearString::Printf(tmp_buf2, TEXT("%d"), int(Level().GetDemoPlaySpeed()));
 		STRCONCAT(demo_play_string, "demo play active : ",
 			tmp_buf1,
 			"%%, play speed: ",
@@ -248,7 +248,7 @@ void game_cl_CaptureTheArtefact::UpdateMoneyIndicator()
 
 	if (total_money != last_money)
 	{
-		BearCore::BearString::Printf(MoneyStr, TEXT("%d"), total_money);
+		BearString::Printf(MoneyStr, TEXT("%d"), total_money);
 		m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
 		last_money = total_money;
 	}
@@ -1235,7 +1235,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 	command[psize - 1]	= 0;
 	player[psize - 1]	= 0;
 	
-	BearCore::BearString::Scanf			(command, "%s", cmd_name, psize);
+	BearString::Scanf			(command, "%s", cmd_name, psize);
 	u32					cmd_len	= xr_strlen(cmd_name);
 	u32					tcmd_len = cmd_len;
 
@@ -1250,7 +1250,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 	Msg("---Vote command: %s", cmd_name);
 #endif
 
-	int					args_count = BearCore::BearString::Scanf(command + cmd_len, 
+	int					args_count = BearString::Scanf(command + cmd_len, 
 							scans_format, 
 							args[0], psize + 1,
 							args[1], psize + 1,
@@ -1273,7 +1273,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 			VERIFY		(ted_str);
 			tcmd_len	= xr_strlen(ted_str) + 1;
 			tcmd_name		= static_cast<char*>(_alloca(tcmd_len));
-			BearCore::BearString::Copy(tcmd_name, tcmd_len, ted_str);
+			BearString::Copy(tcmd_name, tcmd_len, ted_str);
 #ifdef CLIENT_CTA_LOG
 			Msg("---Translated command to: %s", tcmd_name);
 #endif
@@ -1283,7 +1283,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 
 	u32					vstr_size = (args_count * (psize + 1)) + tcmd_len + 1;
 	char*				vstr = static_cast<char*>(_alloca(vstr_size));
-	BearCore::BearString::Copy			(vstr, vstr_size, tcmd_name);
+	BearString::Copy			(vstr, vstr_size, tcmd_name);
 	for (int i = 0; i < args_count; ++i)
 	{
 #ifdef CLIENT_CTA_LOG
@@ -1581,7 +1581,7 @@ void game_cl_CaptureTheArtefact::OnRender()
 				IPos.y -= pTS->Indicator_r2;
 				VERIFY(ps->getName());
 				string64 upper_name;
-				BearCore::BearString::Copy(upper_name, ps->getName());
+				BearString::Copy(upper_name, ps->getName());
 				_strupr_s(upper_name);
 				pActor->RenderText(upper_name, IPos, &dup, PLAYER_NAME_COLOR);
 			}

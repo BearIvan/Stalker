@@ -48,8 +48,7 @@ CStalkerCombatPlanner::CStalkerCombatPlanner	(CAI_Stalker *object, LPCSTR action
 
 CStalkerCombatPlanner::~CStalkerCombatPlanner	()
 {
-	CAI_Stalker::on_best_cover_changed_delegate	temp;
-	temp.bind									(this,&CStalkerCombatPlanner::on_best_cover_changed);
+	CAI_Stalker::on_best_cover_changed_delegate	temp	(this,&CStalkerCombatPlanner::on_best_cover_changed);
 	object().unsubscribe_on_best_cover_changed	(temp);
 }
 
@@ -83,8 +82,7 @@ void CStalkerCombatPlanner::setup				(CAI_Stalker *object, CPropertyStorage *sto
 	add_evaluators			();
 	add_actions				();
 
-	CAI_Stalker::on_best_cover_changed_delegate		temp;
-	temp.bind										(this,&CStalkerCombatPlanner::on_best_cover_changed);
+	CAI_Stalker::on_best_cover_changed_delegate		temp(this,&CStalkerCombatPlanner::on_best_cover_changed);
 	this->object().subscribe_on_best_cover_changed	(temp);
 
 	object->movement().property_storage			(storage);

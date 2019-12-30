@@ -214,7 +214,7 @@ float					game_sv_GameState::get_option_f				(LPCSTR lst, LPCSTR name, float def
 	if (found)
 	{	
 		float		val;
-		int cnt		= BearCore::BearString::Scanf(found+xr_strlen(op),"%f",&val);
+		int cnt		= BearString::Scanf(found+xr_strlen(op),"%f",&val);
 		VERIFY		(cnt==1);
 		return		val;
 //.		return atoi	(strstr(lst,op)+xr_strlen(op));
@@ -232,11 +232,11 @@ string64&			game_sv_GameState::get_option_s				(LPCSTR lst, LPCSTR name, LPCSTR 
 	if (start)		
 	{
 		LPCSTR			begin	= start + xr_strlen(op); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 	}
 	else			
 	{
-		if (def)	BearCore::BearString::Copy		(ret,def);
+		if (def)	BearString::Copy		(ret,def);
 		else		ret[0]=0;
 	}
 	return ret;
@@ -288,10 +288,10 @@ struct player_exporter
 
 		if (!owner_entity)
 		{
-			BearCore::BearString::Copy(p_name, "Unknown");
+			BearString::Copy(p_name, "Unknown");
 		} else
 		{
-			BearCore::BearString::Copy(p_name, owner_entity->name_replace());
+			BearString::Copy(p_name, owner_entity->name_replace());
 		}
 		curr_ps->setName(p_name);
 		u16 tmp_flags = curr_ps->flags__;
@@ -478,7 +478,7 @@ void game_sv_GameState::Create					(shared_str &options)
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		BearCore::BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -492,7 +492,7 @@ void	game_sv_GameState::ReadOptions				(shared_str &options)
 {
 	g_sv_base_dwRPointFreezeTime = get_option_i(*options, "rpfrz", g_sv_base_dwRPointFreezeTime/1000) * 1000;
 
-//.	BearCore::BearString::Copy(MAPROT_LIST, MAPROT_LIST_NAME);
+//.	BearString::Copy(MAPROT_LIST, MAPROT_LIST_NAME);
 //.	if (!FS.exist(MAPROT_LIST))
 	if (FS.ExistFile("%user%", MAPROT_LIST_NAME))
 		Console->ExecuteScript( MAPROT_LIST_NAME);
@@ -832,7 +832,7 @@ void game_sv_GameState::NewPlayerName_Generate( void* pClient, LPSTR NewPlayerNa
 		sprintf_s( NewXName, "%s_%d", NewPlayerName, i );
 		if ( !NewPlayerName_Exists( pClient, NewXName ) )
 		{
-			BearCore::BearString::Copy( NewPlayerName, 22 , NewXName );
+			BearString::Copy( NewPlayerName, 22 , NewXName );
 			return;
 		}
 	}
@@ -933,15 +933,14 @@ public:
 void game_sv_GameState::CleanDelayedEventFor(u16 id_entity_victim)
 {
 	EventDeleterPredicate event_deleter(id_entity_victim);
-	m_event_queue->EraseEvents(
-		fastdelegate::MakeDelegate(&event_deleter, &EventDeleterPredicate::PredicateDelVictim)
+	m_event_queue->EraseEvents(GameEventQueue::event_predicate::bind(&event_deleter, &EventDeleterPredicate::PredicateDelVictim)
 	);
 }
 void game_sv_GameState::CleanDelayedEvents()
 {
 	EventDeleterPredicate event_deleter;
 	m_event_queue->EraseEvents(
-		fastdelegate::MakeDelegate(&event_deleter, &EventDeleterPredicate::PredicateForAll)
+		GameEventQueue::event_predicate::bind(&event_deleter, &EventDeleterPredicate::PredicateForAll)
 	);
 }
 
@@ -1077,10 +1076,10 @@ shared_str game_sv_GameState::parse_level_version			(const shared_str &server_op
 		if (strchr(map_ver, '/'))
 			strncpy_s(result_version, map_ver, strchr(map_ver, '/') - map_ver);
 		else
-			BearCore::BearString::Copy(result_version, map_ver);
+			BearString::Copy(result_version, map_ver);
 	} else
 	{
-		BearCore::BearString::Copy(result_version, default_map_version);
+		BearString::Copy(result_version, default_map_version);
 	}
 	return shared_str(result_version);
 }

@@ -244,7 +244,7 @@ void CUIHudStatesWnd::UpdateActiveItemInfo( CActor* actor )
 		xr_string	icon_sect_name;
 		xr_string	str_count;
 		string16	str_fire_mode;
-		BearCore::BearString::Copy					( str_fire_mode, sizeof(str_fire_mode), "" );
+		BearString::Copy					( str_fire_mode, sizeof(str_fire_mode), "" );
 		item->GetBriefInfo			( str_name, icon_sect_name, str_count, str_fire_mode );
 
 		m_ui_weapon_sign_ammo->Show	( true );
@@ -454,7 +454,7 @@ void CUIHudStatesWnd::UpdateZones()
 		
 		//string256	buff_z;
 		//sprintf_s( buff_z, "zone %2.2f\n", zone_info.cur_period );
-		//BearCore::BearString::Contact( buff, buff_z );
+		//BearString::Contact( buff, buff_z );
 		if( zone_info.snd_time > zone_info.cur_period )
 		{
 			zone_info.snd_time = 0.0f;

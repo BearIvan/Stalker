@@ -146,13 +146,13 @@ bool CUIXmlInit::InitOptionsItem(CUIXml& xml_doc, LPCSTR path, int index, CUIOpt
 		{
 			CUIOptionsItem::ESystemDepends d = CUIOptionsItem::sdNothing;
 
-			if(0==BearCore::BearString::CompareWithoutCase(depends,"vid"))
+			if(0==BearString::CompareWithoutCase(depends,"vid"))
 				d = CUIOptionsItem::sdVidRestart;
 			else
-			if(0==BearCore::BearString::CompareWithoutCase(depends,"snd"))
+			if(0==BearString::CompareWithoutCase(depends,"snd"))
 				d = CUIOptionsItem::sdSndRestart;
 			else
-			if(0==BearCore::BearString::CompareWithoutCase(depends,"restart"))
+			if(0==BearString::CompareWithoutCase(depends,"restart"))
 				d = CUIOptionsItem::sdSystemRestart;
 			else
 				Msg("! unknown param [%s] in optionsItem [%s]", depends, entry.c_str());
@@ -578,10 +578,10 @@ bool CUIXmlInit::InitProgressBar(CUIXml& xml_doc, LPCSTR path,
 	{
 		mode = CUIProgressBar::om_horz;
 	}
-	else if ( BearCore::BearString::CompareWithoutCase( mode_str, "horz" ) == 0 )	{	mode = CUIProgressBar::om_horz;	}
-	else if ( BearCore::BearString::CompareWithoutCase( mode_str, "vert" ) == 0 )	{	mode = CUIProgressBar::om_vert;	}
-	else if ( BearCore::BearString::CompareWithoutCase( mode_str, "back" ) == 0 )	{	mode = CUIProgressBar::om_back;	}
-	else if ( BearCore::BearString::CompareWithoutCase( mode_str, "down" ) == 0 )	{	mode = CUIProgressBar::om_down;	}
+	else if ( BearString::CompareWithoutCase( mode_str, "horz" ) == 0 )	{	mode = CUIProgressBar::om_horz;	}
+	else if ( BearString::CompareWithoutCase( mode_str, "vert" ) == 0 )	{	mode = CUIProgressBar::om_vert;	}
+	else if ( BearString::CompareWithoutCase( mode_str, "back" ) == 0 )	{	mode = CUIProgressBar::om_back;	}
+	else if ( BearString::CompareWithoutCase( mode_str, "down" ) == 0 )	{	mode = CUIProgressBar::om_down;	}
 	
 	pWnd->InitProgressBar(pos, size, mode);
 
@@ -1097,7 +1097,7 @@ bool CUIXmlInit::InitTexture(CUIXml& xml_doc, const char* path, int index, IUISi
 bool CUIXmlInit::InitTextureOffset(CUIXml &xml_doc, LPCSTR path, int index, CUIStatic* pWnd){
     string256 textureOffset;
 	if (0 == xr_strcmp(path, ""))
-		BearCore::BearString::Copy(textureOffset, "texture_offset");
+		BearString::Copy(textureOffset, "texture_offset");
 	else
 		strconcat(sizeof(textureOffset),textureOffset, path, ":texture_offset");
 

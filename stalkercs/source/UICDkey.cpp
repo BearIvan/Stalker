@@ -149,7 +149,7 @@ void CUIMPPlayerName::OnFocusLost()
 		GetMessageTarget()->SendMessage(this, EDIT_TEXT_COMMIT, NULL);
 	}
 	string64 name;
-	BearCore::BearString::Copy( name, GetText() );
+	BearString::Copy( name, GetText() );
 	string256 new_name;
 	modify_player_name(name, new_name);
 	WritePlayerName_ToRegistry( new_name );

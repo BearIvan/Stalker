@@ -154,7 +154,7 @@ void CUIRankingWnd::Init()
 	AttachChild( m_factions_list );
 	CUIXmlInit::InitScrollView( xml, "fraction_list", 0, m_factions_list );
 	m_factions_list->SetWindowName("---fraction_list");
-	m_factions_list->m_sort_function = fastdelegate::MakeDelegate( this, &CUIRankingWnd::SortingLessFunction );
+	m_factions_list->m_sort_function = m_factions_list->m_sort_function.bind( this, &CUIRankingWnd::SortingLessFunction );
 
 	LPCSTR fract_section = "pda_rank_communities";
 

@@ -33,7 +33,7 @@ void CUIMessageBoxEx::OnOKClicked( CUIWindow* w, void* d )
 {
 	if ( !func_on_ok.empty() )
 	{
-		func_on_ok( w, d );
+		func_on_ok.call( w, d );
 	}
 }
 

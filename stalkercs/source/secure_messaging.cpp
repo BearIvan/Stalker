@@ -5,7 +5,7 @@ namespace secure_messaging
 {
 
 seed_generator::seed_generator() :
-	m_random(static_cast<s32>(BearCore::BearTimer::GetCurrentTime().asmiliseconds()))
+	m_random(static_cast<s32>(BearTimer::GetCurrentTime().asmiliseconds()))
 {
 };
 seed_generator::~seed_generator()

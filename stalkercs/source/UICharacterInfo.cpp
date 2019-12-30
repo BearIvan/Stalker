@@ -173,11 +173,11 @@ void CUICharacterInfo::InitCharacter(u16 id)
 	shared_str const& comm_id = chInfo.Community().id();
 	LPCSTR   community0 = comm_id.c_str();
 	string64 community1;
-	BearCore::BearString::Copy( community1, sizeof(community1), community0 );
+	BearString::Copy( community1, sizeof(community1), community0 );
 	strcat_s( community1, sizeof(community1), "_icon" );
 
 	string64 community2;
-	BearCore::BearString::Copy( community2, sizeof(community2), community0 );
+	BearString::Copy( community2, sizeof(community2), community0 );
 	strcat_s( community2, sizeof(community2), "_wide" );
 
 	m_bForceUpdate	= true;
@@ -206,10 +206,10 @@ void CUICharacterInfo::InitCharacter(u16 id)
 	{
 		if ( xr_strcmp( our_comm, "actor" ) ) // !=
 		{
-			BearCore::BearString::Copy( community1, sizeof(community1), our_comm.c_str() );
+			BearString::Copy( community1, sizeof(community1), our_comm.c_str() );
 			strcat_s( community1, sizeof(community1), "_icon" );
 
-			BearCore::BearString::Copy( community2, sizeof(community2), our_comm.c_str() );
+			BearString::Copy( community2, sizeof(community2), our_comm.c_str() );
 			strcat_s( community2, sizeof(community2), "_wide" );
 
 			if ( m_icons[eCommunityIcon   ] ) { m_icons[eCommunityIcon   ]->InitTexture( community1 ); }

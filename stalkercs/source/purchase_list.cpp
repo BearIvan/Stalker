@@ -47,7 +47,7 @@ void CPurchaseList::process	(const CGameObject &owner, const shared_str &name, c
 	const Fvector			&position = owner.Position();
 	const u32				&level_vertex_id = owner.ai_location().level_vertex_id();
 	const ALife::_OBJECT_ID	&id = owner.ID();
-	CRandom					random(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	CRandom					random(BearTimer::GetCurrentTime().asmiliseconds());
 	u32 j = 0;
 	for (u32 i=0; i<count; ++i) {
 		if (random.randF() > probability)

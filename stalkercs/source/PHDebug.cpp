@@ -332,7 +332,7 @@ string1024 s;
 bool	 rendered;
 	SPHDBGOutText(LPCSTR t)
 	{
-		BearCore::BearString::Copy(s,t);
+		BearString::Copy(s,t);
 		rendered=false;
 	}
 	virtual void render()
@@ -353,7 +353,7 @@ void _cdecl DBG_OutText(LPCSTR s,...)
 	string1024 t;
 	va_list   marker;
 	va_start  (marker,s);
-	BearCore::BearString::PrintfVa(t,s,marker);
+	BearString::PrintfVa(t,s,marker);
 	va_end    (marker);
 	DBG_DrawPHAbstruct(xr_new<SPHDBGOutText>(t));
 }
@@ -652,7 +652,7 @@ void CFunctionGraph::Init(type_function fun,float x0,float x1,int l, int t, int 
 	float min=dInfinity;float max=-dInfinity;
 	for(float x=x_min;x<x_max;x+=s)
 	{
-		float val=m_function(x);
+		float val=m_function.call(x);
 	
 		save_min(min,val);save_max(max,val);
 	}
@@ -662,7 +662,7 @@ void CFunctionGraph::Init(type_function fun,float x0,float x1,int l, int t, int 
 
 	for(float x=x_min;x<x_max;x+=s)
 	{
-		float val=m_function(x);
+		float val=m_function.call(x);
 		m_stat_graph->AppendItem(val,color);
 
 	}
@@ -712,7 +712,7 @@ LPCSTR PH_DBG_ObjectTrackName()
 void PH_DBG_SetTrackObject()
 {
 	
-//	BearCore::BearString::Copy( s_dbg_trace_obj_name,obj);
+//	BearString::Copy( s_dbg_trace_obj_name,obj);
 //	dbg_trace_object_name=s_dbg_trace_obj_name;
 	if(g_pGameLevel)
 		trace_object = Level().Objects.FindObjectByName( PH_DBG_ObjectTrackName() );

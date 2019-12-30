@@ -90,7 +90,7 @@ void CUIZoneMap::Update()
 	if ( !( Device.dwFrame % 20 ) && IsGameTypeSingle() )
 	{
 		string16	text_str;
-		BearCore::BearString::Copy( text_str, sizeof(text_str), "" );
+		BearString::Copy( text_str, sizeof(text_str), "" );
 
 		CPda* pda = pActor->GetPDA();
 		if ( pda )

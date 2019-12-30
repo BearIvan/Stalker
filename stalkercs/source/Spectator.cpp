@@ -601,7 +601,7 @@ void CSpectator::GetSpectatorString		(string1024& pStr)
 			SpectatorMsg += m_pActorToLookAt ? m_pActorToLookAt->Name() : "";
 		}break;
 	};
-	BearCore::BearString::Copy(pStr, SpectatorMsg.c_str());
+	BearString::Copy(pStr, SpectatorMsg.c_str());
 };
 
 

@@ -104,14 +104,14 @@ CMainMenu::~CMainMenu	()
 
 void CMainMenu::ReadTextureInfo()
 {
-	BearCore::BearVector<BearCore::BearString> fset;
+	BearVector<BearString> fset;
 	FS.GetFiles(fset, "%config%", "ui\\textures_descr\\*.xml",true);
 	auto fit	= fset.begin();
 	auto fit_e	= fset.end();
 
 	for( ;fit!=fit_e; ++fit)
 	{
-		auto name = BearCore::BearFileManager::GetFileName((**fit));
+		auto name = BearFileManager::GetFileName((**fit));
 		name.append(".xml");
 
 		CUITextureMaster::ParseShTexInfo(*name);
@@ -454,7 +454,7 @@ void CMainMenu::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 		::Render->Screenshot		(mode,name);
 	}else{
 		m_Flags.set					(flGameSaveScreenshot, TRUE);
-		BearCore::BearString::Copy(m_screenshot_name,name);
+		BearString::Copy(m_screenshot_name,name);
 		if(g_pGameLevel && m_Flags.test(flActive)){
 			Device.seqFrame.Add		(g_pGameLevel);
 			Device.seqRender.Add	(g_pGameLevel);
@@ -618,9 +618,9 @@ extern ENGINE_API string512  g_sLaunchOnExit_params;
 extern ENGINE_API string_path	g_sLaunchWorkingFolder;
 void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 {
-	BearCore::BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
-	BearCore::BearString::Copy					(g_sLaunchOnExit_params,"");
-	BearCore::BearString::Copy					(g_sLaunchWorkingFolder, "");
+	BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
+	BearString::Copy					(g_sLaunchOnExit_params,"");
+	BearString::Copy					(g_sLaunchWorkingFolder, "");
 	Console->Execute		("quit");
 }
 
@@ -704,8 +704,8 @@ LPCSTR CMainMenu::GetGSVer()
 {
 	static string256	buff;
 	static string256	buff2;
-	BearCore::BearString::Copy(buff2,ENGINE_VERSION);
-	BearCore::BearString::Contact(buff2, "(1.5.10)");
+	BearString::Copy(buff2,ENGINE_VERSION);
+	BearString::Contact(buff2, "(1.5.10)");
 	return buff2;
 }
 

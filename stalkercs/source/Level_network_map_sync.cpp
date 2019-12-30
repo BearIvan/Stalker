@@ -22,7 +22,7 @@ void CLevel::CalculateLevelCrc32()
 			to_read = r_buffer_size;
 		}
 		geom->r(read_buffer, to_read);
-		map_data.m_level_geom_crc32 ^= BearCore::BearCheckSum::CRC32(read_buffer, to_read);
+		map_data.m_level_geom_crc32 ^= BearCheckSum::CRC32(read_buffer, to_read);
 		remaind = geom->elapsed();
 	}
 	XRayBearFileStream::Destroy(geom);

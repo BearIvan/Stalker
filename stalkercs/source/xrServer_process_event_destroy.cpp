@@ -13,9 +13,9 @@ xr_string xrServer::ent_name_safe(u16 eid)
 	string1024						buff;
 	CSE_Abstract*	e_dest			= game->get_entity_from_eid	(eid);
 	if(e_dest)
-		BearCore::BearString::Printf(buff,"[%d][%s:%s]",eid,e_dest->name(),e_dest->name_replace());
+		BearString::Printf(buff,"[%d][%s:%s]",eid,e_dest->name(),e_dest->name_replace());
 	else
-		BearCore::BearString::Printf(buff,"[%d][%s]",eid,"NOTFOUND");
+		BearString::Printf(buff,"[%d][%s]",eid,"NOTFOUND");
 
 	return buff;
 }

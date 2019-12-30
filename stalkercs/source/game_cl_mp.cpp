@@ -451,13 +451,11 @@ void game_cl_mp::TranslateGameMessage	(u32 msg, NET_Packet& P)
 			clientdata_event_t etype = static_cast<clientdata_event_t>(P.r_u8());
 			if (etype == e_screenshot_request)
 			{
-				screenshot_manager::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
+				screenshot_manager::complete_callback_t compl_cb(this, &game_cl_mp::SendCollectedData);
 				ss_manager.make_screenshot(compl_cb);
 			} else if (etype == e_configs_request)
 			{
-				mp_anticheat::configs_dumper::complete_callback_t compl_cb = 
-					fastdelegate::MakeDelegate(this, &game_cl_mp::SendCollectedData);
+				mp_anticheat::configs_dumper::complete_callback_t compl_cb(this, &game_cl_mp::SendCollectedData);
 				cd_manager.dump_config(compl_cb);
 			} else if (etype == e_screenshot_response)
 			{
@@ -1216,7 +1214,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 	OnMoneyChanged();
 	{
 		string256					MoneyStr;
-		BearCore::BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
+		BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
 		m_game_ui_custom->ChangeTotalMoneyIndicator	(MoneyStr);
 	}
 	s32 Money_Added = P.r_s32();
@@ -1438,7 +1436,7 @@ void game_cl_mp::LoadBonuses				()
 				IconRect.y2 -= IconRect.y1;
 				NewBonus.IconRects.push_back(IconRect);
 
-				BearCore::BearString::Printf(rankstr, "ui_hud_status_blue_0%d", r);
+				BearString::Printf(rankstr, "ui_hud_status_blue_0%d", r);
 				IconRect = CUITextureMaster::GetTextureRect(rankstr);
 				IconRect.x2 -= IconRect.x1;
 				IconRect.y2 -= IconRect.y1;
@@ -1522,8 +1520,7 @@ void game_cl_mp::SendCollectedData(u8 const* buffer, u32 buffer_size, u32 uncomp
 		Msg("! ERROR: CL: no data to send...");
 		return;
 	}
-	file_transfer::sending_state_callback_t sending_cb = 
-		fastdelegate::MakeDelegate(this, &game_cl_mp::sending_screenshot_callback);
+	file_transfer::sending_state_callback_t sending_cb(this, &game_cl_mp::sending_screenshot_callback);
 	
 	//screenshot is compressing in screenshot manager ...
 	/*reinit_compress_buffer(buffer_size);
@@ -1568,7 +1565,7 @@ void game_cl_mp::generate_file_name(
 
 LPCSTR game_cl_mp::make_file_name(LPCSTR session_id, string_path & dest)
 {
-	BearCore::BearString::Copy(dest, sizeof(dest), session_id);
+	BearString::Copy(dest, sizeof(dest), session_id);
 	static const char* denied_symbols = "/\\?%%*:|\"<>.";
 	size_t tmp_length = xr_strlen(dest);
 	size_t start_pos = 0;
@@ -1615,8 +1612,7 @@ void game_cl_mp::PrepareToReceiveFile(ClientID const & from_client, shared_str c
 	tmp_binder->m_max_size = 1;			//avoiding division by zero
 	tmp_binder->m_response_type = response_event;
 
-	file_transfer::receiving_state_callback_t receiving_cb =
-		fastdelegate::MakeDelegate(tmp_binder,
+	file_transfer::receiving_state_callback_t receiving_cb(tmp_binder,
 			&game_cl_mp::fr_callback_binder::receiving_file_callback);
 
 	tmp_binder->m_frnode = Level().m_file_transfer->start_receive_file(
@@ -1786,7 +1782,7 @@ void game_cl_mp::add_detected_cheater(shared_str const & file_name, string256 di
 {
 	detected_cheater_t	tmp_cheater;
 	tmp_cheater.m_file_name			= file_name;
-	BearCore::BearString::Copy						(tmp_cheater.m_diff, diff);
+	BearString::Copy						(tmp_cheater.m_diff, diff);
 	tmp_cheater.m_detect_time		= Device.dwTimeGlobal;
 	m_detected_cheaters.push_back	(tmp_cheater);
 }

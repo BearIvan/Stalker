@@ -54,7 +54,7 @@ BattlEyeServer::BattlEyeServer( xrServer* Server )
 	}
 
 	string64 game_version;
-	BearCore::BearString::Copy( game_version, GAME_VERSION );
+	BearString::Copy( game_version, GAME_VERSION );
 
 	m_succefull = Init(
 		game_version,

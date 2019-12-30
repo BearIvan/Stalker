@@ -15,7 +15,7 @@ CTAGameClCaptionsManager::CTAGameClCaptionsManager()
 	m_can_show_payspawn			=	false;
 	m_can_show_buy				=	false;
 	m_winner_team				=	etSpectatorsTeam;
-	BearCore::BearString::Copy(timelimit_message, "00:00:00");
+	BearString::Copy(timelimit_message, "00:00:00");
 }
 
 CTAGameClCaptionsManager::~CTAGameClCaptionsManager()
@@ -217,7 +217,7 @@ u32 CTAGameClCaptionsManager::SetWarmupTime(u32 current_warmup_time, u32 current
 			}
 
 			dwLastTimeRemains = dwCurTimeRemains;
-			BearCore::BearString::Printf(time_str ,TEXT("%d"), dwCurTimeRemains);	
+			BearString::Printf(time_str ,TEXT("%d"), dwCurTimeRemains);	
 			strconcat(sizeof(warmup_message),warmup_message, *st.translate("mp_ready"), "...", time_str);
 		}
 	};

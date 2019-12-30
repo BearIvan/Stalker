@@ -156,10 +156,10 @@ void filetransfer_node::signal_callback(sending_status_t status)
 {
 	if (m_reader)
 	{
-		m_process_callback(status, m_reader->tell(), m_reader->length());
+		m_process_callback.call(status, m_reader->tell(), m_reader->length());
 	} else
 	{
-		m_process_callback(status, m_writer_pointer, m_writer_max_size);
+		m_process_callback.call(status, m_writer_pointer, m_writer_max_size);
 	}
 }
 
@@ -225,7 +225,7 @@ bool filereceiver_node::receive_packet(NET_Packet & packet)
 
 void filereceiver_node::signal_callback(receiving_status_t status)
 {
-	m_process_callback(status, m_writer->tell(), m_data_size_to_receive);
+	m_process_callback.call(status, m_writer->tell(), m_data_size_to_receive);
 }
 
 bool filereceiver_node::is_complete()

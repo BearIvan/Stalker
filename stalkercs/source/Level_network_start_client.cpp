@@ -25,9 +25,9 @@ bool	CLevel::net_start_client1				()
 	pApp->LoadBegin	();
 	// name_of_server
 	string64					name_of_server = "";
-//	BearCore::BearString::Copy						(name_of_server,*m_caClientOptions);
+//	BearString::Copy						(name_of_server,*m_caClientOptions);
 	if (strchr(*m_caClientOptions, '/'))
-		BearCore::BearString::CopyWithSizeLimit(name_of_server,*m_caClientOptions, strchr(*m_caClientOptions, '/')-*m_caClientOptions);
+		BearString::CopyWithSizeLimit(name_of_server,*m_caClientOptions, strchr(*m_caClientOptions, '/')-*m_caClientOptions);
 
 	if (strchr(name_of_server,'/'))	*strchr(name_of_server,'/') = 0;
 
@@ -135,7 +135,7 @@ bool	CLevel::net_start_client4				()
 		if(!psNET_direct_connect)
 		{
 			// Waiting for connection/configuration completition
-			BearCore::BearTimer	timer_sync	;	timer_sync.restart	();
+			BearTimer	timer_sync	;	timer_sync.restart	();
 			while	(!net_isCompleted_Connect())	Sleep	(5);
 			Msg		("* connection sync: %d ms", timer_sync.get_elapsed_time().asmiliseconds());
 			while	(!net_isCompleted_Sync())	{ ClientReceive(); Sleep(5); }

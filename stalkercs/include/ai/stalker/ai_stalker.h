@@ -449,7 +449,7 @@ public:
 
 public:
 	typedef XrFastDelegate<void,const CCoverPoint *, const CCoverPoint *>	on_best_cover_changed_delegate;
-	typedef	XrFastDelegate<bool ,Hit const*>								HitCallback;
+	typedef	XrFastDelegate<bool, SHit const*>							HitCallback;
 
 private:
 	typedef xr_vector<on_best_cover_changed_delegate>	cover_delegates;
@@ -578,7 +578,7 @@ private:
 			void						on_enemy_wounded_or_killed					(const CAI_Stalker *wounded_or_killed);
 			void						notify_on_wounded_or_killed					(CObject *object);
 			void						notify_on_wounded_or_killed					();
-			void	xr_stdcall			remove_critical_hit							();
+			void				remove_critical_hit							();
 //////////////////////////////////////////////////////////////////////////
 private:
 	bool	m_registered_in_combat_on_migration;

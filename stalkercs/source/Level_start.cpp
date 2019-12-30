@@ -27,7 +27,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 
 	if ( xr_strlen(player_name) == 0 )
 	{
-		BearCore::BearString::Copy( player_name, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
+		BearString::Copy( player_name, xr_strlen(XrCore::UserName) ? XrCore::UserName : XrCore::CompName );
 	}
 	VERIFY( xr_strlen(player_name) );
 
@@ -36,18 +36,18 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	if (!NameStart)
 	{
 		string512 tmp;
-		BearCore::BearString::Copy(tmp, op_client);
+		BearString::Copy(tmp, op_client);
 		strcat_s(tmp, "/name=");
 		strcat_s(tmp, player_name);
 		m_caClientOptions			= tmp;
 	} else {
 		string1024	ret="";
 		LPCSTR		begin	= NameStart + xr_strlen("/name="); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
 			string1024 tmpstr;
-			BearCore::BearString::Copy(tmpstr, op_client);
+			BearString::Copy(tmpstr, op_client);
 			*(strstr(tmpstr, "name=")+5) = 0;
 			strcat_s(tmpstr, player_name);
 			const char* ptmp = strstr(strstr(op_client, "name="), "/");
@@ -70,7 +70,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	{
 		string_path	f_name;
 		
-		BearCore::BearString::Scanf(pdemok + sizeof(DEMO_PLAY_OPT) - 1,
+		BearString::Scanf(pdemok + sizeof(DEMO_PLAY_OPT) - 1,
 			"%[^ ] ",f_name
 		);
 		PrepareToPlayDemo(f_name);
@@ -159,7 +159,7 @@ bool CLevel::net_start3				()
 		sprintf_s(PortStr, "/port=%d", Server->GetPort());
 
 		string4096	tmp;
-		BearCore::BearString::Copy(tmp, m_caClientOptions.c_str());
+		BearString::Copy(tmp, m_caClientOptions.c_str());
 		strcat_s(tmp, PortStr);
 		
 		m_caClientOptions = tmp;
@@ -171,9 +171,9 @@ bool CLevel::net_start3				()
 			string64	PasswordStr = "";
 			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
 			if (strchr(PSW, '/')) 
-				BearCore::BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
+				BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
-				BearCore::BearString::Copy(PasswordStr, PSW);
+				BearString::Copy(PasswordStr, PSW);
 
 			string4096	tmp;
 			sprintf_s(tmp, "%s/psw=%s", m_caClientOptions.c_str(), PasswordStr);
@@ -228,7 +228,7 @@ bool CLevel::net_start6				()
 	if(net_start_result_total){
 		if (strstr(GetCommandLine(),"-$")) {
 			string256				buf,cmd,param;
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

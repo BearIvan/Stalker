@@ -74,7 +74,7 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
 #ifndef _PP_EDITOR_
 #else /*_PP_EDITOR_*/
     string_path full_path;
-    BearCore::BearString::Copy (full_path, name);
+    BearString::Copy (full_path, name);
 #endif /*_PP_EDITOR_*/
 
     LPCSTR  ext = strext(name);
@@ -453,7 +453,7 @@ void CPostProcessValue::get_value(float time, float &value, int index)
 BOOL CPostprocessAnimatorLerp::Process(SPPInfo &PPInfo)
 {
 	if(!m_bStop)
-		m_factor = m_get_factor_func			();
+		m_factor = m_get_factor_func.call();
 	return CPostprocessAnimator::Process		(PPInfo);
 }
 

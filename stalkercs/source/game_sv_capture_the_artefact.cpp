@@ -1219,7 +1219,7 @@ void game_sv_CaptureTheArtefact::LoadSkinsForTeam(const shared_str& caSection, T
 	if (!pSettings->line_exist(caSection, "skins")) return;
 
 	// ������ ������ ����� ����
-	BearCore::BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
+	BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
 	u32 count	= XrTrims::GetItemCount(Skins);
 	// ������ ��� ������ ��� ������, ����������� ��������, ������� � ������
 	for (u32 i = 0; i < count; ++i)
@@ -1243,7 +1243,7 @@ void game_sv_CaptureTheArtefact::LoadDefItemsForTeam(const shared_str& caSection
 	if (!pSettings->line_exist(caSection, "default_items")) return;
 
 	// ������ ������ ����� ����
-	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
+	BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
 	// ������ ��� ������ ��� ������, ����������� ��������, ������� � ������
 	for (u32 i = 0; i < count; ++i)

@@ -59,7 +59,7 @@ CGamePersistent::CGamePersistent(void)
 	m_pUI_core					= NULL;
 	m_pMainMenu					= NULL;
 	m_intro						= NULL;
-	m_intro_event.bind			(this,&CGamePersistent::start_logo_intro);
+	m_intro_event = m_intro_event.bind			(this,&CGamePersistent::start_logo_intro);
 #ifdef DEBUG
 	m_frame_counter				= 0;
 	m_last_stats_frame			= u32(-2);
@@ -156,7 +156,7 @@ void CGamePersistent::OnAppEnd	()
 void CGamePersistent::Start		(LPCSTR op)
 {
 	__super::Start				(op);
-	m_intro_event.bind			(this,&CGamePersistent::start_game_intro);
+	m_intro_event = m_intro_event.bind			(this,&CGamePersistent::start_game_intro);
 }
 
 void CGamePersistent::Disconnect()
@@ -434,14 +434,14 @@ void CGamePersistent::start_logo_intro		()
 	if ((0!=strstr(GetCommandLine(),"-nointro")) || g_SASH.IsRunning())
 #endif	// #ifdef MASTER_GOLD
 	{
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		Console->Show			();
 		Console->Execute		("main_menu on");
 		return;
 	}
 	if (Device.dwPrecacheFrame==0)
 	{
-		m_intro_event.bind		(this,&CGamePersistent::update_logo_intro);
+		m_intro_event = 	m_intro_event.bind		(this,&CGamePersistent::update_logo_intro);
 		if (!g_dedicated_server && 0==xr_strlen(m_game_params.m_game_or_spawn) && NULL==g_pGameLevel)
 		{
 			VERIFY				(NULL==m_intro);
@@ -454,7 +454,7 @@ void CGamePersistent::start_logo_intro		()
 void CGamePersistent::update_logo_intro			()
 {
 	if(m_intro && (false==m_intro->IsActive())){
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		xr_delete				(m_intro);
 		Console->Execute		("main_menu on");
 	}
@@ -468,12 +468,12 @@ void CGamePersistent::start_game_intro		()
 	if ((0!=strstr(GetCommandLine(),"-nointro")) || g_SASH.IsRunning())
 #endif	// #ifdef MASTER_GOLD
 	{
-		m_intro_event			= 0;
+		m_intro_event			=nullptr;
 		return;
 	}
 
 	if (g_pGameLevel && g_pGameLevel->bReady && Device.dwPrecacheFrame<=2){
-		m_intro_event.bind		(this,&CGamePersistent::update_game_intro);
+		m_intro_event=	m_intro_event.bind		(this,&CGamePersistent::update_game_intro);
 		if (0==BearString::CompareWithoutCase(m_game_params.m_new_or_load,"new")){
 			VERIFY				(NULL==m_intro);
 			m_intro				= xr_new<CUISequencer>();
@@ -488,7 +488,7 @@ void CGamePersistent::update_game_intro			()
 {
 	if(m_intro && (false==m_intro->IsActive())){
 		xr_delete				(m_intro);
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 }
 #include "holder_custom.h"
@@ -513,7 +513,7 @@ void CGamePersistent::OnFrame	()
 		load_screen_renderer.stop();
 
 
-	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
+	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event.call();
 
 	if (!g_dedicated_server && Device.dwPrecacheFrame == 0 && !m_intro && m_intro_event.empty())
 		load_screen_renderer.stop();

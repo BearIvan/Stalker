@@ -43,7 +43,7 @@ void configs_dumper::shedule_Update(u32 dt)
 	R_ASSERT(m_state == ds_active);
 	if (thread_result == WAIT_OBJECT_0)
 	{
-		m_complete_cb	(m_buffer_for_compress, m_buffer_for_compress_size, m_dump_result.size());
+		m_complete_cb.call	(m_buffer_for_compress, m_buffer_for_compress_size, m_dump_result.size());
 		m_state			= ds_not_active;
 		Engine.Sheduler.Unregister(this);
 	}
@@ -119,7 +119,7 @@ void configs_dumper::write_configs()
 	{
 		while (m_ltx_configs.dump_one(m_dump_result))
 		{
-			m_yield_cb(i);
+			m_yield_cb.call(i);
 			++i;
 		}
 	} else
@@ -178,7 +178,7 @@ void configs_dumper::dump_config(complete_callback_t complete_cb)
 	bool single_core = (btwCount1(static_cast<u32>(process_affinity_mask)) == 1);
 	if (single_core)
 	{
-		m_yield_cb.bind(this, &configs_dumper::yield_cb);
+		m_yield_cb = m_yield_cb.bind(this, &configs_dumper::yield_cb);
 	} else
 	{
 		m_yield_cb.clear();

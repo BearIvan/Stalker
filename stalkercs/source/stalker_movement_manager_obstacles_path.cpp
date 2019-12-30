@@ -113,7 +113,7 @@ void stalker_movement_manager_obstacles::build_level_path					()
 #endif // MASTER_GOLD
 
 #ifdef DEBUG
-	BearCore::BearTimer							timer;
+	BearTimer							timer;
 	timer.restart						();
 #endif // DEBUG
 

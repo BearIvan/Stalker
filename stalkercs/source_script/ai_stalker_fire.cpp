@@ -319,7 +319,7 @@ void CAI_Stalker::Hit			(SHit* pHDS)
 		return;
 	}
 
-	if ( g_Alive() && ( !m_hit_callback || m_hit_callback( &HDS ) ) )
+	if ( g_Alive() && ( !m_hit_callback || m_hit_callback.call( &HDS ) ) )
 	{
 		memory().hit().add( 100.f * HDS.damage(), HDS.direction(), HDS.who, HDS.boneID );
 	}

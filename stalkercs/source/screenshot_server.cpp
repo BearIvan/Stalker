@@ -55,8 +55,7 @@ void clientdata_proxy::make_screenshot(ClientID const & admin_id, ClientID const
 
 	Level().Server->SecureSendTo	(tmp_cheater, ssr_packet, net_flags(TRUE, TRUE));
 	
-	file_transfer::receiving_state_callback_t receiving_cb =
-		fastdelegate::MakeDelegate(this, &clientdata_proxy::download_screenshot_callback);
+	file_transfer::receiving_state_callback_t receiving_cb(this, &clientdata_proxy::download_screenshot_callback);
 	if (my_proxy_mem_file.size())
 		my_proxy_mem_file.clear();
 	m_first_receive = true;
@@ -94,8 +93,7 @@ void clientdata_proxy::make_config_dump(ClientID const & admin_id, ClientID cons
 
 	Level().Server->SecureSendTo	(tmp_cheater, ssr_packet, net_flags(TRUE, TRUE));
 	
-	file_transfer::receiving_state_callback_t receiving_cb =
-		fastdelegate::MakeDelegate(this, &clientdata_proxy::download_config_callback);
+	file_transfer::receiving_state_callback_t receiving_cb (this, &clientdata_proxy::download_config_callback);
 	if (my_proxy_mem_file.size())
 		my_proxy_mem_file.clear();
 	m_first_receive = true;
@@ -198,8 +196,7 @@ void clientdata_proxy::download_screenshot_callback(file_transfer::receiving_sta
 			if (m_first_receive)
 			{
 				notify_admin(e_screenshot_response, "prepare for receive...");
-				file_transfer::sending_state_callback_t sending_cb = 
-					fastdelegate::MakeDelegate(
+				file_transfer::sending_state_callback_t sending_cb(
 						this, &clientdata_proxy::upload_file_callback);
 				m_ft_server->start_transfer_file(
 					my_proxy_mem_file, 
@@ -221,7 +218,7 @@ void clientdata_proxy::download_screenshot_callback(file_transfer::receiving_sta
 			Msg("* download screenshot aborted by peer [%u]", m_chearer_id);
 			LPCSTR error_msg;
 			char bufforint[16];
-			BearCore::BearString::Printf(bufforint, TEXT("%u"), m_chearer_id.value());
+			BearString::Printf(bufforint, TEXT("%u"), m_chearer_id.value());
 			STRCONCAT(error_msg, "download screenshot terminated by peer [",
 				bufforint, "]");
 			notify_admin(e_screenshot_error_notif, error_msg);
@@ -237,8 +234,7 @@ void clientdata_proxy::download_screenshot_callback(file_transfer::receiving_sta
 			if (m_first_receive)
 			{
 				notify_admin(e_screenshot_response, "prepare for receive...");
-				file_transfer::sending_state_callback_t sending_cb = 
-					fastdelegate::MakeDelegate(
+				file_transfer::sending_state_callback_t sending_cb(
 						this, &clientdata_proxy::upload_file_callback);
 				m_ft_server->start_transfer_file(
 					my_proxy_mem_file, 
@@ -270,8 +266,7 @@ void clientdata_proxy::download_config_callback(file_transfer::receiving_status_
 			if (m_first_receive)
 			{
 				notify_admin(e_configs_response, "prepare for receive...");
-				file_transfer::sending_state_callback_t sending_cb = 
-					fastdelegate::MakeDelegate(
+				file_transfer::sending_state_callback_t sending_cb(
 						this, &clientdata_proxy::upload_file_callback);
 				m_ft_server->start_transfer_file(
 					my_proxy_mem_file, 
@@ -293,7 +288,7 @@ void clientdata_proxy::download_config_callback(file_transfer::receiving_status_
 			Msg("* download config aborted by peer [%u]", m_chearer_id);
 			LPCSTR error_msg;
 			char bufforint[16];
-			BearCore::BearString::Printf(bufforint, TEXT("%u"), m_chearer_id.value());
+			BearString::Printf(bufforint, TEXT("%u"), m_chearer_id.value());
 			STRCONCAT(error_msg, "download config terminated by peer [",
 				bufforint, "]");
 			notify_admin(e_configs_error_notif, error_msg);
@@ -309,8 +304,7 @@ void clientdata_proxy::download_config_callback(file_transfer::receiving_status_
 			if (m_first_receive)
 			{
 				notify_admin(e_configs_response, "prepare for receive...");
-				file_transfer::sending_state_callback_t sending_cb = 
-					fastdelegate::MakeDelegate(
+				file_transfer::sending_state_callback_t sending_cb(
 						this, &clientdata_proxy::upload_file_callback);
 				m_ft_server->start_transfer_file(
 					my_proxy_mem_file, 
