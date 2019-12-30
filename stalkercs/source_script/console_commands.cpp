@@ -202,7 +202,7 @@ public:
 	}
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"game difficulty"); 
+		BearString::Copy(I,"game difficulty"); 
 	}
 };
 
@@ -219,7 +219,7 @@ public:
 			Msg("! there is no graph!");
 		else {
 			int id1=-1, id2=-1;
-			BearCore::BearString::Scanf(args ,"%d %d",&id1,&id2);
+			BearString::Scanf(args ,"%d %d",&id1,&id2);
 			if ((-1 != id1) && (-1 != id2))
 				if (XrMath::max(id1,id2) > (int)ai().game_graph().header().vertex_count() - 1)
 					Msg("! there are only %d vertexes!",ai().game_graph().header().vertex_count());
@@ -228,7 +228,7 @@ public:
 						Msg("! invalid vertex number (%d)!",XrMath::min(id1,id2));
 					else {
 //						Sleep				(1);
-//						BearCore::BearTimer				timer;
+//						BearTimer				timer;
 //						timer.Start			();
 //						float				fValue = ai().m_tpAStar->ffFindMinimalPath(id1,id2);
 //						Msg					("* %7.2f[%d] : %11I64u cycles (%.3f microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.GetElapsed_ms()*1000.f);
@@ -245,7 +245,7 @@ public:
 	CCC_ALifeTimeFactor(LPCSTR N) : IConsole_Command(N)  { };
 	virtual void Execute(LPCSTR args) {
 		float id1 = 0.0f;
-		BearCore::BearString::Scanf(args ,"%f",&id1);
+		BearString::Scanf(args ,"%f",&id1);
 		if (id1 < XrMath::EPS_L)
 			Msg("Invalid time factor! (%.4f)",id1);
 		else {
@@ -264,7 +264,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		if ((GameID() == eGameIDSingle)  &&ai().get_alife()) {
 			float id1 = 0.0f;
-			BearCore::BearString::Scanf(args ,"%f",&id1);
+			BearString::Scanf(args ,"%f",&id1);
 			if (id1 < 2.0f)
 				Msg("Invalid online distance! (%.4f)",id1);
 			else {
@@ -287,7 +287,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			BearCore::BearString::Scanf(args ,"%d",&id1);
+			BearString::Scanf(args ,"%d",&id1);
 			if (id1 < 1)
 				Msg("Invalid process time! (%d)",id1);
 			else
@@ -307,7 +307,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			int id1 = 0;
-			BearCore::BearString::Scanf(args ,"%d",&id1);
+			BearString::Scanf(args ,"%d",&id1);
 			tpGame->alife().objects_per_update(id1);
 		}
 		else
@@ -323,7 +323,7 @@ public:
 			game_sv_Single	*tpGame = smart_cast<game_sv_Single *>(Level().Server->game);
 			VERIFY			(tpGame);
 			float id1 = 0;
-			BearCore::BearString::Scanf(args ,"%f",&id1);
+			BearString::Scanf(args ,"%f",&id1);
 			XrMath::clamp(id1,.1f,1.f);
 			tpGame->alife().set_switch_factor(id1);
 		}
@@ -449,11 +449,11 @@ public:
 
 		string_path				S;
 		S[0]					= 0;
-//.		BearCore::BearString::Scanf					(args ,"%s",S);
-		BearCore::BearString::Copy					(S,args);
+//.		BearString::Scanf					(args ,"%s",S);
+		BearString::Copy					(S,args);
 		
 #ifdef DEBUG
-		BearCore::BearTimer					timer;
+		BearTimer					timer;
 		timer.restart				();
 #endif
 		if (!xr_strlen(S)){
@@ -484,7 +484,7 @@ public:
 		strconcat					(sizeof(save_name),save_name,*CStringTable().translate("st_game_saved"),": ", S);
 		_s->wnd()->SetText			(save_name);
 
-		BearCore::BearString::Contact					(S,".dds");
+		BearString::Contact					(S,".dds");
 		
 #ifdef DEBUG
 		timer.restart				();
@@ -509,8 +509,8 @@ public:
 
 		string256					saved_game;
 		saved_game[0]				= 0;
-//.		BearCore::BearString::Scanf						(args,"%s",saved_game);
-		BearCore::BearString::Copy					(saved_game, args);
+//.		BearString::Scanf						(args,"%s",saved_game);
+		BearString::Copy					(saved_game, args);
 		if (!xr_strlen(saved_game)) {
 			Log						("! Specify file name!");
 			return;
@@ -570,7 +570,7 @@ public:
 	virtual void	Execute				(LPCSTR args)
 	{
 		if (args && *args) {
-			BearCore::BearString::Copy				(g_last_saved_game,args);
+			BearString::Copy				(g_last_saved_game,args);
 			return;
 		}
 
@@ -619,7 +619,7 @@ class CCC_FlushLog : public IConsole_Command {
 public:
 	CCC_FlushLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR /**args/**/) {
-		BearCore::BearLog::Flush();
+		BearLog::Flush();
 		Msg		("* Log file has been saved successfully!");
 	}
 };
@@ -628,7 +628,7 @@ class CCC_ClearLog : public IConsole_Command {
 public:
 	CCC_ClearLog(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
 	virtual void Execute(LPCSTR /**args/**/) {
-		BearCore::BearLog::Flush();
+		BearLog::Flush();
 		Msg						("* Log file has been cleaned successfully!");
 	}
 };
@@ -725,7 +725,7 @@ public:
 
 		string256			S;
 		S[0]				= 0;
-		BearCore::BearString::Scanf				(args,"%s",S);
+		BearString::Scanf				(args,"%s",S);
 
 		if (!*S) {
 			ai().level_graph().setup_current_level	(-1);
@@ -771,13 +771,13 @@ public:
 	virtual void	Info	(TInfo& I)		
 	{
 		if(strstr(cName,"script_debug_break")==cName )
-			BearCore::BearString::Copy(I,"initiate script debugger [DebugBreak] command"); 
+			BearString::Copy(I,"initiate script debugger [DebugBreak] command"); 
 
 		else if(strstr(cName,"script_debug_stop")==cName )
-			BearCore::BearString::Copy(I,"stop script debugger activity"); 
+			BearString::Copy(I,"stop script debugger activity"); 
 
 		else if(strstr(cName,"script_debug_restart")==cName )
-			BearCore::BearString::Copy(I,"restarts script debugger or start if no script debugger presents"); 
+			BearString::Copy(I,"restarts script debugger or start if no script debugger presents"); 
 	}
 };
 #endif // #if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
@@ -812,7 +812,7 @@ public:
 	}
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"dumps all infoportions that actor have"); 
+		BearString::Copy(I,"dumps all infoportions that actor have"); 
 	}
 };
 class CCC_DumpTasks : public IConsole_Command {
@@ -825,7 +825,7 @@ public:
 	}
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"dumps all tasks that actor have"); 
+		BearString::Copy(I,"dumps all tasks that actor have"); 
 	}
 };
 #include "map_manager.h"
@@ -837,7 +837,7 @@ public:
 	}
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"dumps all currentmap locations"); 
+		BearString::Copy(I,"dumps all currentmap locations"); 
 	}
 
 };
@@ -862,7 +862,7 @@ public:
 	}
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"dumps all creature names"); 
+		BearString::Copy(I,"dumps all creature names"); 
 	}
 
 };
@@ -890,8 +890,8 @@ public:
 		u32 value1;
 		u32 value2;
 		
-		BearCore::BearString::Scanf(param1,"%u",&value1);
-		BearCore::BearString::Scanf(param2,"%u",&value2);
+		BearString::Scanf(param1,"%u",&value1);
+		BearString::Scanf(param2,"%u",&value2);
 		
 		if ((value1 > 0) && (value2 > 0)) {
 			g_bDebugNode		= TRUE;
@@ -919,7 +919,7 @@ public:
 		
 		u32				value2;
 		
-		BearCore::BearString::Scanf			(param2,"%u",&value2);
+		BearString::Scanf			(param2,"%u",&value2);
 		monster->set_show_debug_info (u8(value2));
 	}
 };
@@ -949,7 +949,7 @@ public:
 	
 	//virtual void	Info	(TInfo& I)		
 	//{
-	//	BearCore::BearString::Copy(I,"restart game fast"); 
+	//	BearString::Copy(I,"restart game fast"); 
 	//}
 };
 #endif
@@ -1055,7 +1055,7 @@ struct CCC_JumpToLevel : public IConsole_Command {
 			return;
 		}
 		string256		level;
-		BearCore::BearString::Scanf(args,"%s",level);
+		BearString::Scanf(args,"%s",level);
 
 		GameGraph::LEVEL_MAP::const_iterator	I = ai().game_graph().header().levels().begin();
 		GameGraph::LEVEL_MAP::const_iterator	E = ai().game_graph().header().levels().end();
@@ -1074,7 +1074,7 @@ public:
 	virtual void Execute(LPCSTR args) {
 		string256	S;
 		S[0]		= 0;
-		BearCore::BearString::Scanf		(args ,"%s",S);
+		BearString::Scanf		(args ,"%s",S);
 		if (!xr_strlen(S))
 			Log("* Specify script name!");
 		else {
@@ -1135,7 +1135,7 @@ public:
 
 	virtual void	Info	(TInfo& I)
 	{
-		BearCore::BearString::Copy				(I,"[0.001 - 1000.0]");
+		BearString::Copy				(I,"[0.001 - 1000.0]");
 	}
 };
 
@@ -1169,7 +1169,7 @@ struct CCC_StartTimeSingle : public IConsole_Command {
 	virtual void	Execute	(LPCSTR args)
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
-		BearCore::BearString::Scanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
+		BearString::Scanf				(args,"%d.%d.%d %d:%d:%d.%d",&year,&month,&day,&hours,&mins,&secs,&milisecs);
 		year				= XrMath::max(year,u32(1));
 		month				= XrMath::max(month,u32(1));
 		day					= XrMath::max(day,u32(1));
@@ -1370,7 +1370,7 @@ public:
 		if (0==strext(arguments))
 			strconcat			(sizeof(name),name,arguments,".ogf");
 		else
-			BearCore::BearString::Copy			(name,sizeof(name),arguments);
+			BearString::Copy			(name,sizeof(name),arguments);
 
 		if (!FS.ExistFile("%level%", name) && !FS.ExistFile( "%meshes%", name)) {
 			Msg					("! Cannot find visual \"%s\"",arguments);
@@ -1461,7 +1461,7 @@ public:
 			return;
 		}
 		int d = 0;
-		BearCore::BearString::Scanf( args, "%d", &d );
+		BearString::Scanf( args, "%d", &d );
 		if ( ui_game_sp->ActorMenu().DropAllItemsFromRuck( d == 1 ) )
 		{
 			Msg( "- All items from ruck of Actor is dropping now." );
@@ -1503,7 +1503,7 @@ public:
 		bool InformOfNoPatch = true;
 		if (arguments && *arguments) {
 			int bInfo = 1;
-			BearCore::BearString::Scanf	(arguments,"%d", &bInfo);
+			BearString::Scanf	(arguments,"%d", &bInfo);
 			InformOfNoPatch = (bInfo != 0);
 		}
 		

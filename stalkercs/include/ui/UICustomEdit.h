@@ -50,7 +50,7 @@ protected:
 			void  xr_stdcall	press_commit();
 
 protected:
-	typedef  fastdelegate::FastDelegate0<void>		Callback;
+	typedef  XrFastDelegate<void>		Callback;
 
 	enum								{ EDIT_BUF_SIZE = 256 };
 	text_editor::line_edit_control*		m_editor_control;

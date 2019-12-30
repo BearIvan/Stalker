@@ -11,7 +11,7 @@ public:
 		making_screenshot			=	0x01,
 		drawing_download_states		=	0x02
 	};
-	typedef fastdelegate::FastDelegate3<u8 const*, u32, u32, void> complete_callback_t;
+	typedef XrFastDelegate<void,u8 const*, u32, u32> complete_callback_t;
 
 	screenshot_manager();
 	virtual	~screenshot_manager();
@@ -56,7 +56,7 @@ private:
 
 
 #ifdef DEBUG
-	BearCore::BearTimer				m_debug_timer;
+	BearTimer				m_debug_timer;
 	u32					m_start_time;
 	shared_str			m_timer_comment;
 			void		timer_begin		(LPCSTR comment);

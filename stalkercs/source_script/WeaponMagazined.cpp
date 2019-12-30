@@ -1176,13 +1176,13 @@ void CWeaponMagazined::GetBriefInfo(xr_string& str_name, xr_string& icon_sect_na
 
 
 	string256		sItemName;
-	BearCore::BearString::Copy			(sItemName, *CStringTable().translate(pSettings->r_string(icon_sect_name.c_str(), "inv_name_short")));
+	BearString::Copy			(sItemName, *CStringTable().translate(pSettings->r_string(icon_sect_name.c_str(), "inv_name_short")));
 
-	BearCore::BearString::Copy( fire_mode, sizeof(fire_mode), "" );
+	BearString::Copy( fire_mode, sizeof(fire_mode), "" );
 	if ( HasFireModes() )
 	{
 		if (m_iQueueSize == -1)
-			BearCore::BearString::Copy(fire_mode, "A");
+			BearString::Copy(fire_mode, "A");
 		else
 			sprintf_s(fire_mode, "%d", m_iQueueSize);
 	}

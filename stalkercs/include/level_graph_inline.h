@@ -522,7 +522,7 @@ IC	bool	CLevelGraph::create_straight_path	(u32 start_vertex_id, const Fvector2 &
 						VPUSH(v3d(start_point)),
 						VPUSH(v3d(finish_point))
 					);
-					BearCore::BearLog::Flush();
+					BearLog::Flush();
 					R_ASSERT2	(false,"Loop became infinite :-( call Dima and SAVE YOUR LOG!");
 				}
 #endif

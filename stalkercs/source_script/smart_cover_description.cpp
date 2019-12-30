@@ -106,7 +106,7 @@ description::description	(shared_str const &table_id)
 void description::load_loopholes	(shared_str const &table_id)
 {
 	string256					temp;
-	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
+	BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, *table_id);
 	strcat_s					(temp, ".loopholes");
 	m_table_id					= table_id;
@@ -190,7 +190,7 @@ void description::process_loopholes()
 void description::load_transitions	(shared_str const &table_id)
 {
 	string256					temp;
-	BearCore::BearString::Copy					(temp, "smart_covers.descriptions.");
+	BearString::Copy					(temp, "smart_covers.descriptions.");
 	strcat_s					(temp, *table_id);
 	strcat_s					(temp, ".transitions");
 

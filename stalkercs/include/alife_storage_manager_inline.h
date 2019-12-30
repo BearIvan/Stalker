@@ -12,5 +12,5 @@ IC	CALifeStorageManager::CALifeStorageManager			(xrServer *server, LPCSTR sectio
 	inherited	(server,section)
 {
 	m_section				= section;
-	BearCore::BearString::Copy					(m_save_name,"");
+	BearString::Copy					(m_save_name,"");
 }

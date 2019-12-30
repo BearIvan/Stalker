@@ -303,8 +303,8 @@ public:
 	virtual bool						feel_touch_contact		(CObject* O);
 	virtual BOOL						feel_touch_on_contact	(CObject* O);
 
-	//флаги, какие действия совершал актер по отношению к сталкеру
-	//(помог, атаковал и т.д.)
+	//пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//(пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ.)
 	Flags32								m_actor_relation_flags;
 
 	// ALife
@@ -448,8 +448,8 @@ public:
 	IC		u32							max_queue_interval_close		() const;
 
 public:
-	typedef fastdelegate::FastDelegate<void (const CCoverPoint *, const CCoverPoint *)>	on_best_cover_changed_delegate;
-	typedef	fastdelegate::FastDelegate<bool (SHit const*)>								HitCallback;
+	typedef XrFastDelegate<void,const CCoverPoint *, const CCoverPoint *>	on_best_cover_changed_delegate;
+	typedef	XrFastDelegate<bool ,Hit const*>								HitCallback;
 
 private:
 	typedef xr_vector<on_best_cover_changed_delegate>	cover_delegates;
@@ -631,7 +631,7 @@ public:
 			bool						use_smart_covers_only						() const;
 
 public:
-	typedef fastdelegate::FastDelegate<void (Fmatrix& )>							EyeMatrixCallback;
+	typedef XrFastDelegate<void ,Fmatrix& >							EyeMatrixCallback;
 
 private:
 	EyeMatrixCallback					m_eye_matrix_callback;

@@ -366,19 +366,19 @@ LPCSTR InventoryUtilities::GetTimePeriodAsString(LPSTR _buff, u32 buff_sz, ALife
 	_buff[0]	= 0;
 
 	if(month1!=month2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s ",month2-month1, *CStringTable().translate("ui/UI_st_months"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s ",month2-month1, *CStringTable().translate("ui_st_months"));
 
 	if(!cnt && day1!=day2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",day2-day1, *CStringTable().translate("ui/UI_st_days"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",day2-day1, *CStringTable().translate("ui_st_days"));
 
 	if(!cnt && hours1!=hours2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",hours2-hours1, *CStringTable().translate("ui/UI_st_hours"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",hours2-hours1, *CStringTable().translate("ui_st_hours"));
 
 	if(!cnt && mins1!=mins2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",mins2-mins1, *CStringTable().translate("ui/UI_st_mins"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",mins2-mins1, *CStringTable().translate("ui_st_mins"));
 
 	if(!cnt && secs1!=secs2)
-		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",secs2-secs1, *CStringTable().translate("ui/UI_st_secs"));
+		cnt = xr_sprintf(_buff+cnt,buff_sz-cnt,"%d %s",secs2-secs1, *CStringTable().translate("ui_st_secs"));
 
 	return _buff;
 }
@@ -528,14 +528,14 @@ void InventoryUtilities::SendInfoToActor(LPCSTR info_id)
 void InventoryUtilities::SendInfoToLuaScripts(shared_str info)
 {
 	if (GameID() != eGameIDSingle) return;
-	if ( info == shared_str("ui/UI_talk_show") )
+	if ( info == shared_str("ui_talk_show") )
 	{
 		int mode = 10; // now Menu is Talk Dialog (show)
 		luabind::functor<void>	funct;
 		R_ASSERT( ai().script_engine().functor( "pda.actor_menu_mode", funct ) );
 		funct( mode );
 	}
-	if ( info == shared_str("ui/UI_talk_hide") )
+	if ( info == shared_str("ui_talk_hide") )
 	{
 		int mode = 11; // Talk Dialog hide
 		luabind::functor<void>	funct;

@@ -5,14 +5,12 @@
 void	CPHIsland::	Step(dReal step)
 {
 	if(!m_flags.is_active()) return;
-#ifdef X32
+
 	if (m_flags.is_exact_integration_prefeared() && nj < max_joint_allowed_for_exeact_integration)
 		dWorldStep(DWorld(), fixed_step);
 	else
 		dWorldQuickStep(DWorld(), fixed_step);
-#else
-	dWorldStep(DWorld(), fixed_step);
-#endif
+
 
 	//dWorldStepFast1	(DWorld(),	fixed_step,	phIterations/*+Random.randI(0,phIterationCycle)*/);
 	//dWorldQuickStep(DWorld(), fixed_step);

@@ -1210,18 +1210,18 @@ void game_sv_CaptureTheArtefact::LoadSkinsForTeam(const shared_str& caSection, T
 	string256			SkinSingleName;
 	string4096			Skins;
 
-	// Поле strSectionName должно содержать имя секции
+	// пїЅпїЅпїЅпїЅ strSectionName пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	VERIFY(xr_strcmp(caSection,""));
 
 	pTeamSkins->clear();
 
-	// Имя поля
+	// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (!pSettings->line_exist(caSection, "skins")) return;
 
-	// Читаем данные этого поля
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	BearCore::BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
 	u32 count	= XrTrims::GetItemCount(Skins);
-	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	for (u32 i = 0; i < count; ++i)
 	{
 		XrTrims::GetItem(Skins, i, SkinSingleName);
@@ -1234,18 +1234,18 @@ void game_sv_CaptureTheArtefact::LoadDefItemsForTeam(const shared_str& caSection
 	string256			ItemName;
 	string4096			DefItems;
 
-	// Поле strSectionName должно содержать имя секции
+	// пїЅпїЅпїЅпїЅ strSectionName пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	VERIFY(xr_strcmp(caSection,""));
 
 	pDefItems->clear();
 
-	// Имя поля
+	// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (!pSettings->line_exist(caSection, "default_items")) return;
 
-	// Читаем данные этого поля
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
-	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	for (u32 i = 0; i < count; ++i)
 	{
 		XrTrims::GetItem(DefItems, i, ItemName);
@@ -2169,8 +2169,7 @@ void game_sv_CaptureTheArtefact::ActorDeliverArtefactOnBase(CSE_ActorMP *actor, 
 
 void game_sv_CaptureTheArtefact::StartNewRound()
 {
-	fastdelegate::FastDelegate1<IClient*, void> tmp_functor;
-	tmp_functor.bind(this, &game_sv_CaptureTheArtefact::PrepareClientForNewRound);
+	XrFastDelegate<void,IClient*> tmp_functor(this, &game_sv_CaptureTheArtefact::PrepareClientForNewRound);
 	m_server->ForEachClientDoSender(tmp_functor);
 	MoveLifeActors();
 	RenewAllActorsHealth();

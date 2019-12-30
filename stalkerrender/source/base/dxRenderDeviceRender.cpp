@@ -283,7 +283,9 @@ void dxRenderDeviceRender::Begin()
 	RCache.OnFrameBegin		();
 	RCache.set_CullMode		(CULL_CW);
 	RCache.set_CullMode		(CULL_CCW);
+#if !defined(USE_DX10) && !defined(USE_DX11)
 	if (HW.Caps.SceneMode)	overdrawBegin	();
+#endif	//	USE_DX10
 }
 
 void dxRenderDeviceRender::Clear()
@@ -312,9 +314,9 @@ void DoAsyncScreenshot();
 void dxRenderDeviceRender::End()
 {
 	VERIFY	(HW.pDevice);
-
+#if !defined(USE_DX10) && !defined(USE_DX11)
 	if (HW.Caps.SceneMode)	overdrawEnd();
-
+#endif
 	RCache.OnFrameEnd	();
 //	Memory.dbg_check		();
 

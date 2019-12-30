@@ -110,7 +110,7 @@ void CAI_Stalker::reinit			()
 	animation().reinit				();
 //	movement().reinit				();
 
-	//загрузка спецевической звуковой схемы для сталкера согласно m_SpecificCharacter
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ m_SpecificCharacter
 	sound().sound_prefix			(SpecificCharacter().sound_voice_prefix());
 
 #ifdef DEBUG_MEMORY_MANAGER
@@ -296,7 +296,7 @@ void CAI_Stalker::Die				(CObject* who)
 
 	inherited::Die					(who);
 	
-	//запретить использование слотов в инвенторе
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	inventory().SetSlotsUseful		(false);
 
 	if (inventory().GetActiveSlot() >= inventory().m_slots.size())
@@ -393,7 +393,7 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 	if (!g_Alive())
 		sound().set_sound_mask(u32(eStalkerSoundMaskDie));
 
-	//загрузить иммунитеты из модельки сталкера
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	IKinematics* pKinematics = smart_cast<IKinematics*>(Visual()); VERIFY(pKinematics);
 	CInifile* ini = pKinematics->LL_UserData();
 	if(ini)
@@ -410,7 +410,7 @@ BOOL CAI_Stalker::net_Spawn			(CSE_Abstract* DC)
 		}
 	}
 
-	//вычислить иммунета в зависимости от ранга
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	static float novice_rank_immunity			= pSettings->r_float("ranks_properties", "immunities_novice_k");
 	static float expirienced_rank_immunity		= pSettings->r_float("ranks_properties", "immunities_experienced_k");
 
@@ -471,15 +471,15 @@ void CAI_Stalker::net_Destroy()
 	m_pPhysics_support->in_NetDestroy	();
 
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CAI_Stalker::update_object_handler
 		)
 	);
 
 #ifdef DEBUG
-	fastdelegate::FastDelegate0<>	f = fastdelegate::FastDelegate0<>(this,&CAI_Stalker::update_object_handler);
-	xr_vector<fastdelegate::FastDelegate0<> >::const_iterator	I;
+	XrFastDelegate<void>	f = XrFastDelegate<void>(this,&CAI_Stalker::update_object_handler);
+	xr_vector<XrFastDelegate<void> >::const_iterator	I;
 	I	= std::find(Device.seqParallel.begin(),Device.seqParallel.end(),f);
 	VERIFY							(I == Device.seqParallel.end());
 #endif // DEBUG
@@ -655,13 +655,13 @@ void CAI_Stalker::UpdateCL()
 
 	if (g_Alive()) {
 		if (g_mt_config.test(mtObjectHandler) && CObjectHandler::planner().initialized()) {
-			fastdelegate::FastDelegate0<>								f = fastdelegate::FastDelegate0<>(this,&CAI_Stalker::update_object_handler);
+			XrFastDelegate<void>								f = XrFastDelegate<void>(this,&CAI_Stalker::update_object_handler);
 #ifdef DEBUG
-			xr_vector<fastdelegate::FastDelegate0<> >::const_iterator	I;
+			xr_vector<XrFastDelegate<void> >::const_iterator	I;
 			I	= std::find(Device.seqParallel.begin(),Device.seqParallel.end(),f);
 			VERIFY							(I == Device.seqParallel.end());
 #endif
-			Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CAI_Stalker::update_object_handler));
+			Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CAI_Stalker::update_object_handler));
 		}
 		else {
 			START_PROFILE("stalker/client_update/object_handler")
@@ -775,7 +775,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 		memory().visual().check_visibles();
 #endif
 		if (g_mt_config.test(mtAiVision))
-			Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this,&CCustomMonster::Exec_Visibility));
+			Device.seqParallel.push_back(XrFastDelegate<void>(this,&CCustomMonster::Exec_Visibility));
 		else {
 			START_PROFILE("stalker/schedule_update/vision")
 			Exec_Visibility				();

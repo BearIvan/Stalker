@@ -52,7 +52,7 @@ void ErrorLog(LPCSTR caMessage)
 void FlushLogs()
 {
 #ifdef DEBUG
-	BearCore::BearLog::Flush();
+	BearLog::Flush();
 	ai().script_engine().flush_log();
 #endif // DEBUG
 }
@@ -111,8 +111,8 @@ void prefetch_module(LPCSTR file_name)
 struct profile_timer_script {
 	/*u64							m_start_cpu_tick_count;
 	u64							m_accumulator;*/
-	BearCore::BearTimer  m_timer;
-	BearCore::BearTime  m_time;
+	BearTimer  m_timer;
+	BearTime  m_time;
 	u64							m_count;
 	int							m_recurse_mark;
 

@@ -154,6 +154,7 @@ IReader* IReader::open_chunk(u32 ID)
 };
 void IReader::close()
 {
+	if (!this)return;
 	this->~IReader();
 	bear_free((void*)this);
 	

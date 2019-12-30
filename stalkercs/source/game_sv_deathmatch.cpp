@@ -166,8 +166,7 @@ void game_sv_Deathmatch::OnRoundStart()
 		m_dwLastRPoints[i] = u32(-1);
 	}
 	//-------------------------------------
-	fastdelegate::FastDelegate1<IClient*, void> tmp_delegate;
-	tmp_delegate.bind(this, &game_sv_Deathmatch::RespawnPlayerAsSpectator);
+	XrFastDelegate<void,IClient*> tmp_delegate(this, &game_sv_Deathmatch::RespawnPlayerAsSpectator);
 	m_server->ForEachClientDoSender(tmp_delegate);
 	m_item_respawner.respawn_all_items();
 	//Clear disconnected players
@@ -998,7 +997,7 @@ void	game_sv_Deathmatch::OnPlayerBuyFinished		(ClientID id_who, NET_Packet& P)
 		xr_vector<u16>				ItemsToDelete;
 
 		bool ExactMatch	= true;
-		//проверяем пояс
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		TIItemContainer::const_iterator	IBelt = pActor->inventory().m_belt.begin();
 		TIItemContainer::const_iterator	EBelt = pActor->inventory().m_belt.end();
 
@@ -1008,7 +1007,7 @@ void	game_sv_Deathmatch::OnPlayerBuyFinished		(ClientID id_who, NET_Packet& P)
 			CheckItem(ps, pItem, &ItemsDesired, &ItemsToDelete, ExactMatch);
 		};
 
-		//проверяем ruck
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ruck
 		TIItemContainer::const_iterator	IRuck = pActor->inventory().m_ruck.begin();
 		TIItemContainer::const_iterator	ERuck = pActor->inventory().m_ruck.end();
 
@@ -1019,7 +1018,7 @@ void	game_sv_Deathmatch::OnPlayerBuyFinished		(ClientID id_who, NET_Packet& P)
 			CheckItem(ps, pItem, &ItemsDesired, &ItemsToDelete, ExactMatch);
 		};
 
-		//проверяем слоты
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		TISlotArr::const_iterator	ISlot = pActor->inventory().m_slots.begin();
 		TISlotArr::const_iterator	ESlot = pActor->inventory().m_slots.end();
 
@@ -1081,18 +1080,18 @@ void game_sv_Deathmatch::LoadSkinsForTeam(const shared_str& caSection, TEAM_SKIN
 	string256			SkinSingleName;
 	string4096			Skins;
 
-	// Поле strSectionName должно содержать имя секции
+	// пїЅпїЅпїЅпїЅ strSectionName пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	R_ASSERT(xr_strcmp(caSection,""));
 
 	pTeamSkins->clear();
 
-	// Имя поля
+	// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (!pSettings->line_exist(caSection, "skins")) return;
 
-	// Читаем данные этого поля
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	BearCore::BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
 	u32 count	= XrTrims::GetItemCount(Skins);
-	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	for (u32 i = 0; i < count; ++i)
 	{
 		XrTrims::GetItem(Skins, i, SkinSingleName);
@@ -1105,18 +1104,18 @@ void game_sv_Deathmatch::LoadDefItemsForTeam(const shared_str& caSection, DEF_IT
 	string256			ItemName;
 	string4096			DefItems;
 
-	// Поле strSectionName должно содержать имя секции
+	// пїЅпїЅпїЅпїЅ strSectionName пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	R_ASSERT(xr_strcmp(caSection,""));
 
 	pDefItems->clear();
 
-	// Имя поля
+	// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (!pSettings->line_exist(caSection, "default_items")) return;
 
-	// Читаем данные этого поля
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
-	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	for (u32 i = 0; i < count; ++i)
 	{
 		XrTrims::GetItem(DefItems, i, ItemName);
@@ -1133,14 +1132,14 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 	//-------------------------------------------
 	string256 SkinName;
 	BearCore::BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
-	//загружены ли скины для этой комманды
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //	if (SkinID != -1) ID = u16(SkinID);
 
 	if (!TeamList.empty()	&&
 		TeamList.size() > Team	&&
 		!TeamList[Team].aSkins.empty())
 	{
-		//загружено ли достаточно скинов для этой комманды
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		if (TeamList[Team].aSkins.size() > ID)
 		{
 			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
@@ -1150,7 +1149,7 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 	}
 	else
 	{
-		//скины для такой комманды не загружены
+		//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		switch (Team)
 		{
 		case 0:

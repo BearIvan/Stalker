@@ -159,9 +159,9 @@ LPCSTR CInventoryItem::NameComplex()
 
 	if( m_flags.test(FUsingCondition) ){
 		string32		cond;
-		if(GetCondition()<0.33)		BearCore::BearString::Copy		(cond,	"[poor]");
-		else if(GetCondition()<0.66)BearCore::BearString::Copy		(cond,	"[bad]"	);
-		else						BearCore::BearString::Copy		(cond,	"[good]");
+		if(GetCondition()<0.33)		BearString::Copy		(cond,	"[poor]");
+		else if(GetCondition()<0.66)BearString::Copy		(cond,	"[bad]"	);
+		else						BearString::Copy		(cond,	"[good]");
 		string256		temp;
 		strconcat		(temp,*m_nameComplex," ",cond)	;
 		// sprintf			(temp,"%s %s",*m_nameComplex,cond);

@@ -15,7 +15,7 @@ class  GameEventQueue
 	xr_vector<GameEvent*>	unused;
 	xr_set<ClientID>		m_blocked_clients;
 public:
-	typedef fastdelegate::FastDelegate1<GameEvent*, bool> event_predicate;
+	typedef XrFastDelegate<bool,GameEvent*> event_predicate;
 
 	GameEventQueue();
 	~GameEventQueue();

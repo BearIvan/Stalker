@@ -109,20 +109,20 @@ bool CTrade::SetPartner(CEntity *p)
 //	string64	s;
 //	switch (pPartner.type) 
 //	{
-//		case TT_TRADER: BearCore::BearString::Copy(s, "trader"); break;
+//		case TT_TRADER: BearString::Copy(s, "trader"); break;
 //		case TT_STALKER: 
-//		case TT_ACTOR: BearCore::BearString::Copy(s, "stalker"); break;
+//		case TT_ACTOR: BearString::Copy(s, "stalker"); break;
 //	}
 //	
 //	
 //	switch (pPartner.inv_owner->m_tRank) 
 //	{
-//		case ALife::eStalkerRankNone: BearCore::BearString::Copy(s,"NO_RANK"); break;
-//		case ALife::eStalkerRankNovice: BearCore::BearString::Copy(s,"NOVICE"); break;
-//		case ALife::eStalkerRankExperienced: BearCore::BearString::Copy(s,"EXPERIENCED"); break;
-//		case ALife::eStalkerRankVeteran: BearCore::BearString::Copy(s,"VETERAN"); break;
-//		case ALife::eStalkerRankMaster: BearCore::BearString::Copy(s,"MASTER"); break;
-//		case ALife::eStalkerRankDummy: BearCore::BearString::Copy(s,"DUMMY"); break;
+//		case ALife::eStalkerRankNone: BearString::Copy(s,"NO_RANK"); break;
+//		case ALife::eStalkerRankNovice: BearString::Copy(s,"NOVICE"); break;
+//		case ALife::eStalkerRankExperienced: BearString::Copy(s,"EXPERIENCED"); break;
+//		case ALife::eStalkerRankVeteran: BearString::Copy(s,"VETERAN"); break;
+//		case ALife::eStalkerRankMaster: BearString::Copy(s,"MASTER"); break;
+//		case ALife::eStalkerRankDummy: BearString::Copy(s,"DUMMY"); break;
 //	}
 //
 //	return true;

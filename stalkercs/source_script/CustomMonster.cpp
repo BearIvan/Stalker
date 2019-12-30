@@ -322,11 +322,11 @@ void CCustomMonster::shedule_Update	( u32 DT )
 	if (g_Alive()) {
 		if (g_mt_config.test(mtAiVision))
 #ifndef DEBUG
-			Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CCustomMonster::Exec_Visibility));
+			Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CCustomMonster::Exec_Visibility));
 #else // DEBUG
 		{
 			if (!psAI_Flags.test(aiStalker) || !!smart_cast<CActor*>(Level().CurrentEntity()))
-				Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this,&CCustomMonster::Exec_Visibility));
+				Device.seqParallel.push_back(XrFastDelegate<void>(this,&CCustomMonster::Exec_Visibility));
 			else
 				Exec_Visibility				();
 		}
@@ -369,7 +369,7 @@ void CCustomMonster::shedule_Update	( u32 DT )
 			//////////////////////////////////////
 			//Fvector C; float R;
 			//////////////////////////////////////
-			// С Олеся - ПИВО!!!! (Диме :-))))
+			// пїЅ пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ!!!! (пїЅпїЅпїЅпїЅ :-))))
 			// m_PhysicMovementControl->GetBoundingSphere	(C,R);
 			//////////////////////////////////////
 			//Center(C);
@@ -446,7 +446,7 @@ void CCustomMonster::UpdateCL	()
 	*/
 
 	if (g_mt_config.test(mtSoundPlayer))
-		Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CCustomMonster::update_sound_player));
+		Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CCustomMonster::update_sound_player));
 	else {
 		START_PROFILE("CustomMonster/client_update/sound_player")
 		update_sound_player	();
@@ -795,13 +795,13 @@ void CCustomMonster::net_Destroy()
 	movement().net_Destroy		();
 	
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CCustomMonster::update_sound_player
 		)
 	);
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CCustomMonster::Exec_Visibility
 		)
@@ -830,12 +830,12 @@ void CCustomMonster::PitchCorrection()
 	Fvector position_on_plane;
 	P.project(position_on_plane,Position());
 
-	// находим проекцию точки, лежащей на векторе текущего направления
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	Fvector dir_point, proj_point;
 	dir_point.mad(position_on_plane, Direction(), 1.f);
 	P.project(proj_point,dir_point);
 	
-	// получаем искомый вектор направления
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	Fvector target_dir;
 	target_dir.sub(proj_point,position_on_plane);
 
@@ -1131,7 +1131,7 @@ void CCustomMonster::OnRender()
 				const DetailPathManager::STravelPathPoint&	N2 = path[I];	Fvector	P2; P2.set(N2.position); P2.y+=0.1f;
 				if (!XrMath::fis_zero(P1.distance_to_sqr(P2),XrMath::EPS_L))
 					Level().debug_renderer().draw_line			(Fidentity,P1,P2,color0);
-				if ((path.size() - 1) == I) // песледний box?
+				if ((path.size() - 1) == I) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ box?
 					Level().debug_renderer().draw_aabb			(P1,radius0,radius0,radius0,color1);
 				else 
 					Level().debug_renderer().draw_aabb			(P1,radius0,radius0,radius0,color2);

@@ -18,14 +18,14 @@
 
 inline pstr sz_cpy								(pstr destination, const u32 &size, pcstr source)
 {
-	BearCore::BearString::Copy		(destination,size,source);
+	BearString::Copy		(destination,size,source);
 	return			(destination);
 }
 
 template <int size>
 inline pstr sz_cpy								(char (&destination)[size], pcstr source)
 {
-	BearCore::BearString::Copy		(destination,size,source);
+	BearString::Copy		(destination,size,source);
 	return			(destination);
 }
 

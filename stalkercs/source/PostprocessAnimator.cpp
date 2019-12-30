@@ -469,7 +469,7 @@ CPostprocessAnimatorControlled::CPostprocessAnimatorControlled(CEffectorControll
 :m_controller(c)
 {
 	m_controller->SetPP(this);
-	SetFactorFunc(fastdelegate::FastDelegate0<float>(m_controller, &CEffectorController::GetFactor));
+	SetFactorFunc(XrFastDelegate<float>(m_controller, &CEffectorController::GetFactor));
 }
 
 CPostprocessAnimatorControlled::~CPostprocessAnimatorControlled()

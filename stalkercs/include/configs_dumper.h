@@ -16,8 +16,8 @@ extern char const * cd_creation_date;
 class configs_dumper : public ISheduled
 {
 public:
-	typedef fastdelegate::FastDelegate3<u8 const*, u32, u32, void>	complete_callback_t;
-	typedef fastdelegate::FastDelegate1< long >						yield_callback_t;
+	typedef XrFastDelegate<void,u8 const*, u32, u32>	complete_callback_t;
+	typedef XrFastDelegate<void,long >						yield_callback_t;
 
 							configs_dumper		();
 	virtual					~configs_dumper		();
@@ -62,7 +62,7 @@ private:
 	HANDLE					m_make_done_event;
 
 #ifdef DEBUG
-	BearCore::BearTimer				m_debug_timer;
+	BearTimer				m_debug_timer;
 	u32					m_start_time;
 	shared_str			m_timer_comment;
 			void		timer_begin		(LPCSTR comment);

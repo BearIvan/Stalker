@@ -375,7 +375,7 @@ void CMapListHelper::Load()
 	}
 
 	// scan for additional maps
-	BearCore::BearVector<BearCore::BearString>			fset;
+	BearVector<BearString>			fset;
 	FS.GetFiles(fset, "%levels%", "*level.ltx", true);
 
 

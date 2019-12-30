@@ -1,5 +1,5 @@
-// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
-//								все пули и осколки передаются сюда
+// Level_Bullet_Manager.cpp:	пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//								пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -687,14 +687,14 @@ BOOL CBulletManager::firetrace_callback	(collide::rq_result& result, LPVOID para
 	if ( XrMath::fis_zero(data.collide_time) )
 		return						(TRUE);
 
-	//статический объект
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	if (!result.O) {
 		CDB::TRI const& triangle	= *(Level().ObjectSpace.GetStaticTris() + result.element);
 		bullet_manager.RegisterEvent(EVENT_HIT, FALSE, &bullet, collide_position, result, triangle.material);
 		return						(FALSE);
 	}
 
-	//динамический объект
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	VERIFY							( !(result.O->ID() == bullet.parent_id &&  bullet.fly_dist < parent_ignore_distance) );
 	IKinematics* const kinematics	= smart_cast<IKinematics*>(result.O->Visual());
 	if (!kinematics)
@@ -915,9 +915,9 @@ void CBulletManager::Render	()
 	else
 		m_bullet_points.clear_not_free	();
 
-	//0-рикошет
-	//1-застрявание пули в материале
-	//2-пробивание материала
+	//0-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//1-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//2-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (g_bDrawBulletHit) {
 		extern FvectorVec g_hit[];
 		FvectorIt it;
@@ -993,7 +993,7 @@ void CBulletManager::CommitRenderSet		()	// @ the end of frame
 {
 	m_BulletsRendered	= m_Bullets			;
 	if (g_mt_config.test(mtBullets))		{
-		Device.seqParallel.push_back		(fastdelegate::FastDelegate0<>(this,&CBulletManager::UpdateWorkload));
+		Device.seqParallel.push_back		(XrFastDelegate<void>(this,&CBulletManager::UpdateWorkload));
 	} else {
 		UpdateWorkload						();
 	}

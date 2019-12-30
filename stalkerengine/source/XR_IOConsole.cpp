@@ -580,7 +580,7 @@ void CConsole::ExecuteCommand(LPCSTR cmd_str, bool record_cmd)
     PSTR first = (PSTR)malloc((str_size + 1) * sizeof(char));
     PSTR last = (PSTR)malloc((str_size + 1) * sizeof(char));
 
-    xr_strcpy(edt, str_size + 1, cmd_str);
+    xr_strcpy(edt, str_size+1 , cmd_str);
     edt[str_size] = 0;
 
     scroll_delta = 0;

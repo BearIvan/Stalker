@@ -192,7 +192,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 			}
 		}
 
-		BearCore::BearString::Printf(str, "%3.2f %s", weight, kg_str );
+		BearString::Printf(str, "%3.2f %s", weight, kg_str );
 		UIWeight->SetText	(str);
 		
 		pos.x = UIWeight->GetWndPos().x;
@@ -203,7 +203,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem, CInventoryItem* pCompareIte
 	}
 	if ( UICost && IsGameTypeSingle() )
 	{
-		BearCore::BearString::Printf(str, "%d RU", pInvItem->Cost());		// will be owerwritten in multiplayer
+		BearString::Printf(str, "%d RU", pInvItem->Cost());		// will be owerwritten in multiplayer
 		UICost->SetText		(str);
 		pos.x = UICost->GetWndPos().x;
 		if ( m_complex_desc )

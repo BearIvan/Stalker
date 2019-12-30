@@ -112,12 +112,12 @@ bool UIInvUpgradeInfo::init_upgrade( Upgrade_type* upgr, CInventoryItem* inv_ite
 			string32 str_res;
 			switch( upg_res )
 			{
-			case inventory::upgrade::result_e_unknown:		BearCore::BearString::Copy( str_res, sizeof(str_res), "st_upgr_unknown" );		break;
-			case inventory::upgrade::result_e_installed:	BearCore::BearString::Copy( str_res, sizeof(str_res), "st_upgr_installed" );		break;
-			case inventory::upgrade::result_e_parents:		BearCore::BearString::Copy( str_res, sizeof(str_res), "st_upgr_parents" );		break;
-			case inventory::upgrade::result_e_group:		BearCore::BearString::Copy( str_res, sizeof(str_res), "st_upgr_group" );			break;
+			case inventory::upgrade::result_e_unknown:		BearString::Copy( str_res, sizeof(str_res), "st_upgr_unknown" );		break;
+			case inventory::upgrade::result_e_installed:	BearString::Copy( str_res, sizeof(str_res), "st_upgr_installed" );		break;
+			case inventory::upgrade::result_e_parents:		BearString::Copy( str_res, sizeof(str_res), "st_upgr_parents" );		break;
+			case inventory::upgrade::result_e_group:		BearString::Copy( str_res, sizeof(str_res), "st_upgr_group" );			break;
 			//result_e_precondition:
-			default:										BearCore::BearString::Copy( str_res, sizeof(str_res), "st_upgr_unknown" );		break;
+			default:										BearString::Copy( str_res, sizeof(str_res), "st_upgr_unknown" );		break;
 			}
 			m_prereq->SetTextST( str_res );
 		}

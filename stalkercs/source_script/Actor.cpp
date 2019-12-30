@@ -436,7 +436,7 @@ void	CActor::Hit							(SHit* pHDS)
 	if( HDS.hit_type<ALife::eHitTypeBurn || HDS.hit_type >= ALife::eHitTypeMax )
 	{
 		string256	err;
-		BearCore::BearString::Printf		(err, "Unknown/unregistered hit type [%d]", HDS.hit_type);
+		BearString::Printf		(err, "Unknown/unregistered hit type [%d]", HDS.hit_type);
 		R_ASSERT2	(0, err );
 	
 	}
@@ -1350,9 +1350,9 @@ void CActor::OnHUDDraw	(CCustomHUD*)
 		HUD().Font().pFontStat->OutNext	("Vel Actual:    [%3.2f]",m_PhysicMovementControl->GetVelocityActual());
 		switch (m_PhysicMovementControl->Environment())
 		{
-		case CPHMovementControl::peOnGround:	BearCore::BearString::Copy(buf,"ground");			break;
-		case CPHMovementControl::peInAir:		BearCore::BearString::Copy(buf,"air");				break;
-		case CPHMovementControl::peAtWall:		BearCore::BearString::Copy(buf,"wall");				break;
+		case CPHMovementControl::peOnGround:	BearString::Copy(buf,"ground");			break;
+		case CPHMovementControl::peInAir:		BearString::Copy(buf,"air");				break;
+		case CPHMovementControl::peAtWall:		BearString::Copy(buf,"wall");				break;
 		}
 		HUD().Font().pFontStat->OutNext	(buf);
 

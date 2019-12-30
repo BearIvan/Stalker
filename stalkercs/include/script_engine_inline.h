@@ -31,13 +31,13 @@ IC	void CScriptEngine::parse_script_namespace(LPCSTR function_to_call, LPSTR nam
 		if (!I)
 			break;
 	}
-	BearCore::BearString::Copy(name_space, namespace_size, "_G");
+	BearString::Copy(name_space, namespace_size, "_G");
 	if (!J)
-		BearCore::BearString::Copy(function, function_size, function_to_call);
+		BearString::Copy(function, function_size, function_to_call);
 	else {
 		CopyMemory(name_space, function_to_call, u32(J - function_to_call) * sizeof(char));
 		name_space[u32(J - function_to_call)] = 0;
-		BearCore::BearString::Copy(function, function_size, J + 1);
+		BearString::Copy(function, function_size, J + 1);
 	}
 }
 template <typename _result_type>

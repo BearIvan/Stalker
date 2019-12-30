@@ -51,7 +51,7 @@ struct HUD_SOUND_ITEM
 	SSnd*			m_activeSnd;
 	xr_vector<SSnd> sounds;
 
-	bool operator == (LPCSTR alias) const{return 0==BearCore::BearString::CompareWithoutCase(m_alias.c_str(),alias);}
+	bool operator == (LPCSTR alias) const{return 0==BearString::CompareWithoutCase(m_alias.c_str(),alias);}
 };
 
 class HUD_SOUND_COLLECTION

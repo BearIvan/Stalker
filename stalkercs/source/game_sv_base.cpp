@@ -324,10 +324,8 @@ void game_sv_GameState::net_Export_State						(NET_Packet& P, ClientID to)
 	game_PlayerState*	tmp_ps = tmp_client->ps;
 	
 	player_exporter		tmp_functor(to, tmp_ps, &P);
-	fastdelegate::FastDelegate1<IClient*, void> pcounter;
-	pcounter.bind(&tmp_functor, &player_exporter::count_players);
-	fastdelegate::FastDelegate1<IClient*, void> exporter;
-	exporter.bind(&tmp_functor, &player_exporter::export_players);
+	XrFastDelegate<void,IClient*> pcounter(&tmp_functor, &player_exporter::count_players);
+	XrFastDelegate<void,IClient*> exporter(&tmp_functor, &player_exporter::export_players);
 	
 	m_server->ForEachClientDo(pcounter);
 	P.w_u16(tmp_functor.counter);
@@ -1026,7 +1024,7 @@ void game_sv_GameState::OnRoundStart			()
 		}
 	};
 	rpointsBlocked.clear			();
-}// старт раунда
+}// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 void game_sv_GameState::OnRoundEnd()
 { 
@@ -1044,7 +1042,7 @@ void game_sv_GameState::OnRoundEnd()
 	{
 		m_bFastRestart = true;
 	}
-}// конец раунда
+}// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 void game_sv_GameState::SaveMapList				()
 {

@@ -8,7 +8,7 @@
 class message_filter
 {
 public:
-	typedef fastdelegate::FastDelegate3<u32, u32, NET_Packet const &> msg_type_subtype_func_t;
+	typedef XrFastDelegate<void,u32, u32, NET_Packet const &> msg_type_subtype_func_t;
 
 			message_filter	();
 			~message_filter	();

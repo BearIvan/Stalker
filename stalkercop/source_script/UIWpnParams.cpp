@@ -24,11 +24,11 @@ struct SLuaWpnParams
 SLuaWpnParams::SLuaWpnParams()
 {
 	bool	functor_exists;
-	functor_exists	= ai().script_engine().functor("ui/UI_wpn_params.GetRPM",		m_functorRPM);		VERIFY(functor_exists);
-	functor_exists	= ai().script_engine().functor("ui/UI_wpn_params.GetDamage",	m_functorDamage);	VERIFY(functor_exists);
-	functor_exists	= ai().script_engine().functor("ui/UI_wpn_params.GetDamageMP", m_functorDamageMP);	VERIFY(functor_exists);
-	functor_exists	= ai().script_engine().functor("ui/UI_wpn_params.GetHandling", m_functorHandling);	VERIFY(functor_exists);
-	functor_exists	= ai().script_engine().functor("ui/UI_wpn_params.GetAccuracy", m_functorAccuracy);	VERIFY(functor_exists);
+	functor_exists	= ai().script_engine().functor("ui_wpn_params.GetRPM",		m_functorRPM);		VERIFY(functor_exists);
+	functor_exists	= ai().script_engine().functor("ui_wpn_params.GetDamage",	m_functorDamage);	VERIFY(functor_exists);
+	functor_exists	= ai().script_engine().functor("ui_wpn_params.GetDamageMP", m_functorDamageMP);	VERIFY(functor_exists);
+	functor_exists	= ai().script_engine().functor("ui_wpn_params.GetHandling", m_functorHandling);	VERIFY(functor_exists);
+	functor_exists	= ai().script_engine().functor("ui_wpn_params.GetAccuracy", m_functorAccuracy);	VERIFY(functor_exists);
 }
 
 SLuaWpnParams::~SLuaWpnParams()

@@ -15,6 +15,7 @@ bool Modloader::Run()
 	}
 	else if (strstr(GetCommandLine(), "-game soc"))
 	{
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
 		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc16"), TEXT("%guser%"), 0);
 		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1007);
