@@ -291,7 +291,7 @@ void CUITalkWnd::AskQuestion()
 		{
 
 			string128	s;
-			BearCore::BearString::Printf		(s,"ID = [%s] of selected question is out of range of available dialogs ",*UITalkDialogWnd->m_ClickedQuestionID);
+			BearString::Printf		(s,"ID = [%s] of selected question is out of range of available dialogs ",*UITalkDialogWnd->m_ClickedQuestionID);
 			VERIFY2(FALSE, s);
 		}
 

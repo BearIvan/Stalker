@@ -98,7 +98,7 @@ void CUISkinSelectorWnd::UpdateSkins(){
 		string16 buf;
 		if (m_firstSkin + i < 10)
 		{
-			BearCore::BearString::Printf(buf, TEXT("%d"), (m_firstSkin + 1 + i) % 10);
+			BearString::Printf(buf, TEXT("%d"), (m_firstSkin + 1 + i) % 10);
 		}
 		else
 			m_pImage[i]->SetText("");

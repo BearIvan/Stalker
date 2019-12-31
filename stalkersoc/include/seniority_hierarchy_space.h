@@ -14,7 +14,7 @@ namespace SeniorityHierarchy {
 	IC	shared_str to_string		(u32 number)
 	{
 		string16	S;
-		BearCore::BearString::Printf(S, "%u", number);
+		BearString::Printf(S, "%u", number);
 		return		(shared_str(S));
 	}
 

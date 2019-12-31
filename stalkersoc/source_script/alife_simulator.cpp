@@ -52,11 +52,11 @@ CALifeSimulator::CALifeSimulator		(xrServer *server, shared_str *command_line) :
 	);
 	
 	string256					temp;
-	BearCore::BearString::Copy						(temp,p.m_game_or_spawn);
-	BearCore::BearString::Contact						(temp,"/");
-	BearCore::BearString::Contact						(temp,p.m_game_type);
-	BearCore::BearString::Contact						(temp,"/");
-	BearCore::BearString::Contact						(temp,p.m_alife);
+	BearString::Copy						(temp,p.m_game_or_spawn);
+	BearString::Contact						(temp,"/");
+	BearString::Contact						(temp,p.m_game_type);
+	BearString::Contact						(temp,"/");
+	BearString::Contact						(temp,p.m_alife);
 	*command_line				= temp;
 	
 	LPCSTR						start_game_callback = pSettings->r_string(alife_section,"start_game_callback");

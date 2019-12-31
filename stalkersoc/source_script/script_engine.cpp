@@ -217,9 +217,9 @@ void CScriptEngine::load_common_scripts()
 		string256		I;
 		for (u32 i=0; i<n; ++i) {
 			process_file(XrTrims::GetItem(caScriptString,i,I));
-			BearCore::BearString::Contact(I, "_initialize");
+			BearString::Contact(I, "_initialize");
 			if (object("_G", I,LUA_TFUNCTION)) {
-//				lua_dostring			(lua(),BearCore::BearString::Contact(I,"()"));
+//				lua_dostring			(lua(),BearString::Contact(I,"()"));
 				luabind::functor<void>	f;
 				R_ASSERT				(functor(I,f));
 				f						();

@@ -262,7 +262,7 @@ void CMapListHelper::Load()
 		}
 	}
 	// scan for additional maps
-	BearCore::BearVector<BearCore::BearString>			fset;
+	BearVector<BearString>			fset;
 	FS.GetFiles(fset, "%levels%", "*level.ltx", true);
 
 
@@ -291,7 +291,7 @@ void CMapListHelper::Load()
 					Itm.m_game_type_id		= (EGameTypes)get_token_id(game_types, game_type.c_str() );
 					M						= &m_storage.back();
 				}
-				shared_str _map_name			= *BearCore::BearFileManager::GetPathFile(*(*fit));
+				shared_str _map_name			= *BearFileManager::GetPathFile(*(*fit));
 				
 				if(M->m_map_names.end()==std::find(M->m_map_names.begin(),M->m_map_names.end(),_map_name))
 					M->m_map_names.push_back	(_map_name);

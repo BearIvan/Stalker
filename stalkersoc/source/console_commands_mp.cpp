@@ -94,7 +94,7 @@ public:
 			Level().Server->game->OnRoundEnd();
 		}
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"restart game");}
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"restart game");}
 };
 
 class CCC_RestartFast : public IConsole_Command {
@@ -110,7 +110,7 @@ public:
 			Level().Server->game->OnRoundEnd();
 		}
 	}
-	virtual void	Info			(TInfo& I) {BearCore::BearString::Copy(I,"restart game fast");}
+	virtual void	Info			(TInfo& I) {BearString::Copy(I,"restart game fast");}
 };
 
 class CCC_Kill : public IConsole_Command {
@@ -136,7 +136,7 @@ public:
 			l_pPlayer->u_EventSend		(P);
 		}
 	}
-	virtual void	Info	(TInfo& I)	{ BearCore::BearString::Copy(I,"player kill"); }
+	virtual void	Info	(TInfo& I)	{ BearString::Copy(I,"player kill"); }
 };
 
 class CCC_Net_CL_Resync : public IConsole_Command {
@@ -146,7 +146,7 @@ public:
 	{
 		Level().net_Syncronize();
 	}
-	virtual void	Info	(TInfo& I)		{BearCore::BearString::Copy(I,"resyncronize client");}
+	virtual void	Info	(TInfo& I)		{BearString::Copy(I,"resyncronize client");}
 };
 
 class CCC_Net_CL_ClearStats : public IConsole_Command {
@@ -156,7 +156,7 @@ public:
 	{
 		Level().ClearStatistic();
 	}
-	virtual void		Info	(TInfo& I){BearCore::BearString::Copy(I,"clear client net statistic");}
+	virtual void		Info	(TInfo& I){BearString::Copy(I,"clear client net statistic");}
 };
 
 class CCC_Net_SV_ClearStats : public IConsole_Command {
@@ -166,7 +166,7 @@ public:
 	{
 		Level().Server->ClearStatistic();
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"clear server net statistic"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"clear server net statistic"); }
 };
 
 #ifdef DEBUG
@@ -228,7 +228,7 @@ public:
 		Msg("Client Objects : %d", CLObjNum);
 		Msg("Server Objects : %d", SVObjNum);
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"dbg Num Objects"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"dbg Num Objects"); }
 };
 #endif // DEBUG
 
@@ -289,7 +289,7 @@ public:
 			strncpy				(PlayerName, args, 17);
 			PlayerName[17]		= 0;
 		}else
-			BearCore::BearString::Copy(PlayerName, args);
+			BearString::Copy(PlayerName, args);
 
 		xr_strlwr			(PlayerName);
 
@@ -323,7 +323,7 @@ public:
 			if (l_pC)
 			{
 				string64			_low_name;
-				BearCore::BearString::Copy				(_low_name,l_pC->ps->getName());
+				BearString::Copy				(_low_name,l_pC->ps->getName());
 				xr_strlwr			(_low_name);
 
 				if (!xr_strcmp(_low_name, PlayerName))
@@ -345,7 +345,7 @@ public:
 		Level().Server->clients_Unlock();	*/	
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Kick Player by name"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Kick Player by name"); }
 };
 
 
@@ -356,7 +356,7 @@ public:
 	{
 		if (!g_pGameLevel || !Level().Server || !Level().Server->game) return;
 		string4096				buff;
-		BearCore::BearString::Copy					(buff, args_);
+		BearString::Copy					(buff, args_);
 		u32 len					= xr_strlen(buff);
 		
 		if (0==len) 
@@ -370,7 +370,7 @@ public:
 			--p;
 		}
 		R_ASSERT				(p>=buff);
-		BearCore::BearString::Copy					(digits,p);
+		BearString::Copy					(digits,p);
 		*p						= 0;
 		if (!xr_strlen(buff))
 		{
@@ -390,7 +390,7 @@ public:
 			strncpy				(PlayerName, buff, 17);
 			PlayerName[17]		= 0;
 		}else
-			BearCore::BearString::Copy				(PlayerName, buff);
+			BearString::Copy				(PlayerName, buff);
 
 		xr_strlwr			(PlayerName);
 		IClient*	tmp_client = Level().Server->FindClient(SearcherClientByName(PlayerName));
@@ -412,7 +412,7 @@ public:
 			if (l_pC)
 			{
 				string64			_low_name;
-				BearCore::BearString::Copy				(_low_name,l_pC->ps->getName());
+				BearString::Copy				(_low_name,l_pC->ps->getName());
 				xr_strlwr			(_low_name);
 
 				if (!xr_strcmp(_low_name, PlayerName))
@@ -439,7 +439,7 @@ public:
 
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Ban Player by Name"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Ban Player by Name"); }
 };
 
 
@@ -451,7 +451,7 @@ public:
 		if (!g_pGameLevel || !Level().Server) return;
 //-----------
 		string4096				buff;
-		BearCore::BearString::Copy					(buff, args_);
+		BearString::Copy					(buff, args_);
 		u32 len					= xr_strlen(buff);
 		
 		if (0==len) 
@@ -465,7 +465,7 @@ public:
 			--p;
 		}
 		R_ASSERT				(p>=buff);
-		BearCore::BearString::Copy					(digits,p);
+		BearString::Copy					(digits,p);
 		*p						= 0;
 		if (!xr_strlen(buff))
 		{
@@ -480,7 +480,7 @@ public:
 		}
 
 		string1024				s_ip_addr;
-		BearCore::BearString::Copy					(s_ip_addr, buff);
+		BearString::Copy					(s_ip_addr, buff);
 //-----------
 
 		ip_address							Address;
@@ -492,7 +492,7 @@ public:
 	//	Level().Server->clients_Unlock		();
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Ban Player by IP"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Ban Player by IP"); }
 };
 
 class CCC_UnBanPlayerByIP : public IConsole_Command {
@@ -511,7 +511,7 @@ public:
 	//	Level().Server->clients_Unlock	();
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"UnBan Player by IP");}
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"UnBan Player by IP");}
 };
 u8 id_player = 0;
 inline void printPlayer(IClient*pl)
@@ -546,7 +546,7 @@ public:
 		Msg("------------------------");
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"List Players"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"List Players"); }
 };
 
 class CCC_ListPlayers_Banned : public IConsole_Command {
@@ -560,7 +560,7 @@ public:
 		Msg("------------------------");
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"List of Banned Players"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"List of Banned Players"); }
 };
 class CCC_ChangeLevelGameType : public IConsole_Command {
 public:
@@ -574,7 +574,7 @@ public:
 		string256		GameType;	
 		GameType[0]		=0;
 		
-		BearCore::BearString::Scanf	(args,"%s %s", LevelName, GameType);
+		BearString::Scanf	(args,"%s %s", LevelName, GameType);
 
 		if (!xr_strcmp(GameType, "dm")) sprintf_s(GameType, "deathmatch");
 		else
@@ -627,7 +627,7 @@ public:
 		Level().Send		(P);
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Changing level and game type"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Changing level and game type"); }
 };
 
 class CCC_ChangeGameType : public CCC_ChangeLevelGameType {
@@ -640,7 +640,7 @@ public:
 
 		string256			GameType;	
 		GameType[0]			=0;
-		BearCore::BearString::Scanf				(args,"%s", GameType);
+		BearString::Scanf				(args,"%s", GameType);
 
 		string1024			argsNew;
 		sprintf_s				(argsNew, "%s %s", Level().name().c_str(), GameType);
@@ -648,7 +648,7 @@ public:
 		CCC_ChangeLevelGameType::Execute((LPCSTR)argsNew);
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Changing Game Type"); };
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Changing Game Type"); };
 };
 
 class CCC_ChangeLevel : public CCC_ChangeLevelGameType {
@@ -660,7 +660,7 @@ public:
 
 		string256		LevelName;	
 		LevelName[0]	=0;
-		BearCore::BearString::Scanf			(args,"%s", LevelName);
+		BearString::Scanf			(args,"%s", LevelName);
 
 		string1024		argsNew;
 		sprintf_s			(argsNew, "%s %s", LevelName, Level().Server->game->type_name());
@@ -668,7 +668,7 @@ public:
 		CCC_ChangeLevelGameType::Execute((LPCSTR)argsNew);
 	};
 
-	virtual void	Info	(TInfo& I){	BearCore::BearString::Copy(I,"Changing Game Type"); }
+	virtual void	Info	(TInfo& I){	BearString::Copy(I,"Changing Game Type"); }
 };
 
 class CCC_AddMap : public IConsole_Command {
@@ -677,14 +677,14 @@ public:
 	virtual void Execute(LPCSTR args) 
 	{
 		char	MapName[256] = {0};
-		BearCore::BearString::Scanf	(args,"%s", MapName);
+		BearString::Scanf	(args,"%s", MapName);
 		if (!g_pGameLevel || !Level().Server || !Level().Server->game) return;
 		Level().Server->game->MapRotation_AddMap(MapName);
 	};
 
 	virtual void	Info	(TInfo& I)		
 	{
-		BearCore::BearString::Copy(I,"Adds map to map rotation list"); 
+		BearString::Copy(I,"Adds map to map rotation list"); 
 	}
 };
 
@@ -697,7 +697,7 @@ public:
 		Level().Server->game->MapRotation_ListMaps();
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"List maps in map rotation list"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"List maps in map rotation list"); }
 };
 
 class CCC_NextMap : public IConsole_Command {
@@ -710,7 +710,7 @@ public:
 		Level().Server->game->OnNextMap();
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Switch to Next Map in map rotation list"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Switch to Next Map in map rotation list"); }
 };
 
 class CCC_PrevMap : public IConsole_Command {
@@ -723,7 +723,7 @@ public:
 		Level().Server->game->OnPrevMap();
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Switch to Previous Map in map rotation list"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Switch to Previous Map in map rotation list"); }
 };
 
 class CCC_AnomalySet : public IConsole_Command {
@@ -737,11 +737,11 @@ public:
 		if (!gameDM) return;
 
 		string256			AnomalySet;		
-		BearCore::BearString::Scanf				(args,"%s", AnomalySet);
+		BearString::Scanf				(args,"%s", AnomalySet);
 		gameDM->StartAnomalies(atol(AnomalySet));
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Activating pointed Anomaly set"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Activating pointed Anomaly set"); }
 };
 
 class CCC_Vote_Start : public IConsole_Command {
@@ -775,7 +775,7 @@ public:
 		Game().SendStartVoteMessage(args);		
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Starts Voting"); };
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Starts Voting"); };
 };
 
 class CCC_Vote_Stop : public IConsole_Command {
@@ -812,7 +812,7 @@ public:
 		Level().Server->game->OnVoteStop();
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Stops Current Voting"); };
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Stops Current Voting"); };
 };
 
 class CCC_Vote_Yes : public IConsole_Command {
@@ -847,7 +847,7 @@ public:
 		Game().SendVoteYesMessage();
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Vote Yes"); };
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Vote Yes"); };
 };
 
 class CCC_Vote_No : public IConsole_Command {
@@ -882,7 +882,7 @@ public:
 		Game().SendVoteNoMessage();
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Vote No"); };
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Vote No"); };
 };
 
 class CCC_StartTimeEnvironment: public IConsole_Command {
@@ -892,7 +892,7 @@ public:
 	{
 		u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
 		
-		BearCore::BearString::Scanf				(args,"%d:%d:%d.%d",&hours,&mins,&secs,&milisecs);
+		BearString::Scanf				(args,"%d:%d:%d.%d",&hours,&mins,&secs,&milisecs);
 		u64 NewTime			= generate_time	(year,month,day,hours,mins,secs,milisecs);
 
 		if (!g_pGameLevel)
@@ -918,12 +918,12 @@ public:
 
 		string256				weather_name;		
 		weather_name[0]			= 0;
-		BearCore::BearString::Scanf					(args,"%s", weather_name);
+		BearString::Scanf					(args,"%s", weather_name);
 		if (!weather_name[0])	return;
 		ENV_SOC.SetWeather(weather_name);		
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Set new weather"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Set new weather"); }
 };
 
 class CCC_SaveStatistic : public IConsole_Command {
@@ -932,7 +932,7 @@ public:
 	virtual void	Execute				(LPCSTR args) {
 		Game().m_WeaponUsageStatistic->SaveData();
 	}
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"saving statistic data"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"saving statistic data"); }
 };
 
 class CCC_AuthCheck : public CCC_Integer {
@@ -967,7 +967,7 @@ public:
 		Msg("Server Address - %s:%i",Address.to_string().c_str(), dwPort);
 	};
 
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"List Players"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"List Players"); }
 };
 
 class CCC_StartTeamMoney : public IConsole_Command {
@@ -982,7 +982,7 @@ public:
 
 		string128			Team = "";
 		s32 TeamMoney		= 0;
-		BearCore::BearString::Scanf				(args,"%s %i", Team, &TeamMoney);
+		BearString::Scanf				(args,"%s %i", Team, &TeamMoney);
 
 		if (!Team[0])
 		{
@@ -1001,7 +1001,7 @@ public:
 		{
 			u32 TeamID			= 0;
 			s32 TeamStartMoney	= 0;
-			int cnt = BearCore::BearString::Scanf				(args,"%i %i", &TeamID, &TeamStartMoney);
+			int cnt = BearString::Scanf				(args,"%i %i", &TeamID, &TeamStartMoney);
 			if(cnt!=2)
 			{
 				Msg("invalid args. (int int) expected");
@@ -1013,7 +1013,7 @@ public:
 		}
 	};
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"Set Start Team Money");}
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"Set Start Team Money");}
 };
 class CCC_SV_Integer : public CCC_Integer {
 public:
@@ -1053,7 +1053,7 @@ public:
 		{
 			string256			user;
 			string256			pass;
-			if(2==BearCore::BearString::Scanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
+			if(2==BearString::Scanf		(arguments+xr_strlen("login")+1, "%s %s", user, pass))
 			{
 				NET_Packet		P;			
 				P.w_begin		(M_REMOTE_CONTROL_AUTH);
@@ -1101,7 +1101,7 @@ public:
 			}			
 		}
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"swap teams for artefacthunt game"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"swap teams for artefacthunt game"); }
 };
 
 
@@ -1147,7 +1147,7 @@ public:
 	}
 	virtual void Info( TInfo& I )
 	{
-		BearCore::BearString::Copy( I, "BattlEye Server commands" );
+		BearString::Copy( I, "BattlEye Server commands" );
 	}
 };
 
@@ -1192,7 +1192,7 @@ public:
 
 	virtual void  Info( TInfo& I )
 	{
-		BearCore::BearString::Copy( I, "BattlEye Client commands" );
+		BearString::Copy( I, "BattlEye Client commands" );
 	}
 };
 
@@ -1234,7 +1234,7 @@ public:
 			NewName[17] = 0;
 		}
 		else
-			BearCore::BearString::Copy(NewName, args);
+			BearString::Copy(NewName, args);
 	
 		NET_Packet				P;
 		Game().u_EventGen		(P,GE_GAME_EVENT,Game().local_player->GameID);
@@ -1243,7 +1243,7 @@ public:
 		Game().u_EventSend		(P);
 	}
 
-	virtual void	Info	(TInfo& I)	{BearCore::BearString::Copy(I,"player name"); }
+	virtual void	Info	(TInfo& I)	{BearString::Copy(I,"player name"); }
 };
 
 class CCC_SvStatus : public IConsole_Command {
@@ -1256,7 +1256,7 @@ public:
 			Console->Execute		("cfg_load all_server_settings");
 		}
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Shows current server settings"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Shows current server settings"); }
 };
 
 class CCC_SvChat : public IConsole_Command{
@@ -1283,7 +1283,7 @@ public:
 			Level().Server->game->DumpOnlineStatistic	();
 		}
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"Shows current server settings"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"Shows current server settings"); }
 };
 class CCC_CompressorStatus : public IConsole_Command {
 public:
@@ -1298,7 +1298,7 @@ public:
 		else
 			InvalidSyntax		();
 	}
-	virtual void	Info	(TInfo& I){BearCore::BearString::Copy(I,"valid arguments is [info info_full on off]"); }
+	virtual void	Info	(TInfo& I){BearString::Copy(I,"valid arguments is [info info_full on off]"); }
 };
 
 void register_mp_console_commands()

@@ -39,8 +39,8 @@ u32 CDbgScriptThreads::FillFrom(CScriptProcess* sp)
 		th.lua			= (*It)->lua();
 		th.scriptID		= (*It)->thread_reference();
 		th.active		= (*It)->active();
-		BearCore::BearString::Contact			(th.name, *(*It)->script_name());
-		BearCore::BearString::Contact			(th.process, *sp->name());
+		BearString::Contact			(th.name, *(*It)->script_name());
+		BearString::Contact			(th.process, *sp->name());
 		m_threads.push_back(th);
 	}
 	return m_threads.size();

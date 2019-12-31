@@ -110,7 +110,7 @@ void CObjectHandlerPlanner::set_goal	(MonsterSpace::EObjectAction object_action,
 }
 IC const bchar*xr_strcat(bchar*S, const  bchar*DST)
 {
-	BearCore::BearString::Contact(S, 64, DST);
+	BearString::Contact(S, 64, DST);
 	return S;
 }
 #ifdef LOG_ACTION
@@ -119,11 +119,11 @@ LPCSTR CObjectHandlerPlanner::action2string(const _action_id_type &id)
 	LPSTR S = m_temp_string;
 	if (action_object_id(id) != 0xffff)
 		if (Level().Objects.net_Find(static_cast<u16>(action_object_id(id))))
-			BearCore::BearString::Copy	(S,64,*Level().Objects.net_Find(static_cast<u16>(action_object_id(id)))->cName());
+			BearString::Copy	(S,64,*Level().Objects.net_Find(static_cast<u16>(action_object_id(id)))->cName());
 		else
-			BearCore::BearString::Copy	(S,64,"no_items");
+			BearString::Copy	(S,64,"no_items");
 	else
-		BearCore::BearString::Copy	(S,64,"no_items");
+		BearString::Copy	(S,64,"no_items");
 	xr_strcat		(S,":");
 	
 	switch (action_state_id(id)) {
@@ -170,11 +170,11 @@ LPCSTR CObjectHandlerPlanner::property2string(const _condition_type &id)
 	LPSTR S = m_temp_string;
 	if (action_object_id(id) != 0xffff)
 		if (Level().Objects.net_Find(static_cast<u16>(action_object_id(id))))
-			BearCore::BearString::Copy	(S,64,*Level().Objects.net_Find(static_cast<u16>(action_object_id(id)))->cName());
+			BearString::Copy	(S,64,*Level().Objects.net_Find(static_cast<u16>(action_object_id(id)))->cName());
 		else
-			BearCore::BearString::Copy	(S,64,"no_items");
+			BearString::Copy	(S,64,"no_items");
 	else
-		BearCore::BearString::Copy	(S,64,"no_items");
+		BearString::Copy	(S,64,"no_items");
 	xr_strcat		(S,":");
 	switch (action_state_id(id)) {
 		case ObjectHandlerSpace::eWorldPropertyHidden		: {xr_strcat(S,"Hidden");				break;}

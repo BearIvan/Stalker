@@ -21,11 +21,11 @@ CAutosaveManager::CAutosaveManager			()
 	u32							hours,minutes,seconds;
 	LPCSTR						section = alife_section;
 
-	BearCore::BearString::Scanf						(pSettings->r_string(section,"autosave_interval"),"%d:%d:%d",&hours,&minutes,&seconds);
+	BearString::Scanf						(pSettings->r_string(section,"autosave_interval"),"%d:%d:%d",&hours,&minutes,&seconds);
 	m_autosave_interval			= (u32)generate_time(1,1,1,hours,minutes,seconds);
 	m_last_autosave_time		= Device.dwTimeGlobal;
 
-	BearCore::BearString::Scanf						(pSettings->r_string(section,"delay_autosave_interval"),"%d:%d:%d",&hours,&minutes,&seconds);
+	BearString::Scanf						(pSettings->r_string(section,"delay_autosave_interval"),"%d:%d:%d",&hours,&minutes,&seconds);
 	m_delay_autosave_interval	= (u32)generate_time(1,1,1,hours,minutes,seconds);
 
 	m_not_ready_count			= 0;
@@ -74,10 +74,10 @@ void CAutosaveManager::shedule_Update		(u32 dt)
 	net_packet.w_u8				(0);
 	Level().Send				(net_packet,net_flags(TRUE));
 	strcat_s(temp, sizeof(temp), ".dds");
-	BearCore::BearStringPath		S1;
+	BearStringPath		S1;
 	FS.UpdatePath("%saves%", 0, S1);
-	BearCore::BearString::Contact(S1, BEAR_PATH);
-	BearCore::BearString::Contact(S1, temp);
+	BearString::Contact(S1, BEAR_PATH);
+	BearString::Contact(S1, temp);
 
 
 	MainMenu()->Screenshot		(IRender_interface::SM_FOR_GAMESAVE,S1);

@@ -103,7 +103,7 @@ void CStalkerActionDangerInDirectionTakeCover::finalize							()
 CStalkerActionDangerInDirectionLookOut::CStalkerActionDangerInDirectionLookOut	(CAI_Stalker *object, LPCSTR action_name) :
 	inherited				(object,action_name)
 {
-	m_crouch_look_out_random.seed				(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	m_crouch_look_out_random.seed				(BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 void CStalkerActionDangerInDirectionLookOut::initialize							()

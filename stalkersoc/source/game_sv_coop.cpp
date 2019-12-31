@@ -309,8 +309,8 @@ void game_sv_Coop::restart_simulator(LPCSTR saved_game_name)
 	delete_data(m_alife_simulator);
 	server().clear_ids();
 
-	BearCore::BearString::Copy(g_pGamePersistent->m_game_params.m_game_or_spawn, saved_game_name);
-	BearCore::BearString::Copy(g_pGamePersistent->m_game_params.m_new_or_load, "load");
+	BearString::Copy(g_pGamePersistent->m_game_params.m_game_or_spawn, saved_game_name);
+	BearString::Copy(g_pGamePersistent->m_game_params.m_new_or_load, "load");
 
 	pApp->LoadBegin();
 	m_alife_simulator = xr_new<CALifeSimulator>(&server(), &options);
@@ -327,6 +327,7 @@ void game_sv_Coop::OnPlayerConnectFinished(ClientID id_who)
 		game_PlayerState*	ps_who = m_FirstPlayer->ps;
 		SetSkin(m_FirstPlayer->owner, ps_who->skin);
 		OnPlayerEnteredGame(id_who);
+		ps_who->SetGameID(m_FirstPlayer->owner->ID);
 		return;
 	}
 	SpawnPlayer(id_who);
@@ -339,9 +340,9 @@ void game_sv_Coop::SetSkin(CSE_Abstract * E,  u16 ID)
 	CSE_Visual* pV = smart_cast<CSE_Visual*>(E);
 	if (!pV) return;
 	//-------------------------------------------
-	BearCore::BearStringPath SkinName;
-	BearCore::BearString::Copy(SkinName, pSettings->r_string("coop", "other_player_model"));
-	BearCore::BearString::Contact(SkinName, TEXT(".ogf"));
+	BearStringPath SkinName;
+	BearString::Copy(SkinName, pSettings->r_string("coop", "other_player_model"));
+	BearString::Contact(SkinName, TEXT(".ogf"));
 
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");

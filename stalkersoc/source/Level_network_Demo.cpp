@@ -114,7 +114,7 @@ void						CLevel::Demo_PrepareToStore			()
 	GetLocalTime(&Time);
 	sprintf_s(m_sDemoName, "xray_%s_%02d-%02d-%02d_%02d-%02d-%02d.tdemo", CName, Time.wMonth, Time.wDay, Time.wYear, Time.wHour, Time.wMinute, Time.wSecond);
 	Msg("Tech Demo would be stored in - %s", m_sDemoName);
-	BearCore::BearStringPath path;
+	BearStringPath path;
 	FS.UpdatePath       ("%logs%",0, path);
 	xr_strcat(path, BEAR_PATH);
 	xr_strcat(path, m_sDemoName);
@@ -160,10 +160,10 @@ void						CLevel::Demo_Clear				()
 
 void						CLevel::Demo_Load				(LPCSTR DemoName)
 {	
-	BearCore::BearStringPath			DemoFileName;
+	BearStringPath			DemoFileName;
 	FS.UpdatePath      ("%logs%",0, DemoFileName);
-	BearCore::BearString::Contact(DemoFileName, BEAR_PATH);
-	BearCore::BearString::Contact(DemoFileName, DemoName);
+	BearString::Contact(DemoFileName, BEAR_PATH);
+	BearString::Contact(DemoFileName, DemoName);
 
 	//-----------------------------------------------------
 	HANDLE hDemoFile = CreateFile(DemoFileName, FILE_ALL_ACCESS, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -234,10 +234,10 @@ void						CLevel::Demo_Load_toFrame	(LPCSTR FileName, DWORD toFrame, long &ofs)
 	/*if (ofs == 1) g_dwDemoDeltaFrame = 1;
 
 	m_sDemoFileName = FileName;
-	BearCore::BearStringPath			DemoFileName;
+	BearStringPath			DemoFileName;
 	FS.UpdatePath("%logs%", 0, DemoFileName);
-	BearCore::BearString::Contact(DemoFileName, BEAR_PATH);
-	BearCore::BearString::Contact(DemoFileName, FileName);
+	BearString::Contact(DemoFileName, BEAR_PATH);
+	BearString::Contact(DemoFileName, FileName);
 	
 	//-----------------------------------------------------
 	FILE* fTDemo = fopen(DemoFileName, "rb");

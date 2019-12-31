@@ -28,7 +28,7 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 	} else {
 		string1024	ret="";
 		LPCSTR		begin	= NameStart + xr_strlen("/name="); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 		if (!xr_strlen(ret))
 		{
 			string1024 tmpstr;
@@ -55,14 +55,14 @@ bool CLevel::net_Start	( LPCSTR op_server, LPCSTR op_client )
 		string1024				f_name;
 		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
+			BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
+			BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;
@@ -105,7 +105,7 @@ bool CLevel::net_start1				()
 		{
 			string64			l_name = "";
 			const char* SOpts = *m_caServerOptions;
-			BearCore::BearString::CopyWithSizeLimit(l_name, *m_caServerOptions, strchr(SOpts, '/') - SOpts);
+			BearString::CopyWithSizeLimit(l_name, *m_caServerOptions, strchr(SOpts, '/') - SOpts);
 			// Activate level
 			if (strchr(l_name,'/'))
 				*strchr(l_name,'/')	= 0;
@@ -165,7 +165,7 @@ bool CLevel::net_start3				()
 			string64	PasswordStr = "";
 			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
 			if (strchr(PSW, '/')) 
-				BearCore::BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
+				BearString::CopyWithSizeLimit(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
 				strcpy_s(PasswordStr, PSW);
 
@@ -216,7 +216,7 @@ xrServer::EConnect	g_connect_server_err	= xrServer::ErrConnect;
 
 struct LevelLoadFinalizer
 {
-bool xr_stdcall net_start_finalizer()
+bool  net_start_finalizer()
 {
 	if(g_pGameLevel && !g_start_total_res)
 	{
@@ -266,7 +266,7 @@ bool CLevel::net_start6()
 		if (strstr(GetCommandLine(),"-$")) 
 		{
 			string256				buf,cmd,param;
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
+			BearString::Scanf					(strstr(GetCommandLine(),"-$")+2,"%[^ ] %[^ ] ",cmd,param);
 			strconcat				(sizeof(buf),buf,cmd," ",param);
 			Console->Execute		(buf);
 		}

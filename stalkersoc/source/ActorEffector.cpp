@@ -214,7 +214,7 @@ BOOL CAnimatorCamLerpEffector::Process(Fvector &p, Fvector &d, Fvector &n, float
 	q_src.set					(Mdef);
 	q_dst.set					(mr);
 
-	float	t					= m_func();
+	float	t					= m_func.call();
 	XrMath::clamp						(t,0.0f,1.0f);
 
 	VERIFY						(t>=0.f && t<=1.f);

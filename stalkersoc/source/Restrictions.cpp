@@ -149,7 +149,7 @@ RESTR CRestrictions::GetRestr(const shared_str& item)
 	{
 		strncpy			(_name, item.c_str(), n );
 		_name[n]		= 0;
-		_cnt			= BearCore::BearString::Scanf(item.c_str()+n+1,"%d", &ret.n);
+		_cnt			= BearString::Scanf(item.c_str()+n+1,"%d", &ret.n);
 	}
 	R_ASSERT3			(n>0 && _cnt==1, "invalid record format <name_sect:rank>", item.c_str());
 	ret.name			= _name;

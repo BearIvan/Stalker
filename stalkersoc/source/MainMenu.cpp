@@ -122,7 +122,7 @@ void CMainMenu::ReadTextureInfo()
 		for (int i = 0; i < itemsCount; i++)
 		{
 			XrTrims::GetItem(itemsList.c_str(), i, single_item);
-			BearCore::BearString::Contact(single_item,".xml");
+			BearString::Contact(single_item,".xml");
 			CUITextureMaster::ParseShTexInfo(single_item);
 		}		
 	}
@@ -439,7 +439,7 @@ void CMainMenu::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 		::Render->Screenshot		(mode,name);
 	}else{
 		m_Flags.set					(flGameSaveScreenshot, TRUE);
-		BearCore::BearString::Copy(m_screenshot_name,name);
+		BearString::Copy(m_screenshot_name,name);
 		if(g_pGameLevel && m_Flags.test(flActive)){
 			Device.seqFrame.Add		(g_pGameLevel);
 			Device.seqRender.Add	(g_pGameLevel);
@@ -606,8 +606,8 @@ extern ENGINE_API string512  g_sLaunchOnExit_app;
 extern ENGINE_API string512  g_sLaunchOnExit_params;
 void	CMainMenu::OnRunDownloadedPatch			(CUIWindow*, void*)
 {
-	BearCore::BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
-	BearCore::BearString::Copy					(g_sLaunchOnExit_params,"");
+	BearString::Copy					(g_sLaunchOnExit_app,*m_sPatchFileName);
+	BearString::Copy					(g_sLaunchOnExit_params,"");
 	Console->Execute		("quit");
 }
 
@@ -655,18 +655,18 @@ LPCSTR CMainMenu::GetGSVer()
 {
 	static string256	buff;
 	static string256	buff2;
-	BearCore::BearString::Copy(buff2, ENGINE_VERSION);
+	BearString::Copy(buff2, ENGINE_VERSION);
 
 	if (gameVersionController->getPath() == GameVersionController::SOC_1004)
 	{
-		BearCore::BearString::Contact(buff2, "(1.0.04)");
+		BearString::Contact(buff2, "(1.0.04)");
 	}
 	else
 	{
-		BearCore::BearString::Contact(buff2, "(1.0.06)");
+		BearString::Contact(buff2, "(1.0.06)");
 	}
 #ifdef X64
-	BearCore::BearString::Contact(buff2, "-X64");
+	BearString::Contact(buff2, "-X64");
 #endif
 	return buff2;
 }

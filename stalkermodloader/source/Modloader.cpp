@@ -13,6 +13,15 @@ bool Modloader::Run()
 		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1004);
 		return true;
 	}
+	else if (strstr(GetCommandLine(), "-game soc_coop"))
+	{
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc16"), TEXT("%main%"), -499);
+		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("SOCCoop"), TEXT("%main%"), -498);
+		FS.AppendPath(TEXT("%user%"), TEXT("original" BEAR_PATH "soc_coop"), TEXT("%guser%"), 0);
+		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1007);
+		return true;
+	}
 	else if (strstr(GetCommandLine(), "-game soc"))
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("soc"), TEXT("%main%"), -500);
@@ -21,6 +30,7 @@ bool Modloader::Run()
 		gameVersionController = bear_new<GameVersionController>(GameVersionController::SOC_1007);
 		return true;
 	}
+	
 	else if (strstr(GetCommandLine(), "-game cs"))
 	{
 		FS.AppendPath(TEXT("%content%"), TEXT("content") TEXT(BEAR_PATH) TEXT("cs"), TEXT("%main%"), -500);

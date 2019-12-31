@@ -171,7 +171,7 @@ bool CUIBagWnd::IsBlueTeamItem(CUICellItem* itm)
 			continue;
 
 		
-		BearCore::BearString::Copy			(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
+		BearString::Copy			(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
 		u32 count		= XrTrims::GetItemCount(wpnNames);
 		
 		for (u32 j = 0; j < count; ++j)
@@ -255,7 +255,7 @@ void CUIBagWnd::InitWpnSectStorage()
 			continue;
 		}
 
-		BearCore::BearString::Copy		(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
+		BearString::Copy		(wpnNames, pSettings->r_string(m_sectionName, wpnSection));
 		u32 count	= XrTrims::GetItemCount(wpnNames);
 
 		for (u32 j = 0; j < count; ++j)
@@ -312,7 +312,7 @@ void CUIBagWnd::FillUpGroup(const u32 group)
 			CUICellItem* itm			= CreateItem(sect);			
 
             // Set custom draw
-			BearCore::BearString::Printf(tmp_str, TEXT("%d"), j+1);
+			BearString::Printf(tmp_str, TEXT("%d"), j+1);
 			CBuyItemCustomDrawCell* p	= xr_new<CBuyItemCustomDrawCell>(tmp_str,UI()->Font()->pFontLetterica16Russian);
 			itm->SetCustomDraw			(p);
             

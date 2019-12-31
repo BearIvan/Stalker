@@ -130,7 +130,7 @@ void CTorch::SwitchNightVision(bool vision_on)
 	string512				tmp;
 	for(u32 i=0; i<cnt;++i){
 		XrTrims::GetItem(disabled_names, i, tmp);
-		if(0==BearCore::BearString::CompareWithoutCase(tmp, curr_map)){
+		if(0==BearString::CompareWithoutCase(tmp, curr_map)){
 			b_allow = false;
 			break;
 		}

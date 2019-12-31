@@ -132,7 +132,7 @@ void CPhantom::SwitchToState_internal(EState new_state)
 	if (new_state!=m_CurState){
 		IKinematicsAnimated *K	= smart_cast<IKinematicsAnimated*>(Visual());
 		Fmatrix	xform			= XFORM_center	();
-		UpdateEvent				= 0;
+		UpdateEvent				= nullptr;
 		// after event
 		switch (m_CurState){
 		case stBirth:		break;
@@ -247,7 +247,7 @@ void CPhantom::UpdateCL()
 {
 	inherited::UpdateCL();
 
-	if (!UpdateEvent.empty())	UpdateEvent();
+	if (!UpdateEvent.empty())	UpdateEvent.call();
 	if (m_TgtState!=m_CurState)	SwitchToState_internal(m_TgtState);
 }
 //---------------------------------------------------------------------

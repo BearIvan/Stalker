@@ -22,12 +22,12 @@ class CGamePersistent:
 	CUISequencer*		m_intro;
 	EVENT				eQuickLoad;
 
-	fastdelegate::FastDelegate0<> m_intro_event;
+	XrFastDelegate<void> m_intro_event;
 
-	void xr_stdcall		start_logo_intro		();
-	void xr_stdcall		update_logo_intro		();
-	void xr_stdcall		start_game_intro		();
-	void xr_stdcall		update_game_intro		();
+	void 		start_logo_intro		();
+	void 		update_logo_intro		();
+	void 		start_game_intro		();
+	void 		update_game_intro		();
 
 #ifdef DEBUG
 	u32					m_frame_counter;

@@ -4,7 +4,7 @@
 #include "ai/monsters/control_animation_base.h"
 #include "ai/monsters/control_direction_base.h"
 #include "ai/monsters/control_movement_base.h"
-
+ 
 void CControlCriticalWound::activate()
 {
 	m_man->capture_pure	(this);

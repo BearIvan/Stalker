@@ -27,7 +27,7 @@ void CUIVideoPlayerWnd::Init			(CUIXml* doc, LPCSTR start_from)
 	m_flags.zero					();
 	CUIXmlInit						xml_init;
 	string512						str;
-	BearCore::BearString::Copy							(str,start_from);
+	BearString::Copy							(str,start_from);
 	xml_init.InitWindow				(*doc, str, 0, this);
 	
 

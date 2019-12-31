@@ -77,7 +77,7 @@ void CUITextBanner::Out(float x, float y, const char *fmt, ...)
 	xr_string buf;
 
 	va_start(Print, fmt);
-		BearCore::BearString::Printf(msg, fmt, Print);                   
+		BearString::Printf(msg, fmt, Print);                   
 		buf += msg;
 	va_end(Print);
 

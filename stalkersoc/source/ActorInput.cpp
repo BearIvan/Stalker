@@ -252,7 +252,7 @@ void CActor::IR_OnMouseMove(int dx, int dy)
 		m_holder->OnMouseMove(dx,dy);
 		return;
 	}
-	Device.GetWindow().SetMousePosition(BearCore::BearFVector2( Device.GetWindow().GetSizeFloat().x / 2.f, Device.GetWindow().GetSizeFloat().y / 2.f));
+	Device.GetWindow().SetMousePosition(BearFVector2( Device.GetWindow().GetSizeFloat().x / 2.f, Device.GetWindow().GetSizeFloat().y / 2.f));
 	float LookFactor = GetLookFactor();
 
 	CCameraBase* C	= cameras	[cam_active];

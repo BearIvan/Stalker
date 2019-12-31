@@ -161,7 +161,7 @@ void CParticlesObject::shedule_Update	(u32 _dt)
 	if (dt)							{
 		if (0){//.psDeviceFlags.test(mtParticles))	{    //. AlexMX comment this line// NO UNCOMMENT - DON'T WORK PROPERLY
 			mt_dt					= dt;
-			fastdelegate::FastDelegate0<>		delegate	(this,&CParticlesObject::PerformAllTheWork_mt);
+			XrFastDelegate<void>		delegate	(this,&CParticlesObject::PerformAllTheWork_mt);
 			Device.seqParallel.push_back		(delegate);
 		} else {
 			mt_dt					= 0;
@@ -256,8 +256,8 @@ void CParticlesObject::SetAutoRemove		(bool auto_remove)
 	m_bAutoRemove = auto_remove;
 }
 
-//играются ли партиклы, отличается от PSI_Alive, тем что после
-//остановки Stop партиклы могут еще доигрывать анимацию IsPlaying = true
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ PSI_Alive, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Stop пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ IsPlaying = true
 bool CParticlesObject::IsPlaying()
 {
 	if(g_dedicated_server)		return false;

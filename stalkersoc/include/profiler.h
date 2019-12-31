@@ -23,7 +23,7 @@
 
 #pragma pack(push,4)
 struct CProfileResultPortion {
-	BearCore::BearTimer			m_timer;
+	BearTimer			m_timer;
 	LPCSTR			m_timer_id;
 };
 #pragma pack(pop)
@@ -36,7 +36,7 @@ struct CProfilePortion : public CProfileResultPortion {
 struct CProfileStats {
 	u32				m_update_time;
 	shared_str		m_name;
-	BearCore::BearTimer			m_timer;
+	BearTimer			m_timer;
 	float			m_min_time;
 	float			m_max_time;
 	float			m_total_time;

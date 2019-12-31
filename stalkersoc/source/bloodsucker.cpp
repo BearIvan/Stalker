@@ -204,9 +204,9 @@ void CAI_Bloodsucker::LoadVampirePPEffector(LPCSTR section)
 	pp_vampire_effector.noise.fps			= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(pp_vampire_effector.noise.fps));
 
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &pp_vampire_effector.color_base.r, &pp_vampire_effector.color_base.g, &pp_vampire_effector.color_base.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &pp_vampire_effector.color_gray.r, &pp_vampire_effector.color_gray.g, &pp_vampire_effector.color_gray.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &pp_vampire_effector.color_add.r,  &pp_vampire_effector.color_add.g,  &pp_vampire_effector.color_add.b);
+	BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &pp_vampire_effector.color_base.r, &pp_vampire_effector.color_base.g, &pp_vampire_effector.color_base.b);
+	BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &pp_vampire_effector.color_gray.r, &pp_vampire_effector.color_gray.g, &pp_vampire_effector.color_gray.b);
+	BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &pp_vampire_effector.color_add.r,  &pp_vampire_effector.color_add.g,  &pp_vampire_effector.color_add.b);
 }
 
 

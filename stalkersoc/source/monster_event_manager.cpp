@@ -39,7 +39,7 @@ void CMonsterEventManager::raise(EEventType event, IEventData *data)
 	if (it == m_event_storage.end()) return;
 
 	for (EVENT_VECTOR_IT I=it->second.begin(); I != it->second.end(); I++) {
-		if (!I->need_remove) (I->delegate)(data);
+		if (!I->need_remove) (I->delegate).call(data);
 	}
 
 	EVENT_VECTOR_IT it_del = std::remove_if(it->second.begin(),it->second.end(), pred_remove());

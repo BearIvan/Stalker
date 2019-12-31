@@ -32,10 +32,10 @@ void CWalmarkManager::AddWallmark(const Fvector& dir, const Fvector& start_pos,
 
 	if(pMaterial->Flags.is(SGameMtl::flBloodmark))
 	{
-		//вычислить нормаль к пораженной поверхности
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		Fvector*	pVerts	= Level().ObjectSpace.GetStaticVerts();
 
-		//вычислить точку попадания
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		Fvector end_point;
 		end_point.set(0,0,0);
 		end_point.mad(start_pos, dir, range);
@@ -48,7 +48,7 @@ void CWalmarkManager::AddWallmark(const Fvector& dir, const Fvector& start_pos,
 
 		if (pWallmarkShader)
 		{
-			//добавить отметку на материале
+			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			::Render->add_StaticWallmark(*pWallmarkShader, end_point, wallmark_size, pTri, pVerts);
 		}*/
 	}
@@ -72,7 +72,7 @@ void CWalmarkManager::PlaceWallmark(const Fvector& dir, const Fvector& start_pos
 		&&
 		!result.O;
 
-	//если кровь долетела до статического объекта
+	//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if(reach_wall)
 	{
 		AddWallmark(dir,start_pos,result.range,wallmark_size,wallmarks_vector,result.element);
@@ -86,7 +86,7 @@ void CWalmarkManager::PlaceWallmarks( const Fvector& start_pos)
 //.	LPCSTR				sect				= pSettings->r_string(m_owner->cNameSect(), "wallmark_section");
 	Load				("explosion_marks");
 
-//.	Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CWalmarkManager::StartWorkflow));
+//.	Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CWalmarkManager::StartWorkflow));
 
 	StartWorkflow		();
 }
@@ -123,7 +123,7 @@ void CWalmarkManager::StartWorkflow()
 	DBG_DrawAABB			(m_pos,Fvector().set(m_trace_dist,m_trace_dist,m_trace_dist),D3DCOLOR_XRGB(255,0,0));
 	DBG_DrawAABB			(m_pos,Fvector().set(0.05f,0.05f,0.05f),D3DCOLOR_XRGB(0,255,0));
 	
-	BearCore::BearTimer T; T.Start();
+	BearTimer T; T.Start();
 */
 	for (CDB::RESULT* Res=R_begin; Res!=R_end; ++Res)
 	{
@@ -210,7 +210,7 @@ void CWalmarkManager::Load (LPCSTR section)
 //.	m_trace_dist	= pSettings->r_float(section,"dist");
 //.	m_wallmark_size	= pSettings->r_float(section,"size");
 	
-	//кровавые отметки на стенах
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	LPCSTR wallmarks_name = pSettings->r_string(section, "wallmarks"); 
 	m_wallmarks->AppendMark(wallmarks_name);
 /*	int cnt		=XrTrims::GetItemCount(wallmarks_name);

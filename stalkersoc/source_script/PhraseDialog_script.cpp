@@ -32,16 +32,16 @@ void CPhraseScript::AddDisableInfo	(LPCSTR str)
 CPhrase * AddPhrase_script2(CPhraseDialog*pd,LPCSTR text, int phrase_id, int prev_phrase_id, int goodwil_level)
 {
 
-	BearCore::BearString1024  phrase;
-	BearCore::BearString1024  prev_phrase;
+	BearString1024  phrase;
+	BearString1024  prev_phrase;
 	if (phrase_id == -1)
 		phrase[0] = 0;
 	else
-		BearCore::BearString::Printf(phrase, TEXT("%d"), phrase_id);
+		BearString::Printf(phrase, TEXT("%d"), phrase_id);
 	if (prev_phrase_id == -1)
 		prev_phrase[0] = 0;
 	else
-		BearCore::BearString::Printf(prev_phrase, TEXT("%d"), prev_phrase_id);
+		BearString::Printf(prev_phrase, TEXT("%d"), prev_phrase_id);
 	return pd->AddPhrase(text, phrase, prev_phrase, goodwil_level);
 }
 

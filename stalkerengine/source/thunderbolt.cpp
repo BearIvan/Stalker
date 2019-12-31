@@ -201,7 +201,7 @@ CEffect_Thunderbolt::~CEffect_Thunderbolt()
 void CEffect_Thunderbolt::OnFrame(bsize id, float period, float duration)
 {
 	VERIFY(gameVersionController->getGame() == gameVersionController->SOC);
-	BOOL enabled = (id >= 0);
+	BOOL enabled = (id !=bsize(-1));
 	if (bEnabled != enabled) {
 		bEnabled = enabled;
 		next_lightning_time = Device.fTimeGlobal + period + Random.randF(-period*0.5f, period*0.5f);

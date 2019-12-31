@@ -389,11 +389,19 @@ void CRenderDevice::message_loop()
 	while (GetWindow().Update())
 	{
 		BearEventWindows e;
-		while (GetWindow().GetEvent(e))
+		
+        static int OnActive = -1;
+        if (OnActive == -1)
+        {
+            OnActive = BearString::Find(GetCommandLine(), TEXT("-without_deactive"))!=0?0:1;
+        }
+        if (OnActive)
+        while (GetWindow().GetEvent(e))
 		{
 			switch (e.Type)
 			{
 			case BearWindowEventType::WET_Deactive:
+                
 				if (Device.b_is_Active == TRUE)
 				{
 					Device.b_is_Active = FALSE;

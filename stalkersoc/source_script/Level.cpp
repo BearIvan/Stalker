@@ -173,14 +173,14 @@ CLevel::CLevel():IPureClient	(Device.GetTimerGlobal())
 		string1024				f_name;
 		if (strstr(GetCommandLine(),"-tdemo "))
 		{
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
+			BearString::Scanf					(strstr(GetCommandLine(),"-tdemo ")+7,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = FALSE;
 
 			Demo_Load	(f_name);	
 		}
 		else
 		{
-			BearCore::BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
+			BearString::Scanf					(strstr(GetCommandLine(),"-tdemof ")+8,"%[^ ] ",f_name);
 			m_bDemoPlayByFrame = TRUE;
 
 			m_lDemoOfs = 0;
@@ -323,7 +323,7 @@ int	CLevel::get_RPID(LPCSTR /**name/**/)
 	// Read data
 	Fvector4	pos;
 	int			team;
-	BearCore::BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
+	BearString::Scanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
 
 	// Search respawn point
 	svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
@@ -568,7 +568,7 @@ void CLevel::OnFrame	()
 	m_ph_commander_scripts->update		();
 //	autosave_manager().update			();
 
-	//просчитать полет пуль
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	Device.Statistic->TEST0.Begin		();
 	BulletManager().CommitRenderSet		();
 	Device.Statistic->TEST0.End			();
@@ -577,14 +577,14 @@ void CLevel::OnFrame	()
 	if(!g_dedicated_server)
 	{
 		if (g_mt_config.test(mtLevelSounds)) 
-			Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(m_level_sound_manager,&CLevelSoundManager::Update));
+			Device.seqParallel.push_back	(XrFastDelegate<void>(m_level_sound_manager,&CLevelSoundManager::Update));
 		else								
 			m_level_sound_manager->Update	();
 	}
 	// deffer LUA-GC-STEP
 	if (!g_dedicated_server)
 	{
-		if (g_mt_config.test(mtLUA_GC))	Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(this,&CLevel::script_gc));
+		if (g_mt_config.test(mtLUA_GC))	Device.seqParallel.push_back	(XrFastDelegate<void>(this,&CLevel::script_gc));
 		else							script_gc	()	;
 	}
 	//-----------------------------------------------------
@@ -619,11 +619,11 @@ void CLevel::OnRender()
 	inherited::OnRender	();
 	
 	Game().OnRender();
-	//отрисовать трассы пуль
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	//Device.Statistic->TEST1.Begin();
 	BulletManager().Render();
 	//Device.Statistic->TEST1.End();
-	//отрисовать интерфейc пользователя
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅc пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	HUD().RenderUI();
 
 	draw_wnds_rects();
@@ -737,21 +737,21 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
 {
 	if (E==eEntitySpawn)	{
 		char	Name[128];	Name[0]=0;
-		BearCore::BearString::Scanf	(LPCSTR(P1),"%s", Name);
+		BearString::Scanf	(LPCSTR(P1),"%s", Name);
 		Level().g_cl_Spawn	(Name,0xff, M_SPAWN_OBJECT_LOCAL, Fvector().set(0,0,0));
 	} else if (E==eChangeRP && P1) {
 	} else if (E==eDemoPlay && P1) {
 		char* name = (char*)P1;
 		string_path RealName;
 		strcpy_s		(RealName,name);
-		BearCore::BearString::Contact			(RealName,".xrdemo");
+		BearString::Contact			(RealName,".xrdemo");
 		Cameras().AddCamEffector(xr_new<CDemoPlay> (RealName,1.3f,0));
 	} else if (E==eChangeTrack && P1) {
 		// int id = atoi((char*)P1);
 		// Environment->Music_Play(id);
 	} else if (E==eEnvironment) {
 		// int id=0; float s=1;
-		// BearCore::BearString::Scanf((char*)P1,"%d,%f",&id,&s);
+		// BearString::Scanf((char*)P1,"%d,%f",&id,&s);
 		// Environment->set_EnvMode(id,s);
 	} else return;
 }

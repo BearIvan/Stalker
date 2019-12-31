@@ -9,7 +9,7 @@
 
 CUIOutfitInfo::CUIOutfitInfo()
 {
-	BearCore::bear_fill(m_items);
+	bear_fill(m_items);
 }
 
 CUIOutfitInfo::~CUIOutfitInfo()

@@ -56,11 +56,11 @@ void CALifeSwitchManager::add_online(CSE_ALifeDynamicObject *object, bool update
 	NET_Packet						tNetPacket;
 	CSE_Abstract					*l_tpAbstract = smart_cast<CSE_Abstract*>(object);
 	server().entity_Destroy			(l_tpAbstract);
-	object->s_flags.or				(M_SPAWN_UPDATE);
+	object->s_flags.OR				(M_SPAWN_UPDATE);
 	ClientID						clientID;
 	clientID.set					(server().GetServerClient() ? server().GetServerClient()->ID.value() : 0);
 	server().Process_spawn			(tNetPacket,clientID,FALSE,l_tpAbstract);
-	object->s_flags.and				(u16(-1) ^ M_SPAWN_UPDATE);
+	object->s_flags.AND				(u16(-1) ^ M_SPAWN_UPDATE);
 	R_ASSERT3						(!object->used_ai_locations() || ai().level_graph().valid_vertex_id(object->m_tNodeID),"Invalid vertex for object ",object->name_replace());
 
 #ifdef DEBUG
@@ -135,7 +135,7 @@ bool CALifeSwitchManager::synchronize_location(CSE_ALifeDynamicObject *I)
 	if (!I->children.empty()) {
 		u32					size = I->children.size();
 		ALife::_OBJECT_ID	*test = (ALife::_OBJECT_ID*)_alloca(size*sizeof(ALife::_OBJECT_ID));
-		BearCore::bear_copy(test,&*I->children.begin(),size);
+		bear_copy(test,&*I->children.begin(),size);
 		std::sort			(test,test + size);
 		for (u32 i=1; i<size; ++i) {
 			VERIFY3			(test[i - 1] != test[i],"Child is registered twice in the child list",(*I).name_replace());

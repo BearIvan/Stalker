@@ -59,7 +59,7 @@ bool CUITextureMaster::IsSh(const char* texture_name){
 
 void CUITextureMaster::InitTexture(const char* texture_name, IUISimpleTextureControl* tc){
 #ifdef DEBUG
-	BearCore::BearTimer T;
+	BearTimer T;
 	T.restart();
 #endif
 
@@ -84,7 +84,7 @@ void CUITextureMaster::InitTexture(const char* texture_name, IUISimpleTextureCon
 
 void CUITextureMaster::InitTexture(const char* texture_name, const char* shader_name, IUISimpleTextureControl* tc){
 #ifdef DEBUG
-	BearCore::BearTimer T;
+	BearTimer T;
 	T.restart();
 #endif
 

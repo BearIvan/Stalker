@@ -41,7 +41,7 @@ void CAI_Stalker::on_best_cover_changed				(const CCoverPoint *new_cover, const 
 	cover_delegates::const_iterator		I = m_cover_delegates.begin();
 	cover_delegates::const_iterator		E = m_cover_delegates.end();
 	for ( ; I != E; ++I)
-		(*I)							(new_cover,old_cover);
+		(*I)	.call						(new_cover,old_cover);
 }
 
 const CCoverPoint *CAI_Stalker::find_best_cover		(const Fvector &position_to_cover_from)

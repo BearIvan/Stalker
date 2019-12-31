@@ -379,9 +379,9 @@ void CActor::LoadShootingEffector (LPCSTR section)
 	m_pShootingEffector->ppi.noise.fps		= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(m_pShootingEffector->ppi.noise.fps));
 
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_base.r, &m_pShootingEffector->ppi.color_base.g, &m_pShootingEffector->ppi.color_base.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_gray.r, &m_pShootingEffector->ppi.color_gray.g, &m_pShootingEffector->ppi.color_gray.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_add.r,  &m_pShootingEffector->ppi.color_add.g,	&m_pShootingEffector->ppi.color_add.b);
+	BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_base.r, &m_pShootingEffector->ppi.color_base.g, &m_pShootingEffector->ppi.color_base.b);
+	BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_gray.r, &m_pShootingEffector->ppi.color_gray.g, &m_pShootingEffector->ppi.color_gray.b);
+	BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pShootingEffector->ppi.color_add.r,  &m_pShootingEffector->ppi.color_add.g,	&m_pShootingEffector->ppi.color_add.b);
 
 	m_pShootingEffector->time				= pSettings->r_float(section,"time");
 	m_pShootingEffector->time_attack		= pSettings->r_float(section,"time_attack");
@@ -403,9 +403,9 @@ void CActor::LoadSleepEffector	(LPCSTR section)
 	m_pSleepEffector->ppi.noise.fps			= pSettings->r_float(section,"noise_fps");
 	VERIFY(!XrMath::fis_zero(m_pSleepEffector->ppi.noise.fps));
 
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_base.r, &m_pSleepEffector->ppi.color_base.g, &m_pSleepEffector->ppi.color_base.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_gray.r, &m_pSleepEffector->ppi.color_gray.g, &m_pSleepEffector->ppi.color_gray.b);
-	BearCore::BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_add.r,  &m_pSleepEffector->ppi.color_add.g,  &m_pSleepEffector->ppi.color_add.b);
+	BearString::Scanf(pSettings->r_string(section,"color_base"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_base.r, &m_pSleepEffector->ppi.color_base.g, &m_pSleepEffector->ppi.color_base.b);
+	BearString::Scanf(pSettings->r_string(section,"color_gray"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_gray.r, &m_pSleepEffector->ppi.color_gray.g, &m_pSleepEffector->ppi.color_gray.b);
+	BearString::Scanf(pSettings->r_string(section,"color_add"),	"%f,%f,%f", &m_pSleepEffector->ppi.color_add.r,  &m_pSleepEffector->ppi.color_add.g,  &m_pSleepEffector->ppi.color_add.b);
 
 	m_pSleepEffector->time				= pSettings->r_float(section,"time");
 	m_pSleepEffector->time_attack		= pSettings->r_float(section,"time_attack");

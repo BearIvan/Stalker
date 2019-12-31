@@ -471,10 +471,10 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 			{
 				string1024			buff;
 				P.r_stringZ			(buff);
-				BearCore::BearLog::SetCallBack(console_log_cb);
+				BearLog::SetCallBack(console_log_cb);
 				_tmp_log.clear		();
 				Console->Execute	(buff);
-				BearCore::BearLog::SetCallBack(_LogCallback3);
+				BearLog::SetCallBack(_LogCallback3);
 
 				NET_Packet			P_answ;			
 				for(u32 i=0; i<_tmp_log.size(); ++i)
@@ -670,10 +670,10 @@ u32 xrServer::OnMessage	(NET_Packet& P, ClientID sender)			// Non-Zero means bro
 			shared_str				user;
 			shared_str				pass;
 			P.r_stringZ				(user);
-			if(0==BearCore::BearString::CompareWithoutCase(user.c_str(),"logoff"))
+			if(0==BearString::CompareWithoutCase(user.c_str(),"logoff"))
 			{
 				CL->m_admin_rights.m_has_admin_rights	= FALSE;
-				BearCore::BearString::Copy				(reason,"logged off");
+				BearString::Copy				(reason,"logged off");
 				Msg("# Remote administrator logged off.");
 			}else
 			{
@@ -725,21 +725,21 @@ bool xrServer::CheckAdminRights(const shared_str& user, const shared_str& pass, 
 		{
 			if (ini.r_string ("radmins",user.c_str()) == pass)
 			{
-				BearCore::BearString::Copy			(reason,512,"Access permitted.");
+				BearString::Copy			(reason,512,"Access permitted.");
 				res				= true;
 			}else
 			{
-				BearCore::BearString::Copy			(reason, 512, "Access denied. Wrong password.");
+				BearString::Copy			(reason, 512, "Access denied. Wrong password.");
 			}
 		}else
-			BearCore::BearString::Copy			(reason, 512, "Access denied. No such user.");
+			BearString::Copy			(reason, 512, "Access denied. No such user.");
 	}else
-		BearCore::BearString::Copy				(reason, 512, "Access denied.");
+		BearString::Copy				(reason, 512, "Access denied.");
 
 	return				res;
 }
 
-void xrServer::SendTo_LL			(ClientID ID, void* data, u32 size, u32 dwFlags, u32 dwTimeout)
+void xrServer::SendTo_LL			(ClientID ID, void* data, bsize size, u32 dwFlags, u32 dwTimeout)
 {
 	if (SV_Client && SV_Client->ID==ID)
 	{
@@ -1001,7 +1001,7 @@ void xrServer::GetServerInfo( CServerInfo* si )
 {
 	string32  tmp;
 	string256 tmp256;
-	BearCore::BearString::Printf(tmp, TEXT("%d"), GetPort());
+	BearString::Printf(tmp, TEXT("%d"), GetPort());
 	si->AddItem( "Server port", tmp, RGB(128,128,255) );
 	LPCSTR time = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
 	si->AddItem( "Uptime", time, RGB(255,228,0) );
@@ -1010,14 +1010,14 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	if ( game->Type() == GAME_DEATHMATCH || game->Type() == GAME_TEAMDEATHMATCH )
 	{
 		strcat_s( tmp256, " [" );
-		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwFragLimit);
+		BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwFragLimit);
 		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 	}
 	else if ( game->Type() == GAME_ARTEFACTHUNT )
 	{
 		strcat_s( tmp256, " [" );
-		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_ah_dwArtefactsNum);
+		BearString::Printf(tmp, TEXT("%d"), g_sv_ah_dwArtefactsNum);
 		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 		g_sv_ah_iReinforcementTime;
@@ -1026,14 +1026,14 @@ void xrServer::GetServerInfo( CServerInfo* si )
 	//if ( g_sv_dm_dwTimeLimit > 0 )
 	{
 		strcat_s( tmp256, " time limit [" );
-		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwTimeLimit);
+		BearString::Printf(tmp, TEXT("%d"), g_sv_dm_dwTimeLimit);
 		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "] " );
 	}
 	if ( game->Type() == GAME_ARTEFACTHUNT )
 	{
 		strcat_s( tmp256, " RT [" );
-		BearCore::BearString::Printf(tmp, TEXT("%d"), g_sv_ah_iReinforcementTime);
+		BearString::Printf(tmp, TEXT("%d"), g_sv_ah_iReinforcementTime);
 		strcat_s( tmp256, tmp);
 		strcat_s( tmp256, "]" );
 	}

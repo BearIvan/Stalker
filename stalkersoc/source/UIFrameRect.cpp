@@ -24,12 +24,12 @@ void CUIFrameRect::Init(LPCSTR texture, float x, float y, float w, float h)//, D
 
 void CUIFrameRect::InitTexture(const char* texture){
 	string_path		buf,fn;
-	BearCore::BearString::Copy			(buf,texture); if (strext(buf)) *strext(buf)=0;
+	BearString::Copy			(buf,texture); if (strext(buf)) *strext(buf)=0;
 
 	if (FS.ExistFile("%textures%",buf,".ini")){
 		Fvector4	v;
-		BearCore::BearString::Copy(fn, buf);
-		BearCore::BearString::Contact(fn, ".ini");
+		BearString::Copy(fn, buf);
+		BearString::Contact(fn, ".ini");
 		//uFlags.set	(flSingleTex,TRUE);
 		CInifile* ini= CInifile::Create("%textures%", fn,TRUE);
 		LPCSTR sh	= ini->r_string("frame","shader");

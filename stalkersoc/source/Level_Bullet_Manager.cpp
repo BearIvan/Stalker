@@ -1,5 +1,5 @@
-// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
-//								все пули и осколки передаются сюда
+// Level_Bullet_Manager.cpp:	пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//								пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -195,11 +195,11 @@ void CBulletManager::UpdateWorkload()
 
 	for(int k=m_Bullets.size()-1; k>=0; k--){
 		SBullet& bullet = m_Bullets[k];
-		//для пули пущенной на этом же кадре считаем только 1 шаг
-		//(хотя по теории вообще ничего считать на надо)
-		//который пропустим на следующем кадре, 
-		//это делается для того чтоб при скачках FPS не промазать
-		//с 2х метров
+		//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅ
+		//(пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ)
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, 
+		//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ FPS пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		//пїЅ 2пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		u32 cur_step_num = step_num;
 
 		u32 frames_pass = Device.dwFrame - bullet.frame_num;
@@ -233,9 +233,9 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage1, xr_vector<IS
 	if(range>max_range) 
 		range = max_range;
 
-	//запомнить текущую скорость пули, т.к. в
-	//RayQuery() она может поменяться из-за рикошетов
-	//и столкновений с объектами
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ.пїЅ. пїЅ
+	//RayQuery() пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	Fvector cur_dir					= bullet->dir;
 	bullet_test_callback_data		bullet_data;
 	bullet_data.pBullet				= bullet;
@@ -257,7 +257,7 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage1, xr_vector<IS
 	bullet->flags.skipped_frame = (Device.dwFrame >= bullet->frame_num);
 
 	if(!bullet->flags.ricochet_was)	{
-		//изменить положение пули
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		bullet->pos.mad(bullet->pos, cur_dir, range);
 		bullet->fly_dist += range;
 
@@ -277,8 +277,8 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage1, xr_vector<IS
 			 (bullet->pos.z<=level_box.z2))	)
 			 return false;
 
-		//изменить скорость и направление ее полета
-		//с учетом гравитации
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		//пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		bullet->dir.mul(bullet->speed);
 
 		Fvector air_resistance = bullet->dir;
@@ -294,8 +294,8 @@ bool CBulletManager::CalcBullet (collide::rq_results & rq_storage1, xr_vector<IS
 		bullet->speed = bullet->dir.magnitude();
 		VERIFY(_valid(bullet->speed));
 		VERIFY(!XrMath::fis_zero(bullet->speed));
-		//вместо normalize(),	 чтоб не считать 2 раза magnitude()
-#pragma todo("а как насчет bullet->speed==0")
+		//пїЅпїЅпїЅпїЅпїЅпїЅ normalize(),	 пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅ magnitude()
+#pragma todo("пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ bullet->speed==0")
 		bullet->dir.x /= bullet->speed;
 		bullet->dir.y /= bullet->speed;
 		bullet->dir.z /= bullet->speed;
@@ -335,9 +335,9 @@ float SqrDistancePointToSegment(const Fvector& pt, const Fvector& orig, const Fv
 void CBulletManager::Render	()
 {
 #ifdef DEBUG
-	//0-рикошет
-	//1-застрявание пули в материале
-	//2-пробивание материала
+	//0-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//1-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//2-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (g_bDrawBulletHit) {
 		extern FvectorVec g_hit[];
 		FvectorIt it;
@@ -423,7 +423,7 @@ void CBulletManager::CommitRenderSet		()	// @ the end of frame
 {
 	m_BulletsRendered	= m_Bullets			;
 	if (g_mt_config.test(mtBullets))		{
-		Device.seqParallel.push_back		(fastdelegate::FastDelegate0<>(this,&CBulletManager::UpdateWorkload));
+		Device.seqParallel.push_back		(XrFastDelegate<void>(this,&CBulletManager::UpdateWorkload));
 	} else {
 		UpdateWorkload						();
 	}

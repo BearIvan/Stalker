@@ -230,7 +230,7 @@ void CUIMainIngameWnd::Init()
 		for (u32 k = 0; k < count; ++k)
 		{
 			XrTrims::GetItem(*cfgRecord, k, singleThreshold);
-			BearCore::BearString::Scanf(singleThreshold, "%f", &f);
+			BearString::Scanf(singleThreshold, "%f", &f);
 
 			m_Thresholds[j].push_back(f);
 		}
@@ -912,7 +912,7 @@ void CUIMainIngameWnd::RenderQuickInfos()
 	UIStaticQuickHelp.Show				(NULL!=actor_action);
 
 	if(NULL!=actor_action){
-		if(BearCore::BearString::CompareWithoutCase(actor_action,UIStaticQuickHelp.GetText()))
+		if(BearString::CompareWithoutCase(actor_action,UIStaticQuickHelp.GetText()))
 			UIStaticQuickHelp.SetTextST				(actor_action);
 	}
 

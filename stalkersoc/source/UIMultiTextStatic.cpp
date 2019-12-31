@@ -97,7 +97,7 @@ void CUIMultiTextStatic::SPh::SetText(const char *fmt, ...)
 	xr_string	buf;
 
 	va_start(Print, fmt);
-	BearCore::BearString::PrintfVa(msg, fmt, Print);
+	BearString::PrintfVa(msg, fmt, Print);
 		buf += msg;
 		msg[0] = '\n';
 	va_end(Print);

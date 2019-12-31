@@ -418,7 +418,7 @@ void CSE_ALifeTraderAbstract::set_specific_character	(shared_str new_spec_char)
 		xr_string n			= "name_";
 		n					+= subset;
 		n					+= "_";
-		 BearCore::BearString::Printf(S, TEXT("%d"), ::Random.randI(name_cnt));  
+		 BearString::Printf(S, TEXT("%d"), ::Random.randI(name_cnt));  
 		 n += S;
 		m_character_name	= *(CStringTable().translate(n.c_str()));
 		m_character_name	+= " ";
@@ -426,7 +426,7 @@ void CSE_ALifeTraderAbstract::set_specific_character	(shared_str new_spec_char)
 		n					= "lname_";
 		n					+= subset;
 		n					+= "_";
-		BearCore::BearString::Printf(S, TEXT("%d"), ::Random.randI(last_name_cnt));
+		BearString::Printf(S, TEXT("%d"), ::Random.randI(last_name_cnt));
 		n += S;
 		m_character_name	+= *(CStringTable().translate(n.c_str()));
 
@@ -1125,8 +1125,8 @@ CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection)	: CSE_ALife
 			imm_section = pSettings->r_string(caSection, "immunities_sect");
 		for (; I != E; ++I)
 		{
-			BearCore::BearString::Copy(S, ALife::g_cafHitType2String(ALife::EHitType(I - B)));
-			BearCore::BearString::Contact(S, "_immunity");
+			BearString::Copy(S, ALife::g_cafHitType2String(ALife::EHitType(I - B)));
+			BearString::Contact(S, "_immunity");
 			*I = READ_IF_EXISTS(pSettings, r_float, imm_section, S , 1.f);
 		}
 	}

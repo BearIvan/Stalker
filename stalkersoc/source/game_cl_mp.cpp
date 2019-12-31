@@ -1038,7 +1038,7 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 		if(pUIDM)
 		{
 			string256					MoneyStr;
-			BearCore::BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
+			BearString::Printf(MoneyStr, TEXT("%d"), local_player->money_for_round);
 			pUIDM->ChangeTotalMoneyIndicator	(MoneyStr);
 		}
 	}

@@ -123,9 +123,9 @@ void SPrimitiveBuffer::CreateFromData(D3DPRIMITIVETYPE _pt, bsize _p_cnt, u32 FV
 		R_CHK			(pIB->Lock(0,0,(LPVOID*)&bytes,0));
 		bear_copy(bytes,indices,i_cnt*sizeof(u16));
 		R_CHK			(pIB->Unlock());
-        OnRender= OnRender.bind	(this,&SPrimitiveBuffer::RenderDIP);
+       OnRender.bind	(this,&SPrimitiveBuffer::RenderDIP);
 	}else{
-        OnRender = OnRender.bind	(this,&SPrimitiveBuffer::RenderDP);
+        OnRender.bind	(this,&SPrimitiveBuffer::RenderDP);
 	}
 	pGeom.create		(FVF,pVB,pIB);
 #endif	//	USE_DX10

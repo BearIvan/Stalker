@@ -213,7 +213,7 @@ CUIQuestionItem::CUIQuestionItem			(CUIXml* xml_doc, LPCSTR path)
 	string512						str;
 	CUIXmlInit						xml_init;
 
-	BearCore::BearString::Copy							(str,path);
+	BearString::Copy							(str,path);
 	xml_init.InitWindow				(*xml_doc, str, 0, this);
 
 	m_min_height					= xml_doc->ReadAttribFlt(path,0,"min_height",15.0f);
@@ -252,7 +252,7 @@ CUIAnswerItem::CUIAnswerItem			(CUIXml* xml_doc, LPCSTR path)
 	string512						str;
 	CUIXmlInit						xml_init;
 
-	BearCore::BearString::Copy							(str,path);
+	BearString::Copy							(str,path);
 	xml_init.InitWindow				(*xml_doc, str, 0, this);
 
 	m_min_height					= xml_doc->ReadAttribFlt(path,0,"min_height",15.0f);

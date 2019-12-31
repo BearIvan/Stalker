@@ -4,29 +4,29 @@
 template<bsize sizeBuffer>
 inline static void FSGetPath(bchar(&dst)[sizeBuffer], const  bchar *path)
 {
-	if (path[0] == TEXT('$') && BearCore::BearString::Find(path, TEXT("$game_")) != 0)
+	if (path[0] == TEXT('$') && BearString::Find(path, TEXT("$game_")) != 0)
 	{
 		dst[0] = 0;
-		BearCore::BearString::Contact(dst, TEXT("%"));
-		BearCore::BearString::Contact(dst, path + 6);
-		dst[BearCore::BearString::GetSize(dst) - 1] = TEXT('%');
+		BearString::Contact(dst, TEXT("%"));
+		BearString::Contact(dst, path + 6);
+		dst[BearString::GetSize(dst) - 1] = TEXT('%');
 	}
 	else
 	{
-		BearCore::BearString::Copy(dst, path);
+		BearString::Copy(dst, path);
 	}
 }
 
-LPCSTR get_file_age_str(BearCore::BearFileSystem* fs, LPCSTR nm);
-BearCore::BearFileSystem* getFS()
+LPCSTR get_file_age_str(BearFileSystem* fs, LPCSTR nm);
+BearFileSystem* getFS()
 {
 	return &FS;
 }
 
 
-LPCSTR update_path_script(BearCore::BearFileSystem* fs, LPCSTR initial, LPCSTR src)
+LPCSTR update_path_script(BearFileSystem* fs, LPCSTR initial, LPCSTR src)
 {
-	BearCore::BearStringPath			temp;
+	BearStringPath			temp;
 	shared_str			temp_2;
 	fs->Update(initial, src, temp);
 	temp_2 = temp;
@@ -34,19 +34,19 @@ LPCSTR update_path_script(BearCore::BearFileSystem* fs, LPCSTR initial, LPCSTR s
 }
 
 class FS_file_list {
-	BearCore::BearVector<BearCore::BearString>*	m_p;
+	BearVector<BearString>*	m_p;
 public:
-	FS_file_list(const BearCore::BearVector<BearCore::BearString>& p) :m_p(BearCore::bear_new<BearCore::BearVector<BearCore::BearString>>(p)) { }
+	FS_file_list(const BearVector<BearString>& p) :m_p(bear_new<BearVector<BearString>>(p)) { }
 	u32			Size() { return m_p->size(); }
 	LPCSTR		GetAt(u32 idx) { return *m_p->at(idx); }
-	void		Free() { BearCore::bear_delete(m_p); };
+	void		Free() { bear_delete(m_p); };
 };
 
 struct FS_item
 {
-	BearCore::BearStringPath name;
+	BearStringPath name;
 	u32			size;
-	BearCore::BearFileManager::FileTime			modif;
+	BearFileManager::FileTime			modif;
 	string256	buff;
 
 	LPCSTR		NameShort() { return name; }
@@ -54,14 +54,14 @@ struct FS_item
 	u32			Size() { return size; }
 	LPCSTR		Modif()
 	{
-		BearCore::BearString::Printf(buff, TEXT("%d %d %d %d %d:%d"), uint32(modif.Day), uint32(modif.Month), uint32(modif.Year), uint32(modif.Hour), uint32(modif.Minute), uint32(modif.Second));
+		BearString::Printf(buff, TEXT("%d %d %d %d %d:%d"), uint32(modif.Day), uint32(modif.Month), uint32(modif.Year), uint32(modif.Hour), uint32(modif.Minute), uint32(modif.Second));
 		return		buff;
 	}
 
 	LPCSTR		ModifDigitOnly()
 	{
 
-		BearCore::BearString::Printf(buff, TEXT("%02d:%02d:%4d %02d:%02d"), uint32(modif.Day), uint32(modif.Month), uint32(modif.Year), uint32(modif.Hour), uint32(modif.Minute));
+		BearString::Printf(buff, TEXT("%02d:%02d:%4d %02d:%02d"), uint32(modif.Day), uint32(modif.Month), uint32(modif.Year), uint32(modif.Hour), uint32(modif.Minute));
 		return		buff;
 	}
 };
@@ -109,9 +109,9 @@ enum FSFlags
 };
 FS_file_list_ex::FS_file_list_ex(LPCSTR path, u32 flags, LPCSTR mask)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	if (flags&FS_ListFiles)
 	{
 		FS.GetFiles(list, new_path, mask, !(flags&FS_RootOnly));
@@ -124,11 +124,11 @@ FS_file_list_ex::FS_file_list_ex(LPCSTR path, u32 flags, LPCSTR mask)
 		m_file_items.push_back(FS_item());
 		FS_item& itm = m_file_items.back();
 		ZeroMemory(itm.name, sizeof(itm.name));
-		BearCore::BearString::Contact(itm.name, **it);
-		BearCore::BearStringPath file_path;
+		BearString::Contact(itm.name, **it);
+		BearStringPath file_path;
 		FS.Update(new_path, **it, file_path);
 
-		itm.modif = BearCore::BearFileManager::GetFileLastWriteTime(file_path);
+		itm.modif = BearFileManager::GetFileLastWriteTime(file_path);
 		itm.size = FS.Read(new_path, **it)->Size();
 	}
 
@@ -144,18 +144,18 @@ void FS_file_list_ex::Sort(u32 flags)
 	else if (flags == eSortByModifDown)std::sort(m_file_items.begin(), m_file_items.end(), modifSorter<false>);
 }
 
-FS_file_list_ex file_list_open_ex(BearCore::BearFileSystem* fs, LPCSTR path, u32 flags, LPCSTR mask)
+FS_file_list_ex file_list_open_ex(BearFileSystem* fs, LPCSTR path, u32 flags, LPCSTR mask)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	return FS_file_list_ex(new_path, flags, mask);
 }
 
-FS_file_list file_list_open_script(BearCore::BearFileSystem* fs, LPCSTR initial, u32 flags)
+FS_file_list file_list_open_script(BearFileSystem* fs, LPCSTR initial, u32 flags)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(initial));
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	if (flags&FS_ListFiles)
 	{
 		FS.GetFiles(list, new_path, "*", !(flags&FS_RootOnly));
@@ -167,9 +167,9 @@ FS_file_list file_list_open_script(BearCore::BearFileSystem* fs, LPCSTR initial,
 	return FS_file_list(list);
 }
 
-FS_file_list file_list_open_script_2(BearCore::BearFileSystem* fs, LPCSTR initial, LPCSTR path, u32 flags)
+FS_file_list file_list_open_script_2(BearFileSystem* fs, LPCSTR initial, LPCSTR path, u32 flags)
 {
-	BearCore::BearVector<BearCore::BearString> list;
+	BearVector<BearString> list;
 	if (flags&FS_ListFiles)
 	{
 		FS.GetFiles(list, initial, "*", !(flags&FS_RootOnly));
@@ -181,68 +181,68 @@ FS_file_list file_list_open_script_2(BearCore::BearFileSystem* fs, LPCSTR initia
 	return FS_file_list(list);
 }
 
-void dir_delete_script_2(BearCore::BearFileSystem* fs, LPCSTR path, LPCSTR nm, int remove_files)
+void dir_delete_script_2(BearFileSystem* fs, LPCSTR path, LPCSTR nm, int remove_files)
 {
-	BearCore::BearStringPath path_;
-	BearCore::BearStringPath new_path;
+	BearStringPath path_;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	FS.UpdatePath(new_path, 0, path_);
-	BearCore::BearString::Contact(path_, BEAR_PATH);
-	BearCore::BearString::Contact(path_, nm);
-	BearCore::BearFileManager::DirectoryDelete(path_, remove_files);
+	BearString::Contact(path_, BEAR_PATH);
+	BearString::Contact(path_, nm);
+	BearFileManager::DirectoryDelete(path_, remove_files);
 }
 
-void dir_delete_script(BearCore::BearFileSystem* fs, LPCSTR full_path, int remove_files)
+void dir_delete_script(BearFileSystem* fs, LPCSTR full_path, int remove_files)
 {
-	BearCore::BearFileManager::DirectoryDelete(full_path, remove_files);
+	BearFileManager::DirectoryDelete(full_path, remove_files);
 }
 
-LPCSTR get_file_age_str(BearCore::BearFileSystem* fs, LPCSTR nm)
+LPCSTR get_file_age_str(BearFileSystem* fs, LPCSTR nm)
 {
 	return "";
 }
-u32 get_file_age(BearCore::BearFileSystem* fs, LPCSTR nm)
+u32 get_file_age(BearFileSystem* fs, LPCSTR nm)
 {
 	return 0;
 }
-inline int path_exist(BearCore::BearFileSystem*fs, const bchar*str)
+inline int path_exist(BearFileSystem*fs, const bchar*str)
 {
 	return FS.ExistPath(str);
 }
-static BearCore::BearStringPath get_path_str;
-inline const bchar* get_path(BearCore::BearFileSystem*fs, const bchar*str)
+static BearStringPath get_path_str;
+inline const bchar* get_path(BearFileSystem*fs, const bchar*str)
 {
 	FS.UpdatePath(str, 0, get_path_str);
 	return get_path_str;
 }
-inline void append_path(BearCore::BearFileSystem*fs, const bchar*new_path, const bchar*root, const bchar*add, bool recursive)
+inline void append_path(BearFileSystem*fs, const bchar*new_path, const bchar*root, const bchar*add, bool recursive)
 {
 	FS.AppendPath(new_path, add, root, 0);
 
 }
-inline int file_delete2(BearCore::BearFileSystem*fs, const bchar*path, const bchar*file)
+inline int file_delete2(BearFileSystem*fs, const bchar*path, const bchar*file)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	return FS.Delete(new_path, file);
 }
-inline void file_delete(BearCore::BearFileSystem*fs, const bchar*file)
+inline void file_delete(BearFileSystem*fs, const bchar*file)
 {
-	BearCore::BearFileManager::FileDelete(file);
+	BearFileManager::FileDelete(file);
 }
-inline void file_rename(BearCore::BearFileSystem*fs, const bchar*old_file, const bchar*new_file, int)
+inline void file_rename(BearFileSystem*fs, const bchar*old_file, const bchar*new_file, int)
 {
-	BearCore::BearFileManager::FileMove(old_file, new_file);
-}
-
-inline void file_copy(BearCore::BearFileSystem*fs, const bchar*old_file, const bchar*new_file)
-{
-	BearCore::BearFileManager::FileCopy(old_file, new_file);
+	BearFileManager::FileMove(old_file, new_file);
 }
 
-inline int file_length(BearCore::BearFileSystem*fs, const bchar*file)
+inline void file_copy(BearFileSystem*fs, const bchar*old_file, const bchar*new_file)
 {
-	return BearCore::BearFileManager::GetFileSize(file);
+	BearFileManager::FileCopy(old_file, new_file);
+}
+
+inline int file_length(BearFileSystem*fs, const bchar*file)
+{
+	return BearFileManager::GetFileSize(file);
 }
 
 struct FS_File
@@ -250,17 +250,17 @@ struct FS_File
 
 };
 FS_File Ftrue;
-inline const FS_File *exist1(BearCore::BearFileSystem*fs, const bchar*file)
+inline const FS_File *exist1(BearFileSystem*fs, const bchar*file)
 {
-	if (BearCore::BearFileManager::FileExists(file))
+	if (BearFileManager::FileExists(file))
 	{
 		return &Ftrue;
 	}
 	return 0;
 }
-inline const FS_File* exist2(BearCore::BearFileSystem*fs, const bchar*path, const bchar*file)
+inline const FS_File* exist2(BearFileSystem*fs, const bchar*path, const bchar*file)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	if (FS.ExistFile(new_path, file))
 	{
@@ -269,35 +269,35 @@ inline const FS_File* exist2(BearCore::BearFileSystem*fs, const bchar*path, cons
 	return 0;
 }
 
-inline IReader* r_open(BearCore::BearFileSystem*fs, const bchar*file)
+inline IReader* r_open(BearFileSystem*fs, const bchar*file)
 {
 	return XRayBearReader::Create(file);
 }
 
-inline IReader* r_open2(BearCore::BearFileSystem*fs, const bchar*path, const bchar*file)
+inline IReader* r_open2(BearFileSystem*fs, const bchar*path, const bchar*file)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	return XRayBearReader::Create(FS.Read(new_path, file));
 }
-inline void r_close(BearCore::BearFileSystem*fs, IReader*F)
+inline void r_close(BearFileSystem*fs, IReader*F)
 {
 	XRayBearReader::Destroy(F);
 }
 
 
-inline IWriter* w_open(BearCore::BearFileSystem*fs, const bchar*file)
+inline IWriter* w_open(BearFileSystem*fs, const bchar*file)
 {
 	return XRayBearWriter::Create(file);
 }
 
-inline IWriter* w_open2(BearCore::BearFileSystem*fs, const bchar*path, const bchar*file)
+inline IWriter* w_open2(BearFileSystem*fs, const bchar*path, const bchar*file)
 {
-	BearCore::BearStringPath new_path;
+	BearStringPath new_path;
 	FSGetPath(new_path, reinterpret_cast<const bchar*>(path));
 	return XRayBearWriter::Create(FS.Write(new_path, file, 0));
 }
-inline void w_close(BearCore::BearFileSystem*fs, IWriter*F)
+inline void w_close(BearFileSystem*fs, IWriter*F)
 {
 	XRayBearWriter::Destroy(F);
 }
@@ -334,16 +334,16 @@ void fs_registrator::script_register(lua_State *L)
 					.def_readonly("m_DefExt",					&FS_Path::m_DefExt)
 					.def_readonly("m_FilterCaption",			&FS_Path::m_FilterCaption),
 		*/
-		/*	class_<BearCore::BearFileSystem::file>("fs_file")
-				.def_readonly("name",						&BearCore::BearFileSystem::file::name)
-				.def_readonly("vfs",						&BearCore::BearFileSystem::file::vfs)
-				.def_readonly("ptr",						&BearCore::BearFileSystem::file::ptr)
-				.def_readonly("size_real",					&BearCore::BearFileSystem::file::size_real)
-				.def_readonly("size_compressed",			&BearCore::BearFileSystem::file::size_compressed)
-				.def_readonly("modif",						&BearCore::BearFileSystem::file::modif),
+		/*	class_<BearFileSystem::file>("fs_file")
+				.def_readonly("name",						&BearFileSystem::file::name)
+				.def_readonly("vfs",						&BearFileSystem::file::vfs)
+				.def_readonly("ptr",						&BearFileSystem::file::ptr)
+				.def_readonly("size_real",					&BearFileSystem::file::size_real)
+				.def_readonly("size_compressed",			&BearFileSystem::file::size_compressed)
+				.def_readonly("modif",						&BearFileSystem::file::modif),
 				*/
 		class_<FS_File>("fs_file"),
-		class_<BearCore::BearFileSystem>("FS")
+		class_<BearFileSystem>("FS")
 		.enum_("FS_sort_mode")
 		[
 			value("FS_sort_by_name_up", int(FS_file_list_ex::eSortByNameUp)),

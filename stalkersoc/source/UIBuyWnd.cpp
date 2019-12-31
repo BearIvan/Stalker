@@ -619,9 +619,9 @@ void CUIBuyWnd::SetCurrentItem(CUICellItem* itm)
 		string64					team;
 
 		if (m_bag.IsBlueTeamItem(itm))
-			BearCore::BearString::Copy					(team, "blue");
+			BearString::Copy					(team, "blue");
 		else 
-			BearCore::BearString::Copy					(team, "green");
+			BearString::Copy					(team, "green");
 
 		sprintf_s						(tex_name, "ui_hud_status_%s_0%d", team, m_bag.GetItemRank(m_pCurrentCellItem)+1);
 				

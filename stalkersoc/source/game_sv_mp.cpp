@@ -105,8 +105,8 @@ void	game_sv_mp::Update	()
 
 IC char*							timestamp(string64& dest)
 {
-	auto time = BearCore::BearGlobalTime::GetCurrentTime();
-	BearCore::BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
+	auto time = BearGlobalTime::GetCurrentTime();
+	BearString::Printf(dest, TEXT("%d_%d_%d:%d_%d"), time.Year, time.Month, time.Day, time.Hour, time.Minute);
 	return dest;
 }
 
@@ -494,7 +494,7 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	if (!pV) return;
 	//-------------------------------------------
 	string256 SkinName;
-	BearCore::BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
+	BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 
 	if (!TeamList.empty()	&&
@@ -504,10 +504,10 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 		//загружено ли достаточно скинов для этой комманды
 		if (TeamList[Team].aSkins.size() > ID)
 		{
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
 		}
 		else
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
 	}
 	else
 	{
@@ -515,20 +515,20 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 		switch (Team)
 		{
 		case 0:
-			BearCore::BearString::Contact(SkinName, "stalker_hood_multiplayer");
+			BearString::Contact(SkinName, "stalker_hood_multiplayer");
 			break;
 		case 1:
-			BearCore::BearString::Contact(SkinName, "soldat_beret");
+			BearString::Contact(SkinName, "soldat_beret");
 			break;
 		case 2:
-			BearCore::BearString::Contact(SkinName, "stalker_black_mask");
+			BearString::Contact(SkinName, "stalker_black_mask");
 			break;
 		default:
 			R_ASSERT2(0,"Unknown Team");
 			break;
 		};
 	};
-	BearCore::BearString::Contact(SkinName, ".ogf");
+	BearString::Contact(SkinName, ".ogf");
 //.	Msg("* Skin - %s", SkinName);
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");
@@ -630,7 +630,7 @@ bool game_sv_mp::OnNextMap				()
 	m_bMapSwitched = true;
 
 	/*
-	if (!BearCore::BearString::CompareWithoutCase(MapName.c_str(), Level().name().c_str()))
+	if (!BearString::CompareWithoutCase(MapName.c_str(), Level().name().c_str()))
 	{
 		m_bMapSwitched		= false;
 		return				false;
@@ -655,7 +655,7 @@ void game_sv_mp::OnPrevMap				()
 	Msg("Goint to level %s", MapName.c_str());
 	m_bMapSwitched = true;
 
-//.	if (!BearCore::BearString::CompareWithoutCase(MapName.c_str(), Level().name().c_str())) return;
+//.	if (!BearString::CompareWithoutCase(MapName.c_str(), Level().name().c_str())) return;
 
 	string1024	Command;
 	sprintf_s(Command, "sv_changelevel %s", MapName.c_str());
@@ -684,10 +684,10 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 	char	CommandName[256];	CommandName[0]=0;
 	char	CommandParams[256];	CommandParams[0]=0;
 	string1024 resVoteCommand = "";
-	BearCore::BearString::Scanf	(VoteCommand,"%s ", CommandName);
+	BearString::Scanf	(VoteCommand,"%s ", CommandName);
 	if (xr_strlen(CommandName)+1 < xr_strlen(VoteCommand))
 	{
-		BearCore::BearString::Copy(CommandParams, VoteCommand + xr_strlen(CommandName)+1);
+		BearString::Copy(CommandParams, VoteCommand + xr_strlen(CommandName)+1);
 	}
 
 	if (CommandName[0] == '$' && !IsVotingEnabled(flVoteText))
@@ -697,7 +697,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 	m_bVotingReal = false;
 	while (votecommands[i].command)
 	{
-		if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, CommandName))
+		if (!BearString::CompareWithoutCase(votecommands[i].name, CommandName))
 		{
 			m_bVotingReal = true;
 			if (!IsVotingEnabled(votecommands[i].flag))
@@ -718,10 +718,10 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 	m_uVoteStartTime = CurTime;
 	if (m_bVotingReal)
 	{
-		if (!BearCore::BearString::CompareWithoutCase(votecommands[i].name, "changeweather"))
+		if (!BearString::CompareWithoutCase(votecommands[i].name, "changeweather"))
 		{
 			string256 WeatherTime = "", WeatherName = "";
-			BearCore::BearString::Scanf(CommandParams, "%s %s", WeatherName, WeatherTime );
+			BearString::Scanf(CommandParams, "%s %s", WeatherName, WeatherTime );
 
 			m_pVoteCommand.printf("%s %s", votecommands[i].command, WeatherTime);
 			sprintf_s(resVoteCommand, "%s %s", votecommands[i].name, WeatherName);
@@ -729,7 +729,7 @@ void game_sv_mp::OnVoteStart				(LPCSTR VoteCommand, ClientID sender)
 		else
 		{
 			m_pVoteCommand.printf("%s %s", votecommands[i].command, CommandParams);
-			BearCore::BearString::Copy(resVoteCommand, VoteCommand);
+			BearString::Copy(resVoteCommand, VoteCommand);
 		}		
 	}
 	else
@@ -944,7 +944,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 	char tmp[5];
 	for (int i=1; i<=ps->rank; i++)
 	{
-		BearCore::BearString::Printf(tmp, TEXT("%d"), i);
+		BearString::Printf(tmp, TEXT("%d"), i);
 		strconcat(sizeof(RankStr),RankStr,"rank_", tmp);
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<ps->pItemList.size(); it++)
@@ -980,7 +980,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 		if (pSettings->line_exist(WeaponName, "ammo_class"))
 		{
 			string1024 wpnAmmos, BaseAmmoName;
-			BearCore::BearString::Copy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
+			BearString::Copy(wpnAmmos, pSettings->r_string(WeaponName, "ammo_class"));
 			XrTrims::GetItem(wpnAmmos, 0, BaseAmmoName);
 			AmmoID = u16(m_strWeaponsData->GetItemIdx(BaseAmmoName)&0xffff);
 		};
@@ -1473,11 +1473,11 @@ void	game_sv_mp::ReadOptions				(shared_str &options)
 	g_sv_dwMaxClientPing = get_option_i(*options,"maxping",g_sv_dwMaxClientPing);
 
 	string64	StartTime, TimeFactor;
-	BearCore::BearString::Copy(StartTime,get_option_s		(*options,"estime","12:00:00"));
-	BearCore::BearString::Copy(TimeFactor,get_option_s		(*options,"etimef","1"));
+	BearString::Copy(StartTime,get_option_s		(*options,"estime","12:00:00"));
+	BearString::Copy(TimeFactor,get_option_s		(*options,"etimef","1"));
 
 	u32 year = 1, month = 1, day = 1, hours = 0, mins = 0, secs = 0, milisecs = 0;
-	BearCore::BearString::Scanf				(StartTime,"%d:%d:%d.%d",&hours,&mins,&secs,&milisecs);
+	BearString::Scanf				(StartTime,"%d:%d:%d.%d",&hours,&mins,&secs,&milisecs);
 	u64 StartEnvGameTime	= generate_time	(year,month,day,hours,mins,secs,milisecs);
 	float EnvTimeFactor = float(atof(TimeFactor))*GetEnvironmentGameTimeFactor();
 

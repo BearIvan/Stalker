@@ -6,7 +6,7 @@
 
 CUIArtefactParams::CUIArtefactParams()
 {
-	BearCore::bear_fill(m_info_items);
+	bear_fill(m_info_items);
 }
 
 CUIArtefactParams::~CUIArtefactParams()

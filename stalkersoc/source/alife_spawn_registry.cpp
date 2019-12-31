@@ -18,7 +18,7 @@
 CALifeSpawnRegistry::CALifeSpawnRegistry	(LPCSTR section)
 {
 	m_spawn_name				= "";
-	seed						(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed						(BearTimer::GetCurrentTime().asmiliseconds());
 
 #ifdef PRIQUEL
 	m_game_graph				= 0;

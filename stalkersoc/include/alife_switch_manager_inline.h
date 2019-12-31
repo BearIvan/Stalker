@@ -14,7 +14,7 @@ IC	CALifeSwitchManager::CALifeSwitchManager		(xrServer *server, LPCSTR section) 
 	m_switch_distance	= pSettings->r_float(section,"switch_distance");
 	m_switch_factor		= pSettings->r_float(section,"switch_factor");
 	set_switch_distance	(m_switch_distance);
-	seed				(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed				(BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 IC	float CALifeSwitchManager::online_distance		() const

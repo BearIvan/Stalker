@@ -152,8 +152,8 @@ bool try_remove_string				(shared_str &search_string, const shared_str &string_t
 	for (int i=0, j=0, n=XrTrims::GetItemCount(*search_string); i<n; ++i, ++j) {
 		if (xr_strcmp(string_to_search,XrTrims::GetItem(*search_string,i,temp))) {
 			if (j)
-				BearCore::BearString::Contact		(temp1,",");
-			BearCore::BearString::Contact			(temp1,temp);
+				BearString::Contact		(temp1,",");
+			BearString::Contact			(temp1,temp);
 			continue;
 		}
 

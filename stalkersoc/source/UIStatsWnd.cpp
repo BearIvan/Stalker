@@ -29,8 +29,8 @@ CUIStatsWnd::~CUIStatsWnd()
 void CUIStatsWnd::Init(LPCSTR XML)
 {
 	CUIXml uiXml;
-	if (XML) BearCore::BearString::Copy(XML_NAME, XML);
-	else BearCore::BearString::Copy(XML_NAME, STATS_XML);
+	if (XML) BearString::Copy(XML_NAME, XML);
+	else BearString::Copy(XML_NAME, STATS_XML);
 	/*bool xml_result = */uiXml.Load(CONFIG_PATH, UI_PATH, XML_NAME);
 	/*R_ASSERT2(xml_result, "xml file not found");*/
 

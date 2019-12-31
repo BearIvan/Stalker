@@ -72,28 +72,28 @@ CBaseMonster::SDebugInfo CBaseMonster::show_debug_info()
 		string128	s_type;
 
 		switch(sound_elem.type){
-			case WEAPON_SHOOTING:			BearCore::BearString::Copy(s_type,"WEAPON_SHOOTING"); break;
-			case MONSTER_ATTACKING:			BearCore::BearString::Copy(s_type,"MONSTER_ATTACKING"); break;
-			case WEAPON_BULLET_RICOCHET:	BearCore::BearString::Copy(s_type,"WEAPON_BULLET_RICOCHET"); break;
-			case WEAPON_RECHARGING:			BearCore::BearString::Copy(s_type,"WEAPON_RECHARGING"); break;
+			case WEAPON_SHOOTING:			BearString::Copy(s_type,"WEAPON_SHOOTING"); break;
+			case MONSTER_ATTACKING:			BearString::Copy(s_type,"MONSTER_ATTACKING"); break;
+			case WEAPON_BULLET_RICOCHET:	BearString::Copy(s_type,"WEAPON_BULLET_RICOCHET"); break;
+			case WEAPON_RECHARGING:			BearString::Copy(s_type,"WEAPON_RECHARGING"); break;
 
-			case WEAPON_TAKING:				BearCore::BearString::Copy(s_type,"WEAPON_TAKING"); break;
-			case WEAPON_HIDING:				BearCore::BearString::Copy(s_type,"WEAPON_HIDING"); break;
-			case WEAPON_CHANGING:			BearCore::BearString::Copy(s_type,"WEAPON_CHANGING"); break;
-			case WEAPON_EMPTY_CLICKING:		BearCore::BearString::Copy(s_type,"WEAPON_EMPTY_CLICKING"); break;
+			case WEAPON_TAKING:				BearString::Copy(s_type,"WEAPON_TAKING"); break;
+			case WEAPON_HIDING:				BearString::Copy(s_type,"WEAPON_HIDING"); break;
+			case WEAPON_CHANGING:			BearString::Copy(s_type,"WEAPON_CHANGING"); break;
+			case WEAPON_EMPTY_CLICKING:		BearString::Copy(s_type,"WEAPON_EMPTY_CLICKING"); break;
 
-			case MONSTER_DYING:				BearCore::BearString::Copy(s_type,"MONSTER_DYING"); break;
-			case MONSTER_INJURING:			BearCore::BearString::Copy(s_type,"MONSTER_INJURING"); break;
-			case MONSTER_WALKING:			BearCore::BearString::Copy(s_type,"MONSTER_WALKING"); break;
-			case MONSTER_JUMPING:			BearCore::BearString::Copy(s_type,"MONSTER_JUMPING"); break;
-			case MONSTER_FALLING:			BearCore::BearString::Copy(s_type,"MONSTER_FALLING"); break;
-			case MONSTER_TALKING:			BearCore::BearString::Copy(s_type,"MONSTER_TALKING"); break;
+			case MONSTER_DYING:				BearString::Copy(s_type,"MONSTER_DYING"); break;
+			case MONSTER_INJURING:			BearString::Copy(s_type,"MONSTER_INJURING"); break;
+			case MONSTER_WALKING:			BearString::Copy(s_type,"MONSTER_WALKING"); break;
+			case MONSTER_JUMPING:			BearString::Copy(s_type,"MONSTER_JUMPING"); break;
+			case MONSTER_FALLING:			BearString::Copy(s_type,"MONSTER_FALLING"); break;
+			case MONSTER_TALKING:			BearString::Copy(s_type,"MONSTER_TALKING"); break;
 
-			case DOOR_OPENING:				BearCore::BearString::Copy(s_type,"DOOR_OPENING"); break;
-			case DOOR_CLOSING:				BearCore::BearString::Copy(s_type,"DOOR_CLOSING"); break;
-			case OBJECT_BREAKING:			BearCore::BearString::Copy(s_type,"OBJECT_BREAKING"); break;
-			case OBJECT_FALLING:			BearCore::BearString::Copy(s_type,"OBJECT_FALLING"); break;
-			case NONE_DANGEROUS_SOUND:		BearCore::BearString::Copy(s_type,"NONE_DANGEROUS_SOUND"); break;
+			case DOOR_OPENING:				BearString::Copy(s_type,"DOOR_OPENING"); break;
+			case DOOR_CLOSING:				BearString::Copy(s_type,"DOOR_CLOSING"); break;
+			case OBJECT_BREAKING:			BearString::Copy(s_type,"OBJECT_BREAKING"); break;
+			case OBJECT_FALLING:			BearString::Copy(s_type,"OBJECT_FALLING"); break;
+			case NONE_DANGEROUS_SOUND:		BearString::Copy(s_type,"NONE_DANGEROUS_SOUND"); break;
 		}
 
 		if (sound_elem.who)

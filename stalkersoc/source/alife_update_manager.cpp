@@ -73,7 +73,7 @@ CALifeUpdateManager::~CALifeUpdateManager	()
 {
 	shedule_unregister		();
 	Device.remove_from_seq_parallel	(
-		fastdelegate::FastDelegate0<>(
+		XrFastDelegate<void>(
 			this,
 			&CALifeUpdateManager::update
 		)
@@ -119,7 +119,7 @@ void CALifeUpdateManager::shedule_Update	(u32 dt)
 
 	if (!m_first_time && g_mt_config.test(mtALife)) {
 		Device.seqParallel.push_back(
-			fastdelegate::FastDelegate0<>(
+			XrFastDelegate<void>(
 				this,
 				&CALifeUpdateManager::update
 			)
@@ -268,7 +268,7 @@ void CALifeUpdateManager::load			(LPCSTR game_name, bool no_assert, bool new_onl
 	u32									memory_usage = Memory.mem_usage();
 #endif
 
-	BearCore::BearString::Copy								(g_last_saved_game,game_name);
+	BearString::Copy								(g_last_saved_game,game_name);
 
 	if (new_only || !CALifeStorageManager::load(game_name)) {
 		R_ASSERT3						(new_only || no_assert && xr_strlen(game_name),"Cannot find the specified saved game ",game_name);
@@ -299,7 +299,7 @@ bool CALifeUpdateManager::load_game		(LPCSTR game_name, bool no_assert)
 		}
 	}
 	string512					S,S1;
-	BearCore::BearString::Copy						(S,**m_server_command_line);
+	BearString::Copy						(S,**m_server_command_line);
 	LPSTR						temp = strchr(S,'/');
 	R_ASSERT2					(temp,"Invalid server options!");
 	strconcat					(sizeof(S1),S1,game_name,temp);

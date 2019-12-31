@@ -241,7 +241,7 @@ void CCharacterPhysicsSupport::SpawnInitPhysics(CSE_Abstract* e)
 	if(m_EntityAlife.g_Alive())
 	{
 #ifdef DEBUG
-		if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearCore::BearString::CompareWithoutCase(PH_DBG_ObjectTrack(),*m_EntityAlife.cName())==0)
+		if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&BearString::CompareWithoutCase(PH_DBG_ObjectTrack(),*m_EntityAlife.cName())==0)
 		{
 			Msg("CCharacterPhysicsSupport::SpawnInitPhysics obj %s before collision correction %f,%f,%f",PH_DBG_ObjectTrack(),m_EntityAlife.Position().x,m_EntityAlife.Position().y,m_EntityAlife.Position().z);
 		}
@@ -253,7 +253,7 @@ void CCharacterPhysicsSupport::SpawnInitPhysics(CSE_Abstract* e)
 		if( !m_EntityAlife.animation_movement_controlled( ) )
 			CreateCharacter( );
 #ifdef DEBUG  
-		if( ph_dbg_draw_mask1.test( ph_m1_DbgTrackObject ) && BearCore::BearString::CompareWithoutCase( PH_DBG_ObjectTrack( ), *m_EntityAlife.cName()) == 0 )
+		if( ph_dbg_draw_mask1.test( ph_m1_DbgTrackObject ) && BearString::CompareWithoutCase( PH_DBG_ObjectTrack( ), *m_EntityAlife.cName()) == 0 )
 		{
 			Msg( "CCharacterPhysicsSupport::SpawnInitPhysics obj %s after collision correction %f,%f,%f", PH_DBG_ObjectTrack(),m_EntityAlife.Position( ).x, m_EntityAlife.Position().y, m_EntityAlife.Position().z );
 		}
@@ -523,7 +523,7 @@ void CCharacterPhysicsSupport::CreateSkeleton(CPhysicsShell* &pShell)
 	if (!m_EntityAlife.Visual())
 		return;
 #ifdef DEBUG
-	BearCore::BearTimer t;t.restart();
+	BearTimer t;t.restart();
 #endif	
 	pShell		= P_create_Shell();
 	pShell->preBuild_FromKinematics(smart_cast<IKinematics*>(m_EntityAlife.Visual()));

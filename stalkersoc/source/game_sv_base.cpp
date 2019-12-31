@@ -262,7 +262,7 @@ float					game_sv_GameState::get_option_f				(LPCSTR lst, LPCSTR name, float def
 	if (found)
 	{	
 		float		val;
-		int cnt		= BearCore::BearString::Scanf(found+xr_strlen(op),"%f",&val);
+		int cnt		= BearString::Scanf(found+xr_strlen(op),"%f",&val);
 		VERIFY		(cnt==1);
 		return		val;
 //.		return atoi	(strstr(lst,op)+xr_strlen(op));
@@ -280,11 +280,11 @@ string64&			game_sv_GameState::get_option_s				(LPCSTR lst, LPCSTR name, LPCSTR 
 	if (start)		
 	{
 		LPCSTR			begin	= start + xr_strlen(op); 
-		BearCore::BearString::Scanf			(begin, "%[^/]",ret);
+		BearString::Scanf			(begin, "%[^/]",ret);
 	}
 	else			
 	{
-		if (def)	BearCore::BearString::Copy		(ret,def);
+		if (def)	BearString::Copy		(ret,def);
 		else		ret[0]=0;
 	}
 	return ret;
@@ -318,14 +318,14 @@ struct player_exporter
 		xrClientData*	C = (xrClientData*)client;
 		game_PlayerState* A = C->ps;;
 		if (!C->net_Ready || (A->IsSkip() && C->ID != id_to)) return;
-		if (0 == C)	BearCore::BearString::Copy(p_name, "Unknown");
+		if (0 == C)	BearString::Copy(p_name, "Unknown");
 		else
 		{
 			CSE_Abstract* C_e = C->owner;
-			if (0 == C_e)		BearCore::BearString::Copy(p_name, "Unknown");
+			if (0 == C_e)		BearString::Copy(p_name, "Unknown");
 			else
 			{
-				BearCore::BearString::Copy(p_name, C_e->name_replace());
+				BearString::Copy(p_name, C_e->name_replace());
 			}
 		}
 
@@ -376,14 +376,14 @@ void game_sv_GameState::net_Export_State						(NET_Packet& P, ClientID to)
 		xrClientData*	C		=	(xrClientData*)	m_server->client_Get	(p_it);
 		game_PlayerState* A		=	get_it			(p_it);
 		if (!C->net_Ready || (A->IsSkip() && C->ID != to)) continue;
-		if (0==C)	BearCore::BearString::Copy(p_name,"Unknown");
+		if (0==C)	BearString::Copy(p_name,"Unknown");
 		else 
 		{
 			CSE_Abstract* C_e		= C->owner;
-			if (0==C_e)		BearCore::BearString::Copy(p_name,"Unknown");
+			if (0==C_e)		BearString::Copy(p_name,"Unknown");
 			else 
 			{
-				BearCore::BearString::Copy	(p_name,C_e->name_replace());
+				BearString::Copy	(p_name,C_e->name_replace());
 			}
 		}
 
@@ -529,7 +529,7 @@ void game_sv_GameState::Create					(shared_str &options)
 	{
 		string_path svcfg_name = "";
 		int		sz = xr_strlen(svcfg_ltx_name);
-		BearCore::BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
+		BearString::Scanf		(strstr(GetCommandLine(),svcfg_ltx_name)+sz,"%[^ ] ",svcfg_name);
 //		if (FS.exist(svcfg_name))
 		{
 			Console->ExecuteScript(svcfg_name);
@@ -543,7 +543,7 @@ void	game_sv_GameState::ReadOptions				(shared_str &options)
 {
 	g_sv_base_dwRPointFreezeTime = get_option_i(*options, "rpfrz", g_sv_base_dwRPointFreezeTime/1000) * 1000;
 
-//.	BearCore::BearString::Copy(MAPROT_LIST, MAPROT_LIST_NAME);
+//.	BearString::Copy(MAPROT_LIST, MAPROT_LIST_NAME);
 //.	if (!FS.exist(MAPROT_LIST))
 	if (FS.ExistFile("%user%", MAPROT_LIST_NAME))
 		Console->ExecuteScript(MAPROT_LIST_NAME);
@@ -837,7 +837,7 @@ bool game_sv_GameState::NewPlayerName_Exists( void* pClient, LPCSTR NewName )
 		{
 			if (!pIC || pIC == CL) return false;
 			string64 xName;
-			BearCore::BearString::Copy(xName, pIC->name.c_str());
+			BearString::Copy(xName, pIC->name.c_str());
 			if (!xr_strcmp(NewName, xName)) return true;
 			return false;
 		}
@@ -849,7 +849,7 @@ bool game_sv_GameState::NewPlayerName_Exists( void* pClient, LPCSTR NewName )
 		IClient*	pIC	= m_server->client_Get(it);
 		if ( !pIC || pIC == CL ) continue;
 		string64 xName;
-		BearCore::BearString::Copy( xName, pIC->name.c_str() );
+		BearString::Copy( xName, pIC->name.c_str() );
 		if ( !xr_strcmp(NewName, xName) ) return true;
 	};*/
 	return m_server->FindClient(functor) != 0;
@@ -865,7 +865,7 @@ void game_sv_GameState::NewPlayerName_Generate( void* pClient, LPSTR NewPlayerNa
 		sprintf_s( NewXName, "%s_%d", NewPlayerName, i );
 		if ( !NewPlayerName_Exists( pClient, NewXName ) )
 		{
-			BearCore::BearString::Copy( NewPlayerName,size, NewXName );
+			BearString::Copy( NewPlayerName,size, NewXName );
 			return;
 		}
 	}

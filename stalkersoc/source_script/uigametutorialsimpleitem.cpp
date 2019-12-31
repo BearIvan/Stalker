@@ -59,7 +59,7 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 	m_time_length			= xml->ReadFlt			("length_sec",0,0		);
 	m_desired_cursor_pos.x	= xml->ReadAttribFlt	("cursor_pos",0,"x",1024);
 	m_desired_cursor_pos.y	= xml->ReadAttribFlt	("cursor_pos",0,"y",768	);
-	BearCore::BearString::Copy					(m_pda_section, xml->Read("pda_section",0,"")	);
+	BearString::Copy					(m_pda_section, xml->Read("pda_section",0,"")	);
 
 	LPCSTR str				= xml->Read				("pause_state",0,"ignore");
 	m_flags.set										(etiNeedPauseOn, 0==_stricmp(str, "on"));
@@ -208,32 +208,32 @@ void CUISequenceSimpleItem::Start()
 		if (Game().Type() == GAME_COOP)
 		{
 			CUIGameCP* ui_game_cp = smart_cast<CUIGameCP*>(HUD().GetUI()->UIGame());
-			if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_contacts")) {
+			if (!BearString::CompareWithoutCase(m_pda_section, "pda_contacts")) {
 				ui_game_cp->PdaMenu->SetActiveSubdialog(eptContacts);
 				bShowPda = true;
 			}
 			else {
-				if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_map")) {
+				if (!BearString::CompareWithoutCase(m_pda_section, "pda_map")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptMap);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_quests")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_quests")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptQuests);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_diary")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_diary")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptDiary);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_ranking")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_ranking")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptRanking);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_statistics")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_statistics")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptActorStatistic);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_encyclopedia")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_encyclopedia")) {
 					ui_game_cp->PdaMenu->SetActiveSubdialog(eptEncyclopedia);
 					bShowPda = true;
 				}
@@ -248,32 +248,32 @@ void CUISequenceSimpleItem::Start()
 		else
 		{
 			CUIGameSP* ui_game_sp = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
-			if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_contacts")) {
+			if (!BearString::CompareWithoutCase(m_pda_section, "pda_contacts")) {
 				ui_game_sp->PdaMenu->SetActiveSubdialog(eptContacts);
 				bShowPda = true;
 			}
 			else {
-				if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_map")) {
+				if (!BearString::CompareWithoutCase(m_pda_section, "pda_map")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptMap);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_quests")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_quests")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptQuests);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_diary")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_diary")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptDiary);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_ranking")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_ranking")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptRanking);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_statistics")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_statistics")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptActorStatistic);
 					bShowPda = true;
 				}
-				else if (!BearCore::BearString::CompareWithoutCase(m_pda_section, "pda_encyclopedia")) {
+				else if (!BearString::CompareWithoutCase(m_pda_section, "pda_encyclopedia")) {
 					ui_game_sp->PdaMenu->SetActiveSubdialog(eptEncyclopedia);
 					bShowPda = true;
 				}

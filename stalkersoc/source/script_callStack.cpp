@@ -46,7 +46,7 @@ void CScriptCallStack::Add(const char *szDesc, const char *szFile, int nLine)
 	SPath	sp;
 	sp.path[0] = 0;
 	m_files.push_back(sp);
-	BearCore::BearString::Contact(m_files.back().path, szFile );
+	BearString::Contact(m_files.back().path, szFile );
 }
 
 void CScriptCallStack::SetStackTraceLevel(int nLevel)

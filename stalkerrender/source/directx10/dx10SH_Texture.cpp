@@ -41,7 +41,7 @@ CTexture::CTexture		()
 	flags.seqCycles		= FALSE;
 	flags.bLoadedAsStaging = FALSE;
 	m_material			= 1.0f;
-	bind				= bind.bind(this,&CTexture::apply_load);
+	bind.bind(this,&CTexture::apply_load);
 }
 
 CTexture::~CTexture()
@@ -127,10 +127,10 @@ ID3DBaseTexture*	CTexture::surface_get	()
 
 void CTexture::PostLoad	()
 {
-	if (pTheora)				bind		= bind.bind(this,&CTexture::apply_theora);
+	if (pTheora)				 bind.bind(this,&CTexture::apply_theora);
 	//else if (pAVI)				bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_avi);
-	else if (!seqDATA.empty())	bind		= bind.bind(this,&CTexture::apply_seq);
-	else						bind		= bind.bind(this,&CTexture::apply_normal);
+	else if (!seqDATA.empty())bind.bind(this,&CTexture::apply_seq);
+	else						bind.bind(this,&CTexture::apply_normal);
 }
 
 void CTexture::apply_load	(u32 dwStage)	{
@@ -573,7 +573,7 @@ void CTexture::Unload	()
 //	xr_delete		(pAVI);
 	xr_delete		(pTheora);
 
-	bind			= bind.bind(this,&CTexture::apply_load);
+	bind.bind(this,&CTexture::apply_load);
 }
 
 void CTexture::desc_update	()

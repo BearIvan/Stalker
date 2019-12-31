@@ -260,7 +260,7 @@ CSE_ALifeObject::CSE_ALifeObject			(LPCSTR caSection) : CSE_Abstract(caSection)
     fp_data.inc					();
 #endif
 	m_flags.set					(flOfflineNoMove,FALSE);
-	seed						(BearCore::BearTimer::GetCurrentTime().asmiliseconds());
+	seed						(BearTimer::GetCurrentTime().asmiliseconds());
 }
 
 #ifdef XRGAME_EXPORTS

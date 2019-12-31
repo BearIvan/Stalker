@@ -251,7 +251,7 @@ void CStalkerAnimationPair::on_animation_end	()
 		new (I) CALLBACK_ID	(*i);
 
 	for (I = callbacks; I != E; ++I)
-		(*I)				();
+		(*I).call();
 
 	for (I = callbacks; I != E; ++I)
 		I->~CALLBACK_ID		();

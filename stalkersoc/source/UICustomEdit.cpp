@@ -375,7 +375,7 @@ void  CUICustomEdit::Draw()
 		float								_w_tmp;
 		int i								= m_lines.m_iCursorPos;
 		string256							buff;
-		BearCore::BearString::CopyWithSizeLimit(buff,m_lines.m_text.c_str(),i);
+		BearString::CopyWithSizeLimit(buff,m_lines.m_text.c_str(),i);
 		buff[i]								= 0;
 		_w_tmp								= m_lines.m_pFont->SizeOf_(buff);
 		UI()->ClientToScreenScaledWidth		(_w_tmp);

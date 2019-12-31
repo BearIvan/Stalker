@@ -65,7 +65,7 @@ CGamePersistent::CGamePersistent(void)
 	{
 		string256	fname;
 		LPCSTR		name	=	strstr(GetCommandLine(),"-demomode ") + 10;
-		BearCore::BearString::Scanf				(name,"%s",fname);
+		BearString::Scanf				(name,"%s",fname);
 		R_ASSERT2			(fname[0],"Missing filename for 'demomode'");
 		Msg					("- playing in demo mode '%s'",fname);
 		pDemoFile			=	FS.r_open	(fname);
@@ -268,7 +268,7 @@ void CGamePersistent::start_logo_intro		()
 {
 #if 1//def DEBUG
 	if (0!=strstr(GetCommandLine(),"-nointro")){
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		Console->Show			();
 		Console->Execute		("main_menu on");
 		return;
@@ -289,7 +289,7 @@ void CGamePersistent::start_logo_intro		()
 void CGamePersistent::update_logo_intro			()
 {
 	if(m_intro && (false==m_intro->IsActive())){
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		xr_delete				(m_intro);
 		Console->Execute		("main_menu on");
 	}
@@ -299,13 +299,13 @@ void CGamePersistent::start_game_intro		()
 {
 #if 1//def DEBUG
 	if (0!=strstr(GetCommandLine(),"-nointro")){
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 		return;
 	}
 #endif
 	if (g_pGameLevel && g_pGameLevel->bReady && Device.dwPrecacheFrame<=2){
 		m_intro_event.bind		(this,&CGamePersistent::update_game_intro);
-		if (0==BearCore::BearString::CompareWithoutCase(m_game_params.m_new_or_load,"new")){
+		if (0==BearString::CompareWithoutCase(m_game_params.m_new_or_load,"new")){
 			VERIFY				(NULL==m_intro);
 			m_intro				= xr_new<CUISequencer>();
 			m_intro->Start		("intro_game");
@@ -317,7 +317,7 @@ void CGamePersistent::update_game_intro			()
 {
 	if(m_intro && (false==m_intro->IsActive())){
 		xr_delete				(m_intro);
-		m_intro_event			= 0;
+		m_intro_event			= nullptr;
 	}
 }
 #include "holder_custom.h"
@@ -341,7 +341,7 @@ void CGamePersistent::OnFrame	()
 	if (!g_dedicated_server && Device.dwPrecacheFrame == 0)
 		load_screen_renderer.stop();
 
-	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event();
+	if (!g_dedicated_server && !m_intro_event.empty())	m_intro_event.call();
 
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
@@ -404,7 +404,7 @@ void CGamePersistent::OnFrame	()
 			string512			params;
 			pDemoFile->r_string	(params,sizeof(params));
 			string256			o_server, o_client, o_demo;	u32 o_time;
-			BearCore::BearString::Scanf				(params,"%[^,],%[^,],%[^,],%d",o_server,o_client,o_demo,&o_time);
+			BearString::Scanf				(params,"%[^,],%[^,],%[^,],%d",o_server,o_client,o_demo,&o_time);
 
 			// Start _new level + demo
 			Engine.Event.Defer	("KERNEL:disconnect");

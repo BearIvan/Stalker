@@ -229,7 +229,7 @@ void CUIEventsWnd::ShowDescription			(CGameTask* t, int idx)
 		{
 			string512	need_group;
 			if(0==idx){
-				BearCore::BearString::Copy(need_group,*t->m_ID);
+				BearString::Copy(need_group,*t->m_ID);
 			}else
 			if(o.article_key.size())
 			{

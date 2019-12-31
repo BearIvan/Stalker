@@ -1066,7 +1066,7 @@ void game_sv_Deathmatch::LoadSkinsForTeam(const shared_str& caSection, TEAM_SKIN
 	if (!pSettings->line_exist(caSection, "skins")) return;
 
 	// Читаем данные этого поля
-	BearCore::BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
+	BearString::Copy(Skins, pSettings->r_string(caSection, "skins"));
 	u32 count	= XrTrims::GetItemCount(Skins);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
@@ -1090,7 +1090,7 @@ void game_sv_Deathmatch::LoadDefItemsForTeam(const shared_str& caSection, DEF_IT
 	if (!pSettings->line_exist(caSection, "default_items")) return;
 
 	// Читаем данные этого поля
-	BearCore::BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
+	BearString::Copy(DefItems, pSettings->r_string(caSection, "default_items"));
 	u32 count	= XrTrims::GetItemCount(DefItems);
 	// теперь для каждое имя оружия, разделенные запятыми, заносим в массив
 	for (u32 i = 0; i < count; ++i)
@@ -1108,7 +1108,7 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 	if (!pV) return;
 	//-------------------------------------------
 	string256 SkinName;
-	BearCore::BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
+	BearString::Copy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
 	//загружены ли скины для этой комманды
 //	if (SkinID != -1) ID = u16(SkinID);
 
@@ -1119,10 +1119,10 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		//загружено ли достаточно скинов для этой комманды
 		if (TeamList[Team].aSkins.size() > ID)
 		{
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[ID].c_str());
 		}
 		else
-			BearCore::BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
+			BearString::Contact(SkinName, TeamList[Team].aSkins[0].c_str());
 	}
 	else
 	{
@@ -1130,20 +1130,20 @@ void game_sv_Deathmatch::SetSkin(CSE_Abstract* E, u16 Team, u16 ID)
 		switch (Team)
 		{
 		case 0:
-			BearCore::BearString::Contact(SkinName, "stalker_hood_multiplayer");
+			BearString::Contact(SkinName, "stalker_hood_multiplayer");
 			break;
 		case 1:
-			BearCore::BearString::Contact(SkinName, "soldat_beret");
+			BearString::Contact(SkinName, "soldat_beret");
 			break;
 		case 2:
-			BearCore::BearString::Contact(SkinName, "stalker_black_mask");
+			BearString::Contact(SkinName, "stalker_black_mask");
 			break;
 		default:
 			R_ASSERT2(0,"Unknown Team");
 			break;
 		};
 	};
-	BearCore::BearString::Contact(SkinName, ".ogf");
+	BearString::Contact(SkinName, ".ogf");
 //.	Msg("* Skin - %s", SkinName);
 	int len = xr_strlen(SkinName);
 	R_ASSERT2(len < 64, "Skin Name is too LONG!!!");
@@ -1461,7 +1461,7 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 		if (!Level().pLevel->line_exist(ASetBaseName, SetName))
 			continue;
 
-		BearCore::BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, SetName));
+		BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, SetName));
 		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		if (!count) continue;
 
@@ -1478,7 +1478,7 @@ void	game_sv_Deathmatch::LoadAnomalySets			()
 	//---------------------------------------------------------
 	if (Level().pLevel->line_exist(ASetBaseName, "permanent"))
 	{
-		BearCore::BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, "permanent"));
+		BearString::Copy(AnomaliesNames, Level().pLevel->r_string(ASetBaseName, "permanent"));
 		u32 count	= XrTrims::GetItemCount(AnomaliesNames);
 		for (u32 j=0; j<count; j++)
 		{

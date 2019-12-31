@@ -126,7 +126,7 @@ void CUIDragDropListEx::OnItemStartDragging(CUIWindow* w, void* pData)
 
 	if(itm!=m_selected_item)	return;
 	
-	if(m_f_item_start_drag && m_f_item_start_drag(itm) ) return;
+	if(m_f_item_start_drag && m_f_item_start_drag.call(itm) ) return;
 
 	CreateDragItem						(itm);
 }
@@ -137,7 +137,7 @@ void CUIDragDropListEx::OnItemDrop(CUIWindow* w, void* pData)
 	CUICellItem*		itm				= smart_cast<CUICellItem*>(w);
 	VERIFY								(itm->OwnerList() == itm->OwnerList());
 
-	if(m_f_item_drop && m_f_item_drop(itm) ){
+	if(m_f_item_drop && m_f_item_drop.call(itm) ){
 		DestroyDragItem						();
 		return;
 	}
@@ -165,7 +165,7 @@ void CUIDragDropListEx::OnItemDBClick(CUIWindow* w, void* pData)
 	OnItemSelected						(w, pData);
 	CUICellItem*		itm				= smart_cast<CUICellItem*>(w);
 
-	if(m_f_item_db_click && m_f_item_db_click(itm) ){
+	if(m_f_item_db_click && m_f_item_db_click.call(itm) ){
 		DestroyDragItem						();
 		return;
 	}
@@ -188,7 +188,7 @@ void CUIDragDropListEx::OnItemSelected(CUIWindow* w, void* pData)
 	m_selected_item						= smart_cast<CUICellItem*>(w);
 	VERIFY								(m_selected_item);
 	if(m_f_item_selected)
-		m_f_item_selected(m_selected_item);
+		m_f_item_selected.call(m_selected_item);
 }
 
 void CUIDragDropListEx::OnItemRButtonClick(CUIWindow* w, void* pData)
@@ -196,7 +196,7 @@ void CUIDragDropListEx::OnItemRButtonClick(CUIWindow* w, void* pData)
 	OnItemSelected						(w, pData);
 	CUICellItem*		itm				= smart_cast<CUICellItem*>(w);
 	if(m_f_item_rbutton_click) 
-		m_f_item_rbutton_click(itm);
+		m_f_item_rbutton_click.call(itm);
 }
 
 void CUIDragDropListEx::GetClientArea(Frect& r)

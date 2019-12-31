@@ -295,8 +295,8 @@ public:
 	virtual bool						feel_touch_contact		(CObject* O);
 	virtual BOOL						feel_touch_on_contact	(CObject* O);
 
-	//флаги, какие действия совершал актер по отношению к сталкеру
-	//(помог, атаковал и т.д.)
+	//пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//(пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ.)
 	Flags32								m_actor_relation_flags;
 
 	// ALife
@@ -438,7 +438,7 @@ public:
 	IC		u32							max_queue_interval_close		() const;
 
 public:
-	typedef fastdelegate::FastDelegate<void (const CCoverPoint *, const CCoverPoint *)>	on_best_cover_changed_delegate;
+	typedef XrFastDelegate<void,const CCoverPoint *, const CCoverPoint *>	on_best_cover_changed_delegate;
 
 private:
 	typedef xr_vector<on_best_cover_changed_delegate>	cover_delegates;
@@ -529,7 +529,7 @@ private:
 			void						on_enemy_wounded_or_killed					(const CAI_Stalker *wounded_or_killed);
 			void						notify_on_wounded_or_killed					(CObject *object);
 			void						notify_on_wounded_or_killed					();
-			void	xr_stdcall			remove_critical_hit							();
+			void				remove_critical_hit							();
 //////////////////////////////////////////////////////////////////////////
 private:
 	bool	m_registered_in_combat_on_migration;

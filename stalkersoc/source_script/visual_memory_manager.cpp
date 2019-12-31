@@ -151,10 +151,7 @@ void CVisualMemoryManager::reload				(LPCSTR section)
 		m_free.Load		(section,!!m_client);
 }
 
-IC	const CVisionParameters &CVisualMemoryManager::current_state() const
-{
-	return				(!m_stalker || (m_stalker->movement().mental_state() != eMentalStateDanger) ? m_free : m_danger);
-}
+
 
 u32	CVisualMemoryManager::visible_object_time_last_seen	(const CObject *object) const
 {
@@ -814,4 +811,8 @@ void CVisualMemoryManager::on_requested_spawn	(CObject *object)
 		m_delayed_objects.erase			(I);
 		return;
 	}
+}
+	const CVisionParameters& CVisualMemoryManager::current_state() const
+{
+	return				(!m_stalker || (m_stalker->movement().mental_state() != eMentalStateDanger) ? m_free : m_danger);
 }
