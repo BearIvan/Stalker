@@ -3,13 +3,17 @@
 // are changed infrequently
 
 #pragma once
-
+#ifdef MSVC
 #pragma warning(disable:4995)
+#endif
 #include "engine/stdafx.h"
+#ifdef MSVC
 #pragma warning(disable:4995)
 #include "directx/d3dx9.h"
 #pragma warning(default:4995)
-
+#else
+#include <d3dx9.h>
+#endif
 #include "xrRender/xrD3DDefs.h"
 
 #include "xrRender/HW.h"

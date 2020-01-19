@@ -1,6 +1,6 @@
 #pragma once
 
-class ENGINE_API CObject;
+class  CObject;
 
 namespace Feel
 {

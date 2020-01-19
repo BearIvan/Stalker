@@ -41,7 +41,7 @@ public:
 	virtual CInifile*			_BCL	LL_UserData() = 0;
 	virtual accel*						LL_Bones() = 0;
 
-	virtual ICF CBoneInstance&	_BCL	LL_GetBoneInstance(u16 bone_id) = 0;
+	virtual  CBoneInstance&	_BCL	LL_GetBoneInstance(u16 bone_id) = 0;
 
 	virtual CBoneData&			_BCL	LL_GetData(u16 bone_id) = 0;
 

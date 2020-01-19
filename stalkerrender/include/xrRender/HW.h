@@ -8,8 +8,16 @@
 #include "engine\XRayExports.h"
 #include "engine\pure.h"
 #include "hwcaps.h"
-#include "directx\d3d9.h"
-#include "directx\d3dx9.h"
+
+
+#ifdef MSVC
+#include "directx/d3dx9.h"
+#include "directx/d3d9.h"
+#else
+#include <d3dx9.h>
+#include <d3d9.h>
+#endif
+
 #include "tools\xrCore.h"
 #ifndef _MAYA_EXPORT
 #include "stats_manager.h"

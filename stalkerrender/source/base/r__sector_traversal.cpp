@@ -1,4 +1,4 @@
-#include "..\tools\xrCore.h"
+#include "tools\xrCore.h"
 #include "xr_effgamma.h"
 //#include "device.h"
 #include "stdafx.h"

@@ -1,6 +1,10 @@
 #pragma once
 #pragma pack(push,1)
-
+#ifdef MSVC
+#include "DPlay/dplay8.h"
+#elif MINGW
+#include <dplay8.h>
+#endif
 #define	DPNSEND_IMMEDIATELLY				0x0100
 
 IC u32	net_flags	(BOOL bReliable=FALSE, BOOL bSequental=TRUE, BOOL bHighPriority=FALSE, 

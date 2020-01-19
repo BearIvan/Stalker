@@ -10,9 +10,9 @@
 #include "device.h"
 // refs
 //class ENGINE_API IRender_Visual;
-class ENGINE_API IRender_Sector;
-class ENGINE_API IRender_ObjectSpecific;
-class ENGINE_API CCustomHUD;
+class  IRender_Sector;
+class  IRender_ObjectSpecific;
+class  CCustomHUD;
 class NET_Packet;
 class CSE_Abstract;
 

@@ -8,7 +8,7 @@
 	if(x2>_max) _max=x2;
 
 //! TO BE DOCUMENTED
-inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& maxbox)
+inline_ bool planeBoxOverlap(const Point& normal, const float d, const Point& maxbox)
 {
 	Point vmin, vmax;
 	for(udword q=0;q<=2;q++)

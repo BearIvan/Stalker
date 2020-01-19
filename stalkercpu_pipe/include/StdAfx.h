@@ -15,7 +15,7 @@
 
 
 #define ECORE_API
-
+#define XRCPU_PIPE
 #ifdef _EDITOR
 #	include "skeletonX.h" 
 #	include "skeletoncustom.h"

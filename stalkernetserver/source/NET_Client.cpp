@@ -6,7 +6,13 @@
 #include "NET_Log.h"
 
 #include <malloc.h>
-#include "directx\dxerr.h"
+#ifdef WINDOWS
+#ifdef MSVC
+#include "directx/dxerr.h"
+#else
+#include <dxerr8.h>
+#endif
+#endif
 
 
 // {0218FA8B-515B-4bf2-9A5F-2F079D1759F3}
@@ -869,7 +875,7 @@ HRESULT	IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
 	default:
 		{
 #if	1
-			LPSTR	msg = "";	
+			LPCSTR	msg = "";	
 			switch (dwMessageType)
 			{
 			case DPN_MSGID_ADD_PLAYER_TO_GROUP:			msg = "DPN_MSGID_ADD_PLAYER_TO_GROUP"; break;
@@ -1073,7 +1079,9 @@ void	IPureClient::Sync_Thread	()
 		clPing.dwTime_ClientSend	= TimerAsync(device_timer);
 
 		// Send it
+#ifdef MSVC
 		__try {
+#endif
 			DPN_BUFFER_DESC					desc;
 			DPNHANDLE						hAsync=0;
 			desc.dwBufferSize				= sizeof(clPing);
@@ -1084,13 +1092,14 @@ void	IPureClient::Sync_Thread	()
 				Msg("* CLIENT: SyncThread: EXIT. (failed to send - disconnected?)");
 				break;
 			}
+#ifdef MSVC
 		} 
 		__except (EXCEPTION_EXECUTE_HANDLER)
 		{
 			Msg("* CLIENT: SyncThread: EXIT. (failed to send - disconnected?)");
 			break;
 		}
-		
+#endif
 		// Waiting for reply-packet to arrive
 		if (!net_Syncronised)	{
 			u32	old_size	= net_DeltaArray.size();

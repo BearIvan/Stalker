@@ -225,8 +225,8 @@ void CEngineAPI::Destroy(void)
 
 extern "C" {
     typedef bool __cdecl SupportsAdvancedRendering(void);
-    typedef bool _declspec(dllexport) SupportsDX10Rendering();
-    typedef bool _declspec(dllexport) SupportsDX11Rendering();
+    typedef bool  SupportsDX10Rendering();
+    typedef bool  SupportsDX11Rendering();
 };
 
 void CEngineAPI::CreateRendererList()

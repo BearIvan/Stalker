@@ -286,7 +286,7 @@ public:
     IC GameMtlIt GetMaterialItByID(bsize id)
     {
         for (GameMtlIt it = materials.begin(); materials.end() != it; ++it)
-            if ((*it)->ID == id) return it;
+            if (static_cast<bsize>((*it)->ID) == id) return it;
         return materials.end();
     }
     IC u32 GetMaterialID(LPCSTR name)

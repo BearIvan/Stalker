@@ -19,11 +19,10 @@ void CBlender_DESC::Setup	(LPCSTR N)
 	BearString::ToLower(cName);
 	
 	xr_strcpy(cComputer,XrCore::CompName);			// Computer
-#ifndef _EDITOR
-	_tzset(); _time32( (__time32_t*)&cTime );	// Time
-#else
-	_tzset(); time  ((long*)&cTime);			// Time
-#endif
+	time_t t;
+	_tzset(); time(&t);
+	cTime = static_cast<u32>(t);
+
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -5,6 +5,7 @@
 #include "xrRender/dxUIRender.h"
 #include "xrRender/dxDebugRender.h"
 
+extern void free_luabind();
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -31,8 +32,11 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		xrRender_initconsole		();
 		break	;
 	case DLL_THREAD_ATTACH	:
+		break;
 	case DLL_THREAD_DETACH	:
+		break;
 	case DLL_PROCESS_DETACH	:
+	
 		break;
 	}
 	return TRUE;

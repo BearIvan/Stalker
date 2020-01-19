@@ -4,8 +4,8 @@
 #include "cdb/xr_collide_defs.h"
 
 // refs
-class ENGINE_API CObject;
-class ENGINE_API CInifile;
+class  CObject;
+class  CInifile;
 
 // t-defs
 const u32 clGET_TRIS = (1 << 0);
@@ -103,7 +103,7 @@ public:
     const Fbox& getBBox() const { return bv_box; }
     float getRadius() const { return bv_sphere.R; }
     const Fsphere& getSphere() const { return bv_sphere; }
-    const ECollisionFormType Type() const { return m_type; }
+     ECollisionFormType Type() const { return m_type; }
 };
 
 class ENGINE_API CCF_Skeleton : public ICollisionForm

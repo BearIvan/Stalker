@@ -5,13 +5,12 @@
 #ifndef SkeletonXH
 #define SkeletonXH
 #pragma once
-
 #include "SkeletonCustom.h"
 #include "SkeletonXVertRender.h"
-
+#include "cl_intersect.h"
+#include "FVisual.h"
 // refs
 class 	CKinematics;
-class Fvisual		;
 
 //.#pragma pack(push,4)
 
@@ -118,7 +117,7 @@ BOOL pick_bone(CKinematics* Parent, IKinematics::pick_result &r, float dist, con
 	VERIFY(!"Not implemented");
 	return FALSE;
 }
-#else	USE_DX10
+#else	
 template<typename T>
 BOOL pick_bone(CKinematics* Parent, IKinematics::pick_result &r, float dist, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {

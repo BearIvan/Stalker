@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #pragma hdrstop
-
+#ifdef WINDOWS
+#ifdef MSVC
 #include "directx\d3d9.h"
 #include "directx\d3dx9.h"
-
+#else
+#include <d3d9.h>
+#include <d3dx9.h>
+#endif
+#endif
 #include "fmesh.h"
 
 //BOOL ValidateIndices(u32 vCount, u32 iCount, u16* pIndices)

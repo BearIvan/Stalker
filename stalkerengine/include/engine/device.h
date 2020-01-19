@@ -266,7 +266,7 @@ public:
         TimerGlobal.set_time_factor(time_factor);
     }
 
-    IC const float time_factor() const
+    IC  float time_factor() const
     {
         VERIFY(Timer.get_time_factor() == TimerGlobal.get_time_factor());
         return static_cast<float>(Timer.get_time_factor());

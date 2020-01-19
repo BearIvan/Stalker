@@ -4,16 +4,15 @@
 #include "EnvironmentRef.h"
 #include "XrRender/FactoryPtr.h"
 #include "XrRender/EnvironmentRender.h"
-class ENGINE_API	IRender_Visual;
-class ENGINE_API	CInifile;
-class ENGINE_API 	CEnvironmentSOC;
-
+class 	IRender_Visual;
+class 	CInifile;
+class  	CEnvironmentSOC;
 // refs - effects
-class ENGINE_API	CLensFlare;	
-class ENGINE_API	CEffect_Rain;
-class ENGINE_API	CEffect_Thunderbolt;
+class 	CLensFlare;	
+class 	CEffect_Rain;
+class 	CEffect_Thunderbolt;
 
-class ENGINE_API	CPerlinNoise1D;
+class 	CPerlinNoise1D;
 #define ENV_SOC (*dynamic_cast<CEnvironmentSOC*>(g_pGamePersistent->Environment()))
 #define DAY_LENGTH		86400.f
 /*

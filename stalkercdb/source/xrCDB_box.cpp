@@ -15,8 +15,9 @@ using namespace Opcode;
 	if(x2<min) min=x2;						\
 	if(x2>max) max=x2;
 
+
 //! TO BE DOCUMENTED
-ICF bool planeBoxOverlap(const Point& normal, const float d, const Point& maxbox)
+inline_ bool planeBoxOverlap(const Point& normal, const float d, const Point& maxbox)
 {
 	Point vmin, vmax;
 	for(udword q=0;q<=2;q++)

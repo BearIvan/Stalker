@@ -14,6 +14,6 @@ public class stalkerphysics :Project
 		Include.Private.Add(Path.Combine(ProjectPath,"include","physics"));
 
 		Projects.Public.Add("ode");
-		Projects.Private.Add("stalker");
+		Projects.Private.Add("stalker_engine");
 	}
 } 

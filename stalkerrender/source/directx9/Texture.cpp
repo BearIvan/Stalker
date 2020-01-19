@@ -5,9 +5,15 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+
+#ifdef MSVC
+#pragma warning(push)
 #pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default:4995)
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 
 #ifndef _EDITOR
 #include "dxRenderDeviceRender.h"
@@ -304,7 +310,7 @@ ID3DBaseTexture*	CRender::texture_load(LPCSTR fRName, bsize& ret_msize)
 	fix_texture_name		(fname);
 	IReader* S				= NULL;
 	//if (FS.exist(fn,"$game_textures$",fname,	".dds")	&& strstr(fname,"_bump"))	goto _BUMP;
-
+	HRESULT  result = S_OK;
 	if ( BearString::Find(fname, TEXT("_bump")))
 	{
 		goto _BUMP_from_base;
@@ -349,7 +355,7 @@ _DDS:
 
 		img_size				= S->length	();
 		R_ASSERT				(S);
-		HRESULT const result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(), static_cast<UINT>(S->length()),&IMG);
+		 result	= D3DXGetImageInfoFromFileInMemory	(S->pointer(), static_cast<UINT>(S->length()),&IMG);
 		if ( FAILED(result) ) {
 			Msg					("! Can't get image info for texture '%s'", fname);
 			XRayBearReader::Destroy			(S);
@@ -362,7 +368,7 @@ _DDS:
 
 _DDS_CUBE:
 		{
-			HRESULT const result1	=
+			HRESULT  result1	=
 				D3DXCreateCubeTextureFromFileInMemoryEx(
 					HW.pDevice,
 					S->pointer(), static_cast<UINT>(S->length()),

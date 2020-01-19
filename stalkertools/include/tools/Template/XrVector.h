@@ -49,8 +49,8 @@ public:
 };
 
 
-#define DEF_VECTOR(N,T) typedef xr_vector< T > N; typedef N::iterator N##_it;
-#define DEFINE_VECTOR(T,N,I) typedef xr_vector< T > N; typedef N::iterator I;
+#define DEF_VECTOR(N,T) typedef xr_vector< T > N; typedef typename N::iterator N##_it;
+#define DEFINE_VECTOR(T,N,I) typedef xr_vector< T > N; typedef typename N::iterator I;
 // auxilary definition
 DEFINE_VECTOR(bool, boolVec, boolIt);
 DEFINE_VECTOR(BOOL, BOOLVec, BOOLIt);

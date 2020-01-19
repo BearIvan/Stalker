@@ -2,8 +2,13 @@
 #define TSS_DEF_H
 
 #pragma once
-#include "directx\d3d9.h"
-#include "directx\d3dx9.h"
+#ifdef MSVC
+#include "directx/d3dx9.h"
+#include "directx/d3d9.h"
+#else
+#include <d3dx9.h>
+#include <d3d9.h>
+#endif
 class	 SimulatorStates
 {
 private:

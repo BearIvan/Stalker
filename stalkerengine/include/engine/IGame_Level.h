@@ -118,7 +118,7 @@ public:
 
 //-----------------------------------------------------------------------------------------------------------
 extern ENGINE_API IGame_Level* g_pGameLevel;
-
+/*
 template <typename _class_type>
 void relcase_register(_class_type* self, void ( _class_type::* function_to_bind)(CObject*))
 {
@@ -137,5 +137,5 @@ void relcase_unregister(_class_type* self, void ( _class_type::* function_to_bin
         self,
         function_to_bind)
         );
-}
+}*/
 #endif

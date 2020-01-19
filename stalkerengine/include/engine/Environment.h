@@ -2,17 +2,17 @@
 #define EnvironmentH
 
 // refs
-class ENGINE_API IRender_Visual;
-class ENGINE_API CInifile;
-class ENGINE_API CEnvironment;
+class  IRender_Visual;
+class  CInifile;
+class  CEnvironment;
 
 // refs - effects
-class ENGINE_API CEnvironment;
-class ENGINE_API CLensFlare;
-class ENGINE_API CEffect_Rain;
-class ENGINE_API CEffect_Thunderbolt;
+class  CEnvironment;
+class  CLensFlare;
+class  CEffect_Rain;
+class  CEffect_Thunderbolt;
 
-class ENGINE_API CPerlinNoise1D;
+class  CPerlinNoise1D;
 
 struct SThunderboltDesc;
 struct SThunderboltCollection;

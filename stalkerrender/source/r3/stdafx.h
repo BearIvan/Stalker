@@ -4,18 +4,34 @@
 
 #pragma once
 
+#ifdef MSVC
 #pragma warning(disable:4995)
+#endif
 #include "engine/stdafx.h"
+#ifdef MSVC
 #pragma warning(disable:4995)
 #include "directx/d3dx9.h"
 #pragma warning(default:4995)
-#pragma warning(push)
-#pragma warning(disable:4005)
+#else
+#include <d3dx9.h>
+#endif
+
+#ifdef MSVC
+#pragma warning(disable:4995)
 #include "directx/d3d10_1.h"
 #include "directx/d3d11.h"
 #include "directx/D3Dx10core.h"
 #include "directx/D3DCompiler.h"
-#pragma warning(pop)
+#pragma warning(default:4995)
+#else
+#include <d3d10_1.h>
+#include <d3d11.h>
+#include "directx/D3Dx10core.h"
+#include <D3DCompiler.h>
+#endif
+
+
+
 #include "xrRender/xrD3DDefs.h"
 
 #include "xrRender/Debug/dxPixEventWrapper.h"

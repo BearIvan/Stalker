@@ -10,12 +10,18 @@
 #pragma once
 
 #include "tools/xrCore.h"
-
+#ifdef WINDOWS
+#ifdef MSVC
 #include <DPlay/dplay8.h>
-
+#else
+#include <dplay8.h>
+#endif
+#endif
 #include "NET_Shared.h"	
-
+#ifndef _RELEASE
 #define _RELEASE(x)			{ if(x) { (x)->Release();       (x)=NULL; } }
+#endif
+#ifndef _SHOW_REF
 #define _SHOW_REF(msg, x)   { if(x) { x->AddRef(); Msg(msg,u32(x->Release()));}}
-
+#endif
 #endif //stdafxH

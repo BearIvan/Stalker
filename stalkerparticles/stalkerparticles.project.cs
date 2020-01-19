@@ -10,7 +10,7 @@ public class stalkerparticles :Project
 		Defines.Private.Add("XR_PARTICLES_EXPORTS"); 
 		
 	//	Projects.Private.Add("stalkertools");
-		Projects.Private.Add("stalker");
+		Projects.Private.Add("stalker_engine");
 		Projects.Private.Add("stalkercpu_pipe");
 		/*IncludeInProject.Private.Add("stalkerapi");
 		IncludeInProject.Private.Add("stalkercdb");

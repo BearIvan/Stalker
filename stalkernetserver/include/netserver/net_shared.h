@@ -7,7 +7,6 @@
 	
 #endif
 
-#include <dplay/dplay8.h>
 #include "net_messages.h"
 
 

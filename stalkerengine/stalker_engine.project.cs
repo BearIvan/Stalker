@@ -1,9 +1,9 @@
 using BearBuildTool.Projects;
 using System.IO;
 using System;
-public class stalker :Executable
+public class stalker_engine :Project
 {
-	public stalker(string ProjectPath)
+	public stalker_engine(string ProjectPath)
 	{
 
         PCHFile =Path.Combine(ProjectPath,"source","stdafx.cpp");
@@ -26,14 +26,18 @@ public class stalker :Executable
 
         IncludeInProject.Public.Add("stalkercpu_pipe");
 		//IncludeInProject.Private.Add("stalkergamespy");
-		
-		LibrariesStatic.Private.Add("winmm.lib");
-		LibrariesStatic.Private.Add("vfw32.lib");
-		LibrariesStatic.Private.Add("dxgi.lib");
-		LibrariesStatic.Private.Add("dxguid.lib"); 
-		LibrariesStatic.Private.Add("dinput8.lib");
-		LibrariesStatic.Private.Add("d3d9.lib");
-		LibrariesStatic.Private.Add("d3dx9.lib");
+		if (BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64 ||
+			BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32 ||
+			BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.MinGW
+			)
+		{
+			LibrariesStatic.Private.Add("dxgi");
+			LibrariesStatic.Private.Add("dxguid");
+			LibrariesStatic.Private.Add("dinput8");
+			LibrariesStatic.Private.Add("d3d9");
+			LibrariesStatic.Private.Add("d3dx9");
+		}
+
 		Projects.Private.Add("theora");
 		Projects.Private.Add("dplay");
 		Projects.Private.Add("openautomate");
@@ -45,23 +49,29 @@ public class stalker :Executable
 		Include.Private.Add(Path.Combine(ProjectPath,"include","engine"));
 		
 		IncludeAutonomousProjects.Add("stalkercpu_pipe");
-		IncludeAutonomousProjects.Add("stalker_r1");
-         IncludeAutonomousProjects.Add("stalker_r2");
-        IncludeAutonomousProjects.Add("stalker_r3");
-        IncludeAutonomousProjects.Add("stalker_r4");
-      /*  IncludeAutonomousProjects.Add("stalker_r5");
+		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32||
+		BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64||
+		BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.MinGW
+		)
+		{
+			IncludeAutonomousProjects.Add("stalker_r1");
+			IncludeAutonomousProjects.Add("stalker_r2");
+			if (BearBuildTool.Config.Global.Platform != BearBuildTool.Config.Platform.MinGW)
+			{
+				IncludeAutonomousProjects.Add("stalker_r3");
+				IncludeAutonomousProjects.Add("stalker_r4");
+			}
+		}
+      // IncludeAutonomousProjects.Add("stalker_r5");
 
-            */
+        
 
-        IncludeAutonomousProjects.Add("stalkersoc");
+		IncludeAutonomousProjects.Add("stalkersoc");
 		//IncludeAutonomousProjects.Add("stalkercs");
         //IncludeAutonomousProjects.Add("stalkercop");
-        if (BearBuildTool.Config.Global.Configure == BearBuildTool.Config.Configure.Debug)
-        {
-            Console = true;
-        }
+
   
-        ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
+     //   ResourceFile = Path.Combine(ProjectPath, "resource", "stalker.rc");
 		//ProjectsToDynamicLibrary = true;
 	}	
 	public override void StartBuild()

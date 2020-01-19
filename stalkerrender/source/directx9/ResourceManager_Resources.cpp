@@ -1,13 +1,18 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+#ifdef MSVC
+#pragma warning(push)
 #pragma warning(disable:4995)
 #include "directx\d3dx9.h"
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 #ifndef _EDITOR
 	#pragma comment( lib, "d3dx9.lib"		)
 #include "engine/render.h"
 #endif
-#pragma warning(default:4995)
 
 #include "ResourceManager.h"
 #include "tss.h"
@@ -35,8 +40,8 @@ void simplify_texture(string_path &fn)
 template <class T>
 BOOL	reclaim		(xr_vector<T*>& vec, const T* ptr)
 {
-	xr_vector<T*>::iterator it	= vec.begin	();
-	xr_vector<T*>::iterator end	= vec.end	();
+	typename xr_vector<T*>::iterator it	= vec.begin	();
+	typename xr_vector<T*>::iterator end	= vec.end	();
 	for (; it!=end; it++)
 		if (*it == ptr)	{ vec.erase	(it); return TRUE; }
 		return FALSE;
@@ -46,7 +51,7 @@ BOOL	reclaim		(xr_vector<T*>& vec, const T* ptr)
 SState*		CResourceManager::_CreateState		(SimulatorStates& state_code)
 {
 	// Search equal state-code 
-	for (u32 it=0; it<v_states.size(); it++)
+	for (bsize it=0; it<v_states.size(); it++)
 	{
 		SState*				C		= v_states[it];;
 		SimulatorStates&	base	= C->state_code;

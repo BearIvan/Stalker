@@ -1,10 +1,15 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+
+#ifdef MSVC
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 
 #include "ResourceManager.h"
 #include "blenders\Blender_Recorder.h"

@@ -5,6 +5,7 @@
 #include "../xrRender/dxUIRender.h"
 #include "../xrRender/dxDebugRender.h"
 #include "api/XrGameVersionController.h"
+extern void free_luabind();
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -34,8 +35,10 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 		break	;
 	case DLL_THREAD_ATTACH	:
+		break;
 	case DLL_THREAD_DETACH	:
-	case DLL_PROCESS_DETACH	:
+		break;
+	case DLL_PROCESS_DETACH:
 		break;
 	}
 	return TRUE;
@@ -43,10 +46,13 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 extern "C"
 {
-	bool _declspec(dllexport) SupportsAdvancedRendering();
+#ifdef MSVC
+	__declspec(dllexport) 
+#endif
+bool  SupportsAdvancedRendering();
 };
 
-bool _declspec(dllexport) SupportsAdvancedRendering()
+bool  SupportsAdvancedRendering()
 {
 	D3DCAPS9					caps;
 	CHW							_HW;

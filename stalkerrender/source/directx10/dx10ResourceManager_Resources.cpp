@@ -1,15 +1,21 @@
 #include "stdafx.h"
 #pragma hdrstop
-
+#ifdef MSVC
+#pragma warning(push)
 #pragma warning(disable:4995)
-#include  "directx/d3dx9.h"
+#include "directx\d3dx9.h"
+#include  "directx\d3dx10.h"
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#include <d3dx10.h>
+#endif
 #ifndef _EDITOR
 #pragma comment( lib, "d3dx9.lib"		)
 #include "engine/render.h"
 #endif
-#pragma warning(default:4995)
 
-#include  "directx/d3dx10.h"
+
 #include "xrRender/ResourceManager.h"
 #include "xrRender/tss.h"
 #include "xrRender/blenders/blender.h"

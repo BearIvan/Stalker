@@ -1,11 +1,19 @@
 #include "stdafx.h"
-#include "directx\dxerr.h"
+#ifdef WINDOWS
+#ifdef MSVC
+#include "directx/dxerr.h"
+#else
+#include <dxerr8.h>
+#endif
+#endif
 #include "NET_Common.h"
 #include "net_server.h"
 #include <functional>
 
 #include "NET_Log.h"
-
+#ifndef DPNA_TRAVERSALMODE_NONE
+#define DPNA_TRAVERSALMODE_NONE					0
+#endif
 #define	BASEPORT				5445
 #define START_PORT							0
 #define END_PORT							65535
@@ -342,8 +350,8 @@ if(!psNET_direct_connect)
     dpPlayerInfo.dwSize			= sizeof(DPN_PLAYER_INFO);
     dpPlayerInfo.dwInfoFlags	= DPNINFO_NAME;
     dpPlayerInfo.pwszName		= wszName;
-    dpPlayerInfo.pvData			= NULL;
-    dpPlayerInfo.dwDataSize		= NULL;
+    dpPlayerInfo.pvData			= 0;
+    dpPlayerInfo.dwDataSize		= 0;
     dpPlayerInfo.dwPlayerFlags	= 0;
 	
 	CHK_DX(NET->SetServerInfo( &dpPlayerInfo, NULL, NULL, DPNSETSERVERINFO_SYNC ) );
@@ -555,14 +563,14 @@ HRESULT	IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
 			if (GetBannedClient(HAddr)) 
 			{
 				msg->dwReplyDataSize	= sizeof(NET_BANNED_STR);
-				msg->pvReplyData		= NET_BANNED_STR;
+				msg->pvReplyData		= const_cast<char*>(NET_BANNED_STR);
 				return					S_FALSE;
 			};
 			//first connected client is SV_Client so if it is NULL then this server client tries to connect ;)
 			if (SV_Client && !m_ip_filter.is_ip_present(HAddr.m_data.data))
 			{
 				msg->dwReplyDataSize	= sizeof(NET_NOTFOR_SUBNET_STR);
-				msg->pvReplyData		= NET_NOTFOR_SUBNET_STR;
+				msg->pvReplyData		=const_cast<char*>( NET_NOTFOR_SUBNET_STR);
 				return					S_FALSE;
 			}
 		}break;

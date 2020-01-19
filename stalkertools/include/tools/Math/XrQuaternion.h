@@ -233,7 +233,7 @@ public:
     }
 
     // validates numerical stability
-    IC const BOOL isValid(void) const
+    IC  BOOL isValid(void) const
     {
         if ((w * w) < 0.0f) return false;
         if ((x * x) < 0.0f) return false;
@@ -243,7 +243,7 @@ public:
     }
 
     // checks for Unit-length quanternion
-    IC const BOOL isUnit(void)
+    IC  BOOL isUnit(void)
     {
         T m = magnitude();
 

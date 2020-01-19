@@ -679,7 +679,7 @@ void	CRender::Statistics	(CGameFont* _F)
 }
 
 
-#include <boost/crc.hpp>
+//#include <boost/crc.hpp>
 
 static inline bool match_shader_id		( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, BearVector<BearString> const& file_set, string_path& result );
 
@@ -907,9 +907,9 @@ HRESULT	CRender::shader_compile			(
 			u32 crc = 0;
 			crc = file->r_u32();
 
-			boost::crc_32_type		processor;
-			processor.process_block	( file->pointer(), ((char*)file->pointer()) + file->elapsed() );
-			u32 const real_crc		= processor.checksum( );
+			
+
+			u32 const real_crc = BearCheckSum::CRC32(file->pointer(), file->elapsed());
 
 			if ( real_crc == crc ) {
 				_result				= create_shader(pTarget, (DWORD*)file->pointer(), file->elapsed(), file_name, result, o.disasm);
@@ -931,9 +931,7 @@ HRESULT	CRender::shader_compile			(
 			FS.CreateDirectory("%cur_shaders_cache%", 0);
 			IWriter* file =XRayBearWriter::Create( FS.Write("%cur_shaders_cache%", file_name,0));
 
-			boost::crc_32_type		processor;
-			processor.process_block	( pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize() );
-			u32 const crc			= processor.checksum( );
+			u32 const crc			= BearCheckSum::CRC32(pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize());
 
 			file->w_u32				(crc);
 			file->w					( pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize());

@@ -42,7 +42,7 @@ public:
      BOOL  callback_overwrite() { return Callback_overwrite; } // performance hint - don't calc anims
      u32  callback_type() { return Callback_type; }
 public:
-	 void CBoneInstance::construct()
+	 void construct()
 	{
 		ZeroMemory(this, sizeof(*this));
 		mTransform.identity();

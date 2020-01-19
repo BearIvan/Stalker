@@ -10,7 +10,7 @@ public class stalker_r3 :Project
 		Defines.Private.Add("XRRENDER_R3_EXPORTS"); 
 		Defines.Private.Add("USE_DX10");
 		Projects.Private.Add("directx");
-		Projects.Private.Add("stalker");
+		Projects.Private.Add("stalker_engine");
 		Projects.Private.Add("stalkercpu_pipe");
 		Projects.Private.Add("stalkerparticles");
 		Projects.Private.Add("openautomate");
@@ -21,13 +21,13 @@ public class stalker_r3 :Project
 			Projects.Private.Add("atimgpud");
 		}
 
-		LibrariesStatic.Private.Add("d3d9.lib");
-		LibrariesStatic.Private.Add("d3dx9.lib");
-		LibrariesStatic.Private.Add("dxgi.lib");
-		LibrariesStatic.Private.Add("dxguid.lib");
-		LibrariesStatic.Private.Add("d3d10.lib");
-		LibrariesStatic.Private.Add("d3dx10.lib");
-		LibrariesStatic.Private.Add("d3dcompiler.lib");
+		LibrariesStatic.Private.Add("d3d9");
+		LibrariesStatic.Private.Add("d3dx9");
+		LibrariesStatic.Private.Add("dxgi");
+		LibrariesStatic.Private.Add("dxguid");
+		LibrariesStatic.Private.Add("d3d10");
+		LibrariesStatic.Private.Add("d3dx10");
+		LibrariesStatic.Private.Add("d3dcompiler");
 		AddSourceFiles(Path.Combine(ProjectPath,"source","base"),true);
 		AddSourceFiles(Path.Combine(ProjectPath,"source","directx10"),true);
 		AddSourceFiles(Path.Combine(ProjectPath,"source","r3"),true);

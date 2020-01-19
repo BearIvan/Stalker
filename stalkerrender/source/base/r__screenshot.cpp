@@ -6,7 +6,14 @@
 #include "engine/xrImage_Resampler.h"
 #include <time.h> 
 #if defined(USE_DX10) || defined(USE_DX11)
+#ifdef MSVC
+#pragma warning(push)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 #endif	//	USE_DX10
 
 char*							timestamp(string64& dest)

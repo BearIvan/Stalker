@@ -5,10 +5,16 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+#ifdef MSVC
+#pragma warning(push)
 #pragma warning(disable:4995)
-#include "directx/d3dx9.h"
-#pragma warning(default:4995)
-#include "directx/d3dx10.h"
+#include "directx\d3dx9.h"
+#include  "directx\d3dx10.h"
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#include <d3dx10.h>
+#endif
 
 #include "xrRender/dxRenderDeviceRender.h"
 

@@ -17,8 +17,15 @@
 
 
 #include "xrRender/dxRenderDeviceRender.h"
+#ifdef MSVC
+#pragma warning(push)
+#pragma warning(disable:4995)
+#include  "directx/D3DX10.h"
+#pragma warning(pop)
+#else
+#include  <D3DX10.h>
+#endif
 
-#include "directx/D3DX10.h"
 
 void	CRenderTarget::u_setrt			(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb)
 {

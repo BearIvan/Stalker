@@ -25,8 +25,8 @@ struct ray_segment_t {
 	float		t_near,t_far;
 };
 
-ICF u32&	uf			(float &x)	{ return (u32&)x; }
-ICF BOOL	isect_fpu	(const Fvector& min, const Fvector& max, const ray_t &ray, Fvector& coord)
+IC u32&	uf			(float &x)	{ return (u32&)x; }
+IC BOOL	isect_fpu	(const Fvector& min, const Fvector& max, const ray_t &ray, Fvector& coord)
 {
 	Fvector				MaxT;
 	MaxT.x=MaxT.y=MaxT.z=-1.0f;

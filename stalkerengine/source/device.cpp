@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "cdb/frustum.h"
+#ifdef WINDOWS
+#ifdef MSVC
 #include "directx\d3dx9.h"
+#else
+#include <d3dx9.h>
+#endif
+#endif
 // mmsystem.h
 #define MMNOSOUND
 #define MMNOMIDI
@@ -8,8 +14,7 @@
 #define MMNOMIXER
 #define MMNOJOY
 #include <mmsystem.h>
-// d3dx9.h
-#include "directx\d3d9.h"
+// d3dx9.h=
 
 #include "x_ray.h"
 #include "render.h"

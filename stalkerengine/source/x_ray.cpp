@@ -11,6 +11,7 @@
 
 #include "dedicated_server_only.h"
 #include "no_single.h"
+#include "netserver/stdafx.h"
 #include "netserver/NET_AuthCheck.h"
 #include "api/XrGameVersionController.h"
 #include "xr_input.h"
@@ -18,7 +19,6 @@
 #include "x_ray.h"
 #include "std_classes.h"
 #include "GameFont.h"
-#include "resource.h"
 #include "LightAnimLibrary.h"
 #include "cdb/ispatial.h"
 #include "CopyProtection.h"
@@ -534,7 +534,7 @@ struct damn_keys_filter
 #undef dwFilterKeysStructSize
 #undef dwToggleKeysStructSize
 
-// Фунция для тупых требований THQ и тупых американских пользователей
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ THQ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 BOOL IsOutOfVirtualMemory()
 {
 #define VIRT_ERROR_SIZE 256
@@ -558,7 +558,7 @@ BOOL IsOutOfVirtualMemory()
     dwPageFileInMB = (DWORD)(statex.ullTotalPageFile / (1024 * 1024));
     dwPhysMemInMB = (DWORD)(statex.ullTotalPhys / (1024 * 1024));
 
-    // Довольно отфонарное условие
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     if ((dwPhysMemInMB > 500) && ((dwPageFileInMB + dwPhysMemInMB) > 2500))
         return 0;
 
@@ -633,11 +633,7 @@ void FatalErrorCallBack()
 {
 	bear_delete(Device.window);
 }
-
-int APIENTRY WinMain_impl(HINSTANCE hInstance,
-                          HINSTANCE hPrevInstance,
-                          char* lpCmdLine,
-                          int nCmdShow)
+ void CApplication::Main()
 {
 
 
@@ -684,7 +680,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #undef FS
 	GFS = bear_new<BearFileSystem>();
 	
-	BEAR_ERRORMESSAGE(GFS->LoadFromFile(FSFilePath, BearEncoding::UTF8), TEXT("Неудалось загрузить %s"), TEXT("stalker.fs"));
+	BEAR_ERRORMESSAGE(GFS->LoadFromFile(FSFilePath, BearEncoding::UTF8), TEXT("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ %s"), TEXT("stalker.fs"));
 #define FS (*GFS)
 
 	//FS.SetPackage(TEXT("%main%"), TEXT("TheBearProject"));
@@ -699,7 +695,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		Modloader::Destroy();
 		bear_delete(gameVersionController);
         BearCore::Destroy();
-		return 0;
+		return ;
 	}
 
 	FS.CreateDirectory(TEXT("%user%"), 0);
@@ -743,14 +739,14 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #ifndef DEDICATED_SERVER
 
     // Check for virtual memory
-    if ((strstr(lpCmdLine, "--skipmemcheck") == NULL) && IsOutOfVirtualMemory())
-        return 0;
+    if ((strstr(GetCommandLine(), "--skipmemcheck") == NULL) && IsOutOfVirtualMemory())
+        return ;
 
     // Parental Control for Vista and upper
     if (!IsPCAccessAllowed())
     {
         MessageBox(NULL, "Access restricted", "Parental Control", MB_OK | MB_ICONERROR);
-        return 1;
+        return ;
     }
 
     // Check for another instance
@@ -832,9 +828,9 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
         Engine.External.CreateRendererList();
 
 
-        Msg("command line %s", lpCmdLine);
+        Msg("command line %s", GetCommandLine());
         LPCSTR sashName = "-openautomate ";
-        if (strstr(lpCmdLine, sashName))
+        if (strstr(GetCommandLine(), sashName))
         {
 			bsize sz = xr_strlen(sashName);
             string512 sash_arg;
@@ -842,14 +838,14 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
             //doBenchmark (sash_arg);
             g_SASH.Init(sash_arg);
             g_SASH.MainLoop();
-            return 0;
+            return ;
         }
 
-        if (strstr(lpCmdLine, "-launcher"))
+        if (strstr(GetCommandLine(), "-launcher"))
         {
             int l_res = doLauncher();
             if (l_res != 0)
-                return 0;
+                return ;
         };
 
 #ifndef DEDICATED_SERVER
@@ -904,7 +900,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #endif // DEDICATED_SERVER
 	bear_delete(gameVersionController);
     BearCore::Destroy();
-    return 0;
+    return ;
 }
 
 int stack_overflow_exception_filter(int exception_code)
@@ -921,41 +917,6 @@ int stack_overflow_exception_filter(int exception_code)
         return EXCEPTION_CONTINUE_SEARCH; 
 }
 
-#ifndef CONSOLE
-int APIENTRY WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	char* lpCmdLine,
-	int nCmdShow)
-{
-#else
-
-int main()
-{
-	HINSTANCE hInstance = 0;
-	HINSTANCE hPrevInstance = 0;
-	char* lpCmdLine = "";
-	int nCmdShow = 0;
-#endif
-
-    //FILE* file = 0;
-    //fopen_s ( &file, "z:\\development\\call_of_prypiat\\resources\\gamedata\\shaders\\r3\\objects\\r4\\accum_sun_near_msaa_minmax.ps\\2048__1___________4_11141_", "rb" );
-    //u32 const file_size = 29544;
-    //char* buffer = (char*)malloc(file_size);
-    //fread ( buffer, file_size, 1, file );
-    //fclose ( file );
-
-    //u32 const& crc = *(u32*)buffer;
-
-    //boost::crc_32_type processor;
-    //processor.process_block ( buffer + 4, buffer + file_size );
-    //u32 const new_crc = processor.checksum( );
-    //VERIFY ( new_crc == crc );
-
-    //free (buffer);
-
-        WinMain_impl(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-    return (0);
-}
 
 LPCSTR _GetFontTexName(LPCSTR section)
 {

@@ -8,7 +8,7 @@ public class stalker_r5 :Project
 		PCHFile=Path.Combine(ProjectPath,"source","r5","pch.cpp");
 		PCHIncludeFile="pch.h";
 		Defines.Private.Add("XRRENDER_R5_EXPORTS"); 
-		Projects.Private.Add("stalker");
+		Projects.Private.Add("stalker_engine");
 		Projects.Private.Add("bear_graphics");
 		Projects.Private.Add("stalkercpu_pipe");
 		Projects.Private.Add("stalkerparticles");

@@ -176,7 +176,7 @@ IC void Dequantize(CKey& K,const CBlend& BD,const CMotion& M)
 IC void MixInterlerp( CKey &Result, const CKey	*R, const CBlend* const BA[MAX_BLENDED], int b_count )
 {
 
-	VERIFY( MAX_BLENDED >= b_count );
+	VERIFY( MAX_BLENDED >=static_cast<u32>( b_count) );
 	switch (b_count)
 	{
 	case 0:

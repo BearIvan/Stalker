@@ -14,7 +14,7 @@ ENGINE_API extern Flags32 psHUD_Flags;
 #define HUD_WEAPON_RT2 (1<<11)
 #define HUD_DRAW_RT2 (1<<12)
 
-class ENGINE_API IRenderVisual;
+class  IRenderVisual;
 class CUI;
 
 class ENGINE_API CCustomHUD :

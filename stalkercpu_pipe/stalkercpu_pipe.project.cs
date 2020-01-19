@@ -8,7 +8,7 @@ public class stalkercpu_pipe :Project
 		PCHFile=Path.Combine(ProjectPath,"source","stdafx.cpp");
 		PCHIncludeFile="stdafx.h";
 		Projects.Private.Add("stalkertools");		
-		IncludeInProject.Private.Add("stalker");
+		IncludeInProject.Private.Add("stalker_engine");
 		IncludeInProject.Private.Add("stalkerapi");
 		IncludeInProject.Private.Add("stalkercpu_pipe");
 		IncludeInProject.Private.Add("stalkercdb");

@@ -8,7 +8,11 @@ typedef	ID3D10Blob				ID3DBlob;
 typedef	D3D10_SHADER_MACRO				D3D_SHADER_MACRO;
 
 #if defined(USE_DX11)
+#ifdef MSVC
 #include "directx\d3dx11.h"
+#else
+#include <d3dx11.h>
+#endif
 #include "directx\D3D11Shader.h"
 typedef	D3D11_BLEND						D3D_BLEND;
 typedef	D3D11_BLEND_OP					D3D_BLEND_OP;

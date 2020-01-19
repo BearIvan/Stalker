@@ -280,10 +280,10 @@ protected:
 public:
 	IC bsize elapsed() const { return Size - Pos; };
 	IC bsize tell() const { return Pos; };
-	IC void seek(bsize ptr) { Pos = ptr; VERIFY((Pos <= Size) && (Pos >= 0)); };
+	IC void seek(bsize ptr) { Pos = ptr; VERIFY((Pos <= Size)); };
 	IC bsize length() const { return Size; };
 	IC void* pointer() const { return &(data[Pos]); };
-	IC void advance(bint cnt) { Pos += cnt; VERIFY((Pos <= Size) && (Pos >= 0)); };
+	IC void advance(bint cnt) { Pos += cnt; VERIFY((Pos <= Size) ); };
 
 public:
 	void r(void* p, bsize cnt);

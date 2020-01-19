@@ -17,7 +17,14 @@ public class stalkernetserver :Project
 		Projects.Private.Add("directx");
 		Projects.Private.Add("dplay");
 		LibrariesStatic.Private.Add("dxguid.lib");
-		LibrariesStatic.Private.Add("Ws2_32.lib");
-		LibrariesStatic.Private.Add("dxerr.lib");
+		
+		if (BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64 || BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win32)
+		{
+			LibrariesStatic.Private.Add("dxerr.lib");
+		}
+		else if (BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.MinGW)
+		{
+			LibrariesStatic.Private.Add("dxerr8");
+		}
 	}
 } 

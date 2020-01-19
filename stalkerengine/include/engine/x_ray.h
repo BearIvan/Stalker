@@ -70,6 +70,7 @@ public:
     virtual void _BCL OnFrame();
     void load_draw_internal();
     void destroy_loading_shaders();
+    static void Main();
 };
 
 extern ENGINE_API CApplication* pApp;

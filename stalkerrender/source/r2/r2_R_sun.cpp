@@ -656,6 +656,21 @@ Fvector3		wform	(Fmatrix& m, Fvector3 const& v)
 // note: normals points to 'outside'
 //////////////////////////////////////////////////////////////////////////
 const	float	_eps	= 0.000001f;
+inline FLOAT D3DXPlaneDotCoordSpecial
+(CONST D3DXPLANE* pP, CONST D3DXVECTOR3* pV)
+{
+
+	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d;
+}
+
+inline FLOAT D3DXPlaneDotNormalSpecial
+(CONST D3DXPLANE* pP, CONST D3DXVECTOR3* pV)
+{
+
+
+	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z;
+}
+
 struct	DumbClipper
 {
 	CFrustum				frustum;
@@ -667,20 +682,20 @@ struct	DumbClipper
 		for (int it=0; it<int(planes.size()); it++)
 		{
 			D3DXPLANE&	P		= planes			[it];
-			float		cls0	= D3DXPlaneDotCoord	(&P,&p0);
-			float		cls1	= D3DXPlaneDotCoord	(&P,&p1);
+			float		cls0	= D3DXPlaneDotCoordSpecial(&P,&p0);
+			float		cls1	= D3DXPlaneDotCoordSpecial(&P,&p1);
 			if (cls0>0 && cls1>0)	return			false;	// fully outside
 
 			if (cls0>0)	{
 				// clip p0
 				D			= p1-p0;
-				denum		= D3DXPlaneDotNormal(&P,&D);
+				denum		= D3DXPlaneDotNormalSpecial(&P,&D);
 				if (denum!=0) p0 += - D * cls0 / denum;
 			}
 			if (cls1>0)	{
 				// clip p1
 				D			= p0-p1;
-				denum		= D3DXPlaneDotNormal(&P,&D);
+				denum		= D3DXPlaneDotNormalSpecial(&P,&D);
 				if (denum!=0) p1 += - D * cls1 / denum;
 			}
 		}

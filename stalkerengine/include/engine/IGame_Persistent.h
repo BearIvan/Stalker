@@ -20,7 +20,7 @@ enum EGameIDs {
 };
 class IRenderVisual;
 class IMainMenu;
-class ENGINE_API CPS_Instance;
+class  CPS_Instance;
 //-----------------------------------------------------------------------------------------------------------
 class ENGINE_API IGame_Persistent :
 #ifndef _EDITOR

@@ -51,7 +51,7 @@ void CRenderDevice::Destroy(void)
     m_pRender = 0;
     xr_delete(Statistic);
 	Timer.~XrTimerPaused();
-	TimerGlobal.~TimerGlobal();
+	TimerGlobal.~XrTimerPaused();
 }
 
 #include "IGame_Level.h"

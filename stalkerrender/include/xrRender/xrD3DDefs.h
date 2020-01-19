@@ -3,13 +3,23 @@
 #pragma once
 
 #if defined(USE_DX11) || defined(USE_DX10)
-#include "directx\d3d11.h"
+#ifdef MSVC
 #include "directx\d3dx10math.h"
 #include "directx\d3dx10core.h"
 #include "directx\d3dx10tex.h"
 #include "directx\d3dx10mesh.h"
 #include "directx\d3dx10async.h"
 #include "directx\d3dx11.h"
+#include "directx\d3d11.h"
+#else
+#include "directx\d3dx10math.h"
+#include "directx\d3dx10core.h"
+#include "directx\d3dx10tex.h"
+#include "directx\d3dx10mesh.h"
+#include "directx\d3dx10async.h"
+#include "directx\d3dx11.h"
+#include <d3d11.h>
+#endif
 #	include "xrRenderDX10\DXCommonTypes.h"
 
 #else	//	USE_DX10

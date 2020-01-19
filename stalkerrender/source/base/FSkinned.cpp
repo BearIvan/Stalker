@@ -5,9 +5,14 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+#ifdef MSVC
+#pragma warning(push)
 #pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default:4995)
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 
 #include "engine/fmesh.h"
 #include "xrCPU_Pipe.h"
@@ -1049,7 +1054,7 @@ case RM_SKINNING_4B:	result = _PickBoneHW4W	(r,dist,start,dir,V,indices+iBase,*f
 default: NODEFAULT;
 	}
 	CHK_DX				(V->p_rm_Indices->Unlock());
-#endif	USE_DX10
+#endif	
 
 	return result;
 }
@@ -1310,7 +1315,7 @@ void	CSkeletonX_ext::_EnumBoneVertices	( SEnumVerticesCallback &C, Fvisual* V, u
 #if defined(USE_DX10) || defined(USE_DX11)
 	VERIFY(*m_Indices);
 	indices = *m_Indices;
-#else	USE_DX10
+#else	
 	CHK_DX				(V->p_rm_Indices->Lock(0, static_cast<UINT>(V->dwPrimitives*3),(void**)&indices,D3DLOCK_READONLY));
 	// fill vertices
 	void				*vertices	=0;

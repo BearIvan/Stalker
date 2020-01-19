@@ -28,18 +28,8 @@ extern void msCreate(LPCSTR name);
 PROTECT_API void CEngine::Initialize(void)
 {
     // Bind PSGP
-	hPSGP = LoadLibrary(
-#ifdef MIXED
-	"stalker_cpu_pipe_mixed.dll"
-#elif DEBUG
-	"stalker_cpu_pipe_debug.dll"
-#else
-	"stalker_cpu_pipe"
-#endif
-
-);
-    R_ASSERT(hPSGP);
-    xrBinder* bindCPU = (xrBinder*)GetProcAddress(hPSGP, "xrBind_PSGP");
+    R_ASSERT(BearManagerProjects::CheckProject(TEXT("stalker_cpu_pipe")));
+    xrBinder* bindCPU = BearManagerProjects::GetFunctionInProject<xrBinder*>(TEXT("stalker_cpu_pipe"),TEXT("xrBind_PSGP"));
     R_ASSERT(bindCPU);
     bindCPU(&PSGP);
 

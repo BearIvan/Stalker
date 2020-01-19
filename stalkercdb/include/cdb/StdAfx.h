@@ -14,34 +14,25 @@
 #	define CMALLOC(size)		xr_malloc(size)
 #	define CALLOC(type,count)	xr_alloc<type>(count)
 
-template <bool _is_pm, typename T>
-struct cspecial_free
-{
-	IC void operator()(T* &ptr)
-	{
-		void*	_real_ptr	= dynamic_cast<void*>(ptr);
-		ptr->~T			();
-		CFREE	(_real_ptr);
-	}
-};
 
-template <typename T>
-struct cspecial_free<false,T>
-{
-	IC void operator()(T* &ptr)
-	{
-		ptr->~T			();
-		CFREE	(ptr);
-	}
-};
 
 template <class T>
 IC	void cdelete		(T* &ptr)
 {
-	if (ptr) 
+	if (ptr)
 	{
-		cspecial_free<is_polymorphic<T>::result,T>()(ptr);
-		ptr = NULL;
+		if constexpr (xr_is_polymorphic<T>::value)
+		{
+			void* _real_ptr = dynamic_cast<void*>(ptr);
+			ptr->~T();
+			BearMemory::Free(_real_ptr);
+		}
+		else
+		{
+			ptr->~T();
+			BearMemory::Free(ptr);
+		}
+		((T*&)ptr) = NULL;
 	}
 }
 

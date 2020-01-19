@@ -1,6 +1,8 @@
 #ifndef	dx103DFluidRenderer_included
 #define	dx103DFluidRenderer_included
 #pragma once
+
+#ifdef MSVC
 #pragma warning(push)
 #pragma warning(disable:4005)
 #include "directx\DXGI.h"
@@ -11,7 +13,17 @@
 #include "directx\d3dx10mesh.h"
 #include "directx\d3dx10async.h"
 #include "directx\d3dx11.h"
-class dx103DFluidData;
+#include "directx\d3d11.h"
+#else
+#include <DXGI.h>
+#include <d3dx10math.h>
+#include <d3dx10core.h>
+#include <d3dx10tex.h>
+#include <d3dx10mesh.h>
+#include <d3dx10async.h>
+#include <d3dx11.h>
+#include <d3d11.h>
+#endif
 
 class dx103DFluidRenderer
 {

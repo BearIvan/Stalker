@@ -1,12 +1,28 @@
 #ifndef __XR_GAMMA_H__
 #define __XR_GAMMA_H__
+
+#ifdef MSVC
+#pragma warning(push)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
+#pragma warning(pop)
+#else
+#include <d3dx9.h>
+#endif
 #if defined(USE_DX11) || defined(USE_DX10)
+#ifdef MSVC
 #include "directx\d3dx10math.h"
 #include "directx\d3dx10core.h"
 #include "directx\d3dx10tex.h"
 #include "directx\d3dx10mesh.h"
 #include "directx\d3dx10async.h"
+#else
+#include <d3dx10math.h>
+#include <d3dx10core.h>
+#include <d3dx10tex.h>
+#include <d3dx10mesh.h>
+#include <d3dx10async.h>
+#endif
 #endif
 //-----------------------------------------------------------------------------------------------------------
 //Gamma control

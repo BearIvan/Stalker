@@ -75,10 +75,15 @@ typedef BearStringPath string_path;
 #define __inline inline
 #define ICF __forceinline 
 #else
-#define ICF 
+#define ICF inline
 #endif
 #define IC inline
 
 # define ICN __declspec (noinline)
+#ifdef MSVC
 #define	xr_pure_interface	__interface
+#else
+#define	xr_pure_interface	struct
+#endif
+
 #define ALIGN(a) BEAR_ALIGN(a)

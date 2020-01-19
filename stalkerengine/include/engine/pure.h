@@ -5,8 +5,11 @@
 
 #include "cdb/xrXRC.h"
 
+#ifndef XRCDB_EXPORTS
+#ifndef XRCPU_PIPE
 #include "sound/sound.h"
-
+#endif
+#endif
 // messages
 #define REG_PRIORITY_LOW 0x11111111ul
 #define REG_PRIORITY_NORMAL 0x22222222ul
@@ -35,7 +38,7 @@ DECLARE_MESSAGE(ScreenResolutionChanged);
 struct _REG_INFO
 {
     void* Object;
-    int Prio;
+    u32 Prio;
     u32 Flags;
 };
 
@@ -64,7 +67,7 @@ public:
     void Add(T* obj, int priority = REG_PRIORITY_NORMAL, u32 flags = 0)
     {
 #ifdef DEBUG
-        VERIFY(priority != REG_PRIORITY_INVALID);
+        VERIFY(static_cast<u32>(priority) != REG_PRIORITY_INVALID);
         VERIFY(obj);
         for (bsize i = 0; i < R.size(); i++) VERIFY(!((R[i].Prio != REG_PRIORITY_INVALID) && (R[i].Object == (void*)obj)));
 #endif
