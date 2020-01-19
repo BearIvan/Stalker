@@ -45,22 +45,24 @@ private:
 	//перобразование из LPCSTR в T_ITEM
 
 	template <typename T_CONVERT_ITEM>
-        T_ITEM				convert			(LPCSTR)
+	T_ITEM				convert(LPCSTR str)
 	{
-		STATIC_CHECK(false, Specialization_for_convert_in_CIni_Table_not_found);
-		NODEFAULT;
-	}
+		if constexpr (std::is_same<T_ITEM, int>::value)
+		{
+			return atoi(str);
+		}
+		else if constexpr (std::is_same<T_ITEM, float>::value)
+		{
+			return (float)atof(str);
 
-	template <>
-		T_ITEM				convert<int>		(LPCSTR str)
-	{
-		return atoi(str);
-	}
+		}
+		else
 
-	template <>
-		T_ITEM				convert<float>		(LPCSTR str)
-	{
-		return (float)atof(str);
+		{
+			STATIC_CHECK(false, Specialization_for_convert_in_CIni_Table_not_found);
+			NODEFAULT;
+		}
+
 	}
 
 };
@@ -113,15 +115,15 @@ typename CSIni_Table::ITEM_TABLE& CSIni_Table::table	()
 
 	for (CInifile::SectCIt i = table_ini.Data.begin(); table_ini.Data.end() != i; ++i)
 	{
-		T_INI_LOADER::index_type cur_index = T_INI_LOADER::IdToIndex((*i).first, type_max(T_INI_LOADER::index_type));
+		typename T_INI_LOADER::index_type cur_index = T_INI_LOADER::IdToIndex((*i).first, type_max(typename T_INI_LOADER::index_type));
 
-		if(type_max(T_INI_LOADER::index_type) == cur_index)
+		if(type_max(typename T_INI_LOADER::index_type) == cur_index)
 			Debug.fatal(DEBUG_INFO,"wrong community %s in section [%s]", *(*i).first, table_sect);
 
 		(*m_pTable)[cur_index].resize(cur_table_width);
 		for(std::size_t j=0; j<cur_table_width; j++)
 		{
-			(*m_pTable)[cur_index][j] = convert<typename T_ITEM>(XrTrims::GetItem(*(*i).second,(int)j,buffer));
+			(*m_pTable)[cur_index][j] = convert< T_ITEM>(XrTrims::GetItem(*(*i).second,(int)j,buffer));
 		}
 	}
 

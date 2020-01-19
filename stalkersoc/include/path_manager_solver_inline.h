@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-
+#include "graph_engine_space.h"
 #define TEMPLATE_SPECIALIZATION \
 	template <\
 		typename T1,\
@@ -42,26 +42,26 @@ IC	void CSolverPathManager::setup					(
 		const _Parameters		&params
 	)
 {
-	graph					= _graph;
-	data_storage			= _data_storage;
+	inherited::graph					= _graph;
+	inherited::data_storage			= _data_storage;
 	m_edge_path				= _path;
-	start_node_index		= _start_node_index;
-	goal_node_index			= _goal_node_index;
-	max_visited_node_count	= params.max_visited_node_count;
-	max_range				= (_solver_dist_type)params.max_range;
-	max_iteration_count		= params.max_iteration_count;
+	inherited::start_node_index		= _start_node_index;
+	inherited::goal_node_index			= _goal_node_index;
+	inherited::max_visited_node_count	= params.max_visited_node_count;
+	inherited::max_range				= (GraphEngineSpace::_solver_dist_type)params.max_range;
+	inherited::max_iteration_count		= params.max_iteration_count;
 }
 
 TEMPLATE_SPECIALIZATION
 IC	bool CSolverPathManager::is_goal_reached		(const _index_type &vertex_id) const
 {
-	return					(graph->is_goal_reached(vertex_id));
+	return					(inherited::graph->is_goal_reached(vertex_id));
 }
 
 TEMPLATE_SPECIALIZATION
 IC	const _index_type &CSolverPathManager::get_value(const_iterator &i, bool reverse_search) const
 {
-	return					(graph->value(*best_node_index,i,reverse_search));
+	return					(inherited::graph->value(*inherited::best_node_index,i,reverse_search));
 }
 
 TEMPLATE_SPECIALIZATION
@@ -73,16 +73,16 @@ IC	const typename CSolverPathManager::_edge_type &CSolverPathManager::edge		(con
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CSolverPathManager::evaluate			(const _index_type &node_index1, const _index_type &node_index2, const const_iterator &i) const
 {
-	VERIFY					(graph);
-	return					(graph->get_edge_weight(node_index1,node_index2,i));
+	VERIFY					(inherited::graph);
+	return					(inherited::graph->get_edge_weight(node_index1,node_index2,i));
 }
 
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CSolverPathManager::estimate			(const _index_type &vertex_id) const
 {
-	VERIFY					(graph);
-//	return					((_dist_type)graph->get_edge_weight(vertex_id,start_node_index,m_iterator));
-	return					(1*(_dist_type)graph->estimate_edge_weight(vertex_id));
+	VERIFY					(inherited::graph);
+//	return					((_dist_type)inherited::graph->get_edge_weight(vertex_id,inherited::start_node_index,m_iterator));
+	return					(1*(_dist_type)inherited::graph->estimate_edge_weight(vertex_id));
 //	return					((_dist_type)0);
 }
 
@@ -97,9 +97,9 @@ TEMPLATE_SPECIALIZATION
 template <typename T>
 IC	void CSolverPathManager::create_path			(T &vertex, _DataStorage &data_storage, bool reverse_order)
 {
-	VERIFY					(this->data_storage);
+	VERIFY					(inherited::data_storage);
 	if (m_edge_path)
-		data_storage.get_edge_path	(*m_edge_path,&vertex,reverse_order);
+	data_storage.get_edge_path	(*m_edge_path,&vertex,reverse_order);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -108,7 +108,7 @@ IC	void CSolverPathManager::create_path			(T &vertex)
 {
 	VERIFY					(this->data_storage);
 	if (m_edge_path)
-		data_storage->get_edge_path	(*m_edge_path,&vertex,typename _Graph::reverse_search);
+		inherited::data_storage->get_edge_path	(*m_edge_path,&vertex, _Graph::reverse_search);
 }
 
 #undef TEMPLATE_SPECIALIZATION

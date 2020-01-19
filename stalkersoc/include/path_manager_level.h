@@ -46,14 +46,14 @@ protected:
 		_index_type,
 		_iteration_type
 	> _Parameters;
-	typedef typename CPathManagerGeneric <
+	using   inherited = CPathManagerGeneric <
 				_Graph,
 				_DataStorage,
 				_Parameters,
 				_dist_type,
 				_index_type,
 				_iteration_type
-			> inherited;
+			> ;
 
 protected:
 	int					x1;

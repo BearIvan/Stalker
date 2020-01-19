@@ -27,8 +27,8 @@
 			typename _2,\
 			typename _3,\
 			template <\
-				typename _1,\
-				typename _2\
+				typename __1,\
+				typename __2\
 			>\
 			class	 _4\
 		>\
@@ -38,23 +38,23 @@
 			typename _manager,\
 			typename _builder,\
 			typename _allocator,\
-			template <typename _T> class _vertex,\
+			template <typename _T> class __vertex,\
 			template <\
 				typename _1,\
 				typename _2\
 			>\
-			class	 _builder_allocator_constructor,\
+			class	 __builder_allocator_constructor,\
 			template <\
 				typename _1,\
 				typename _2,\
 				typename _3,\
 				template <\
-					typename _1,\
-					typename _2\
+					typename __1,\
+					typename __2\
 				>\
 				class	 _4\
 			>\
-			class	 _manager_builder_allocator_constructor\
+			class	 __manager_builder_allocator_constructor\
 		>\
 		class _data_storage_constructor,\
 		typename _iteration_type\
@@ -155,8 +155,8 @@ IC	bool CSDijkstra::step				(_PathManager &path_manager)
 	data_storage().remove_best_opened();
 
 	// iterating on the best node neighbours
-	_PathManager::const_iterator	i;
-	_PathManager::const_iterator	e;
+	typename _PathManager::const_iterator	i;
+	typename _PathManager::const_iterator	e;
 	path_manager.begin				(best.index(),i,e);
 	for (  ; i != e; ++i) {
 		const _index_type			&neighbour_index = path_manager.get_value(i);
@@ -220,7 +220,7 @@ IC	bool CSDijkstra::find				(_PathManager &path_manager)
 	// initialize data structures with new search
 	initialize			(path_manager);
 	// iterate while opened list is not empty
-	for (_iteration_type i = _iteration_type(0); !data_storage().is_opened_empty(); ++i) {
+	for ( _iteration_type i = _iteration_type(0); !data_storage().is_opened_empty(); ++i) {
 		// check if we reached limit
 		if (path_manager.is_limit_reached(i)) {
 			// so we reached limit, return failure

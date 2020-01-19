@@ -12,14 +12,14 @@ IC bool compare_safe(const luabind::object &o1 , const luabind::object &o2)
 }
 /**/
 
-CPHScriptCondition::CPHScriptCondition(const luabind::functor<bool> &func)
+CPHScriptCondition::CPHScriptCondition(const luabind::object &func)
 {
-	m_lua_function		= xr_new<luabind::functor<bool> >(func);
+	m_lua_function		= xr_new<luabind::object >(func);
 }
 
 CPHScriptCondition::CPHScriptCondition(const CPHScriptCondition &func)
 {
-	m_lua_function		= xr_new<luabind::functor<bool> >(*func.m_lua_function);
+	m_lua_function		= xr_new<luabind::object >(*func.m_lua_function);
 }
 
 CPHScriptCondition::~CPHScriptCondition()
@@ -29,7 +29,7 @@ CPHScriptCondition::~CPHScriptCondition()
 
 bool CPHScriptCondition::is_true()
 {
-	return (*m_lua_function)();
+	return luabind::call_function<bool>( *m_lua_function);
 }
 
 bool CPHScriptCondition::obsolete()const
@@ -38,16 +38,16 @@ bool CPHScriptCondition::obsolete()const
 }
 
 //
-CPHScriptAction::CPHScriptAction(const luabind::functor<void> &func)
+CPHScriptAction::CPHScriptAction(const luabind::object &func)
 {
 	b_obsolete		= false;
-	m_lua_function	= xr_new<luabind::functor<void> >(func);
+	m_lua_function	= xr_new<luabind::object >(func);
 }
 
 CPHScriptAction::CPHScriptAction(const CPHScriptAction &action)
 {
 	b_obsolete		= action.b_obsolete;
-	m_lua_function	= xr_new<luabind::functor<void> >(*action.m_lua_function);
+	m_lua_function	= xr_new<luabind::object >(*action.m_lua_function);
 }
 
 CPHScriptAction::~CPHScriptAction()
@@ -57,7 +57,7 @@ CPHScriptAction::~CPHScriptAction()
 
 void CPHScriptAction::run()
 {
-	(*m_lua_function)();
+	luabind::call_function<void>(*m_lua_function);
 	b_obsolete=true;
 }
 
@@ -133,7 +133,7 @@ bool CPHScriptObjectCondition::obsolete()const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CPHScriptObjectActionN::CPHScriptObjectActionN( const luabind::object &object,const luabind::functor<void> &functor)
+CPHScriptObjectActionN::CPHScriptObjectActionN( const luabind::object &object,const luabind::object &functor)
 {
 	m_callback.set(functor,object);
 }
@@ -154,7 +154,7 @@ bool CPHScriptObjectActionN::obsolete()const
 	return b_obsolete;
 }
 
-CPHScriptObjectConditionN::CPHScriptObjectConditionN(const luabind::object &object,const luabind::functor<bool> &functor)
+CPHScriptObjectConditionN::CPHScriptObjectConditionN(const luabind::object &object,const luabind::object &functor)
 {
 	m_callback.set(functor,object);
 }

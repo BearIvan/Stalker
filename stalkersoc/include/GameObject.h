@@ -40,9 +40,7 @@ class CSpaceRestrictor;
 class CAttachableItem;
 class animation_movement_controller;
 class CBlend;
-namespace GameObject {
-	enum ECallbackType;
-};
+#include "game_object_space.h"
 
 template <typename _return_type>
 class CScriptCallbackEx;

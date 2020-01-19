@@ -9,10 +9,42 @@
 #pragma once
 
 template <typename _return_type>
-class CScriptCallbackEx : public CScriptCallbackEx_<_return_type> {
+class CScriptCallbackEx : public CScriptCallbackEx_<_return_type>
+{
+    using self = CScriptCallbackEx_<_return_type>;
 public:
-#	define	macros_return_operator		return return_type
-#	undef	SCRIPT_CALLBACK_EX_GENERATORS
-#	include "script_callback_ex_generators.h"
-#	undef	macros_return_operator
+    template <typename... Args>
+    IC _return_type operator()(Args... args) 
+    {
+        if (self::m_functor)
+        {
+            VERIFY(self::m_functor.is_valid());
+            if (self::m_object.is_valid())
+            {
+                VERIFY(self::m_object.is_valid());
+                return (luabind::call_function<_return_type>(self::m_functor, self::m_object, args...));
+            }
+            else
+                return (luabind::call_function<_return_type>(self::m_functor, args...));
+        }
+
+        return _return_type();
+    }
+    template <typename... Args>
+    IC _return_type operator()(Args... args)  const 
+    {
+        if (self::m_functor)
+        {
+            VERIFY(self::m_functor.is_valid());
+            if (self::m_object.is_valid())
+            {
+                VERIFY(self::m_object.is_valid());
+                return (luabind::call_function<_return_type>(self::m_functor, self::m_object, args...));
+            }
+            else
+                return (luabind::call_function<_return_type>(self::m_functor, args...));
+        }
+
+        return _return_type();
+    }
 };

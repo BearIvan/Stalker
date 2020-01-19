@@ -2,7 +2,7 @@
 #include "physicsshell.h"
 
 using namespace luabind;
-
+using namespace luabind::policy;
 Fmatrix	global_transform(CPhysicsElement* E)
 {
 	Fmatrix m;
@@ -72,9 +72,9 @@ void CPhysicsJoint::script_register(lua_State *L)
 			.def("set_axis_dir_vs_second_element",		(void(CPhysicsJoint::*)(const float,const float,const float,const int ))(&CPhysicsJoint::SetAxisDirVsSecondElement))
 			.def("set_limits",							&CPhysicsJoint::SetLimits)
 			.def("set_max_force_and_velocity",			&CPhysicsJoint::SetForceAndVelocity)
-			.def("get_max_force_and_velocity",			&CPhysicsJoint::GetMaxForceAndVelocity)
+			.def("get_max_force_and_velocity",			&CPhysicsJoint::GetMaxForceAndVelocity, policy_list< out_value<2>, out_value<3>>())
 			.def("get_axis_angle",						&CPhysicsJoint::GetAxisAngle)
-			.def("get_limits",							&CPhysicsJoint::GetLimits,out_value(_2) + out_value(_3))
+			.def("get_limits",							&CPhysicsJoint::GetLimits,policy_list< out_value<2> , out_value<3>>())
 			.def("get_axis_dir",						&CPhysicsJoint::GetAxisDirDynamic)
 			.def("get_anchor",							&CPhysicsJoint::GetAnchorDynamic)
 			.def("is_breakable",						&CPhysicsJoint::isBreakable)

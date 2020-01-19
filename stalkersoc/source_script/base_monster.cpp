@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch_script.h"
 #include "ai/monsters/basemonster/base_monster.h"
 #include "PhysicsShell.h"
 #include "hit.h"

@@ -149,7 +149,7 @@ IC		CIKLimbsController				*ik_controller					()	{return	m_ik_controller;}
 		SCollisionHitCallback*			get_collision_hit_callback		();
 		bool							set_collision_hit_callback		(SCollisionHitCallback* cc);
 /////////////////////////////////////////////////////////////////
-		CCharacterPhysicsSupport& operator = (CCharacterPhysicsSupport& /**asup/**/){R_ASSERT2(false,"Can not assign it");}
+		CCharacterPhysicsSupport& operator = (CCharacterPhysicsSupport& /**asup/**/) { R_ASSERT2(false, "Can not assign it"); return *this; }
 								CCharacterPhysicsSupport				(EType atype,CEntityAlive* aentity)																					;
 virtual							~CCharacterPhysicsSupport				()																													;
 private:

@@ -176,7 +176,7 @@ public:
 	template <class _predicate>
 	IC		float	vertex_cover_angle			(u32 vertex_id, float inc_angle, _predicate compare_predicate) const;
 	IC		void	set_invalid_vertex			(u32 &vertex_id, CVertex **vertex = NULL) const;
-	IC		const u32 vertex_id					(const CLevelGraph::CVertex *vertex) const;
+	IC		 u32 vertex_id					(const CLevelGraph::CVertex *vertex) const;
 			u32		vertex_id					(const Fvector &position) const;
 			u32		vertex						(u32 current_vertex_id, const Fvector &position) const;
 			void	choose_point				(const Fvector &start_point, const Fvector &finish_point, const SContour &contour, int vertex_id, Fvector &temp_point, int &saved_index) const;

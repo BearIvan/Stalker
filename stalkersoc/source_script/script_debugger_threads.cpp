@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_script.h"
 #include "script_debugger_threads.h"
 #include "ai_space.h"
 #include "script_process.h"

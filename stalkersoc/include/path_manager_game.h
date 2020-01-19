@@ -33,15 +33,15 @@ template <
 		>
 {
 protected:
-	typedef CGameGraph _Graph;
-	typedef typename CPathManagerGeneric <
+	using  _Graph =  CGameGraph;
+	using inherited =  CPathManagerGeneric <
 		_Graph,
 		_DataStorage,
 		_Parameters,
 		_dist_type,
 		_index_type,
 		_iteration_type
-	> inherited;
+	> ;
 
 protected:
 	const _Graph::CVertex	*goal_vertex;

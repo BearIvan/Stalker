@@ -7,21 +7,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#include "ai_monster_space.h"
+#include "movement_manager_space.h"
+#include "detail_path_manager_space.h"
 
-namespace MonsterSpace {
-	enum EBodyState;
-	enum EMovementType;
-	enum EMentalState;
-	enum EPathType;
-};
-
-namespace MovementManager {
-	enum EPathType;
-};
-
-namespace DetailPathManager {
-	enum EDetailPathType;
-};
 
 class CStalkerMovementParams {
 	friend class CStalkerMovementManager;

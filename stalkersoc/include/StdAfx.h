@@ -31,8 +31,6 @@ IC	void		throw_and_log(const xr_string &s) {Msg("! %s",s.c_str()); throw *shared
 #	define MASTER_GOLD
 #endif // DEBUG
 
-#ifdef _MSC_VER
+#ifdef MSVC
 # pragma warning(disable: 4589 4459)
-#else
-#error "Добавь warning ignore"
 #endif

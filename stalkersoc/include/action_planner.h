@@ -58,7 +58,7 @@ public:
 	using _value_type = typename CProblemSolver::_value_type;
 	using _operator_ptr = typename CProblemSolver::_operator_ptr;
 	using _edge_type = typename CProblemSolver::_edge_type;
-	using _world_operator = typename __world_operator;
+	using _world_operator =  __world_operator;
 
 
 protected:

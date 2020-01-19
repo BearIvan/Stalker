@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch_script.h"
 #include "HUDmanager.h"
 #include "LevelGameDef.h"
 #include "ai_space.h"

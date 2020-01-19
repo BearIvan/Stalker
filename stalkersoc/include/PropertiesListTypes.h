@@ -120,11 +120,12 @@ public:
         return 			false;
     }
 };
-
+class TProperties;
+class		CPropHelper;
 class PropItem
 {
-	friend class		CPropHelper;
-    friend class		TProperties;
+	friend 		CPropHelper;
+    friend 		TProperties;
     shared_str			key;
     EPropType			type;
 	void*				item;
@@ -453,15 +454,15 @@ public:
 public:
 						NumericValue	(T* val):CustomValue<T>(val)
 	{
-        value			= val;
-        init_value		= *value;
+       CustomValue<T>::value			= val;
+       CustomValue<T>::init_value		= *CustomValue<T>::value;
         dec				= 0;
     };
 						NumericValue	(T* val, T mn, T mx, T increm, int decim):CustomValue<T>(val),lim_mn(mn),lim_mx(mx),inc(increm),dec(decim)
 	{
     	XrMath::clamp			(*val,lim_mn,lim_mx);
-        value			= val;
-        init_value		= *value;
+        CustomValue<T>::value			= val;
+        CustomValue<T>::init_value		= *CustomValue<T>::value;
     };
     bool				ApplyValue		(const T& _val)
     {
@@ -473,7 +474,7 @@ public:
 	{
         xr_string		draw_val;
         if (!OnDrawText.empty())	OnDrawText.call(this, draw_val);
-        else			draw_sprintf	(draw_val,*value,dec);
+        else			draw_sprintf	(draw_val,*CustomValue<T>::value,dec);
         return draw_val;
     }
 };
@@ -562,14 +563,14 @@ public:
         else 			return HaveCaption()?caption[GetValueEx()?1:0].c_str():"";
         return			draw_val;
     }
-    virtual bool		Equal			(PropValue* val){return !!value->equal(*((FlagValue<T>*)val)->value,mask);}
-    virtual const T&	GetValue		()				{return *value; }
-    virtual void		ResetValue		()				{value->set(mask,init_value.is(mask));}
-    virtual bool		GetValueEx		()				{return !!value->is(mask);}
-    bool				ApplyValue		(const T& val)
+    virtual bool		Equal			(PropValue* val){return !!CustomValue<T>::value->equal(*((FlagValue<T>*)val)->value,mask);}
+    virtual const T&	GetValue		()				{return *CustomValue<T>::value; }
+    virtual void		ResetValue		()				{ CustomValue<T>::value->set(mask, CustomValue<T>::init_value.is(mask));}
+    virtual bool		GetValueEx		()				{return !!CustomValue<T>::value->is(mask);}
+    inline bool				ApplyValue		(const T& val)
     {
-        if (!val.equal(*value,mask)){
-            value->set	(mask,val.is(mask));
+        if (!val.equal(*CustomValue<T>::value,mask)){
+            CustomValue<T>::value->set	(mask,val.is(mask));
             return		true;
         }
         return 			false;
@@ -598,7 +599,7 @@ public:
     {
         xr_string		draw_val;
         if (!OnDrawText.empty())	OnDrawText(this, draw_val);
-        else			for(int i=0; token[i].name; i++) if (token[i].id==(int)GetValue()) return token[i].name;
+        else			for(int i=0; TokenValueCustom::token[i].name; i++) if (TokenValueCustom::token[i].id==(int)CustomValue<T>::GetValue()) return TokenValueCustom::token[i].name;
         return draw_val;
     }
 };
@@ -623,7 +624,7 @@ public:
     {
         xr_string draw_val;
         if (!OnDrawText.empty())	OnDrawText(this, draw_val);
-        else			for(u32 k=0; k<token_count; k++) if ((T)token[k].id==GetValue()) return *token[k].name;
+        else			for(u32 k=0; k< RTokenValueCustom::token_count; k++) if ((T)RTokenValueCustom::token[k].id== CustomValue<T>::GetValue()) return *RTokenValueCustom::token[k].name;
         return draw_val;
     }
 };

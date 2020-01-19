@@ -18,7 +18,7 @@ extern u16				g_active_task_objective_id;
 
 class CGameTask;
 
-struct SGameTaskKey : public IPureSerializeObject<IReader,IWriter>,public IPureDestroyableObject {
+struct SGameTaskKey : public ISerializable,public IPureDestroyableObject {
 	TASK_ID			task_id;
 	CGameTask*		game_task;
 	SGameTaskKey	(TASK_ID t_id):task_id(t_id),game_task(NULL){};

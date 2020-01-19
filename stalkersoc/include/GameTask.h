@@ -8,7 +8,7 @@ class CGameTaskManager;
 class CMapLocation;
 class CGameTask;
 
-class SScriptObjectiveHelper: public IPureSerializeObject<IReader,IWriter>
+class SScriptObjectiveHelper: public ISerializable
 {
 public:
 	xr_vector<shared_str>	m_s_complete_lua_functions;
@@ -25,10 +25,10 @@ public:
 	virtual void			save			(IWriter &stream);
 	virtual void			load			(IReader &stream);
 			
-			void			init_functors	(xr_vector<shared_str>& v_src, xr_vector<luabind::functor<bool> >& v_dest);
+			void			init_functors	(xr_vector<shared_str>& v_src, xr_vector<luabind::object >& v_dest);
 };
 
-class SGameTaskObjective : public IPureSerializeObject<IReader,IWriter>
+class SGameTaskObjective : public ISerializable
 {
 	friend struct SGameTaskKey;
 	friend class CGameTaskManager;
@@ -37,9 +37,9 @@ private:
 	CGameTask*				parent;
 	int						idx;
 	void					SendInfo		(xr_vector<shared_str>&);
-	void					CallAllFuncs	(xr_vector<luabind::functor<bool> >& v);
+	void					CallAllFuncs	(xr_vector<luabind::object >& v);
 	bool					CheckInfo		(xr_vector<shared_str>&);
-	bool					CheckFunctions	(xr_vector<luabind::functor<bool> >& v);
+	bool					CheckFunctions	(xr_vector<luabind::object >& v);
 	void					SetTaskState	(ETaskState new_state);
 public:
 	SScriptObjectiveHelper	m_pScriptHelper;
@@ -67,11 +67,11 @@ public:
 	xr_vector<shared_str>				m_infos_on_complete;
 	xr_vector<shared_str>				m_infos_on_fail;
 
-	xr_vector<luabind::functor<bool> >	m_complete_lua_functions;
-	xr_vector<luabind::functor<bool> >	m_fail_lua_functions;
+	xr_vector<luabind::object >	m_complete_lua_functions;
+	xr_vector<luabind::object >	m_fail_lua_functions;
 
-	xr_vector<luabind::functor<bool> >	m_lua_functions_on_complete;
-	xr_vector<luabind::functor<bool> >	m_lua_functions_on_fail;
+	xr_vector<luabind::object >	m_lua_functions_on_complete;
+	xr_vector<luabind::object >	m_lua_functions_on_fail;
 
 // for scripting access
 	void					SetDescription_script	(LPCSTR _descr);

@@ -4,7 +4,6 @@
 #include "clsid_game.h"
 #include "actor.h"
 
-using namespace luabind;
 
 ESingleGameDifficulty g_SingleGameDifficulty = egdMaster;
 
@@ -40,6 +39,7 @@ void game_cl_Single::OnDifficultyChanged()
 	Actor()->OnDifficultyChanged();
 }
 
+/*!!!!!!!
 #pragma optimize("s",on)
 void CScriptGameDifficulty::script_register(lua_State *L)
 {
@@ -54,4 +54,4 @@ void CScriptGameDifficulty::script_register(lua_State *L)
 				value("master",				int(egdMaster			))
 			]
 		];
-}
+}*/

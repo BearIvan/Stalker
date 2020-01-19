@@ -15,14 +15,8 @@ class CInventoryItem;
 class CWeapon;
 class CMissile;
 class CFoodItem;
-
-namespace ObjectHandlerSpace {
-	enum EWorldProperties;
-};
-
-namespace MonsterSpace {
-	enum EObjectAction;
-};
+#include "object_handler_space.h"
+#include "ai_monster_space.h"
 
 class CObjectHandlerPlanner : public CActionPlanner<CAI_Stalker,true> {
 public:

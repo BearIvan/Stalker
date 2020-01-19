@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-
+#include "restricted_object.h"
 IC	bool CMovementManager::actual() const
 {
 	return					(m_path_actuality);

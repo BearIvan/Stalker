@@ -58,6 +58,7 @@ public:
 	IC u32			GetColor		() const					{return dwColor;}
 	IC u32&			GetColorRef		()							{return dwColor;}
 	IC ui_shader&	GetShader		()							{return hShader;}
+	IC Fvector2 GetSize() { return Fvector2().set(0,0); }
 };
 
 extern ENGINE_API BOOL g_bRendering; 

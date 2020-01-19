@@ -12,7 +12,7 @@
 using namespace luabind;
 
 template <typename T>
-T& set(T *self, const typename T::TYPE mask, bool value)
+T& set_flag(T *self, const typename T::TYPE mask, bool value)
 {
 	return	(self->set(mask,value));
 }
@@ -53,8 +53,8 @@ void one(T *self)
 	self->assign(typename T::TYPE(-1));
 }
 
-#pragma optimize("s",on)
-void CScriptFlags::script_register(lua_State *L)
+template<>
+inline void CScriptFlags::script_register(lua_State *L)
 {
 	module(L)
 	[
@@ -93,7 +93,7 @@ void CScriptFlags::script_register(lua_State *L)
 			.def("or",		(Flags16& (Flags16::*)(const Flags16&,const Flags16::TYPE))(&Flags16::OR))
 			.def("and",		(Flags16& (Flags16::*)(const Flags16::TYPE))(&Flags16::AND))
 			.def("and",		(Flags16& (Flags16::*)(const Flags16&,const Flags16::TYPE))(&Flags16::AND))
-			.def("set",		&set<Flags16>)
+			.def("set",		&set_flag<Flags16>)
 			.def("is",		&is<Flags16>)
 			.def("is_any",	&is_any<Flags16>)
 			.def("test",	&test<Flags16>)
@@ -114,7 +114,7 @@ void CScriptFlags::script_register(lua_State *L)
 			.def("or",		(Flags32& (Flags32::*)(const Flags32&,const Flags32::TYPE))(&Flags32::OR))
 			.def("and",		(Flags32& (Flags32::*)(const Flags32::TYPE))(&Flags32::AND))
 			.def("and",		(Flags32& (Flags32::*)(const Flags32&,const Flags32::TYPE))(&Flags32::OR))
-			.def("set",		&set<Flags32>)
+			.def("set",		&set_flag<Flags32>)
 			.def("is",		&is<Flags32>)
 			.def("is_any",	&is_any<Flags32>)
 			.def("test",	&test<Flags32>)

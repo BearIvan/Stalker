@@ -14,16 +14,14 @@ class CSE_ALifeMonsterAbstract;
 class CALifeMonsterDetailPathManager;
 class CALifeMonsterPatrolPathManager;
 
-namespace MovementManager {
-	enum EPathType;
-};
+#include "movement_manager_space.h"
 
 class CALifeMonsterMovementManager {
 public:
 	typedef CSE_ALifeMonsterAbstract							object_type;
 	typedef CALifeMonsterDetailPathManager					detail_path_type;
 	typedef CALifeMonsterPatrolPathManager					patrol_path_type;
-	typedef MovementManager::EPathType						EPathType;
+	typedef  MovementManager::EPathType						EPathType;
 
 private:
 	object_type					*m_object;

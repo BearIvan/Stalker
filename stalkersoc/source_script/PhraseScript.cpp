@@ -118,11 +118,11 @@ bool CPhraseScript::Precondition(const CGameObject* pSpeakerGO, LPCSTR dialog_id
 
 	for(u32 i = 0; i<Preconditions().size(); ++i)
 	{
-		luabind::functor<bool>	lua_function;
+		luabind::object	lua_function;
 		THROW(*Preconditions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Preconditions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find precondition", *Preconditions()[i]);
-		predicate_result = lua_function	(pSpeakerGO->lua_game_object());
+		predicate_result =luabind::call_function<bool> (lua_function	,pSpeakerGO->lua_game_object());
 		if(!predicate_result){
 		#ifdef DEBUG
 			if (psAI_Flags.test(aiDialogs))
@@ -139,7 +139,7 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO, LPCSTR dialog_id, LPCS
 
 	for(u32 i = 0; i<Actions().size(); ++i)
 	{
-		luabind::functor<void>	lua_function;
+		luabind::object	lua_function;
 		THROW(*Actions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Actions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase dialog script function", *Actions()[i]);
@@ -148,11 +148,11 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO, LPCSTR dialog_id, LPCS
 			int dialog_id_ = 0;
 			if (dialog_id)
 				dialog_id_ = atoi(dialog_id);
-			lua_function(pSpeakerGO->lua_game_object(), dialog_id_);
+			luabind::call_function<void>(lua_function,pSpeakerGO->lua_game_object(), dialog_id_);
 		}
 		else
 		{
-			lua_function(pSpeakerGO->lua_game_object(), dialog_id);
+			luabind::call_function<void>(lua_function,pSpeakerGO->lua_game_object(), dialog_id);
 		}
 	}
 	TransferInfo(smart_cast<const CInventoryOwner*>(pSpeakerGO));
@@ -175,7 +175,7 @@ bool CPhraseScript::Precondition	(	const CGameObject* pSpeakerGO1,
 	}
 	for(u32 i = 0; i<Preconditions().size(); ++i)
 	{
-		luabind::functor<bool>	lua_function;
+		luabind::object	lua_function;
 		THROW(*Preconditions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Preconditions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase precondition", *Preconditions()[i]);
@@ -189,11 +189,11 @@ bool CPhraseScript::Precondition	(	const CGameObject* pSpeakerGO1,
 			if(phrase_id)
 			phrase_id_= atoi(phrase_id);
 			int next_phrase_id_ = atoi(next_phrase_id);
-			predicate_result = lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_, next_phrase_id_);
+			predicate_result = luabind::call_function<bool>(lua_function,pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_, next_phrase_id_);
 		}
 		else
 		{
-			predicate_result = lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
+			predicate_result = luabind::call_function<bool>(lua_function,pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
 		}
 		
 		if(!predicate_result)
@@ -214,7 +214,7 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO1, const CGameObject* pS
 
 	for(u32 i = 0; i<Actions().size(); ++i)
 	{
-		luabind::functor<void>	lua_function;
+		luabind::object	lua_function;
 		THROW(*Actions()[i]);
 		bool functor_exists = ai().script_engine().functor(*Actions()[i] ,lua_function);
 		THROW3(functor_exists, "Cannot find phrase dialog script function", *Actions()[i]);
@@ -227,11 +227,11 @@ void CPhraseScript::Action(const CGameObject* pSpeakerGO1, const CGameObject* pS
 				int phrase_id_ = 0;
 				if (phrase_id)
 					phrase_id_ = atoi(phrase_id);
-				lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_);
+				luabind::call_function<void>(lua_function,pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id_, phrase_id_);
 			}
 			else
 			{
-				lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id);
+				luabind::call_function<void>(lua_function,pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id);
 			}
 		} catch (...) {
 		}

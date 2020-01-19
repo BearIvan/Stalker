@@ -6,18 +6,16 @@
 //	Description : Base action script export
 ////////////////////////////////////////////////////////////////////////////
 
-#include "pch_script.h"
 #include "script_action_wrapper.h"
 #include "script_game_object.h"
-
+#include "action_base_inline.h"
 using namespace luabind;
-
-#pragma optimize("s",on)
-void CActionBase<CScriptGameObject>::script_register(lua_State *L)
+template<>
+inline  void CActionBase<CScriptGameObject>::script_register(lua_State *L)
 {
 	module(L)
 	[
-		class_<CScriptActionBase,CScriptActionWrapper>("action_base")
+		class_<CScriptActionBase,luabind::no_bases,default_holder, CScriptActionWrapper>("action_base")
 			.def_readonly("object",				&CScriptActionBase::m_object)
 			.def_readonly("storage",			&CScriptActionBase::m_storage)
 			.def(								constructor<>())

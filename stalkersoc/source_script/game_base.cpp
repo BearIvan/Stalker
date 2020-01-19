@@ -11,7 +11,7 @@ u64		g_qwEStartGameTime		= 12*60*60*1000;
 
 ENGINE_API	bool g_dedicated_server;
 
-xr_token game_types[];
+extern xr_token game_types[];
 
 game_PlayerState::game_PlayerState()
 {
@@ -178,10 +178,10 @@ CLASS_ID game_GameState::getCLASS_ID(LPCSTR game_type_name, bool isServer)
 		string256				I;
 		BearString::Copy(I,l_tpIniFile->r_string("common","game_type_clsid_factory"));
 
-		luabind::functor<LPCSTR>	result;
+		luabind::object	result;
 		R_ASSERT					(ai().script_engine().functor(I,result));
-		shared_str clsid = result		(game_type_name, isServer);
-
+		shared_str clsid = luabind::call_function<const char*>( result		,game_type_name, isServer);
+		
 		xr_delete			(l_tpIniFile);
 		if(clsid.size()==0)
 			Debug.fatal		(DEBUG_INFO,"Unknown game type: %s",game_type_name);

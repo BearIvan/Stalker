@@ -9,10 +9,39 @@
 #pragma once
 
 template <>
-class CScriptCallbackEx<void> : public CScriptCallbackEx_<void> {
+class CScriptCallbackEx<void> : public CScriptCallbackEx_<void>
+ {
+    using self = CScriptCallbackEx_<void>;
 public:
-#	define	macros_return_operator
-#	undef	SCRIPT_CALLBACK_EX_GENERATORS
-#	include "script_callback_ex_generators.h"
-#	undef	macros_return_operator
+ template <typename... Args>
+    IC void operator()(Args... args) 
+    {
+        if (self::m_functor)
+        {
+            VERIFY(self::m_functor.is_valid());
+            if (self::m_object.is_valid())
+            {
+                VERIFY(self::m_object.is_valid());
+                luabind::call_function<void>(self::m_functor, self::m_object, args...);
+            }
+            else
+                luabind::call_function<void>(self::m_functor, args...);
+        }
+
+    }
+    template <typename... Args>
+    IC void operator()(Args... args)  const 
+    {
+        if (self::m_functor)
+        {
+            VERIFY(self::m_functor.is_valid());
+            if (self::m_object.is_valid())
+            {
+                VERIFY(self::m_object.is_valid());
+                luabind::call_function<void>(self::m_functor, self::m_object, args...);
+            }
+            else
+                luabind::call_function<void>(self::m_functor, args...);
+        }
+    }
 };

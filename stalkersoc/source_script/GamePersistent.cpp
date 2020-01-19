@@ -123,7 +123,7 @@ void CGamePersistent::OnAppStart()
 	// load game materials
 	GMLib.Load					();
 	init_game_globals			();
-	__super::OnAppStart			();
+	IGame_Persistent::OnAppStart			();
 	m_pUI_core					= xr_new<ui_core>();
 	m_pMainMenu					= xr_new<CMainMenu>();
 }
@@ -137,7 +137,7 @@ void CGamePersistent::OnAppEnd	()
 	xr_delete					(m_pMainMenu);
 	xr_delete					(m_pUI_core);
 
-	__super::OnAppEnd			();
+	IGame_Persistent::OnAppEnd			();
 
 	clean_game_globals			();
 
@@ -147,7 +147,7 @@ void CGamePersistent::OnAppEnd	()
 
 void CGamePersistent::Start		(LPCSTR op)
 {
-	__super::Start				(op);
+	IGame_Persistent::Start				(op);
 	m_intro_event.bind			(this,&CGamePersistent::start_game_intro);
 }
 
@@ -158,7 +158,7 @@ void CGamePersistent::Disconnect()
 	// destroy ambient particles
 	CParticlesObject::Destroy(ambient_particles);
 
-	__super::Disconnect			();
+	IGame_Persistent::Disconnect			();
 	// stop all played emitters
 	::Sound->stop_emitters		();
 	m_game_params.m_e_game_type	= eGameIDNoGame;
@@ -168,7 +168,7 @@ void CGamePersistent::Disconnect()
 
 void CGamePersistent::OnGameStart()
 {
-	__super::OnGameStart		();
+	IGame_Persistent::OnGameStart		();
 	
 	UpdateGameType				();
 
@@ -176,7 +176,7 @@ void CGamePersistent::OnGameStart()
 
 void CGamePersistent::UpdateGameType			()
 {
-	__super::UpdateGameType		();
+	IGame_Persistent::UpdateGameType		();
 	//  [7/11/2005]
 	if (!xr_strcmp(m_game_params.m_game_type, "single")) m_game_params.m_e_game_type = eGameIDSingle;
 	else
@@ -201,7 +201,7 @@ void CGamePersistent::UpdateGameType			()
 
 void CGamePersistent::OnGameEnd	()
 {
-	__super::OnGameEnd					();
+	IGame_Persistent::OnGameEnd					();
 
 	xr_delete							(g_stalker_animation_data_storage);
 	xr_delete							(g_stalker_velocity_holder);
@@ -386,7 +386,7 @@ void CGamePersistent::OnFrame	()
 		}
 #endif // MASTER_GOLD
 	}
-	__super::OnFrame			();
+	IGame_Persistent::OnFrame			();
 
 	if(!Device.Paused())
 		Engine.Sheduler.Update		();

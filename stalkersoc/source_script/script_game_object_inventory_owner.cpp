@@ -195,7 +195,7 @@ bool CScriptGameObject::IsTradeEnabled		()
 	return pInventoryOwner->IsTradeEnabled();
 }
 
-void CScriptGameObject::ForEachInventoryItems(const luabind::functor<void> &functor)
+void CScriptGameObject::ForEachInventoryItems(const luabind::object &functor)
 {
 	CInventoryOwner* owner = smart_cast<CInventoryOwner*>(&object());
 	if(!owner){
@@ -212,13 +212,13 @@ void CScriptGameObject::ForEachInventoryItems(const luabind::functor<void> &func
 	{
 		CGameObject* inv_go = smart_cast<CGameObject*>(*it);
 		if( inv_go ){
-			functor(inv_go->lua_game_object(),this);
+			luabind::call_function<void>( functor,inv_go->lua_game_object(),this);
 		}
 	}
 }
 
 //1
-void CScriptGameObject::IterateInventory	(luabind::functor<void> functor, luabind::object object)
+void CScriptGameObject::IterateInventory	(luabind::object functor, luabind::object object)
 {
 	CInventoryOwner			*inventory_owner = smart_cast<CInventoryOwner*>(&this->object());
 	if (!inventory_owner) {
@@ -229,7 +229,7 @@ void CScriptGameObject::IterateInventory	(luabind::functor<void> functor, luabin
 	TIItemContainer::iterator	I = inventory_owner->inventory().m_all.begin();
 	TIItemContainer::iterator	E = inventory_owner->inventory().m_all.end();
 	for ( ; I != E; ++I)
-		functor				(object,(*I)->object().lua_game_object());
+		luabind::call_function<void>(functor				,object,(*I)->object().lua_game_object());
 }
 
 void CScriptGameObject::MarkItemDropped		(CScriptGameObject *item)

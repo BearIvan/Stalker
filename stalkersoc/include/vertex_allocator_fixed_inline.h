@@ -11,9 +11,11 @@
 #define TEMPLATE_SPECIALIZATION \
 	template<u32 reserved_vertex_count>\
 	template<typename _vertex>
-
+#ifdef MSVC
 #define CFixedVertexAllocator	CVertexAllocatorFixed<reserved_vertex_count>::CDataStorage<_vertex>
-
+#else
+#define CFixedVertexAllocator	CVertexAllocatorFixed<reserved_vertex_count>::template CDataStorage<_vertex>
+#endif
 TEMPLATE_SPECIALIZATION
 IC	CFixedVertexAllocator::CDataStorage					()
 {

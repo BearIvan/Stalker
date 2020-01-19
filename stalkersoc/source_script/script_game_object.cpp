@@ -422,7 +422,7 @@ bool CScriptGameObject::inside					(const Fvector &position) const
 	return				(inside(position,XrMath::EPS_L));
 }
 
-void CScriptGameObject::set_patrol_extrapolate_callback(const luabind::functor<bool> &functor)
+void CScriptGameObject::set_patrol_extrapolate_callback(const luabind::object&functor)
 {
 	CCustomMonster			*monster = smart_cast<CCustomMonster*>(&object());
 	if (!monster) {
@@ -432,7 +432,7 @@ void CScriptGameObject::set_patrol_extrapolate_callback(const luabind::functor<b
 	monster->movement().patrol().extrapolate_callback().set(functor);
 }
 
-void CScriptGameObject::set_patrol_extrapolate_callback(const luabind::functor<bool> &functor, const luabind::object &object)
+void CScriptGameObject::set_patrol_extrapolate_callback(const luabind::object&functor, const luabind::object &object)
 {
 	CCustomMonster			*monster = smart_cast<CCustomMonster*>(&this->object());
 	if (!monster) {

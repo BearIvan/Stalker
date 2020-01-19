@@ -9,13 +9,13 @@
 #pragma once
 
 template <
-	typename _edge_weight_type,
-	typename _vertex_type
+	typename __edge_weight_type,
+	typename __vertex_type
 >
 class CEdge {
 public:
-	typedef _edge_weight_type						_edge_weight_type;
-	typedef _vertex_type							_vertex_type;
+	using _edge_weight_type						= __edge_weight_type;
+	using  _vertex_type							=__vertex_type;
 	typedef typename _vertex_type::_vertex_id_type	_vertex_id_type;
 
 private:

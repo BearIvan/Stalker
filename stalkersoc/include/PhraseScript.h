@@ -62,7 +62,6 @@ protected:
 
 	//скриптовые действия, которые активируется после того как 
 	//говорится фраза
-	DEFINE_VECTOR				(shared_str, ACTION_NAME_VECTOR, ACTION_NAME_VECTOR_IT);
 	ACTION_NAME_VECTOR			m_ScriptActions;
 	
 	DEFINE_VECTOR				(shared_str, INFO_VECTOR, INFO_VECTOR_IT);
@@ -71,9 +70,7 @@ protected:
 	INFO_VECTOR					m_DisableInfo;
 
 	//список скриптовых предикатов, выполнение, которых необходимо
-	//для того чтоб фраза стала доступной
-	DEFINE_VECTOR				(shared_str, PRECONDITION_VECTOR, PRECONDITION_VECTOR_IT);
-
+	//для того чтоб фраза стала доступнойx
 	PRECONDITION_VECTOR			m_Preconditions;
 	//проверка наличия/отсутствия информации
 	INFO_VECTOR					m_HasInfo;

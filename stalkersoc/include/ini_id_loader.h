@@ -31,43 +31,46 @@ protected:
 	static	T_VECTOR*				m_pItemDataVector;
 	
 	template <u32 NUM>
-	static void						LoadItemData	(u32, LPCSTR)
+	static void						LoadItemData(u32 count, LPCSTR cfgRecord)
 	{
-		STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
-		NODEFAULT;
-	}
 
-	template <>
-		static  void				LoadItemData<0>  (u32 count, LPCSTR cfgRecord)
-	{
-		for (u32 k = 0; k < count; k+= 1)
+		if constexpr (NUM == 0)
 		{
-			string64 buf;
-			LPCSTR id_str  = XrTrims::GetItem(cfgRecord, k, buf);
-			char* id_str_lwr = xr_strdup(id_str);
-			xr_strlwr(id_str_lwr);
-			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str));
-			m_pItemDataVector->push_back(item_data);
-			xr_free(id_str_lwr);
+			for (u32 k = 0; k < count; k += 1)
+			{
+				string64 buf;
+				LPCSTR id_str = XrTrims::GetItem(cfgRecord, k, buf);
+				char* id_str_lwr = xr_strdup(id_str);
+				xr_strlwr(id_str_lwr);
+				ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str));
+				m_pItemDataVector->push_back(item_data);
+				xr_free(id_str_lwr);
+			}
 		}
-	}
+		else if constexpr (NUM == 1)
 
-	template <>
-		static  void				LoadItemData<1>  (u32 count, LPCSTR cfgRecord)
-	{
-		for (u32 k = 0; k < count; k+= 2)
 		{
-			string64 buf, buf1;
-			LPCSTR id_str  = XrTrims::GetItem(cfgRecord, k, buf);
-			char* id_str_lwr = xr_strdup(id_str);
-			xr_strlwr(id_str_lwr);
-			LPCSTR rec1	   = XrTrims::GetItem(cfgRecord, k + 1, buf1);
-			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str), rec1);
-			m_pItemDataVector->push_back(item_data);
-			xr_free(id_str_lwr);
+			for (u32 k = 0; k < count; k += 2)
+			{
+				string64 buf, buf1;
+				LPCSTR id_str = XrTrims::GetItem(cfgRecord, k, buf);
+				char* id_str_lwr = xr_strdup(id_str);
+				xr_strlwr(id_str_lwr);
+				LPCSTR rec1 = XrTrims::GetItem(cfgRecord, k + 1, buf1);
+				ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str), rec1);
+				m_pItemDataVector->push_back(item_data);
+				xr_free(id_str_lwr);
+			}
 		}
+		else
+		{
+			STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
+			NODEFAULT;
+		}
+		
 	}
 
+	
 	//имя секции и линии откуда будут загружаться id
 	static LPCSTR section_name;
 	static LPCSTR line_name;
@@ -120,9 +123,9 @@ CSINI_IdToIndex::~CIni_IdToIndex()
 
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
+const  ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
 {
-	T_VECTOR::iterator it = m_pItemDataVector->begin();
+	typename T_VECTOR::iterator it = m_pItemDataVector->begin();
 	for(;
 		m_pItemDataVector->end() != it; it++)
 	{
@@ -140,7 +143,7 @@ const typename ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_
 }
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
+const  ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
 {
 	if((size_t)index>=m_pItemDataVector->size())
 	{
@@ -158,7 +161,7 @@ void CSINI_IdToIndex::DeleteIdToIndexData	()
 }
 
 TEMPLATE_SPECIALIZATION
-typename void	CSINI_IdToIndex::InitInternal ()
+ void	CSINI_IdToIndex::InitInternal ()
 {
 	VERIFY(!m_pItemDataVector);
 	T_INIT::InitIdToIndex();

@@ -20,9 +20,11 @@
 		template <typename _T1, typename _T2> class _index_vertex,\
 		typename _data_storage\
 	>
-
+#ifdef MSVC
 #define CHashFixedVertexManager	CVertexManagerHashFixed<_path_id_type,_index_type,hash_size,fix_size>::CDataStorage<_vertex,_index_vertex,_data_storage>
-
+#else
+#define CHashFixedVertexManager	CVertexManagerHashFixed<_path_id_type,_index_type,hash_size,fix_size>::template CDataStorage<_vertex,_index_vertex,_data_storage> 
+#endif
 TEMPLATE_SPECIALIZATION
 IC	CHashFixedVertexManager::CDataStorage		(const u32 vertex_count) :
 	inherited				(vertex_count),
@@ -151,15 +153,15 @@ IC	typename CHashFixedVertexManager::CGraphVertex &CHashFixedVertexManager::crea
 	vertex.index()					= vertex_id;
 	
 	u32								index = hash_index(vertex_id);
-	CGraphIndexVertex				*_vertex = m_hash[index];
-	if (!_vertex || (_vertex->m_path_id != current_path_id()) || (_vertex->m_hash != index))
-		_vertex						= 0;
+	auto				*_vertex_ = m_hash[index];
+	if (!_vertex_ || (_vertex_->m_path_id != current_path_id()) || (_vertex_->m_hash != index))
+		_vertex_						= 0;
 
 	m_hash[index]					= index_vertex;
-	index_vertex->m_next			= _vertex;
+	index_vertex->m_next			= _vertex_;
 	index_vertex->m_prev			= 0;
-	if (_vertex)
-		_vertex->m_prev				= index_vertex;
+	if (_vertex_)
+		_vertex_->m_prev				= index_vertex;
 	index_vertex->m_hash			= index;
 	return							(vertex);
 }

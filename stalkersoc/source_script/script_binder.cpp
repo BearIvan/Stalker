@@ -84,7 +84,7 @@ void CScriptBinder::reload			(LPCSTR section)
 	if (!pSettings->line_exist(section,"script_binding"))
 		return;
 	
-	luabind::functor<void>	lua_function;
+	luabind::object	lua_function;
 	if (!ai().script_engine().functor(pSettings->r_string(section,"script_binding"),lua_function)) {
 		ai().script_engine().script_log	(ScriptStorage::eLuaMessageTypeError,"function %s is not loaded!",pSettings->r_string(section,"script_binding"));
 		return;
@@ -93,7 +93,7 @@ void CScriptBinder::reload			(LPCSTR section)
 	CGameObject				*game_object = smart_cast<CGameObject*>(this);
 
 	try {
-		lua_function		(game_object ? game_object->lua_game_object() : 0);
+	luabind::call_function<void>(	lua_function		,game_object ? game_object->lua_game_object() : 0);
 	}
 	catch(...) {
 		clear				();

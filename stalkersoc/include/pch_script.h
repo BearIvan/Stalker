@@ -21,7 +21,7 @@ extern "C" {
 #include <luabind/luabind.hpp>
 
 #include <luabind/object.hpp>
-#include <luabind/functor.hpp>
+#include <luabind/function.hpp>
 #include <luabind/operator.hpp>
 #include <luabind/adopt_policy.hpp>
 #include <luabind/return_reference_to_policy.hpp>

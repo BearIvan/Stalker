@@ -3,16 +3,8 @@
 #include "xrServer_script_macroses.h"
 #include "xrserver.h"
 
-using namespace luabind;
 
-template <typename T>
-struct CWrapperBase : public T, public luabind::wrap_base {
-	typedef T inherited;
-	typedef CWrapperBase<T>	self_type;
-	DEFINE_LUA_WRAPPER_CONST_METHOD_0(type_name, LPCSTR)
-//	DEFINE_LUA_WRAPPER_METHOD_1(Money_SetStart, void, u32)
-};
-
+/*
 #pragma optimize("s",on)
 void game_sv_Deathmatch::script_register(lua_State *L)
 {
@@ -29,3 +21,4 @@ void game_sv_Deathmatch::script_register(lua_State *L)
 		];
 
 }
+*/

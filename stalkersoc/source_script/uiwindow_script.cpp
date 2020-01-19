@@ -97,7 +97,7 @@ void CUIWindow::script_register(lua_State *L)
 
 		class_<CUIWindow>("CUIWindow")
 		.def(							constructor<>())
-		.def("AttachChild",				&CUIWindow::AttachChild, adopt(_2))
+		.def("AttachChild",				&CUIWindow::AttachChild,policy:: adopt<2>())
 		.def("DetachChild",				&CUIWindow::DetachChild)
 		.def("SetAutoDelete",			&CUIWindow::SetAutoDelete)
 		.def("IsAutoDelete",			&CUIWindow::IsAutoDelete)
@@ -127,7 +127,7 @@ void CUIWindow::script_register(lua_State *L)
 
 //		.def("",						&CUIWindow::)
 		
-		class_<CDialogHolder>("CDialogHolder")
+		class_<CDialogHolder >("CDialogHolder")
 		.def("MainInputReceiver",		&CDialogHolder::MainInputReceiver)
 		.def("start_stop_menu",			&CDialogHolder::StartStopMenu)
 		.def("AddDialogToRender",		&CDialogHolder::AddDialogToRender)

@@ -39,7 +39,7 @@ private:
 	{
 		SPattern &tPattern = m_tpPatterns[iPatternIndex];
 		u32 dwIndex = dwpTest[tPattern.dwaVariableIndexes[0]];
-		for (u32 i=1; i<(int)tPattern.dwCardinality; ++i)
+		for (u32 i=1; i<(u32)tPattern.dwCardinality; ++i)
 			dwIndex = dwIndex*m_dwaAtomicFeatureRange[tPattern.dwaVariableIndexes[i]] + dwpTest[tPattern.dwaVariableIndexes[i]];
 		return(dwIndex + m_dwaPatternIndexes[iPatternIndex]);
 	}

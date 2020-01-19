@@ -54,17 +54,17 @@ IC	void CLevelFlooderPathManager::setup			(
 		parameters
 	);
 //		graph->unpack_xz		(graph->vertex(_start_node_index),start_position.x,start_position.y);
-	graph->unpack_xz		(*graph->vertex(_start_node_index),x0,y0);
-	max_range_sqr			= XrMath::iFloor(XrMath::sqr(max_range)/m_sqr_distance_xz + .5f);
-	m_cell_dist				= graph->header().cell_size();
+	inherited::graph->unpack_xz		(*inherited::graph->vertex(_start_node_index),x0,y0);
+	max_range_sqr			= XrMath::iFloor(XrMath::sqr(inherited::max_range)/ inherited::m_sqr_distance_xz + .5f);
+	m_cell_dist				= inherited::graph->header().cell_size();
 }
 
 TEMPLATE_SPECIALIZATION
 IC	bool CLevelFlooderPathManager::is_goal_reached	(const _index_type &node_index)
 {
-	VERIFY					(path);
-	path->push_back			(node_index);
-	best_node				= graph->vertex(node_index);
+	VERIFY					(inherited::path);
+	inherited::path->push_back			(node_index);
+	inherited::best_node				= inherited::graph->vertex(node_index);
 //		y1						= (float)(best_node->position().y());
 	return					(false);
 }
@@ -72,14 +72,14 @@ IC	bool CLevelFlooderPathManager::is_goal_reached	(const _index_type &node_index
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CLevelFlooderPathManager::evaluate	(const _index_type &node_index1, const _index_type &node_index2, const _Graph::const_iterator &/**i/**/)
 {
-	VERIFY					(graph);
+	VERIFY					(inherited::graph);
 	return					(m_cell_dist);
 }
 
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CLevelFlooderPathManager::estimate	(const _index_type &node_index) const
 {
-	VERIFY					(graph);
+	VERIFY					(inherited::graph);
 	return					(_dist_type(0));
 }
 
@@ -89,17 +89,17 @@ IC	bool CLevelFlooderPathManager::is_accessible	(const _index_type &vertex_id) c
 	if (!inherited::is_accessible(vertex_id))
 		return				(false);
 	int						x4,y4;
-	graph->unpack_xz		(graph->vertex(vertex_id),x4,y4);
+	inherited::graph->unpack_xz		(inherited::graph->vertex(vertex_id),x4,y4);
 	return					(u32(XrMath::sqr(x0 - x4) + XrMath::sqr(y0 - y4)) <= max_range_sqr);
 }
 
 TEMPLATE_SPECIALIZATION
 IC	bool CLevelFlooderPathManager::is_limit_reached	(const _iteration_type iteration_count) const
 {
-	VERIFY					(data_storage);
+	VERIFY					(inherited::data_storage);
 	return					(
-		(iteration_count >= max_iteration_count)	||
-		(data_storage->get_visited_node_count() >= max_visited_node_count)
+		(iteration_count >= inherited::max_iteration_count)	||
+		(inherited::data_storage->get_visited_node_count() >= inherited::max_visited_node_count)
 	);
 }
 

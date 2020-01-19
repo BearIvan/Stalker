@@ -13,10 +13,8 @@
 class CSE_Abstract;
 class CCustomMonster;
 class CGameObject;
+#include "restriction_space.h"
 
-namespace RestrictionSpace {
-	enum ERestrictorTypes;
-};
 
 template <bool add> struct CRestrictionPredicate;
 

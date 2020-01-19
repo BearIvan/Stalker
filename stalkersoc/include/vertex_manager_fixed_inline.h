@@ -19,9 +19,11 @@
 		template <typename _T1, typename _T2> class _index_vertex,\
 		typename _data_storage\
 	>
-
+#ifdef MSVC
 #define CFixedVertexManager	CVertexManagerFixed<_path_id_type,_index_type,mask>::CDataStorage<_vertex,_index_vertex,_data_storage>
-
+#else
+#define CFixedVertexManager	CVertexManagerFixed<_path_id_type,_index_type,mask>::template CDataStorage<_vertex,_index_vertex,_data_storage>
+#endif
 TEMPLATE_SPECIALIZATION
 IC	CFixedVertexManager::CDataStorage		(const u32 vertex_count) :
 	inherited				(vertex_count)

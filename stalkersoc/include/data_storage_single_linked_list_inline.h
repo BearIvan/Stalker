@@ -14,9 +14,11 @@
 		typename _data_storage,\
 		template <typename _T> class _vertex\
 	>
-
+#ifdef MSVC
 #define CSingleLinkedList	CDataStorageSingleLinkedList<sorted>::CDataStorage<_data_storage,_vertex>
-
+#else
+#define CSingleLinkedList	CDataStorageSingleLinkedList<sorted>::template CDataStorage<_data_storage,_vertex>
+#endif
 TEMPLATE_SPECIALIZATION
 IC	CSingleLinkedList::CDataStorage				(const u32 vertex_count, const _dist_type _max_distance) :
 	inherited				(vertex_count)
@@ -85,7 +87,7 @@ IC	void CSingleLinkedList::decrease_opened		(CGraphVertex &vertex, const _dist_t
 		m_list_head->next()		= &vertex;
 	}
 	else
-		for ( i = m_list_head; ; i = i->next())
+		for (CGraphVertex* i = m_list_head; ; i = i->next())
 			if (i->next()->f() >= vertex.f()) {
 				vertex.next() = i->next();
 				i->next() = &vertex;
@@ -116,7 +118,8 @@ IC	typename CSingleLinkedList::CGraphVertex &CSingleLinkedList::get_best		() con
 		return				(*m_list_head->next());
 
 	_dist_type				fmin = m_max_distance;
-	for (CGraphVertex *i = m_list_head, *best_prev = 0; i->next() != m_list_tail; i = i->next())
+	CGraphVertex* best_prev = 0;
+	for (CGraphVertex *i = m_list_head; i->next() != m_list_tail; i = i->next())
 		if (i->next()->f() < fmin) {
 			fmin			= i->next()->f();
 			best_prev		= i;

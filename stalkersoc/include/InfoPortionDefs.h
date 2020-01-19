@@ -3,7 +3,7 @@
 #include "alife_space.h"
 #include "engine/object_interfaces.h"
 
-struct INFO_DATA : public IPureSerializeObject<IReader,IWriter>
+struct INFO_DATA : public ISerializable
 {
 	INFO_DATA			():info_id(NULL),receive_time(0)			{};
 	INFO_DATA			(shared_str id, ALife::_TIME_ID time):info_id(id),receive_time(time){};

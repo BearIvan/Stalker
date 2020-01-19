@@ -41,15 +41,9 @@
 	>								script_planner;
 #endif
 
-namespace MonsterSpace {
-	enum EMovementDirection;
-};
-
-namespace StalkerSpace {
-	enum EBodyAction;
-};
-
-enum ECriticalWoundType;
+#include "ai_monster_space.h"
+#include "ai_stalker_space.h"
+#include "stalker_animation_names.h"
 
 class CALifeSimulator;
 class CCharacterPhysicsSupport;

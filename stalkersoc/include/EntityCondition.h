@@ -180,7 +180,7 @@ protected:
 public:
 	virtual void					reinit				();
 	
-	IC const	float				fdelta_time			() const 	{return		(m_fDeltaTime);			}
+	IC 	float				fdelta_time			() const 	{return		(m_fDeltaTime);			}
 	IC const	WOUND_VECTOR&		wounds				() const	{return		(m_WoundVector);		}
 	IC float&						radiation			()			{return		(m_fRadiation);			}
 	IC float&						hit_bone_scale		()			{return		(m_fHitBoneScale);		}

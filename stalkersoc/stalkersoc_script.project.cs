@@ -12,7 +12,7 @@ public class stalkersoc_script:Project
 		
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
 		
-		Projects.Public.Add("stalker");
+		Projects.Public.Add("stalker_engine");
 		Projects.Public.Add("dplay");
 		Projects.Public.Add("directx");
 		Projects.Public.Add("loki");

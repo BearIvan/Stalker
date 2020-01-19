@@ -45,9 +45,11 @@ void CIKLimbsController::Create( CGameObject* O )
 }
 
 struct envc :
-private boost::noncopyable,
 public SEnumVerticesCallback
 {
+private:
+	BEAR_CLASS_WITHOUT_COPY(envc);
+public:
 	Fvector &pos;
 	Fvector start_pos;
 	const Fmatrix &i_bind_transform;

@@ -70,7 +70,7 @@ template<class _Ty,	class _Other>	inline	bool operator==(const uialloc<_Ty>&, co
 template<class _Ty, class _Other>	inline	bool operator!=(const uialloc<_Ty>&, const uialloc<_Other>&)		{	return (false);							}
 
 template<typename T>	
-class	ui_list 		: public std::list<T,uialloc<T> >{ public: u32 size() const {return (u32)__super::size(); } };
+class	ui_list 		: public std::list<T,uialloc<T> >{ public: u32 size() const {return (u32)std::list<T, uialloc<T> >::size(); } };
 
 #define DEF_UILIST(N,T)		typedef ui_list< T > N;			typedef N::iterator N##_it;
 
@@ -164,7 +164,7 @@ public:
 			void			ShowChildren		(bool show);
 	
 	//абсолютные координаты
-	IC void					GetAbsoluteRect		(Frect& r) ;
+	 void					GetAbsoluteRect		(Frect& r) ;
 	IC void					GetAbsolutePos		(Fvector2& p) 	{Frect abs; GetAbsoluteRect(abs); p.set(abs.x1,abs.y1);}
 
 

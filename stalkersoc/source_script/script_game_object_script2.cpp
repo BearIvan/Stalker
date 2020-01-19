@@ -30,7 +30,7 @@
 #include "detail_path_manager_space.h"
 #include "patrol_path_manager_space.h"
 using namespace luabind;
-
+using namespace luabind::policy;
 extern CScriptActionPlanner *script_action_planner(CScriptGameObject *obj);
 
 class_<CScriptGameObject> &script_register_game_object1(class_<CScriptGameObject> &instance)
@@ -114,23 +114,23 @@ class_<CScriptGameObject> &script_register_game_object1(class_<CScriptGameObject
 		
 		.def("rank",						&CScriptGameObject::GetRank)
 		.def("command",						&CScriptGameObject::AddAction)
-		.def("action",						&CScriptGameObject::GetCurrentAction, adopt(result))
+		.def("action",						&CScriptGameObject::GetCurrentAction, adopt<0>())
 		.def("object_count",				&CScriptGameObject::GetInventoryObjectCount)
 		.def("object",						(CScriptGameObject *(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::GetObjectByName))
 		.def("object",						(CScriptGameObject *(CScriptGameObject::*)(int))(&CScriptGameObject::GetObjectByIndex))
 		.def("active_item",					&CScriptGameObject::GetActiveItem)
 		
-		.def("set_callback",				(void (CScriptGameObject::*)(GameObject::ECallbackType, const luabind::functor<void> &))(&CScriptGameObject::SetCallback))
-		.def("set_callback",				(void (CScriptGameObject::*)(GameObject::ECallbackType, const luabind::functor<void> &, const luabind::object &))(&CScriptGameObject::SetCallback))
+		.def("set_callback",				(void (CScriptGameObject::*)(GameObject::ECallbackType, const object &))(&CScriptGameObject::SetCallback))
+		.def("set_callback",				(void (CScriptGameObject::*)(GameObject::ECallbackType, const object &, const luabind::object &))(&CScriptGameObject::SetCallback))
 		.def("set_callback",				(void (CScriptGameObject::*)(GameObject::ECallbackType))(&CScriptGameObject::SetCallback))
 
 		.def("set_patrol_extrapolate_callback",	(void (CScriptGameObject::*)())(&CScriptGameObject::set_patrol_extrapolate_callback))
-		.def("set_patrol_extrapolate_callback",	(void (CScriptGameObject::*)(const luabind::functor<bool> &))(&CScriptGameObject::set_patrol_extrapolate_callback))
-		.def("set_patrol_extrapolate_callback",	(void (CScriptGameObject::*)(const luabind::functor<bool> &, const luabind::object &))(&CScriptGameObject::set_patrol_extrapolate_callback))
+		.def("set_patrol_extrapolate_callback",	(void (CScriptGameObject::*)(const object &))(&CScriptGameObject::set_patrol_extrapolate_callback))
+		.def("set_patrol_extrapolate_callback",	(void (CScriptGameObject::*)(const object &, const luabind::object &))(&CScriptGameObject::set_patrol_extrapolate_callback))
 
 		.def("set_enemy_callback",			(void (CScriptGameObject::*)())(&CScriptGameObject::set_enemy_callback))
-		.def("set_enemy_callback",			(void (CScriptGameObject::*)(const luabind::functor<bool> &))(&CScriptGameObject::set_enemy_callback))
-		.def("set_enemy_callback",			(void (CScriptGameObject::*)(const luabind::functor<bool> &, const luabind::object &))(&CScriptGameObject::set_enemy_callback))
+		.def("set_enemy_callback",			(void (CScriptGameObject::*)(const object &))(&CScriptGameObject::set_enemy_callback))
+		.def("set_enemy_callback",			(void (CScriptGameObject::*)(const object &, const luabind::object &))(&CScriptGameObject::set_enemy_callback))
 
 		.def("patrol",						&CScriptGameObject::GetPatrolPathName)
 
@@ -147,7 +147,7 @@ class_<CScriptGameObject> &script_register_game_object1(class_<CScriptGameObject
 		.def("action_by_index",				&CScriptGameObject::GetActionByIndex)
 		
 		//.def("set_hear_callback",			(void (CScriptGameObject::*)(const luabind::object &, LPCSTR))(&CScriptGameObject::SetSoundCallback))
-		//.def("set_hear_callback",			(void (CScriptGameObject::*)(const luabind::functor<void> &))(&CScriptGameObject::SetSoundCallback))
+		//.def("set_hear_callback",			(void (CScriptGameObject::*)(const object &))(&CScriptGameObject::SetSoundCallback))
 		//.def("clear_hear_callback",		&CScriptGameObject::ClearSoundCallback)
 		
 		.def("memory_time",					&CScriptGameObject::memory_time)
@@ -159,7 +159,7 @@ class_<CScriptGameObject> &script_register_game_object1(class_<CScriptGameObject
 		.def("get_enemy_strength",			&CScriptGameObject::GetEnemyStrength)
 		.def("get_sound_info",				&CScriptGameObject::GetSoundInfo)
 		.def("get_monster_hit_info",		&CScriptGameObject::GetMonsterHitInfo)
-		.def("bind_object",					&CScriptGameObject::bind_object,adopt(_2))
+		.def("bind_object",					&CScriptGameObject::bind_object,adopt<2>())
 		.def("motivation_action_manager",	&script_action_planner)
 
 		// bloodsucker

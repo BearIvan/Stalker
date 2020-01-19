@@ -31,7 +31,7 @@ ALife::_STORY_ID	story_id	(LPCSTR story_id)
 							(
 		object_cast<int>(
 			luabind::object(
-				luabind::get_globals(
+				luabind::globals(
 					ai().script_engine().lua()
 				)
 				["story_ids"]
@@ -352,23 +352,23 @@ bool SGameTaskObjective::CheckInfo		(xr_vector<shared_str>& v)
 	return res;
 }
 
-bool SGameTaskObjective::CheckFunctions	(xr_vector<luabind::functor<bool> >& v)
+bool SGameTaskObjective::CheckFunctions	(xr_vector<luabind::object >& v)
 {
 	bool res = false;
-	xr_vector<luabind::functor<bool> >::iterator it	= v.begin();
+	xr_vector<luabind::object >::iterator it	= v.begin();
 	for(;it!=v.end();++it){
-		if( (*it).is_valid() ) res = (*it)(*(parent->m_ID), idx);
+		if( (*it).is_valid() ) res = luabind::call_function<bool>(*it,*(parent->m_ID), idx);
 		if(!res) break;
 	}
 	return res;
 
 }
 
-void SGameTaskObjective::CallAllFuncs	(xr_vector<luabind::functor<bool> >& v)
+void SGameTaskObjective::CallAllFuncs	(xr_vector<luabind::object >& v)
 {
-	xr_vector<luabind::functor<bool> >::iterator it	= v.begin();
+	xr_vector<luabind::object >::iterator it	= v.begin();
 	for(;it!=v.end();++it){
-		if( (*it).is_valid() ) (*it)(*(parent->m_ID), idx);
+		if( (*it).is_valid() )  luabind::call_function<void>(*it,*(parent->m_ID), idx);
 	}
 }
 void SGameTaskObjective::SetDescription_script(LPCSTR _descr)
@@ -539,7 +539,7 @@ void SGameTaskObjective::load(IReader &stream)
 		}
 }
 
-void SScriptObjectiveHelper::init_functors(xr_vector<shared_str>& v_src, xr_vector<luabind::functor<bool> >& v_dest)
+void SScriptObjectiveHelper::init_functors(xr_vector<shared_str>& v_src, xr_vector<luabind::object >& v_dest)
 {
 	xr_vector<shared_str>::iterator it		= v_src.begin();
 	xr_vector<shared_str>::iterator it_e	= v_src.end();

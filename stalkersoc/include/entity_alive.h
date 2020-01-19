@@ -124,7 +124,6 @@ protected:
 	static FactoryPtr<IWallMarkArray>*		m_pBloodDropsVector;
 	//список ран с которых капает кровь
 	
-	DEFINE_VECTOR				(CWound*, WOUND_VECTOR, WOUND_VECTOR_IT);
 	WOUND_VECTOR				m_BloodWounds;
 	//размер раны, чтоб начала капать кровь
 	static float				m_fStartBloodWoundSize;

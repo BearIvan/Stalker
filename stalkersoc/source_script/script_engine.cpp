@@ -11,7 +11,7 @@
 #include "ai_space.h"
 #include "object_factory.h"
 #include "script_process.h"
-
+#include "luabind/class_info.hpp"
 #ifdef USE_DEBUGGER
 #	include "script_debugger.h"
 #endif
@@ -87,11 +87,11 @@ int  CScriptEngine::lua_pcall_failed	(lua_State *L)
 	return					(LUA_ERRRUN);
 }
 
-void lua_cast_failed					(lua_State *L, LUABIND_TYPE_INFO info)
+void lua_cast_failed					(lua_State *L, const luabind::type_id& info)
 {
 	CScriptEngine::print_output	(L,"",LUA_ERRRUN);
 
-	Debug.fatal				(DEBUG_INFO,"LUA error: cannot cast lua value to %s",info->name());
+	Debug.fatal				(DEBUG_INFO,"LUA error: cannot cast lua value to %s",info.name());
 }
 
 void CScriptEngine::setup_callbacks		()
@@ -109,7 +109,7 @@ void CScriptEngine::setup_callbacks		()
 		luabind::set_error_callback		(CScriptEngine::lua_error);
 #endif
 #ifndef MASTER_GOLD
-		luabind::set_pcall_callback		(CScriptEngine::lua_pcall_failed);
+		luabind::set_pcall_callback		([](lua_State* L) { lua_pushcfunction(L, CScriptEngine::lua_pcall_failed); });
 #endif // MASTER_GOLD
 	}
 
@@ -161,8 +161,53 @@ void CScriptEngine::init				()
 	CScriptStorage::reinit				();
 
 	luabind::open						(lua());
+
+	// Workarounds to preserve backwards compatibility with game scripts
+	{
+
+		luabind::allow_nil_conversion(true);
+		luabind::disable_super_deprecation();
+
+	}
+
+	luabind::bind_class_info(lua());
+
 	setup_callbacks						();
 	export_classes						(lua());
+
+	struct luajit {
+		static void open_lib(lua_State* L, pcstr module_name, lua_CFunction function)
+		{
+			lua_pushcfunction(L, function);
+			lua_pushstring(L, module_name);
+			lua_call(L, 1, 0);
+		}
+	}; // struct lua;
+
+	luajit::open_lib(lua(), "", luaopen_base);
+	luajit::open_lib(lua(), LUA_LOADLIBNAME, luaopen_package);
+	luajit::open_lib(lua(), LUA_TABLIBNAME, luaopen_table);
+	luajit::open_lib(lua(), LUA_IOLIBNAME, luaopen_io);
+	luajit::open_lib(lua(), LUA_OSLIBNAME, luaopen_os);
+	luajit::open_lib(lua(), LUA_MATHLIBNAME, luaopen_math);
+	luajit::open_lib(lua(), LUA_STRLIBNAME, luaopen_string);
+	luajit::open_lib(lua(), LUA_BITLIBNAME, luaopen_bit);
+	luajit::open_lib(lua(), LUA_FFILIBNAME, luaopen_ffi);
+
+
+#ifdef DEBUG
+	luajit::open_lib(lua(), LUA_DBLIBNAME, luaopen_debug);
+#endif // #ifdef DEBUG
+
+	if (!strstr(GetCommandLine(), "-nojit")) {
+		luajit::open_lib(lua(), LUA_JITLIBNAME, luaopen_jit);
+#ifndef DEBUG
+		put_function(lua(), opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
+		put_function(lua(), opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
+		dojitopt(lua(), "2");
+#endif // #ifndef DEBUG
+	}
+
 	setup_auto_load						();
 
 #ifdef DEBUG
@@ -220,9 +265,9 @@ void CScriptEngine::load_common_scripts()
 			BearString::Contact(I, "_initialize");
 			if (object("_G", I,LUA_TFUNCTION)) {
 //				lua_dostring			(lua(),BearString::Contact(I,"()"));
-				luabind::functor<void>	f;
+				luabind::object	f;
 				R_ASSERT				(functor(I,f));
-				f						();
+				luabind::call_function<void>(  f						);
 			}
 		}
 	}
@@ -293,12 +338,12 @@ void CScriptEngine::register_script_classes		()
 	string256					I;
 	for (u32 i=0; i<n; ++i) {
 		XrTrims::GetItem				(*m_class_registrators,i,I);
-		luabind::functor<void>	result;
+		luabind::object	result;
 		if (!functor(I,result)) {
 			script_log			(eLuaMessageTypeError,"Cannot load class registrator %s!",I);
 			continue;
 		}
-		result					(const_cast<CObjectFactory*>(&object_factory()));
+		luabind::call_function<void>( result,const_cast<CObjectFactory*>(&object_factory()));
 	}
 }
 

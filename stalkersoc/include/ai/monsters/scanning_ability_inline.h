@@ -57,7 +57,7 @@ void CScanningAbilityAbstract::reinit()
 
 	m_this_scan			= false;
 }
-
+extern CActor* Actor();
 TEMPLATE_SPECIALIZATION
 void CScanningAbilityAbstract::schedule_update()
 {

@@ -12,9 +12,7 @@
 #include "alife_surge_manager.h"
 #include "alife_storage_manager.h"
 
-namespace RestrictionSpace {
-	enum ERestrictorTypes;
-}
+#include "restriction_space.h"
 
 class CALifeUpdateManager :
 	public CALifeSwitchManager,

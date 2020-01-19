@@ -11,14 +11,9 @@
 #include "ai_monster_space.h"
 #include "graph_engine_space.h"
 #include "game_graph_space.h"
+#include "movement_manager_space.h"
+#include "detail_path_manager_space.h"
 
-namespace MovementManager {
-	enum EPathType;
-};
-
-namespace DetailPathManager {
-	enum EDetailPathType;
-};
 
 template <
 	typename _Graph,

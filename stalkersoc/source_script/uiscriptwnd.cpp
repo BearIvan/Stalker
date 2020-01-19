@@ -63,7 +63,7 @@ SCallbackInfo*	CUIDialogWndEx::NewCallback ()
 	return m_callbacks.back();
 }
 
-void CUIDialogWndEx::AddCallback(LPCSTR control_id, s16 event, const luabind::functor<void> &lua_function)
+void CUIDialogWndEx::AddCallback(LPCSTR control_id, s16 event, const luabind::object &lua_function)
 {
 	SCallbackInfo* c	= NewCallback ();
 	c->m_callback.set	(lua_function);
@@ -72,7 +72,7 @@ void CUIDialogWndEx::AddCallback(LPCSTR control_id, s16 event, const luabind::fu
 	
 }
 
-void CUIDialogWndEx::AddCallback (LPCSTR control_id, s16 event, const luabind::functor<void> &functor, const luabind::object &object)
+void CUIDialogWndEx::AddCallback (LPCSTR control_id, s16 event, const luabind::object &functor, const luabind::object &object)
 {
 	SCallbackInfo* c	= NewCallback ();
 	c->m_callback.set	(functor,object);

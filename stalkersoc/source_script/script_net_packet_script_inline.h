@@ -6,11 +6,10 @@
 //	Description : XRay Script net packet class script export
 ////////////////////////////////////////////////////////////////////////////
 
-#include "pch_script.h"
 #include "script_net_packet.h"
 
 using namespace luabind;
-
+using namespace luabind::policy;
 bool r_eof(NET_Packet *self)
 {
 	return			(!!self->r_eof());
@@ -42,8 +41,8 @@ ClientID r_clientID(NET_Packet *self)
 
 extern u16	script_server_object_version	();
 
-#pragma optimize("s",on)
-void CScriptNetPacket::script_register(lua_State *L)
+template<>
+inline void CScriptNetPacket::script_register(lua_State *L)
 {
 	module(L)
 	[
@@ -81,26 +80,26 @@ void CScriptNetPacket::script_register(lua_State *L)
 			.def("w_sdir",			&NET_Packet::w_sdir			)
 			.def("w_stringZ",		(void (NET_Packet::*)(LPCSTR))(&NET_Packet::w_stringZ	))
 			.def("w_matrix",		&NET_Packet::w_matrix		)
-			.def("w_clientID",		&NET_Packet::w_clientID		)
-			.def("w_chunk_open8",	&NET_Packet::w_chunk_open8	)
+			.def("w_clientID",		&NET_Packet::w_clientID, policy::out_value<2>())
+			.def("w_chunk_open8",	&NET_Packet::w_chunk_open8,policy::out_value<2>()	)
 			.def("w_chunk_close8",	&NET_Packet::w_chunk_close8	)
-			.def("w_chunk_open16",	&NET_Packet::w_chunk_open16	)
+			.def("w_chunk_open16",	&NET_Packet::w_chunk_open16, policy::out_value<2>())
 			.def("w_chunk_close16",	&NET_Packet::w_chunk_close16)
-			.def("r_begin",			&NET_Packet::r_begin		)
+			.def("r_begin",			&NET_Packet::r_begin, policy::out_value<2>())
 //			.def("r",				&NET_Packet::r				)
 			.def("r_seek",			&NET_Packet::r_seek			)
 			.def("r_tell",			&NET_Packet::r_tell			)
-			.def("r_vec3",			(void (NET_Packet::*)(Fvector&))(&NET_Packet::r_vec3)			,pure_out_value(_2))
-			.def("r_float",			(void (NET_Packet::*)(float&))(&NET_Packet::r_float		))
-			.def("r_u64",			(void (NET_Packet::*)(u64&	))(&NET_Packet::r_u64		))
-			.def("r_s64",			(void (NET_Packet::*)(s64&	))(&NET_Packet::r_s64		))
-			.def("r_u32",			(void (NET_Packet::*)(u32&	))(&NET_Packet::r_u32		))
-			.def("r_s32",			(void (NET_Packet::*)(s32&	))(&NET_Packet::r_s32		))
+			.def("r_vec3",			(void (NET_Packet::*)(Fvector&))(&NET_Packet::r_vec3)			,pure_out_value<2>())
+			.def("r_float",			(void (NET_Packet::*)(float&))(&NET_Packet::r_float		), policy::out_value<2>())
+			.def("r_u64",			(void (NET_Packet::*)(u64&	))(&NET_Packet::r_u64		), policy::out_value<2>())
+			.def("r_s64",			(void (NET_Packet::*)(s64&	))(&NET_Packet::r_s64		), policy::out_value<2>())
+			.def("r_u32",			(void (NET_Packet::*)(u32&	))(&NET_Packet::r_u32		), policy::out_value<2>())
+			.def("r_s32",			(void (NET_Packet::*)(s32&	))(&NET_Packet::r_s32		), policy::out_value<2>())
 		//	.def("r_u24",			(void (NET_Packet::*)(u32&	))(&NET_Packet::r_u24		))
-			.def("r_u16",			(void (NET_Packet::*)(u16&	))(&NET_Packet::r_u16		))
-			.def("r_s16",			(void (NET_Packet::*)(s16&	))(&NET_Packet::r_s16		))
-			.def("r_u8",			(void (NET_Packet::*)(u8&)	)(&NET_Packet::r_u8			))
-			.def("r_s8",			(void (NET_Packet::*)(s8&)	)(&NET_Packet::r_s8			))
+			.def("r_u16",			(void (NET_Packet::*)(u16&	))(&NET_Packet::r_u16		), policy::out_value<2>())
+			.def("r_s16",			(void (NET_Packet::*)(s16&	))(&NET_Packet::r_s16		), policy::out_value<2>())
+			.def("r_u8",			(void (NET_Packet::*)(u8&)	)(&NET_Packet::r_u8			), policy::out_value<2>())
+			.def("r_s8",			(void (NET_Packet::*)(s8&)	)(&NET_Packet::r_s8			), policy::out_value<2>())
 			.def("r_bool",			&r_bool						)
 			.def("r_float",			(float	(NET_Packet::*)()	)(&NET_Packet::r_float		))
 			.def("r_u64",			(u64	(NET_Packet::*)()	)(&NET_Packet::r_u64		))
@@ -112,14 +111,14 @@ void CScriptNetPacket::script_register(lua_State *L)
 			.def("r_s16",			(s16	(NET_Packet::*)()	)(&NET_Packet::r_s16		))
 			.def("r_u8",			(u8		(NET_Packet::*)()	)(&NET_Packet::r_u8			))
 			.def("r_s8",			(s8		(NET_Packet::*)()	)(&NET_Packet::r_s8			))
-			.def("r_float_q16",		(void	(NET_Packet::*)(float&,float,float)	)(&NET_Packet::r_float_q16)	)
-			.def("r_float_q8",		(void	(NET_Packet::*)(float&,float,float)	)(&NET_Packet::r_float_q8)	)
-			.def("r_angle16",		&NET_Packet::r_angle16		)
-			.def("r_angle8",		&NET_Packet::r_angle8		)
-			.def("r_dir",			&NET_Packet::r_dir			)
-			.def("r_sdir",			&NET_Packet::r_sdir			)
+			.def("r_float_q16",		(void	(NET_Packet::*)(float&,float,float)	)(&NET_Packet::r_float_q16), policy::out_value<2>())
+			.def("r_float_q8",		(void	(NET_Packet::*)(float&,float,float)	)(&NET_Packet::r_float_q8), policy::out_value<2>())
+			.def("r_angle16",		&NET_Packet::r_angle16, policy::out_value<2>())
+			.def("r_angle8",		&NET_Packet::r_angle8, policy::out_value<2>())
+			.def("r_dir",			&NET_Packet::r_dir, policy::out_value<2>())
+			.def("r_sdir",			&NET_Packet::r_sdir, policy::out_value<2>())
 			.def("r_stringZ",		&r_stringZ)
-			.def("r_matrix",		&NET_Packet::r_matrix		)
+			.def("r_matrix",		&NET_Packet::r_matrix, policy::out_value<2>())
 			.def("r_clientID",		&r_clientID					)
 			.def("r_elapsed",		&NET_Packet::r_elapsed		)
 			.def("r_advance",		&NET_Packet::r_advance		)

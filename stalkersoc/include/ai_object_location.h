@@ -21,7 +21,7 @@ private:
 
 public:
 	IC										CAI_ObjectLocation	();
-	IC			void						init				();
+				void						init				();
 	IC	virtual	void						reinit				();
 	IC			void						game_vertex			(const GameGraph::CVertex	*game_vertex);
 	IC			void						game_vertex			(const GameGraph::_GRAPH_ID	game_vertex_id);

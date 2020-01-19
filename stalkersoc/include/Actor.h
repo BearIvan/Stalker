@@ -27,9 +27,9 @@ class CGameTaskRegistryWrapper;
 class CGameNewsRegistryWrapper;
 class CCharacterPhysicsSupport;
 // refs
-class ENGINE_API CCameraBase;
-class ENGINE_API CBoneInstance;
-class ENGINE_API CBlend;
+class  CCameraBase;
+class  CBoneInstance;
+class  CBlend;
 class CWeaponList;
 class CEffectorBobbing;
 class CHolderCustom;
@@ -764,5 +764,5 @@ extern bool		isActorAccelerated			(u32 mstate, bool ZoomMode);
 IC	CActorCondition	&CActor::conditions	() const{ VERIFY(m_entity_condition); return(*m_entity_condition);}
 
 extern CActor*		g_actor;
-CActor*				Actor		();
+extern CActor*		Actor();
 extern const float	s_fFallTime;

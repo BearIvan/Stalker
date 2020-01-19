@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch_script.h"
 
 #include "ui/UIInventoryUtilities.h"
 

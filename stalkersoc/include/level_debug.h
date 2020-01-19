@@ -53,8 +53,8 @@ public:
 		}
 		IC	void	clear			() {m_data.clear	();}
 
-		template<class T>
-		IC	void	process			(T &process_pred) {
+		template<class A>
+		IC	void	process			(A &process_pred) {
 			for (ITEM_STORAGE_VEC_IT it=m_data.begin(); it != m_data.end(); ++it) {
 				process_pred(*it);
 			}

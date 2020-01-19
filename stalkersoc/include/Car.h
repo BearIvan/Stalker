@@ -17,7 +17,7 @@
 #include "PHDestroyable.h"
 #include "DelayedActionFuse.h"
 // refs
-class ENGINE_API			CBoneInstance;
+class 			CBoneInstance;
 class						CActor;
 class						CInventory;
 class						CSE_PHSkeleton;
@@ -55,7 +55,7 @@ private:
 	CFunctionGraph 					m_dbg_torque_rpm		;
 	CStatGraph	   					*m_dbg_dynamic_plot		;
 	bool							b_plots					;
-	float _stdcall			TorqueRpmFun		(float rpm)		{return Parabola(rpm)/rpm;}
+	inline float 			TorqueRpmFun		(float rpm)		{return Parabola(rpm)/rpm;}
 	void 					InitDebug			()				;
 	void 					DbgSheduleUpdate	()				;
 	void 					DbgUbdateCl			()				;
@@ -434,7 +434,7 @@ private:
 	////////////////////////////////////////////////////
 	/////////////////////////////////////////////////
 	void				InitParabola();
-	float	_stdcall	Parabola(float rpm);
+	float		Parabola(float rpm);
 	//float GetSteerAngle();
 	void				 LimitWheels						()	;
 	void				 Drive								()	;

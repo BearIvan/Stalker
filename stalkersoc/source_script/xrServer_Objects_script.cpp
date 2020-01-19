@@ -81,13 +81,9 @@ struct CWrapperBase : public T, public luabind::wrap_base {
 void CPureServerObject::script_register(lua_State *L)
 {
 	module(L)[
-		class_<IPureLoadableObject<IReader> >
-			("ipure_alife_load_object"),
-		class_<IPureSavableObject<IWriter> >
-			("ipure_alife_save_object"),
-		class_<IPureSerializeObject<IReader,IWriter>,bases<IPureLoadableObject<IReader>,IPureSavableObject<IWriter> > >
-			("ipure_alife_load_save_object"),
-		class_<IPureServerObject,IPureSerializeObject<IReader,IWriter> >
+		class_<ISerializable >
+			("ISerializable"),
+		class_<IPureServerObject,ISerializable >
 			("ipure_server_object"),
 		class_<CPureServerObject,IPureServerObject>
 			("cpure_server_object")
@@ -100,7 +96,7 @@ void CSE_Abstract::script_register(lua_State *L)
 	typedef CWrapperBase<CSE_Abstract> WrapType;
 	typedef CSE_Abstract BaseType;
 	module(L)[
-		class_<CSE_Abstract,WrapType,CPureServerObject>	("cse_abstract")
+		class_<CSE_Abstract, CPureServerObject,default_holder, WrapType>	("cse_abstract")
 			.def_readonly	("id",				&BaseType::ID)
 			.def_readonly	("parent_id",		&BaseType::ID_Parent)
 			.def_readonly	("script_version",	&BaseType::m_script_version)

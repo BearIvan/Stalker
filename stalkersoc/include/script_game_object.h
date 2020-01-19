@@ -14,53 +14,23 @@
 #include "xr_time.h"
 #include "character_info_defs.h"
 
-enum EPdaMsg;
-enum ESoundTypes;
-enum ETaskState;
-
-namespace ALife {enum ERelationType;};
-namespace ScriptEntity {enum EActionType;};
-namespace MovementManager { enum EPathType;};
-namespace DetailPathManager { enum EDetailPathType;};
-namespace SightManager {enum ESightType;};
+#include "pda_space.h"
+#include "ai_sounds.h"
+#include "GameTaskDefs.h"
+#include "alife_space.h"
+#include "script_entity_space.h"
+#include "movement_manager_space.h"
+#include  "detail_path_manager_space.h"
+#include  "sight_manager_space.h"
 
 class NET_Packet;
 class CGameTask;
 
-namespace PatrolPathManager { 
-	enum EPatrolStartType;
-	enum EPatrolRouteType;
-};
+#include "patrol_path_manager_space.h"
+#include "memory_space.h"
+#include "ai_monster_space.h"
 
-namespace MemorySpace {
-	struct CMemoryInfo;
-	struct CVisibleObject;
-	struct CSoundObject;
-	struct CHitObject;
-	struct CNotYetVisibleObject;
-};
-
-namespace MonsterSpace {
-	enum EBodyState;
-	enum EMovementType;
-	enum EMovementDirection;
-	enum EDirectionType;
-	enum EPathState;
-	enum EObjectAction;
-	enum EMentalState;
-	enum EScriptMonsterMoveAction;
-	enum EScriptMonsterSpeedParam;
-	enum EScriptMonsterAnimAction;
-	enum EScriptMonsterGlobalAction;
-	enum EScriptSoundAnim;
-	enum EMonsterSounds;
-	enum EMonsterHeadAnimType;
-	struct SBoneRotation;
-};
-
-namespace GameObject {
-	enum ECallbackType;
-};
+#include "game_object_space.h"
 
 class CGameObject;
 class CScriptHit;
@@ -110,9 +80,6 @@ class CScriptGameObject;
 
 class CScriptGameObject;
 
-namespace SightManager {
-	enum ESightType;
-}
 
 struct CSightParams {
 	SightManager::ESightType	m_sight_type;
@@ -245,17 +212,17 @@ public:
 	// CProjector
 			Fvector				GetCurrentDirection		();
 			bool				IsInvBoxEmpty			();
-	//передача порции информации InventoryOwner
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ InventoryOwner
 			bool				GiveInfoPortion		(LPCSTR info_id);
 			bool				DisableInfoPortion	(LPCSTR info_id);
 			bool				GiveGameNews		(LPCSTR news, LPCSTR texture_name, Frect tex_rect, int delay, int show_time);
 
 			void				AddIconedTalkMessage(LPCSTR text, LPCSTR texture_name, Frect tex_rect, LPCSTR templ_name);
-	//предикаты наличия/отсутствия порции информации у персонажа
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			bool				HasInfo				(LPCSTR info_id);
 			bool				DontHasInfo			(LPCSTR info_id);
 			xrTime				GetInfoTime			(LPCSTR info_id);
-	//работа с заданиями
+	//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			ETaskState			GetGameTaskState	(LPCSTR task_id, int objective_num);
 			void				SetGameTaskState	(ETaskState state, LPCSTR task_id, int objective_num);
 			void				GiveTaskToActor		(CGameTask* t, u32 dt, bool bCheckExisting);
@@ -271,14 +238,14 @@ public:
 			void				DisableTrade		();
 			bool				IsTradeEnabled		();
 
-			void				IterateInventory	(luabind::functor<void> functor, luabind::object object);
+			void				IterateInventory	(luabind::object functor, luabind::object object);
 			void				MarkItemDropped		(CScriptGameObject *item);
 			bool				MarkedDropped		(CScriptGameObject *item);
 			void				UnloadMagazine		();
 
 			void				DropItem			(CScriptGameObject* pItem);
 			void				DropItemAndTeleport	(CScriptGameObject* pItem, Fvector position);
-			void				ForEachInventoryItems(const luabind::functor<void> &functor);
+			void				ForEachInventoryItems(const luabind::object &functor);
 			void				TransferItem		(CScriptGameObject* pItem, CScriptGameObject* pForWho);
 			void				TransferMoney		(int money, CScriptGameObject* pForWho);
 			void				GiveMoney			(int money);
@@ -327,16 +294,16 @@ public:
 
 			
 	// Callbacks			
-			void				SetCallback			(GameObject::ECallbackType type, const luabind::functor<void> &functor);
-			void				SetCallback			(GameObject::ECallbackType type, const luabind::functor<void> &functor, const luabind::object &object);
+			void				SetCallback			(GameObject::ECallbackType type, const luabind::object &functor);
+			void				SetCallback			(GameObject::ECallbackType type, const luabind::object &functor, const luabind::object &object);
 			void				SetCallback			(GameObject::ECallbackType type);
 
-			void				set_patrol_extrapolate_callback(const luabind::functor<bool> &functor);
-			void				set_patrol_extrapolate_callback(const luabind::functor<bool> &functor, const luabind::object &object);
+			void				set_patrol_extrapolate_callback(const luabind::object &functor);
+			void				set_patrol_extrapolate_callback(const luabind::object &functor, const luabind::object &object);
 			void				set_patrol_extrapolate_callback();
 
-			void				set_enemy_callback	(const luabind::functor<bool> &functor);
-			void				set_enemy_callback	(const luabind::functor<bool> &functor, const luabind::object &object);
+			void				set_enemy_callback	(const luabind::object &functor);
+			void				set_enemy_callback	(const luabind::object &functor, const luabind::object &object);
 			void				set_enemy_callback	();
 	
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -345,7 +312,7 @@ public:
 			void				SetTipTextDefault	();
 			void				SetNonscriptUsable	(bool nonscript_usable);
 ///////////////////////////////////////////////////////////////////////////////////////////
-			void				set_fastcall		(const luabind::functor<bool> &functor, const luabind::object &object);
+			void				set_fastcall		(const luabind::object &functor, const luabind::object &object);
 			void				set_const_force		(const Fvector &dir,float value,u32  time_interval)							;
 //////////////////////////////////////////////////////////////////////////
 

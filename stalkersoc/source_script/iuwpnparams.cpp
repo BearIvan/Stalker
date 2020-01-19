@@ -7,11 +7,11 @@
 #include "script_engine.h"
 
 struct SLuaWpnParams{
-	luabind::functor<float>		m_functorRPM;
-	luabind::functor<float>		m_functorAccuracy;
-	luabind::functor<float>		m_functorDamage;
-	luabind::functor<float>		m_functorDamageMP;
-	luabind::functor<float>		m_functorHandling;
+	luabind::object		m_functorRPM;
+	luabind::object		m_functorAccuracy;
+	luabind::object		m_functorDamage;
+	luabind::object		m_functorDamageMP;
+	luabind::object		m_functorHandling;
 	SLuaWpnParams();
 	~SLuaWpnParams();
 };
@@ -81,13 +81,13 @@ void CUIWpnParams::SetInfo(const shared_str& wpn_section)
 	if(!g_lua_wpn_params)
 		g_lua_wpn_params = xr_new<SLuaWpnParams>();
 
-	m_progressRPM.SetProgressPos		(g_lua_wpn_params->m_functorRPM(*wpn_section));
-	m_progressAccuracy.SetProgressPos	(g_lua_wpn_params->m_functorAccuracy(*wpn_section));
+	m_progressRPM.SetProgressPos		 (luabind::call_function<float>(g_lua_wpn_params->m_functorRPM,*wpn_section));
+	m_progressAccuracy.SetProgressPos	(luabind::call_function<float>(g_lua_wpn_params->m_functorAccuracy,*wpn_section));
 	if (GameID() == GAME_SINGLE)
-        m_progressDamage.SetProgressPos	(g_lua_wpn_params->m_functorDamage(*wpn_section));
+        m_progressDamage.SetProgressPos	(luabind::call_function<float>(g_lua_wpn_params->m_functorDamage,*wpn_section));
 	else
-		m_progressDamage.SetProgressPos	(g_lua_wpn_params->m_functorDamageMP(*wpn_section));
-	m_progressHandling.SetProgressPos	(g_lua_wpn_params->m_functorHandling(*wpn_section));
+		m_progressDamage.SetProgressPos	(luabind::call_function<float>(g_lua_wpn_params->m_functorDamageMP,*wpn_section));
+	m_progressHandling.SetProgressPos	(luabind::call_function<float>(g_lua_wpn_params->m_functorHandling,*wpn_section));
 }
 
 bool CUIWpnParams::Check(const shared_str& wpn_section){

@@ -1,6 +1,7 @@
 #pragma once
 
 #ifdef XRGAME_EXPORTS
+#	include "engine/object_broker.h"
 #	include "ui/xrUIXmlParser.h"
 #else // XRGAME_EXPORTS
 #	include "xrUIXmlParser.h"
@@ -52,18 +53,18 @@ public:
 	static const ITEM_DATA*			GetById		(const shared_str& str_id, bool no_assert = false);
 	static const ITEM_DATA*			GetByIndex	(int index, bool no_assert = false);
 
-	static const int			IdToIndex	(const shared_str& str_id, int default_index = T_INDEX(-1), bool no_assert = false)
+	static  int			IdToIndex	(const shared_str& str_id, int default_index = -1, bool no_assert = false)
 {
 		const ITEM_DATA* item = GetById(str_id, no_assert);
 		return item?item->index:default_index;
 	}
-	static const shared_str		IndexToId	(int index, shared_str default_id = NULL, bool no_assert = false)
+	static  shared_str		IndexToId	(int index, shared_str default_id = NULL, bool no_assert = false)
 	{
 		const ITEM_DATA* item = GetByIndex(index, no_assert);
 		return item?item->id:default_id;
 	}
 
-	static const int		GetMaxIndex	()					 {return m_pItemDataVector->size()-1;}
+	static  int		GetMaxIndex	()					 {return m_pItemDataVector->size()-1;}
 
 	//удаление статичекого массива
 	static void					DeleteIdToIndexData		();
@@ -71,7 +72,7 @@ public:
 
 
 TEMPLATE_SPECIALIZATION
-typename T_VECTOR* CSXML_IdToIndex::m_pItemDataVector = NULL;
+T_VECTOR* CSXML_IdToIndex::m_pItemDataVector = NULL;
 
 TEMPLATE_SPECIALIZATION
 LPCSTR CSXML_IdToIndex::file_str = NULL;
@@ -92,7 +93,7 @@ CSXML_IdToIndex::~CXML_IdToIndex()
 
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSXML_IdToIndex::GetById (const shared_str& str_id, bool no_assert)
+const ITEM_DATA* CSXML_IdToIndex::GetById (const shared_str& str_id, bool no_assert)
 {
 	T_INIT::InitXmlIdToIndex();
 	T_VECTOR::iterator it = m_pItemDataVector->begin();
@@ -116,7 +117,7 @@ const typename ITEM_DATA* CSXML_IdToIndex::GetById (const shared_str& str_id, bo
 }
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSXML_IdToIndex::GetByIndex(int index, bool no_assert)
+const ITEM_DATA* CSXML_IdToIndex::GetByIndex(int index, bool no_assert)
 {
 	if((size_t)index>=m_pItemDataVector->size())
 	{
@@ -136,7 +137,7 @@ void CSXML_IdToIndex::DeleteIdToIndexData	()
 }
 
 TEMPLATE_SPECIALIZATION
-typename void	CSXML_IdToIndex::InitInternal ()
+void	CSXML_IdToIndex::InitInternal ()
 {
 	VERIFY(!m_pItemDataVector);
 	T_INIT::InitXmlIdToIndex();

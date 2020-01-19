@@ -52,21 +52,21 @@ IC	void CLevelPathManager::setup			(
 		_goal_node_index,
 		parameters
 	);
-	m_distance_xz			= graph->header().cell_size();
-	m_sqr_distance_xz		= XrMath::sqr(graph->header().cell_size());
-//		square_size_y			= XrMath::sqr((float)(graph->header().factor_y()/32767.0));
-//		size_y					= (float)(graph->header().factor_y()/32767.0);
+	m_distance_xz			= inherited::graph->header().cell_size();
+	m_sqr_distance_xz		= XrMath::sqr(inherited::graph->header().cell_size());
+//		square_size_y			= XrMath::sqr((float)(inherited::graph->header().factor_y()/32767.0));
+//		size_y					= (float)(inherited::graph->header().factor_y()/32767.0);
 }
 
 TEMPLATE_SPECIALIZATION
 IC	void CLevelPathManager::init			()
 {
-	const _Graph::CVertex	&tNode1	= *graph->vertex(start_node_index);
-	graph->unpack_xz		(tNode1,x2,z2);
+	const _Graph::CVertex	&tNode1	= *inherited::graph->vertex(inherited::start_node_index);
+	inherited::graph->unpack_xz		(tNode1,x2,z2);
 //		y2						= (float)(tNode1.position().y());
 	
-	const _Graph::CVertex	&tNode2	= *graph->vertex(goal_node_index);
-	graph->unpack_xz		(tNode2,x3,z3);
+	const _Graph::CVertex	&tNode2	= *inherited::graph->vertex(inherited::goal_node_index);
+	inherited::graph->unpack_xz		(tNode2,x3,z3);
 //		y3						= (float)(tNode2.position().y());
 	x1						= x2;
 //		y1						= y2;
@@ -76,9 +76,9 @@ IC	void CLevelPathManager::init			()
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CLevelPathManager::evaluate	(const _index_type &node_index1, const _index_type &node_index2, const _Graph::const_iterator &/**i/**/)
 {
-	VERIFY					(graph);
+	VERIFY					(inherited::graph);
 	
-//		const _Graph::CVertex	&tNode1 = *graph->vertex(node_index2);
+//		const _Graph::CVertex	&tNode1 = *inherited::graph->vertex(node_index2);
 
 //		y2						= (float)(tNode1.position().y());
 
@@ -89,7 +89,7 @@ IC	_dist_type CLevelPathManager::evaluate	(const _index_type &node_index1, const
 TEMPLATE_SPECIALIZATION
 IC	_dist_type CLevelPathManager::estimate	(const _index_type &node_index) const
 {
-	VERIFY					(graph);
+	VERIFY					(inherited::graph);
 //		return					(XrMath::sqrt((float)(m_sqr_distance_xz*float(XrMath::sqr(x3 - x1) + XrMath::sqr(z3 - z1)) + square_size_y*(float)XrMath::sqr(y3 - y1))));
 	return					(2*m_distance_xz*_dist_type(XrMath::abs(x3 - x1) + XrMath::abs(z3 - z1)));// + XrMath::abs(y3 - y1)*size_y);
 //		int						x = XrMath::abs(x3 - x1);
@@ -100,11 +100,11 @@ IC	_dist_type CLevelPathManager::estimate	(const _index_type &node_index) const
 TEMPLATE_SPECIALIZATION
 IC	bool CLevelPathManager::is_goal_reached	(const _index_type &node_index)
 {
-	if (node_index == goal_node_index)
+	if (node_index == inherited::goal_node_index)
 		return				(true);
 	
-	best_node				= graph->vertex(node_index);
-	graph->unpack_xz		(best_node,x1,z1);
+	best_node				= inherited::graph->vertex(node_index);
+	inherited::graph->unpack_xz		(best_node,x1,z1);
 //		y1						= (float)(best_node->position().y());
 
 	return					(false);
@@ -113,28 +113,28 @@ IC	bool CLevelPathManager::is_goal_reached	(const _index_type &node_index)
 TEMPLATE_SPECIALIZATION
 IC	bool CLevelPathManager::is_limit_reached(const _iteration_type	iteration_count) const
 {
-	VERIFY					(data_storage);
+	VERIFY					(inherited::data_storage);
 	return					(inherited::is_limit_reached(iteration_count));
 }
 
 TEMPLATE_SPECIALIZATION
 IC	bool CLevelPathManager::is_accessible	(const _index_type &vertex_id) const
 {
-	VERIFY					(graph);
-//	return					(graph->valid_vertex_id(vertex_id));
-	return					(graph->is_accessible(vertex_id));
+	VERIFY					(inherited::graph);
+//	return					(inherited::graph->valid_vertex_id(vertex_id));
+	return					(inherited::graph->is_accessible(vertex_id));
 }
 
 TEMPLATE_SPECIALIZATION
 IC	void CLevelPathManager::begin			(const _index_type &vertex_id, const_iterator &begin, const_iterator &end)
 {
-	graph->begin			(best_node,begin,end);
+	inherited::graph->begin			(best_node,begin,end);
 }
 
 TEMPLATE_SPECIALIZATION
 IC	const _index_type CLevelPathManager::get_value		(const_iterator &i) const
 {
-	return					(graph->value(best_node,i));
+	return					(inherited::graph->value(best_node,i));
 }
 
 #undef TEMPLATE_SPECIALIZATION

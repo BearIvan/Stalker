@@ -13,12 +13,7 @@
 
 class CSE_ALifeMonsterAbstract;
 class CPatrolPath;
-
-namespace PatrolPathManager {
-	enum EPatrolStartType;
-	enum EPatrolRouteType;
-};
-
+#include "patrol_path_manager_space.h"
 class CALifeMonsterPatrolPathManager {
 public:
 	typedef CSE_ALifeMonsterAbstract							object_type;

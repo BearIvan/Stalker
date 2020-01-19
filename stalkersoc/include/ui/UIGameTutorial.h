@@ -57,8 +57,8 @@ protected:
 		etiNeedPauseSound	= (1<<5),
 		eti_last			= 6
 	};
-	xr_vector<luabind::functor<void> >	m_start_lua_functions;
-	xr_vector<luabind::functor<void> >	m_stop_lua_functions;
+	xr_vector<luabind::object >	m_start_lua_functions;
+	xr_vector<luabind::object >	m_stop_lua_functions;
 
 	Flags32					m_flags;
 	CUISequencer*			m_owner;

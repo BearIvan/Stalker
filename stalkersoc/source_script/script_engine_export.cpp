@@ -12,6 +12,18 @@
 #include "script_export_space.h"
 #include "script_engine_export.h"
 
+#include "game_cl_single_script_inline.h"
+#include "action_base_script_inline.h"
+#include "action_planner_script_inline.h"
+#include "action_planner_action_script_export_inline.h"
+#include "script_render_device_script_inline.h"
+#include "base_client_classes_script_inline.h"
+#include "script_fcolor_script_inline.h"
+#include "script_flags_script_inline.h"
+#include "script_fmatrix_script_inline.h"
+#include "script_fvector_script_inline.h"
+#include "script_net_packet_script_inline.h"
+#include "script_reader_script_inline.h"
 #pragma optimize("s",on)
 template <typename TList> struct Register
 {

@@ -11,7 +11,7 @@
 #include "graph_vertex.h"
 #include "graph_edge.h"
 #include "engine/object_broker.h"
-
+#include "loki/EmptyType.h"
 template <
 	typename _data_type = Loki::EmptyType,
 	typename _edge_weight_type = float,
@@ -75,7 +75,7 @@ template <
 	typename _edge_weight_type = float,
 	typename _vertex_id_type = u32
 >
-class CGraphAbstractSerialize : public CGraphAbstract<_data_type,_edge_weight_type,_vertex_id_type>, public IPureSerializeObject<IReader,IWriter> {
+class CGraphAbstractSerialize : public CGraphAbstract<_data_type,_edge_weight_type,_vertex_id_type>, public ISerializable {
 public:
 	virtual void						save			(IWriter &stream);
 	virtual void						load			(IReader &stream);

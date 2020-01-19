@@ -126,9 +126,9 @@ namespace MemorySpace {
 		CObjectParams<T>			m_self_params;
 		_flags<squad_mask_type>		m_squad_mask;
 
-		IC			CMemoryObject	();
+					CMemoryObject	();
 		IC	bool	operator==		(u16 id) const;
-		IC	void	fill			(const T *game_object, const T *self, const squad_mask_type &mask);
+			void	fill			(const T *game_object, const T *self, const squad_mask_type &mask);
 	};
 
 	struct CVisibleObject : CMemoryObject<CGameObject> {

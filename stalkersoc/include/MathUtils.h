@@ -51,7 +51,7 @@ ICF void	accurate_normalize(float* a)
 			a2 /= aa1;
 			l = dRecipSqrt (a0*a0 + a2*a2 + 1);
 			a[0] = a0*l;
-			a[1] = (float)_copysign(l,a1);
+			a[1] = (float)_copysignf(l,a1);
 			a[2] = a2*l;
 		}
 	}
@@ -63,7 +63,7 @@ aa2_largest:	// aa2 is largest
 			l = dRecipSqrt (a0*a0 + a1*a1 + 1);
 			a[0] = a0*l;
 			a[1] = a1*l;
-			a[2] = (float)_copysign(l,a2);
+			a[2] = (float)_copysignf(l,a2);
 		}
 		else {		// aa0 is largest
 			if (aa0 <= 0) {
@@ -76,7 +76,7 @@ aa2_largest:	// aa2 is largest
 			a1 /= aa0;
 			a2 /= aa0;
 			l = dRecipSqrt (a1*a1 + a2*a2 + 1);
-			a[0] = (float)_copysign(l,a0);
+			a[0] = (float)_copysignf(l,a0);
 			a[1] = a1*l;
 			a[2] = a2*l;
 		}
@@ -441,6 +441,7 @@ private:
 		SInertVal& operator = (SInertVal& v)
 		{
 			R_ASSERT(false);
+			return *this;
 		}
 };
 

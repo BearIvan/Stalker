@@ -2,7 +2,6 @@
 
 #include "../ui_def.h"
 #include "../ui_base.h"
-#include <boost/noncopyable.hpp>
 
 typedef CGameFont::EAligment ETextAlignment;
 
@@ -88,7 +87,8 @@ enum EWindowAlignment{
 	waCenter	=16
 };
 
-class IUISimpleWindow :public boost::noncopyable{
+class IUISimpleWindow {
+	BEAR_CLASS_WITHOUT_COPY(IUISimpleWindow);
 public:
 						IUISimpleWindow						()			{};		
 	virtual				~IUISimpleWindow					()			{};
