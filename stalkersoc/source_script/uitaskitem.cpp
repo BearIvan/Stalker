@@ -288,7 +288,7 @@ void CUITaskSubItem::OnShowDescriptionClicked (CUIWindow*, void*)
 
 void CUITaskSubItem::MarkSelected (bool b)
 {
-	m_showDescriptionBtn->SetButtonMode		(b ? CUIButton::BUTTON_PUSHED : CUIButton::BUTTON_NORMAL);
+	this->m_showDescriptionBtn->SetButtonMode		(b ? CUIButton::BUTTON_PUSHED : CUIButton::BUTTON_NORMAL);
 }
 
 /*

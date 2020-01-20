@@ -6,15 +6,14 @@
 //	Description : Property evaluator script export
 ////////////////////////////////////////////////////////////////////////////
 
-#include "pch_script.h"
 #include "script_property_evaluator_wrapper.h"
 #include "script_game_object.h"
 #include "property_evaluator_const.h"
 
 using namespace luabind;
 
-#pragma optimize("s",on)
-void CPropertyEvaluator<CScriptGameObject>::script_register(lua_State *L)
+template<>
+inline void CPropertyEvaluator<CScriptGameObject>::script_register(lua_State *L)
 {
 	module(L)
 	[

@@ -390,9 +390,9 @@ ShaderElement*		CBlender_Compile::_lua_Compile	(LPCSTR namesp, LPCSTR name)
 }
 void free_luabind()
 {
-	luabind::free_class_id<adopt_sampler>();
+/*	luabind::free_class_id<adopt_sampler>();
 	luabind::free_class_id<adopt_compiler>();
-	luabind::free_class_id<adopt_blend>();
+	luabind::free_class_id<adopt_blend>();*/
 }
 struct FreeLuabind
 {

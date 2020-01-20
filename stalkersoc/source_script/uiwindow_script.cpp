@@ -65,7 +65,10 @@ TEX_INFO	get_texture_info(LPCSTR name, LPCSTR def_name)
 {
 	return CUITextureMaster::FindItem(name, def_name);
 }
-
+void test123(CDialogHolder*)
+{
+	Msg("! test123");
+}
 using namespace luabind;
 
 #pragma optimize("s",on)
@@ -131,7 +134,8 @@ void CUIWindow::script_register(lua_State *L)
 		.def("MainInputReceiver",		&CDialogHolder::MainInputReceiver)
 		.def("start_stop_menu",			&CDialogHolder::StartStopMenu)
 		.def("AddDialogToRender",		&CDialogHolder::AddDialogToRender)
-		.def("RemoveDialogToRender",	&CDialogHolder::RemoveDialogToRender),
+		.def("RemoveDialogToRender",	&CDialogHolder::RemoveDialogToRender)
+		.def("test123", &test123),
 
 		class_<CUIDialogWnd, CUIWindow>("CUIDialogWnd")
 		.def("GetHolder",				&CUIDialogWnd::GetHolder)

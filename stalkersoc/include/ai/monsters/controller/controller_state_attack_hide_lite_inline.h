@@ -17,25 +17,25 @@ void CStateControllerHideLiteAbstract::initialize()
 	inherited::initialize			();
 
 	select_target_point				();
-	object->path().prepare_builder	();
+	inherited::object->path().prepare_builder	();
 
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateControllerHideLiteAbstract::execute()
 {
-	object->path().set_target_point		(target.position, target.node);
-	object->path().set_rebuild_time		(0);
-	object->path().set_distance_to_end	(0.f);
-	object->path().set_use_covers		(true);
+	inherited::object->path().set_target_point		(target.position, target.node);
+	inherited::object->path().set_rebuild_time		(0);
+	inherited::object->path().set_distance_to_end	(0.f);
+	inherited::object->path().set_use_covers		(true);
 
-	object->anim().accel_activate		(eAT_Aggressive);
-	object->anim().accel_set_braking	(false);
+	inherited::object->anim().accel_activate		(eAT_Aggressive);
+	inherited::object->anim().accel_set_braking	(false);
 
-	object->sound().play				(MonsterSound::eMonsterSoundAggressive, 0,0,object->db().m_dwAttackSndDelay);
-	object->custom_dir().head_look_point(object->EnemyMan.get_enemy_position());
+	inherited::object->sound().play				(MonsterSound::eMonsterSoundAggressive, 0,0,inherited::object->db().m_dwAttackSndDelay);
+	inherited::object->custom_dir().head_look_point(inherited::object->EnemyMan.get_enemy_position());
 
-	object->custom_anim().set_body_state(CControllerAnimation::eTorsoRun,CControllerAnimation::eLegsTypeRun);
+	inherited::object->custom_anim().set_body_state(CControllerAnimation::eTorsoRun,CControllerAnimation::eLegsTypeRun);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -63,10 +63,10 @@ void CStateControllerHideLiteAbstract::finalize()
 TEMPLATE_SPECIALIZATION
 bool CStateControllerHideLiteAbstract::check_completion()
 {
-	if ((object->ai_location().level_vertex_id() == target.node) && 
-		!object->control().path_builder().is_moving_on_path()) return true;
+	if ((inherited::object->ai_location().level_vertex_id() == target.node) && 
+		!inherited::object->control().path_builder().is_moving_on_path()) return true;
 	
-	return (!object->EnemyMan.see_enemy_now());
+	return (!inherited::object->EnemyMan.see_enemy_now());
 }
 
 TEMPLATE_SPECIALIZATION
@@ -76,7 +76,7 @@ void CStateControllerHideLiteAbstract::select_target_point()
 	DBG().level_info(this).clear();
 #endif
 
-	const CCoverPoint	*point = object->CoverMan->find_cover(object->EnemyMan.get_enemy_position(),10.f,30.f);
+	const CCoverPoint	*point = inherited::object->CoverMan->find_cover(inherited::object->EnemyMan.get_enemy_position(),10.f,30.f);
 	//VERIFY(point);
 	if (point) {
 		target.node					= point->level_vertex_id	();

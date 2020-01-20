@@ -996,7 +996,7 @@ extern  s32		g_sv_ah_dwArtefactsNum;
 extern	s32		g_sv_dm_dwTimeLimit;
 extern	int		g_sv_ah_iReinforcementTime;
 
-xr_token game_types[];
+extern xr_token game_types[];
 void xrServer::GetServerInfo( CServerInfo* si )
 {
 	string32  tmp;

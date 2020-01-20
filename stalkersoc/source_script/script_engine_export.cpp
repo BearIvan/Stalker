@@ -5,7 +5,6 @@
 //	Author		: Dmitriy Iassenev
 //	Description : XRay Script Engine export
 ////////////////////////////////////////////////////////////////////////////
-
 #include "pch_script.h"
 
 #define SCRIPT_REGISTRATOR
@@ -24,17 +23,18 @@
 #include "script_fvector_script_inline.h"
 #include "script_net_packet_script_inline.h"
 #include "script_reader_script_inline.h"
+#include "property_evaluator_script_inline.h"
 #pragma optimize("s",on)
 template <typename TList> struct Register
 {
 	ASSERT_TYPELIST(TList);
 
-	static void _Register(lua_State *L)
+	inline static void _Register(lua_State *L)
 	{
-		Register<TList::Tail>::_Register(L);
+		Register<typename TList::Tail>::_Register(L);
 #ifdef XRGAME_EXPORTS
 #	ifdef _DEBUG
-		Msg("Exporting %s",typeid(TList::Head).name());
+		Msg("Export:%s", typeid(typename TList::Head).name());
 #	endif
 #endif
 		TList::Head::script_register(L);
@@ -47,18 +47,21 @@ template <> struct Register<Loki::NullType>
 	{
 	}
 };
-
+/*
 template <typename T1, typename T2>
 struct TypePair {
 	typedef T1	first;
 	typedef T2	second;
 };
 
+template<bool C, class T = void>
+using enable_if_t = typename std::enable_if<C, T>::type;
 template <typename TFullList> struct DynamicCast
 {
 	ASSERT_TYPELIST(TFullList);
 
-	template <typename TList, typename T> struct Helper2
+	template <typename TList, typename T> 
+	struct Helper2
 	{
 		typedef typename TList::Head Head;
 
@@ -68,13 +71,14 @@ template <typename TFullList> struct DynamicCast
 			declare<Loki::SuperSubclassStrict<Head,T>::value>();
 		}
 
-		template <bool _1>
-		static void declare()
+		template <bool b>
+		static void declare(enable_if_t<!b>)
 		{
 		}
 
-		template <>
-		static void declare<true>()
+
+		template <bool b>
+		static void declare(enable_if_t<b>)
 		{
 			Msg		("Exporting function to cast from \"%s\" to \"%s\"",typeid(T).name(),typeid(Head).name());
 		}
@@ -107,8 +111,7 @@ template <typename TFullList> struct DynamicCast
 	{
 		Helper<TFullList>::Register(L);
 	}
-};
-
+};*/
 void export_classes	(lua_State *L)
 {
 	Register<script_type_list>::_Register(L);

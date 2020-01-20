@@ -61,34 +61,34 @@ namespace luabind {
 
 #ifdef LUABIND_NO_EXCEPTIONS
 
-	inline void set_error_callback(error_callback_fun e)
+	 void set_error_callback(error_callback_fun e)
 	{
 		error_callback = e;
 	}
 
-	inline void set_cast_failed_callback(cast_failed_callback_fun c)
+	 void set_cast_failed_callback(cast_failed_callback_fun c)
 	{
 		cast_failed_callback = c;
 	}
 
-	inline error_callback_fun get_error_callback()
+	 error_callback_fun get_error_callback()
 	{
 		return error_callback;
 	}
 
-	inline cast_failed_callback_fun get_cast_failed_callback()
+	 cast_failed_callback_fun get_cast_failed_callback()
 	{
 		return cast_failed_callback;
 	}
 
 #endif
 
-	inline void set_pcall_callback(pcall_callback_fun e)
+	 void set_pcall_callback(pcall_callback_fun e)
 	{
 		pcall_callback = e;
 	}
 
-	inline pcall_callback_fun get_pcall_callback()
+	 pcall_callback_fun get_pcall_callback()
 	{
 		return pcall_callback;
 	}

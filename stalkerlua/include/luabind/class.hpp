@@ -105,11 +105,11 @@
 
 namespace luabind {
 
-	template<class C>
+	/*template<class C>
 	void free_class_id()
 	{
 		detail::free_class_id(typeid(C));
-	}
+	}*/
 
 	namespace detail {
 		struct unspecified {};

@@ -15,23 +15,23 @@ void CStatePsyDogHideAbstract::initialize()
 	inherited::initialize();
 
 	select_target_point();
-	object->path().prepare_builder();
+	inherited::object->path().prepare_builder();
 
 }
 
 TEMPLATE_SPECIALIZATION
 void CStatePsyDogHideAbstract::execute()
 {
-	object->set_action					(ACT_RUN);
-	object->path().set_target_point		(target.position, target.node);
-	object->path().set_rebuild_time		(0);
-	object->path().set_distance_to_end	(0);
-	object->path().set_use_covers		(false);
+	inherited::object->set_action					(ACT_RUN);
+	inherited::object->path().set_target_point		(target.position, target.node);
+	inherited::object->path().set_rebuild_time		(0);
+	inherited::object->path().set_distance_to_end	(0);
+	inherited::object->path().set_use_covers		(false);
 
-	object->anim().accel_activate		(eAT_Aggressive);
-	object->anim().accel_set_braking	(false);
+	inherited::object->anim().accel_activate		(eAT_Aggressive);
+	inherited::object->anim().accel_set_braking	(false);
 
-	object->sound().play				(MonsterSound::eMonsterSoundAggressive, 0,0,object->db().m_dwAttackSndDelay);
+	inherited::object->sound().play				(MonsterSound::eMonsterSoundAggressive, 0,0,inherited::object->db().m_dwAttackSndDelay);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -43,19 +43,19 @@ bool CStatePsyDogHideAbstract::check_start_conditions()
 TEMPLATE_SPECIALIZATION
 bool CStatePsyDogHideAbstract::check_completion()
 {
-	return ((object->ai_location().level_vertex_id() == target.node) && !object->control().path_builder().is_moving_on_path());
+	return ((inherited::object->ai_location().level_vertex_id() == target.node) && !inherited::object->control().path_builder().is_moving_on_path());
 }
 
 TEMPLATE_SPECIALIZATION
 void CStatePsyDogHideAbstract::select_target_point()
 {
-	const CCoverPoint	*point = object->CoverMan->find_cover(object->EnemyMan.get_enemy_position(),10.f,30.f);
-	if (point && (object->Position().distance_to(point->position()) > 2.f)) {
+	const CCoverPoint	*point = inherited::object->CoverMan->find_cover(inherited::object->EnemyMan.get_enemy_position(),10.f,30.f);
+	if (point && (inherited::object->Position().distance_to(point->position()) > 2.f)) {
 		target.node					= point->level_vertex_id	();
 		target.position				= point->position			();
 	} else {
-		const CCoverPoint	*point1 = object->CoverMan->find_cover(object->Position(),10.f,30.f);
-		if (point1 && (object->Position().distance_to(point1->position()) > 2.f)) {
+		const CCoverPoint	*point1 = inherited::object->CoverMan->find_cover(inherited::object->Position(),10.f,30.f);
+		if (point1 && (inherited::object->Position().distance_to(point1->position()) > 2.f)) {
 			target.node					= point1->level_vertex_id	();
 			target.position				= point1->position			();
 		} else {

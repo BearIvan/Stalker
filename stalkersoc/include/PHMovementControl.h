@@ -4,10 +4,7 @@
 
 #include "PHCharacter.h"
 #include "MathUtils.h"
-namespace ALife {
-	enum EHitType;
-};
-
+#include "alife_space.h"
 namespace DetailPathManager {
 	struct STravelPathPoint;
 };

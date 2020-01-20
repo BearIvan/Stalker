@@ -17,10 +17,10 @@
 TEMPLATE_SPECIALIZATION
 CStateBloodsuckerVampireAbstract::CStateBloodsuckerVampire(_Object *obj) : inherited(obj)
 {
-	add_state	(eStateVampire_ApproachEnemy,	xr_new<CStateBloodsuckerVampireApproach<_Object> >	(obj));
-	add_state	(eStateVampire_Execute,			xr_new<CStateBloodsuckerVampireExecute<_Object> >	(obj));
-	add_state	(eStateVampire_RunAway,			xr_new<CStateMonsterHideFromPoint<_Object> >		(obj));
-	add_state	(eStateVampire_Hide,			xr_new<CStateBloodsuckerVampireHide<_Object> >		(obj));
+	inherited::add_state	(eStateVampire_ApproachEnemy,	xr_new<CStateBloodsuckerVampireApproach<_Object> >	(obj));
+	inherited::add_state	(eStateVampire_Execute,			xr_new<CStateBloodsuckerVampireExecute<_Object> >	(obj));
+	inherited::add_state	(eStateVampire_RunAway,			xr_new<CStateMonsterHideFromPoint<_Object> >		(obj));
+	inherited::add_state	(eStateVampire_Hide,			xr_new<CStateBloodsuckerVampireHide<_Object> >		(obj));
 }
 
 TEMPLATE_SPECIALIZATION
@@ -35,11 +35,11 @@ TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireAbstract::initialize()
 {
 	inherited::initialize						();
-	object->start_invisible_predator			();
+	inherited::object->start_invisible_predator			();
 
-	enemy	= object->EnemyMan.get_enemy		();
+	enemy	= inherited::object->EnemyMan.get_enemy		();
 
-	object->sound().play						(CAI_Bloodsucker::eVampireStartHunt);
+	inherited::object->sound().play						(CAI_Bloodsucker::eVampireStartHunt);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -48,35 +48,35 @@ void CStateBloodsuckerVampireAbstract::reselect_state()
 	u32 state_id = u32(-1);
 		
 	// check if we can start execute
-	if (prev_substate == eStateVampire_ApproachEnemy) {
-		if (get_state(eStateVampire_Execute)->check_start_conditions())		state_id = eStateVampire_Execute;
+	if (inherited::prev_substate == eStateVampire_ApproachEnemy) {
+		if (inherited::get_state(eStateVampire_Execute)->check_start_conditions())		state_id = eStateVampire_Execute;
 	}
 
 	// check if we executed 
-	if (prev_substate == eStateVampire_Execute)
+	if (inherited::prev_substate == eStateVampire_Execute)
 		state_id = eStateVampire_Hide;
 	
 	// check if reach time in vampire state is out - then hide
-	if (prev_substate == eStateVampire_ApproachEnemy) 
+	if (inherited::prev_substate == eStateVampire_ApproachEnemy) 
 		state_id = eStateVampire_Hide;
 
 	// check if we hiding - then hide again
-	if ( prev_substate == eStateVampire_Hide) 
+	if ( inherited::prev_substate == eStateVampire_Hide) 
 		state_id = eStateVampire_Hide;
 
 	// else just 
 	if (state_id == u32(-1)) state_id = eStateVampire_ApproachEnemy;
 
-	select_state(state_id);	
+	inherited::select_state(state_id);	
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireAbstract::check_force_state()
 {
 	// check if we can start execute
-	if (prev_substate == eStateVampire_ApproachEnemy) {
-		if (get_state(eStateVampire_Execute)->check_start_conditions())
-			current_substate = u32(-1);
+	if (inherited::prev_substate == eStateVampire_ApproachEnemy) {
+		if (inherited::get_state(eStateVampire_Execute)->check_start_conditions())
+			inherited::current_substate = u32(-1);
 	}
 }
 
@@ -86,7 +86,7 @@ void CStateBloodsuckerVampireAbstract::finalize()
 {
 	inherited::finalize();
 
-	object->stop_invisible_predator	();
+	inherited::object->stop_invisible_predator	();
 	m_time_last_vampire				= Device.dwTimeGlobal;
 }
 
@@ -95,27 +95,27 @@ void CStateBloodsuckerVampireAbstract::critical_finalize()
 {
 	inherited::critical_finalize	();
 	
-	object->stop_invisible_predator	();
+	inherited::object->stop_invisible_predator	();
 	m_time_last_vampire				= Device.dwTimeGlobal;
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateBloodsuckerVampireAbstract::check_start_conditions()
 {
-	if (!object->WantVampire()) return false;
-	if (object->berserk_always) return false;
+	if (!inherited::object->WantVampire()) return false;
+	if (inherited::object->berserk_always) return false;
 	
 	// является ли враг актером
-	const CEntityAlive *enemy1 = object->EnemyMan.get_enemy();
+	const CEntityAlive *enemy1 = inherited::object->EnemyMan.get_enemy();
 	if (enemy1->CLS_ID != CLSID_OBJECT_ACTOR)		return false;
-	if (!object->EnemyMan.see_enemy_now())			return false;
-	if (object->CControlledActor::is_controlling())	return false;
+	if (!inherited::object->EnemyMan.see_enemy_now())			return false;
+	if (inherited::object->CControlledActor::is_controlling())	return false;
 
 	const CActor *actor = smart_cast<const CActor *>(enemy1);
 	VERIFY(actor);
 	if (actor->input_external_handler_installed()) return false;
 
-	if (m_time_last_vampire + object->m_vampire_min_delay > Device.dwTimeGlobal) return false;
+	if (m_time_last_vampire + inherited::object->m_vampire_min_delay > Device.dwTimeGlobal) return false;
 
 	return true;
 }
@@ -124,15 +124,15 @@ TEMPLATE_SPECIALIZATION
 bool CStateBloodsuckerVampireAbstract::check_completion()
 {
 	// если убежал
-	if ((current_substate == eStateVampire_Hide) && 
-		get_state_current()->check_completion())	return true;
+	if ((inherited::current_substate == eStateVampire_Hide) && 
+		inherited::get_state_current()->check_completion())	return true;
 
 	// если враг изменился
-	if (enemy != object->EnemyMan.get_enemy())		return true;
+	if (enemy != inherited::object->EnemyMan.get_enemy())		return true;
 	
 	// если актера уже контролит другой кровосос
-	if ((current_substate != eStateVampire_Execute) && 
-		object->CControlledActor::is_controlling())	return true;
+	if ((inherited::current_substate != eStateVampire_Execute) && 
+		inherited::object->CControlledActor::is_controlling())	return true;
 
 	return false;
 }
@@ -141,19 +141,19 @@ bool CStateBloodsuckerVampireAbstract::check_completion()
 TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireAbstract::setup_substates()
 {
-	state_ptr state = get_state_current();
+	state_ptr state = inherited::get_state_current();
 
-	if (current_substate == eStateVampire_RunAway) {
+	if (inherited::current_substate == eStateVampire_RunAway) {
 
 		SStateHideFromPoint		data;
-		data.point				= object->EnemyMan.get_enemy_position();
+		data.point				= inherited::object->EnemyMan.get_enemy_position();
 		data.accelerated		= true;
 		data.braking			= false;
 		data.accel_type			= eAT_Aggressive;
 		data.distance			= RUN_AWAY_DISTANCE;
 		data.action.action		= ACT_RUN;
 		data.action.sound_type	= MonsterSound::eMonsterSoundAggressive;
-		data.action.sound_delay = object->db().m_dwAttackSndDelay;
+		data.action.sound_delay = inherited::object->db().m_dwAttackSndDelay;
 		data.action.time_out	= 15000;
 
 		state->fill_data_with(&data, sizeof(SStateHideFromPoint));

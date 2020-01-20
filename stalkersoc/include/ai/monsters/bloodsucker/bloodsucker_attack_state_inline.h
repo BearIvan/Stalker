@@ -12,8 +12,8 @@
 TEMPLATE_SPECIALIZATION
 CBloodsuckerStateAttackAbstract::CBloodsuckerStateAttack(_Object *obj) : inherited_attack(obj)
 {
-	//add_state(eStateAttack_Hide,	xr_new<CBloodsuckerStateAttackHide<_Object> > (obj));
-	add_state	(eStateAttack_Hide,	xr_new<CStateMonsterMoveToPointEx<_Object> >(obj));
+	//inherited_attack::add_state(eStateAttack_Hide,	xr_new<CBloodsuckerStateAttackHide<_Object> > (obj));
+	inherited_attack::add_state	(eStateAttack_Hide,	xr_new<CStateMonsterMoveToPointEx<_Object> >(obj));
 }
 
 TEMPLATE_SPECIALIZATION
@@ -24,22 +24,22 @@ CBloodsuckerStateAttackAbstract::~CBloodsuckerStateAttack()
 TEMPLATE_SPECIALIZATION
 void CBloodsuckerStateAttackAbstract::initialize()
 {
-	inherited::initialize	();
+	inherited_attack::initialize	();
 	m_time_stop_invis		= 0;
 }
 
 TEMPLATE_SPECIALIZATION
 void CBloodsuckerStateAttackAbstract::finalize()
 {
-	inherited::finalize();
-	object->stop_invisible_predator();
+	inherited_attack::finalize();
+	inherited_attack::object->stop_invisible_predator();
 }
 
 TEMPLATE_SPECIALIZATION
 void CBloodsuckerStateAttackAbstract::critical_finalize()
 {
-	inherited::critical_finalize();
-	object->stop_invisible_predator();
+	inherited_attack::critical_finalize();
+	inherited_attack::object->stop_invisible_predator();
 }
 
 #define	INVIS_ACTIVATE_DELAY	3000
@@ -50,23 +50,23 @@ void CBloodsuckerStateAttackAbstract::execute()
 {
 	bool selected = false;
 
-	if (check_home_point()) {
-		select_state	(eStateAttack_MoveToHomePoint);
+	if (inherited_attack::check_home_point()) {
+		inherited_attack::select_state	(eStateAttack_MoveToHomePoint);
 		selected		= true;
 	} else if (check_hiding()) {
-		select_state	(eStateAttack_Hide);
+		inherited_attack::select_state	(eStateAttack_Hide);
 		selected		= true;
-	} else if (check_steal_state()) {
-		select_state	(eStateAttack_Steal);
+	} else if (inherited_attack::check_steal_state()) {
+		inherited_attack::select_state	(eStateAttack_Steal);
 		selected		= true;
-	} else if (check_camp_state()) {
-		select_state	(eStateAttackCamp);
+	} else if (inherited_attack::check_camp_state()) {
+		inherited_attack::select_state	(eStateAttackCamp);
 		selected		= true;
-	} else if (check_find_enemy_state()) {
-		select_state	(eStateAttack_FindEnemy);
+	} else if (inherited_attack::check_find_enemy_state()) {
+		inherited_attack::select_state	(eStateAttack_FindEnemy);
 		selected		= true;
-	} else if (check_run_attack_state()) {
-		select_state	(eStateAttack_RunAttack);
+	} else if (inherited_attack::check_run_attack_state()) {
+		inherited_attack::select_state	(eStateAttack_RunAttack);
 		selected		= true;
 	}
 
@@ -74,45 +74,45 @@ void CBloodsuckerStateAttackAbstract::execute()
 		// определить тип атаки
 		bool b_melee = false; 
 
-		if (prev_substate == eStateAttack_Melee) {
-			if (!get_state_current()->check_completion()) {
+		if (inherited_attack::prev_substate == eStateAttack_Melee) {
+			if (!inherited_attack::get_state_current()->check_completion()) {
 				b_melee = true;
 			}
-		} else if (get_state(eStateAttack_Melee)->check_start_conditions()) {
+		} else if (inherited_attack::get_state(eStateAttack_Melee)->check_start_conditions()) {
 			b_melee = true;
 		}
 		
-		if (!b_melee && (prev_substate == eStateAttack_Melee)) {
-			select_state	(eStateAttack_Hide);
+		if (!b_melee && (inherited_attack::prev_substate == eStateAttack_Melee)) {
+			inherited_attack::select_state	(eStateAttack_Hide);
 		} else
 		// установить целевое состояние
 		if (b_melee) {  
 			// check if enemy is behind me for a long time
 			// [TODO] make specific state and replace run_away state (to avoid ratation jumps)
 			//if (check_behinder()) 
-			//	select_state(eStateAttack_RunAway);
+			//	inherited_attack::select_state(eStateAttack_RunAway);
 			//else 
-				select_state(eStateAttack_Melee);
+				inherited_attack::select_state(eStateAttack_Melee);
 		}
-		else select_state(eStateAttack_Run);
+		else inherited_attack::select_state(eStateAttack_Run);
 	}
 
 	// clear behinder var if not melee state selected
-	if (current_substate != eStateAttack_Melee) m_time_start_check_behinder = 0;
+	if (inherited_attack::current_substate != eStateAttack_Melee) inherited_attack::m_time_start_check_behinder = 0;
 	update_invisibility				();
 	
-	get_state_current()->execute	();
-	prev_substate = current_substate;
+	inherited_attack::get_state_current()->execute	();
+	inherited_attack::prev_substate = inherited_attack::current_substate;
 
 	// Notify squad	
-	CMonsterSquad *squad	= monster_squad().get_squad(object);
+	CMonsterSquad *squad	= monster_squad().get_squad(inherited_attack::object);
 	if (squad) {
 		SMemberGoal			goal;
 
 		goal.type			= MG_AttackEnemy;
-		goal.entity			= const_cast<CEntityAlive*>(object->EnemyMan.get_enemy());
+		goal.entity			= const_cast<CEntityAlive*>(inherited_attack::object->EnemyMan.get_enemy());
 
-		squad->UpdateGoal	(object, goal);
+		squad->UpdateGoal	(inherited_attack::object, goal);
 	}
 	//////////////////////////////////////////////////////////////////////////
 }
@@ -122,20 +122,20 @@ void CBloodsuckerStateAttackAbstract::execute()
 TEMPLATE_SPECIALIZATION
 void CBloodsuckerStateAttackAbstract::update_invisibility()
 {
-	if (object->state_invisible) {
+	if (inherited_attack::object->state_invisible) {
 		// check conditions to stop invis
-		if (current_substate == eStateAttack_Melee) {
-			object->stop_invisible_predator	();
+		if (inherited_attack::current_substate == eStateAttack_Melee) {
+			inherited_attack::object->stop_invisible_predator	();
 			m_time_stop_invis				= time();		
 		}
 	} else {
 		// check conditions to start invis
-		if (current_substate == eStateAttack_Hide) {
-			object->start_invisible_predator();
+		if (inherited_attack::current_substate == eStateAttack_Hide) {
+			inherited_attack::object->start_invisible_predator();
 		} else 
-		if ((current_substate == eStateAttack_Run) && (object->EnemyMan.get_enemy()->Position().distance_to(object->Position()) > INVIS_DIST_TO_ENEMY)) {
+		if ((inherited_attack::current_substate == eStateAttack_Run) && (inherited_attack::object->EnemyMan.get_enemy()->Position().distance_to(inherited_attack::object->Position()) > INVIS_DIST_TO_ENEMY)) {
 			if (m_time_stop_invis + INVIS_ACTIVATE_DELAY < time()) 
-				object->start_invisible_predator();
+				inherited_attack::object->start_invisible_predator();
 		}
 	}
 }
@@ -143,29 +143,29 @@ void CBloodsuckerStateAttackAbstract::update_invisibility()
 TEMPLATE_SPECIALIZATION
 bool CBloodsuckerStateAttackAbstract::check_hiding()
 {
-	if (current_substate == eStateAttack_Hide) 
-		if (!get_state(eStateAttack_Melee)->check_start_conditions()) 
-			if (!get_state_current()->check_completion()) {
-				//object->path().set_use_dest_orient	(true);
-				//object->path().set_dest_direction	(Fvector().sub(object->EnemyMan.get_enemy()->Position(),m_dir_point));
+	if (inherited_attack::current_substate == eStateAttack_Hide) 
+		if (!inherited_attack::get_state(eStateAttack_Melee)->check_start_conditions()) 
+			if (!inherited_attack::get_state_current()->check_completion()) {
+				//inherited_attack::object->path().set_use_dest_orient	(true);
+				//inherited_attack::object->path().set_dest_direction	(Fvector().sub(inherited_attack::object->EnemyMan.get_enemy()->Position(),m_dir_point));
 				return true;
 			}
 
 	return false;
 
 
-	//if (current_substate == eStateAttack_Melee) {
-	//	if (prev_substate != eStateAttack_Melee) {
-	//		object->stop_invisible_predator	();
+	//if (inherited_attack::current_substate == eStateAttack_Melee) {
+	//	if (inherited_attack::prev_substate != eStateAttack_Melee) {
+	//		inherited_attack::object->stop_invisible_predator	();
 	//		m_time_stop_invis				= time();
 	//	}
 	//	
-	//	if (get_state_current()->check_completion()) ret_value = true;
+	//	if (inherited_attack::get_state_current()->check_completion()) ret_value = true;
 	//} else 
-	//if (current_substate == eStateAttack_Run) {
-	//	if (object->EnemyMan.get_enemy()->Position().distance_to(object->Position()) > INVIS_DIST_TO_ENEMY) {
-	//		if (!object->state_invisible && (m_time_stop_invis + INVIS_ACTIVATE_DELAY < time())) 
-	//			object->start_invisible_predator();
+	//if (inherited_attack::current_substate == eStateAttack_Run) {
+	//	if (inherited_attack::object->EnemyMan.get_enemy()->Position().distance_to(inherited_attack::object->Position()) > INVIS_DIST_TO_ENEMY) {
+	//		if (!inherited_attack::object->state_invisible && (m_time_stop_invis + INVIS_ACTIVATE_DELAY < time())) 
+	//			inherited_attack::object->start_invisible_predator();
 	//	}
 	//} 
 	//		
@@ -175,26 +175,26 @@ bool CBloodsuckerStateAttackAbstract::check_hiding()
 TEMPLATE_SPECIALIZATION
 void CBloodsuckerStateAttackAbstract::setup_substates()
 {
-	state_ptr state = get_state_current();
+	auto state = this->get_state_current();
 
-	if (current_substate == eStateAttack_Hide) {
+	if (inherited_attack::current_substate == eStateAttack_Hide) {
 
 		SStateDataMoveToPointEx data;
 
-		Fvector target_dir		= Random.randI(2) ? object->XFORM().i : Fvector().set(object->XFORM().i).invert();
-		m_dir_point				= Fvector().mad(object->Position(), target_dir, 2.5f);
+		Fvector target_dir		= Random.randI(2) ? inherited_attack::object->XFORM().i : Fvector().set(inherited_attack::object->XFORM().i).invert();
+		m_dir_point				= Fvector().mad(inherited_attack::object->Position(), target_dir, 2.5f);
 
 		data.vertex				= 0;
 		data.point				= m_dir_point;
 		data.action.action		= ACT_RUN;
 		data.action.time_out	= 1500;		// do not use time out
 		data.completion_dist	= 1.f;		// get exactly to the point
-		data.time_to_rebuild	= object->get_attack_rebuild_time();		
+		data.time_to_rebuild	= inherited_attack::object->get_attack_rebuild_time();		
 		data.accelerated		= true;
 		data.braking			= false;
 		data.accel_type 		= eAT_Aggressive;
 		data.action.sound_type	= MonsterSound::eMonsterSoundIdle;
-		data.action.sound_delay = object->db().m_dwIdleSndDelay;
+		data.action.sound_delay = inherited_attack::object->db().m_dwIdleSndDelay;
 
 		state->fill_data_with(&data, sizeof(SStateDataMoveToPointEx));
 

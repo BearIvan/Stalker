@@ -21,14 +21,14 @@ void CStateMonsterFindEnemyRunAbstract::initialize()
 {
 	inherited::initialize					();
 
-	object->path().prepare_builder	();	
+	inherited::object->path().prepare_builder	();	
 	
 	
-	target_point	= object->EnemyMan.get_enemy_position();
-	target_vertex	= object->EnemyMan.get_enemy_vertex();
+	target_point	= inherited::object->EnemyMan.get_enemy_position();
+	target_vertex	= inherited::object->EnemyMan.get_enemy_vertex();
 
 	Fvector dir;
-	dir.sub(target_point, object->Position());
+	dir.sub(target_point, inherited::object->Position());
 	dir.normalize();
 	
 	Fvector test_position;
@@ -47,22 +47,22 @@ void CStateMonsterFindEnemyRunAbstract::initialize()
 TEMPLATE_SPECIALIZATION
 void CStateMonsterFindEnemyRunAbstract::execute()
 {
-	object->set_action						(ACT_RUN);
-	object->anim().accel_activate			(eAT_Aggressive);
-	object->anim().accel_set_braking		(false);
-	object->path().set_target_point			(target_point, target_vertex);
-	object->path().set_rebuild_time			(0);
-	object->path().set_use_covers			();
-	object->path().set_cover_params			(5.f, 30.f, 1.f, 30.f);
-	object->path().set_try_min_time			(false);
-	object->set_state_sound					(MonsterSound::eMonsterSoundAggressive);
+	inherited::object->set_action						(ACT_RUN);
+	inherited::object->anim().accel_activate			(eAT_Aggressive);
+	inherited::object->anim().accel_set_braking		(false);
+	inherited::object->path().set_target_point			(target_point, target_vertex);
+	inherited::object->path().set_rebuild_time			(0);
+	inherited::object->path().set_use_covers			();
+	inherited::object->path().set_cover_params			(5.f, 30.f, 1.f, 30.f);
+	inherited::object->path().set_try_min_time			(false);
+	inherited::object->set_state_sound					(MonsterSound::eMonsterSoundAggressive);
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterFindEnemyRunAbstract::check_completion()
 {	
-	if ((object->ai_location().level_vertex_id() == target_vertex) && 
-		!object->control().path_builder().is_moving_on_path()) return true;
+	if ((inherited::object->ai_location().level_vertex_id() == target_vertex) && 
+		!inherited::object->control().path_builder().is_moving_on_path()) return true;
 
 	return false;
 }

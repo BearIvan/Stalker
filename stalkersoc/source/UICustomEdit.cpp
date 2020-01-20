@@ -156,11 +156,15 @@ bool CUICustomEdit::KeyPressed(int dik)
 	switch(dik)
 	{
 	case DIK_LEFT:
+#ifndef MINGW
 	case DIKEYBOARD_LEFT:
+#endif
 		m_lines.DecCursorPos();		
 		break;
 	case DIK_RIGHT:
+#ifndef MINGW
 	case DIKEYBOARD_RIGHT:
+#endif
 		m_lines.IncCursorPos();		
 		break;
 	case DIK_LSHIFT:
@@ -192,7 +196,9 @@ bool CUICustomEdit::KeyPressed(int dik)
 		bChanged = true;
 		break;
 	case DIK_DELETE:
+#ifndef MINGW
 	case DIKEYBOARD_DELETE:
+#endif
 		m_lines.DelChar();
 		bChanged = true;
 		break;

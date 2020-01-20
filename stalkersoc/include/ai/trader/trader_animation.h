@@ -4,9 +4,7 @@
 
 class CAI_Trader;
 
-namespace MonsterSpace {
-	enum EMonsterHeadAnimType;
-};
+#include "ai_monster_space.h"
 
 class CTraderAnimation {
 	CAI_Trader			*m_trader;

@@ -48,7 +48,8 @@ ObjectFactory::SERVER_BASE_CLASS *CSObjectItemClientServer::server_object	(LPCST
 		inherited			(clsid,script_clsid)
 	{
 	}
-
+	bool IsGameTypeCoop();
+	bool IsGameTypeSingle();
 	TEMPLATE_SPECIALIZATION
 	ObjectFactory::CLIENT_BASE_CLASS *CSObjectItemClientServerSingleMp::client_object	() const
 	{

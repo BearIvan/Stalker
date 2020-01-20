@@ -3,7 +3,7 @@
 #include "../../../script_export_space.h"
 
 class CPsyDogPhantom;
-
+class CPsyDogAura;;
 class CPsyDog : public CAI_PseudoDog {
 	typedef CAI_PseudoDog inherited;
 

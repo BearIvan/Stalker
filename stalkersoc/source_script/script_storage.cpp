@@ -195,7 +195,7 @@ void CScriptStorage::reinit	()
 	}
 
 	// initialize lua standard library functions 
-	struct luajit {
+/*	struct luajit {
 		static void open_lib(lua_State *L, pcstr module_name, lua_CFunction function)
 		{
 			lua_pushcfunction(L, function);
@@ -223,7 +223,7 @@ void CScriptStorage::reinit	()
 		put_function(lua(), opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
 		dojitopt(lua(), "2");
 #endif // #ifndef DEBUG
-	}
+	}*/
 
 	if (strstr(GetCommandLine(), "-_g"))
 		file_header = file_header_new;

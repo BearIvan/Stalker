@@ -154,8 +154,8 @@ void CScriptEngine::setup_auto_load		()
 	lua_setmetatable					(lua(),-2);
 	//. ??????????
 	// lua_settop							(lua(),-0);
-}
-
+}	
+void print_help(lua_State* L);
 void CScriptEngine::init				()
 {
 	CScriptStorage::reinit				();
@@ -165,7 +165,7 @@ void CScriptEngine::init				()
 	// Workarounds to preserve backwards compatibility with game scripts
 	{
 
-		luabind::allow_nil_conversion(true);
+		luabind::allow_nil_conversion(false);
 		luabind::disable_super_deprecation();
 
 	}
@@ -173,8 +173,8 @@ void CScriptEngine::init				()
 	luabind::bind_class_info(lua());
 
 	setup_callbacks						();
-	export_classes						(lua());
 
+	export_classes						(lua());
 	struct luajit {
 		static void open_lib(lua_State* L, pcstr module_name, lua_CFunction function)
 		{
@@ -208,6 +208,7 @@ void CScriptEngine::init				()
 #endif // #ifndef DEBUG
 	}
 
+	//print_help(lua());
 	setup_auto_load						();
 
 #ifdef DEBUG

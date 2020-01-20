@@ -4,7 +4,8 @@
 #include "xrRender/dxRenderFactory.h"
 #include "xrRender/dxUIRender.h"
 #include "xrRender/dxDebugRender.h"
-extern void free_luabind();
+
+extern void setup_luabind_allocator();
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -29,7 +30,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		FS.AppendPath(TEXT("%cur_shaders%"), ::Render->getShaderPath(), TEXT("%shaders%"), 0);
 		FS.AppendPath(TEXT("%shaders_cache%"), TEXT("r4"), TEXT("%user%"), 0);
 		FS.CreateDirectory(TEXT("%shaders_cache%"), 0);
-		
+		setup_luabind_allocator();
 		break	;
 	case DLL_THREAD_ATTACH	:
 		break;

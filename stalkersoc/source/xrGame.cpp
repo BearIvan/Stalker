@@ -41,12 +41,14 @@ extern "C" {
 };
 
 extern void CCC_RegisterCommands();
-
+extern void setup_luabind_allocator();
 BOOL APIENTRY DllMain(HANDLE hModule, u32 ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call) {
 		case DLL_PROCESS_ATTACH: {
 			// register console commands
+
+			setup_luabind_allocator();
 			CCC_RegisterCommands();
 			// keyboard binding
 			CCC_RegisterInput			();

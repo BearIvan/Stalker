@@ -436,12 +436,12 @@ ShaderElement*		CBlender_Compile::_lua_Compile	(LPCSTR namesp, LPCSTR name)
 }
 void free_luabind()
 {
-	luabind::free_class_id<adopt_dx10options>();
+/*	luabind::free_class_id<adopt_dx10options>();
 	luabind::free_class_id<adopt_dx10sampler>();
 	luabind::free_class_id<adopt_compiler>();
 	luabind::free_class_id<adopt_blend>();
 	luabind::free_class_id<adopt_cmp_func>();
-	luabind::free_class_id<adopt_stencil_op>();
+	luabind::free_class_id<adopt_stencil_op>();*/
 }
 struct FreeLuabind
 {

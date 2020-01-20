@@ -5,7 +5,8 @@
 #include "../xrRender/dxUIRender.h"
 #include "../xrRender/dxDebugRender.h"
 #include "api/XrGameVersionController.h"
-extern void free_luabind();
+
+extern void setup_luabind_allocator();
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -32,7 +33,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		{
 			ps_r2_ls_flags_ext.set(R2FLAGEXT_SUN_OLD, TRUE);
 		}
-
+		setup_luabind_allocator();
 		break	;
 	case DLL_THREAD_ATTACH	:
 		break;

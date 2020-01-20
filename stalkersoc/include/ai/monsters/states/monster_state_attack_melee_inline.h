@@ -20,28 +20,28 @@ CStateMonsterAttackMeleeAbstract::~CStateMonsterAttackMelee()
 TEMPLATE_SPECIALIZATION
 void CStateMonsterAttackMeleeAbstract::execute()
 {
-	object->set_action			(ACT_ATTACK);
-	if (object->control().direction().is_face_target(object->EnemyMan.get_enemy(), XrMath::PI_DIV_3))
-		object->dir().face_target	(object->EnemyMan.get_enemy(), 800);
+	inherited::object->set_action			(ACT_ATTACK);
+	if (inherited::object->control().direction().is_face_target(inherited::object->EnemyMan.get_enemy(), XrMath::PI_DIV_3))
+		inherited::object->dir().face_target	(inherited::object->EnemyMan.get_enemy(), 800);
 	else 
-		object->dir().face_target	(object->EnemyMan.get_enemy(), 0, deg(15));
+		inherited::object->dir().face_target	(inherited::object->EnemyMan.get_enemy(), 0, deg(15));
 
-	object->set_state_sound		(MonsterSound::eMonsterSoundAggressive);
+	inherited::object->set_state_sound		(MonsterSound::eMonsterSoundAggressive);
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterAttackMeleeAbstract::check_start_conditions()
 {
 	return (
-		object->MeleeChecker.can_start_melee(object->EnemyMan.get_enemy()) &&
-		object->EnemyMan.see_enemy_now()
+		inherited::object->MeleeChecker.can_start_melee(inherited::object->EnemyMan.get_enemy()) &&
+		inherited::object->EnemyMan.see_enemy_now()
 	);
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterAttackMeleeAbstract::check_completion()
 {
-	return (object->MeleeChecker.should_stop_melee(object->EnemyMan.get_enemy()));
+	return (inherited::object->MeleeChecker.should_stop_melee(inherited::object->EnemyMan.get_enemy()));
 }
 
 

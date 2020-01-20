@@ -11,8 +11,8 @@
 TEMPLATE_SPECIALIZATION
 void CStateMonsterLookActorAbstract::execute()
 {
-	object->set_action			(ACT_STAND_IDLE);
-	object->dir().face_target	(Level().CurrentEntity()->Position(), 1200);
+	inherited::object->set_action			(ACT_STAND_IDLE);
+	inherited::object->dir().face_target	(Level().CurrentEntity()->Position(), 1200);
 }
 
 
@@ -24,12 +24,12 @@ void CStateMonsterTurnAwayFromActorAbstract::execute()
 {
 	Fvector point;
 	Fvector dir;
-	dir.sub			(object->Position(), Level().CurrentEntity()->Position());
+	dir.sub			(inherited::object->Position(), Level().CurrentEntity()->Position());
 	dir.normalize	();
-	point.mad		(object->Position(), dir, 2.f);
+	point.mad		(inherited::object->Position(), dir, 2.f);
 	
-	object->set_action			(ACT_STAND_IDLE);
-	object->dir().face_target	(point, 1200);
+	inherited::object->set_action			(ACT_STAND_IDLE);
+	inherited::object->dir().face_target	(point, 1200);
 }
 
 
@@ -39,7 +39,7 @@ void CStateMonsterTurnAwayFromActorAbstract::execute()
 TEMPLATE_SPECIALIZATION
 void CStateMonstertTestIdleAbstract::execute()
 {
-	object->set_action			(ACT_STAND_IDLE);
+	inherited::object->set_action			(ACT_STAND_IDLE);
 }
 
 #undef TEMPLATE_SPECIALIZATION

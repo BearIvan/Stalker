@@ -10,33 +10,33 @@ TEMPLATE_SPECIALIZATION
 void CStateMonsterMoveToRestrictorAbstract::initialize()
 {
 	inherited::initialize();
-	object->path().prepare_builder();
+	inherited::object->path().prepare_builder();
 
 	Fvector position;
-	u32		node = object->control().path_builder().restrictions().accessible_nearest(object->Position(), position);
-	object->path().set_target_point	(ai().level_graph().vertex_position(node), node);
+	u32		node = inherited::object->control().path_builder().restrictions().accessible_nearest(inherited::object->Position(), position);
+	inherited::object->path().set_target_point	(ai().level_graph().vertex_position(node), node);
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterMoveToRestrictorAbstract::execute()
 {
-	object->set_action					(ACT_RUN);
+	inherited::object->set_action					(ACT_RUN);
 	
-	object->anim().accel_activate		(EAccelType(eAT_Aggressive));
-	object->anim().accel_set_braking	(true);
-	object->set_state_sound				(MonsterSound::eMonsterSoundIdle);
+	inherited::object->anim().accel_activate		(EAccelType(eAT_Aggressive));
+	inherited::object->anim().accel_set_braking	(true);
+	inherited::object->set_state_sound				(MonsterSound::eMonsterSoundIdle);
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterMoveToRestrictorAbstract::check_start_conditions()
 {
-	return (!object->control().path_builder().accessible(object->Position()));
+	return (!inherited::object->control().path_builder().accessible(inherited::object->Position()));
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterMoveToRestrictorAbstract::check_completion()
 {
-	return (object->control().path_builder().accessible(object->Position()));
+	return (inherited::object->control().path_builder().accessible(inherited::object->Position()));
 }
 
 #undef TEMPLATE_SPECIALIZATION

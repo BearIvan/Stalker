@@ -18,7 +18,7 @@
 extern ENGINE_API string512  g_sLaunchOnExit_app;
 extern ENGINE_API string512  g_sLaunchOnExit_params;
 
-xr_token	game_types		[];
+extern xr_token	game_types		[];
 
 CUIMapList::CUIMapList(){
 	m_item2del = -1;
@@ -126,7 +126,7 @@ void CUIMapList::OnListItemClicked()
 	m_pMapInfo->InitMap(_map_name.c_str());
 }
 
-xr_token g_GameModes[];
+extern xr_token g_GameModes[];
 
 void CUIMapList::OnModeChange()
 {

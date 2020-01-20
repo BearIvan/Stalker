@@ -196,7 +196,7 @@ IC	u32	CConditionStateAbstract::hash_value		() const
 TEMPLATE_SPECIALIZATION
 IC	const typename CConditionStateAbstract::COperatorCondition *CConditionStateAbstract::property (const typename CConditionStateAbstract::COperatorCondition::_condition_type &condition) const
 {
-	typename xr_vector<COperatorCondition>::const_iterator	I = std::lower_bound(conditions().begin(),conditions().end(),COperatorCondition(condition,COperatorCondition::_value_type(0)));
+	typename xr_vector<COperatorCondition>::const_iterator	I = std::lower_bound(conditions().begin(),conditions().end(),COperatorCondition(condition,typename COperatorCondition::_value_type(0)));
 	if (I == m_conditions.end())
 		return				(0);
 	else

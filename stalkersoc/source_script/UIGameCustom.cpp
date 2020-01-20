@@ -225,7 +225,7 @@ void SDrawStaticStruct::Update()
 }
 
 CMapListHelper	gMapListHelper;
-xr_token		game_types[];
+extern xr_token		game_types[];
 
 void CMapListHelper::Load()
 {

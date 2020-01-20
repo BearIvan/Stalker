@@ -16,7 +16,7 @@ ObjectFactory::CLIENT_BASE_CLASS *CObjectItemScript::client_object	() const
 {
 	ObjectFactory::CLIENT_SCRIPT_BASE_CLASS	*object;
 	try {
-		object	= luabind::call_function< ObjectFactory::CLIENT_SCRIPT_BASE_CLASS *>( m_client_creator);
+		object	=luabind::call_function<ObjectFactory::CLIENT_SCRIPT_BASE_CLASS*, luabind::policy::adopt<0>>( m_client_creator);
 	}
 	catch(...) {
 		return	(0);

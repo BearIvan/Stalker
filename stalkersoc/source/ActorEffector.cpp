@@ -189,7 +189,7 @@ BOOL CAnimatorCamLerpEffector::Process(Fvector &p, Fvector &d, Fvector &n, float
 	info.fFov = fFov;
 	info.fFar = fFar;
 	info.fAspect = fAspect;
-	if(!inherited::inherited::ProcessCam(info))	return FALSE;
+	if(!this->ProcessCam(info))	return FALSE;
 	d = info.d;
 	p = info.p;
 	n = info.n;

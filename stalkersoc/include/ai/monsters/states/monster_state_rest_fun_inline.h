@@ -35,28 +35,28 @@ void CStateMonsterRestFunAbstract::execute()
 	float	dist;
 	
 	Fvector dir;
-	dir.sub			(object->CorpseMan.get_corpse_position(), object->Position());
+	dir.sub			(inherited::object->CorpseMan.get_corpse_position(), inherited::object->Position());
 	dist			= dir.magnitude();
 	dir.normalize	();
-	point.mad		(object->CorpseMan.get_corpse_position(), dir, 2.0f);
+	point.mad		(inherited::object->CorpseMan.get_corpse_position(), dir, 2.0f);
 
-	object->set_action									(ACT_RUN);
-	object->path().set_target_point			(point);
-	object->path().set_rebuild_time			(100 + u32(50.f * dist));
-	object->path().set_use_covers			(false);
-	object->path().set_distance_to_end		(0.5f);
-	object->anim().accel_activate					(eAT_Calm);
-	object->anim().accel_set_braking					(false);
+	inherited::object->set_action									(ACT_RUN);
+	inherited::object->path().set_target_point			(point);
+	inherited::object->path().set_rebuild_time			(100 + u32(50.f * dist));
+	inherited::object->path().set_use_covers			(false);
+	inherited::object->path().set_distance_to_end		(0.5f);
+	inherited::object->anim().accel_activate					(eAT_Calm);
+	inherited::object->anim().accel_set_braking					(false);
 	
-	object->set_state_sound								(MonsterSound::eMonsterSoundIdle);
+	inherited::object->set_state_sound								(MonsterSound::eMonsterSoundIdle);
 	
-	if ((dist < object->db().m_fDistToCorpse + 0.5f) && (time_last_hit + MIN_DELAY < Device.dwTimeGlobal)) {
-		CEntityAlive		*corpse = const_cast<CEntityAlive *>		(object->CorpseMan.get_corpse());
+	if ((dist < inherited::object->db().m_fDistToCorpse + 0.5f) && (time_last_hit + MIN_DELAY < Device.dwTimeGlobal)) {
+		CEntityAlive		*corpse = const_cast<CEntityAlive *>		(inherited::object->CorpseMan.get_corpse());
 		CPhysicsShellHolder	*target = smart_cast<CPhysicsShellHolder *>	(corpse);
 
 		if  (target && target->m_pPhysicsShell) {
 			Fvector			dir1;
-			dir1.add			(Fvector().sub(target->Position(), object->Position()), object->Direction());
+			dir1.add			(Fvector().sub(target->Position(), inherited::object->Position()), inherited::object->Direction());
 			
 			float			h,p;
 			dir1.getHP		(h,p);
@@ -76,13 +76,13 @@ void CStateMonsterRestFunAbstract::execute()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterRestFunAbstract::check_start_conditions()
 {
-	return ((object->CorpseMan.get_corpse() != 0) && object->Home->at_home(object->CorpseMan.get_corpse()->Position()));
+	return ((inherited::object->CorpseMan.get_corpse() != 0) && inherited::object->Home->at_home(inherited::object->CorpseMan.get_corpse()->Position()));
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterRestFunAbstract::check_completion()
 {
-	if (!object->CorpseMan.get_corpse()) return true;
-	if (time_state_started + TIME_IN_STATE < Device.dwTimeGlobal) return true;
+	if (!inherited::object->CorpseMan.get_corpse()) return true;
+	if (inherited::time_state_started + TIME_IN_STATE < Device.dwTimeGlobal) return true;
 	return false;
 }

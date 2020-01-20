@@ -10,33 +10,33 @@ void CStateChimeraThreatenStealAbstract::initialize()
 {
 	inherited::initialize();
 	
-	object->SetUpperState	(false);
+	inherited::object->SetUpperState	(false);
 
-	data.action.action		= ACT_STEAL;
+	inherited::data.action.action		= ACT_STEAL;
 	
-	data.accelerated		= true;
-	data.braking			= false;
-	data.accel_type 		= eAT_Calm;
+	inherited::data.accelerated		= true;
+	inherited::data.braking			= false;
+	inherited::data.accel_type 		= eAT_Calm;
 	
-	data.completion_dist	= 2.f;
-	data.action.sound_type	= MonsterSound::eMonsterSoundIdle;
-	data.action.sound_delay = object->db().m_dwIdleSndDelay;
+	inherited::data.completion_dist	= 2.f;
+	inherited::data.action.sound_type	= MonsterSound::eMonsterSoundIdle;
+	inherited::data.action.sound_delay = inherited::object->db().m_dwIdleSndDelay;
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateChimeraThreatenStealAbstract::finalize()
 {
 	inherited::finalize();
-	object->SetUpperState	();
+	inherited::object->SetUpperState	();
 }
 
 
 TEMPLATE_SPECIALIZATION
 void CStateChimeraThreatenStealAbstract::execute()
 {
-	data.point				= object->EnemyMan.get_enemy_position	();
-	data.vertex				= object->EnemyMan.get_enemy_vertex		();
-	data.time_to_rebuild	= object->get_attack_rebuild_time		();
+	inherited::data.point				= inherited::object->EnemyMan.get_enemy_position	();
+	inherited::data.vertex				= inherited::object->EnemyMan.get_enemy_vertex		();
+	inherited::data.time_to_rebuild	= inherited::object->get_attack_rebuild_time		();
 
 	inherited::execute();
 }
@@ -48,7 +48,7 @@ bool CStateChimeraThreatenStealAbstract::check_completion()
 {	
 	if (inherited::check_completion()) return true;
 	
-	float dist_to_enemy = object->EnemyMan.get_enemy_position().distance_to(object->Position());
+	float dist_to_enemy = inherited::object->EnemyMan.get_enemy_position().distance_to(inherited::object->Position());
 	if (dist_to_enemy < MIN_DISTANCE_TO_ENEMY) return true;
 
 	return false;
@@ -57,7 +57,7 @@ bool CStateChimeraThreatenStealAbstract::check_completion()
 TEMPLATE_SPECIALIZATION
 bool CStateChimeraThreatenStealAbstract::check_start_conditions()
 {
-	float dist_to_enemy = object->EnemyMan.get_enemy_position().distance_to(object->Position());
+	float dist_to_enemy = inherited::object->EnemyMan.get_enemy_position().distance_to(inherited::object->Position());
 	if (dist_to_enemy > MIN_DISTANCE_TO_ENEMY) return true;
 	return false;
 }

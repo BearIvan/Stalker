@@ -268,7 +268,7 @@ bool	 rendered;
 		rendered=true;
 	}
 };
-void _cdecl DBG_OutText(LPCSTR s,...)
+void  DBG_OutText(LPCSTR s,...)
 {
 	string64 t;
 	va_list   marker;

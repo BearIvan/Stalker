@@ -50,16 +50,16 @@ IC	void CGameLocationSelector::select_location	(const _vertex_id_type start_vert
 {
 	switch (m_selection_type) {
 		case eSelectionTypeMask : {
-			if (used())
-				perform_search	(start_vertex_id);
+			if (this->used())
+				this->perform_search	(start_vertex_id);
 			else
-				m_failed		= false;
+				this->m_failed		= false;
 			break;
 		}
 		case eSelectionTypeRandomBranching : {
-			if (m_graph)
+			if (this->m_graph)
 				select_random_location(start_vertex_id,dest_vertex_id1);
-			m_failed			= m_failed && (start_vertex_id == dest_vertex_id1);
+			this->m_failed			= this->m_failed && (start_vertex_id == dest_vertex_id1);
 			break;
 		}
 		default :				NODEFAULT;
@@ -69,38 +69,38 @@ IC	void CGameLocationSelector::select_location	(const _vertex_id_type start_vert
 TEMPLATE_SPECIALIZATION
 IC	void CGameLocationSelector::select_random_location(const _vertex_id_type start_vertex_id, _vertex_id_type &dest_vertex_id1)
 {
-	VERIFY						(m_graph);
-	VERIFY						(m_graph->valid_vertex_id(start_vertex_id));
+	VERIFY						(inherited::m_graph);
+	VERIFY						(inherited::m_graph->valid_vertex_id(start_vertex_id));
 
-	if (!m_graph->valid_vertex_id(m_previous_vertex_id))
+	if (!inherited::m_graph->valid_vertex_id(m_previous_vertex_id))
 		m_previous_vertex_id	= GameGraph::_GRAPH_ID(start_vertex_id);
 
 	u32							branch_factor = 0;
 
 	const GameGraph::TERRAIN_VECTOR				&vertex_types = m_location_manager->vertex_types();
-	GameGraph::TERRAIN_VECTOR::const_iterator	B = vertex_types.begin(), I;
-	GameGraph::TERRAIN_VECTOR::const_iterator	E = vertex_types.end();
+	typename GameGraph::TERRAIN_VECTOR::const_iterator	B = vertex_types.begin(), I;
+	typename GameGraph::TERRAIN_VECTOR::const_iterator	E = vertex_types.end();
 
 	_Graph::const_iterator		i,e;
-	m_graph->begin				(start_vertex_id,i,e);
+	inherited::m_graph->begin				(start_vertex_id,i,e);
 	for ( ; i != e; ++i) {
 		// * не соответствует предыдещей вершине
 		if ((*i).vertex_id() == m_previous_vertex_id)
 			continue;
 
 		// * вершина на текущем уровне?
-		if ((m_graph->vertex((*i).vertex_id())->level_id() != ai().level_graph().level_id()))
+		if ((inherited::m_graph->vertex((*i).vertex_id())->level_id() != ai().level_graph().level_id()))
 			continue;
 
 		// * accessible
 		if (!accessible((*i).vertex_id()))
 			continue;
 
-		const u8				*curr_types = m_graph->vertex((*i).vertex_id())->vertex_type();
+		const u8				*curr_types = inherited::m_graph->vertex((*i).vertex_id())->vertex_type();
 
 		// * подходит по маске
 		for (I = B; I != E; ++I)
-			if (m_graph->mask((*I).tMask,curr_types))
+			if (inherited::m_graph->mask((*I).tMask,curr_types))
 				++branch_factor;
 	}
 
@@ -114,25 +114,25 @@ IC	void CGameLocationSelector::select_random_location(const _vertex_id_type star
 		u32						choice = ::Random.randI(0,branch_factor);
 		branch_factor			= 0;
 		bool					found = false;
-		m_graph->begin			(start_vertex_id,i,e);
+		inherited::m_graph->begin			(start_vertex_id,i,e);
 		for ( ; i != e; ++i) {
 			// * не соответствует предыдещей вершине
 			if ((*i).vertex_id() == m_previous_vertex_id)
 				continue;
 
 			// * вершина на текущем уровне?
-			if ((m_graph->vertex((*i).vertex_id())->level_id() != ai().level_graph().level_id()))
+			if ((inherited::m_graph->vertex((*i).vertex_id())->level_id() != ai().level_graph().level_id()))
 				continue;
 
 			// * accessible 
 			if (!accessible((*i).vertex_id()))
 				continue;
 
-			const u8			*curr_types = m_graph->vertex((*i).vertex_id())->vertex_type();
+			const u8			*curr_types = inherited::m_graph->vertex((*i).vertex_id())->vertex_type();
 
 			// * подходит по маске
 			for (I = B; I != E; ++I)
-				if (m_graph->mask((*I).tMask,curr_types)) {
+				if (inherited::m_graph->mask((*I).tMask,curr_types)) {
 					if (choice != branch_factor) {
 						++branch_factor;
 						continue;
@@ -153,7 +153,7 @@ IC	void CGameLocationSelector::select_random_location(const _vertex_id_type star
 TEMPLATE_SPECIALIZATION
 IC	void CGameLocationSelector::selection_type		() const
 {
-	return				(m_selection_type);
+//	return				(m_selection_type);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -167,7 +167,7 @@ IC	bool CGameLocationSelector::actual				(const _vertex_id_type start_vertex_id,
 TEMPLATE_SPECIALIZATION
 IC	bool CGameLocationSelector::accessible			(const _vertex_id_type vertex_id) const
 {
-	return					(m_restricted_object ? m_restricted_object->accessible(m_graph->vertex(vertex_id)->level_vertex_id()) : true);
+	return					(inherited::m_restricted_object ? inherited::m_restricted_object->accessible(inherited::m_graph->vertex(vertex_id)->level_vertex_id()) : true);
 }
 
 #undef TEMPLATE_SPECIALIZATION

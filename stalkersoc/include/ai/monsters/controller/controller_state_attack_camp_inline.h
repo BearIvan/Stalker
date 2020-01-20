@@ -17,7 +17,7 @@ void CStateControlCampAbstract::initialize()
 {
 	inherited::initialize			();
 
-	float angle			= ai().level_graph().vertex_cover_angle(object->ai_location().level_vertex_id(),deg(10), std::greater<float>());
+	float angle			= ai().level_graph().vertex_cover_angle(inherited::object->ai_location().level_vertex_id(),deg(10), std::greater<float>());
 	
 	collide::rq_result	l_rq;
 
@@ -25,7 +25,7 @@ void CStateControlCampAbstract::initialize()
 	m_angle_to			= XrMath::angle_normalize(angle + ANGLE_DISP);
 
 	Fvector				trace_from;
-	object->Center		(trace_from);
+	inherited::object->Center		(trace_from);
 	Fvector				direction;
 
 	// trace discretely left
@@ -33,7 +33,7 @@ void CStateControlCampAbstract::initialize()
 		
 		direction.setHP	(ang, 0.f);
 		
-		if (Level().ObjectSpace.RayPick(trace_from, direction, TRACE_STATIC_DIST, collide::rqtStatic, l_rq, object)) {
+		if (Level().ObjectSpace.RayPick(trace_from, direction, TRACE_STATIC_DIST, collide::rqtStatic, l_rq, inherited::object)) {
 			if ((l_rq.range < TRACE_STATIC_DIST)) {
 				m_angle_from = ang;
 				break;
@@ -46,7 +46,7 @@ void CStateControlCampAbstract::initialize()
 		
 		direction.setHP	(ang, 0.f);
 
-		if (Level().ObjectSpace.RayPick(trace_from, direction, TRACE_STATIC_DIST, collide::rqtStatic, l_rq, object)) {
+		if (Level().ObjectSpace.RayPick(trace_from, direction, TRACE_STATIC_DIST, collide::rqtStatic, l_rq, inherited::object)) {
 			if ((l_rq.range < TRACE_STATIC_DIST)) {
 				m_angle_to = ang;
 				break;
@@ -59,8 +59,8 @@ void CStateControlCampAbstract::initialize()
 	m_target_angle		= m_angle_from;
 
 	Fvector pos;
-	pos.mad(object->Position(), Fvector().setHP(angle,0.f), 3.f);
-	object->dir().face_target(pos);
+	pos.mad(inherited::object->Position(), Fvector().setHP(angle,0.f), 3.f);
+	inherited::object->dir().face_target(pos);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -69,24 +69,24 @@ void CStateControlCampAbstract::execute()
 	update_target_angle						();
 
 	Fvector point;
-	point.mad								(object->Position(),Fvector().setHP(m_target_angle, 0.f), 3.f);
+	point.mad								(inherited::object->Position(),Fvector().setHP(m_target_angle, 0.f), 3.f);
 	
-	object->custom_dir().head_look_point	(point);
-	object->custom_anim().set_body_state	(CControllerAnimation::eTorsoIdle,CControllerAnimation::eLegsTypeSteal);
+	inherited::object->custom_dir().head_look_point	(point);
+	inherited::object->custom_anim().set_body_state	(CControllerAnimation::eTorsoIdle,CControllerAnimation::eLegsTypeSteal);
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateControlCampAbstract::check_start_conditions()
 {
-	if (object->EnemyMan.see_enemy_now()) return false;
+	if (inherited::object->EnemyMan.see_enemy_now()) return false;
 	return true;
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateControlCampAbstract::check_completion()
 {
-	if (object->EnemyMan.see_enemy_now()) return true;
-	if (time_state_started + 2000 < time()) return true;
+	if (inherited::object->EnemyMan.see_enemy_now()) return true;
+	if (inherited::time_state_started + 2000 < time()) return true;
 
 	return false;
 }

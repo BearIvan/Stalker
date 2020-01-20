@@ -14,37 +14,37 @@ TEMPLATE_SPECIALIZATION
 void CStateMonsterHittedHideAbstract::initialize()
 {
 	inherited::initialize();
-	object->path().prepare_builder	();	
+	inherited::object->path().prepare_builder	();	
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterHittedHideAbstract::execute()
 {
-	object->set_action									(ACT_RUN);
-	object->set_state_sound								(MonsterSound::eMonsterSoundPanic);
-	object->anim().accel_activate					(eAT_Aggressive);
-	object->anim().accel_set_braking					(false);
-	object->path().set_retreat_from_point	(object->HitMemory.get_last_hit_position());
-	object->path().set_generic_parameters	();
+	inherited::object->set_action									(ACT_RUN);
+	inherited::object->set_state_sound								(MonsterSound::eMonsterSoundPanic);
+	inherited::object->anim().accel_activate					(eAT_Aggressive);
+	inherited::object->anim().accel_set_braking					(false);
+	inherited::object->path().set_retreat_from_point	(inherited::object->HitMemory.get_last_hit_position());
+	inherited::object->path().set_generic_parameters	();
 
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterHittedHideAbstract::check_start_conditions()
 {
-	if (object->HitMemory.is_hit() && !object->EnemyMan.get_enemy()) return true;
+	if (inherited::object->HitMemory.is_hit() && !inherited::object->EnemyMan.get_enemy()) return true;
 	return false;
 }
 
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterHittedHideAbstract::check_completion()
 {
-	float dist = object->Position().distance_to(object->HitMemory.get_last_hit_position());
+	float dist = inherited::object->Position().distance_to(inherited::object->HitMemory.get_last_hit_position());
 
 	// good dist  
 	if (dist < GOOD_DISTANCE_IN_COVER) return false;
 	// +hide more than 3 sec
-	if (time_state_started + MIN_HIDE_TIME > Device.dwTimeGlobal) return false;
+	if (inherited::time_state_started + MIN_HIDE_TIME > Device.dwTimeGlobal) return false;
 
 	return true;
 }
