@@ -23,14 +23,9 @@ void XRayBlenderDefault::Save(IWriter & fs)
 
 void XRayBlenderDefault::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	if (version > 0)
 	{
 		xrPREAD_PROP(fs, xrPID_TOKEN, oTessellation);
 	}
-}
-
-void XRayBlenderDefault::Destroy()
-{
-	bear_delete(this);
 }

@@ -1,78 +1,83 @@
 #include "tools/xrCore.h"
-using namespace BearCore;
 #include "BearGraphics.hpp"
 #include "BearUI.hpp"
-
 #include "api/StalkerAPI.h"
-
 #include "engine/XRayExports.h"
 #include "engine/render.h"
 #include "engine/Properties.h"
-
 #include "engine/vis_common.h"
-#include "Engine/XRayRenderTarget.h"
-#include "Engine/XRayRenderInterface.h"
 #include "RenderFactory.h"
-
 #include "xrRender/UISequenceVideoItem.h"
-#include "Engine/XRayUISequenceVideoItem.h"
-
 #include "xrRender/ConsoleRender.h"
-#include "Render/XRayConsoleRender.h"
-
 #include "xrRender/StatGraphRender.h"
-#include "Render/XRayStatGraphRender.h"
-
 #include "xrRender/EnvironmentRender.h"
-#include "Render/XRayEnvironmentRender.h"
-#include "Render/XRayEnvDescriptorRender.h"
-#include "Render/XRayEnvDescriptorMixerRender.h"
-
 #include "xrRender/LensFlareRender.h"
-#include "Render/XRayLensFlareRender.h"
-#include "Render/XRayFlareRender.h"
-
 #include "xrRender/RainRender.h"
-#include "Render/XRayRainRender.h"
-
 #include "xrRender/ThunderboltDescRender.h"
-#include "Render/XRayThunderboltDescRender.h"
-
 #include "xrRender/ThunderboltRender.h"
-#include "Render/XRayThunderboltRender.h"
-
 #include  "xrRender/RenderDeviceRender.h"
-#include "Render/XRayRenderDeviceRender.h"
-
 #include "xrRender/StatsRender.h"
-#include "Render/XRayStatsRender.h"
-
 #include "xrRender/ApplicationRender.h"
-#include "Render/XRayApplicationRender.h"
-
-
 #include "xrRender/WallMarkArray.h"
-#include "Engine/XRayWallMarkArray.h"
-
 #include "xrRender/ObjectSpaceRender.h"
-#include "Render/XRayObjectSpaceRender.h"
+#include "xrRender/DrawUtils.h"
+#include "xrRender/FontRender.h"
+#include "xrRender/UIShader.h"
+#include "xrRender/UIRender.h"
+#include "xrRender/DebugRender.h"
+
+#define REGISTER(name,byte,size,a1,a2) name=byte,
+enum D3DVertexState
+{
+#include "D3D9VertexState.h"
+};
+#undef REGISTER
+#include "Engine/stdafx.h"
+#include "engine/igame_level.h"
+
+
+
+
+
+#include "xrRender/FVF.h"
+
+#include "General/XrayHardware.h"
+#include "Resources/XRayResource.h"
+#include "Resources/XRayTexture.h"
+#include "Resources/XRayBlender.h"
+#include "Blenders/XRayBlenderCompiler.h"
+#include "Resources/XRayResourcesManager.h"
+#include "Resources/XRayBlender_inline.h"
 
 #include "Engine/XRayRenderFactory.h"
-
-#include "xrRender/DrawUtils.h"
+#include "General/XRayRenderTarget.h"
+#include "Engine/XRayRenderInterface.h"
+#include "Engine/XRayUIRender.h"
 #include "Engine/XRayDUInterface.h"
-
-#include "Resources/XRayMatrix.h"
-#include "Resources/XRayConstant.h"
-#include "Resources/XRayTexture.h"
-#include "Resources/XRayShader.h"
-
-#include "Blenders/XRayBlender.h"
+#include "Engine/XRayDebugRender.h"
 
 
-#include "xrRender/FontRender.h"
-#include "Render/XRayFontRender.h"
+#include "Engine/Factory/XRayApplicationRender.h"
+#include "Engine/Factory/XRayConsoleRender.h"
+#include "Engine/Factory/XRayEnvDescriptorMixerRender.h"
+#include "Engine/Factory/XRayEnvDescriptorRender.h"
+#include "Engine/Factory/XRayEnvironmentRender.h"
+#include "Engine/Factory/XRayFlareRender.h"
+#include "Engine/Factory/XRayFlareRender.h"
+#include "Engine/Factory/XRayFontRender.h"
+#include "Engine/Factory/XRayLensFlareRender.h"
+#include "Engine/Factory/XRayObjectSpaceRender.h"
+#include "Engine/Factory/XRayRainRender.h"
+#include "Engine/Factory/XRayRenderDeviceRender.h"
+#include "Engine/Factory/XRayStatGraphRender.h"
+#include "Engine/Factory/XRayStatsRender.h"
+#include "Engine/Factory/XRayThunderboltDescRender.h"
+#include "Engine/Factory/XRayThunderboltRender.h"
+#include "Engine/Factory/XRayUISequenceVideoItem.h"
+#include "Engine/Factory/XRayUIShader.h"
+#include "Engine/Factory/XRayWallMarkArray.h"
 
+#include "Blenders/Blender_CLSID.h"
 #include "Blenders/XRayBlenderDefault.h"
 #include "Blenders/XRayBlenderDefaultAref.h"
 #include "Blenders/XRayBlenderVertex.h"
@@ -91,24 +96,3 @@ using namespace BearCore;
 #include "Blenders/XRayBlenderDetailStill.h"
 #include "Blenders/XRayBlenderTree.h"
 #include "Blenders/XRayBlenderParticle.h"
-#include "Blenders/XRayBlenderLTX.h"
- 
-
-
-#include "Resources/XRayRenderResources.h"
-
-
-#include "xrRender/UIShader.h"
-#include "Resources/XRayUIShader.h"
-
-
-#include "xrRender/UIRender.h"
-#include "Render/XRayUIRender.h"
-
-#include "xrRender/DebugRender.h"
-#include "Render/XRayDebugRender.h"
-
-#include "Blenders/XRayIDofBlenders.h"
-
-#include "Engine/stdafx.h"
-#include "engine/igame_level.h"

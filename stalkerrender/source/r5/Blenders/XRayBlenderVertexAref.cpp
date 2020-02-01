@@ -25,7 +25,7 @@ void XRayBlenderVertexAref::Save(IWriter & fs)
 
 void XRayBlenderVertexAref::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 
 	switch (version)
 	{
@@ -41,7 +41,4 @@ void XRayBlenderVertexAref::Load(IReader & fs, u16 version)
 	}
 }
 
-void XRayBlenderVertexAref::Destroy()
-{
-	bear_delete(this);
-}
+

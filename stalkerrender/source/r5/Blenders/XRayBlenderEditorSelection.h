@@ -1,13 +1,12 @@
 #pragma once
-class  XRayBlenderEditorSelection :public XRayBlender
+class  XRayBlenderEditorSelection :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderEditorSelection();
-	~XRayBlenderEditorSelection();
+	virtual ~XRayBlenderEditorSelection();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Destroy();
 protected:
 	BearString64	oT_Factor;
 };

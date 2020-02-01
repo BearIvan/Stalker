@@ -1,11 +1,10 @@
 #pragma once
-class  XRayBlenderShWorld :public XRayBlender
+class  XRayBlenderShWorld :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderShWorld();
-	~XRayBlenderShWorld();
+	virtual ~XRayBlenderShWorld();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Destroy();
 };

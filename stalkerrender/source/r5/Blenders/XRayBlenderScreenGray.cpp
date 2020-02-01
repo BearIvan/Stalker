@@ -20,10 +20,6 @@ void XRayBlenderScreenGray::Save(IWriter & fs)
 
 void XRayBlenderScreenGray::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 }
 
-void XRayBlenderScreenGray::Destroy()
-{
-	bear_delete(this);
-}

@@ -25,7 +25,7 @@ void XRayBlenderDefaultAref::Save(IWriter & fs)
 
 void XRayBlenderDefaultAref::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 
 	switch (version)
 	{
@@ -39,9 +39,4 @@ void XRayBlenderDefaultAref::Load(IReader & fs, u16 version)
 		xrPREAD_PROP(fs, xrPID_BOOL, oBlend);
 		break;
 	}
-}
-
-void XRayBlenderDefaultAref::Destroy()
-{
-	bear_delete(this);
 }

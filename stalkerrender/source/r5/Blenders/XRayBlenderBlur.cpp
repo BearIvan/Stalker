@@ -20,10 +20,5 @@ void XRayBlenderBlur::Save(IWriter & fs)
 
 void XRayBlenderBlur::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
-}
-
-void XRayBlenderBlur::Destroy()
-{
-	bear_delete(this);
+	XRayBlenderCompiler::Load(fs, version);
 }

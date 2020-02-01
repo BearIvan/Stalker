@@ -1,9 +1,10 @@
 #pragma once
-
+#ifdef RENDER_FACTORY_INTERFACE
 #undef RENDER_FACTORY_INTERFACE
+#endif
 #define RENDER_FACTORY_INTERFACE(Class) \
-virtual I##Class* Create##Class(); \
-virtual void Destroy##Class(I##Class *pObject);
+virtual I ## Class* Create ## Class(); \
+virtual void Destroy##Class(I ## Class *pObject);
 
 
 class XRayRenderFactory:public IRenderFactory

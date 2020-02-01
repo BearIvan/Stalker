@@ -1,13 +1,12 @@
 #pragma once
-class  XRayBlenderDetailStill :public XRayBlender
+class  XRayBlenderDetailStill :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderDetailStill();
-	~XRayBlenderDetailStill();
+	virtual ~XRayBlenderDetailStill();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Destroy();
 protected:
 	xrP_BOOL	oBlend;
 };

@@ -4,6 +4,8 @@ XRayBlenderDetailStill::XRayBlenderDetailStill()
 {
 	Description.ID = B_DETAIL;
 	Description.Version = 0;
+
+
 }
 
 XRayBlenderDetailStill::~XRayBlenderDetailStill()
@@ -21,11 +23,8 @@ void XRayBlenderDetailStill::Save(IWriter & fs)
 
 void XRayBlenderDetailStill::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	xrPREAD_PROP(fs, xrPID_BOOL, oBlend);
 }
 
-void XRayBlenderDetailStill::Destroy()
-{
-	bear_delete(this);
-}
+

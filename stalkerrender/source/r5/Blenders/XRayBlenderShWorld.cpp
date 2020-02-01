@@ -20,10 +20,6 @@ void XRayBlenderShWorld::Save(IWriter & fs)
 
 void XRayBlenderShWorld::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 }
 
-void XRayBlenderShWorld::Destroy()
-{
-	bear_delete(this);
-}

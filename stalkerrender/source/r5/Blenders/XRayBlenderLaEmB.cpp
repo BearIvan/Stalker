@@ -23,14 +23,10 @@ void XRayBlenderLaEmB::Save(IWriter & fs)
 
 void XRayBlenderLaEmB::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	xrPREAD_MARKER(fs);
 	xrPREAD_PROP(fs, xrPID_TEXTURE, oT2_Name);
 	xrPREAD_PROP(fs, xrPID_MATRIX, oT2_xform);
 	xrPREAD_PROP(fs, xrPID_CONSTANT, oT2_const);
 }
 
-void XRayBlenderLaEmB::Destroy()
-{
-	bear_delete(this);
-}

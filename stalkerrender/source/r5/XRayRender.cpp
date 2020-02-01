@@ -1,11 +1,10 @@
 // xrRender_R2.cpp : Defines the entry point for the DLL application.
 //
 #include "pch.h"
-
-XRayRenderInterface BRenderInterface;
+const bchar* GGraphicsAPI[] = { TEXT("bear_render_dx11"),TEXT("bear_render_dx12"),TEXT("bear_render_dx12_1"),TEXT("bear_render_vulkan1_0"),TEXT("bear_render_vulkan1_1") };
 XRayRenderFactory BRenderFactory;
 XRayDUInterface  BDUInterface;
-XRayUIRender BUIRender;
+
 XRayDebugRender BDebugRender;
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -22,11 +21,11 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 	}
 		//	Can't call CreateDXGIFactory from DllMain
 		//if (!xrRender_test_hw())	return FALSE;
-		::Render					= &BRenderInterface;
+		::Render					= &GRenderInterface;
 		::RenderFactory				= &BRenderFactory;
 		::DU						= &BDUInterface;
 		//::vid_mode_token			= inited by HW;
-		UIRender					= &BUIRender;
+		UIRender					= &GUIRender;
 #ifdef DEBUG
 		DRender						= &BDebugRender;
 #endif	//	DEBUG
@@ -56,7 +55,7 @@ extern "C"
 };
 bool _declspec(dllexport) SupportsBearRendering()
 {
-	bool result = BearGraphics::BearRenderInterface::Initialize(TEXT("bear_directx10"));
-	BearGraphics::BearRenderInterface::Destroy();
+	bool result = BearRenderInterface::Initialize(TEXT("bear_render_vulkan1_0"));
+	BearRenderInterface::Destroy();
 	return result;
 }

@@ -1,13 +1,12 @@
 #pragma once
-class  XRayBlenderTree :public XRayBlender
+class  XRayBlenderTree :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderTree();
-	~XRayBlenderTree();
+	virtual 	~XRayBlenderTree();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Destroy();
 protected:
 	xrP_BOOL	oBlend;
 	xrP_BOOL	oNotAnTree;

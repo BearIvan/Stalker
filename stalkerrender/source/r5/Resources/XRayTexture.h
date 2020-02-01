@@ -1,11 +1,12 @@
 #pragma once
-class XRayTexture
+class CTheoraSurface;
+class XRayTexture:public XRayResourceNamed
 {
-	friend class XRayRenderResource;
-	BEAR_CLASS_NO_COPY(XRayTexture);
+	BEAR_CLASS_WITHOUT_COPY(XRayTexture);
 public:
-	XRayTexture(const bchar*texture);
+	XRayTexture(shared_str texture);
 	~XRayTexture();
+
 	void Update();
 	enum TextureType
 	{
@@ -13,18 +14,23 @@ public:
 		TT_Seq,
 		TT_Movie,
 	};
-	TextureType GetType();
-	const bchar*GetName()const;
-	BearFVector2 GetSize()const;
+	IC TextureType GetType() const { return m_type; }
+	IC BearFVector2 GetSize()const { return m_size; }
+
+	BearFactoryPointer<BearRHI::BearRHITexture2D> Texture;
+
 private:
-	bsize m_count;
-	BearStringPath m_name;
+	BearVector< BearFactoryPointer<BearRHI::BearRHITexture2D>> SeqTextures;
+	bsize SeqCurrent;
 	BearFVector2 m_size;
-	BearGraphics::BearTexture2DRef m_texture;
+
 	TextureType m_type;
 
-	BearVector<BearGraphics::BearTexture2DRef> m_seq_array_img;
+	
 	bsize m_seq_ms;
-	bsize m_seq_current;
+
 	bool m_seq_cycles;
+private:
+	CTheoraSurface* pTheora;
+	u32 m_play_time;
 };

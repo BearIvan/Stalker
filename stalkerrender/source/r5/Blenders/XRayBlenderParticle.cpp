@@ -27,14 +27,10 @@ void XRayBlenderParticle::Save(IWriter & fs)
 
 void XRayBlenderParticle::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 
 	xrPREAD_PROP(fs, xrPID_TOKEN, oBlend);	oBlend.Count = oBlendCount;
 	xrPREAD_PROP(fs, xrPID_BOOL, oClamp);
 	xrPREAD_PROP(fs, xrPID_INTEGER, oAREF);
 }
 
-void XRayBlenderParticle::Destroy()
-{
-	bear_delete(this);
-}

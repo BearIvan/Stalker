@@ -1,0 +1,31 @@
+#include "pch.h"
+
+XRayBlenderEditorSelection::XRayBlenderEditorSelection()
+{
+	Description.ID = B_EDITOR_SEL;
+	BearString::Copy(oT_Factor, TEXT("$null"));
+}
+
+XRayBlenderEditorSelection::~XRayBlenderEditorSelection()
+{
+}
+
+LPCSTR XRayBlenderEditorSelection::getComment()
+{
+	return LPCSTR();
+}
+
+void XRayBlenderEditorSelection::Save(IWriter & fs)
+{
+}
+
+void XRayBlenderEditorSelection::Load(IReader & fs, u16 version)
+{
+	XRayBlender::Load(fs, version);
+	xrPREAD_PROP(fs, xrPID_CONSTANT, oT_Factor);
+}
+
+void XRayBlenderEditorSelection::Destroy()
+{
+	bear_delete(this);
+}

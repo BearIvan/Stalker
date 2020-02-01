@@ -21,11 +21,7 @@ void XRayBlenderEditorSelection::Save(IWriter & fs)
 
 void XRayBlenderEditorSelection::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	xrPREAD_PROP(fs, xrPID_CONSTANT, oT_Factor);
 }
 
-void XRayBlenderEditorSelection::Destroy()
-{
-	bear_delete(this);
-}

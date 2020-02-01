@@ -1,4 +1,5 @@
 #pragma once
+class XRayShaderElement;
 class XRayRenderInterface:public IRender_interface
 {
 public:
@@ -106,5 +107,10 @@ public:
 protected:
 	virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer) ;
 private:
-	XRayRenderTarget m_RenderTarget;
+	BearFactoryPointer<BearRHI::BearRHIUniformBuffer> m_ScreenTransformation;
+public:
+	void UpdateDescriptorHeap(XRayShaderElement& ShaderElement);
+private:
+	XRayRenderTarget* m_RenderTarget;
  };
+ extern XRayRenderInterface GRenderInterface;

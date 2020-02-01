@@ -1,14 +1,15 @@
 #pragma once
-class  XRayBlenderScreenSet :public XRayBlender
+class  XRayBlenderScreenSet :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderScreenSet();
-	~XRayBlenderScreenSet();
+	virtual ~XRayBlenderScreenSet();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Compile(XRayShader&shader);
-	virtual void Destroy();
+	virtual void Initialize();
+	virtual void Compile(XRayShaderElement& shader);
+	//virtual void Compile(XRayShader&shader);
 protected:
 	xrP_TOKEN	oBlend;
 	xrP_Integer	oAREF;
@@ -17,4 +18,7 @@ protected:
 	xrP_BOOL	oLighting;
 	xrP_BOOL	oFog;
 	xrP_BOOL	oClamp;
+private:
+	BearFactoryPointer<BearRHI::BearRHIPipeline> Pipeline;
+	BearFactoryPointer<BearRHI::BearRHIRootSignature> RootSignature;
 };

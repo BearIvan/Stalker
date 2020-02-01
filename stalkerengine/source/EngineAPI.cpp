@@ -261,10 +261,9 @@ void CEngineAPI::CreateRendererList()
     {
 		if (BearManagerProjects::CheckProject(TEXT("stalker_r2")))
 		{
-			bSupports_r2 = true;
 			SupportsAdvancedRendering* test_rendering = BearManagerProjects::GetFunctionInProject< SupportsAdvancedRendering*>(TEXT("stalker_r2"), TEXT("SupportsAdvancedRendering"));
 			R_ASSERT(test_rendering);
-			bSupports_r2_5 = test_rendering();
+			bSupports_r2 = bSupports_r2_5 = test_rendering();
 			BearManagerProjects::UnLoad(TEXT("stalker_r2"));
 		}
 		if (BearManagerProjects::CheckProject(TEXT("stalker_r3")))
@@ -336,10 +335,11 @@ void CEngineAPI::CreateRendererList()
 		switch (i)
 		{
 		case 1:
-			if (!bSupports_r5||true)
+			if (!bSupports_r5)
 				continue;
 			break;
 		case 2:
+		case 3:
 			if (!bSupports_r2)
 				continue;
 			break;

@@ -28,7 +28,7 @@ void XRayBlenderBmmD::Save(IWriter & fs)
 
 void XRayBlenderBmmD::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	if (version < 3) {
 		xrPREAD_MARKER(fs);
 		xrPREAD_PROP(fs, xrPID_TEXTURE, oT2_Name);
@@ -45,7 +45,3 @@ void XRayBlenderBmmD::Load(IReader & fs, u16 version)
 	}
 }
 
-void XRayBlenderBmmD::Destroy()
-{
-	bear_delete(this);
-}

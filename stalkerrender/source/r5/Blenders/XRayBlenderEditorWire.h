@@ -1,13 +1,12 @@
 #pragma once
-class  XRayBlenderEditorWire :public XRayBlender
+class  XRayBlenderEditorWire :public XRayBlenderCompiler
 {
 public:
 	XRayBlenderEditorWire();
-	~XRayBlenderEditorWire();
+	virtual ~XRayBlenderEditorWire();
 	virtual LPCSTR getComment();
 	virtual void Save(IWriter& fs);
 	virtual void Load(IReader& fs, u16 version);
-	virtual void Destroy();
 protected:
 	string64	oT_Factor;
 };

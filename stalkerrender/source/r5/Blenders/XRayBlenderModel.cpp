@@ -27,7 +27,7 @@ void XRayBlenderModel::Save(IWriter & fs)
 
 void XRayBlenderModel::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	switch (version)
 	{
 	case 0:
@@ -48,7 +48,3 @@ void XRayBlenderModel::Load(IReader & fs, u16 version)
 	}
 }
 
-void XRayBlenderModel::Destroy()
-{
-	bear_delete(this);
-}

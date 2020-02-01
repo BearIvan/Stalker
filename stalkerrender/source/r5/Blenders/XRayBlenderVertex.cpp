@@ -23,14 +23,11 @@ void XRayBlenderVertex::Save(IWriter & fs)
 
 void XRayBlenderVertex::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	if (version > 0)
 	{
 		xrPREAD_PROP(fs, xrPID_TOKEN, oTessellation);
 	}
 }
 
-void XRayBlenderVertex::Destroy()
-{
-	bear_delete(this);
-}
+

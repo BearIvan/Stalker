@@ -35,7 +35,7 @@ void XRayBlenderScreenSet::Save(IWriter & fs)
 
 void XRayBlenderScreenSet::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 
 	switch (version) {
 	case 2:
@@ -66,7 +66,83 @@ void XRayBlenderScreenSet::Load(IReader & fs, u16 version)
 		break;
 	}
 }
+void XRayBlenderScreenSet::Initialize()
+{
+	BearRootSignatureDescription RootSignatureDescription;
+	RootSignatureDescription.Samplers[0].Shader = ST_Pixel;
+	RootSignatureDescription.SRVResources[0].Shader = ST_Pixel;
+	RootSignatureDescription.UniformBuffers[0].Shader = ST_Vertex;
+	RootSignature = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
 
+	BearPipelineDescription PipelineDescription;
+	SetInputLayout(PipelineDescription, FVF::F_TL);
+	PipelineDescription.Shaders.Pixel = GResourcesManager->GetPixelShader("default_tl");
+	PipelineDescription.Shaders.Vertex = GResourcesManager->GetVertexShader("notransform_tl");
+	PipelineDescription.RootSignature = RootSignature;
+
+	switch (oBlend.IDselected)
+	{
+	case 0:	// SET
+		break;
+	case 1: // BLEND
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_SRC_ALPHA;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_INV_SRC_ALPHA;
+		break;
+	case 2:	// ADD
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_ONE;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_ONE;
+		break;
+	case 3:	// MUL
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_DEST_COLOR;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_ZERO;
+		break;
+	case 4:	// MUL_2X
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_DEST_COLOR;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_SRC_COLOR;
+		break;
+	case 5:	// ALPHA-ADD
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_SRC_ALPHA;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_ONE;
+		break;
+	case 6:	// MUL_2X + A-test
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_DEST_COLOR;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_SRC_COLOR;
+		break;
+	case 7:	// SET (2r)
+		break;
+	case 8: // BLEND (2r)
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_SRC_ALPHA;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_INV_SRC_ALPHA;
+		break;
+	case 9: // BLEND (2r)
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_SRC_ALPHA;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_INV_SRC_ALPHA;
+		break;
+	}
+
+
+
+	Pipeline = BearRenderInterface::CreatePipeline(PipelineDescription);
+}
+void XRayBlenderScreenSet::Compile(XRayShaderElement& shader)
+{
+	if (IDShader == 0)
+	{
+		shader.Pipeline = Pipeline;
+		shader.DescriptorHeap = CreateDescriptorHeap(RootSignature);
+		SetTexture(shader, 0, "$base0");
+		shader.DescriptorHeap->SetSampler(0, GResourcesManager->SamplerDefault);
+		shader.TypeTransformation = STT_Screen;
+	}
+}
+/*
 void XRayBlenderScreenSet::Compile(XRayShader & shader)
 {
 	shader.SetVertexState(FVF::F_TL);
@@ -117,3 +193,4 @@ void XRayBlenderScreenSet::Destroy()
 {
 	bear_delete(this);
 }
+*/

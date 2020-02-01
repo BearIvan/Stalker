@@ -23,14 +23,10 @@ void XRayBlenderTree::Save(IWriter & fs)
 
 void XRayBlenderTree::Load(IReader & fs, u16 version)
 {
-	XRayBlender::Load(fs, version);
+	XRayBlenderCompiler::Load(fs, version);
 	xrPREAD_PROP(fs, xrPID_BOOL, oBlend);
 	if (version >= 1) {
 		xrPREAD_PROP(fs, xrPID_BOOL, oNotAnTree);
 	}
 }
 
-void XRayBlenderTree::Destroy()
-{
-	bear_delete(this);
-}
