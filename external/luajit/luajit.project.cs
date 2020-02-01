@@ -6,10 +6,15 @@ public class luajit :Project
 	public luajit(string ProjectPath)
 	{
 		Include.Public.Add(Path.Combine(ProjectPath,"include"));
-		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64||BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.MinGW)
+		if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.Win64)
 		{
 					LibrariesPath.Public.Add(Path.Combine(ProjectPath,"lib","x64"));
 					LibrariesDynamic.Add(Path.Combine(ProjectPath,"lib","x64","lua51.dll"));
+		}
+		else if(BearBuildTool.Config.Global.Platform == BearBuildTool.Config.Platform.MinGW)
+		{
+					LibrariesPath.Public.Add(Path.Combine(ProjectPath,"lib","MinGW"));
+					LibrariesDynamic.Add(Path.Combine(ProjectPath,"lib","MinGW","libluajit.dll"));
 		}
 		else
 		{
@@ -18,7 +23,7 @@ public class luajit :Project
 		}			
 		Defines.Public.Add("LUA_BUILD_AS_DLL");
 		
-		LibrariesStatic.Public.Add("lua51.lib");
+		LibrariesStatic.Public.Add("lua51");
 		
 	}
 
