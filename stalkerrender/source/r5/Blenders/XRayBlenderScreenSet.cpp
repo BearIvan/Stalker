@@ -75,10 +75,6 @@ void XRayBlenderScreenSet::Initialize()
 	RootSignature = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
 
 	BearPipelineDescription PipelineDescription;
-	SetInputLayout(PipelineDescription, FVF::F_TL);
-	PipelineDescription.Shaders.Pixel = GResourcesManager->GetPixelShader("default_tl");
-	PipelineDescription.Shaders.Vertex = GResourcesManager->GetVertexShader("notransform_tl");
-	PipelineDescription.RootSignature = RootSignature;
 
 	switch (oBlend.IDselected)
 	{
@@ -127,18 +123,15 @@ void XRayBlenderScreenSet::Initialize()
 		break;
 	}
 
+	CreatePipeline(PipelineDescription,"notransform", "default_tl",SVD_TL);
 
-
-	Pipeline = BearRenderInterface::CreatePipeline(PipelineDescription);
 }
 void XRayBlenderScreenSet::Compile(XRayShaderElement& shader)
 {
 	if (IDShader == 0)
 	{
-		shader.Pipeline = Pipeline;
-		shader.DescriptorHeap = CreateDescriptorHeap(RootSignature);
 		SetTexture(shader, 0, "$base0");
-		shader.DescriptorHeap->SetSampler(0, GResourcesManager->SamplerDefault);
+		shader.SamplerStates[0] = SSS_Default;
 		shader.TypeTransformation = STT_Screen;
 	}
 }

@@ -139,7 +139,7 @@ bsize XRayRenderDeviceRender::GetCacheStatPolys()
 
 void XRayRenderDeviceRender::Begin()
 {
-	HW->Context->AttachViewportAsFrameBuffer(HW->Viewport);
+	HW->Context->AttachFrameBuffer(HW->FrameBuffer);
 	HW->Context->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
 	HW->Context->ClearFrameBuffer();
 }
@@ -151,13 +151,14 @@ void XRayRenderDeviceRender::Clear()
 
 void XRayRenderDeviceRender::End()
 {
-
+	HW->Context->Flush(true);
+	HW->Viewport->Copy(HW->TBasicColor);
 	GUIRender.Flush();
 	for (auto b = HW->FontRenders.begin(), e = HW->FontRenders.end(); b != e; b++)
 	{
 		(*b)->Flush();
 	}
-	HW->Context->Flush(true);
+
 	//test.Push();
 
 	//plane->Draw();
@@ -175,6 +176,8 @@ void XRayRenderDeviceRender::ClearTarget()
 
 void XRayRenderDeviceRender::SetCacheXform(Fmatrix & mView, Fmatrix & mProject)
 {
+	GRenderInterface.SetView(mView);
+	GRenderInterface.SetProject(mProject);
 	/*GXRayRenderResource->SetView(mView);
 	GXRayRenderResource->SetProject(mProject);*/
 }

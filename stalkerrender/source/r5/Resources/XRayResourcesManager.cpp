@@ -5,6 +5,8 @@ XRayResourcesManager::XRayResourcesManager()
 {
 	{
 		BearSamplerDescription SamplerDescription;
+		SamplerDescription.Filter = SF_ANISOTROPIC;
+		SamplerDescription.MaxAnisotropy = 16;
 		SamplerDefault = BearRenderInterface::CreateSampler(SamplerDescription);
 	}
 
@@ -85,6 +87,51 @@ void XRayResourcesManager::CompileBlender(XRayBlender& Blender, const char* name
 
 bsize XRayResourcesManager::GetStride(uint32 VertexState)
 {
+	switch (VertexState)
+	{
+	case FVF::F_1W:
+		return 36;
+		break;
+	case FVF::F_2W:
+		return 44;
+		break;
+	case FVF::F_3W:
+		return 44;
+		break;
+	case FVF::F_4W:
+		return 40;
+		break;
+	case FVF::F_R1LMap:
+		return 32;
+		break;
+	case FVF::F_R1Vert:
+		return 32;
+		break;
+	case FVF::F_XVert:
+		return 12;
+		break;
+	case FVF::F_MUModel:
+		return 32;
+	default:
+		break;
+	}
+	if ((D3DFVF_TEX2 & int32(VertexState)) == D3DFVF_TEX2)
+	{
+		VertexState |= D3DFVF_TEX1;
+
+	}
+	else if ((D3DFVF_TEX3 & int32(VertexState)) == D3DFVF_TEX3)
+	{
+		VertexState |= D3DFVF_TEX1;
+		VertexState |= D3DFVF_TEX2;
+	}
+	else if ((D3DFVF_TEX4 & int32(VertexState)) == D3DFVF_TEX4)
+	{
+		VertexState |= D3DFVF_TEX1;
+		VertexState |= D3DFVF_TEX2;
+		VertexState |= D3DFVF_TEX3;
+
+	}
 	static int32 StrideArray[] =
 	{
 #define REGISTER(name,byte,stride,a1,a2) byte,stride,

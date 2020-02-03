@@ -34,7 +34,7 @@ enum D3DVertexState
 #undef REGISTER
 #include "Engine/stdafx.h"
 #include "engine/igame_level.h"
-
+#include "engine/Fmesh.h"
 
 
 
@@ -48,6 +48,17 @@ enum D3DVertexState
 #include "Blenders/XRayBlenderCompiler.h"
 #include "Resources/XRayResourcesManager.h"
 #include "Resources/XRayBlender_inline.h"
+
+#include "Resources/Visual/XRayRenderVisual.h"
+#include "Resources/Visual/XRayFVisual.h"
+#include "Resources/Visual/XRayFHierrarhyVisual.h"
+#include "Resources/Visual/XRayFProgressive.h"
+#include "Resources/XRaySkeletonX.h"
+#include "Resources/Visual/XRayKinematics.h"
+#include "Resources/Visual/XRayKinematicsAnimated.h"
+#include "Resources/Visual/XRayFSkinned.h"
+#include "Resources/XRayModelPool.h"
+
 
 #include "Engine/XRayRenderFactory.h"
 #include "General/XRayRenderTarget.h"

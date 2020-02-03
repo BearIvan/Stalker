@@ -19,6 +19,4 @@ protected:
 	xrP_BOOL	oFog;
 	xrP_BOOL	oClamp;
 private:
-	BearFactoryPointer<BearRHI::BearRHIPipeline> Pipeline;
-	BearFactoryPointer<BearRHI::BearRHIRootSignature> RootSignature;
 };

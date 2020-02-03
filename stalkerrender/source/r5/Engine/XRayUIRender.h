@@ -42,7 +42,7 @@ private:
 	ePrimitiveType	m_PrimitiveType;
 	ePointType		m_PointType;
 
-	XRayBlender Blender;
+	XRayBlender *Blender;
 
 	bsize TL_iMaxVerts;
 	FVF::TL* TL_start_pv;

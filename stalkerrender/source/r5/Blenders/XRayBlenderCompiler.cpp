@@ -118,12 +118,113 @@ void XRayBlenderCompiler::Compile(XRayBlender& shader, const bchar* textures )
 	for (bsize i = 0; i < 6; i++)
 	{
 		IDShader = i;
+		shader.E[i].RootSignature = RootSignature;
+		for (bsize a = 0; a < 16; a++)
+			shader.E[i].Pipeline[a] = m_pipeline[a];
 		Compile(shader.E[i]);
 	}
 	
 }
+
+
+
 void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u32 VertexState)
 {
+	switch (VertexState)
+	{
+	case FVF::F_1W:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32A32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 24);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R32G32_FLOAT, 28);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement();
+
+	}
+	return;
+	break;
+	case FVF::F_2W:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32A32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 24);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R32G32B32A32_FLOAT, 28);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement();
+		return;
+		break;
+	}
+	case FVF::F_3W:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32A32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 24);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R32G32B32A32_FLOAT, 28);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement();
+	}
+	return;
+	break;
+	case FVF::F_4W:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32A32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 24);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R32G32_FLOAT, 28);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement("indices", VF_R8G8B8A8, 36);
+		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+	}
+	return;
+	break;
+	case FVF::F_R1LMap:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 12);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R16G16_SINT, 24);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement("uv2t", VF_R16G16_SINT, 28);
+		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+
+	}
+	return;
+	break;
+	case FVF::F_R1Vert:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 12);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("color", VF_R8G8B8A8, 24);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement("uv1t", VF_R16G16_SINT, 28);
+		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+	}
+	return;
+	break;
+	case FVF::F_XVert:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement();
+
+	}
+	return;
+	break;
+	case FVF::F_MUModel:
+	{
+		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32_FLOAT, 0);
+		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 12);
+		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 16);
+		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 20);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement("uv1t", VF_R16G16B16A16_SINT, 24);
+		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+
+	}
+	return;
+	default:
+		break;
+	};
 	int32 Count = 0;
 	struct
 	{
@@ -132,12 +233,32 @@ void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u
 		BearVertexFormat type;
 		const bchar8* name;
 	}
+
 	StrideArray[] =
 	{
 #define REGISTER(name,byte,stride,sh_name,sh_type) {byte,stride,sh_type,sh_name},
 #include "../D3D9VertexState.h"
 #undef REGISTER
 	};
+
+	if ((D3DFVF_TEX2 & int32(VertexState)) == D3DFVF_TEX2)
+	{
+		VertexState |= D3DFVF_TEX1;
+
+	}
+	else if ((D3DFVF_TEX3 & int32(VertexState)) == D3DFVF_TEX3)
+	{
+		VertexState |= D3DFVF_TEX1;
+		VertexState |= D3DFVF_TEX2;
+	}
+	else if ((D3DFVF_TEX4 & int32(VertexState)) == D3DFVF_TEX4)
+	{
+		VertexState |= D3DFVF_TEX1;
+		VertexState |= D3DFVF_TEX2;
+		VertexState |= D3DFVF_TEX3;
+
+	}
+
 	for (bsize i = 0; i < D3DFVF_COUNT; i++)
 	{
 		if ((StrideArray[i].bits & int32(VertexState)) == StrideArray[i].bits)
@@ -154,18 +275,100 @@ void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u
 		}
 
 	}
+	if (Count != 16)
+	{
+		for (bsize i = Count; i < 16; i++)
+			Description.InputLayout.Elements[i] = BearInputLayoutElement();
+	}
 }
 
-BearFactoryPointer<BearRHI::BearRHIDescriptorHeap> XRayBlenderCompiler::CreateDescriptorHeap(BearFactoryPointer<BearRHI::BearRHIRootSignature>& RootSignature)
-{
-	BearDescriptorHeapDescription DescriptorHeapDescription;
-	DescriptorHeapDescription.RootSignature = RootSignature;
-	return BearRenderInterface::CreateDescriptorHeap(DescriptorHeapDescription);
-}
+
 
 void XRayBlenderCompiler::SetTexture(XRayShaderElement& shader, bsize id, shared_str name)
 {
 	shader.Textures[id] = GResourcesManager->GetTexture(GetTexture(name));
+}
+
+void XRayBlenderCompiler::CreatePipeline(BearPipelineDescription& Description, const bchar* name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType)
+{
+	u32 fvf = 0;
+	const bchar* prefix = TEXT("");
+	switch (FVFType)
+	{
+	case SVD_L:
+		prefix = TEXT("_L");
+		fvf = FVF::F_L;
+		break;
+	case SVD_V:
+		prefix = TEXT("_V");
+		fvf = FVF::F_V;
+		break;
+	case SVD_LIT:
+		prefix = TEXT("_LIT");
+		fvf = FVF::F_LIT;
+		break;
+	case SVD_TL0uv:
+		prefix = TEXT("_TL0uv");
+		fvf = FVF::F_TL0uv;
+		break;
+	case SVD_TL:
+		prefix = TEXT("_TL");
+		fvf = FVF::F_TL;
+		break;
+	case SVD_TL2uv:
+		prefix = TEXT("_TL2uv");
+		fvf = FVF::F_TL2uv;
+		break;
+	case SVD_TL4uv:
+		prefix = TEXT("_TL4uv");
+		fvf = FVF::F_TL4uv;
+		break;
+	case SVD_1W:
+		prefix = TEXT("_1W");
+		fvf = FVF::F_1W;
+		break;
+	case SVD_2W:
+		prefix = TEXT("_2W");
+		fvf = FVF::F_2W;
+		break;
+	case SVD_3W:
+		prefix = TEXT("_3W");
+		fvf = FVF::F_3W;
+		break;
+	case SVD_4W:
+		prefix = TEXT("_4W");
+		fvf = FVF::F_4W;
+		break;
+	case SVD_R1LMap:
+		prefix = TEXT("_R1LMap");
+		fvf = FVF::F_R1LMap;
+		break;
+	case SVD_R1Vert:
+		prefix = TEXT("_R1Vert");
+		fvf = FVF::F_R1Vert;
+		break;
+	case SVD_XVert:
+		prefix = TEXT("_XVert");
+		fvf = FVF::F_XVert;
+		break;
+	case SVD_MUModel:
+		prefix = TEXT("_MUModel");
+		fvf = FVF::F_MUModel;
+		break;
+	default:
+		BEAR_RASSERT(0);
+		break;
+	}
+	BearStringPath NameVS;
+	BearString::Printf(NameVS, TEXT("%s%s"), name_vs, prefix);
+	BearString::ToLower(NameVS);
+	SetInputLayout(Description, fvf);
+	Description.Shaders.Pixel = GResourcesManager->GetPixelShader(name_ps);
+	Description.Shaders.Vertex = GResourcesManager->GetVertexShader(NameVS);
+	Description.RootSignature = RootSignature;
+	BEAR_ASSERT(m_pipeline[FVFType].empty());
+	m_pipeline[FVFType] = BearRenderInterface::CreatePipeline(Description);
+
 }
 
 

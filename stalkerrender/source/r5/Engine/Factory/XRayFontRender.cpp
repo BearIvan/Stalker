@@ -18,7 +18,7 @@ XRayFontRender::~XRayFontRender()
 void XRayFontRender::Initialize(LPCSTR cShader, LPCSTR cTexture)
 {
 	GResourcesManager->CompileBlender(Blender, cShader, cTexture);
-	GRenderInterface.UpdateDescriptorHeap(Blender.E[0]);
+	//GRenderInterface.UpdateDescriptorHeap(Blender.E[0]);
 	/*GXRayRenderResource->CreateShader(cShader, m_shader);
 	m_shader.SetTextureToPixel(0, cTexture);*/
 }
@@ -168,7 +168,8 @@ void XRayFontRender::OnRender(CGameFont & owner)
 
 		if (vCount)
 		{
-			if (!Blender.E[0].Set(HW->Context)) { return; }
+			GRenderInterface.UpdateDescriptorHeap(Blender.E[0]);
+			if (!Blender.E[0].Set(HW->Context, FVF::F_TL)) { return; }
 
 			HW->Context->SetVertexBuffer(*m_vertex_buffer_current);
 			HW->Context->Draw(vCount);

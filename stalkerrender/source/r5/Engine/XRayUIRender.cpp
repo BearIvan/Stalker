@@ -4,6 +4,8 @@ XRayUIRender::XRayUIRender()
 {
 	m_vertex_bufferTL_current = m_vertex_buffersTL.end();
 	m_vertex_bufferLIT_current = m_vertex_buffersLIT.end();
+	Blender = 0;
+	TL_pv = 0;
 }
 
 XRayUIRender::~XRayUIRender()
@@ -20,13 +22,13 @@ void XRayUIRender::DestroyUIGeom()
 	m_vertex_buffersLIT.clear();
 	m_vertex_bufferTL_current = m_vertex_buffersTL.end();
 	m_vertex_bufferLIT_current = m_vertex_buffersLIT.end();
-	Blender.Clear();
+	Blender = 0;
 
 }
 
 void XRayUIRender::SetShader(IUIShader& shader)
 {
-	Blender = static_cast<XRayUIShader&>(shader).Blender;
+	Blender =& static_cast<XRayUIShader&>(shader).Blender;
 }
 
 void XRayUIRender::SetAlphaRef(int aref)
@@ -39,16 +41,17 @@ void XRayUIRender::SetScissor(Irect* rect)
 
 void XRayUIRender::GetActiveTextureResolution(Fvector2& res)
 {
-	if (Blender.E[0].Textures[0])
+	BEAR_ASSERT(Blender);
+	if (Blender->E[0].Textures[0])
 	{
-		auto size = Blender.E[0].Textures[0]->GetSize();
+		auto size = Blender->E[0].Textures[0]->GetSize();
 		res.set(size.x,size.y) ;
 	}
 }
 
 void XRayUIRender::PushPoint(float x, float y, float z, u32 C, float u, float v)
 {
-
+	BEAR_ASSERT(TL_pv);
 	switch (m_PointType)
 	{
 	case pttLIT:
@@ -88,6 +91,7 @@ void XRayUIRender::StartPrimitive(bsize iMaxVerts, ePrimitiveType primType, ePoi
 		}
 
 		TL_start_pv = (FVF::TL*)(*m_vertex_bufferTL_current)->Lock();
+		BEAR_ASSERT(TL_start_pv);
 		TL_pv = TL_start_pv;
 		break;
 	case IUIRender::pttLIT:
@@ -119,10 +123,8 @@ void XRayUIRender::StartPrimitive(bsize iMaxVerts, ePrimitiveType primType, ePoi
 
 void XRayUIRender::FlushPrimitive()
 {
-	
+	BEAR_ASSERT(Blender);
 	bsize p_cnt = 0;
-	GRenderInterface.UpdateDescriptorHeap(Blender.E[0]);
-	if (!Blender.E[0].Set(HW->Context)) {  return; }
 	switch (m_PointType)
 	{
 	case IUIRender::pttTL:
@@ -143,6 +145,9 @@ void XRayUIRender::FlushPrimitive()
 	default:
 		break;
 	}
+	GRenderInterface.UpdateDescriptorHeap(Blender->E[0]);
+	if (!Blender->E[0].Set(HW->Context,FVF::F_TL)) {  return; }
+
 
 	HW->Context->Draw(p_cnt);
 	

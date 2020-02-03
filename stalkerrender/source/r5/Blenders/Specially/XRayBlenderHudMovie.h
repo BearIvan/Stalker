@@ -7,6 +7,4 @@ public:
 	virtual void Initialize();
 	virtual void Compile(XRayShaderElement& shader);
 private:
-	BearFactoryPointer<BearRHI::BearRHIPipeline> Pipeline;
-	BearFactoryPointer<BearRHI::BearRHIRootSignature> RootSignature;
 };

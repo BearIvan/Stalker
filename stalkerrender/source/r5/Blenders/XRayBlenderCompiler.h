@@ -37,8 +37,8 @@ public:
 	void Compile(XRayBlender& shader,const bchar*textures=0);
 protected:
 	void SetInputLayout(BearPipelineDescription& Description, u32 VertexState);
-	BearFactoryPointer<BearRHI::BearRHIDescriptorHeap>CreateDescriptorHeap(BearFactoryPointer < BearRHI::BearRHIRootSignature>& RootSignature);
 	void SetTexture(XRayShaderElement& shader,bsize id,shared_str name);
+	void CreatePipeline(BearPipelineDescription& Description,const bchar*name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType);
 	//;
 protected:
 	shared_str GetTexture(shared_str name);
@@ -48,7 +48,11 @@ protected:
 	BearString64					oTName;
 	BearString64					oTXform;
 	bsize IDShader;
+
+	BearFactoryPointer < BearRHI::BearRHIRootSignature> RootSignature;
 private:
 	BearVector<shared_str> m_textures;
+private:
+	BearFactoryPointer<BearRHI::BearRHIPipeline> m_pipeline[16];
 };
 #pragma pack(pop)

@@ -55,14 +55,14 @@ public class stalker_engine :Project
 		)
 		{
 			IncludeAutonomousProjects.Add("stalker_r1");
-			IncludeAutonomousProjects.Add("stalker_r2");
+			//IncludeAutonomousProjects.Add("stalker_r2");
 			if (BearBuildTool.Config.Global.Platform != BearBuildTool.Config.Platform.MinGW)
 			{
-				IncludeAutonomousProjects.Add("stalker_r3");
-				IncludeAutonomousProjects.Add("stalker_r4");
+		//		IncludeAutonomousProjects.Add("stalker_r3");
+			//	IncludeAutonomousProjects.Add("stalker_r4");
 			}
 		}
-      // IncludeAutonomousProjects.Add("stalker_r5");
+       IncludeAutonomousProjects.Add("stalker_r5");
 
         
 
