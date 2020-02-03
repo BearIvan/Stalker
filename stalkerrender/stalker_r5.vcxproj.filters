@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="D:\GameDev\BearSDK\projects\engine\stalker\stalkerrender\stalker_r5.project.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\XRayRender.cpp" />
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\pch.cpp" />
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayDUInterface.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderFactory.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderInterface.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayUIRender.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayDebugRender.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayLensFlareRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayObjectSpaceRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayRainRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayRenderDeviceRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayStatGraphRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayStatsRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayThunderboltDescRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayThunderboltRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayApplicationRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayConsoleRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvDescriptorMixerRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvDescriptorRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvironmentRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayFlareRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayFontRender.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayUIShader.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayWallMarkArray.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayUISequenceVideoItem.cpp">
+      <Filter>Engine\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\General\XRayHardware.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayResourcesManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderBmmD.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDefault.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDefaultAref.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDetailStill.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderEditorSelection.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderEditorWire.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderLaEmB.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderLmEbB.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderModel.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderModelEbB.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderParticle.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderScreenGray.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderScreenSet.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderShWorld.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderTree.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderVertex.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderVertexAref.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderBlur.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderCompiler.cpp">
+      <Filter>Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayBlender_inline.h">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayBlender.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\General\XRayRenderTarget.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\Specially\XRayBlenderHudMovie.cpp">
+      <Filter>Blenders\Specially</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayModelPool.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFVisual.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayRenderVisual.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFHierrarhyVisual.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFProgressive.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayKinematics.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRaySkeletonX.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayKinematicsAnimated.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Animation.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFSkinned.cpp">
+      <Filter>Resources\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderInterface_Loader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderInterface_Converter.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\pch.h" />
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\D3D9VertexState.h" />
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderFactory.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayRenderInterface.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayUIRender.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayDebugRender.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\XRayDUInterface.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayFontRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayLensFlareRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayObjectSpaceRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayRainRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayRenderDeviceRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayStatGraphRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayStatsRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayThunderboltDescRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayThunderboltRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayApplicationRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayConsoleRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvDescriptorMixerRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvDescriptorRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayEnvironmentRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayFlareRender.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayUISequenceVideoItem.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayUIShader.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Engine\Factory\XRayWallMarkArray.h">
+      <Filter>Engine\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\General\XRayHardware.h">
+      <Filter>General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayTexture.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayResourcesManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayResource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderBmmD.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDefault.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDefaultAref.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderDetailStill.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderEditorSelection.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderEditorWire.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderLaEmB.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderLmEbB.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderModel.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderModelEbB.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderParticle.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderRecorder.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderScreenGray.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderScreenSet.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderShWorld.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderTree.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderVertex.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderVertexAref.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayIDofBlenders.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderBlur.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\XRayBlenderCompiler.h">
+      <Filter>Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayBlender.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\General\XRayRenderTarget.h">
+      <Filter>General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Blenders\Specially\XRayBlenderHudMovie.h">
+      <Filter>Blenders\Specially</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRayModelPool.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFVisual.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayRenderVisual.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFHierrarhyVisual.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFProgressive.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayKinematics.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\XRaySkeletonX.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayKinematicsAnimated.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\projects\engine\stalker\stalkerrender\source\r5\Resources\Visual\XRayFSkinned.h">
+      <Filter>Resources\Visual</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{9999b05e-ea94-4c67-ae4c-5121c2690db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Factory">
+      <UniqueIdentifier>{053be756-a40c-48b9-a580-6cbcd93aec5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General">
+      <UniqueIdentifier>{4e4dde67-1ded-4348-8418-47fd80e9f281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{2c96064f-4187-4c3f-915c-abd78f3319be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blenders">
+      <UniqueIdentifier>{d10e6abe-6ebf-4d58-a291-a93dfc6f9609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blenders\Specially">
+      <UniqueIdentifier>{3ce82fcd-ced8-4dbe-ad4b-e2b218a24531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Visual">
+      <UniqueIdentifier>{b7966a43-d614-4cd0-9d1b-0ca00b37d2a9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
