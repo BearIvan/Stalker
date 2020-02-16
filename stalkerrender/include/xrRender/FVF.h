@@ -184,6 +184,8 @@ namespace FVF {
 	constexpr u32 F_R1Vert = 0xFFFFFFF5;
 	constexpr u32 F_XVert = 0xFFFFFFF6;
 	constexpr u32 F_MUModel = 0xFFFFFFF7;
+	constexpr u32 F_0W = 0xFFFFFFF8;
+	constexpr u32 F_M = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
 };
 #pragma pack(pop)
 

@@ -41,8 +41,7 @@ void CGameTask::script_register(lua_State *L)
 				.def("add_on_fail_func",					&SGameTaskObjective::AddOnFailFunc_script			)
 				
 				.def("get_state",							&SGameTaskObjective::TaskState						)
-				.def("get_idx",								&SGameTaskObjective::GetIDX_script					)
-				.def("get_state",							&SGameTaskObjective::TaskState						),
+				.def("get_idx",								&SGameTaskObjective::GetIDX_script					),
 
 
 			class_<CGameTask>("CGameTask")

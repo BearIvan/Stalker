@@ -7,15 +7,18 @@ XRayFProgressive::XRayFProgressive()
 
 XRayFProgressive::~XRayFProgressive()
 {
+
+}
+void 		XRayFProgressive::Release()
+{
     xr_free(nSWI.sw);
     if (xSWI) {
         xr_free(xSWI->sw);
         xr_delete(xSWI);
         xSWI = 0;
-    
+
     }
 }
-
 void XRayFProgressive::Load(const char* N, IReader* data, u32 dwFlags)
 {
     XRayFVisual::Load(N, data, dwFlags);

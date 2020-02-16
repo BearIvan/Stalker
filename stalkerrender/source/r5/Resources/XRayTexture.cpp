@@ -5,6 +5,11 @@ XRayTexture::XRayTexture(shared_str texture)
 	pTheora = 0;
 	Name = texture;
 	BearImage image;
+	if (BearString::Find(*texture, "$rt\\"))
+	{
+		m_type = TT_Default;
+		return;
+	}
 	if (FS.ExistFile(TEXT("%textures%"), texture.c_str(), TEXT(".ogm")))
 	{
 		m_type = TT_Movie;

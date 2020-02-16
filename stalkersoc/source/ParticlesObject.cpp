@@ -10,7 +10,7 @@
 #include "XrRender/ParticleCustom.h"
 #include "engine/render.h"
 #include "engine/IGame_Persistent.h"
-
+constexpr bool penable = false;
 const Fvector zero_vel		= {0.f,0.f,0.f};
 
 CParticlesObject::CParticlesObject	(LPCSTR p_name, BOOL bAutoRemove, bool destroy_on_game_load) :
@@ -26,7 +26,7 @@ void CParticlesObject::Init	(LPCSTR p_name, IRender_Sector* S, BOOL bAutoRemove)
 	m_bAutoRemove			= bAutoRemove;
 	float time_limit		= 0.0f;
 
-	if(!g_dedicated_server)
+	if(!(g_dedicated_server||(!penable)))
 	{
 		// create visual
 		renderable.visual		= Render->model_CreateParticles(p_name);
@@ -80,7 +80,7 @@ CParticlesObject::~CParticlesObject()
 
 void CParticlesObject::UpdateSpatial()
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	// spatial	(+ workaround occasional bug inside particle-system)
 	if (_valid(renderable.visual->getVisData().sphere))
@@ -107,7 +107,7 @@ void CParticlesObject::UpdateSpatial()
 
 const shared_str CParticlesObject::Name()
 {
-	if(g_dedicated_server)	return "";
+	if((g_dedicated_server||(!penable)))	return "";
 
 	IParticleCustom* V	= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	return (V) ? V->Name() : "";
@@ -116,7 +116,7 @@ const shared_str CParticlesObject::Name()
 //----------------------------------------------------
 void CParticlesObject::Play		(bool)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	IParticleCustom* V			= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	V->Play						();
@@ -128,7 +128,7 @@ void CParticlesObject::Play		(bool)
 
 void CParticlesObject::play_at_pos(const Fvector& pos, BOOL xform)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	IParticleCustom* V			= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	Fmatrix m; m.translate		(pos); 
@@ -142,7 +142,7 @@ void CParticlesObject::play_at_pos(const Fvector& pos, BOOL xform)
 
 void CParticlesObject::Stop		(BOOL bDefferedStop)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	IParticleCustom* V			= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	V->Stop						(bDefferedStop);
@@ -153,7 +153,7 @@ void CParticlesObject::shedule_Update	(u32 _dt)
 {
 	inherited::shedule_Update		(_dt);
 
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	// Update
 	if (m_bDead)					return;
@@ -175,7 +175,7 @@ void CParticlesObject::shedule_Update	(u32 _dt)
 
 void CParticlesObject::PerformAllTheWork(u32 _dt)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	// Update
 	u32 dt							= Device.dwTimeGlobal - dwLastTime;
@@ -189,7 +189,7 @@ void CParticlesObject::PerformAllTheWork(u32 _dt)
 
 void CParticlesObject::PerformAllTheWork_mt()
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	if (0==mt_dt)			return;	//???
 	IParticleCustom* V		= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
@@ -199,7 +199,7 @@ void CParticlesObject::PerformAllTheWork_mt()
 
 void CParticlesObject::SetXFORM			(const Fmatrix& m)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	IParticleCustom* V	= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	V->UpdateParent		(m,zero_vel,TRUE);
@@ -209,7 +209,7 @@ void CParticlesObject::SetXFORM			(const Fmatrix& m)
 
 void CParticlesObject::UpdateParent		(const Fmatrix& m, const Fvector& vel)
 {
-	if(g_dedicated_server)		return;
+	if((g_dedicated_server||(!penable)))		return;
 
 	IParticleCustom* V	= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
 	V->UpdateParent		(m,vel,FALSE);
@@ -218,7 +218,7 @@ void CParticlesObject::UpdateParent		(const Fmatrix& m, const Fvector& vel)
 
 Fvector& CParticlesObject::Position		()
 {
-	if(g_dedicated_server) 
+	if((g_dedicated_server||(!penable))) 
 	{
 		static Fvector _pos = Fvector().set(0,0,0);
 		return _pos;
@@ -228,7 +228,7 @@ Fvector& CParticlesObject::Position		()
 
 float CParticlesObject::shedule_Scale		()	
 { 
-	if(g_dedicated_server)		return 5.0f;
+	if((g_dedicated_server||(!penable)))		return 5.0f;
 
 	return Device.vCameraPosition.distance_to(Position())/200.f; 
 }
@@ -260,7 +260,7 @@ void CParticlesObject::SetAutoRemove		(bool auto_remove)
 //��������� Stop �������� ����� ��� ���������� �������� IsPlaying = true
 bool CParticlesObject::IsPlaying()
 {
-	if(g_dedicated_server)		return false;
+	if((g_dedicated_server||(!penable)))		return false;
 
 	IParticleCustom* V	= smart_cast<IParticleCustom*>(renderable.visual); 
 	VERIFY(V);

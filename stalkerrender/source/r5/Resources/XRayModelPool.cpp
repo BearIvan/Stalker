@@ -34,10 +34,14 @@ XRayRenderVisual* XRayModelPool::Instance_Create(u32 type)
 		break;
 #ifndef _EDITOR
 	case MT_LOD:
+		//R_ASSERT(0);
+		V = xr_new<XRayFHierrarhyVisual>();
 		break;
 	case MT_TREE_ST:
+		V = xr_new<XRayTreeVisual_ST>();
 		break;
 	case MT_TREE_PM:
+		V = xr_new<XRayTreeVisual_PM>();
 		break;
 #endif
 	default:
@@ -155,7 +159,7 @@ void XRayModelPool::Destroy()
 	xr_vector<ModelDef>::iterator	E = Models.end();
 	for (; I != E; I++)
 	{
-		//I->model->Release();
+		I->model->Release();
 		xr_delete(I->model);
 	}
 
@@ -322,7 +326,7 @@ void	XRayModelPool::Discard(XRayRenderVisual*& V, BOOL b_complete)
 					if (0 == I->refs)
 					{
 						bForceDiscard = TRUE;
-						//I->model->Release();
+						I->model->Release();
 						xr_delete(I->model);
 						Models.erase(I);
 						bForceDiscard = FALSE;

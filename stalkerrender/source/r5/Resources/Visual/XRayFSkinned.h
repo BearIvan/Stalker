@@ -8,6 +8,7 @@ struct SEnumVerticesCallback
 class		XRaySkeletonXExt : public XRaySkeletonX	// shared code for SkeletonX derivates
 {
 protected:
+	BearFactoryPointer<BearRHI::BearRHIUniformBuffer> m_UniformBuffer;
 	virtual void			_Load_hw(XRayFVisual& V, void* data);
 	virtual void			_CollectBoneFaces(XRayFVisual* V, bsize iBase, bsize iCount);
 	void			        _EnumBoneVertices(SEnumVerticesCallback& C, XRayFVisual* V, u16 bone_id, bsize iBase, bsize iCount) const;

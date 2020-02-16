@@ -1,29 +1,28 @@
 #include "pch.h"
-#include "XRayBlenderHudMovie.h"
+#include "XRayBlenderViewportSet.h"
 
-XRayBlenderHudMovie::XRayBlenderHudMovie()
+XRayBlenderViewportSet::XRayBlenderViewportSet()
 {
 }
 
-XRayBlenderHudMovie::~XRayBlenderHudMovie()
+XRayBlenderViewportSet::~XRayBlenderViewportSet()
 {
 }
 
-void XRayBlenderHudMovie::Initialize()
+void XRayBlenderViewportSet::Initialize()
 {
 	BearRootSignatureDescription RootSignatureDescription;
 	RootSignatureDescription.Samplers[0].Shader = ST_Pixel;
 	RootSignatureDescription.SRVResources[0].Shader = ST_Pixel;
 	RootSignatureDescription.UniformBuffers[0].Shader = ST_Vertex;
-	
 	RootSignature[0] = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
 
 	BearPipelineDescription PipelineDescription;
-	PipelineDescription.RenderPass = GRenderTarget->RenderPass_Base;
-	CreatePipeline(0,PipelineDescription, "notransform", "yuv2rgb", SVD_TL);
+	PipelineDescription.RenderPass = HW->Viewport_RenderPass;
+	CreatePipeline(0,PipelineDescription, "notransform", "default_tl", SVD_TL);
 }
 
-void XRayBlenderHudMovie::Compile(XRayShaderElement& shader)
+void XRayBlenderViewportSet::Compile(XRayShaderElement& shader)
 {
 	if (IDShader == 0)
 	{

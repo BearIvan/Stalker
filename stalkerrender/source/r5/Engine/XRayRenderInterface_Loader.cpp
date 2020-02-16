@@ -31,6 +31,7 @@ void XRayRenderInterface::level_Load(IReader* fs)
 		g_pGamePersistent->LoadTitle();
 		XRayBearFileStream* geom = XRayBearFileStream::Create(FS.Read("%level%", "level.geom"));
 		LoadBuffers(geom);
+		LoadSWIs(geom);
 		XRayBearFileStream::Destroy(geom);
 
 		// Visuals
@@ -40,6 +41,8 @@ void XRayRenderInterface::level_Load(IReader* fs)
 		LoadVisuals(chunk);
 		chunk->close();
 	}
+	LoadSectors(fs);
+
 }
 #pragma pack(push,4)
 struct D3DVERTEXELEMEN_D3D9
@@ -135,7 +138,131 @@ void XRayRenderInterface::LoadVisuals(IReader* fs)
 
 	}
 }
+#pragma pack(push,4)
+struct b_portal
+{
+	u16				sector_front;
+	u16				sector_back;
+	svector<Fvector, 6, u32>	vertices;
+};
+#pragma pack(pop)
+void XRayRenderInterface::LoadSectors(IReader* fs)
+{
+	bsize size = fs->find_chunk(fsL_PORTALS);
+	R_ASSERT(0 == size % sizeof(b_portal));
+	bsize count = size / sizeof(b_portal);
+	m_Portals.resize(count);
+	for (bsize c = 0; c < count; c++)
+		m_Portals[c] = xr_new<CPortal>();
+
+	// load sectors
+	IReader* S = fs->open_chunk(fsL_SECTORS);
+	for (u32 i = 0; ; i++)
+	{
+		IReader* P = S->open_chunk(i);
+		if (0 == P) break;
+
+		CSector* __S = xr_new<CSector>();
+		__S->load(*P);
+		m_Sectors.push_back(__S);
+
+		P->close();
+	}
+	S->close();
+
+	// load portals
+	if (count)
+	{
+		u32	i;
+		CDB::Collector	CL;
+		fs->find_chunk(fsL_PORTALS);
+		for (i = 0; i < count; i++)
+		{
+			b_portal	P;
+			fs->r(&P, sizeof(P));
+			CPortal* __P = (CPortal*)m_Portals[i];
+			__P->Setup(P.vertices.begin(), P.vertices.size(),
+				(CSector*)getSector(P.sector_front),
+				(CSector*)getSector(P.sector_back));
+			for (u32 j = 2; j < P.vertices.size(); j++)
+				CL.add_face_packed_D(P.vertices[0], P.vertices[j - 1], P.vertices[j], u32(i));
+		}
+		if (CL.getTS() < 2)
+		{
+			Fvector		v1, v2, v3;
+			v1.set(-20000.f, -20000.f, -20000.f);
+			v2.set(-20001.f, -20001.f, -20001.f);
+			v3.set(-20002.f, -20002.f, -20002.f);
+			CL.add_face_packed_D(v1, v2, v3, 0);
+		}
+
+		// build portal model
+		rmPortals = xr_new	<CDB::MODEL>();
+		rmPortals->build(CL.getV(), int(CL.getVS()), CL.getT(), int(CL.getTS()));
+	}
+	else {
+		rmPortals = 0;
+	}
+
+	// debug
+	//	for (int d=0; d<Sectors.size(); d++)
+	//		Sectors[d]->DebugDump	();
+
+	pLastSector = 0;
+}
+
+void XRayRenderInterface::LoadSWIs(XRayBearFileStream* base_fs)
+{
+	// allocate memory for portals
+	if (base_fs->find_chunk(fsL_SWIS))
+	{
+		XRayBearFileStream* fs = base_fs->open_chunk(fsL_SWIS);
+		u32 item_count = fs->r_u32();
+
+
+
+		m_SWIs.clear_not_free();
+
+		m_SWIs.resize(item_count);
+		for (u32 c = 0; c < item_count; c++) {
+			FSlideWindowItem& swi = m_SWIs[c];
+			swi.reserved[0] = fs->r_u32();
+			swi.reserved[1] = fs->r_u32();
+			swi.reserved[2] = fs->r_u32();
+			swi.reserved[3] = fs->r_u32();
+			swi.count = fs->r_u32();
+			VERIFY(NULL == swi.sw);
+			swi.sw = xr_alloc<FSlideWindow>(swi.count);
+			fs->r(swi.sw, sizeof(FSlideWindow) * swi.count);
+		}
+
+		XRayBearFileStream::Destroy(fs);
+	}
+}
 
 void XRayRenderInterface::level_Unload()
 {
+	uLastLTRACK = 0;
+	xr_delete(rmPortals);
+	pLastSector = 0;
+	for (bsize i = 0; i < m_Sectors.size(); i++)	bear_delete(m_Sectors[i]);
+	m_Sectors.clear();
+	// 3.
+	for (bsize i = 0; i < m_Portals.size(); i++)	bear_delete(m_Portals[i]);
+	m_Portals.clear();
+	for (bsize i = 0; i < m_Visuals.size(); i++)
+	{
+		m_Visuals[i]->Release();
+		xr_delete(m_Visuals[i]);
+	}
+	m_Visuals.clear();
+	m_IndexBuffers.clear();
+	m_VertexBuffer.clear();
+	m_Shader.clear();
+	m_VertexState.clear();
+	auto it = m_SWIs.begin();
+	auto it_e = m_SWIs.end();
+
+	for (; it != it_e; ++it)
+		xr_free((*it).sw);
 }

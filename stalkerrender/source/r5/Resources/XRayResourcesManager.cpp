@@ -1,6 +1,9 @@
 ﻿#include "pch.h"
 #include "BLenders/Blender_CLSID.h"
 #include "Blenders/Specially/XRayBlenderHudMovie.h"
+#include "Blenders/Specially/XRayBlenderViewportSet.h"
+#include "Blenders/Specially/XRayBlenderHudCrosshair.h"
+#include "XRayShaderIncluder.h"
 XRayResourcesManager::XRayResourcesManager()
 {
 	{
@@ -70,25 +73,33 @@ void XRayResourcesManager::LoadShaders(const bchar* name)
 
 	{
 		m_Blenders.insert("hud\\movie",bear_new< XRayBlenderHudMovie>());
-		m_Blenders.insert("hud\\crosshair", bear_new< XRayBlenderCompiler>());
+		m_Blenders.insert("hud\\crosshair", bear_new< XRayBlenderHudCrosshair>());
+		m_Blenders.insert("viewport\\set", bear_new<XRayBlenderViewportSet>());
 	}
 
 	for (auto b = m_Blenders.begin(), e = m_Blenders.end(); b != e; b++)
 	{
 		b->second->Initialize();
 	}
+
 }
 
 void XRayResourcesManager::CompileBlender(XRayBlender& Blender, const char* name, const char* textures)
 {
 	BEAR_ASSERT(m_Blenders.find(name) != m_Blenders.end());
 	m_Blenders[name]->Compile(Blender, textures);
+#ifdef DEBUG
+	Blender.DebugName = name;
+#endif
 }
 
 bsize XRayResourcesManager::GetStride(uint32 VertexState)
 {
 	switch (VertexState)
 	{
+	case FVF::F_0W:
+		return 36;
+		break;
 	case FVF::F_1W:
 		return 36;
 		break;
@@ -157,15 +168,16 @@ BearFactoryPointer<BearRHI::BearRHIShader> XRayResourcesManager::GetPixelShader(
 		BearFactoryPointer<BearRHI::BearRHIShader> shader = BearRenderInterface::CreatePixelShader();
 		BearString Text;
 		{
+
 			auto File = FS.Read(TEXT("%cur_shaders%"), name.c_str(), ".ps");
 			File->ToString(Text, BearEncoding::UTF8);
 		}
 		BearMap<BearString, BearString> Defines;
 		{
-
+			XRayShaderIncluder Includer;
 		
 			BearString out;
-			if (!shader->LoadAsText(*Text, Defines, out, 0))
+			if (!shader->LoadAsText(*Text, Defines, out, &Includer))
 			{
 				BearLog::Printf(TEXT("------------------------------------------------------------------------"));
 				BearLog::Printf(*out);
@@ -201,9 +213,10 @@ BearFactoryPointer<BearRHI::BearRHIShader> XRayResourcesManager::GetVertexShader
 		BearMap<BearString, BearString> Defines;
 		{
 
+			XRayShaderIncluder Includer;
 
 			BearString out;
-			if (!shader->LoadAsText(*Text, Defines, out, 0))
+			if (!shader->LoadAsText(*Text, Defines, out, &Includer))
 			{
 				BearLog::Printf(TEXT("------------------------------------------------------------------------"));
 				BearLog::Printf(*out);

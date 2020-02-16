@@ -8,6 +8,7 @@ public:
 	virtual void				Copy(XRayRenderVisual* from);
 	virtual void				Depart() {};
 	virtual void				Spawn() {};
+	virtual void				Release() {}
 	virtual void Render(float LOD) {};
 	virtual u32					getType();
 	virtual vis_data& 	getVisData();

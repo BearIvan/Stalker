@@ -118,9 +118,9 @@ void XRayBlenderCompiler::Compile(XRayBlender& shader, const bchar* textures )
 	for (bsize i = 0; i < 6; i++)
 	{
 		IDShader = i;
-		shader.E[i].RootSignature = RootSignature;
-		for (bsize a = 0; a < 16; a++)
-			shader.E[i].Pipeline[a] = m_pipeline[a];
+		shader.E[i].RootSignature = RootSignature[i];
+		for (bsize a = 0; a < SVD_Count; a++)
+			shader.E[i].Pipeline[a] = m_pipeline[i][a];
 		Compile(shader.E[i]);
 	}
 	
@@ -132,6 +132,7 @@ void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u
 {
 	switch (VertexState)
 	{
+	case FVF::F_0W:
 	case FVF::F_1W:
 	{
 		Description.InputLayout.Elements[0] = BearInputLayoutElement("position", VF_R32G32B32A32_FLOAT, 0);
@@ -184,9 +185,8 @@ void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u
 		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 12);
 		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 16);
 		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 20);
-		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R16G16_SINT, 24);
-		Description.InputLayout.Elements[5] = BearInputLayoutElement("uv2t", VF_R16G16_SINT, 28);
-		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R16G16B16A16_SINT, 24);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement();
 
 	}
 	return;
@@ -217,8 +217,8 @@ void XRayBlenderCompiler::SetInputLayout(BearPipelineDescription& Description, u
 		Description.InputLayout.Elements[1] = BearInputLayoutElement("normal", VF_R8G8B8A8, 12);
 		Description.InputLayout.Elements[2] = BearInputLayoutElement("tangent", VF_R8G8B8A8, 16);
 		Description.InputLayout.Elements[3] = BearInputLayoutElement("binormal", VF_R8G8B8A8, 20);
-		Description.InputLayout.Elements[5] = BearInputLayoutElement("uv1t", VF_R16G16B16A16_SINT, 24);
-		Description.InputLayout.Elements[6] = BearInputLayoutElement();
+		Description.InputLayout.Elements[4] = BearInputLayoutElement("uv1t", VF_R16G16B16A16_SINT, 24);
+		Description.InputLayout.Elements[5] = BearInputLayoutElement();
 
 	}
 	return;
@@ -289,7 +289,7 @@ void XRayBlenderCompiler::SetTexture(XRayShaderElement& shader, bsize id, shared
 	shader.Textures[id] = GResourcesManager->GetTexture(GetTexture(name));
 }
 
-void XRayBlenderCompiler::CreatePipeline(BearPipelineDescription& Description, const bchar* name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType)
+void XRayBlenderCompiler::CreatePipeline(bsize id, BearPipelineDescription& Description, const bchar* name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType)
 {
 	u32 fvf = 0;
 	const bchar* prefix = TEXT("");
@@ -355,6 +355,14 @@ void XRayBlenderCompiler::CreatePipeline(BearPipelineDescription& Description, c
 		prefix = TEXT("_MUModel");
 		fvf = FVF::F_MUModel;
 		break;
+	case SVD_M:
+		prefix = TEXT("_M");
+		fvf = FVF::F_M;
+		break;
+	case SVD_0W:
+		prefix = TEXT("_0W");
+		fvf = FVF::F_0W;
+		break;
 	default:
 		BEAR_RASSERT(0);
 		break;
@@ -365,9 +373,9 @@ void XRayBlenderCompiler::CreatePipeline(BearPipelineDescription& Description, c
 	SetInputLayout(Description, fvf);
 	Description.Shaders.Pixel = GResourcesManager->GetPixelShader(name_ps);
 	Description.Shaders.Vertex = GResourcesManager->GetVertexShader(NameVS);
-	Description.RootSignature = RootSignature;
-	BEAR_ASSERT(m_pipeline[FVFType].empty());
-	m_pipeline[FVFType] = BearRenderInterface::CreatePipeline(Description);
+	Description.RootSignature = RootSignature[id];
+	BEAR_ASSERT(m_pipeline[id][FVFType].empty());
+	m_pipeline[id][FVFType] = BearRenderInterface::CreatePipeline(Description);
 
 }
 

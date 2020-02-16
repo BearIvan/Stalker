@@ -61,7 +61,20 @@ void XRayKinematics::LL_Validate()
 void XRayKinematics::DebugRender(Fmatrix& XFORM)
 {
 }
+ void	XRayKinematics::Release()
+{
+	 for (u32 i = 0; i < bones->size(); i++)
+	 {
+		 CBoneData*& B = (*bones)[i];
+		 xr_delete(B);
+	 }
 
+	 // destroy shared data
+	 xr_delete(pUserData);
+	 xr_delete(bones);
+	 xr_delete(bone_map_N);
+	 xr_delete(bone_map_P);
+}
 void XRayKinematics::Load(const char* N, IReader* data, u32 dwFlags)
 {
 	XRayFHierrarhyVisual::Load(N, data, dwFlags);
@@ -194,10 +207,10 @@ void XRayKinematics::Load(const char* N, IReader* data, u32 dwFlags)
 	}
 
 	// after load process
-	/*{
+	{
 		for (u16 child_idx = 0; child_idx < (u16)children.size(); child_idx++)
 			LL_GetChild(child_idx)->AfterLoad(this, child_idx);
-	}*/
+	}
 
 	// unique bone faces
 	{
@@ -218,7 +231,6 @@ void XRayKinematics::Load(const char* N, IReader* data, u32 dwFlags)
 	Update_Callback = NULL;
 	// reset update frame
 	wm_frame = u32(-1);
-
 	LL_Validate();
 }
 
@@ -399,17 +411,6 @@ shared_str XRayKinematics::getDebugName()
 
 XRayKinematics::~XRayKinematics()
 {
-	for (u32 i = 0; i < bones->size(); i++)
-	{
-		CBoneData*& B = (*bones)[i];
-		xr_delete(B);
-	}
-
-	// destroy shared data
-	xr_delete(pUserData);
-	xr_delete(bones);
-	xr_delete(bone_map_N);
-	xr_delete(bone_map_P);
 
 	IBoneInstances_Destroy();
 	// wallmarks

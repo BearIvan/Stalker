@@ -2,24 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "xr_effgamma.h"
-//#include "device.h"
-#include "engine\device.h"
-#include "hw.h"
-#include "api/StalkerAPI.h"
-#include "stats_manager.h"
-#include "engine\IGame_Persistent.h"
-#include "engine/environment.h"
-#include "engine/render.h"
-#include "R_Backend.h"
-#include "fvf.h"
-#include "r__sector.h"
+#include "pch.h"
 #include "engine/xrLevel.h"
-#include "engine/xr_object.h"
-#include "fbasicvisual.h"
-#include "engine/IGame_Persistent.h"
-#include "dxRenderDeviceRender.h"
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -40,7 +24,7 @@ CPortal::~CPortal		()
 #ifdef DEBUG
 void CPortal::OnRender	()
 {
-	if (psDeviceFlags.is(rsOcclusionDraw)){
+/*	if (psDeviceFlags.is(rsOcclusionDraw)){
 		VERIFY				(poly.size());
 		// draw rect
 		DEFINE_VECTOR		(FVF::L,LVec,LVecIt);
@@ -69,7 +53,7 @@ void CPortal::OnRender	()
 		}else{
 			Device.SetNearer(FALSE);
 		}
-	}
+	}*/
 }
 #endif
 //
@@ -124,9 +108,9 @@ extern float r_ssaLOD_A, r_ssaLOD_B ;
 void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 {
 	// Register traversal process
-	if (r_marker	!=	PortalTraverser.i_marker)	{
-		r_marker							=	PortalTraverser.i_marker;
-		PortalTraverser.r_sectors.push_back	(this);
+	if (r_marker	!=	GPortalTraverser.i_marker)	{
+		r_marker							=	GPortalTraverser.i_marker;
+		GPortalTraverser.r_sectors.push_back	(this);
 		r_frustums.clear					();
 		r_scissors.clear					();
 	}
@@ -137,7 +121,7 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 	sPoly	S,D;
 	for	(u32 I=0; I<m_portals.size(); I++)
 	{
-		if (m_portals[I]->marker == PortalTraverser.i_marker) continue;
+		if (m_portals[I]->marker == GPortalTraverser.i_marker) continue;
 
 		CPortal* PORTAL = m_portals[I];
 		CSector* pSector;
@@ -146,19 +130,19 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 		if (PORTAL->bDualRender) {
 			pSector = PORTAL->getSector						(this);
 		} else {
-			pSector = PORTAL->getSectorBack					(PortalTraverser.i_vBase);
+			pSector = PORTAL->getSectorBack					(GPortalTraverser.i_vBase);
 			if (pSector==this)								continue;
-			if (pSector==PortalTraverser.i_start)			continue;
+			if (pSector==GPortalTraverser.i_start)			continue;
 		}
 
 		// Early-out sphere
 		if (!F.testSphere_dirty(PORTAL->S.P,PORTAL->S.R))	continue;
 
 		// SSA	(if required)
-		if (PortalTraverser.i_options&CPortalTraverser::VQ_SSA)
+		if (GPortalTraverser.i_options&CPortalTraverser::VQ_SSA)
 		{
 			Fvector				dir2portal;
-			dir2portal.sub		(PORTAL->S.P,	PortalTraverser.i_vBase);
+			dir2portal.sub		(PORTAL->S.P,	GPortalTraverser.i_vBase);
 			float R				=	PORTAL->S.R	;
 			float distSQ		=	dir2portal.square_magnitude();
 			float ssa			=	R*R/distSQ;
@@ -166,8 +150,8 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 			ssa					*=	XrMath::abs(PORTAL->P.n.dotproduct(dir2portal));
 			if (ssa<r_ssaDISCARD)	continue;
 
-			if (PortalTraverser.i_options&CPortalTraverser::VQ_FADE)	{
-				if (ssa<r_ssaLOD_A)	PortalTraverser.fade_portal			(PORTAL,ssa);
+			if (GPortalTraverser.i_options&CPortalTraverser::VQ_FADE)	{
+				if (ssa<r_ssaLOD_A)	GPortalTraverser.fade_portal			(PORTAL,ssa);
 				if (ssa<r_ssaLOD_B)	continue							;
 			}
 		}
@@ -180,14 +164,14 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 
 		// Scissor and optimized HOM-testing
 		_scissor			scissor	;
-		if (PortalTraverser.i_options&CPortalTraverser::VQ_SCISSOR && (!PORTAL->bDualRender))
+		if (GPortalTraverser.i_options&CPortalTraverser::VQ_SCISSOR && (!PORTAL->bDualRender))
 		{
 			// Build scissor rectangle in projection-space
 			Fbox2	bb;	bb.invalidate(); float depth = flt_max;
 			sPoly&	p	= *P;
 			for		(u32 vit=0; vit<p.size(); vit++)	{
 				Fvector4	t;	
-				Fmatrix&	M	= PortalTraverser.i_mXFORM_01;
+				Fmatrix&	M	= GPortalTraverser.i_mXFORM_01;
 				Fvector&	v	= p[vit];
 
 				t.x = v.x*M._11 + v.y*M._21 + v.z*M._31 + M._41;
@@ -208,8 +192,8 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 
 				// Cull by HOM (slower algo)
 				if  (
-					(PortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
-					(!RImplementation.HOM.visible(*P))
+					(GPortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
+					(/*!RImplementation.HOM.visible(*P)*/false)
 					)	continue;
 			} else {
 				// perform intersection (this is just to be sure, it is probably clipped in 3D already)
@@ -226,8 +210,8 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 
 				// Cull by HOM (faster algo)
 				if  (
-					(PortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
-					(!RImplementation.HOM.visible(scissor,depth))
+					(GPortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
+					(/*!RImplementation.HOM.visible(scissor,depth)*/false)
 					)	continue;
 			}
 		} else {
@@ -235,37 +219,36 @@ void CSector::traverse			(CFrustum &F, _scissor& R_scissor)
 
 			// Cull by HOM (slower algo)
 			if  (
-				(PortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
-				(!RImplementation.HOM.visible(*P))
+				(GPortalTraverser.i_options&CPortalTraverser::VQ_HOM) && 
+				(/**!RImplementation.HOM.visible(*P)*/false)
 				)	continue;
 		}
 
 		// Create _new_ frustum and recurse
 		CFrustum				Clip;
-		Clip.CreateFromPortal	(P, PORTAL->P.n, PortalTraverser.i_vBase,PortalTraverser.i_mXFORM);
-		PORTAL->marker			= PortalTraverser.i_marker;
+		Clip.CreateFromPortal	(P, PORTAL->P.n, GPortalTraverser.i_vBase,GPortalTraverser.i_mXFORM);
+		PORTAL->marker			= GPortalTraverser.i_marker;
 		PORTAL->bDualRender		= FALSE;
 		pSector->traverse		(Clip,scissor);
 	}
 }
 
-void CSector::load		(IReader& fs)
+void CSector::load(IReader& fs)
 {
 	// Assign portal polygons
-	bsize size			= fs.find_chunk(fsP_Portals); R_ASSERT(0==(size&1));
-	bsize count			= size/2;
-	m_portals.reserve	(count);
+	bsize size = fs.find_chunk(fsP_Portals); R_ASSERT(0 == (size & 1));
+	bsize count = size / 2;
+	m_portals.reserve(count);
 	while (count) {
-		u16 ID		= fs.r_u16();
-		CPortal* P	= (CPortal*)RImplementation.getPortal	(ID);
+		u16 ID = fs.r_u16();
+		CPortal* P = (CPortal*)GRenderInterface.GetPortal(ID);
 		m_portals.push_back(P);
 		count--;
 	}
 
-	if	(g_dedicated_server)	m_root	= 0;
-	else {
-		// Assign visual
-		size	= fs.find_chunk(fsP_Root);	R_ASSERT(size==4);
-		m_root	= (dxRender_Visual*)RImplementation.getVisual	(fs.r_u32());
-	}
+
+	// Assign visual
+	size = fs.find_chunk(fsP_Root);	R_ASSERT(size == 4);
+	m_root = (XRayRenderVisual*)GRenderInterface.getVisual(fs.r_u32());
+
 }

@@ -110,7 +110,7 @@ void XRayFVisual::Copy(XRayRenderVisual* from)
 void XRayFVisual::Render(float LOD)
 {
 	GRenderInterface.UpdateDescriptorHeap(Shader.E[0]);
-	if (!Shader.E[0].Set(HW->Context,FVF)) { return; }
+	if (!Shader.E[0].Set(HW->Context, FVF)) {return; }
 	HW->Context->SetVertexBuffer(VertexBuffer);
 	HW->Context->SetIndexBuffer(IndexBuffer);
 	HW->Context->DrawIndex(CountIndex, OffsetIndex, OffsetVertex);

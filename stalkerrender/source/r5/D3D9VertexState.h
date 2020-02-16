@@ -10,7 +10,7 @@ REGISTER(D3DFVF_XYZB4           ,0x00c, 0, "", VF_NONE)
 REGISTER(D3DFVF_XYZB5           ,0x00e, 0, "", VF_NONE)
 REGISTER(D3DFVF_XYZW            ,0x4002, sizeof(float)*4, "position_xyzw", VF_R32G32B32A32_FLOAT)
 
-REGISTER(D3DFVF_NORMAL          ,0x010, sizeof(float), "", VF_NONE)
+REGISTER(D3DFVF_NORMAL          ,0x010, sizeof(float)*3, "normal", VF_R32G32B32_FLOAT)
 REGISTER(D3DFVF_PSIZE           ,0x020, sizeof(float), "", VF_NONE)
 REGISTER(D3DFVF_DIFFUSE         ,0x040, sizeof(int32), "diffuse", VF_R8G8B8A8)
 REGISTER(D3DFVF_SPECULAR        ,0x080, sizeof(int32), "specular", VF_R8G8B8A8)

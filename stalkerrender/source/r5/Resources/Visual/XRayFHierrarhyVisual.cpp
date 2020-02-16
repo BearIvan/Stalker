@@ -1,5 +1,18 @@
 #include "pch.h"
 #include "engine/Fmesh.h"
+
+void	XRayFHierrarhyVisual::Release()
+{
+	if (!m_DontDelete) {
+		for (u32 i = 0; i < children.size(); i++)
+			children[i]->Release();
+	}
+}
+void XRayFHierrarhyVisual::Render(float LOD)
+{
+	for (u32 i = 0; i < children.size(); i++)
+		children[i]->Render(LOD);
+}
 void XRayFHierrarhyVisual::Load(const char* N, IReader* data, u32 dwFlags)
 {
 	XRayRenderVisual::Load(N, data, dwFlags);

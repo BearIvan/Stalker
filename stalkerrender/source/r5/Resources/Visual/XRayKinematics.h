@@ -128,6 +128,7 @@ public:
 	virtual u64  LL_GetBonesVisible() { return visimask.get(); }
 	virtual void LL_SetBonesVisible(u64 mask);
 
+	virtual void				Release();
 	// Main functionality
 	virtual void CalculateBones(BOOL bForceExact = FALSE); // Recalculate skeleton
 	virtual void CalculateBones_Invalidate();
@@ -157,6 +158,7 @@ public:
 public:
 	XRayRenderVisual *m_lod;
 
+	CBoneInstance* bone_instances; // bone instances
 protected:
 	//SkeletonWMVec				wallmarks;
 	u32 wm_frame;
@@ -165,7 +167,6 @@ protected:
 
 	// Globals
 	CInifile *pUserData;
-	CBoneInstance *bone_instances; // bone instances
 	vecBones *bones;			   // all bones	(shared)
 	u16 iRoot;					   // Root bone index
 

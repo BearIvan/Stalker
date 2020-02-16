@@ -57,8 +57,12 @@ enum D3DVertexState
 #include "Resources/Visual/XRayKinematics.h"
 #include "Resources/Visual/XRayKinematicsAnimated.h"
 #include "Resources/Visual/XRayFSkinned.h"
+#include "Resources/Visual/XRayTreeVisual.h"
 #include "Resources/XRayModelPool.h"
 
+
+
+#include "Engine/XRayRSector.h"
 
 #include "Engine/XRayRenderFactory.h"
 #include "General/XRayRenderTarget.h"
@@ -107,3 +111,4 @@ enum D3DVertexState
 #include "Blenders/XRayBlenderDetailStill.h"
 #include "Blenders/XRayBlenderTree.h"
 #include "Blenders/XRayBlenderParticle.h"
+

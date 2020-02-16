@@ -23,7 +23,7 @@ void XRayShaderElement::Copy(const XRayShaderElement& right)
 	Clear();
 	bear_copy(Textures, right.Textures, 16);
 	for (bsize i = 0; i < 16; i++)if (Textures[i])Textures[i]->Counter++;
-	for (bsize i = 0; i < 16; i++)
+	for (bsize i = 0; i < SVD_Count; i++)
 		Pipeline[i].copy(right.Pipeline[i]);
 	RootSignature.copy(right.RootSignature);
 	TypeTransformation = right.TypeTransformation;
@@ -33,7 +33,7 @@ void XRayShaderElement::Copy(const XRayShaderElement& right)
 void XRayShaderElement::Swap(XRayShaderElement& right)
 {
 	bear_swap(Textures, right.Textures, 16);
-	for (bsize i = 0; i < 16; i++)
+	for (bsize i = 0; i < SVD_Count; i++)
 		Pipeline[i].swap(right.Pipeline[i]);
 	for (bsize i = 0; i < 16; i++)bear_swap(SamplerStates[i] , right.SamplerStates[i]);
 	RootSignature.swap(right.RootSignature);

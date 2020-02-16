@@ -14,6 +14,7 @@ public:
 	XRayTexture* GetTexture(shared_str name);
 	void Free(XRayTexture* texture);
 
+
 	BearFactoryPointer<BearRHI::BearRHISampler> SamplerDefault;
 private:
 	XRayBlenderCompiler* CreateBlender(CLASS_ID ID);

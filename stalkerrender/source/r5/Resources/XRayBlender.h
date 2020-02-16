@@ -21,7 +21,8 @@ enum ShaderVertexDeclaration
 	SVD_R1Vert,
 	SVD_XVert,
 	SVD_MUModel,
-	SVD_Reserve,
+	SVD_M,
+	SVD_0W,
 	SVD_Count,
 };
 enum ShaderSamplerState
@@ -44,7 +45,7 @@ public:
 	XRayShaderElement& operator=(const XRayShaderElement& right) { Copy(right); return*this; }
 	XRayShaderElement& operator=( XRayShaderElement&& right) { Swap(right); return*this; }
 
-	BearFactoryPointer<BearRHI::BearRHIPipeline> Pipeline[16];
+	BearFactoryPointer<BearRHI::BearRHIPipeline> Pipeline[SVD_Count];
 	BearFactoryPointer<BearRHI::BearRHIRootSignature> RootSignature;
 	BearFactoryPointer<BearRHI::BearRHIDescriptorHeap> DescriptorHeap;
 	ShaderTypeTransformation TypeTransformation;
@@ -97,15 +98,22 @@ private:
 			return SVD_XVert;
 		case FVF::F_MUModel:
 			return SVD_MUModel;
+		case FVF::F_M:
+			return SVD_M;
+		case FVF::F_0W:
+			return SVD_0W;
 		default:
 			BEAR_ASSERT(0);
 			break;
 		};
-		return SVD_Reserve;
+		return SVD_Count;
 	}
 };
 struct XRayBlender
 {
+#ifdef DEBUG
+	shared_str DebugName;
+#endif
 	XRayShaderElement E[6];
 	inline void Clear()
 	{

@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #pragma hdrstop
-
+#define SOFTWARE 0
 #ifdef MSVC
 #pragma warning(push)
 #pragma warning(disable:4995)
@@ -188,7 +188,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 	#endif // RENDER == R_R1
 
 	u16			sw_bones_cnt		= 0;
-#ifdef _EDITOR
+#if SOFTWARE
 	hw_bones_cnt					= 0;
 #endif
 
@@ -218,7 +218,7 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 
 				sw_bones_cnt		= XrMath::max(sw_bones_cnt, mid);
 			}
-#ifdef _EDITOR
+#if SOFTWARE
 			// software
 			crc						= BearCheckSum::CRC32	(data->pointer(),size);
 			Vertices1W.create		(crc,dwVertCount,(vertBoned1W*)data->pointer());
@@ -265,20 +265,28 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 					bids.push_back(VB.matrix1);
 			}
 //.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
+#if !SOFTWARE
 			if(sw_bones_cnt<=hw_bones_cnt)
 			{
+
 				// HW- two weights
 				RenderMode						= RM_SKINNING_2B;
 				RMS_bonecount					= sw_bones_cnt+1;
 				Render->shader_option_skinning	(2);
+
 			}
-			else 
+			else
 			{
+#endif
+		
 				// software
 				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices2W.create				(crc,dwVertCount,(vertBoned2W*)data->pointer());
 				Render->shader_option_skinning	(-1);
+#if !SOFTWARE
 			}
+#endif
+
 		}break;
 	case OGF_VERTEXFORMAT_FVF_3L: // 3-Link
 	case 3:
@@ -298,17 +306,23 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 				}
 			}
 //.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
+#if !SOFTWARE
 			if((sw_bones_cnt<=hw_bones_cnt))
 			{
+
 				RenderMode						= RM_SKINNING_3B;
 				RMS_bonecount					= sw_bones_cnt+1;
 				Render->shader_option_skinning	(3);
+
 			}else
 			{
+#endif
 				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices3W.create				(crc,dwVertCount,(vertBoned3W*)data->pointer());
 				Render->shader_option_skinning	(-1);
+#if !SOFTWARE
 			}
+#endif
 		}break;
 	case OGF_VERTEXFORMAT_FVF_4L: // 4-Link
 	case 4:
@@ -329,23 +343,29 @@ void CSkeletonX::_Load	(const char* N, IReader *data, bsize& dwVertCount)
 				}
 			}
 //.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
+#if !SOFTWARE
 			if(sw_bones_cnt<=hw_bones_cnt)
 			{
 				RenderMode						= RM_SKINNING_4B;
 				RMS_bonecount					= sw_bones_cnt+1;
 				Render->shader_option_skinning	(4);
+
 			}else
 			{
+#endif
 				crc								= BearCheckSum::CRC32	(data->pointer(),size);
 				Vertices4W.create				(crc,dwVertCount,(vertBoned4W*)data->pointer());
 				Render->shader_option_skinning	(-1);
+#if !SOFTWARE
 			}
+#endif
+
 		}break;
 	default:
 		Debug.fatal	(DEBUG_INFO,"Invalid vertex type in skinned model '%s'",N);
 		break;
 	}
-#ifdef _EDITOR
+#if SOFTWARE
 	if (bids.size()>0)	
 #else
 	if (bids.size()>1)	

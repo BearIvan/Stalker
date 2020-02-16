@@ -33,6 +33,8 @@ void XRayRenderDeviceRender::updateGamma()
 
 void XRayRenderDeviceRender::OnDeviceDestroy(BOOL bKeepTextures)
 {
+	m_ViewportSet_Shader.Clear();
+	m_ViewportSet_VertexBuffer.clear();
 	GRenderInterface.destroy();
 	bear_delete(GResourcesManager);
 }
@@ -49,9 +51,25 @@ void XRayRenderDeviceRender::DestroyHW()
 	
 }
 
-void XRayRenderDeviceRender::Reset(BearWindow&viewport)
+void XRayRenderDeviceRender::Reset(BearWindow& viewport)
 {
 	HW->Update(viewport);
+
+	HW->Context->AttachFrameBuffer(GRenderTarget->FrameBuffer_Base);
+	HW->Context->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
+	HW->ContextViewport->AttachViewportAsFrameBuffer(HW->Viewport);
+	HW->ContextViewport->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
+	{
+
+		FVF::TL* p = (FVF::TL*) m_ViewportSet_VertexBuffer->Lock();
+		p->set(0, 0, 0xFFFFFFFF, 0, 0); p++;
+		p->set(int(RDEVICE.dwWidth), 0, 0xFFFFFFFF, 1, 0); p++;
+		p->set(0, int(RDEVICE.dwHeight), 0xFFFFFFFF, 0, 1); p++;
+		p->set(int(RDEVICE.dwWidth), 0, 0xFFFFFFFF, 1, 0); p++;
+		p->set(int(RDEVICE.dwWidth), int(RDEVICE.dwHeight), 0xFFFFFFFF, 1, 1); p++;
+		p->set(0, int(RDEVICE.dwHeight), 0xFFFFFFFF, 0, 1); p++;
+		m_ViewportSet_VertexBuffer->Unlock();
+	}
 	/*BearGraphics::BearRenderInterface::SetViewport(0, 0, viewport.GetSizeFloat().x, viewport.GetSizeFloat().y);
 	GXRayRenderResource->Resize(viewport.GetSizeFloat().x, viewport.GetSizeFloat().y);*/
 
@@ -63,9 +81,31 @@ void XRayRenderDeviceRender::SetupStates()
 
 void XRayRenderDeviceRender::OnDeviceCreate(LPCSTR shName)
 {
+
 	GResourcesManager = xr_new<XRayResourcesManager>();
-	GResourcesManager->LoadShaders(shName);
 	GRenderInterface.create();
+	GResourcesManager->LoadShaders(shName);
+	m_ViewportSet_VertexBuffer = BearRenderInterface::CreateVertexBuffer();
+	m_ViewportSet_VertexBuffer->Create(sizeof(FVF::TL), 6, true);
+	{
+	
+		FVF::TL*p = (FVF::TL *) m_ViewportSet_VertexBuffer->Lock();
+		p->set(0, 0, 0xFFFFFFFF, 0, 0); p++;
+
+		p->set(int(RDEVICE.dwWidth), 0, 0xFFFFFFFF, 1, 0); p++;
+		p->set(0, int(RDEVICE.dwHeight), 0xFFFFFFFF, 0, 1); p++;
+
+		p->set(int(RDEVICE.dwWidth), 0, 0xFFFFFFFF, 1, 0); p++;
+		p->set(int(RDEVICE.dwWidth), int(RDEVICE.dwHeight), 0xFFFFFFFF, 1, 1); p++;
+		p->set(0, int(RDEVICE.dwHeight), 0xFFFFFFFF, 0, 1); p++;
+		m_ViewportSet_VertexBuffer->Unlock();
+
+	}
+	HW->Context->AttachFrameBuffer(GRenderTarget->FrameBuffer_Base);
+	HW->Context->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
+	HW->ContextViewport->AttachViewportAsFrameBuffer(HW->Viewport);
+	HW->ContextViewport->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
+	GResourcesManager->CompileBlender(m_ViewportSet_Shader, "viewport\\set", RT_BASIC);
 	/*GXRayRenderResource->LoadShaders(shName);*/
 }
 
@@ -75,6 +115,8 @@ void XRayRenderDeviceRender::Create(BearWindow&viewport, bool)
 	
 	HW = bear_new<XRayHardware>();
 	HW->Update(viewport);
+
+	
 	/*m_viewport = &viewport;
 	BearGraphics::BearRenderInterface::AttachRenderTargetView(viewport);
 	BearGraphics::BearRenderInterface::SetViewport(0, 0, viewport.GetSizeFloat().x, viewport.GetSizeFloat().y);
@@ -139,8 +181,6 @@ bsize XRayRenderDeviceRender::GetCacheStatPolys()
 
 void XRayRenderDeviceRender::Begin()
 {
-	HW->Context->AttachFrameBuffer(HW->FrameBuffer);
-	HW->Context->SetViewport(0, 0, static_cast<float>(RDEVICE.dwWidth), static_cast<float>(RDEVICE.dwHeight));
 	HW->Context->ClearFrameBuffer();
 }
 
@@ -152,22 +192,19 @@ void XRayRenderDeviceRender::Clear()
 void XRayRenderDeviceRender::End()
 {
 	HW->Context->Flush(true);
-	HW->Viewport->Copy(HW->TBasicColor);
+	HW->ContextViewport->ClearFrameBuffer();
+	HW->ContextViewport->SetVertexBuffer(m_ViewportSet_VertexBuffer);
+	GRenderInterface.UpdateDescriptorHeap(m_ViewportSet_Shader.E[0]);
+	if (!m_ViewportSet_Shader.E[0].Set(HW->ContextViewport, FVF::F_TL)) { return; }
+
+
+	HW->ContextViewport->Draw(6);
+	HW->ContextViewport->Flush(true);
 	GUIRender.Flush();
 	for (auto b = HW->FontRenders.begin(), e = HW->FontRenders.end(); b != e; b++)
 	{
 		(*b)->Flush();
 	}
-
-	//test.Push();
-
-	//plane->Draw();
-	/*uiRender.StartPrimitive(6, uiRender.ptTriList, uiRender.pttTL);
-	uiRender.PushPoint(100.0f, -100.0f, 0, 0xFFFFFFFF, 0, 0);
-	uiRender.PushPoint(100.0f, 100.0f, 0, 0xFFFFFFFF, 0, 1);
-	uiRender.PushPoint(-100.0f, 100.0f, 0, 0xFFFFFFFF, 1, 0);
-	uiRender.FlushPrimitive();*/
-	//m_viewport->Swap();
 }
 
 void XRayRenderDeviceRender::ClearTarget()

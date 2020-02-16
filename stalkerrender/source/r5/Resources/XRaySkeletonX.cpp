@@ -62,7 +62,7 @@ void XRaySkeletonX::_Load(const char* N, IReader* data, bsize& dwVertCount)
 
 			sw_bones_cnt = XrMath::max(sw_bones_cnt, mid);
 		}
-#ifdef _EDITOR
+#if 0
 		// software
 		crc = BearCheckSum::CRC32(data->pointer(), size);
 		Vertices1W.create(crc, dwVertCount, (vertBoned1W*)data->pointer());
@@ -110,7 +110,7 @@ void XRaySkeletonX::_Load(const char* N, IReader* data, bsize& dwVertCount)
 			if (bids.end() == std::find(bids.begin(), bids.end(), VB.matrix1))
 				bids.push_back(VB.matrix1);
 		}
-		//.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
+		R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
 		if (sw_bones_cnt <= hw_bones_cnt)
 		{
 			// HW- two weights
@@ -144,18 +144,18 @@ void XRaySkeletonX::_Load(const char* N, IReader* data, bsize& dwVertCount)
 			}
 		}
 		//.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
-		if ((sw_bones_cnt <= hw_bones_cnt))
+		/*if ((sw_bones_cnt <= hw_bones_cnt))
 		{
 			RenderMode = RM_SKINNING_3B;
 			RMS_bonecount = sw_bones_cnt + 1;
 			Render->shader_option_skinning(3);
 		}
 		else
-		{
+		{*/
 			crc = BearCheckSum::CRC32(data->pointer(), size);
 			Vertices3W.create(crc, dwVertCount, (vertBoned3W*)data->pointer());
 			Render->shader_option_skinning(-1);
-		}
+		/*}*/
 	}break;
 	case OGF_VERTEXFORMAT_FVF_4L: // 4-Link
 	case 4:
@@ -176,18 +176,18 @@ void XRaySkeletonX::_Load(const char* N, IReader* data, bsize& dwVertCount)
 			}
 		}
 		//.			R_ASSERT(sw_bones_cnt<=hw_bones_cnt);
-		if (sw_bones_cnt <= hw_bones_cnt)
+		/*if (sw_bones_cnt <= hw_bones_cnt)
 		{
 			RenderMode = RM_SKINNING_4B;
 			RMS_bonecount = sw_bones_cnt + 1;
 			Render->shader_option_skinning(4);
 		}
 		else
-		{
+		{*/
 			crc = BearCheckSum::CRC32(data->pointer(), size);
 			Vertices4W.create(crc, dwVertCount, (vertBoned4W*)data->pointer());
 			Render->shader_option_skinning(-1);
-		}
+		/*}*/
 	}break;
 	default:
 		Debug.fatal(DEBUG_INFO, "Invalid vertex type in skinned model '%s'", N);
@@ -201,6 +201,115 @@ void XRaySkeletonX::_Load(const char* N, IReader* data, bsize& dwVertCount)
 	{
 		crc = BearCheckSum::CRC32(&*bids.begin(), bids.size() * sizeof(u16));
 		BonesUsed.create(crc, bids.size(), &*bids.begin());
+	}
+}
+
+void XRaySkeletonX::_Render_soft(u32 FVF, BearFactoryPointer<BearRHI::BearRHIVertexBuffer>& VertexBuffer, BearFactoryPointer<BearRHI::BearRHIIndexBuffer>& IndexBuffer, bsize CountVertex, bsize OffsetIndex, bsize CountIndex)
+{
+	if (VertexBuffer.empty())VertexBuffer = BearRenderInterface::CreateVertexBuffer();
+	if (VertexBuffer->GetCount() < CountVertex )VertexBuffer->Create(GResourcesManager->GetStride(FVF::F_M), CountVertex, true);
+	vertRender* Dest = (vertRender*)VertexBuffer->Lock();
+	cache_vCount = CountVertex;
+	cache_vOffset = 0;
+
+	if (*Vertices1W)
+	{
+		PSGP.skin1W(
+			Dest,				   // dest
+			*Vertices1W,		   // source
+			CountVertex,				   // count
+			Parent->bone_instances // bones
+		);
+	}
+	else if (*Vertices2W)
+	{
+		PSGP.skin2W(
+			Dest,				   // dest
+			*Vertices2W,		   // source
+			CountVertex,				   // count
+			Parent->bone_instances // bones
+		);
+	}
+	else if (*Vertices3W)
+	{
+		PSGP.skin3W(
+			Dest,				   // dest
+			*Vertices3W,		   // source
+			CountVertex,				   // count
+			Parent->bone_instances // bones
+		);
+	}
+	else if (*Vertices4W)
+	{
+		PSGP.skin4W(
+			Dest,				   // dest
+			*Vertices4W,		   // source
+			CountVertex,				   // count
+			Parent->bone_instances // bones
+		);
+	}
+	else
+		R_ASSERT2(0, "unsupported soft rendering");
+
+	VertexBuffer->Unlock();
+	HW->Context->SetVertexBuffer(VertexBuffer);
+	HW->Context->SetIndexBuffer(IndexBuffer);
+	HW->Context->DrawIndex(CountIndex ,OffsetIndex);
+
+}
+void XRaySkeletonX::_Render(u32 FVF, BearFactoryPointer<BearRHI::BearRHIVertexBuffer>& VertexBuffer, BearFactoryPointer<BearRHI::BearRHIIndexBuffer>& IndexBuffer, bsize CountVertex, bsize OffsetIndex, bsize CountIndex, BearFactoryPointer<BearRHI::BearRHIUniformBuffer>& UniformBuffer)
+{
+	switch (RenderMode)
+	{
+	case RM_SKINNING_SOFT:
+		_Render_soft(FVF, VertexBuffer, IndexBuffer, CountVertex, OffsetIndex, CountIndex);
+		break;
+	case RM_SINGLE:
+	{
+	
+		
+
+		HW->Context->SetVertexBuffer(VertexBuffer);
+		HW->Context->SetIndexBuffer(IndexBuffer);
+		HW->Context->DrawIndex(CountIndex, OffsetIndex);
+	}
+	break;
+	case RM_SKINNING_1B:
+	case RM_SKINNING_2B:
+	case RM_SKINNING_3B:
+	case RM_SKINNING_4B:
+	{
+		// transfer matrices
+		Fvector4*			array = (Fvector4*)UniformBuffer->Lock();
+		u32						count = RMS_bonecount;
+		for (u32 mid = 0; mid < count; mid++)
+		{
+			Fmatrix& M = Parent->LL_GetTransform_R(u16(mid));
+			u32			id = mid * 3;
+			array[id + 0].set(M._11, M._21, M._31, M._41);
+			array[id + 1].set(M._12, M._22, M._32, M._42);
+			array[id + 2].set(M._13, M._23, M._33, M._43);
+		}
+		UniformBuffer->Unlock();
+		HW->Context->SetVertexBuffer(VertexBuffer);
+		HW->Context->SetIndexBuffer(IndexBuffer);
+		HW->Context->DrawIndex(CountIndex, OffsetIndex);
+		// render
+		/*RCache.set_Geometry(hGeom);
+		RCache.Render(D3DPT_TRIANGLELIST, 0, 0, vCount, iOffset, pCount);
+		if (RM_SKINNING_1B == RenderMode)
+			RCache.stat.r.s_dynamic_1B.add(vCount);
+		else
+			if (RM_SKINNING_2B == RenderMode)
+				RCache.stat.r.s_dynamic_2B.add(vCount);
+			else
+				if (RM_SKINNING_3B == RenderMode)
+					RCache.stat.r.s_dynamic_3B.add(vCount);
+				else
+					if (RM_SKINNING_4B == RenderMode)
+						RCache.stat.r.s_dynamic_4B.add(vCount);*/
+	}
+	break;
 	}
 }
 

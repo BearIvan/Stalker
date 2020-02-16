@@ -145,6 +145,7 @@ void  TContactShotMark(CDB::TRI* T,dContactGeom* c)
 				{
 					SGameMtl* static_mtl = GMLib.GetMaterialByIdx(T->material);
 					VERIFY(static_mtl);
+					if (mtl_pair->CollideParticles.size()==0)return;
 					LPCSTR ps_name = *mtl_pair->CollideParticles[::Random.randI(0, mtl_pair->CollideParticles.size())];
 					Level().ph_commander().add_call(xr_new<CPHOnesCondition>(),xr_new<CPHParticlesPlayCall>(*c,b_invert_normal,ps_name));
 				}

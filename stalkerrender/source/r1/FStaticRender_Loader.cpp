@@ -350,7 +350,8 @@ void CRender::LoadSectors(IReader* fs)
 void CRender::LoadSWIs(XRayBearFileStream* base_fs)
 {
 	// allocate memory for portals
-	if (base_fs->find_chunk(fsL_SWIS)){
+	if (base_fs->find_chunk(fsL_SWIS))
+	{
 		XRayBearFileStream		*fs = base_fs->open_chunk(fsL_SWIS);
 		u32 item_count		= fs->r_u32();	
 

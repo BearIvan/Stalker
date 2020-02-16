@@ -15,14 +15,11 @@ public:
 	virtual void destroy();
 	virtual void reset_begin();
 	virtual void reset_end();
-
-	BENCH_SEC_SCRAMBLEVTBL1
-		BENCH_SEC_SCRAMBLEVTBL3
+	 
 
 		
 	virtual void level_Load(IReader*);
-	void								LoadBuffers(XRayBearFileStream* fs);
-	void								LoadVisuals(IReader* fs);
+
 	virtual void level_Unload();
 
 	//virtual IDirect3DBaseTexture9* texture_load (LPCSTR fname, u32& msize) ;
@@ -98,6 +95,7 @@ public:
 
 	virtual void Calculate();
 	virtual void Render();
+	virtual void RenderHUD();
 
 	virtual void Screenshot(ScreenshotMode mode = SM_NORMAL, LPCSTR name = 0);
 	virtual void Screenshot(ScreenshotMode mode, CMemoryWriter& memory_writer);
@@ -108,7 +106,9 @@ public:
 	virtual void rmFar();
 	virtual void rmNormal();
 	virtual u32 memory_usage();
-
+private:
+	int TranslateSector(IRender_Sector* pSector);
+	xrXRC														Sectors_xrc;
 protected:
 	virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
 private:
@@ -123,20 +123,29 @@ public:
 	IC BearFactoryPointer < BearRHI::BearRHIVertexBuffer>& GetVertexBuffer(bsize id) { return m_VertexBuffer[id]; }
 	IC u32 GetVertexState(bsize id) { return m_VertexState[id]; }
 	IC XRayRenderVisual* GetVisual(bsize id) { return m_Visuals[id]; }
+	IC IRender_Portal* GetPortal(bsize id) { return m_Portals[id]; }
+	IC FSlideWindowItem* GetSWI(bsize id) { return &m_SWIs[id]; }
+	CSector* pLastSector;
+	CDB::MODEL* rmPortals;
 private:
 	BearVector< BearFactoryPointer<BearRHI::BearRHIIndexBuffer>> m_IndexBuffers;
 	BearVector< BearFactoryPointer<BearRHI::BearRHIVertexBuffer>> m_VertexBuffer;
 	BearVector< XRayRenderVisual*> m_Visuals;
 	BearVector< u32> m_VertexState;
 	BearVector< XRayBlender> m_Shader;
-private:
-	XRayRenderTarget* m_RenderTarget;
+	BearVector<IRender_Portal*>								m_Portals;
+	BearVector<IRender_Sector*>									m_Sectors;
+	xr_vector<ISpatial* /**,render_alloc<ISpatial*>/**/>				lstRenderables;
+	u32															uLastLTRACK;
 public:
 	void SetView(const Fmatrix& mat);
 	void SetProject(const Fmatrix& mat);
 	void SetWorld(const Fmatrix& mat);
+	IC Fmatrix& GetWorld() { return m_MWorld; }
 private:
-	Fmatrix m_MView, m_MProject, m_MWorld, m_MVPW, m_MWV;
+	bool m_bInvisible;
+	bool m_bHUD;
+	Fmatrix m_MView, m_MProject, m_MWorld, m_MVPW, m_MWV,m_LTransform;
 #pragma pack(push,4)
 	struct ContatMatrix
 	{
@@ -146,6 +155,20 @@ private:
 		Fmatrix VPW;
 	};
 #pragma pack(pop)
-
+	Fvector														vLastCameraPos;
+	BearVector< XRayRenderVisual*> m_GeomVisuals;
+	struct DynamicVisual
+	{
+		XRayRenderVisual* V;
+		Fmatrix World;
+	};
+	BearVector<DynamicVisual > m_DynamicVisuals;
+	BearVector<DynamicVisual > m_HUDVisuals;
+	BearVector<FSlideWindowItem>									m_SWIs;
+private:
+	void								LoadBuffers(XRayBearFileStream* fs);
+	void								LoadVisuals(IReader* fs);
+	void								LoadSectors(IReader* fs);
+	void								LoadSWIs(XRayBearFileStream* base_fs);
 };
  extern XRayRenderInterface GRenderInterface;

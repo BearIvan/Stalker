@@ -36,12 +36,15 @@ void XRayBlenderVertex::Initialize()
 	RootSignatureDescription.Samplers[0].Shader = ST_Pixel;
 	RootSignatureDescription.SRVResources[0].Shader = ST_Pixel;
 	RootSignatureDescription.UniformBuffers[0].Shader = ST_Vertex;
-	RootSignature = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
+	RootSignature[0] = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
 
 	BearPipelineDescription PipelineDescription;
 	PipelineDescription.DepthStencilState.DepthEnable = true;
-	PipelineDescription.RenderPass = HW->RenderPass;
-	CreatePipeline(PipelineDescription, "default", "default_tl", SVD_R1Vert);
+	PipelineDescription.RenderPass = GRenderTarget->RenderPass_Base;
+
+	CreatePipeline(0,PipelineDescription, "default", "default_tl", SVD_R1Vert);
+
+	CreatePipeline(0, PipelineDescription, "default", "default_tl", SVD_R1LMap);
 }
 
 void XRayBlenderVertex::Compile(XRayShaderElement& shader)

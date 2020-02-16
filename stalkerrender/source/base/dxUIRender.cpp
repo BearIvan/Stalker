@@ -211,10 +211,13 @@ void dxUIRender::StartPrimitive(bsize iMaxVerts, ePrimitiveType primType, ePoint
 	case pttLIT:
 		LIT_start_pv	= (FVF::LIT*)RCache.Vertex.Lock	(m_iMaxVerts,hGeom_LIT.stride(),vOffset);
 		LIT_pv			= LIT_start_pv;
+
 		break;
 	case pttTL:
 		TL_start_pv		= (FVF::TL*)RCache.Vertex.Lock	(m_iMaxVerts,hGeom_TL.stride(),vOffset);
 		TL_pv			= TL_start_pv;
+		
+
 		break;
 	}
 }

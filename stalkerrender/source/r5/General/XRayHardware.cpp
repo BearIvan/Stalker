@@ -1,18 +1,21 @@
 #include "pch.h"
 XRayHardware* HW = nullptr;
 extern const bchar* GGraphicsAPI[];
-bsize GCurrentApi =3 ;
+bsize GCurrentApi = 0;
 
 XRayHardware::XRayHardware()
 {
 	BEAR_ASSERT(BearRenderInterface::Initialize(GGraphicsAPI[GCurrentApi]));
 	Context = BearRenderInterface::CreateContext();
+	ContextViewport = BearRenderInterface::CreateContext();
 
 
 }
 
 XRayHardware::~XRayHardware()
 {
+	ContextViewport.clear();
+	Viewport_RenderPass.clear();
 	Viewport.clear();
 	Context.clear();
 	BearRenderInterface::Destroy();
@@ -26,27 +29,14 @@ void XRayHardware::Update(BearWindow& viewport)
 		Description.Clear = true;
 		Description.ClearColor = BearColor::Black;
 		Viewport = BearRenderInterface::CreateViewport(viewport, Description);
-
-		BearRenderPassDescription  RenderPassDescription;
-		RenderPassDescription.DepthStencil.Clear = true;
-		RenderPassDescription.DepthStencil.Depth = 1.f;
-		RenderPassDescription.DepthStencil.Format = DSF_DEPTH32F;
-		RenderPassDescription.RenderTargets[0].Clear = true;
-		RenderPassDescription.RenderTargets[0].Color = BearColor::Black;
+		BearRenderPassDescription RenderPassDescription;
 		RenderPassDescription.RenderTargets[0].Format = Viewport->GetFormat();
-		RenderPass = BearRenderInterface::CreateRenderPass(RenderPassDescription);
+		Viewport_RenderPass = BearRenderInterface::CreateRenderPass(RenderPassDescription);
 	}
 	else
 	{
 		Viewport->Resize(viewport.GetSize().x, viewport.GetSize().y);
 		Viewport->SetFullScreen(viewport.IsFullScreen());
 	}
-	TBasicColor = BearRenderInterface::CreateTexture2D(viewport.GetSize().x, viewport.GetSize().y, Viewport->GetFormat());
-	TDepthStencil = BearRenderInterface::CreateTexture2D(viewport.GetSize().x, viewport.GetSize().y,DSF_DEPTH32F);
-	BearFrameBufferDescription FrameBufferDescription;
-	FrameBufferDescription.RenderPass = RenderPass;
-	FrameBufferDescription.RenderTargets[0] = TBasicColor;
-	FrameBufferDescription.DepthStencil = TDepthStencil;
-	FrameBuffer = BearRenderInterface::CreateFrameBuffer(FrameBufferDescription);
 
 }

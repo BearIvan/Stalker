@@ -49,6 +49,9 @@ public:
 	virtual void	SetCacheXform(Fmatrix &mView, Fmatrix &mProject) ;
 	virtual void	OnAssetsChanged() ;
 private:
-	
+
+
+	XRayBlender m_ViewportSet_Shader;
+	BearFactoryPointer<BearRHI::BearRHIVertexBuffer> m_ViewportSet_VertexBuffer;
 
 };

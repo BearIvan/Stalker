@@ -10,7 +10,7 @@
 #include "engine/stdafx.h"
 #ifdef MSVC
 #pragma warning(disable:4995)
-#include "directx/d3dx9.h"
+#include "directx/d3dx9.h" 
 #include "directx/d3d9.h"
 #pragma warning(default:4995)
 #else

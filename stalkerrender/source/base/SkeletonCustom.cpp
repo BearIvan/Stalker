@@ -153,7 +153,7 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
 {
 	//Msg				("skeleton: %s",N);
 	inherited::Load	(N, data, dwFlags);
-
+	if (strstr(N, "physics\\box\\konteyner_01"))DebugBreak();
     pUserData		= NULL;
     m_lod			= NULL;
     // loading lods
@@ -306,6 +306,7 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
 	// reset update frame
 	wm_frame		= u32(-1);
 
+	if (strstr(N, "physics\\box\\konteyner_01"))DebugBreak();
     LL_Validate		();
 }
 

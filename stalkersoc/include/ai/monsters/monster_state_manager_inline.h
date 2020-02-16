@@ -15,13 +15,13 @@ void CMonsterStateManagerAbstract::reinit()
 TEMPLATE_SPECIALIZATION
 void CMonsterStateManagerAbstract::update()
 {
-	inherited::execute();
+	this->execute();
 }
 TEMPLATE_SPECIALIZATION
 void CMonsterStateManagerAbstract::force_script_state(EMonsterState state)
 {
 	// установить текущее состояние
-	inherited::select_state(state);
+	this->select_state(state);
 }
 TEMPLATE_SPECIALIZATION
 void CMonsterStateManagerAbstract::execute_script_state()

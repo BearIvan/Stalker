@@ -369,12 +369,33 @@ void XRaySkeletonX_ST::Copy(XRayRenderVisual* P)
 
 void XRaySkeletonX_PM::Render(float LOD)
 {
-	/*int lod_id = inherited1::last_lod;
 
+	if (RenderMode == RM_SINGLE|| RenderMode == RM_SKINNING_SOFT)
+	{
+		Fmatrix	W;	W.mul_43(GRenderInterface.GetWorld(), Parent->LL_GetTransform_R(u16(RMS_boneid)));
+		GRenderInterface.SetWorld(W);
+		GRenderInterface.UpdateDescriptorHeap(Shader.E[1]);
+		if (!Shader.E[1].Set(HW->Context, FVF)) { return; }
+	}
+	else
+	{
+		if (m_UniformBuffer.empty())
+		{
+			m_UniformBuffer = BearRenderInterface::CreateUniformBuffer();
+			m_UniformBuffer->Create(sizeof(float) * 4 * 256, true);
+
+		}
+		GRenderInterface.UpdateDescriptorHeap(Shader.E[0]);
+		if (!Shader.E[0].DescriptorHeap.empty())Shader.E[0].DescriptorHeap->SetUniformBuffer(1, m_UniformBuffer);
+		if (!Shader.E[0].Set(HW->Context, FVF)) { return; }
+	}
+
+
+	int lod_id = inherited1::last_lod;
 	if (LOD >= 0.f)
 	{
-		clamp(LOD, 0.f, 1.f);
-		lod_id = iFloor((1.f - LOD) * float(nSWI.count - 1) + 0.5f);
+		XrMath::clamp(LOD, 0.f, 1.f);
+		lod_id = static_cast<int>((1.f - LOD) * float(nSWI.count - 1) + 0.5f);
 
 		inherited1::last_lod = lod_id;
 	}
@@ -382,12 +403,33 @@ void XRaySkeletonX_PM::Render(float LOD)
 	VERIFY(lod_id >= 0 && lod_id < int(nSWI.count));
 
 	FSlideWindow& SW = nSWI.sw[lod_id];
-	_Render(m_fvf, p_rm_Vertices, p_rm_Indices, SW.num_verts, SW.offset, SW.num_tris);*/
+	_Render(FVF, VertexBuffer, IndexBuffer, SW.num_verts, SW.offset, SW.num_tris*3, m_UniformBuffer);
 }
 
 void XRaySkeletonX_ST::Render(float LOD)
 {
-	/*_Render(m_fvf, p_rm_Vertices, p_rm_Indices, CountVertex, 0, dwPrimitives);*/
+	if (RenderMode == RM_SINGLE || RenderMode == RM_SKINNING_SOFT)
+	{
+		Fmatrix	W;	W.mul_43(GRenderInterface.GetWorld(), Parent->LL_GetTransform_R(u16(RMS_boneid)));
+		GRenderInterface.SetWorld(W);
+		GRenderInterface.UpdateDescriptorHeap(Shader.E[1]);
+		if (!Shader.E[1].Set(HW->Context, FVF)) { return; }
+	}
+	else
+	{
+		if (m_UniformBuffer.empty())
+		{
+			m_UniformBuffer = BearRenderInterface::CreateUniformBuffer();
+			m_UniformBuffer->Create(sizeof(float) * 4 * 256, true);
+
+		}
+		GRenderInterface.UpdateDescriptorHeap(Shader.E[0]);
+		if (!Shader.E[0].DescriptorHeap.empty())Shader.E[0].DescriptorHeap->SetUniformBuffer(1, m_UniformBuffer);
+		if (!Shader.E[0].Set(HW->Context, FVF)) { return; }
+	}
+
+
+	_Render(FVF, VertexBuffer, IndexBuffer, CountVertex, OffsetIndex, CountIndex, m_UniformBuffer);
 }
 
 
@@ -402,8 +444,8 @@ void XRaySkeletonX_PM::Load(const char* N, IReader* data, u32 dwFlags)
 	::Render->shader_option_skinning(-1);
 
 	_DuplicateIndices(N, data);
-
 	_Load_hw(*this, _verts_);
+	//BEAR_ASSERT(VertexBuffer.empty());
 }
 
 void XRaySkeletonX_ST::Load(const char* N, IReader* data, u32 dwFlags)
@@ -422,15 +464,16 @@ void XRaySkeletonX_ST::Load(const char* N, IReader* data, u32 dwFlags)
 
 void XRaySkeletonXExt::_Load_hw(XRayFVisual& V, void* _verts_)
 {
+	V.FVF = 0;
 	switch (RenderMode)
 	{
 	case RM_SKINNING_SOFT:
-		V.OffsetIndex = FVF;
+		V.FVF = FVF::F_M;
 		//Msg					("skinning: software");
 		//V.rm_geom.create(vertRenderFVF, RCache.Vertex.Buffer(), V.p_rm_Indices);
 		break;
 	case RM_SINGLE:
-
+		V.FVF = FVF::F_0W;
 	case RM_SKINNING_1B:
 	{
 		{ //	Back up vertex data since we can't read vertex buffer in DX10
@@ -438,6 +481,7 @@ void XRaySkeletonXExt::_Load_hw(XRayFVisual& V, void* _verts_)
 			u32 crc = BearCheckSum::CRC32(_verts_, size);
 			Vertices1W.create(crc, V.CountVertex, (vertBoned1W*)_verts_);
 		}
+		if(!V.FVF)
 		V.FVF = FVF::F_1W;
 		u32 vStride = sizeof(vertHW_1W);
 
@@ -616,7 +660,6 @@ void XRaySkeletonXExt::_CollectBoneFaces(XRayFVisual* V, bsize OffsetIndex, bsiz
 
 	indices += OffsetIndex;
 
-	{
 		if (*Vertices1W)
 		{
 			vertBoned1W* vertices = *Vertices1W;
@@ -689,9 +732,7 @@ void XRaySkeletonXExt::_CollectBoneFaces(XRayFVisual* V, bsize OffsetIndex, bsiz
 		}
 		else
 			R_ASSERT2(0, "not implemented yet");
-	}
-
-	//	Don't use hardware buffers in DX10 since we can't read them
+	
 }
 
 void XRaySkeletonX_ST::AfterLoad(XRayKinematics* parent, u16 child_idx)

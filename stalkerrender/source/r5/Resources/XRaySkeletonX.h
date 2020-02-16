@@ -4,7 +4,6 @@ class XRayKinematics;
 class XRaySkeletonX
 {
 protected:
-	static const u32 FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 ;
 	enum { RM_SKINNING_SOFT, RM_SINGLE, RM_SKINNING_1B, RM_SKINNING_2B, RM_SKINNING_3B, RM_SKINNING_4B };
 
 	XRayKinematics* Parent;		// setted up by parent
@@ -31,6 +30,8 @@ protected:
 	void					_Copy(XRaySkeletonX* V);
 	void					_Load(const char* N, IReader* data, bsize& dwVertCount);
 
+	void					_Render_soft(u32 FVF,BearFactoryPointer<BearRHI::BearRHIVertexBuffer>&VertexBuffer, BearFactoryPointer<BearRHI::BearRHIIndexBuffer>& IdexBuffer, bsize CountVertex, bsize OffsetIndex, bsize CountIndex);
+	void					_Render(u32 FVF, BearFactoryPointer<BearRHI::BearRHIVertexBuffer>& VertexBuffer, BearFactoryPointer<BearRHI::BearRHIIndexBuffer>& IdexBuffer, bsize CountVertex, bsize OffsetIndex, bsize CountIndex, BearFactoryPointer<BearRHI::BearRHIUniformBuffer>& UniformBuffer);
 	virtual void			_Load_hw(XRayFVisual& V, void* data) = 0;
 	virtual void			_CollectBoneFaces(XRayFVisual* V, bsize iBase, bsize iCount) = 0;
 

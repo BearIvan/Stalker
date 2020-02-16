@@ -1,4 +1,5 @@
 #pragma once
+#include "XRayRTList.h"
 class XRayRenderTarget :public IRender_Target
 {
 public:
@@ -21,5 +22,12 @@ public:
 	virtual void set_cm_imfluence(float f);
 	virtual void set_cm_interpolate(float f);
 	virtual void set_cm_textures(const shared_str& tex0, const shared_str& tex1);
-		
+public:
+	XRayTexture* RTVBasicColor;
+
+	XRayTexture* DSVBasic;
+
+	BearFactoryPointer<BearRHI::BearRHIRenderPass>RenderPass_Base;
+	BearFactoryPointer<BearRHI::BearRHIFrameBuffer> FrameBuffer_Base;
 };
+extern XRayRenderTarget* GRenderTarget;

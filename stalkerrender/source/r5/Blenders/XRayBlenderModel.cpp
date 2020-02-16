@@ -48,3 +48,37 @@ void XRayBlenderModel::Load(IReader & fs, u16 version)
 	}
 }
 
+void XRayBlenderModel::Initialize()
+{
+	BearRootSignatureDescription RootSignatureDescription;
+	RootSignatureDescription.Samplers[0].Shader = ST_Pixel;
+	RootSignatureDescription.SRVResources[0].Shader = ST_Pixel;
+	RootSignatureDescription.UniformBuffers[0].Shader = ST_Vertex;
+	RootSignature[1] = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
+	RootSignatureDescription.UniformBuffers[1].Shader = ST_Vertex;
+	RootSignature[0] = BearRenderInterface::CreateRootSignature(RootSignatureDescription);
+	BearPipelineDescription PipelineDescription;
+	PipelineDescription.DepthStencilState.DepthEnable = true;
+	PipelineDescription.RenderPass = GRenderTarget->RenderPass_Base;
+	if (oBlend.value)
+	{
+		PipelineDescription.BlendState.RenderTarget[0].Enable = true;
+		PipelineDescription.BlendState.RenderTarget[0].ColorSrc = BF_SRC_ALPHA;
+		PipelineDescription.BlendState.RenderTarget[0].ColorDst = BF_INV_SRC_ALPHA;
+	}
+	CreatePipeline(1, PipelineDescription, "default", "default", SVD_M);
+	CreatePipeline(1, PipelineDescription, "default", "default", SVD_0W);
+	CreatePipeline(0, PipelineDescription, "default", "default", SVD_1W);
+	CreatePipeline(0, PipelineDescription, "default", "default", SVD_2W);
+}
+void XRayBlenderModel::Compile(XRayShaderElement& shader)
+{
+	if (IDShader == 0|| IDShader == 1)
+	{
+		SetTexture(shader, 0, "$base0");
+		shader.SamplerStates[0] = SSS_Default;
+		shader.TypeTransformation = STT_Matrix;
+
+	}
+}
+

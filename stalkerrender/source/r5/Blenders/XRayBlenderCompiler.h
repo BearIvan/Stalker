@@ -38,7 +38,7 @@ public:
 protected:
 	void SetInputLayout(BearPipelineDescription& Description, u32 VertexState);
 	void SetTexture(XRayShaderElement& shader,bsize id,shared_str name);
-	void CreatePipeline(BearPipelineDescription& Description,const bchar*name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType);
+	void CreatePipeline(bsize id_shader, BearPipelineDescription& Description,const bchar*name_vs, const bchar* name_ps, ShaderVertexDeclaration FVFType);
 	//;
 protected:
 	shared_str GetTexture(shared_str name);
@@ -49,10 +49,10 @@ protected:
 	BearString64					oTXform;
 	bsize IDShader;
 
-	BearFactoryPointer < BearRHI::BearRHIRootSignature> RootSignature;
+	BearFactoryPointer < BearRHI::BearRHIRootSignature> RootSignature[6];
 private:
 	BearVector<shared_str> m_textures;
 private:
-	BearFactoryPointer<BearRHI::BearRHIPipeline> m_pipeline[16];
+	BearFactoryPointer<BearRHI::BearRHIPipeline> m_pipeline[6][SVD_Count];
 };
 #pragma pack(pop)

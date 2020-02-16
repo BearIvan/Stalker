@@ -39,6 +39,8 @@ private:
 	BearVector < BearFactoryPointer<BearRHI::BearRHIVertexBuffer>>::iterator m_vertex_bufferLIT_current;
 	BearVector < BearFactoryPointer<BearRHI::BearRHIVertexBuffer>> m_vertex_buffersTL;
 	BearVector < BearFactoryPointer<BearRHI::BearRHIVertexBuffer>>::iterator m_vertex_bufferTL_current;
+	BearVector < BearFactoryPointer<BearRHI::BearRHIVertexBuffer>> m_vertex_buffersTL0uv;
+	BearVector < BearFactoryPointer<BearRHI::BearRHIVertexBuffer>>::iterator m_vertex_bufferTL0uv_current;
 	ePrimitiveType	m_PrimitiveType;
 	ePointType		m_PointType;
 
@@ -47,9 +49,12 @@ private:
 	bsize TL_iMaxVerts;
 	FVF::TL* TL_start_pv;
 	FVF::TL* TL_pv;
-
+	FVF::TL0uv* TL0uv_pv;
+	FVF::TL0uv* TL0uv_start_pv;
 	bsize LIT_iMaxVerts;
 	FVF::LIT* LIT_start_pv;
 	FVF::LIT* LIT_pv;
+
+	Irect* m_Scissor;
 };
 extern XRayUIRender GUIRender;

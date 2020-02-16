@@ -5,7 +5,7 @@
 // this include MUST be here, since smart_cast is used >1800 times in the project
 #include "smart_cast.h"
 
-
+ 
 
 #if XRAY_EXCEPTIONS
 IC	xr_string	string2xr_string(LPCSTR s) {return *shared_str(s ? s : "");}
